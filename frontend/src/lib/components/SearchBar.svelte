@@ -1,5 +1,6 @@
 <script lang="ts">
 	import SearchIcon from '@lucide/svelte/icons/search';
+	import ShuffleIcon from '@lucide/svelte/icons/shuffle';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import type { Mode } from '$lib/search';
@@ -7,11 +8,13 @@
 	let {
 		query = $bindable(''),
 		mode = $bindable<Mode>('prefix'),
-		onlyAvailable = $bindable(true)
+		onlyAvailable = $bindable(true),
+		onrandom
 	}: {
 		query: string;
 		mode: Mode;
 		onlyAvailable: boolean;
+		onrandom?: () => void;
 	} = $props();
 </script>
 
@@ -35,7 +38,17 @@
 			aria-pressed={mode === 'contains'}
 			onclick={() => (mode = 'contains')}>Contains</Button
 		>
+		<Button
+			variant={mode === 'postfix' ? 'secondary' : 'ghost'}
+			size="sm"
+			aria-pressed={mode === 'postfix'}
+			onclick={() => (mode = 'postfix')}>Postfix</Button
+		>
 	</div>
+	<Button variant="outline" size="sm" class="h-10" onclick={onrandom} title="Show random domains">
+		<ShuffleIcon class="size-4" />
+		Random
+	</Button>
 </div>
 
 <label class="mt-3 flex w-fit items-center gap-2 text-sm text-muted-foreground select-none">

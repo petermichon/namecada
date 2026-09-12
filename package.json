@@ -6,7 +6,9 @@
 	"engines": {
 		"node": ">=20.19"
 	},
-	"workspaces": ["frontend"],
+	"workspaces": [
+		"frontend"
+	],
 	"scripts": {
 		"dev": "npm run dev -w @domain-browser/frontend",
 		"build": "npm run build -w @domain-browser/frontend",
