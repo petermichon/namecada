@@ -1,0 +1,18 @@
+# Dependencies
+node_modules
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor / OS
+.DS_Store
+.idea
+
+# Build artifacts
+frontend/dist
+frontend/.svelte-check
+
+# Generated data (rebuilt from data/full.tsv via `npm run data`)
+frontend/src/lib/domains-names.txt
+frontend/src/lib/domains-avail.txt

@@ -1,0 +1,20 @@
+{
+	"name": "domain-browser",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"engines": {
+		"node": ">=20.19"
+	},
+	"workspaces": ["frontend"],
+	"scripts": {
+		"dev": "npm run dev -w @domain-browser/frontend",
+		"build": "npm run build -w @domain-browser/frontend",
+		"preview": "npm run preview -w @domain-browser/frontend",
+		"data": "npm run data -w @domain-browser/frontend",
+		"test": "npm run test -w @domain-browser/frontend",
+		"check": "npm run check -w @domain-browser/frontend",
+		"lint": "npm run lint -w @domain-browser/frontend",
+		"format": "npm run format -w @domain-browser/frontend"
+	}
+}

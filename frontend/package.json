@@ -1,0 +1,50 @@
+{
+	"name": "@domain-browser/frontend",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"engines": {
+		"node": ">=20.19"
+	},
+	"scripts": {
+		"data": "node scripts/build-data.mjs",
+		"dev": "vite",
+		"prebuild": "npm run data",
+		"build": "vite build",
+		"preview": "vite preview",
+		"test": "vitest run",
+		"check": "svelte-check --tsgo --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+		"lint": "prettier --check . && eslint .",
+		"format": "prettier --write ."
+	},
+	"devDependencies": {
+		"@eslint/js": "^10.0.1",
+		"@lucide/svelte": "^1.45.0",
+		"@sveltejs/vite-plugin-svelte": "^7.3.0",
+		"@tailwindcss/vite": "^4.3.3",
+		"@tsconfig/svelte": "^5.0.8",
+		"@types/node": "^22",
+		"@typescript/native": "npm:typescript@^7.0.2",
+		"bits-ui": "^2.19.2",
+		"clsx": "^2.1.1",
+		"eslint": "^10.4.1",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-svelte": "^3.19.0",
+		"globals": "^17.6.0",
+		"mode-watcher": "^1.1.0",
+		"prettier": "^3.8.3",
+		"prettier-plugin-svelte": "^4.1.0",
+		"prettier-plugin-tailwindcss": "^0.8.0",
+		"svelte": "^5.57.0",
+		"svelte-check": "^4.7.6",
+		"tailwind-merge": "^3.6.0",
+		"tailwind-variants": "^3.3.1",
+		"tailwindcss": "^4.3.3",
+		"tw-animate-css": "^1.4.0",
+		"typescript": "^6.0.3",
+		"typescript-eslint": "^8.60.1",
+		"vite": "^8.3.0",
+		"vite-plugin-singlefile": "^2.3.3",
+		"vitest": "^5.0.0"
+	}
+}
