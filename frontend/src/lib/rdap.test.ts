@@ -1,28 +1,60 @@
-import { describe, expect, it, vi } from 'vitest';
-import { lookupDomain, normalizeDomain, rdapUrl, statusFromHttp } from './rdap';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+	domainUrl,
+	lookupDomain,
+	normalizeDomain,
+	statusFromHttp,
+	tldOf,
+	UnsupportedTldError
+} from './rdap';
+import { BOOTSTRAP_URL } from './bootstrap';
 import { isFresh } from './cache';
 
 describe('normalizeDomain', () => {
-	it('lowercases and trims', () => {
-		expect(normalizeDomain('  AceMa  ')).toBe('acema.com');
+	it('lowercases and trims a full domain', () => {
+		expect(normalizeDomain('  AceMa.CoM  ')).toBe('acema.com');
 	});
 
-	it('strips a trailing .com, with or without a leading dot', () => {
+	it('requires an explicit TLD, including multi-label domains', () => {
 		expect(normalizeDomain('acema.com')).toBe('acema.com');
-		expect(normalizeDomain('.acema')).toBe('acema.com');
+		expect(normalizeDomain('acema.io')).toBe('acema.io');
+		expect(normalizeDomain('acema.co.uk')).toBe('acema.co.uk');
+	});
+
+	it('rejects a bare label with no TLD', () => {
+		expect(normalizeDomain('acema')).toBeNull();
+		expect(normalizeDomain('.acema')).toBeNull();
+		expect(normalizeDomain('acema.')).toBeNull();
+	});
+
+	it('strips stray leading/trailing dots around a full domain', () => {
+		expect(normalizeDomain('.acema.com')).toBe('acema.com');
+		expect(normalizeDomain('acema.com.')).toBe('acema.com');
 	});
 
 	it('accepts digits and internal hyphens', () => {
-		expect(normalizeDomain('a-1-b')).toBe('a-1-b.com');
+		expect(normalizeDomain('a-1-b.com')).toBe('a-1-b.com');
 	});
 
-	it('rejects empty, spaced and malformed labels', () => {
+	it('rejects empty, spaced and malformed input', () => {
 		expect(normalizeDomain('')).toBeNull();
 		expect(normalizeDomain('   ')).toBeNull();
-		expect(normalizeDomain('a b')).toBeNull();
-		expect(normalizeDomain('-abc')).toBeNull();
-		expect(normalizeDomain('abc-')).toBeNull();
-		expect(normalizeDomain('a'.repeat(64))).toBeNull();
+		expect(normalizeDomain('a b.com')).toBeNull();
+		expect(normalizeDomain('-abc.com')).toBeNull();
+		expect(normalizeDomain('abc-.com')).toBeNull();
+		expect(normalizeDomain('a..com')).toBeNull();
+		expect(normalizeDomain(`${'a'.repeat(64)}.com`)).toBeNull();
+	});
+
+	it('accepts a syntactically valid but unknown TLD for later resolution', () => {
+		expect(normalizeDomain('something.wrong')).toBe('something.wrong');
+	});
+});
+
+describe('tldOf', () => {
+	it('returns the last label', () => {
+		expect(tldOf('acema.com')).toBe('com');
+		expect(tldOf('acema.co.uk')).toBe('uk');
 	});
 });
 
@@ -35,34 +67,42 @@ describe('statusFromHttp', () => {
 	});
 });
 
-describe('rdapUrl', () => {
-	it('points at the Verisign .com endpoint', () => {
-		expect(rdapUrl('acema.com')).toBe('https://rdap.verisign.com/com/v1/domain/acema.com');
+describe('domainUrl', () => {
+	it('appends the RDAP domain path to the registry base', () => {
+		expect(domainUrl('https://rdap.verisign.com/com/v1/', 'acema.com')).toBe(
+			'https://rdap.verisign.com/com/v1/domain/acema.com'
+		);
 	});
 });
 
 describe('lookupDomain', () => {
-	it('queries RDAP and maps the response status', async () => {
-		const fetchMock = vi.fn().mockResolvedValue(new Response(null, { status: 404 }));
-		vi.stubGlobal('fetch', fetchMock);
-
-		const result = await lookupDomain('acema.com');
-
-		expect(fetchMock).toHaveBeenCalledWith(
-			'https://rdap.verisign.com/com/v1/domain/acema.com',
-			expect.anything()
+	beforeEach(() => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) => {
+				const url = String(input);
+				if (url === BOOTSTRAP_URL) {
+					return Promise.resolve(
+						new Response(JSON.stringify({ services: [[['test'], ['https://rdap.test/']]] }), {
+							status: 200
+						})
+					);
+				}
+				return Promise.resolve(new Response(null, { status: 404 }));
+			})
 		);
-		expect(result).toEqual({ domain: 'acema.com', status: 'unregistered' });
-
-		vi.unstubAllGlobals();
 	});
 
-	it('returns unknown on a server error', async () => {
-		vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(null, { status: 503 })));
+	afterEach(() => vi.unstubAllGlobals());
 
-		expect(await lookupDomain('acema.com')).toEqual({ domain: 'acema.com', status: 'unknown' });
+	it('routes to the TLD registry and maps the response status', async () => {
+		const result = await lookupDomain('acema.test');
+		expect(result).toEqual({ domain: 'acema.test', status: 'unregistered' });
+		expect(fetch).toHaveBeenCalledWith('https://rdap.test/domain/acema.test', expect.anything());
+	});
 
-		vi.unstubAllGlobals();
+	it('throws for a TLD with no RDAP endpoint', async () => {
+		await expect(lookupDomain('acema.nonexistent')).rejects.toBeInstanceOf(UnsupportedTldError);
 	});
 });
 

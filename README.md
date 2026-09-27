@@ -1,32 +1,39 @@
-# domain-browser
+# Domain Browser
 
-A `.com` availability checker. Enter a domain label and it tells you whether the
-`.com` is registered — using the authoritative Verisign RDAP registry, fetched
-directly from the browser.
+A domain availability checker. Enter a full domain including its TLD
+(`acema.com`, `acema.io`, `acema.co.uk`) and it tells you whether it is
+registered, using the authoritative RDAP registry, fetched directly from the
+browser.
 
 ## How it works
 
-The app makes a single request per lookup:
+An explicit TLD is required — no default is assumed. The input is normalized and
+the TLD is resolved to its registry via the IANA RDAP bootstrap
+(`data.iana.org/rdap/dns.json`, cached for 7 days), then a single request is made:
 
 ```
-GET https://rdap.verisign.com/com/v1/domain/{name}.com
+GET {registry-base}domain/{name}     e.g. https://rdap.verisign.com/com/v1/domain/acema.com
   200 -> registered
   404 -> not registered
   anything else -> unknown
 ```
 
-Verisign sends `Access-Control-Allow-Origin: *` on both responses, so no backend
-or proxy is needed. Verdicts are cached in `localStorage` for 24h.
+Registries send `Access-Control-Allow-Origin: *`, so no backend or proxy is
+needed. Verdicts are cached in `localStorage`, shown instantly, and revalidated in
+the background once older than 1h (stale-while-revalidate). `.com`/`.net` have a
+built-in fallback so they work even if the bootstrap is unreachable.
 
 **Limitations.** RDAP reports registry state, not registrability: a name may be
 reserved/blocked (but unregistered), and premium pricing or a `pendingDelete`
-state is not reflected. For "is it registered?", the registry is authoritative.
+state is not reflected. Coverage follows the bootstrap — TLDs not listed there
+(e.g. `.io`, `.co`, `.de`) report "no RDAP endpoint". For "is it registered?",
+the registry is authoritative.
 
 ## Layout
 
 - `frontend/` — Svelte 5 + Vite + Tailwind app (the whole product).
 - `scripts/domscan.py` — offline bulk scanner for `.com` names via Verisign RDAP
-  (offline research tooling; produces the datasets below). Not used by the app.
+  (offline research tooling; produces the dataset below). Not used by the app.
 - `data/full.tsv` — legacy bulk snapshot (`name<TAB>status`) from that scanner.
 
 ## Development

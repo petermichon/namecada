@@ -6,11 +6,11 @@ interface Entry {
 }
 
 const KEY = 'domain-browser:cache';
-const TTL = 24 * 60 * 60 * 1000;
+const FRESH = 60 * 60 * 1000;
 
 type Store = Record<string, Entry>;
 
-export function isFresh(entry: Entry, now: number = Date.now(), ttl: number = TTL): boolean {
+export function isFresh(entry: Entry, now: number = Date.now(), ttl: number = FRESH): boolean {
 	return now - entry.at < ttl;
 }
 
@@ -33,8 +33,7 @@ function write(store: Store) {
 }
 
 export function getCached(domain: string): Entry | null {
-	const entry = read()[domain];
-	return entry && isFresh(entry) ? entry : null;
+	return read()[domain] ?? null;
 }
 
 export function setCached(domain: string, status: DomainStatus) {
