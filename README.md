@@ -1,68 +1,53 @@
 # domain-browser
 
-Browse and search every 5-letter `.com` domain made from the letters `aceimnorsuvwxz`
-(14 letters → 14⁵ = 537,824 names), with availability status.
+A `.com` availability checker. Enter a domain label and it tells you whether the
+`.com` is registered — using the authoritative Verisign RDAP registry, fetched
+directly from the browser.
 
-## Layout
+## How it works
 
-- `data/full.tsv` — the scanned dataset: `name<TAB>status`, where status is
-  `available`, `registered`, or `error:<code>`. Committed as a point-in-time snapshot.
-- `scripts/domscan.py` — the scanner that produces `data/full.tsv`.
-- `frontend/` — Svelte 5 + Vite single-page app.
-
-## Data pipeline
-
-```
-Verisign RDAP  ->  scripts/domscan.py  ->  data/full.tsv
-                                              |
-                          npm run data  ->  src/lib/domains-names.txt + domains-avail.txt
-                                              |
-                                       frontend (vite build)
-```
-
-`npm run data` (run automatically before `build`) reads `data/full.tsv`, sorts it,
-and emits the generated `domains-names.txt` / `domains-avail.txt` that the app imports.
-Those two files are gitignored and rebuilt on every build.
-
-## Availability source
-
-Availability is determined authoritatively via **Verisign RDAP**, not WHOIS or DNS:
+The app makes a single request per lookup:
 
 ```
 GET https://rdap.verisign.com/com/v1/domain/{name}.com
   200 -> registered
-  404 -> available
-  429 -> exponential backoff, then retry
-  5xx / network error -> retry, then recorded as error:<code>
+  404 -> not registered
+  anything else -> unknown
 ```
 
-The committed snapshot was produced with:
+Verisign sends `Access-Control-Allow-Origin: *` on both responses, so no backend
+or proxy is needed. Verdicts are cached in `localStorage` for 24h.
 
-```sh
-python3 scripts/domscan.py --letters aceimnorsuvwxz --workers 8 --rate 30 --out data/full.tsv
-```
+**Limitations.** RDAP reports registry state, not registrability: a name may be
+reserved/blocked (but unregistered), and premium pricing or a `pendingDelete`
+state is not reflected. For "is it registered?", the registry is authoritative.
 
-The scanner is resumable: re-running appends only names not already present in `--out`.
-Use `--limit N` for a trial run.
+## Layout
 
-### Caveats
-
-- The scan is a snapshot; domains expire and get registered continuously, so refresh
-  it when accuracy matters.
-- Respect Verisign's RDAP rate limits and terms of use. The default `--rate 30`
-  (requests/second) is aggressive — lower it if you see sustained `429`s.
-- `build-data.mjs` currently maps any status other than `available` to `registered`,
-  which would fold `error:<code>` rows into "registered". The committed dataset has
-  zero error rows, but check for them after a fresh scan.
+- `frontend/` — Svelte 5 + Vite + Tailwind app (the whole product).
+- `scripts/domscan.py` — offline bulk scanner for `.com` names via Verisign RDAP
+  (offline research tooling; produces the datasets below). Not used by the app.
+- `data/full.tsv` — legacy bulk snapshot (`name<TAB>status`) from that scanner.
 
 ## Development
 
 ```sh
 npm install        # installs the frontend workspace
 npm run dev        # vite dev server
-npm run build      # rebuild data, then build the single-file app
+npm run build      # single-file production build
 npm test           # vitest
 npm run check      # svelte-check + tsc
 npm run lint       # prettier --check + eslint
-npm run data:scan  # run the availability scanner (writes scan.tsv by default)
+npm run format     # prettier --write
 ```
+
+## Bulk scanning (offline)
+
+`scripts/domscan.py` brute-forces the 5-letter space over a chosen alphabet and
+appends results to a TSV, resumable and rate-limited:
+
+```sh
+python3 scripts/domscan.py --letters aceimnorsuvwxz --workers 8 --rate 30 --out data/full.tsv
+```
+
+Respect Verisign's RDAP rate limits — lower `--rate` if you see sustained `429`s.

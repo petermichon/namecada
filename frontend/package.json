@@ -7,9 +7,7 @@
 		"node": ">=20.19"
 	},
 	"scripts": {
-		"data": "node scripts/build-data.mjs",
 		"dev": "vite",
-		"prebuild": "npm run data",
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "vitest run",

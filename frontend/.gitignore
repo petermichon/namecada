@@ -13,10 +13,6 @@ dist-ssr
 *.local
 .svelte-check
 
-# Generated data (rebuilt from data/full.tsv via `npm run data`)
-src/lib/domains-names.txt
-src/lib/domains-avail.txt
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
