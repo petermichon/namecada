@@ -3,6 +3,8 @@ import {
 	domainUrl,
 	lookupDomain,
 	normalizeDomain,
+	parseDomain,
+	registrationDate,
 	statusFromHttp,
 	tldOf,
 	UnsupportedTldError
@@ -49,6 +51,31 @@ describe('normalizeDomain', () => {
 	it('accepts a syntactically valid but unknown TLD for later resolution', () => {
 		expect(normalizeDomain('something.wrong')).toBe('something.wrong');
 	});
+
+	it('reduces a subdomain to its registrable domain', () => {
+		expect(normalizeDomain('abc.def.com')).toBe('def.com');
+		expect(normalizeDomain('www.bbc.co.uk')).toBe('bbc.co.uk');
+	});
+});
+
+describe('parseDomain', () => {
+	it('splits the registrable domain from the subdomain', () => {
+		expect(parseDomain('abc.google.com')).toEqual({ domain: 'google.com', subdomain: 'abc' });
+		expect(parseDomain('google.com')).toEqual({ domain: 'google.com', subdomain: '' });
+	});
+
+	it('handles multi-label public suffixes', () => {
+		expect(parseDomain('abc.google.co.uk')).toEqual({
+			domain: 'google.co.uk',
+			subdomain: 'abc'
+		});
+	});
+
+	it('rejects a bare public suffix or missing TLD', () => {
+		expect(parseDomain('co.uk')).toBeNull();
+		expect(parseDomain('acema')).toBeNull();
+		expect(parseDomain('a..com')).toBeNull();
+	});
 });
 
 describe('tldOf', () => {
@@ -75,6 +102,25 @@ describe('domainUrl', () => {
 	});
 });
 
+describe('registrationDate', () => {
+	it('finds the registration event date', () => {
+		expect(
+			registrationDate({
+				events: [
+					{ eventAction: 'expiration', eventDate: '2030-01-01T00:00:00Z' },
+					{ eventAction: 'registration', eventDate: '1997-09-15T04:00:00Z' }
+				]
+			})
+		).toBe('1997-09-15T04:00:00Z');
+	});
+
+	it('returns null when there is no registration event', () => {
+		expect(registrationDate({ events: [] })).toBeNull();
+		expect(registrationDate({})).toBeNull();
+		expect(registrationDate(null)).toBeNull();
+	});
+});
+
 describe('lookupDomain', () => {
 	beforeEach(() => {
 		vi.stubGlobal(
@@ -88,6 +134,16 @@ describe('lookupDomain', () => {
 						})
 					);
 				}
+				if (url.endsWith('/domain/google.test')) {
+					return Promise.resolve(
+						new Response(
+							JSON.stringify({
+								events: [{ eventAction: 'registration', eventDate: '1997-09-15T04:00:00Z' }]
+							}),
+							{ status: 200 }
+						)
+					);
+				}
 				return Promise.resolve(new Response(null, { status: 404 }));
 			})
 		);
@@ -99,6 +155,16 @@ describe('lookupDomain', () => {
 		const result = await lookupDomain('acema.test');
 		expect(result).toEqual({ domain: 'acema.test', status: 'unregistered' });
 		expect(fetch).toHaveBeenCalledWith('https://rdap.test/domain/acema.test', expect.anything());
+	});
+
+	it('extracts the registration date and raw payload for a registered domain', async () => {
+		const result = await lookupDomain('google.test');
+		expect(result).toEqual({
+			domain: 'google.test',
+			status: 'registered',
+			registeredOn: '1997-09-15T04:00:00Z',
+			raw: { events: [{ eventAction: 'registration', eventDate: '1997-09-15T04:00:00Z' }] }
+		});
 	});
 
 	it('throws for a TLD with no RDAP endpoint', async () => {

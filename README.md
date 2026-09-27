@@ -7,9 +7,12 @@ browser.
 
 ## How it works
 
-An explicit TLD is required — no default is assumed. The input is normalized and
-the TLD is resolved to its registry via the IANA RDAP bootstrap
-(`data.iana.org/rdap/dns.json`, cached for 7 days), then a single request is made:
+An explicit TLD is required — no default is assumed. The input is reduced to its
+**registrable domain** (eTLD+1, via the Public Suffix List) — so `abc.def.com`
+checks `def.com` and `www.bbc.co.uk` checks `bbc.co.uk`, since registries only
+resolve registrable domains. The TLD is then resolved to its registry via the
+IANA RDAP bootstrap (`data.iana.org/rdap/dns.json`, cached for 7 days), and a
+single request is made:
 
 ```
 GET {registry-base}domain/{name}     e.g. https://rdap.verisign.com/com/v1/domain/acema.com
@@ -20,8 +23,9 @@ GET {registry-base}domain/{name}     e.g. https://rdap.verisign.com/com/v1/domai
 
 Registries send `Access-Control-Allow-Origin: *`, so no backend or proxy is
 needed. Verdicts are cached in `localStorage`, shown instantly, and revalidated in
-the background once older than 1h (stale-while-revalidate). `.com`/`.net` have a
-built-in fallback so they work even if the bootstrap is unreachable.
+the background once older than 1h (stale-while-revalidate). Registered domains
+also show their registry registration date. `.com`/`.net` have a built-in
+fallback so they work even if the bootstrap is unreachable.
 
 **Limitations.** RDAP reports registry state, not registrability: a name may be
 reserved/blocked (but unregistered), and premium pricing or a `pendingDelete`

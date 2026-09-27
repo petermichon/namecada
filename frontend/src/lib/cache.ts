@@ -3,9 +3,11 @@ import type { DomainStatus } from './rdap';
 interface Entry {
 	status: DomainStatus;
 	at: number;
+	registeredOn?: string;
+	raw?: unknown;
 }
 
-const KEY = 'domain-browser:cache';
+const KEY = 'domain-browser:cache:v3';
 const FRESH = 60 * 60 * 1000;
 
 type Store = Record<string, Entry>;
@@ -36,9 +38,14 @@ export function getCached(domain: string): Entry | null {
 	return read()[domain] ?? null;
 }
 
-export function setCached(domain: string, status: DomainStatus) {
+export function setCached(
+	domain: string,
+	status: DomainStatus,
+	registeredOn?: string,
+	raw?: unknown
+) {
 	const store = read();
-	store[domain] = { status, at: Date.now() };
+	store[domain] = { status, at: Date.now(), registeredOn, raw };
 	write(store);
 }
 

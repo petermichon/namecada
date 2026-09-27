@@ -3,7 +3,13 @@
 	import MoonIcon from '@lucide/svelte/icons/moon';
 	import RefreshCwIcon from '@lucide/svelte/icons/refresh-cw';
 	import { ModeWatcher, toggleMode } from 'mode-watcher';
-	import { lookupDomain, normalizeDomain, UnsupportedTldError, type LookupResult } from '$lib/rdap';
+	import {
+		lookupDomain,
+		parseDomain,
+		UnsupportedTldError,
+		type LookupResult,
+		type ParsedDomain
+	} from '$lib/rdap';
 	import { getBootstrap } from '$lib/bootstrap';
 	import { getCached, isFresh, setCached } from '$lib/cache';
 	import { Button } from '$lib/components/ui/button/index.js';
@@ -23,9 +29,15 @@
 		}
 	}
 
+	function subdomainNotice(parsed: ParsedDomain): string {
+		if (!parsed.subdomain) return '';
+		return `You entered a subdomain — showing the registrable domain ${parsed.domain}.`;
+	}
+
 	let input = $state(loadQuery());
 	let result = $state<LookupResult | null>(null);
 	let pending = $state<string | null>(null);
+	let notice = $state('');
 	let loading = $state(false);
 	let revalidating = $state(false);
 	let error = $state('');
@@ -49,7 +61,7 @@
 			if (ac.signal.aborted) return;
 			if (res.status !== 'unknown') {
 				result = res;
-				setCached(res.domain, res.status);
+				setCached(res.domain, res.status, res.registeredOn, res.raw);
 			} else if (!revalidate) {
 				result = res;
 				retryable = true;
@@ -75,17 +87,19 @@
 	}
 
 	function check() {
-		const domain = normalizeDomain(input);
-		if (!domain) {
+		const parsed = parseDomain(input);
+		if (!parsed) {
 			result = null;
+			notice = '';
 			error = 'Enter a domain with a TLD, e.g. acema.com.';
 			return;
 		}
-		fetchStatus(domain, false);
+		notice = subdomainNotice(parsed);
+		fetchStatus(parsed.domain, false);
 	}
 
 	$effect(() => {
-		const domain = normalizeDomain(input);
+		const parsed = parseDomain(input);
 
 		controller?.abort();
 		controller = null;
@@ -93,19 +107,30 @@
 		loading = false;
 		revalidating = false;
 
-		if (!domain) {
+		if (!parsed) {
 			result = null;
 			error = '';
 			retryable = false;
+			notice = '';
 			return;
 		}
 
+		notice = subdomainNotice(parsed);
+		const domain = parsed.domain;
 		const cached = getCached(domain);
 		if (cached) {
-			result = { domain, status: cached.status };
+			result = {
+				domain,
+				status: cached.status,
+				registeredOn: cached.registeredOn,
+				raw: cached.raw
+			};
 			error = '';
 			retryable = false;
-			if (!isFresh(cached)) fetchStatus(domain, true);
+			const missingData =
+				cached.status === 'registered' &&
+				(cached.registeredOn === undefined || cached.raw === undefined);
+			if (!isFresh(cached) || missingData) fetchStatus(domain, true);
 			return;
 		}
 
@@ -140,6 +165,10 @@
 		</header>
 
 		<LookupForm bind:value={input} onsubmit={check} />
+
+		{#if notice}
+			<p class="mt-3 text-xs text-muted-foreground">{notice}</p>
+		{/if}
 
 		{#if loading && pending}
 			<Result {pending} />

@@ -4,8 +4,8 @@
 	import HelpCircleIcon from '@lucide/svelte/icons/help-circle';
 	import LoaderCircleIcon from '@lucide/svelte/icons/loader-circle';
 	import RefreshCwIcon from '@lucide/svelte/icons/refresh-cw';
-	import { Badge } from '$lib/components/ui/badge/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
+	import Details from '$lib/components/Details.svelte';
 	import type { LookupResult } from '$lib/rdap';
 
 	let {
@@ -20,73 +20,92 @@
 		onretry?: () => void;
 	} = $props();
 
+	function formatDate(iso: string): string {
+		const date = new Date(iso);
+		return Number.isNaN(date.getTime()) ? iso : date.toISOString().slice(0, 10);
+	}
+
 	const view = $derived.by(() => {
 		switch (result?.status) {
 			case 'unregistered':
 				return {
-					label: 'not registered',
-					variant: 'default' as const,
-					note: 'No registry record — this domain is unregistered.',
+					verdict: 'Available',
+					note: 'No registry record. It may still be reserved, premium, or restricted — confirm with a registrar.',
 					Icon: CheckCircle2Icon
 				};
 			case 'registered':
 				return {
-					label: 'registered',
-					variant: 'secondary' as const,
-					note: 'A registry record exists — this domain is taken.',
+					verdict: 'Taken',
+					note: result?.registeredOn ? `Registered on ${formatDate(result.registeredOn)}.` : '',
 					Icon: XCircleIcon
 				};
 			default:
 				return {
-					label: 'unknown',
-					variant: 'outline' as const,
+					verdict: 'Unknown',
 					note: 'The registry did not return a definitive answer.',
 					Icon: HelpCircleIcon
 				};
 		}
 	});
+
+	const showRetry = $derived(result?.status === 'unknown' && !!onretry);
 </script>
 
 {#snippet domainName(value: string)}
 	{@const dot = value.indexOf('.')}
-	<span class="truncate font-mono text-lg"
-		>{value.slice(0, dot)}<span class="text-muted-foreground">{value.slice(dot)}</span></span
+	<span class="truncate font-mono text-sm text-muted-foreground"
+		>{value.slice(0, dot)}<span class="opacity-60">{value.slice(dot)}</span></span
 	>
 {/snippet}
 
 {#if pending}
 	<div class="mt-6 rounded-lg border p-4">
-		<div class="flex items-center justify-between gap-3">
-			<div class="flex min-w-0 items-center gap-2">
-				<LoaderCircleIcon class="size-5 shrink-0 animate-spin text-muted-foreground" />
+		<div class="flex items-center gap-3">
+			<LoaderCircleIcon class="size-6 shrink-0 animate-spin text-muted-foreground" />
+			<div class="flex min-w-0 flex-col">
+				<span class="text-lg font-semibold">Checking…</span>
 				{@render domainName(pending)}
 			</div>
-			<Badge variant="outline">checking…</Badge>
 		</div>
-		<p class="mt-2 text-sm text-muted-foreground">Querying the registry…</p>
 	</div>
 {:else if result && view}
 	<div class="mt-6 rounded-lg border p-4">
-		<div class="flex items-center justify-between gap-3">
-			<div class="flex min-w-0 items-center gap-2">
-				<view.Icon class="size-5 shrink-0 text-muted-foreground" />
+		<div class="flex items-center gap-3">
+			<view.Icon class="size-6 shrink-0" />
+			<div class="flex min-w-0 flex-1 flex-col">
+				<span class="text-lg font-semibold">{view.verdict}</span>
 				{@render domainName(result.domain)}
 			</div>
-			<div class="flex shrink-0 items-center gap-2">
-				{#if revalidating}
-					<RefreshCwIcon class="size-3.5 animate-spin text-muted-foreground" />
-				{/if}
-				<Badge variant={view.variant}>{view.label}</Badge>
-			</div>
-		</div>
-		<div class="mt-2 flex items-center justify-between gap-2">
-			<p class="text-sm text-muted-foreground">{view.note}</p>
-			{#if result.status === 'unknown' && onretry}
-				<Button variant="outline" size="sm" onclick={onretry}>
-					<RefreshCwIcon class="size-3.5" />
-					Retry
-				</Button>
+			{#if revalidating}
+				<RefreshCwIcon class="size-4 shrink-0 animate-spin text-muted-foreground" />
 			{/if}
 		</div>
+		{#if view.note || showRetry}
+			<div class="mt-3 flex items-center justify-between gap-3">
+				{#if view.note}
+					<p class="text-sm text-muted-foreground">{view.note}</p>
+				{/if}
+				{#if showRetry}
+					<Button variant="outline" size="sm" class="ml-auto shrink-0" onclick={onretry}>
+						<RefreshCwIcon class="size-3.5" />
+						Retry
+					</Button>
+				{/if}
+			</div>
+		{/if}
 	</div>
+	{#if result.raw !== undefined}
+		<Details raw={result.raw} />
+		<div class="mt-4">
+			<p class="mb-2 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+				Raw RDAP response
+			</p>
+			<pre
+				class="max-h-96 [scrollbar-gutter:stable] overflow-scroll rounded-lg border bg-muted/40 p-4 font-mono text-xs leading-relaxed">{JSON.stringify(
+					result.raw,
+					null,
+					2
+				)}</pre>
+		</div>
+	{/if}
 {/if}
