@@ -20,23 +20,18 @@
 		onretry?: () => void;
 	} = $props();
 
-	function formatDate(iso: string): string {
-		const date = new Date(iso);
-		return Number.isNaN(date.getTime()) ? iso : date.toISOString().slice(0, 10);
-	}
-
 	const view = $derived.by(() => {
 		switch (result?.status) {
 			case 'unregistered':
 				return {
-					verdict: 'Available',
-					note: 'No registry record. It may still be reserved, premium, or restricted — confirm with a registrar.',
+					verdict: 'Not registered',
+					note: 'Not in the registry — may still be reserved or premium.',
 					Icon: CheckCircle2Icon
 				};
 			case 'registered':
 				return {
-					verdict: 'Taken',
-					note: result?.registeredOn ? `Registered on ${formatDate(result.registeredOn)}.` : '',
+					verdict: 'Registered',
+					note: '',
 					Icon: XCircleIcon
 				};
 			default:
@@ -96,16 +91,5 @@
 	</div>
 	{#if result.raw !== undefined}
 		<Details raw={result.raw} />
-		<div class="mt-4">
-			<p class="mb-2 text-xs font-medium tracking-wide text-muted-foreground uppercase">
-				Raw RDAP response
-			</p>
-			<pre
-				class="max-h-96 [scrollbar-gutter:stable] overflow-scroll rounded-lg border bg-muted/40 p-4 font-mono text-xs leading-relaxed">{JSON.stringify(
-					result.raw,
-					null,
-					2
-				)}</pre>
-		</div>
 	{/if}
 {/if}

@@ -56,7 +56,7 @@ function merge(base: Map<string, string>, extra: Map<string, string>): Map<strin
 async function load(): Promise<Map<string, string>> {
 	const cached = readCache();
 	if (cached) return merge(FALLBACK, cached);
-	const res = await fetch(BOOTSTRAP_URL);
+	const res = await fetch(BOOTSTRAP_URL, { referrerPolicy: 'no-referrer', credentials: 'omit' });
 	if (!res.ok) throw new Error(`bootstrap: HTTP ${res.status}`);
 	const map = parseBootstrap(await res.json());
 	writeCache(map);

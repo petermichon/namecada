@@ -4,14 +4,32 @@
 		<meta charset="UTF-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="description"
+			content="Find domain names not registered yet, using authoritative RDAP registry data fetched directly from your browser. No accounts, no tracking."
+		/>
 		<link rel="preconnect" href="https://data.iana.org" crossorigin />
 		<link rel="dns-prefetch" href="https://data.iana.org" />
 		<link rel="preconnect" href="https://rdap.verisign.com" crossorigin />
 		<link rel="dns-prefetch" href="https://rdap.verisign.com" />
-		<title>Domain Browser</title>
+		<meta property="og:site_name" content="Domain Browser" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="Domain Browser — find domain names not registered yet" />
+		<meta
+			property="og:description"
+			content="Find domain names not registered yet, using authoritative RDAP registry data fetched directly from your browser."
+		/>
+		<meta name="twitter:card" content="summary" />
+		<title>Domain Browser — find domain names not registered yet</title>
 	</head>
 	<body>
 		<div id="app"></div>
+		<noscript>
+			<p>
+				Domain Browser needs JavaScript to check domains, since it queries the registry (RDAP)
+				directly from your browser.
+			</p>
+		</noscript>
 		<script type="module" src="/src/main.ts"></script>
 	</body>
 </html>

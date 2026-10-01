@@ -156,7 +156,7 @@
 		<header class="mb-6 flex items-start justify-between gap-4">
 			<div>
 				<h1 class="text-2xl font-semibold tracking-tight">Domain Browser</h1>
-				<p class="mt-1 text-sm text-muted-foreground">Authoritative registry lookup via RDAP.</p>
+				<p class="mt-1 text-sm text-muted-foreground">Find domain names not registered yet.</p>
 			</div>
 			<Button variant="ghost" size="icon" onclick={toggleMode} aria-label="Toggle theme">
 				<SunIcon class="size-4 dark:hidden" />

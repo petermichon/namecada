@@ -77,7 +77,11 @@ export async function lookupDomain(domain: string, signal?: AbortSignal): Promis
 	const tld = tldOf(domain);
 	const base = await resolveBase(tld);
 	if (!base) throw new UnsupportedTldError(tld);
-	const res = await fetch(domainUrl(base, domain), { signal });
+	const res = await fetch(domainUrl(base, domain), {
+		signal,
+		referrerPolicy: 'no-referrer',
+		credentials: 'omit'
+	});
 	if (res.status === 200) {
 		const data = await res.json().catch(() => undefined);
 		const registeredOn = registrationDate(data) ?? undefined;
