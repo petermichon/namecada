@@ -204,6 +204,14 @@ describe('firefox', () => {
 		expect(await firefox.check('taken')).toEqual({ status: 'taken' });
 		expect(await firefox.check('free')).toEqual({ status: 'available' });
 	});
+
+	it('treats a 401 (existing but unlisted) as taken', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(() => Promise.resolve(new Response(null, { status: 401 })))
+		);
+		expect(await firefox.check('example')).toEqual({ status: 'taken' });
+	});
 });
 
 describe('gitlab', () => {

@@ -71,7 +71,8 @@ const rdap = (tld: string): Provider => ({
 async function checkHttp(
 	url: string,
 	signal?: AbortSignal,
-	availableCodes: number[] = [404]
+	availableCodes: number[] = [404],
+	takenCodes: number[] = [200]
 ): Promise<Status> {
 	const res = await fetch(url, {
 		signal,
@@ -80,7 +81,7 @@ async function checkHttp(
 		headers: { Accept: 'application/json' }
 	});
 	res.body?.cancel().catch(() => {});
-	if (res.status === 200) return 'taken';
+	if (takenCodes.includes(res.status)) return 'taken';
 	if (availableCodes.includes(res.status)) return 'available';
 	return 'unknown';
 }
@@ -211,7 +212,12 @@ export const firefox: Provider = {
 	url: (label) => `https://addons.mozilla.org/firefox/addon/${label}/`,
 	async check(label, signal) {
 		return {
-			status: await checkHttp(`https://addons.mozilla.org/api/v5/addons/addon/${label}/`, signal)
+			status: await checkHttp(
+				`https://addons.mozilla.org/api/v5/addons/addon/${label}/`,
+				signal,
+				[404],
+				[200, 401]
+			)
 		};
 	}
 };

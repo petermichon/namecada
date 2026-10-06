@@ -27,7 +27,7 @@ deferred (see below).
 | Hex       | `hex.pm/api/packages/{name}`                                   | 200 taken / 404 free      |
 | pub.dev   | `pub.dev/api/packages/{name}`                                  | 200 taken / 404 free      |
 | Homebrew  | `formulae.brew.sh/api/formula/{name}.json`                     | 200 taken / 404 free      |
-| Firefox   | `addons.mozilla.org/api/v5/addons/addon/{name}/`               | 200 taken / 404 free      |
+| Firefox   | `addons.mozilla.org/api/v5/addons/addon/{name}/`               | 200/401 taken / 404 free  |
 | GitHub    | `api.github.com/users/{name}`                                  | 200 taken / 404 free      |
 | GitLab    | `gitlab.com/api/v4/users?username={name}`                      | array empty = free        |
 | Bluesky   | `public.api.bsky.app` resolveHandle (`{name}.bsky.social`)     | 200 taken / 400 free      |
