@@ -24,7 +24,12 @@ deferred (see below).
 | PyPI      | `pypi.org/pypi/{name}/json`                                    | 200 taken / 404 free      |
 | crates.io | `crates.io/api/v1/crates/{name}`                               | 200 taken / 404 free      |
 | NuGet     | `api.nuget.org/v3-flatcontainer/{name}/index.json`             | 200 taken / 404 free      |
+| Hex       | `hex.pm/api/packages/{name}`                                   | 200 taken / 404 free      |
+| pub.dev   | `pub.dev/api/packages/{name}`                                  | 200 taken / 404 free      |
+| Homebrew  | `formulae.brew.sh/api/formula/{name}.json`                     | 200 taken / 404 free      |
+| Firefox   | `addons.mozilla.org/api/v5/addons/addon/{name}/`               | 200 taken / 404 free      |
 | GitHub    | `api.github.com/users/{name}`                                  | 200 taken / 404 free      |
+| GitLab    | `gitlab.com/api/v4/users?username={name}`                      | array empty = free        |
 | Bluesky   | `public.api.bsky.app` resolveHandle (`{name}.bsky.social`)     | 200 taken / 400 free      |
 | Mastodon  | `mastodon.social/api/v1/accounts/lookup?acct={name}`           | 200 taken / 404 free      |
 

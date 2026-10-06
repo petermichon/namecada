@@ -28,13 +28,13 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [x] NuGet — ✅ — `api.nuget.org/v3-flatcontainer/{name}/index.json`
 - [ ] RubyGems — 🕸 — no CORS on 404
 - [ ] Packagist — 🕸 — no CORS
-- [ ] Maven Central — 🌐 — `search.maven.org` / `central.sonatype.com`
-- [ ] Hex (Elixir) — 🌐 — `hex.pm/api/packages/{name}`
-- [ ] pub.dev (Dart) — 🌐 — `pub.dev/api/packages/{name}`
+- [ ] Maven Central — 🕸 — no CORS
+- [x] Hex (Elixir) — ✅ — `hex.pm/api/packages/{name}`
+- [x] pub.dev (Dart) — ✅ — `pub.dev/api/packages/{name}`
 - [ ] JSR (JavaScript) — 🌐 — `jsr.io`
 - [ ] Deno (`deno.land/x`) — 🌐 — `deno.land/x/{name}`
 - [ ] Docker Hub — 🕸 — no CORS
-- [ ] Homebrew — 🌐 — `formulae.brew.sh/api/formula/{name}.json`
+- [x] Homebrew — ✅ — `formulae.brew.sh/api/formula/{name}.json`
 - [ ] Chocolatey — 🌐 — `community.chocolatey.org` API
 - [ ] Snap Store — 🌐 — `api.snapcraft.io`
 - [ ] Flathub — 🌐 — `flathub.org` API
@@ -53,7 +53,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [x] GitHub — ✅ — `api.github.com/users/{name}`
 - [x] Bluesky — ✅ — `public.api.bsky.app` resolveHandle (`{name}.bsky.social`)
 - [x] Mastodon (`mastodon.social`) — ✅ — `/api/v1/accounts/lookup?acct={name}`
-- [ ] GitLab — 🌐 — `gitlab.com/api/v4/users?username={name}`
+- [x] GitLab — ✅ — `gitlab.com/api/v4/users?username={name}` (array body)
 - [ ] Bitbucket — 🌐 — `api.bitbucket.org/2.0/users/{name}`
 - [ ] Nostr (NIP-05) — 🌐 — `/.well-known/nostr.json`
 - [ ] Farcaster — 🌐 — fnames registry API
@@ -85,7 +85,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Crunchbase — 🕸
 - [ ] US state business registries — 🕸
 - [ ] Chrome Web Store — 🌐
-- [ ] Firefox Add-ons — 🌐 — `addons.mozilla.org/api/v5`
+- [x] Firefox Add-ons — ✅ — `addons.mozilla.org/api/v5`
 - [ ] Edge Add-ons — 🌐
 - [ ] Apple App Store — 🕸
 - [ ] Google Play — 🕸

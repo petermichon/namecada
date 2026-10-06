@@ -96,6 +96,32 @@ export const github: Provider = {
 	}
 };
 
+export const gitlab: Provider = {
+	id: 'gitlab',
+	label: 'GitLab',
+	kind: 'social',
+	name: (label) => label,
+	url: (label) => `https://gitlab.com/${label}`,
+	async check(label, signal) {
+		const res = await fetch(
+			`https://gitlab.com/api/v4/users?username=${encodeURIComponent(label)}`,
+			{
+				signal,
+				referrerPolicy: 'no-referrer',
+				credentials: 'omit',
+				headers: { Accept: 'application/json' }
+			}
+		);
+		if (res.status !== 200) {
+			res.body?.cancel().catch(() => {});
+			return { status: 'unknown' };
+		}
+		const data = await res.json().catch(() => null);
+		if (!Array.isArray(data)) return { status: 'unknown' };
+		return { status: data.length > 0 ? 'taken' : 'available' };
+	}
+};
+
 export const npm: Provider = {
 	id: 'npm',
 	label: 'npm',
@@ -142,6 +168,54 @@ export const nuget: Provider = {
 	}
 };
 
+export const hex: Provider = {
+	id: 'hex',
+	label: 'Hex',
+	kind: 'dev',
+	name: (label) => label,
+	url: (label) => `https://hex.pm/packages/${label}`,
+	async check(label, signal) {
+		return { status: await checkHttp(`https://hex.pm/api/packages/${label}`, signal) };
+	}
+};
+
+export const pub: Provider = {
+	id: 'pub',
+	label: 'pub.dev',
+	kind: 'dev',
+	name: (label) => label,
+	url: (label) => `https://pub.dev/packages/${label}`,
+	async check(label, signal) {
+		return { status: await checkHttp(`https://pub.dev/api/packages/${label}`, signal) };
+	}
+};
+
+export const homebrew: Provider = {
+	id: 'homebrew',
+	label: 'Homebrew',
+	kind: 'dev',
+	name: (label) => label,
+	url: (label) => `https://formulae.brew.sh/formula/${label}`,
+	async check(label, signal) {
+		return {
+			status: await checkHttp(`https://formulae.brew.sh/api/formula/${label}.json`, signal)
+		};
+	}
+};
+
+export const firefox: Provider = {
+	id: 'firefox',
+	label: 'Firefox Add-ons',
+	kind: 'dev',
+	name: (label) => label,
+	url: (label) => `https://addons.mozilla.org/firefox/addon/${label}/`,
+	async check(label, signal) {
+		return {
+			status: await checkHttp(`https://addons.mozilla.org/api/v5/addons/addon/${label}/`, signal)
+		};
+	}
+};
+
 export const bluesky: Provider = {
 	id: 'bluesky',
 	label: 'Bluesky',
@@ -181,7 +255,12 @@ export const providers: Provider[] = [
 	pypi,
 	crates,
 	nuget,
+	hex,
+	pub,
+	homebrew,
+	firefox,
 	github,
+	gitlab,
 	bluesky,
 	mastodon
 ];

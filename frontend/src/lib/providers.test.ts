@@ -3,11 +3,16 @@ import {
 	bluesky,
 	checkAll,
 	crates,
+	firefox,
 	github,
+	gitlab,
+	hex,
+	homebrew,
 	mastodon,
 	npm,
 	nuget,
 	providers,
+	pub,
 	pypi,
 	streamAll,
 	toLabel
@@ -141,6 +146,93 @@ describe('mastodon', () => {
 	});
 });
 
+describe('hex', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await hex.check('taken')).toEqual({ status: 'taken' });
+		expect(await hex.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('pub.dev', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await pub.check('taken')).toEqual({ status: 'taken' });
+		expect(await pub.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('homebrew', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await homebrew.check('taken')).toEqual({ status: 'taken' });
+		expect(await homebrew.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('firefox', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await firefox.check('taken')).toEqual({ status: 'taken' });
+		expect(await firefox.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('gitlab', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('is taken when the users array is non-empty and available when empty', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(
+					new Response(JSON.stringify(String(input).includes('taken') ? [{ id: 1 }] : []), {
+						status: 200
+					})
+				)
+			)
+		);
+		expect(await gitlab.check('taken')).toEqual({ status: 'taken' });
+		expect(await gitlab.check('free')).toEqual({ status: 'available' });
+	});
+
+	it('is unknown on a non-200 response', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(() => Promise.resolve(new Response(null, { status: 500 })))
+		);
+		expect(await gitlab.check('acema')).toEqual({ status: 'unknown' });
+	});
+});
+
 describe('checkAll', () => {
 	afterEach(() => vi.unstubAllGlobals());
 
@@ -158,6 +250,9 @@ describe('checkAll', () => {
 							{ status: 200 }
 						)
 					);
+				}
+				if (url.includes('gitlab.com')) {
+					return Promise.resolve(new Response(JSON.stringify([]), { status: 200 }));
 				}
 				return Promise.resolve(new Response(null, { status: 404 }));
 			})
@@ -251,8 +346,8 @@ describe('runProvider caching', () => {
 		vi.stubGlobal(
 			'fetch',
 			vi.fn((input: unknown) => {
-				calls.push(String(input));
-				if (String(input) === BOOTSTRAP_URL) {
+				const url = String(input);
+				if (url === BOOTSTRAP_URL) {
 					return Promise.resolve(
 						new Response(
 							JSON.stringify({
