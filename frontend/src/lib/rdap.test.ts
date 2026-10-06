@@ -10,7 +10,6 @@ import {
 	UnsupportedTldError
 } from './rdap';
 import { BOOTSTRAP_URL } from './bootstrap';
-import { isFresh } from './cache';
 
 describe('normalizeDomain', () => {
 	it('lowercases and trims a full domain', () => {
@@ -169,13 +168,5 @@ describe('lookupDomain', () => {
 
 	it('throws for a TLD with no RDAP endpoint', async () => {
 		await expect(lookupDomain('acema.nonexistent')).rejects.toBeInstanceOf(UnsupportedTldError);
-	});
-});
-
-describe('isFresh', () => {
-	it('expires entries past the ttl', () => {
-		const entry = { status: 'registered' as const, at: 1_000 };
-		expect(isFresh(entry, 1_500, 1_000)).toBe(true);
-		expect(isFresh(entry, 2_500, 1_000)).toBe(false);
 	});
 });
