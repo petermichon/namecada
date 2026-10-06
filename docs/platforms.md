@@ -83,6 +83,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Medium — 🕸
 - [x] Hacker News — ✅ — `hacker-news.firebaseio.com/v0/user/{name}.json` (`null` = free)
 - [x] Open Collective — ✅ — `opencollective.com/{name}.json`
+- [x] Minehut — ✅ — `api.minehut.com/server/{name}?byName=true` (`server: null` = free)
 - [ ] SourceForge — 🕸 — 200 has CORS, 404 does not
 - [ ] Dribbble — 🔑 — API needs a token
 - [ ] Behance — 🔑 — Adobe API needs a key

@@ -441,6 +441,34 @@ export const opencollective: Provider = {
 	}
 };
 
+export const minehut: Provider = {
+	id: 'minehut',
+	label: 'Minehut',
+	kind: 'social',
+	name: (label) => label,
+	url: (label) => `https://www.minehut.com/servers/${label}`,
+	async check(label, signal) {
+		const res = await fetch(
+			`https://api.minehut.com/server/${encodeURIComponent(label)}?byName=true`,
+			{
+				signal,
+				referrerPolicy: 'no-referrer',
+				credentials: 'omit',
+				headers: { Accept: 'application/json' }
+			}
+		);
+		if (res.status !== 200) {
+			res.body?.cancel().catch(() => {});
+			return { status: 'unknown' };
+		}
+		const data = await res.json().catch(() => undefined);
+		const server = (data as { server?: unknown } | undefined)?.server;
+		if (server === null) return { status: 'available' };
+		if (server) return { status: 'taken' };
+		return { status: 'unknown' };
+	}
+};
+
 export const providers: Provider[] = [
 	...TLDS.map(rdap),
 	npm,
@@ -461,6 +489,7 @@ export const providers: Provider[] = [
 	devto,
 	farcaster,
 	hackernews,
+	minehut,
 	bluesky,
 	mastodon,
 	opencollective

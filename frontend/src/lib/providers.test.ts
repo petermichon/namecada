@@ -15,6 +15,7 @@ import {
 	hackernews,
 	jsr,
 	mastodon,
+	minehut,
 	npm,
 	nuget,
 	opencollective,
@@ -409,6 +410,28 @@ describe('hackernews', () => {
 	});
 });
 
+describe('minehut', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('is taken for an object server and available for null', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(
+					new Response(
+						String(input).includes('taken')
+							? JSON.stringify({ server: { _id: 'x' } })
+							: JSON.stringify({ server: null }),
+						{ status: 200 }
+					)
+				)
+			)
+		);
+		expect(await minehut.check('taken')).toEqual({ status: 'taken' });
+		expect(await minehut.check('free')).toEqual({ status: 'available' });
+	});
+});
+
 describe('opencollective', () => {
 	afterEach(() => vi.unstubAllGlobals());
 
@@ -504,6 +527,9 @@ describe('checkAll', () => {
 				}
 				if (url.includes('hacker-news.firebaseio.com')) {
 					return Promise.resolve(new Response('null', { status: 200 }));
+				}
+				if (url.includes('api.minehut.com')) {
+					return Promise.resolve(new Response(JSON.stringify({ server: null }), { status: 200 }));
 				}
 				return Promise.resolve(new Response(null, { status: 404 }));
 			})
