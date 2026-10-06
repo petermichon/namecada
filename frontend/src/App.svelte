@@ -42,7 +42,7 @@
 	> = {
 		available: {
 			text: 'available',
-			cls: 'text-emerald-600 dark:text-emerald-500',
+			cls: 'text-success',
 			Icon: CheckCircle2Icon
 		},
 		taken: { text: 'taken', cls: 'text-muted-foreground', Icon: XCircleIcon },
@@ -190,26 +190,28 @@
 							<h2 class="mb-2 text-xs font-medium tracking-wide text-muted-foreground uppercase">
 								{group.label}
 							</h2>
-							<ul class="divide-y rounded-2xl border bg-card">
+							<ul class="divide-y overflow-hidden rounded-2xl border bg-card">
 								{#each group.rows as row (row.id)}
 									{@const status = STATUS[row.status]}
 									{@const Icon = status.Icon}
-									<li class="flex items-center gap-3 px-3 py-2.5">
-										<Icon
-											class="size-4 shrink-0 {status.cls} {status.spin ? 'animate-spin' : ''}"
-										/>
-										<div class="flex min-w-0 flex-1 flex-col">
-											<a
-												href={row.url}
-												target="_blank"
-												rel="noopener noreferrer"
-												class="truncate font-mono text-sm hover:underline">{row.name}</a
-											>
-											<span class="truncate text-xs text-muted-foreground">
-												{row.label}{row.detail ? ` · ${row.detail}` : ''}
-											</span>
-										</div>
-										<span class="shrink-0 text-xs {status.cls}">{status.text}</span>
+									<li>
+										<a
+											href={row.url}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="flex items-center gap-3 px-3 py-2.5 transition-colors hover:bg-muted/50 focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none focus-visible:ring-inset"
+										>
+											<Icon
+												class="size-4 shrink-0 {status.cls} {status.spin ? 'animate-spin' : ''}"
+											/>
+											<div class="flex min-w-0 flex-1 flex-col">
+												<span class="truncate font-mono text-sm">{row.name}</span>
+												<span class="truncate text-xs text-muted-foreground">
+													{row.label}{row.detail ? ` · ${row.detail}` : ''}
+												</span>
+											</div>
+											<span class="shrink-0 text-xs {status.cls}">{status.text}</span>
+										</a>
 									</li>
 								{/each}
 							</ul>
