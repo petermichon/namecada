@@ -56,8 +56,7 @@ const rdap = (tld: string): Provider => ({
 						? 'taken'
 						: res.status === 'unregistered'
 							? 'available'
-							: 'unknown',
-				detail: res.registeredOn ? `registered ${res.registeredOn.slice(0, 10)}` : undefined
+							: 'unknown'
 			};
 		} catch (e) {
 			if (e instanceof DOMException && e.name === 'AbortError') throw e;
