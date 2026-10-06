@@ -205,7 +205,9 @@
 											href={row.url}
 											target="_blank"
 											rel="noopener noreferrer"
-											class="flex items-center gap-3 px-3 py-2.5 hover:bg-muted/50 focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none focus-visible:ring-inset"
+											class="flex items-center gap-3 px-3 py-2.5 {row.status === 'available'
+												? 'bg-success/10 hover:bg-success/15'
+												: 'hover:bg-muted/50'} focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none focus-visible:ring-inset"
 										>
 											<Icon
 												class="size-4 shrink-0 {status.cls} {status.spin ? 'animate-spin' : ''}"
