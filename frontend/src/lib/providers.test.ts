@@ -3,6 +3,7 @@ import {
 	bitbucket,
 	bluesky,
 	checkAll,
+	chesscom,
 	codeberg,
 	crates,
 	devto,
@@ -13,7 +14,9 @@ import {
 	hex,
 	homebrew,
 	hackernews,
+	huggingface,
 	jsr,
+	lichess,
 	mastodon,
 	minehut,
 	npm,
@@ -429,6 +432,51 @@ describe('minehut', () => {
 		);
 		expect(await minehut.check('taken')).toEqual({ status: 'taken' });
 		expect(await minehut.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('lichess', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await lichess.check('taken')).toEqual({ status: 'taken' });
+		expect(await lichess.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('chesscom', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await chesscom.check('taken')).toEqual({ status: 'taken' });
+		expect(await chesscom.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('huggingface', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await huggingface.check('taken')).toEqual({ status: 'taken' });
+		expect(await huggingface.check('free')).toEqual({ status: 'available' });
 	});
 });
 

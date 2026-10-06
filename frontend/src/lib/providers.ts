@@ -469,6 +469,51 @@ export const minehut: Provider = {
 	}
 };
 
+export const lichess: Provider = {
+	id: 'lichess',
+	label: 'Lichess',
+	kind: 'social',
+	name: (label) => label,
+	url: (label) => `https://lichess.org/@/${label}`,
+	async check(label, signal) {
+		return {
+			status: await checkHttp(`https://lichess.org/api/user/${encodeURIComponent(label)}`, signal)
+		};
+	}
+};
+
+export const chesscom: Provider = {
+	id: 'chesscom',
+	label: 'Chess.com',
+	kind: 'social',
+	name: (label) => label,
+	url: (label) => `https://www.chess.com/member/${label}`,
+	async check(label, signal) {
+		return {
+			status: await checkHttp(
+				`https://api.chess.com/pub/player/${encodeURIComponent(label)}`,
+				signal
+			)
+		};
+	}
+};
+
+export const huggingface: Provider = {
+	id: 'huggingface',
+	label: 'Hugging Face',
+	kind: 'social',
+	name: (label) => label,
+	url: (label) => `https://huggingface.co/${label}`,
+	async check(label, signal) {
+		return {
+			status: await checkHttp(
+				`https://huggingface.co/api/users/${encodeURIComponent(label)}/overview`,
+				signal
+			)
+		};
+	}
+};
+
 export const providers: Provider[] = [
 	...TLDS.map(rdap),
 	npm,
@@ -490,6 +535,9 @@ export const providers: Provider[] = [
 	farcaster,
 	hackernews,
 	minehut,
+	lichess,
+	chesscom,
+	huggingface,
 	bluesky,
 	mastodon,
 	opencollective

@@ -39,6 +39,9 @@ deferred (see below).
 | Farcaster | `fnames.farcaster.xyz/transfers/current?name={name}`           | 200 taken / 404 free      |
 | Hacker News | `hacker-news.firebaseio.com/v0/user/{name}.json`             | null = free               |
 | Minehut   | `api.minehut.com/server/{name}?byName=true`                    | `server: null` = free     |
+| Lichess   | `lichess.org/api/user/{name}`                                  | 200 taken / 404 free      |
+| Chess.com | `api.chess.com/pub/player/{name}`                              | 200 taken / 404 free      |
+| Hugging Face | `huggingface.co/api/users/{name}/overview`                 | 200 taken / 404 free      |
 | Open Collective | `opencollective.com/{name}.json`                         | 200 taken / 404 free      |
 | Bluesky   | `public.api.bsky.app` resolveHandle (`{name}.bsky.social`)     | 200 taken / 400 free      |
 | Mastodon  | `mastodon.social/api/v1/accounts/lookup?acct={name}`           | 200 taken / 404 free      |

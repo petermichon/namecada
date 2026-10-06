@@ -84,6 +84,12 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [x] Hacker News — ✅ — `hacker-news.firebaseio.com/v0/user/{name}.json` (`null` = free)
 - [x] Open Collective — ✅ — `opencollective.com/{name}.json`
 - [x] Minehut — ✅ — `api.minehut.com/server/{name}?byName=true` (`server: null` = free)
+- [x] Lichess — ✅ — `lichess.org/api/user/{name}`
+- [x] Chess.com — ✅ — `api.chess.com/pub/player/{name}`
+- [x] Hugging Face — ✅ — `huggingface.co/api/users/{name}/overview`
+- [ ] Minecraft (Mojang) — 🕸 — API has no CORS
+- [ ] Roblox — 🕸 — rate-limited / no CORS
+- [ ] Stack Exchange — 🕸 — display names aren't unique (no availability)
 - [ ] SourceForge — 🕸 — 200 has CORS, 404 does not
 - [ ] Dribbble — 🔑 — API needs a token
 - [ ] Behance — 🔑 — Adobe API needs a key
@@ -210,7 +216,6 @@ Creators / commerce / media:
 
 AI / dev tools:
 
-- [ ] Hugging Face — 🌐 — `huggingface.co/api/...`
 - [ ] Replicate — 🔑
 - [ ] Kaggle — 🔑
 - [ ] CodeSandbox — 🌐
