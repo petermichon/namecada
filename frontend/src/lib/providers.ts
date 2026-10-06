@@ -339,10 +339,10 @@ export const wikipedia: Provider = {
 	label: 'Wikipedia',
 	kind: 'social',
 	name: (label) => label,
-	url: (label) => `https://en.wikipedia.org/wiki/User:${label}`,
+	url: (label) => `https://en.wikipedia.org/wiki/Special:CentralAuth/${label}`,
 	async check(label, signal) {
 		const res = await fetch(
-			`https://en.wikipedia.org/w/api.php?action=query&list=users&ususers=${encodeURIComponent(label)}&format=json&origin=*`,
+			`https://meta.wikimedia.org/w/api.php?action=query&meta=globaluserinfo&guiuser=${encodeURIComponent(label)}&format=json&origin=*`,
 			{
 				signal,
 				referrerPolicy: 'no-referrer',
@@ -355,10 +355,10 @@ export const wikipedia: Provider = {
 			return { status: 'unknown' };
 		}
 		const data = await res.json().catch(() => null);
-		const users = (data as { query?: { users?: unknown[] } })?.query?.users;
-		if (!Array.isArray(users) || users.length === 0) return { status: 'unknown' };
-		const user = users[0] as { missing?: unknown };
-		return { status: 'missing' in user ? 'available' : 'taken' };
+		const info = (data as { query?: { globaluserinfo?: { missing?: unknown } } })?.query
+			?.globaluserinfo;
+		if (!info) return { status: 'unknown' };
+		return { status: 'missing' in info ? 'available' : 'taken' };
 	}
 };
 

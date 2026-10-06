@@ -360,7 +360,7 @@ describe('codeberg', () => {
 describe('wikipedia', () => {
 	afterEach(() => vi.unstubAllGlobals());
 
-	it('is available when the user is marked missing', async () => {
+	it('is available when the global user is marked missing', async () => {
 		vi.stubGlobal(
 			'fetch',
 			vi.fn((input: unknown) =>
@@ -368,8 +368,8 @@ describe('wikipedia', () => {
 					new Response(
 						JSON.stringify(
 							String(input).includes('taken')
-								? { query: { users: [{ userid: 1, name: 'x' }] } }
-								: { query: { users: [{ name: 'x', missing: '' }] } }
+								? { query: { globaluserinfo: { id: 1, name: 'x' } } }
+								: { query: { globaluserinfo: { name: 'x', missing: '' } } }
 						),
 						{ status: 200 }
 					)
@@ -614,11 +614,12 @@ describe('checkAll', () => {
 					}
 					return Promise.resolve(new Response(JSON.stringify([]), { status: 200 }));
 				}
-				if (url.includes('wikipedia.org')) {
+				if (url.includes('wikimedia.org')) {
 					return Promise.resolve(
-						new Response(JSON.stringify({ query: { users: [{ name: 'x', missing: '' }] } }), {
-							status: 200
-						})
+						new Response(
+							JSON.stringify({ query: { globaluserinfo: { name: 'x', missing: '' } } }),
+							{ status: 200 }
+						)
 					);
 				}
 				if (url.includes('hacker-news.firebaseio.com')) {

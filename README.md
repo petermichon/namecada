@@ -35,7 +35,7 @@ deferred (see below).
 | GitLab    | `gitlab.com/api/v4/users?username=` + `/groups/{name}`         | user or group = taken     |
 | Bitbucket | `api.bitbucket.org/2.0/workspaces/{name}`                      | 200/403 taken / 404 free  |
 | Codeberg  | `codeberg.org/api/v1/users/{name}`                             | 200 taken / 404 free      |
-| Wikipedia | `en.wikipedia.org/w/api.php` list=users                        | `missing` = free          |
+| Wikipedia | `meta.wikimedia.org/w/api.php` globaluserinfo               | `missing` = free          |
 | DEV       | `dev.to/api/users/by_username` + `/organizations/{name}`       | 200 taken / 404 free      |
 | Farcaster | `fnames.farcaster.xyz/transfers/current?name={name}`           | 200 taken / 404 free      |
 | Hacker News | `hacker-news.firebaseio.com/v0/user/{name}.json`             | null = free               |
