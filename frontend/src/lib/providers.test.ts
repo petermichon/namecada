@@ -15,7 +15,6 @@ import {
 	hex,
 	hexUser,
 	homebrew,
-	hackernews,
 	huggingface,
 	jsr,
 	lichess,
@@ -136,15 +135,53 @@ describe('nuget', () => {
 describe('bluesky', () => {
 	afterEach(() => vi.unstubAllGlobals());
 
-	it('maps 200 to taken and 400 to available', async () => {
+	it('maps resultAvailable to available and resultUnavailable to taken', async () => {
 		vi.stubGlobal(
 			'fetch',
 			vi.fn((input: unknown) =>
-				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 400 }))
+				Promise.resolve(
+					new Response(
+						JSON.stringify({
+							result: {
+								$type: String(input).includes('free')
+									? 'com.atproto.temp.checkHandleAvailability#resultAvailable'
+									: 'com.atproto.temp.checkHandleAvailability#resultUnavailable'
+							}
+						}),
+						{ status: 200 }
+					)
+				)
 			)
 		);
 		expect(await bluesky.check('taken')).toEqual({ status: 'taken' });
 		expect(await bluesky.check('free')).toEqual({ status: 'available' });
+	});
+
+	it('treats a reserved handle (resultUnavailable) as taken', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(() =>
+				Promise.resolve(
+					new Response(
+						JSON.stringify({
+							result: {
+								$type: 'com.atproto.temp.checkHandleAvailability#resultUnavailable'
+							}
+						}),
+						{ status: 200 }
+					)
+				)
+			)
+		);
+		expect(await bluesky.check('example')).toEqual({ status: 'taken' });
+	});
+
+	it('is unknown on a non-200 response', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(() => Promise.resolve(new Response(null, { status: 500 })))
+		);
+		expect(await bluesky.check('acema')).toEqual({ status: 'unknown' });
 	});
 });
 
@@ -160,6 +197,14 @@ describe('mastodon', () => {
 		);
 		expect(await mastodon.check('taken')).toEqual({ status: 'taken' });
 		expect(await mastodon.check('free')).toEqual({ status: 'available' });
+	});
+
+	it('treats a 410 (suspended account) as taken', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(() => Promise.resolve(new Response(null, { status: 410 })))
+		);
+		expect(await mastodon.check('example')).toEqual({ status: 'taken' });
 	});
 });
 
@@ -434,33 +479,6 @@ describe('wikipedia', () => {
 	});
 });
 
-describe('hackernews', () => {
-	afterEach(() => vi.unstubAllGlobals());
-
-	it('is taken for an object payload and available for null', async () => {
-		vi.stubGlobal(
-			'fetch',
-			vi.fn((input: unknown) =>
-				Promise.resolve(
-					new Response(String(input).includes('taken') ? JSON.stringify({ id: 'x' }) : 'null', {
-						status: 200
-					})
-				)
-			)
-		);
-		expect(await hackernews.check('taken')).toEqual({ status: 'taken' });
-		expect(await hackernews.check('free')).toEqual({ status: 'available' });
-	});
-
-	it('is unknown on a non-200 response', async () => {
-		vi.stubGlobal(
-			'fetch',
-			vi.fn(() => Promise.resolve(new Response(null, { status: 500 })))
-		);
-		expect(await hackernews.check('acema')).toEqual({ status: 'unknown' });
-	});
-});
-
 describe('minehut', () => {
 	afterEach(() => vi.unstubAllGlobals());
 
@@ -667,9 +685,6 @@ describe('checkAll', () => {
 						)
 					);
 				}
-				if (url.includes('hacker-news.firebaseio.com')) {
-					return Promise.resolve(new Response('null', { status: 200 }));
-				}
 				if (url.includes('codeberg.org')) {
 					return Promise.resolve(
 						new Response(JSON.stringify({ message: 'user redirect does not exist [name: x]' }), {
@@ -679,6 +694,16 @@ describe('checkAll', () => {
 				}
 				if (url.includes('api.minehut.com')) {
 					return Promise.resolve(new Response(JSON.stringify({ server: null }), { status: 200 }));
+				}
+				if (url.includes('checkHandleAvailability')) {
+					return Promise.resolve(
+						new Response(
+							JSON.stringify({
+								result: { $type: 'com.atproto.temp.checkHandleAvailability#resultAvailable' }
+							}),
+							{ status: 200 }
+						)
+					);
 				}
 				return Promise.resolve(new Response(null, { status: 404 }));
 			})

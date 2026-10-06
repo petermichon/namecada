@@ -52,8 +52,8 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Shopify App Store — 🕸
 - [ ] Go modules — 🕸 — modules are paths, not single labels
 - [x] GitHub — ✅ — `api.github.com/users/{name}`
-- [x] Bluesky — ✅ — `public.api.bsky.app` resolveHandle (`{name}.bsky.social`)
-- [x] Mastodon (`mastodon.social`) — ✅ — `/api/v1/accounts/lookup?acct={name}`
+- [x] Bluesky — ✅ — `bsky.social/xrpc/com.atproto.temp.checkHandleAvailability` (`{name}.bsky.social`); resolveHandle hides reserved/deactivated/over-length (max 18) handles
+- [x] Mastodon (`mastodon.social`) — ✅ — `/@{name}` profile (200/410 taken, 404 free; the lookup API hides suspended accounts as 404)
 - [x] GitLab — ✅ — `gitlab.com/api/v4/users?username={name}` (array body)
 - [x] Bitbucket — ✅ — `api.bitbucket.org/2.0/workspaces/{name}`
 - [x] Codeberg — ✅ — `codeberg.org/api/v1/users/{name}`
@@ -81,7 +81,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Snapchat — 🕸
 - [ ] Pinterest — 🕸
 - [ ] Medium — 🕸
-- [x] Hacker News — ✅ — `hacker-news.firebaseio.com/v0/user/{name}.json` (`null` = free)
+- [ ] Hacker News — 🕸 — `hacker-news.firebaseio.com/v0/user/{name}.json` only exposes users with public activity, so `null` can mean free *or* a real no-activity account: it can never confirm a name is free. The profile page that can is behind no CORS. Needs a proxy
 - [x] Open Collective — ✅ — `opencollective.com/{name}.json`
 - [x] Minehut — ✅ — `api.minehut.com/server/{name}?byName=true` (`server: null` = free)
 - [x] Lichess — ✅ — `lichess.org/api/user/{name}`
@@ -156,6 +156,17 @@ More package registries:
 - [ ] Meteor — 🕸 — no API
 - [ ] Nimble (Nim) — 🕸 — 502
 - [ ] Crystal Shards — 🕸 — no endpoint
+
+Ruled out — account namespaces (no public availability API):
+
+- [ ] npm users — 🕸 — `www.npmjs.com/~{name}` is a Cloudflare challenge (403 for
+  both real and fake); `registry.npmjs.org/-/user/org.couchdb.user:{name}` is 401
+  for both (auth required, no CORS); `/-/v1/search?text=maintainer:{name}` has CORS
+  and does differ, but reflects published packages only — a real account with zero
+  packages returns `total: 0`, so it can't prove the account exists.
+- [ ] PyPI users — 🕸 — `pypi.org/user/{name}/` is HTML behind a bot challenge
+  (200, byte-identical "Client Challenge" page for real and fake users) and sends
+  no CORS; Warehouse exposes no JSON user endpoint.
 
 More social / community:
 

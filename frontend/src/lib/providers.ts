@@ -2,12 +2,43 @@ import { lookupDomain, parseDomain, UnsupportedTldError } from './rdap';
 import { getCached, isFresh, setCached } from './providerCache';
 
 export type Status = 'available' | 'taken' | 'unknown';
-export type ProviderKind = 'domain' | 'dev' | 'social' | 'org' | 'brand';
+
+export const PLATFORMS = {
+	domains: 'Domains',
+	npm: 'npm',
+	pypi: 'PyPI',
+	crates: 'crates.io',
+	nuget: 'NuGet',
+	hex: 'Hex',
+	pub: 'pub.dev',
+	homebrew: 'Homebrew',
+	firefox: 'Firefox Add-ons',
+	jsr: 'JSR',
+	wordpress: 'WordPress.org',
+	openvsx: 'Open VSX',
+	github: 'GitHub',
+	gitlab: 'GitLab',
+	bitbucket: 'Bitbucket',
+	codeberg: 'Codeberg',
+	wikipedia: 'Wikipedia',
+	devto: 'DEV',
+	farcaster: 'Farcaster',
+	minehut: 'Minehut',
+	lichess: 'Lichess',
+	chesscom: 'Chess.com',
+	huggingface: 'Hugging Face',
+	dailymotion: 'Dailymotion',
+	mixcloud: 'Mixcloud',
+	bluesky: 'Bluesky',
+	mastodon: 'Mastodon',
+	opencollective: 'Open Collective'
+} as const;
+
+export type PlatformId = keyof typeof PLATFORMS;
 
 export interface Provider {
 	id: string;
-	label: string;
-	kind: ProviderKind;
+	platform: PlatformId;
 	minLength?: number;
 	minLengthSource?: string;
 	name: (label: string) => string;
@@ -17,8 +48,7 @@ export interface Provider {
 
 export interface ProviderResult {
 	id: string;
-	label: string;
-	kind: ProviderKind;
+	platform: PlatformId;
 	name: string;
 	url: string;
 	status: Status;
@@ -54,8 +84,7 @@ const rdap = (tld: string): Provider => {
 	const rule = TLD_MIN_LENGTH[tld];
 	return {
 		id: `domain${tld}`,
-		label: `Domain ${tld}`,
-		kind: 'domain',
+		platform: 'domains',
 		minLength: rule?.min,
 		minLengthSource: rule?.source,
 		name: (label) => `${label}${tld}`,
@@ -101,8 +130,7 @@ async function checkHttp(
 
 export const github: Provider = {
 	id: 'github',
-	label: 'GitHub',
-	kind: 'social',
+	platform: 'github',
 	minLength: 2,
 	minLengthSource:
 		'GitHub 1-character usernames are effectively unavailable (32/36 are claimed; the rest reserved)',
@@ -115,8 +143,7 @@ export const github: Provider = {
 
 export const gitlab: Provider = {
 	id: 'gitlab',
-	label: 'GitLab',
-	kind: 'social',
+	platform: 'gitlab',
 	name: (label) => label,
 	url: (label) => `https://gitlab.com/${label}`,
 	async check(label, signal) {
@@ -146,8 +173,7 @@ export const gitlab: Provider = {
 
 export const npm: Provider = {
 	id: 'npm',
-	label: 'npm',
-	kind: 'dev',
+	platform: 'npm',
 	name: (label) => label,
 	url: (label) => `https://www.npmjs.com/package/${label}`,
 	async check(label, signal) {
@@ -157,8 +183,7 @@ export const npm: Provider = {
 
 export const pypi: Provider = {
 	id: 'pypi',
-	label: 'PyPI',
-	kind: 'dev',
+	platform: 'pypi',
 	name: (label) => label,
 	url: (label) => `https://pypi.org/project/${label}/`,
 	async check(label, signal) {
@@ -168,8 +193,7 @@ export const pypi: Provider = {
 
 export const crates: Provider = {
 	id: 'crates',
-	label: 'crates.io',
-	kind: 'dev',
+	platform: 'crates',
 	name: (label) => label,
 	url: (label) => `https://crates.io/crates/${label}`,
 	async check(label, signal) {
@@ -179,8 +203,7 @@ export const crates: Provider = {
 
 export const nuget: Provider = {
 	id: 'nuget',
-	label: 'NuGet',
-	kind: 'dev',
+	platform: 'nuget',
 	name: (label) => label,
 	url: (label) => `https://www.nuget.org/packages/${label}`,
 	async check(label, signal) {
@@ -192,8 +215,7 @@ export const nuget: Provider = {
 
 export const hex: Provider = {
 	id: 'hex',
-	label: 'Hex',
-	kind: 'dev',
+	platform: 'hex',
 	minLength: 2,
 	minLengthSource: 'hexpm package name validation: min 2 chars (repository/package.ex)',
 	name: (label) => label,
@@ -205,8 +227,7 @@ export const hex: Provider = {
 
 export const hexUser: Provider = {
 	id: 'hex-user',
-	label: 'Hex user',
-	kind: 'social',
+	platform: 'hex',
 	minLength: 3,
 	minLengthSource: 'hexpm username validation: min 3 chars (accounts/user.ex)',
 	name: (label) => label,
@@ -218,8 +239,7 @@ export const hexUser: Provider = {
 
 export const pub: Provider = {
 	id: 'pub',
-	label: 'pub.dev',
-	kind: 'dev',
+	platform: 'pub',
 	name: (label) => label,
 	url: (label) => `https://pub.dev/packages/${label}`,
 	async check(label, signal) {
@@ -229,8 +249,7 @@ export const pub: Provider = {
 
 export const homebrew: Provider = {
 	id: 'homebrew',
-	label: 'Homebrew',
-	kind: 'dev',
+	platform: 'homebrew',
 	name: (label) => label,
 	url: (label) => `https://formulae.brew.sh/formula/${label}`,
 	async check(label, signal) {
@@ -242,8 +261,7 @@ export const homebrew: Provider = {
 
 export const firefox: Provider = {
 	id: 'firefox',
-	label: 'Firefox Add-ons',
-	kind: 'dev',
+	platform: 'firefox',
 	name: (label) => label,
 	url: (label) => `https://addons.mozilla.org/firefox/addon/${label}/`,
 	async check(label, signal) {
@@ -260,43 +278,58 @@ export const firefox: Provider = {
 
 export const bluesky: Provider = {
 	id: 'bluesky',
-	label: 'Bluesky',
-	kind: 'social',
+	platform: 'bluesky',
 	minLength: 3,
 	minLengthSource: 'bsky.social help: "Handle Too Short – Must be at least 3 characters"',
 	name: (label) => `${label}.bsky.social`,
 	url: (label) => `https://bsky.app/profile/${label}.bsky.social`,
 	async check(label, signal) {
-		return {
-			status: await checkHttp(
-				`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${label}.bsky.social`,
+		const res = await fetch(
+			`https://bsky.social/xrpc/com.atproto.temp.checkHandleAvailability?handle=${encodeURIComponent(label)}.bsky.social`,
+			{
 				signal,
-				[400, 404]
-			)
-		};
+				referrerPolicy: 'no-referrer',
+				credentials: 'omit',
+				headers: { Accept: 'application/json' }
+			}
+		);
+		if (res.status !== 200) {
+			res.body?.cancel().catch(() => {});
+			return { status: 'unknown' };
+		}
+		const data = await res.json().catch(() => null);
+		const type = (data as { result?: { $type?: unknown } } | null)?.result?.$type;
+		if (typeof type !== 'string') return { status: 'unknown' };
+		// resolveHandle can't see reserved/deactivated/over-length handles, so
+		// ask the signup check instead.
+		return { status: type.endsWith('#resultAvailable') ? 'available' : 'taken' };
 	}
 };
 
 export const mastodon: Provider = {
 	id: 'mastodon',
-	label: 'Mastodon (mastodon.social)',
-	kind: 'social',
+	platform: 'mastodon',
 	name: (label) => label,
 	url: (label) => `https://mastodon.social/@${label}`,
 	async check(label, signal) {
-		return {
-			status: await checkHttp(
-				`https://mastodon.social/api/v1/accounts/lookup?acct=${encodeURIComponent(label)}`,
-				signal
-			)
-		};
+		const res = await fetch(`https://mastodon.social/@${encodeURIComponent(label)}`, {
+			signal,
+			referrerPolicy: 'no-referrer',
+			credentials: 'omit',
+			headers: { Accept: 'text/html' }
+		});
+		res.body?.cancel().catch(() => {});
+		// The account lookup API flattens suspended accounts to 404, so probe the
+		// profile: 410 Gone means suspended, and the username is still taken.
+		if (res.status === 200 || res.status === 410) return { status: 'taken' };
+		if (res.status === 404) return { status: 'available' };
+		return { status: 'unknown' };
 	}
 };
 
 export const jsr: Provider = {
 	id: 'jsr',
-	label: 'JSR',
-	kind: 'dev',
+	platform: 'jsr',
 	name: (label) => label,
 	url: (label) => `https://jsr.io/@${label}`,
 	async check(label, signal) {
@@ -308,8 +341,7 @@ export const jsr: Provider = {
 
 export const wordpress: Provider = {
 	id: 'wordpress',
-	label: 'WordPress.org',
-	kind: 'dev',
+	platform: 'wordpress',
 	minLength: 5,
 	minLengthSource:
 		'WordPress.org new plugin names require ≥5 alphanumeric characters (Plugin Check naming rules)',
@@ -341,8 +373,7 @@ export const wordpress: Provider = {
 
 export const bitbucket: Provider = {
 	id: 'bitbucket',
-	label: 'Bitbucket',
-	kind: 'social',
+	platform: 'bitbucket',
 	minLength: 4,
 	minLengthSource:
 		'Bitbucket rejects workspace IDs under 4 characters at creation (1–3 rejected, 4 accepted)',
@@ -362,8 +393,7 @@ export const bitbucket: Provider = {
 
 export const codeberg: Provider = {
 	id: 'codeberg',
-	label: 'Codeberg',
-	kind: 'social',
+	platform: 'codeberg',
 	name: (label) => label,
 	url: (label) => `https://codeberg.org/${label}`,
 	async check(label, signal) {
@@ -392,8 +422,7 @@ export const codeberg: Provider = {
 
 export const wikipedia: Provider = {
 	id: 'wikipedia',
-	label: 'Wikipedia',
-	kind: 'social',
+	platform: 'wikipedia',
 	name: (label) => label,
 	url: (label) => `https://en.wikipedia.org/wiki/Special:CentralAuth/${label}`,
 	async check(label, signal) {
@@ -420,8 +449,7 @@ export const wikipedia: Provider = {
 
 export const devto: Provider = {
 	id: 'devto',
-	label: 'DEV',
-	kind: 'social',
+	platform: 'devto',
 	minLength: 2,
 	minLengthSource: 'Forem/DEV usernames are at least 2 characters',
 	name: (label) => label,
@@ -442,8 +470,7 @@ export const devto: Provider = {
 
 export const farcaster: Provider = {
 	id: 'farcaster',
-	label: 'Farcaster',
-	kind: 'social',
+	platform: 'farcaster',
 	name: (label) => label,
 	url: (label) => `https://farcaster.xyz/${label}`,
 	async check(label, signal) {
@@ -456,39 +483,9 @@ export const farcaster: Provider = {
 	}
 };
 
-export const hackernews: Provider = {
-	id: 'hackernews',
-	label: 'Hacker News',
-	kind: 'social',
-	minLength: 2,
-	minLengthSource: 'Hacker News usernames are 2–15 characters',
-	name: (label) => label,
-	url: (label) => `https://news.ycombinator.com/user?id=${label}`,
-	async check(label, signal) {
-		const res = await fetch(
-			`https://hacker-news.firebaseio.com/v0/user/${encodeURIComponent(label)}.json`,
-			{
-				signal,
-				referrerPolicy: 'no-referrer',
-				credentials: 'omit',
-				headers: { Accept: 'application/json' }
-			}
-		);
-		if (res.status !== 200) {
-			res.body?.cancel().catch(() => {});
-			return { status: 'unknown' };
-		}
-		const data = await res.json().catch(() => undefined);
-		if (data === null) return { status: 'available' };
-		if (data) return { status: 'taken' };
-		return { status: 'unknown' };
-	}
-};
-
 export const opencollective: Provider = {
 	id: 'opencollective',
-	label: 'Open Collective',
-	kind: 'org',
+	platform: 'opencollective',
 	name: (label) => label,
 	url: (label) => `https://opencollective.com/${label}`,
 	async check(label, signal) {
@@ -503,8 +500,7 @@ export const opencollective: Provider = {
 
 export const minehut: Provider = {
 	id: 'minehut',
-	label: 'Minehut',
-	kind: 'social',
+	platform: 'minehut',
 	minLength: 4,
 	minLengthSource: 'Minehut server names require at least 4 characters (legacy names shorter)',
 	name: (label) => label,
@@ -533,8 +529,7 @@ export const minehut: Provider = {
 
 export const lichess: Provider = {
 	id: 'lichess',
-	label: 'Lichess',
-	kind: 'social',
+	platform: 'lichess',
 	minLength: 2,
 	minLengthSource: 'Lichess usernames are at least 2 characters',
 	name: (label) => label,
@@ -548,8 +543,7 @@ export const lichess: Provider = {
 
 export const chesscom: Provider = {
 	id: 'chesscom',
-	label: 'Chess.com',
-	kind: 'social',
+	platform: 'chesscom',
 	minLength: 3,
 	minLengthSource: 'Chess.com usernames are 3–25 characters',
 	name: (label) => label,
@@ -566,8 +560,7 @@ export const chesscom: Provider = {
 
 export const huggingface: Provider = {
 	id: 'huggingface',
-	label: 'Hugging Face',
-	kind: 'social',
+	platform: 'huggingface',
 	minLength: 2,
 	minLengthSource: 'Hugging Face: 2-char users exist, none 1-char (min 2 observed)',
 	name: (label) => label,
@@ -584,8 +577,7 @@ export const huggingface: Provider = {
 
 export const dailymotion: Provider = {
 	id: 'dailymotion',
-	label: 'Dailymotion',
-	kind: 'social',
+	platform: 'dailymotion',
 	minLength: 3,
 	minLengthSource: 'Dailymotion: no 2-char users exist, 3-char do (min 3 observed)',
 	name: (label) => label,
@@ -602,8 +594,7 @@ export const dailymotion: Provider = {
 
 export const mixcloud: Provider = {
 	id: 'mixcloud',
-	label: 'Mixcloud',
-	kind: 'social',
+	platform: 'mixcloud',
 	name: (label) => label,
 	url: (label) => `https://www.mixcloud.com/${label}/`,
 	async check(label, signal) {
@@ -615,8 +606,7 @@ export const mixcloud: Provider = {
 
 export const openvsx: Provider = {
 	id: 'openvsx',
-	label: 'Open VSX',
-	kind: 'dev',
+	platform: 'openvsx',
 	name: (label) => label,
 	url: (label) => `https://open-vsx.org/namespace/${label}`,
 	async check(label, signal) {
@@ -647,7 +637,6 @@ export const providers: Provider[] = [
 	wikipedia,
 	devto,
 	farcaster,
-	hackernews,
 	minehut,
 	lichess,
 	chesscom,
@@ -666,8 +655,7 @@ async function runProvider(
 ): Promise<ProviderResult> {
 	const base = {
 		id: provider.id,
-		label: provider.label,
-		kind: provider.kind,
+		platform: provider.platform,
 		name: provider.name(label),
 		url: provider.url(label)
 	};

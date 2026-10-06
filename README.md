@@ -39,7 +39,6 @@ deferred (see below).
 | Wikipedia | `meta.wikimedia.org/w/api.php` globaluserinfo               | `missing` = free          |
 | DEV       | `dev.to/api/users/by_username` + `/organizations/{name}`       | 200 taken / 404 free      |
 | Farcaster | `fnames.farcaster.xyz/transfers/current?name={name}`           | 200 taken / 404 free      |
-| Hacker News | `hacker-news.firebaseio.com/v0/user/{name}.json`             | null = free               |
 | Minehut   | `api.minehut.com/server/{name}?byName=true`                    | `server: null` = free     |
 | Lichess   | `lichess.org/api/user/{name}`                                  | 200 taken / 404 free      |
 | Chess.com | `api.chess.com/pub/player/{name}`                              | 200 taken / 404 free      |
@@ -47,8 +46,8 @@ deferred (see below).
 | Dailymotion | `api.dailymotion.com/user/{name}`                            | 200 taken / 404 free      |
 | Mixcloud  | `api.mixcloud.com/{name}/`                                     | 200 taken / 404 free      |
 | Open Collective | `opencollective.com/{name}.json`                         | 200 taken / 404 free      |
-| Bluesky   | `public.api.bsky.app` resolveHandle (`{name}.bsky.social`)     | 200 taken / 400 free      |
-| Mastodon  | `mastodon.social/api/v1/accounts/lookup?acct={name}`           | 200 taken / 404 free      |
+| Bluesky   | `bsky.social/xrpc/com.atproto.temp.checkHandleAvailability` (`{name}.bsky.social`) | resultAvailable free / resultUnavailable taken |
+| Mastodon  | `mastodon.social/@{name}` (profile)                            | 200/410 taken / 404 free  |
 
 Domains run once per TLD in `TLDS` (`.com`, `.org`, `.dev`, `.io`, `.ai`, `.app`), each a
 separate provider. The TLD is resolved to its registry through the IANA RDAP
@@ -61,7 +60,8 @@ covers both.
 
 - Domain rows report **registry state**, not registrability: a name may be
   reserved or premium and still show as free. Coverage follows the bootstrap.
-- Dev/social rows mean "the name exists", not legal or brand availability.
+- Handle and package rows mean "the name exists", not legal or brand
+  availability.
 - Some platforms enforce a minimum name length (Chess.com 3, Lichess 2); shorter
   names are shown as **unavailable** (not registrable) rather than free.
 
@@ -79,7 +79,8 @@ This matters most for GitHub and npm, which rate-limit unauthenticated requests
 
 - `frontend/` — Svelte 5 + Vite + Tailwind + shadcn-svelte (maia) app.
   - `src/lib/providers.ts` — `Provider` interface, the provider registry,
-    `streamAll`/`checkAll`.
+    `streamAll`/`checkAll`. Each provider declares a `platform`; the report
+    groups the URLs into one card per platform.
   - `src/lib/providerCache.ts` — per-provider response cache.
   - `src/lib/rdap.ts`, `src/lib/bootstrap.ts` — domain lookup.
 - `scripts/domscan.py` — offline bulk scanner for `.com` names via Verisign RDAP
@@ -107,9 +108,10 @@ an HTTP response to `available` / `taken` / `unknown`) and add it to the
 verdict unreadable in the browser.
 
 Deferred (not browser-reachable): RubyGems (no CORS on 404), Packagist (no CORS),
-Reddit (403 from server IPs), Docker Hub (no CORS), HN Algolia (no availability
-signal), Go proxy (modules are paths, not single labels), and trademark / social
-/ company registries (need a key and a proxy).
+Reddit (403 from server IPs), Docker Hub (no CORS), Go proxy (modules are paths,
+not single labels), Hacker News (its API only exposes users with public activity,
+so it can never confirm a name is free; the profile page that can has no CORS),
+and trademark / social / company registries (need a key and a proxy).
 
 ## Bulk scanning (offline)
 
