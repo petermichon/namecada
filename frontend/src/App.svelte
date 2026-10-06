@@ -17,6 +17,8 @@
 		type Status
 	} from '$lib/providers';
 	import { Button } from '$lib/components/ui/button/index.js';
+	import * as Card from '$lib/components/ui/card/index.js';
+	import { Skeleton } from '$lib/components/ui/skeleton/index.js';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 	import LookupForm from '$lib/components/LookupForm.svelte';
 
@@ -93,9 +95,12 @@
 		if (!label) {
 			rows = [];
 			lastLabel = null;
-			error = input.trim()
-				? 'Names can use letters, numbers and hyphens, e.g. acema.'
-				: 'Enter a name to check.';
+			const raw = input.trim();
+			error = !raw
+				? 'Enter a name to check.'
+				: raw.includes('.')
+					? 'Enter the name without the dot — e.g. “example”, not “example.com”.'
+					: 'Names can use letters, numbers and hyphens, e.g. acema.';
 			return;
 		}
 
@@ -205,26 +210,69 @@
 		class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-4 focus:z-30 focus:rounded-md focus:border focus:border-border focus:bg-card focus:px-3 focus:py-1.5 focus:text-sm"
 		>Skip to results</a
 	>
-	<header class="sticky top-0 z-20 border-b border-border/60 bg-background/85 backdrop-blur">
-		<div class="mx-auto flex max-w-xl items-center gap-3 px-4 py-2.5">
-			<h1 class="shrink-0 text-sm font-semibold tracking-tight sm:text-base">Domain Browser</h1>
-			<div class="min-w-0 flex-1">
-				<LookupForm bind:value={input} loading={searching} onsubmit={check} />
+	<header
+		class="sticky top-0 z-20 border-b border-border/60 bg-background/85 backdrop-blur [@media(max-height:34rem)]:static"
+	>
+		<div class="mx-auto max-w-2xl px-4 py-2.5">
+			<div class="flex items-center gap-3">
+				<h1 class="shrink-0 text-sm font-semibold tracking-tight sm:text-base">Domain Browser</h1>
+				<div class="min-w-0 flex-1">
+					<LookupForm bind:value={input} loading={searching} onsubmit={check} />
+				</div>
+				<Button
+					variant="ghost"
+					size="icon"
+					class="shrink-0"
+					onclick={toggleMode}
+					aria-label="Toggle theme"
+				>
+					<SunIcon class="size-4 dark:hidden" />
+					<MoonIcon class="hidden size-4 dark:block" />
+				</Button>
 			</div>
-			<Button
-				variant="ghost"
-				size="icon"
-				class="shrink-0"
-				onclick={toggleMode}
-				aria-label="Toggle theme"
-			>
-				<SunIcon class="size-4 dark:hidden" />
-				<MoonIcon class="hidden size-4 dark:block" />
-			</Button>
+
+			{#if rows.length}
+				<div class="mt-2 flex flex-wrap items-center gap-2">
+					{#if searching}
+						<span class="text-xs text-muted-foreground">{lastLabel}</span>
+					{:else}
+						<ToggleGroup.Root
+							type="single"
+							value={filter}
+							onValueChange={(value) => (filter = (value || 'all') as 'all' | Status)}
+							variant="outline"
+							size="sm"
+							spacing={2}
+							class="text-xs"
+						>
+							<ToggleGroup.Item
+								value="available"
+								class="data-[state=on]:border-success/40 data-[state=on]:bg-success/15 data-[state=on]:text-success"
+							>
+								{counts.available} available
+							</ToggleGroup.Item>
+							<ToggleGroup.Item value="taken" class="data-[state=on]:text-foreground">
+								{counts.taken} unavailable
+							</ToggleGroup.Item>
+							{#if counts.unknown}
+								<ToggleGroup.Item
+									value="unknown"
+									class="data-[state=on]:border-warning/40 data-[state=on]:bg-warning/15 data-[state=on]:text-warning"
+								>
+									{counts.unknown} unknown
+								</ToggleGroup.Item>
+							{/if}
+						</ToggleGroup.Root>
+						<Button variant="outline" size="sm" class="ml-auto" onclick={copyResults}>
+							{copied ? 'Copied' : 'Copy'}
+						</Button>
+					{/if}
+				</div>
+			{/if}
 		</div>
 	</header>
 
-	<div id="main" class="mx-auto max-w-xl scroll-mt-16 px-4 py-5">
+	<div id="main" class="mx-auto max-w-2xl px-4 py-5">
 		<p class="text-sm text-muted-foreground">
 			Best-effort from public sources. <em>Unavailable</em> means the name is taken or the platform
 			blocks it (too short, reserved, suspended); <em>available</em> means none of that was found — not
@@ -250,50 +298,7 @@
 				</p>
 			{/if}
 
-			<div
-				class="sticky top-[60px] z-10 -mx-4 mt-2 flex flex-wrap items-center gap-2 bg-background/90 px-4 py-2 backdrop-blur"
-			>
-				{#if searching}
-					<span class="text-xs text-muted-foreground">{lastLabel}</span>
-				{:else}
-					<ToggleGroup.Root
-						type="single"
-						value={filter}
-						onValueChange={(value) => (filter = (value || 'all') as 'all' | Status)}
-						variant="outline"
-						size="sm"
-						spacing={2}
-						class="text-xs"
-					>
-						<ToggleGroup.Item
-							value="available"
-							class="data-[state=on]:border-success/40 data-[state=on]:bg-success/15 data-[state=on]:text-success"
-						>
-							{counts.available} available
-						</ToggleGroup.Item>
-						<ToggleGroup.Item value="taken" class="data-[state=on]:text-foreground">
-							{counts.taken} unavailable
-						</ToggleGroup.Item>
-						{#if counts.unknown}
-							<ToggleGroup.Item
-								value="unknown"
-								class="data-[state=on]:border-warning/40 data-[state=on]:bg-warning/15 data-[state=on]:text-warning"
-							>
-								{counts.unknown} unknown
-							</ToggleGroup.Item>
-						{/if}
-					</ToggleGroup.Root>
-					<button
-						type="button"
-						class="ml-auto rounded-md border border-border px-2.5 py-0.5 text-xs text-muted-foreground transition-colors hover:bg-muted/50"
-						onclick={copyResults}
-					>
-						{copied ? 'Copied' : 'Copy'}
-					</button>
-				{/if}
-			</div>
-
-			<div class="mt-1 overflow-hidden rounded-2xl border bg-card">
+			<Card.Root class="mt-3 gap-0 py-0">
 				<ul class="divide-y">
 					{#each visibleRows as row (row.id)}
 						{@const pending = row.status === 'pending'}
@@ -305,17 +310,10 @@
 								href={row.url}
 								target="_blank"
 								rel="noopener noreferrer"
-								class="flex items-center gap-3 px-3 py-2.5 {row.status === 'available'
-									? 'bg-success/10 hover:bg-success/15'
+								class="flex items-center gap-3 px-3 py-3 {row.status === 'available'
+									? 'bg-success/[0.07] hover:bg-success/[0.12]'
 									: 'hover:bg-muted/50'} focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none focus-visible:ring-inset"
 							>
-								{#if pending}
-									<span
-										class="size-4 shrink-0 animate-pulse rounded-full bg-muted motion-reduce:animate-none"
-									></span>
-								{:else}
-									<Icon class="size-4 shrink-0 {status.cls}" />
-								{/if}
 								<span
 									class="hidden w-28 shrink-0 truncate text-xs font-medium text-muted-foreground sm:block"
 									title={PLATFORMS[row.platform]}>{PLATFORMS[row.platform]}</span
@@ -331,32 +329,33 @@
 									>
 								{/if}
 								{#if pending}
-									<span
-										class="h-3 w-14 shrink-0 animate-pulse rounded-full bg-muted motion-reduce:animate-none"
-									></span>
+									<Skeleton class="h-3 w-14 shrink-0 rounded-full motion-reduce:animate-none" />
 								{:else}
-									<span class="shrink-0 text-xs {status.cls}">{status.text}</span>
+									<span class="flex shrink-0 items-center gap-1.5 text-xs {status.cls}">
+										<Icon class="size-3.5 shrink-0" />
+										<span class="w-20">{status.text}</span>
+									</span>
 								{/if}
 							</a>
 						</li>
 					{/each}
 				</ul>
-			</div>
+			</Card.Root>
 		{:else if !error}
 			<div class="mt-6">
 				<p class="text-sm text-muted-foreground">Try a name:</p>
 				<div class="mt-2 flex flex-wrap gap-2">
 					{#each EXAMPLES as name (name)}
-						<button
-							type="button"
-							class="rounded-full border border-border px-3 py-1 text-sm transition-colors hover:bg-muted/50"
+						<Button
+							variant="outline"
+							size="sm"
 							onclick={() => {
 								input = name;
 								check();
 							}}
 						>
 							{name}
-						</button>
+						</Button>
 					{/each}
 				</div>
 			</div>

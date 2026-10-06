@@ -1,4 +1,4 @@
-import { lookupDomain, parseDomain, UnsupportedTldError } from './rdap';
+import { lookupDomain, UnsupportedTldError } from './rdap';
 import { getCached, isFresh, setCached } from './providerCache';
 
 export type Status = 'available' | 'taken' | 'unknown';
@@ -60,16 +60,7 @@ export const TLDS = ['.com', '.org', '.dev', '.io', '.ai', '.app'] as const;
 const LABEL = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
 
 export function toLabel(input: string): string | null {
-	const value = input
-		.trim()
-		.toLowerCase()
-		.replace(/^\.+|\.+$/g, '');
-	if (!value) return null;
-	if (value.includes('.')) {
-		const parsed = parseDomain(value);
-		if (!parsed) return null;
-		return parsed.domain.slice(0, parsed.domain.indexOf('.'));
-	}
+	const value = input.trim().toLowerCase();
 	return LABEL.test(value) ? value : null;
 }
 

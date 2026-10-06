@@ -42,16 +42,17 @@ describe('toLabel', () => {
 		expect(toLabel('a-1-b')).toBe('a-1-b');
 	});
 
-	it('extracts the label from a full domain, including subdomains', () => {
-		expect(toLabel('acema.com')).toBe('acema');
-		expect(toLabel('www.bbc.co.uk')).toBe('bbc');
+	it('rejects a dotted input rather than reducing it to a label', () => {
+		expect(toLabel('acema.com')).toBeNull();
+		expect(toLabel('www.bbc.co.uk')).toBeNull();
 	});
 
 	it('rejects empty and malformed input', () => {
 		expect(toLabel('')).toBeNull();
 		expect(toLabel('   ')).toBeNull();
 		expect(toLabel('a b')).toBeNull();
-		expect(toLabel('-abc.com')).toBeNull();
+		expect(toLabel('-abc')).toBeNull();
+		expect(toLabel('abc-')).toBeNull();
 	});
 });
 

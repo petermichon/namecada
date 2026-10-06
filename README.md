@@ -1,15 +1,16 @@
 # Domain Browser
 
-A name availability report. Enter a name — bare (`acema`) or a full domain
-(`acema.com`, `www.bbc.co.uk`) — and it checks that name across several
-independent sources at once, fetched directly from the browser.
+A name availability report. Enter a bare name (`acema`) and it checks that name
+across several independent sources at once, fetched directly from the browser.
+Dots aren't accepted — the sources are checked per label, so a dotted input
+(`acema.com`) is rejected with a prompt to drop the dot rather than silently
+reduced.
 
 ## How it works
 
-The input is reduced to its **label**: `acema.com` → `acema`, `www.bbc.co.uk` →
-`bbc`. Each source then runs independently and streams its verdict into the
-report as soon as it resolves, so one slow or failing source never blocks the
-others. Nothing waits for the whole set.
+Each source runs independently and streams its verdict into the report as soon
+as it resolves, so one slow or failing source never blocks the others. Nothing
+waits for the whole set.
 
 Every source is **browser-direct**: it must send `Access-Control-Allow-Origin`,
 so there is no backend or proxy. Anything that can't be reached that way is
