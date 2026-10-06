@@ -131,11 +131,11 @@
 	);
 
 	const groups = $derived.by(() =>
-		GROUP_ORDER.map((kind) => ({
-			kind,
-			label: GROUP_LABELS[kind],
-			rows: rows.filter((row) => row.kind === kind)
-		})).filter((group) => group.rows.length > 0)
+		GROUP_ORDER.map((kind) => {
+			const groupRows = rows.filter((row) => row.kind === kind);
+			if (kind !== 'domain') groupRows.sort((a, b) => a.label.localeCompare(b.label));
+			return { kind, label: GROUP_LABELS[kind], rows: groupRows };
+		}).filter((group) => group.rows.length > 0)
 	);
 
 	const counts = $derived.by(() => {
