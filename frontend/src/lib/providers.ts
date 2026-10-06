@@ -606,7 +606,7 @@ async function runProvider(
 		url: provider.url(label)
 	};
 	if (provider.minLength && label.length < provider.minLength) {
-		return { ...base, status: 'taken' as Status, detail: `min ${provider.minLength} characters` };
+		return { ...base, status: 'taken' as Status };
 	}
 	const cached = getCached(provider.id, label);
 	if (cached && isFresh(cached)) {

@@ -658,7 +658,6 @@ describe('checkAll', () => {
 		const rows = await checkAll('a');
 		const chess = rows.find((row) => row.id === 'chesscom');
 		expect(chess?.status).toBe('taken');
-		expect(chess?.detail).toBe('min 3 characters');
 		expect(calls.some((url) => url.includes('api.chess.com'))).toBe(false);
 	});
 
