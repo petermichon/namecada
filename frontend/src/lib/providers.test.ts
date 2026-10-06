@@ -323,6 +323,14 @@ describe('bitbucket', () => {
 		expect(await bitbucket.check('taken')).toEqual({ status: 'taken' });
 		expect(await bitbucket.check('free')).toEqual({ status: 'available' });
 	});
+
+	it('treats a 403 (existing but deactivated workspace) as taken', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(() => Promise.resolve(new Response(null, { status: 403 })))
+		);
+		expect(await bitbucket.check('amazon')).toEqual({ status: 'taken' });
+	});
 });
 
 describe('codeberg', () => {

@@ -310,7 +310,9 @@ export const bitbucket: Provider = {
 		return {
 			status: await checkHttp(
 				`https://api.bitbucket.org/2.0/workspaces/${encodeURIComponent(label)}`,
-				signal
+				signal,
+				[404],
+				[200, 403]
 			)
 		};
 	}

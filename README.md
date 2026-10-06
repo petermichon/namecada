@@ -32,7 +32,7 @@ deferred (see below).
 | WordPress | `api.wordpress.org/plugins/info/1.2/?request[slug]={name}`     | 200/closed taken / 404 free |
 | GitHub    | `api.github.com/users/{name}`                                  | 200 taken / 404 free      |
 | GitLab    | `gitlab.com/api/v4/users?username=` + `/groups/{name}`         | user or group = taken     |
-| Bitbucket | `api.bitbucket.org/2.0/workspaces/{name}`                      | 200 taken / 404 free      |
+| Bitbucket | `api.bitbucket.org/2.0/workspaces/{name}`                      | 200/403 taken / 404 free  |
 | Codeberg  | `codeberg.org/api/v1/users/{name}`                             | 200 taken / 404 free      |
 | Wikipedia | `en.wikipedia.org/w/api.php` list=users                        | `missing` = free          |
 | DEV       | `dev.to/api/users/by_username` + `/organizations/{name}`       | 200 taken / 404 free      |
