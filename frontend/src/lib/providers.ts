@@ -119,7 +119,12 @@ export const gitlab: Provider = {
 		}
 		const data = await res.json().catch(() => null);
 		if (!Array.isArray(data)) return { status: 'unknown' };
-		return { status: data.length > 0 ? 'taken' : 'available' };
+		if (data.length > 0) return { status: 'taken' };
+		const group = await checkHttp(
+			`https://gitlab.com/api/v4/groups/${encodeURIComponent(label)}`,
+			signal
+		);
+		return { status: group };
 	}
 };
 
@@ -363,12 +368,16 @@ export const devto: Provider = {
 	name: (label) => label,
 	url: (label) => `https://dev.to/${label}`,
 	async check(label, signal) {
-		return {
-			status: await checkHttp(
-				`https://dev.to/api/users/by_username?url=${encodeURIComponent(label)}`,
-				signal
-			)
-		};
+		const user = await checkHttp(
+			`https://dev.to/api/users/by_username?url=${encodeURIComponent(label)}`,
+			signal
+		);
+		if (user !== 'available') return { status: user };
+		const org = await checkHttp(
+			`https://dev.to/api/organizations/${encodeURIComponent(label)}`,
+			signal
+		);
+		return { status: org };
 	}
 };
 

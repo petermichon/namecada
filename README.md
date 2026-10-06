@@ -31,11 +31,11 @@ deferred (see below).
 | JSR       | `jsr.io/api/scopes/{name}`                                     | 200 taken / 404 free      |
 | WordPress | `api.wordpress.org/plugins/info/1.2/?request[slug]={name}`     | 200/closed taken / 404 free |
 | GitHub    | `api.github.com/users/{name}`                                  | 200 taken / 404 free      |
-| GitLab    | `gitlab.com/api/v4/users?username={name}`                      | array empty = free        |
+| GitLab    | `gitlab.com/api/v4/users?username=` + `/groups/{name}`         | user or group = taken     |
 | Bitbucket | `api.bitbucket.org/2.0/workspaces/{name}`                      | 200 taken / 404 free      |
 | Codeberg  | `codeberg.org/api/v1/users/{name}`                             | 200 taken / 404 free      |
 | Wikipedia | `en.wikipedia.org/w/api.php` list=users                        | `missing` = free          |
-| DEV       | `dev.to/api/users/by_username?url={name}`                      | 200 taken / 404 free      |
+| DEV       | `dev.to/api/users/by_username` + `/organizations/{name}`       | 200 taken / 404 free      |
 | Farcaster | `fnames.farcaster.xyz/transfers/current?name={name}`           | 200 taken / 404 free      |
 | Bluesky   | `public.api.bsky.app` resolveHandle (`{name}.bsky.social`)     | 200 taken / 400 free      |
 | Mastodon  | `mastodon.social/api/v1/accounts/lookup?acct={name}`           | 200 taken / 404 free      |

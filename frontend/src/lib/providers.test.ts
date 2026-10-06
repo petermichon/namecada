@@ -224,22 +224,46 @@ describe('firefox', () => {
 describe('gitlab', () => {
 	afterEach(() => vi.unstubAllGlobals());
 
-	it('is taken when the users array is non-empty and available when empty', async () => {
+	it('is taken when the users array is non-empty', async () => {
 		vi.stubGlobal(
 			'fetch',
-			vi.fn((input: unknown) =>
-				Promise.resolve(
-					new Response(JSON.stringify(String(input).includes('taken') ? [{ id: 1 }] : []), {
-						status: 200
-					})
-				)
-			)
+			vi.fn(() => Promise.resolve(new Response(JSON.stringify([{ id: 1 }]), { status: 200 })))
 		);
-		expect(await gitlab.check('taken')).toEqual({ status: 'taken' });
+		expect(await gitlab.check('gitlab')).toEqual({ status: 'taken' });
+	});
+
+	it('falls back to the groups endpoint when the user lookup is empty', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) => {
+				const url = String(input);
+				if (url.includes('/api/v4/users')) {
+					return Promise.resolve(new Response(JSON.stringify([]), { status: 200 }));
+				}
+				if (url.includes('/api/v4/groups/google')) {
+					return Promise.resolve(new Response(JSON.stringify({ id: 1 }), { status: 200 }));
+				}
+				return Promise.resolve(new Response(null, { status: 404 }));
+			})
+		);
+		expect(await gitlab.check('google')).toEqual({ status: 'taken' });
+	});
+
+	it('is available when neither a user nor a group matches', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) => {
+				const url = String(input);
+				if (url.includes('/api/v4/users')) {
+					return Promise.resolve(new Response(JSON.stringify([]), { status: 200 }));
+				}
+				return Promise.resolve(new Response(null, { status: 404 }));
+			})
+		);
 		expect(await gitlab.check('free')).toEqual({ status: 'available' });
 	});
 
-	it('is unknown on a non-200 response', async () => {
+	it('is unknown on a non-200 user response', async () => {
 		vi.stubGlobal(
 			'fetch',
 			vi.fn(() => Promise.resolve(new Response(null, { status: 500 })))
@@ -361,6 +385,23 @@ describe('devto', () => {
 		expect(await devto.check('taken')).toEqual({ status: 'taken' });
 		expect(await devto.check('free')).toEqual({ status: 'available' });
 	});
+
+	it('falls back to the organizations endpoint when the user lookup misses', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) => {
+				const url = String(input);
+				if (url.includes('/api/users/by_username')) {
+					return Promise.resolve(new Response(null, { status: 404 }));
+				}
+				if (url.includes('/api/organizations/google')) {
+					return Promise.resolve(new Response(null, { status: 200 }));
+				}
+				return Promise.resolve(new Response(null, { status: 404 }));
+			})
+		);
+		expect(await devto.check('google')).toEqual({ status: 'taken' });
+	});
 });
 
 describe('farcaster', () => {
@@ -397,6 +438,9 @@ describe('checkAll', () => {
 					);
 				}
 				if (url.includes('gitlab.com')) {
+					if (url.includes('/groups/')) {
+						return Promise.resolve(new Response(null, { status: 404 }));
+					}
 					return Promise.resolve(new Response(JSON.stringify([]), { status: 200 }));
 				}
 				if (url.includes('wikipedia.org')) {
