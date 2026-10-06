@@ -273,12 +273,26 @@ export const wordpress: Provider = {
 	name: (label) => label,
 	url: (label) => `https://wordpress.org/plugins/${label}/`,
 	async check(label, signal) {
-		return {
-			status: await checkHttp(
-				`https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&request%5Bslug%5D=${label}`,
-				signal
-			)
-		};
+		const res = await fetch(
+			`https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&request%5Bslug%5D=${label}`,
+			{
+				signal,
+				referrerPolicy: 'no-referrer',
+				credentials: 'omit',
+				headers: { Accept: 'application/json' }
+			}
+		);
+		if (res.status === 200) {
+			res.body?.cancel().catch(() => {});
+			return { status: 'taken' };
+		}
+		if (res.status === 404) {
+			const data = await res.json().catch(() => null);
+			const closed = (data as { closed?: unknown })?.closed === true;
+			return { status: closed ? 'taken' : 'available' };
+		}
+		res.body?.cancel().catch(() => {});
+		return { status: 'unknown' };
 	}
 };
 

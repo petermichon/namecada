@@ -276,6 +276,14 @@ describe('wordpress', () => {
 		expect(await wordpress.check('taken')).toEqual({ status: 'taken' });
 		expect(await wordpress.check('free')).toEqual({ status: 'available' });
 	});
+
+	it('treats a closed plugin (404 with closed:true) as taken', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(() => Promise.resolve(new Response(JSON.stringify({ closed: true }), { status: 404 })))
+		);
+		expect(await wordpress.check('google')).toEqual({ status: 'taken' });
+	});
 });
 
 describe('bitbucket', () => {
