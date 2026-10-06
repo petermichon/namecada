@@ -33,7 +33,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [x] Hex (Elixir) — ✅ — `hex.pm/api/packages/{name}`
 - [x] pub.dev (Dart) — ✅ — `pub.dev/api/packages/{name}`
 - [x] JSR (JavaScript) — ✅ — `jsr.io/api/scopes/{name}`
-- [ ] Deno (`deno.land/x`) — 🌐 — `deno.land/x/{name}`
+- [ ] Deno (`deno.land/x`) — 🕸 — no clean API (redirect/HTML)
 - [ ] Docker Hub — 🕸 — no CORS
 - [x] Homebrew — ✅ — `formulae.brew.sh/api/formula/{name}.json`
 - [ ] Chocolatey — 🕸 — redirects / no CORS
@@ -43,7 +43,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] CPAN — 🕸 — blocked (402)
 - [ ] Hackage — 🕸 — no CORS
 - [ ] Clojars — 🕸 — no CORS on 404
-- [ ] LuaRocks — 🌐 — `luarocks.org` API
+- [ ] LuaRocks — 🕸 — no CORS
 - [ ] Terraform Registry — 🕸 — scoped path + no CORS
 - [ ] VS Code Marketplace — 🕸 — no simple API (use Open VSX)
 - [ ] JetBrains Marketplace — 🌐 — search API only (body signal)
@@ -144,18 +144,18 @@ Hosting subdomains (need a proxy to read the 404; wildcard DNS defeats DoH):
 
 More package registries:
 
-- [ ] Open VSX — 🌐 — `open-vsx.org/api/{namespace}/{name}` (scoped)
-- [ ] CocoaPods — 🌐 — `trunk.cocoapods.org`
-- [ ] Swift Package Index — 🌐 — `swiftpackageindex.com`
-- [ ] Gradle Plugin Portal — 🌐 — `plugins.gradle.org`
-- [ ] Ansible Galaxy — 🌐 — `galaxy.ansible.com`
-- [ ] Puppet Forge — 🌐 — `forge.puppet.com`
-- [ ] Chef Supermarket — 🌐 — `supermarket.chef.io`
-- [ ] Elm packages — 🌐 — `package.elm-lang.org`
-- [ ] Quay (containers) — 🌐 — `quay.io`
-- [ ] Meteor — 🌐 — `packages.meteor.com`
-- [ ] Nimble (Nim) — 🌐 — `nimble.directory`
-- [ ] Crystal Shards — 🌐 — `shards.info`
+- [x] Open VSX — ✅ — `open-vsx.org/api/{namespace}` (namespace)
+- [ ] CocoaPods — 🕸 — no CORS
+- [ ] Swift Package Index — 🕸 — 403
+- [ ] Gradle Plugin Portal — 🕸 — no usable API
+- [ ] Ansible Galaxy — 🕸 — scoped / no CORS
+- [ ] Puppet Forge — 🕸 — requires owner-name slug
+- [ ] Chef Supermarket — 🕸 — no CORS
+- [ ] Elm packages — 🕸 — no CORS
+- [ ] Quay (containers) — 🕸 — no public user endpoint
+- [ ] Meteor — 🕸 — no API
+- [ ] Nimble (Nim) — 🕸 — 502
+- [ ] Crystal Shards — 🕸 — no endpoint
 
 More social / community:
 
@@ -165,12 +165,12 @@ More social / community:
 - [ ] HackerNoon — 🌐
 - [ ] Beehiiv — 🕸
 - [ ] Ghost — 🕸
-- [ ] WordPress.com — 🌐 — `{name}.wordpress.com`
+- [ ] WordPress.com — 🕸 — wildcard DNS
 - [ ] Blogger — 🕸
 - [ ] Tumblr — 🔑
 - [ ] Vimeo — 🔑
-- [ ] Dailymotion — 🌐
-- [ ] Odysee / LBRY — 🌐
+- [x] Dailymotion — ✅ — `api.dailymotion.com/user/{name}`
+- [ ] Odysee / LBRY — 🕸 — no usable API
 - [ ] PeerTube — 🌐 — per-instance
 - [ ] VK — 🔑
 - [ ] Weibo — 🕸
@@ -192,8 +192,8 @@ Name systems / crypto:
 
 Creators / commerce / media:
 
-- [ ] Ko-fi — 🌐
-- [ ] Buy Me a Coffee — 🌐
+- [ ] Ko-fi — 🕸 — redirects, no signal
+- [ ] Buy Me a Coffee — 🕸 — no CORS
 - [ ] Lemon Squeezy — 🌐
 - [ ] thanks.dev — 🕸 — Cloudflare-blocked (403)
 - [ ] Liberapay — 🕸 — 404 lacks CORS
@@ -201,13 +201,13 @@ Creators / commerce / media:
 - [ ] Itch.io — 🕸
 - [ ] Spotify (artist) — 🔑
 - [ ] Apple Music — 🔑
-- [ ] Audiomack — 🌐
-- [ ] Mixcloud — 🌐
+- [ ] Audiomack — 🕸 — redirects
+- [x] Mixcloud — ✅ — `api.mixcloud.com/{name}/`
 - [ ] Discogs — 🔑
 - [ ] Last.fm — 🔑
 - [ ] Letterboxd — 🕸
 - [ ] Goodreads — 🕸
-- [ ] MyAnimeList — 🌐
+- [ ] MyAnimeList — 🕸 — Jikan API unavailable
 - [ ] AniList — 🌐 — GraphQL
 - [ ] Trakt — 🔑
 - [ ] Genius — 🔑
@@ -218,7 +218,7 @@ AI / dev tools:
 
 - [ ] Replicate — 🔑
 - [ ] Kaggle — 🔑
-- [ ] CodeSandbox — 🌐
+- [ ] CodeSandbox — 🕸 — Cloudflare-blocked (403)
 - [ ] StackBlitz — 🕸
 - [ ] CodePen — 🕸
 - [ ] Observable — 🕸

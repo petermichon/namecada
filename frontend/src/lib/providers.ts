@@ -514,6 +514,48 @@ export const huggingface: Provider = {
 	}
 };
 
+export const dailymotion: Provider = {
+	id: 'dailymotion',
+	label: 'Dailymotion',
+	kind: 'social',
+	name: (label) => label,
+	url: (label) => `https://www.dailymotion.com/${label}`,
+	async check(label, signal) {
+		return {
+			status: await checkHttp(
+				`https://api.dailymotion.com/user/${encodeURIComponent(label)}`,
+				signal
+			)
+		};
+	}
+};
+
+export const mixcloud: Provider = {
+	id: 'mixcloud',
+	label: 'Mixcloud',
+	kind: 'social',
+	name: (label) => label,
+	url: (label) => `https://www.mixcloud.com/${label}/`,
+	async check(label, signal) {
+		return {
+			status: await checkHttp(`https://api.mixcloud.com/${encodeURIComponent(label)}/`, signal)
+		};
+	}
+};
+
+export const openvsx: Provider = {
+	id: 'openvsx',
+	label: 'Open VSX',
+	kind: 'dev',
+	name: (label) => label,
+	url: (label) => `https://open-vsx.org/namespace/${label}`,
+	async check(label, signal) {
+		return {
+			status: await checkHttp(`https://open-vsx.org/api/${encodeURIComponent(label)}`, signal)
+		};
+	}
+};
+
 export const providers: Provider[] = [
 	...TLDS.map(rdap),
 	npm,
@@ -526,6 +568,7 @@ export const providers: Provider[] = [
 	firefox,
 	jsr,
 	wordpress,
+	openvsx,
 	github,
 	gitlab,
 	bitbucket,
@@ -538,6 +581,8 @@ export const providers: Provider[] = [
 	lichess,
 	chesscom,
 	huggingface,
+	dailymotion,
+	mixcloud,
 	bluesky,
 	mastodon,
 	opencollective

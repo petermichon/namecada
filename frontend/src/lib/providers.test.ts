@@ -6,6 +6,7 @@ import {
 	chesscom,
 	codeberg,
 	crates,
+	dailymotion,
 	devto,
 	farcaster,
 	firefox,
@@ -19,9 +20,11 @@ import {
 	lichess,
 	mastodon,
 	minehut,
+	mixcloud,
 	npm,
 	nuget,
 	opencollective,
+	openvsx,
 	providers,
 	pub,
 	pypi,
@@ -477,6 +480,51 @@ describe('huggingface', () => {
 		);
 		expect(await huggingface.check('taken')).toEqual({ status: 'taken' });
 		expect(await huggingface.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('dailymotion', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await dailymotion.check('taken')).toEqual({ status: 'taken' });
+		expect(await dailymotion.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('mixcloud', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await mixcloud.check('taken')).toEqual({ status: 'taken' });
+		expect(await mixcloud.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('openvsx', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await openvsx.check('taken')).toEqual({ status: 'taken' });
+		expect(await openvsx.check('free')).toEqual({ status: 'available' });
 	});
 });
 

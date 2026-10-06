@@ -30,6 +30,7 @@ deferred (see below).
 | Firefox   | `addons.mozilla.org/api/v5/addons/addon/{name}/`               | 200/401 taken / 404 free  |
 | JSR       | `jsr.io/api/scopes/{name}`                                     | 200 taken / 404 free      |
 | WordPress | `api.wordpress.org/plugins/info/1.2/?request[slug]={name}`     | 200/closed taken / 404 free |
+| Open VSX  | `open-vsx.org/api/{name}` (namespace)                          | 200 taken / 404 free      |
 | GitHub    | `api.github.com/users/{name}`                                  | 200 taken / 404 free      |
 | GitLab    | `gitlab.com/api/v4/users?username=` + `/groups/{name}`         | user or group = taken     |
 | Bitbucket | `api.bitbucket.org/2.0/workspaces/{name}`                      | 200/403 taken / 404 free  |
@@ -42,6 +43,8 @@ deferred (see below).
 | Lichess   | `lichess.org/api/user/{name}`                                  | 200 taken / 404 free      |
 | Chess.com | `api.chess.com/pub/player/{name}`                              | 200 taken / 404 free      |
 | Hugging Face | `huggingface.co/api/users/{name}/overview`                 | 200 taken / 404 free      |
+| Dailymotion | `api.dailymotion.com/user/{name}`                            | 200 taken / 404 free      |
+| Mixcloud  | `api.mixcloud.com/{name}/`                                     | 200 taken / 404 free      |
 | Open Collective | `opencollective.com/{name}.json`                         | 200 taken / 404 free      |
 | Bluesky   | `public.api.bsky.app` resolveHandle (`{name}.bsky.social`)     | 200 taken / 400 free      |
 | Mastodon  | `mastodon.social/api/v1/accounts/lookup?acct={name}`           | 200 taken / 404 free      |
