@@ -77,7 +77,9 @@
 		if (!label) {
 			rows = [];
 			lastLabel = null;
-			error = 'Enter a name or domain, e.g. acema or acema.com.';
+			error = input.trim()
+				? 'Names can use letters, numbers and hyphens, e.g. acema.'
+				: 'Enter a name to check.';
 			return;
 		}
 
