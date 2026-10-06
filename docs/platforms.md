@@ -188,6 +188,9 @@ Creators / commerce / media:
 - [ ] Ko-fi — 🌐
 - [ ] Buy Me a Coffee — 🌐
 - [ ] Lemon Squeezy — 🌐
+- [ ] thanks.dev — 🕸 — Cloudflare-blocked (403)
+- [ ] Liberapay — 🕸 — 404 lacks CORS
+- [ ] PayPal.me — 🕸 — 301 redirect / always 200, no signal
 - [ ] Itch.io — 🕸
 - [ ] Spotify (artist) — 🔑
 - [ ] Apple Music — 🔑
