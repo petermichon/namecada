@@ -163,6 +163,12 @@
 
 		<LookupForm bind:value={input} loading={searching} onsubmit={check} />
 
+		<p class="mt-2 text-sm text-muted-foreground">
+			Best-effort from public sources. <em>Unavailable</em> means the name is taken or the platform
+			blocks it (too short, reserved, suspended); <em>available</em> means none of that was found — not
+			a guarantee you can register it.
+		</p>
+
 		{#if stale}
 			<p class="mt-3 text-xs text-muted-foreground">Press Enter to check the updated name.</p>
 		{/if}

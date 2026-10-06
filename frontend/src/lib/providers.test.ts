@@ -732,6 +732,22 @@ describe('checkAll', () => {
 		expect(calls.some((url) => url.includes('registry.google'))).toBe(false);
 	});
 
+	it('treats reserved labels as unavailable without querying the registry', async () => {
+		const calls: string[] = [];
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) => {
+				calls.push(String(input));
+				return Promise.resolve(new Response(null, { status: 404 }));
+			})
+		);
+		const rows = await checkAll('example');
+		const domains = rows.filter((row) => row.platform === 'domains');
+		expect(domains.length).toBeGreaterThan(0);
+		expect(domains.every((row) => row.status === 'taken')).toBe(true);
+		expect(calls.some((url) => url.includes('rdap.'))).toBe(false);
+	});
+
 	it('keeps a failing provider as unknown instead of rejecting', async () => {
 		vi.stubGlobal(
 			'fetch',

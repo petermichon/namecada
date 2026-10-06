@@ -80,6 +80,11 @@ const TLD_MIN_LENGTH: Record<string, { min: number; source: string }> = {
 	}
 };
 
+// RFC 6761 / ICANN Spec 5 special-use labels, reserved in every TLD. Some
+// registries (e.g. Google's .dev/.app) reserve them without creating an RDAP
+// record, so a 404 would otherwise read as available.
+const RESERVED_LABELS = new Set(['example', 'test', 'invalid', 'localhost']);
+
 const rdap = (tld: string): Provider => {
 	const rule = TLD_MIN_LENGTH[tld];
 	return {
@@ -90,6 +95,7 @@ const rdap = (tld: string): Provider => {
 		name: (label) => `${label}${tld}`,
 		url: (label) => `https://${label}${tld}`,
 		async check(label, signal) {
+			if (RESERVED_LABELS.has(label)) return { status: 'taken', detail: 'reserved' };
 			try {
 				const res = await lookupDomain(`${label}${tld}`, signal);
 				return {
