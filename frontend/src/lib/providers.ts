@@ -510,6 +510,7 @@ export const huggingface: Provider = {
 	id: 'huggingface',
 	label: 'Hugging Face',
 	kind: 'social',
+	minLength: 2,
 	name: (label) => label,
 	url: (label) => `https://huggingface.co/${label}`,
 	async check(label, signal) {
