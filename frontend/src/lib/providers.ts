@@ -234,6 +234,7 @@ export const bluesky: Provider = {
 	id: 'bluesky',
 	label: 'Bluesky',
 	kind: 'social',
+	minLength: 3,
 	name: (label) => `${label}.bsky.social`,
 	url: (label) => `https://bsky.app/profile/${label}.bsky.social`,
 	async check(label, signal) {
