@@ -197,9 +197,9 @@
 									{@const status = STATUS[row.status]}
 									{@const Icon = status.Icon}
 									{@const primary = row.kind === 'domain' ? row.name : row.label}
-									{@const identifier =
-										row.kind !== 'domain' && row.name !== lastLabel ? row.name : ''}
-									{@const secondary = [identifier, row.detail].filter(Boolean).join(' · ')}
+									{@const secondary =
+										row.detail ??
+										(row.kind === 'domain' ? '' : row.url.replace(/^https?:\/\//, ''))}
 									<li>
 										<a
 											href={row.url}
