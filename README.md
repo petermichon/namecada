@@ -61,6 +61,8 @@ covers both.
 - Domain rows report **registry state**, not registrability: a name may be
   reserved or premium and still show as free. Coverage follows the bootstrap.
 - Dev/social rows mean "the name exists", not legal or brand availability.
+- Some platforms enforce a minimum name length (Chess.com 3, Lichess 2); shorter
+  names are shown as **unavailable** (not registrable) rather than free.
 
 ## Caching
 

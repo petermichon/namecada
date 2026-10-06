@@ -646,6 +646,22 @@ describe('checkAll', () => {
 		expect(rows.map((row) => row.name)).toContain('acema');
 	});
 
+	it('marks names below a provider minimum length as taken without fetching', async () => {
+		const calls: string[] = [];
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) => {
+				calls.push(String(input));
+				return Promise.resolve(new Response(null, { status: 404 }));
+			})
+		);
+		const rows = await checkAll('a');
+		const chess = rows.find((row) => row.id === 'chesscom');
+		expect(chess?.status).toBe('taken');
+		expect(chess?.detail).toBe('min 3 characters');
+		expect(calls.some((url) => url.includes('api.chess.com'))).toBe(false);
+	});
+
 	it('keeps a failing provider as unknown instead of rejecting', async () => {
 		vi.stubGlobal(
 			'fetch',

@@ -8,6 +8,7 @@ export interface Provider {
 	id: string;
 	label: string;
 	kind: ProviderKind;
+	minLength?: number;
 	name: (label: string) => string;
 	url: (label: string) => string;
 	check: (label: string, signal?: AbortSignal) => Promise<{ status: Status; detail?: string }>;
@@ -475,6 +476,7 @@ export const lichess: Provider = {
 	id: 'lichess',
 	label: 'Lichess',
 	kind: 'social',
+	minLength: 2,
 	name: (label) => label,
 	url: (label) => `https://lichess.org/@/${label}`,
 	async check(label, signal) {
@@ -488,6 +490,7 @@ export const chesscom: Provider = {
 	id: 'chesscom',
 	label: 'Chess.com',
 	kind: 'social',
+	minLength: 3,
 	name: (label) => label,
 	url: (label) => `https://www.chess.com/member/${label}`,
 	async check(label, signal) {
@@ -602,6 +605,9 @@ async function runProvider(
 		name: provider.name(label),
 		url: provider.url(label)
 	};
+	if (provider.minLength && label.length < provider.minLength) {
+		return { ...base, status: 'taken' as Status, detail: `min ${provider.minLength} characters` };
+	}
 	const cached = getCached(provider.id, label);
 	if (cached && isFresh(cached)) {
 		return { ...base, status: cached.status, detail: cached.detail };
