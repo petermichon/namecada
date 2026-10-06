@@ -398,6 +398,49 @@ export const farcaster: Provider = {
 	}
 };
 
+export const hackernews: Provider = {
+	id: 'hackernews',
+	label: 'Hacker News',
+	kind: 'social',
+	name: (label) => label,
+	url: (label) => `https://news.ycombinator.com/user?id=${label}`,
+	async check(label, signal) {
+		const res = await fetch(
+			`https://hacker-news.firebaseio.com/v0/user/${encodeURIComponent(label)}.json`,
+			{
+				signal,
+				referrerPolicy: 'no-referrer',
+				credentials: 'omit',
+				headers: { Accept: 'application/json' }
+			}
+		);
+		if (res.status !== 200) {
+			res.body?.cancel().catch(() => {});
+			return { status: 'unknown' };
+		}
+		const data = await res.json().catch(() => undefined);
+		if (data === null) return { status: 'available' };
+		if (data) return { status: 'taken' };
+		return { status: 'unknown' };
+	}
+};
+
+export const opencollective: Provider = {
+	id: 'opencollective',
+	label: 'Open Collective',
+	kind: 'org',
+	name: (label) => label,
+	url: (label) => `https://opencollective.com/${label}`,
+	async check(label, signal) {
+		return {
+			status: await checkHttp(
+				`https://opencollective.com/${encodeURIComponent(label)}.json`,
+				signal
+			)
+		};
+	}
+};
+
 export const providers: Provider[] = [
 	...TLDS.map(rdap),
 	npm,
@@ -417,8 +460,10 @@ export const providers: Provider[] = [
 	wikipedia,
 	devto,
 	farcaster,
+	hackernews,
 	bluesky,
-	mastodon
+	mastodon,
+	opencollective
 ];
 
 async function runProvider(

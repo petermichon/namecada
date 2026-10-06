@@ -81,7 +81,13 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Snapchat — 🕸
 - [ ] Pinterest — 🕸
 - [ ] Medium — 🕸
-- [ ] Hacker News — 🕸 — Algolia API has no availability signal
+- [x] Hacker News — ✅ — `hacker-news.firebaseio.com/v0/user/{name}.json` (`null` = free)
+- [x] Open Collective — ✅ — `opencollective.com/{name}.json`
+- [ ] SourceForge — 🕸 — 200 has CORS, 404 does not
+- [ ] Dribbble — 🔑 — API needs a token
+- [ ] Behance — 🔑 — Adobe API needs a key
+- [ ] XDA Forums — 🕸 — Cloudflare-blocked (403)
+- [ ] WhatsApp — 🕸 — phone-based, no username
 - [ ] USPTO (trademarks) — 🔑
 - [ ] EUIPO (trademarks) — 🔑
 - [ ] WIPO Global Brand Database — 🕸
@@ -222,6 +228,7 @@ Free subdomain namespaces (developer-oriented):
 - [ ] freedns.afraid.org — 🌐 — DoH (verify no wildcard)
 - [ ] no-ip.org — 🌐 — DoH (verify no wildcard)
 - [ ] dynv6.net — 🌐 — DoH (verify no wildcard)
+- [ ] noted.lol — 🌐 — DoH-checkable (no wildcard)
 - [ ] js.org — 🔌 — wildcard DNS; needs HTTP status via proxy
 - [ ] is-a.dev — 🔌 — wildcard DNS
 - [ ] is-a-good.dev — 🔌 — wildcard DNS

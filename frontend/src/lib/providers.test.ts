@@ -12,10 +12,12 @@ import {
 	gitlab,
 	hex,
 	homebrew,
+	hackernews,
 	jsr,
 	mastodon,
 	npm,
 	nuget,
+	opencollective,
 	providers,
 	pub,
 	pypi,
@@ -380,6 +382,48 @@ describe('wikipedia', () => {
 	});
 });
 
+describe('hackernews', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('is taken for an object payload and available for null', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(
+					new Response(String(input).includes('taken') ? JSON.stringify({ id: 'x' }) : 'null', {
+						status: 200
+					})
+				)
+			)
+		);
+		expect(await hackernews.check('taken')).toEqual({ status: 'taken' });
+		expect(await hackernews.check('free')).toEqual({ status: 'available' });
+	});
+
+	it('is unknown on a non-200 response', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(() => Promise.resolve(new Response(null, { status: 500 })))
+		);
+		expect(await hackernews.check('acema')).toEqual({ status: 'unknown' });
+	});
+});
+
+describe('opencollective', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await opencollective.check('taken')).toEqual({ status: 'taken' });
+		expect(await opencollective.check('free')).toEqual({ status: 'available' });
+	});
+});
+
 describe('devto', () => {
 	afterEach(() => vi.unstubAllGlobals());
 
@@ -457,6 +501,9 @@ describe('checkAll', () => {
 							status: 200
 						})
 					);
+				}
+				if (url.includes('hacker-news.firebaseio.com')) {
+					return Promise.resolve(new Response('null', { status: 200 }));
 				}
 				return Promise.resolve(new Response(null, { status: 404 }));
 			})
