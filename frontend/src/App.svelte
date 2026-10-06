@@ -77,7 +77,7 @@
 		if (!label) {
 			rows = [];
 			lastLabel = null;
-			error = 'Enter a name, e.g. acema or acema.com.';
+			error = 'Enter a name or domain, e.g. acema or acema.com.';
 			return;
 		}
 
@@ -190,7 +190,7 @@
 							<h2 class="mb-2 text-xs font-medium tracking-wide text-muted-foreground uppercase">
 								{group.label}
 							</h2>
-							<ul class="divide-y rounded-2xl border">
+							<ul class="divide-y rounded-2xl border bg-card">
 								{#each group.rows as row (row.id)}
 									{@const status = STATUS[row.status]}
 									{@const Icon = status.Icon}
