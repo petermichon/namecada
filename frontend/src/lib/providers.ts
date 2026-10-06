@@ -42,10 +42,13 @@ export function toLabel(input: string): string | null {
 	return LABEL.test(value) ? value : null;
 }
 
+const TLD_MIN_LENGTH: Record<string, number> = { '.dev': 2 };
+
 const rdap = (tld: string): Provider => ({
 	id: `domain${tld}`,
 	label: `Domain ${tld}`,
 	kind: 'domain',
+	minLength: TLD_MIN_LENGTH[tld],
 	name: (label) => `${label}${tld}`,
 	url: (label) => `https://${label}${tld}`,
 	async check(label, signal) {

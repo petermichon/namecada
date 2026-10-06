@@ -658,7 +658,9 @@ describe('checkAll', () => {
 		const rows = await checkAll('a');
 		const chess = rows.find((row) => row.id === 'chesscom');
 		expect(chess?.status).toBe('taken');
+		expect(rows.find((row) => row.id === 'domain.dev')?.status).toBe('taken');
 		expect(calls.some((url) => url.includes('api.chess.com'))).toBe(false);
+		expect(calls.some((url) => url.includes('registry.google'))).toBe(false);
 	});
 
 	it('keeps a failing provider as unknown instead of rejecting', async () => {
