@@ -372,6 +372,7 @@ export const devto: Provider = {
 	id: 'devto',
 	label: 'DEV',
 	kind: 'social',
+	minLength: 2,
 	name: (label) => label,
 	url: (label) => `https://dev.to/${label}`,
 	async check(label, signal) {
