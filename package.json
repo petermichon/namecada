@@ -18,6 +18,7 @@
 		"test": "npm run test -w @domain-browser/frontend",
 		"check": "npm run check -w @domain-browser/frontend",
 		"lint": "npm run lint -w @domain-browser/frontend",
-		"format": "npm run format -w @domain-browser/frontend"
+		"format": "npm run format -w @domain-browser/frontend",
+		"verify": "npm run check && npm test && npm run lint"
 	}
 }
