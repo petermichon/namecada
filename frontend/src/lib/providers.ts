@@ -408,6 +408,7 @@ export const hackernews: Provider = {
 	id: 'hackernews',
 	label: 'Hacker News',
 	kind: 'social',
+	minLength: 2,
 	name: (label) => label,
 	url: (label) => `https://news.ycombinator.com/user?id=${label}`,
 	async check(label, signal) {
