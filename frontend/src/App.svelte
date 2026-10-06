@@ -190,7 +190,7 @@
 							<h2 class="mb-2 text-xs font-medium tracking-wide text-muted-foreground uppercase">
 								{group.label}
 							</h2>
-							<ul class="divide-y rounded-lg border">
+							<ul class="divide-y rounded-2xl border">
 								{#each group.rows as row (row.id)}
 									{@const status = STATUS[row.status]}
 									{@const Icon = status.Icon}
