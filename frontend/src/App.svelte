@@ -46,7 +46,7 @@
 			Icon: CheckCircle2Icon
 		},
 		taken: { text: 'taken', cls: 'text-muted-foreground', Icon: XCircleIcon },
-		unknown: { text: 'unknown', cls: 'text-muted-foreground', Icon: HelpCircleIcon },
+		unknown: { text: 'unknown', cls: 'text-warning', Icon: HelpCircleIcon },
 		pending: { text: 'checking', cls: 'text-muted-foreground', Icon: LoaderCircleIcon, spin: true }
 	};
 
