@@ -322,6 +322,9 @@ export const bitbucket: Provider = {
 	id: 'bitbucket',
 	label: 'Bitbucket',
 	kind: 'social',
+	minLength: 4,
+	minLengthSource:
+		'Bitbucket rejects workspace IDs under 4 characters at creation (1–3 rejected, 4 accepted)',
 	name: (label) => label,
 	url: (label) => `https://bitbucket.org/${label}/`,
 	async check(label, signal) {
