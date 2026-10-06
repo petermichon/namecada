@@ -11,6 +11,7 @@ Legend:
 
 - ✅ verified browser-direct (CORS tested)
 - 🌐 likely browser-direct (public CORS API — verify)
+- 🔌 needs a proxy (no key) — CORS/DNS-blocked but otherwise reachable
 - 🔑 needs an API key and a proxy
 - 🕸 no public API / scrape / TOS-blocked
 
@@ -79,7 +80,6 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Reddit — 🕸 — 403 from server IPs
 - [ ] Snapchat — 🕸
 - [ ] Pinterest — 🕸
-- [ ] Telegram — 🕸 — `t.me/{name}` scrape
 - [ ] Medium — 🕸
 - [ ] Hacker News — 🕸 — Algolia API has no availability signal
 - [ ] USPTO (trademarks) — 🔑
@@ -107,3 +107,110 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Amazon — 🕸
 - [ ] eBay — 🕸
 - [ ] IMDb — 🕸
+
+Hosting subdomains (need a proxy to read the 404; wildcard DNS defeats DoH):
+
+- [ ] Vercel — 🔌 — `{name}.vercel.app` (wildcard DNS; HTTP 404, no CORS)
+- [ ] GitHub Pages — 🔌 — `{name}.github.io` (wildcard DNS; no CORS)
+- [ ] Netlify — 🔌 — `{name}.netlify.app` (wildcard DNS; no CORS)
+- [ ] Cloudflare Pages — 🔌 — `{name}.pages.dev` (not wildcard; DoH may work)
+- [ ] GitLab Pages — 🔌 — `{name}.gitlab.io`
+- [ ] Render — 🔌 — `{name}.onrender.com`
+- [ ] Fly.io — 🔌 — `{name}.fly.dev`
+- [ ] Railway — 🔌 — `{name}.up.railway.app`
+- [ ] Heroku — 🔌 — `{name}.herokuapp.com`
+- [ ] Surge — 🔌 — `{name}.surge.sh`
+- [ ] Deno Deploy — 🔌 — `{name}.deno.dev`
+- [ ] Firebase Hosting — 🔌 — `{name}.web.app` / `.firebaseapp.com`
+- [ ] Azure Static Web Apps — 🔌 — `{name}.azurestaticapps.net`
+- [ ] AWS Amplify — 🔌 — `{name}.amplifyapp.com`
+- [ ] Replit — 🔌 — `{name}.repl.co`
+- [ ] Glitch — 🔌 — `{name}.glitch.me`
+- [ ] Read the Docs — 🔌 — `{name}.readthedocs.io`
+- [ ] Neocities — 🔌 — `{name}.neocities.org`
+
+More package registries:
+
+- [ ] Open VSX — 🌐 — `open-vsx.org/api/{namespace}/{name}` (scoped)
+- [ ] CocoaPods — 🌐 — `trunk.cocoapods.org`
+- [ ] Swift Package Index — 🌐 — `swiftpackageindex.com`
+- [ ] Gradle Plugin Portal — 🌐 — `plugins.gradle.org`
+- [ ] Ansible Galaxy — 🌐 — `galaxy.ansible.com`
+- [ ] Puppet Forge — 🌐 — `forge.puppet.com`
+- [ ] Chef Supermarket — 🌐 — `supermarket.chef.io`
+- [ ] Elm packages — 🌐 — `package.elm-lang.org`
+- [ ] Quay (containers) — 🌐 — `quay.io`
+- [ ] Meteor — 🌐 — `packages.meteor.com`
+- [ ] Nimble (Nim) — 🌐 — `nimble.directory`
+- [ ] Crystal Shards — 🌐 — `shards.info`
+
+More social / community:
+
+- [ ] Stack Overflow / Stack Exchange — 🌐 — `api.stackexchange.com`
+- [ ] Quora — 🕸
+- [ ] Lobste.rs — 🕸
+- [ ] HackerNoon — 🌐
+- [ ] Beehiiv — 🕸
+- [ ] Ghost — 🕸
+- [ ] WordPress.com — 🌐 — `{name}.wordpress.com`
+- [ ] Blogger — 🕸
+- [ ] Tumblr — 🔑
+- [ ] Vimeo — 🔑
+- [ ] Dailymotion — 🌐
+- [ ] Odysee / LBRY — 🌐
+- [ ] PeerTube — 🌐 — per-instance
+- [ ] VK — 🔑
+- [ ] Weibo — 🕸
+- [ ] Zhihu — 🕸
+- [ ] Douyin — 🕸
+- [ ] Line — 🔑
+- [ ] Kakao — 🔑
+- [ ] Matrix — 🌐 — per-homeserver
+- [ ] Revolt — 🌐
+- [ ] Guilded — 🕸
+- [ ] Slack — 🕸
+
+Name systems / crypto:
+
+- [ ] Namecoin (`.bit`) — 🌐 — name lookup
+- [ ] OpenNIC — 🌐
+- [ ] Lens Protocol — 🌐
+- [ ] Paragraph — 🌐
+
+Creators / commerce / media:
+
+- [ ] Ko-fi — 🌐
+- [ ] Buy Me a Coffee — 🌐
+- [ ] Lemon Squeezy — 🌐
+- [ ] Itch.io — 🕸
+- [ ] Spotify (artist) — 🔑
+- [ ] Apple Music — 🔑
+- [ ] Audiomack — 🌐
+- [ ] Mixcloud — 🌐
+- [ ] Discogs — 🔑
+- [ ] Last.fm — 🔑
+- [ ] Letterboxd — 🕸
+- [ ] Goodreads — 🕸
+- [ ] MyAnimeList — 🌐
+- [ ] AniList — 🌐 — GraphQL
+- [ ] Trakt — 🔑
+- [ ] Genius — 🔑
+- [ ] Strava — 🔑
+- [ ] Duolingo — 🕸
+
+AI / dev tools:
+
+- [ ] Hugging Face — 🌐 — `huggingface.co/api/...`
+- [ ] Replicate — 🔑
+- [ ] Kaggle — 🔑
+- [ ] CodeSandbox — 🌐
+- [ ] StackBlitz — 🕸
+- [ ] CodePen — 🕸
+- [ ] Observable — 🕸
+
+Jobs:
+
+- [ ] Wellfound (AngelList) — 🕸
+- [ ] Fiverr — 🕸
+- [ ] Upwork — 🕸
+- [ ] Polywork — 🕸
