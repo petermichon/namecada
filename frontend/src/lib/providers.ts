@@ -194,6 +194,8 @@ export const hex: Provider = {
 	id: 'hex',
 	label: 'Hex',
 	kind: 'dev',
+	minLength: 2,
+	minLengthSource: 'hexpm package name validation: min 2 chars (repository/package.ex)',
 	name: (label) => label,
 	url: (label) => `https://hex.pm/packages/${label}`,
 	async check(label, signal) {
