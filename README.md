@@ -17,11 +17,16 @@ deferred (see below).
 
 ### Sources
 
-| Source  | Request                                    | Verdict                         |
-| ------- | ------------------------------------------ | ------------------------------- |
-| Domains | RDAP registry via IANA bootstrap           | 200 registered / 404 free       |
-| npm     | `registry.npmjs.org/{name}`                | 200 taken / 404 free            |
-| GitHub  | `api.github.com/users/{name}`              | 200 taken / 404 free            |
+| Source    | Request                                                        | Verdict                   |
+| --------- | -------------------------------------------------------------- | ------------------------- |
+| Domains   | RDAP registry via IANA bootstrap                               | 200 registered / 404 free |
+| npm       | `registry.npmjs.org/{name}`                                    | 200 taken / 404 free      |
+| PyPI      | `pypi.org/pypi/{name}/json`                                    | 200 taken / 404 free      |
+| crates.io | `crates.io/api/v1/crates/{name}`                               | 200 taken / 404 free      |
+| NuGet     | `api.nuget.org/v3-flatcontainer/{name}/index.json`             | 200 taken / 404 free      |
+| GitHub    | `api.github.com/users/{name}`                                  | 200 taken / 404 free      |
+| Bluesky   | `public.api.bsky.app` resolveHandle (`{name}.bsky.social`)     | 200 taken / 400 free      |
+| Mastodon  | `mastodon.social/api/v1/accounts/lookup?acct={name}`           | 200 taken / 404 free      |
 
 Domains run once per TLD in `TLDS` (`.com`, `.org`, `.net`, `.dev`), each a
 separate provider. The TLD is resolved to its registry through the IANA RDAP
@@ -78,8 +83,9 @@ an HTTP response to `available` / `taken` / `unknown`) and add it to the
 verdict unreadable in the browser.
 
 Deferred (not browser-reachable): RubyGems (no CORS on 404), Packagist (no CORS),
-Reddit (403 from server IPs), and trademark / social / company registries
-(need a key and a proxy).
+Reddit (403 from server IPs), Docker Hub (no CORS), HN Algolia (no availability
+signal), Go proxy (modules are paths, not single labels), and trademark / social
+/ company registries (need a key and a proxy).
 
 ## Bulk scanning (offline)
 

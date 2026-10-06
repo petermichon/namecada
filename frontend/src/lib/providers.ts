@@ -41,12 +41,6 @@ export function toLabel(input: string): string | null {
 	return LABEL.test(value) ? value : null;
 }
 
-function statusFrom(code: number): Status {
-	if (code === 200) return 'taken';
-	if (code === 404) return 'available';
-	return 'unknown';
-}
-
 const rdap = (tld: string): Provider => ({
 	id: `domain${tld}`,
 	label: `Domain ${tld}`,
@@ -74,7 +68,11 @@ const rdap = (tld: string): Provider => ({
 	}
 });
 
-async function checkHttp(url: string, signal?: AbortSignal): Promise<Status> {
+async function checkHttp(
+	url: string,
+	signal?: AbortSignal,
+	availableCodes: number[] = [404]
+): Promise<Status> {
 	const res = await fetch(url, {
 		signal,
 		referrerPolicy: 'no-referrer',
@@ -82,7 +80,9 @@ async function checkHttp(url: string, signal?: AbortSignal): Promise<Status> {
 		headers: { Accept: 'application/json' }
 	});
 	res.body?.cancel().catch(() => {});
-	return statusFrom(res.status);
+	if (res.status === 200) return 'taken';
+	if (availableCodes.includes(res.status)) return 'available';
+	return 'unknown';
 }
 
 export const github: Provider = {
@@ -107,7 +107,84 @@ export const npm: Provider = {
 	}
 };
 
-export const providers: Provider[] = [...TLDS.map(rdap), github, npm];
+export const pypi: Provider = {
+	id: 'pypi',
+	label: 'PyPI',
+	kind: 'dev',
+	name: (label) => label,
+	url: (label) => `https://pypi.org/project/${label}/`,
+	async check(label, signal) {
+		return { status: await checkHttp(`https://pypi.org/pypi/${label}/json`, signal) };
+	}
+};
+
+export const crates: Provider = {
+	id: 'crates',
+	label: 'crates.io',
+	kind: 'dev',
+	name: (label) => label,
+	url: (label) => `https://crates.io/crates/${label}`,
+	async check(label, signal) {
+		return { status: await checkHttp(`https://crates.io/api/v1/crates/${label}`, signal) };
+	}
+};
+
+export const nuget: Provider = {
+	id: 'nuget',
+	label: 'NuGet',
+	kind: 'dev',
+	name: (label) => label,
+	url: (label) => `https://www.nuget.org/packages/${label}`,
+	async check(label, signal) {
+		return {
+			status: await checkHttp(`https://api.nuget.org/v3-flatcontainer/${label}/index.json`, signal)
+		};
+	}
+};
+
+export const bluesky: Provider = {
+	id: 'bluesky',
+	label: 'Bluesky',
+	kind: 'social',
+	name: (label) => `${label}.bsky.social`,
+	url: (label) => `https://bsky.app/profile/${label}.bsky.social`,
+	async check(label, signal) {
+		return {
+			status: await checkHttp(
+				`https://public.api.bsky.app/xrpc/com.atproto.identity.resolveHandle?handle=${label}.bsky.social`,
+				signal,
+				[400, 404]
+			)
+		};
+	}
+};
+
+export const mastodon: Provider = {
+	id: 'mastodon',
+	label: 'Mastodon (mastodon.social)',
+	kind: 'social',
+	name: (label) => label,
+	url: (label) => `https://mastodon.social/@${label}`,
+	async check(label, signal) {
+		return {
+			status: await checkHttp(
+				`https://mastodon.social/api/v1/accounts/lookup?acct=${encodeURIComponent(label)}`,
+				signal
+			)
+		};
+	}
+};
+
+export const providers: Provider[] = [
+	...TLDS.map(rdap),
+	npm,
+	pypi,
+	crates,
+	nuget,
+	github,
+	bluesky,
+	mastodon
+];
 
 async function runProvider(
 	provider: Provider,

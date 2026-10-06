@@ -1,5 +1,17 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { checkAll, github, npm, providers, streamAll, toLabel } from './providers';
+import {
+	bluesky,
+	checkAll,
+	crates,
+	github,
+	mastodon,
+	npm,
+	nuget,
+	providers,
+	pypi,
+	streamAll,
+	toLabel
+} from './providers';
 import { BOOTSTRAP_URL } from './bootstrap';
 import { setCached } from './providerCache';
 
@@ -51,6 +63,81 @@ describe('npm', () => {
 		);
 		expect(await npm.check('taken')).toEqual({ status: 'taken' });
 		expect(await npm.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('pypi', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await pypi.check('taken')).toEqual({ status: 'taken' });
+		expect(await pypi.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('crates', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await crates.check('taken')).toEqual({ status: 'taken' });
+		expect(await crates.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('nuget', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await nuget.check('taken')).toEqual({ status: 'taken' });
+		expect(await nuget.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('bluesky', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 400 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 400 }))
+			)
+		);
+		expect(await bluesky.check('taken')).toEqual({ status: 'taken' });
+		expect(await bluesky.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('mastodon', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await mastodon.check('taken')).toEqual({ status: 'taken' });
+		expect(await mastodon.check('free')).toEqual({ status: 'available' });
 	});
 });
 
