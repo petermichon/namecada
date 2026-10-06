@@ -294,6 +294,14 @@ describe('jsr', () => {
 		expect(await jsr.check('taken')).toEqual({ status: 'taken' });
 		expect(await jsr.check('free')).toEqual({ status: 'available' });
 	});
+
+	it('treats a 400 (malformed scope, e.g. one char) as taken', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(() => Promise.resolve(new Response(null, { status: 400 })))
+		);
+		expect(await jsr.check('a')).toEqual({ status: 'taken' });
+	});
 });
 
 describe('wordpress', () => {

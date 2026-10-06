@@ -28,7 +28,7 @@ deferred (see below).
 | pub.dev   | `pub.dev/api/packages/{name}`                                  | 200 taken / 404 free      |
 | Homebrew  | `formulae.brew.sh/api/formula/{name}.json`                     | 200 taken / 404 free      |
 | Firefox   | `addons.mozilla.org/api/v5/addons/addon/{name}/`               | 200/401 taken / 404 free  |
-| JSR       | `jsr.io/api/scopes/{name}`                                     | 200 taken / 404 free      |
+| JSR       | `jsr.io/api/scopes/{name}`                                     | 200/400 taken / 404 free  |
 | WordPress | `api.wordpress.org/plugins/info/1.2/?request[slug]={name}`     | 200/closed taken / 404 free |
 | Open VSX  | `open-vsx.org/api/{name}` (namespace)                          | 200 taken / 404 free      |
 | GitHub    | `api.github.com/users/{name}`                                  | 200 taken / 404 free      |

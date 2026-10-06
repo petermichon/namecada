@@ -266,7 +266,9 @@ export const jsr: Provider = {
 	name: (label) => label,
 	url: (label) => `https://jsr.io/@${label}`,
 	async check(label, signal) {
-		return { status: await checkHttp(`https://jsr.io/api/scopes/${label}`, signal) };
+		return {
+			status: await checkHttp(`https://jsr.io/api/scopes/${label}`, signal, [404], [200, 400])
+		};
 	}
 };
 
