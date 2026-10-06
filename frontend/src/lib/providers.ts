@@ -435,9 +435,7 @@ export const opencollective: Provider = {
 		return {
 			status: await checkHttp(
 				`https://opencollective.com/${encodeURIComponent(label)}.json`,
-				signal,
-				[404],
-				[200, 503]
+				signal
 			)
 		};
 	}

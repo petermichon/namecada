@@ -422,14 +422,6 @@ describe('opencollective', () => {
 		expect(await opencollective.check('taken')).toEqual({ status: 'taken' });
 		expect(await opencollective.check('free')).toEqual({ status: 'available' });
 	});
-
-	it('treats a 503 (reserved slug) as taken', async () => {
-		vi.stubGlobal(
-			'fetch',
-			vi.fn(() => Promise.resolve(new Response(null, { status: 503 })))
-		);
-		expect(await opencollective.check('example')).toEqual({ status: 'taken' });
-	});
 });
 
 describe('devto', () => {

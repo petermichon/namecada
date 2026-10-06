@@ -38,7 +38,7 @@ deferred (see below).
 | DEV       | `dev.to/api/users/by_username` + `/organizations/{name}`       | 200 taken / 404 free      |
 | Farcaster | `fnames.farcaster.xyz/transfers/current?name={name}`           | 200 taken / 404 free      |
 | Hacker News | `hacker-news.firebaseio.com/v0/user/{name}.json`             | null = free               |
-| Open Collective | `opencollective.com/{name}.json`                         | 200/503 taken / 404 free  |
+| Open Collective | `opencollective.com/{name}.json`                         | 200 taken / 404 free      |
 | Bluesky   | `public.api.bsky.app` resolveHandle (`{name}.bsky.social`)     | 200 taken / 400 free      |
 | Mastodon  | `mastodon.social/api/v1/accounts/lookup?acct={name}`           | 200 taken / 404 free      |
 
