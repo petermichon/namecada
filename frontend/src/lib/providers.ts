@@ -530,6 +530,7 @@ export const dailymotion: Provider = {
 	id: 'dailymotion',
 	label: 'Dailymotion',
 	kind: 'social',
+	minLength: 3,
 	name: (label) => label,
 	url: (label) => `https://www.dailymotion.com/${label}`,
 	async check(label, signal) {
