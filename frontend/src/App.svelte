@@ -213,11 +213,13 @@
 	<header
 		class="sticky top-0 z-20 border-b border-border/60 bg-background/85 backdrop-blur [@media(max-height:34rem)]:static"
 	>
-		<div class="mx-auto max-w-2xl px-4 py-2.5">
+		<div class="mx-auto max-w-2xl px-4 py-2.5 lg:max-w-5xl">
 			<div class="flex items-center gap-3">
 				<h1 class="shrink-0 text-sm font-semibold tracking-tight sm:text-base">Domain Browser</h1>
-				<div class="min-w-0 flex-1">
-					<LookupForm bind:value={input} loading={searching} onsubmit={check} />
+				<div class="flex min-w-0 flex-1 justify-center">
+					<div class="w-full max-w-xl">
+						<LookupForm bind:value={input} loading={searching} onsubmit={check} />
+					</div>
 				</div>
 				<Button
 					variant="ghost"
@@ -272,8 +274,8 @@
 		</div>
 	</header>
 
-	<div id="main" class="mx-auto max-w-2xl px-4 py-5">
-		<p class="text-sm text-muted-foreground">
+	<div id="main" class="mx-auto max-w-2xl px-4 py-5 lg:max-w-5xl">
+		<p class="max-w-prose text-sm text-muted-foreground">
 			Best-effort from public sources. <em>Unavailable</em> means the name is taken or the platform
 			blocks it (too short, reserved, suspended); <em>available</em> means none of that was found — not
 			a guarantee you can register it.
@@ -299,13 +301,13 @@
 			{/if}
 
 			<Card.Root class="mt-3 gap-0 py-0">
-				<ul class="divide-y">
+				<ul class="grid grid-cols-1 gap-px bg-border lg:grid-cols-2">
 					{#each visibleRows as row (row.id)}
 						{@const pending = row.status === 'pending'}
 						{@const status = STATUS[row.status]}
 						{@const Icon = status.Icon}
 						{@const text = row.url.replace(/^https?:\/\//, '')}
-						<li>
+						<li class="bg-card">
 							<a
 								href={row.url}
 								target="_blank"
