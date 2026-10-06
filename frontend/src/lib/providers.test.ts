@@ -1,13 +1,17 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
+	bitbucket,
 	bluesky,
 	checkAll,
 	crates,
+	devto,
+	farcaster,
 	firefox,
 	github,
 	gitlab,
 	hex,
 	homebrew,
+	jsr,
 	mastodon,
 	npm,
 	nuget,
@@ -15,7 +19,8 @@ import {
 	pub,
 	pypi,
 	streamAll,
-	toLabel
+	toLabel,
+	wordpress
 } from './providers';
 import { BOOTSTRAP_URL } from './bootstrap';
 import { setCached } from './providerCache';
@@ -238,6 +243,81 @@ describe('gitlab', () => {
 			vi.fn(() => Promise.resolve(new Response(null, { status: 500 })))
 		);
 		expect(await gitlab.check('acema')).toEqual({ status: 'unknown' });
+	});
+});
+
+describe('jsr', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await jsr.check('taken')).toEqual({ status: 'taken' });
+		expect(await jsr.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('wordpress', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await wordpress.check('taken')).toEqual({ status: 'taken' });
+		expect(await wordpress.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('bitbucket', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await bitbucket.check('taken')).toEqual({ status: 'taken' });
+		expect(await bitbucket.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('devto', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await devto.check('taken')).toEqual({ status: 'taken' });
+		expect(await devto.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('farcaster', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await farcaster.check('taken')).toEqual({ status: 'taken' });
+		expect(await farcaster.check('free')).toEqual({ status: 'available' });
 	});
 });
 

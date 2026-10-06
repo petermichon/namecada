@@ -255,6 +255,81 @@ export const mastodon: Provider = {
 	}
 };
 
+export const jsr: Provider = {
+	id: 'jsr',
+	label: 'JSR (scope)',
+	kind: 'dev',
+	name: (label) => `@${label}`,
+	url: (label) => `https://jsr.io/@${label}`,
+	async check(label, signal) {
+		return { status: await checkHttp(`https://jsr.io/api/scopes/${label}`, signal) };
+	}
+};
+
+export const wordpress: Provider = {
+	id: 'wordpress',
+	label: 'WordPress.org',
+	kind: 'dev',
+	name: (label) => label,
+	url: (label) => `https://wordpress.org/plugins/${label}/`,
+	async check(label, signal) {
+		return {
+			status: await checkHttp(
+				`https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&request%5Bslug%5D=${label}`,
+				signal
+			)
+		};
+	}
+};
+
+export const bitbucket: Provider = {
+	id: 'bitbucket',
+	label: 'Bitbucket',
+	kind: 'social',
+	name: (label) => label,
+	url: (label) => `https://bitbucket.org/${label}/`,
+	async check(label, signal) {
+		return {
+			status: await checkHttp(
+				`https://api.bitbucket.org/2.0/workspaces/${encodeURIComponent(label)}`,
+				signal
+			)
+		};
+	}
+};
+
+export const devto: Provider = {
+	id: 'devto',
+	label: 'DEV',
+	kind: 'social',
+	name: (label) => label,
+	url: (label) => `https://dev.to/${label}`,
+	async check(label, signal) {
+		return {
+			status: await checkHttp(
+				`https://dev.to/api/users/by_username?url=${encodeURIComponent(label)}`,
+				signal
+			)
+		};
+	}
+};
+
+export const farcaster: Provider = {
+	id: 'farcaster',
+	label: 'Farcaster',
+	kind: 'social',
+	name: (label) => label,
+	url: (label) => `https://farcaster.xyz/${label}`,
+	async check(label, signal) {
+		return {
+			status: await checkHttp(
+				`https://fnames.farcaster.xyz/transfers/current?name=${encodeURIComponent(label)}`,
+				signal
+			)
+		};
+	}
+};
+
 export const providers: Provider[] = [
 	...TLDS.map(rdap),
 	npm,
@@ -265,8 +340,13 @@ export const providers: Provider[] = [
 	pub,
 	homebrew,
 	firefox,
+	jsr,
+	wordpress,
 	github,
 	gitlab,
+	bitbucket,
+	devto,
+	farcaster,
 	bluesky,
 	mastodon
 ];

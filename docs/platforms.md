@@ -31,22 +31,22 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Maven Central — 🕸 — no CORS
 - [x] Hex (Elixir) — ✅ — `hex.pm/api/packages/{name}`
 - [x] pub.dev (Dart) — ✅ — `pub.dev/api/packages/{name}`
-- [ ] JSR (JavaScript) — 🌐 — `jsr.io`
+- [x] JSR (JavaScript) — ✅ — `jsr.io/api/scopes/{name}`
 - [ ] Deno (`deno.land/x`) — 🌐 — `deno.land/x/{name}`
 - [ ] Docker Hub — 🕸 — no CORS
 - [x] Homebrew — ✅ — `formulae.brew.sh/api/formula/{name}.json`
-- [ ] Chocolatey — 🌐 — `community.chocolatey.org` API
-- [ ] Snap Store — 🌐 — `api.snapcraft.io`
+- [ ] Chocolatey — 🕸 — redirects / no CORS
+- [ ] Snap Store — 🕸 — no CORS + required header
 - [ ] Flathub — 🌐 — `flathub.org` API
-- [ ] AUR (Arch) — 🌐 — `aur.archlinux.org/rpc`
-- [ ] CPAN — 🌐 — `metacpan.org` API
+- [ ] AUR (Arch) — 🕸 — no CORS
+- [ ] CPAN — 🕸 — blocked (402)
 - [ ] Hackage — 🌐 — `hackage.haskell.org`
-- [ ] Clojars — 🌐 — `clojars.org` API
+- [ ] Clojars — 🕸 — no CORS on 404
 - [ ] LuaRocks — 🌐 — `luarocks.org` API
 - [ ] Terraform Registry — 🌐 — `registry.terraform.io`
 - [ ] VS Code Marketplace — 🌐 — marketplace API
 - [ ] JetBrains Marketplace — 🌐 — `plugins.jetbrains.com` API
-- [ ] WordPress plugins/themes — 🌐 — `api.wordpress.org`
+- [x] WordPress plugins/themes — ✅ — `api.wordpress.org/plugins/info/1.2`
 - [ ] Figma Community — 🕸 — no public API
 - [ ] Shopify App Store — 🕸
 - [ ] Go modules — 🕸 — modules are paths, not single labels
@@ -54,11 +54,11 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [x] Bluesky — ✅ — `public.api.bsky.app` resolveHandle (`{name}.bsky.social`)
 - [x] Mastodon (`mastodon.social`) — ✅ — `/api/v1/accounts/lookup?acct={name}`
 - [x] GitLab — ✅ — `gitlab.com/api/v4/users?username={name}` (array body)
-- [ ] Bitbucket — 🌐 — `api.bitbucket.org/2.0/users/{name}`
+- [x] Bitbucket — ✅ — `api.bitbucket.org/2.0/workspaces/{name}`
 - [ ] Nostr (NIP-05) — 🌐 — `/.well-known/nostr.json`
-- [ ] Farcaster — 🌐 — fnames registry API
+- [x] Farcaster — ✅ — `fnames.farcaster.xyz/transfers/current?name={name}`
 - [ ] Lemmy — 🌐 — `/api/v3/user?username={name}`
-- [ ] Dev.to — 🌐 — `dev.to/api/users/by_username`
+- [x] DEV — ✅ — `dev.to/api/users/by_username?url={name}`
 - [ ] Hashnode — 🌐 — GraphQL
 - [ ] Substack — 🌐 — `substack.com/@{name}` (scrape)
 - [ ] Product Hunt — 🌐 — GraphQL (key)
