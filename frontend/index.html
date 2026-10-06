@@ -6,28 +6,39 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta
 			name="description"
-			content="Find domain names not registered yet, using authoritative RDAP registry data fetched directly from your browser. No accounts, no tracking."
+			content="Check whether a name is available across domains (RDAP), npm, and GitHub — fetched directly from your browser. No accounts, no tracking."
 		/>
 		<link rel="preconnect" href="https://data.iana.org" crossorigin />
 		<link rel="dns-prefetch" href="https://data.iana.org" />
 		<link rel="preconnect" href="https://rdap.verisign.com" crossorigin />
 		<link rel="dns-prefetch" href="https://rdap.verisign.com" />
+		<link rel="preconnect" href="https://rdap.publicinterestregistry.org" crossorigin />
+		<link rel="dns-prefetch" href="https://rdap.publicinterestregistry.org" />
+		<link rel="preconnect" href="https://pubapi.registry.google" crossorigin />
+		<link rel="dns-prefetch" href="https://pubapi.registry.google" />
+		<link rel="preconnect" href="https://api.github.com" crossorigin />
+		<link rel="dns-prefetch" href="https://api.github.com" />
+		<link rel="preconnect" href="https://registry.npmjs.org" crossorigin />
+		<link rel="dns-prefetch" href="https://registry.npmjs.org" />
 		<meta property="og:site_name" content="Domain Browser" />
 		<meta property="og:type" content="website" />
-		<meta property="og:title" content="Domain Browser — find domain names not registered yet" />
+		<meta
+			property="og:title"
+			content="Domain Browser — check a name across domains, packages and GitHub"
+		/>
 		<meta
 			property="og:description"
-			content="Find domain names not registered yet, using authoritative RDAP registry data fetched directly from your browser."
+			content="Check whether a name is available across domains (RDAP), npm, and GitHub — fetched directly from your browser."
 		/>
 		<meta name="twitter:card" content="summary" />
-		<title>Domain Browser — find domain names not registered yet</title>
+		<title>Domain Browser — check a name across domains, packages and GitHub</title>
 	</head>
 	<body>
 		<div id="app"></div>
 		<noscript>
 			<p>
-				Domain Browser needs JavaScript to check domains, since it queries the registry (RDAP)
-				directly from your browser.
+				Domain Browser needs JavaScript to check a name, since it queries domains (RDAP), npm, and
+				GitHub directly from your browser.
 			</p>
 		</noscript>
 		<script type="module" src="/src/main.ts"></script>
