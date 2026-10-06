@@ -203,6 +203,19 @@ export const hex: Provider = {
 	}
 };
 
+export const hexUser: Provider = {
+	id: 'hex-user',
+	label: 'Hex user',
+	kind: 'social',
+	minLength: 3,
+	minLengthSource: 'hexpm username validation: min 3 chars (accounts/user.ex)',
+	name: (label) => label,
+	url: (label) => `https://hex.pm/users/${label}`,
+	async check(label, signal) {
+		return { status: await checkHttp(`https://hex.pm/api/users/${label}`, signal) };
+	}
+};
+
 export const pub: Provider = {
 	id: 'pub',
 	label: 'pub.dev',
@@ -606,6 +619,7 @@ export const providers: Provider[] = [
 	crates,
 	nuget,
 	hex,
+	hexUser,
 	pub,
 	homebrew,
 	firefox,

@@ -25,6 +25,7 @@ deferred (see below).
 | crates.io | `crates.io/api/v1/crates/{name}`                               | 200 taken / 404 free      |
 | NuGet     | `api.nuget.org/v3-flatcontainer/{name}/index.json`             | 200 taken / 404 free      |
 | Hex       | `hex.pm/api/packages/{name}`                                   | 200 taken / 404 free      |
+| Hex user  | `hex.pm/api/users/{name}`                                      | 200 taken / 404 free      |
 | pub.dev   | `pub.dev/api/packages/{name}`                                  | 200 taken / 404 free      |
 | Homebrew  | `formulae.brew.sh/api/formula/{name}.json`                     | 200 taken / 404 free      |
 | Firefox   | `addons.mozilla.org/api/v5/addons/addon/{name}/`               | 200/401 taken / 404 free  |

@@ -30,7 +30,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] RubyGems — 🕸 — no CORS on 404
 - [ ] Packagist — 🕸 — no CORS
 - [ ] Maven Central — 🕸 — no CORS
-- [x] Hex (Elixir) — ✅ — `hex.pm/api/packages/{name}`
+- [x] Hex (Elixir) — ✅ — `hex.pm/api/packages/{name}` (packages) and `hex.pm/api/users/{name}` (users)
 - [x] pub.dev (Dart) — ✅ — `pub.dev/api/packages/{name}`
 - [x] JSR (JavaScript) — ✅ — `jsr.io/api/scopes/{name}`
 - [ ] Deno (`deno.land/x`) — 🕸 — no clean API (redirect/HTML)

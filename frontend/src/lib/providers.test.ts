@@ -13,6 +13,7 @@ import {
 	github,
 	gitlab,
 	hex,
+	hexUser,
 	homebrew,
 	hackernews,
 	huggingface,
@@ -174,6 +175,21 @@ describe('hex', () => {
 		);
 		expect(await hex.check('taken')).toEqual({ status: 'taken' });
 		expect(await hex.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('hexUser', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await hexUser.check('taken')).toEqual({ status: 'taken' });
+		expect(await hexUser.check('free')).toEqual({ status: 'available' });
 	});
 });
 
