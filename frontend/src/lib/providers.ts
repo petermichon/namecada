@@ -95,7 +95,7 @@ const rdap = (tld: string): Provider => {
 		name: (label) => `${label}${tld}`,
 		url: (label) => `https://${label}${tld}`,
 		async check(label, signal) {
-			if (RESERVED_LABELS.has(label)) return { status: 'taken', detail: 'reserved' };
+			if (RESERVED_LABELS.has(label)) return { status: 'taken' };
 			try {
 				const res = await lookupDomain(`${label}${tld}`, signal);
 				return {

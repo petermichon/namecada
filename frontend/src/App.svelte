@@ -17,6 +17,7 @@
 		type Status
 	} from '$lib/providers';
 	import { Button } from '$lib/components/ui/button/index.js';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 	import LookupForm from '$lib/components/LookupForm.svelte';
 
 	getBootstrap().catch(() => {});
@@ -31,8 +32,6 @@
 		status: Status | 'pending';
 		detail?: string;
 	}
-
-	const PLATFORM_ORDER = Object.keys(PLATFORMS) as PlatformId[];
 
 	const STATUS: Record<
 		Row['status'],
@@ -63,6 +62,8 @@
 	let lastLabel = $state<string | null>(null);
 	let controller: AbortController | null = null;
 	let generation = 0;
+	let filter = $state<'all' | Status>('all');
+	let copied = $state(false);
 
 	function check() {
 		const label = toLabel(input);
@@ -71,6 +72,7 @@
 		controller?.abort();
 		controller = null;
 		error = '';
+		filter = 'all';
 
 		if (!label) {
 			rows = [];
@@ -127,12 +129,8 @@
 		!searching && rows.length > 0 && lastLabel !== null && toLabel(input) !== lastLabel
 	);
 
-	const groups = $derived.by(() =>
-		PLATFORM_ORDER.map((id) => ({
-			id,
-			label: PLATFORMS[id],
-			rows: rows.filter((row) => row.platform === id)
-		})).filter((group) => group.rows.length > 0)
+	const visibleRows = $derived(
+		filter === 'all' ? rows : rows.filter((row) => row.status === filter)
 	);
 
 	const counts = $derived.by(() => {
@@ -142,6 +140,24 @@
 		}
 		return totals;
 	});
+
+	const announcement = $derived(
+		searching
+			? ''
+			: `${counts.available} available, ${counts.taken} unavailable, ${counts.unknown} unknown`
+	);
+
+	async function copyResults() {
+		const lines = rows.map((row) => `${PLATFORMS[row.platform]}\t${row.name}\t${row.status}`);
+		const text = `${lastLabel ?? ''}\n${lines.join('\n')}`;
+		try {
+			await navigator.clipboard.writeText(text);
+			copied = true;
+			setTimeout(() => (copied = false), 1500);
+		} catch {
+			// clipboard unavailable
+		}
+	}
 </script>
 
 <ModeWatcher />
@@ -152,7 +168,7 @@
 			<div>
 				<h1 class="text-2xl font-semibold tracking-tight">Domain Browser</h1>
 				<p class="mt-1 text-sm text-muted-foreground">
-					Check a name across domains, packages and GitHub handles.
+					Check a name across domains, package registries and social handles.
 				</p>
 			</div>
 			<Button variant="ghost" size="icon" onclick={toggleMode} aria-label="Toggle theme">
@@ -173,57 +189,87 @@
 			<p class="mt-3 text-xs text-muted-foreground">Press Enter to check the updated name.</p>
 		{/if}
 
-		<div aria-live="polite" aria-atomic="true">
-			{#if error}
-				<p class="mt-4 text-sm text-destructive">{error}</p>
-			{/if}
+		<span class="sr-only" role="status" aria-live="polite">{announcement}</span>
 
-			{#if rows.length}
-				<p class="mt-4 text-sm text-muted-foreground">
-					{#if searching}
-						Checking {checked} of {rows.length}…
-					{:else}
-						{counts.available} of {rows.length} clear{counts.unknown
-							? ` · ${counts.unknown} unknown`
-							: ''}
-					{/if}
-				</p>
+		{#if error}
+			<p class="mt-4 text-sm text-destructive">{error}</p>
+		{/if}
 
-				<div class="mt-3 space-y-4">
-					{#each groups as group (group.id)}
-						<div class="overflow-hidden rounded-2xl border bg-card">
-							<h2
-								class="border-b px-3 py-2 text-xs font-medium tracking-wide text-muted-foreground uppercase"
+		{#if rows.length}
+			<div class="mt-4 flex flex-wrap items-center gap-2 text-sm">
+				{#if searching}
+					<span class="text-muted-foreground">Checking {checked} of {rows.length}…</span>
+				{:else}
+					<span class="text-muted-foreground">{lastLabel}</span>
+					<ToggleGroup.Root
+						type="single"
+						value={filter}
+						onValueChange={(value) => (filter = (value || 'all') as 'all' | Status)}
+						variant="outline"
+						size="sm"
+						spacing={2}
+						class="text-xs"
+					>
+						<ToggleGroup.Item
+							value="available"
+							class="data-[state=on]:border-success/40 data-[state=on]:bg-success/15 data-[state=on]:text-success"
+						>
+							{counts.available} available
+						</ToggleGroup.Item>
+						<ToggleGroup.Item value="taken" class="data-[state=on]:text-foreground">
+							{counts.taken} unavailable
+						</ToggleGroup.Item>
+						{#if counts.unknown}
+							<ToggleGroup.Item
+								value="unknown"
+								class="data-[state=on]:border-warning/40 data-[state=on]:bg-warning/15 data-[state=on]:text-warning"
 							>
-								{group.label}
-							</h2>
-							<ul class="divide-y">
-								{#each group.rows as row (row.id)}
-									{@const status = STATUS[row.status]}
-									{@const Icon = status.Icon}
-									{@const text = row.detail ?? row.url.replace(/^https?:\/\//, '')}
-									<li>
-										<a
-											href={row.url}
-											target="_blank"
-											rel="noopener noreferrer"
-											class="flex items-center gap-3 px-3 py-2.5 {row.status === 'available'
-												? 'bg-success/10 hover:bg-success/15'
-												: 'hover:bg-muted/50'} focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none focus-visible:ring-inset"
-										>
-											<Icon
-												class="size-4 shrink-0 {status.cls} {status.spin ? 'animate-spin' : ''}"
-											/>
-											<span class="min-w-0 flex-1 truncate text-sm">{text}</span>
-											<span class="shrink-0 text-xs {status.cls}">{status.text}</span>
-										</a>
-									</li>
-								{/each}
-							</ul>
-						</div>
+								{counts.unknown} unknown
+							</ToggleGroup.Item>
+						{/if}
+					</ToggleGroup.Root>
+					<button
+						type="button"
+						class="ml-auto rounded-md border border-border px-2.5 py-0.5 text-xs text-muted-foreground transition-colors hover:bg-muted/50"
+						onclick={copyResults}
+					>
+						{copied ? 'Copied' : 'Copy'}
+					</button>
+				{/if}
+			</div>
+
+			<div class="mt-3 overflow-hidden rounded-2xl border bg-card">
+				<ul class="divide-y">
+					{#each visibleRows as row (row.id)}
+						{@const status = STATUS[row.status]}
+						{@const Icon = status.Icon}
+						{@const text = row.url.replace(/^https?:\/\//, '')}
+						<li>
+							<a
+								href={row.url}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="flex items-center gap-3 px-3 py-2.5 {row.status === 'available'
+									? 'bg-success/10 hover:bg-success/15'
+									: 'hover:bg-muted/50'} focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none focus-visible:ring-inset"
+							>
+								<Icon class="size-4 shrink-0 {status.cls} {status.spin ? 'animate-spin' : ''}" />
+								<span
+									class="hidden w-28 shrink-0 truncate text-xs font-medium text-muted-foreground sm:block"
+									title={PLATFORMS[row.platform]}>{PLATFORMS[row.platform]}</span
+								>
+								<span class="min-w-0 flex-1 truncate text-sm">{text}</span>
+								{#if row.detail}
+									<span class="hidden shrink-0 text-xs text-muted-foreground sm:inline"
+										>{row.detail}</span
+									>
+								{/if}
+								<span class="shrink-0 text-xs {status.cls}">{status.text}</span>
+							</a>
+						</li>
 					{/each}
-				</div>
-			{/if}
-		</div>
+				</ul>
+			</div>
+		{/if}
 	</div>
 </div>
