@@ -292,6 +292,9 @@ export const wordpress: Provider = {
 	id: 'wordpress',
 	label: 'WordPress.org',
 	kind: 'dev',
+	minLength: 5,
+	minLengthSource:
+		'WordPress.org new plugin names require ≥5 alphanumeric characters (Plugin Check naming rules)',
 	name: (label) => label,
 	url: (label) => `https://wordpress.org/plugins/${label}/`,
 	async check(label, signal) {
