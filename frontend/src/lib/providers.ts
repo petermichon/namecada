@@ -264,7 +264,7 @@ export const jsr: Provider = {
 	id: 'jsr',
 	label: 'JSR (scope)',
 	kind: 'dev',
-	name: (label) => `@${label}`,
+	name: (label) => label,
 	url: (label) => `https://jsr.io/@${label}`,
 	async check(label, signal) {
 		return { status: await checkHttp(`https://jsr.io/api/scopes/${label}`, signal) };
