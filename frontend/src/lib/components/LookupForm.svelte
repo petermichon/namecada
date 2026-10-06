@@ -33,6 +33,9 @@
 			name="domain"
 			bind:value
 			{@attach autofocus}
+			onkeydown={(e) => {
+				if (e.key === 'Escape') value = '';
+			}}
 			placeholder="Search a name…"
 			class="h-full flex-1 rounded-none border-0 bg-transparent px-0 focus-visible:ring-0 dark:bg-transparent"
 			autocomplete="off"

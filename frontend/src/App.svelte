@@ -49,13 +49,27 @@
 		pending: { text: 'checking', cls: 'text-muted-foreground', Icon: LoaderCircleIcon, spin: true }
 	};
 
+	function queryParam(): string {
+		if (typeof location === 'undefined') return '';
+		return new URLSearchParams(location.search).get('q') ?? '';
+	}
+
 	function loadQuery(): string {
+		const fromUrl = queryParam();
+		if (fromUrl) return fromUrl;
 		if (typeof localStorage === 'undefined') return '';
 		try {
 			return localStorage.getItem(QUERY_KEY) ?? '';
 		} catch {
 			return '';
 		}
+	}
+
+	function syncUrl(query: string) {
+		const url = new URL(location.href);
+		if (url.searchParams.get('q') === query) return;
+		url.searchParams.set('q', query);
+		history.pushState(null, '', url);
 	}
 
 	let input = $state(loadQuery());
@@ -67,7 +81,7 @@
 	let filter = $state<'all' | Status>('all');
 	let copied = $state(false);
 
-	function check() {
+	function check({ sync = true }: { sync?: boolean } = {}) {
 		const label = toLabel(input);
 		const gen = ++generation;
 
@@ -90,6 +104,7 @@
 		} catch {
 			// storage unavailable: persistence is best-effort
 		}
+		if (sync) syncUrl(input.trim());
 
 		const ac = new AbortController();
 		controller = ac;
@@ -120,8 +135,28 @@
 		});
 	}
 
+	function onGlobalKeydown(e: KeyboardEvent) {
+		if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey) return;
+		const target = e.target as HTMLElement | null;
+		if (target && (target.isContentEditable || /^(input|textarea|select)$/i.test(target.tagName)))
+			return;
+		e.preventDefault();
+		document.getElementById('domain')?.focus();
+	}
+
 	onMount(() => {
-		if (toLabel(input)) check();
+		if (toLabel(input)) check({ sync: false });
+
+		const onPop = () => {
+			input = queryParam();
+			check({ sync: false });
+		};
+		addEventListener('popstate', onPop);
+		addEventListener('keydown', onGlobalKeydown);
+		return () => {
+			removeEventListener('popstate', onPop);
+			removeEventListener('keydown', onGlobalKeydown);
+		};
 	});
 
 	const searching = $derived(rows.some((row) => row.status === 'pending'));
@@ -165,6 +200,11 @@
 <ModeWatcher />
 
 <div class="min-h-svh bg-background text-foreground">
+	<a
+		href="#main"
+		class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-4 focus:z-30 focus:rounded-md focus:border focus:border-border focus:bg-card focus:px-3 focus:py-1.5 focus:text-sm"
+		>Skip to results</a
+	>
 	<header class="sticky top-0 z-20 border-b border-border/60 bg-background/85 backdrop-blur">
 		<div class="mx-auto flex max-w-xl items-center gap-3 px-4 py-2.5">
 			<h1 class="shrink-0 text-sm font-semibold tracking-tight sm:text-base">Domain Browser</h1>
@@ -184,7 +224,7 @@
 		</div>
 	</header>
 
-	<div class="mx-auto max-w-xl px-4 py-5">
+	<div id="main" class="mx-auto max-w-xl scroll-mt-16 px-4 py-5">
 		<p class="text-sm text-muted-foreground">
 			Best-effort from public sources. <em>Unavailable</em> means the name is taken or the platform
 			blocks it (too short, reserved, suspended); <em>available</em> means none of that was found — not
@@ -202,11 +242,20 @@
 		{/if}
 
 		{#if rows.length}
-			<div class="mt-4 flex flex-wrap items-center gap-2 text-sm">
+			{#if searching}
+				<p class="mt-4 text-sm text-muted-foreground">Checking {checked} of {rows.length}…</p>
+			{:else}
+				<p class="mt-4 text-lg font-semibold tracking-tight">
+					{counts.available} of {rows.length} available
+				</p>
+			{/if}
+
+			<div
+				class="sticky top-[60px] z-10 -mx-4 mt-2 flex flex-wrap items-center gap-2 bg-background/90 px-4 py-2 backdrop-blur"
+			>
 				{#if searching}
-					<span class="text-muted-foreground">Checking {checked} of {rows.length}…</span>
+					<span class="text-xs text-muted-foreground">{lastLabel}</span>
 				{:else}
-					<span class="text-muted-foreground">{lastLabel}</span>
 					<ToggleGroup.Root
 						type="single"
 						value={filter}
@@ -244,9 +293,10 @@
 				{/if}
 			</div>
 
-			<div class="mt-3 overflow-hidden rounded-2xl border bg-card">
+			<div class="mt-1 overflow-hidden rounded-2xl border bg-card">
 				<ul class="divide-y">
 					{#each visibleRows as row (row.id)}
+						{@const pending = row.status === 'pending'}
 						{@const status = STATUS[row.status]}
 						{@const Icon = status.Icon}
 						{@const text = row.url.replace(/^https?:\/\//, '')}
@@ -259,7 +309,13 @@
 									? 'bg-success/10 hover:bg-success/15'
 									: 'hover:bg-muted/50'} focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none focus-visible:ring-inset"
 							>
-								<Icon class="size-4 shrink-0 {status.cls} {status.spin ? 'animate-spin' : ''}" />
+								{#if pending}
+									<span
+										class="size-4 shrink-0 animate-pulse rounded-full bg-muted motion-reduce:animate-none"
+									></span>
+								{:else}
+									<Icon class="size-4 shrink-0 {status.cls}" />
+								{/if}
 								<span
 									class="hidden w-28 shrink-0 truncate text-xs font-medium text-muted-foreground sm:block"
 									title={PLATFORMS[row.platform]}>{PLATFORMS[row.platform]}</span
@@ -274,7 +330,13 @@
 										>{row.detail}</span
 									>
 								{/if}
-								<span class="shrink-0 text-xs {status.cls}">{status.text}</span>
+								{#if pending}
+									<span
+										class="h-3 w-14 shrink-0 animate-pulse rounded-full bg-muted motion-reduce:animate-none"
+									></span>
+								{:else}
+									<span class="shrink-0 text-xs {status.cls}">{status.text}</span>
+								{/if}
 							</a>
 						</li>
 					{/each}
