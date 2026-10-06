@@ -604,6 +604,28 @@ describe('opencollective', () => {
 		expect(await opencollective.check('taken')).toEqual({ status: 'taken' });
 		expect(await opencollective.check('free')).toEqual({ status: 'available' });
 	});
+
+	it('retries a 5xx once with a cache-buster', async () => {
+		const urls: string[] = [];
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) => {
+				urls.push(String(input));
+				return Promise.resolve(new Response(null, { status: urls.length === 1 ? 503 : 404 }));
+			})
+		);
+		expect(await opencollective.check('free')).toEqual({ status: 'available' });
+		expect(urls).toHaveLength(2);
+		expect(urls[1]).toContain('?_=');
+	});
+
+	it('is unknown when the retry also fails', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(() => Promise.resolve(new Response(null, { status: 503 })))
+		);
+		expect(await opencollective.check('free')).toEqual({ status: 'unknown' });
+	});
 });
 
 describe('devto', () => {

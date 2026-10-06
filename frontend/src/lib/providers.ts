@@ -495,12 +495,12 @@ export const opencollective: Provider = {
 	name: (label) => label,
 	url: (label) => `https://opencollective.com/${label}`,
 	async check(label, signal) {
-		return {
-			status: await checkHttp(
-				`https://opencollective.com/${encodeURIComponent(label)}.json`,
-				signal
-			)
-		};
+		const url = `https://opencollective.com/${encodeURIComponent(label)}.json`;
+		const status = await checkHttp(url, signal);
+		if (status !== 'unknown') return { status };
+		// Their CDN can cache a transient 5xx per-Origin for up to an hour.
+		// Retry once with a cache-busting param to bypass the poisoned entry.
+		return { status: await checkHttp(`${url}?_=${Date.now()}`, signal) };
 	}
 };
 

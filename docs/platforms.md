@@ -82,7 +82,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Pinterest — 🕸
 - [ ] Medium — 🕸
 - [ ] Hacker News — 🕸 — `hacker-news.firebaseio.com/v0/user/{name}.json` only exposes users with public activity, so `null` can mean free *or* a real no-activity account: it can never confirm a name is free. The profile page that can is behind no CORS. Needs a proxy
-- [x] Open Collective — ✅ — `opencollective.com/{name}.json` (200 taken / 404 free). The CDN caches responses for 1h and can cache a transient 5xx per-`Origin`, so a real name can read `unknown` until the entry expires
+- [x] Open Collective — ✅ — `opencollective.com/{name}.json` (200 taken / 404 free). The CDN caches responses for 1h and can cache a transient 5xx per-`Origin`; the provider retries once with a cache-busting param to bypass a poisoned entry
 - [x] Minehut — ✅ — `api.minehut.com/server/{name}?byName=true` (`server: null` = free)
 - [x] Lichess — ✅ — `lichess.org/api/user/{name}`
 - [x] Chess.com — ✅ — `api.chess.com/pub/player/{name}`
