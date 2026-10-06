@@ -40,7 +40,7 @@ deferred (see below).
 | Bluesky   | `public.api.bsky.app` resolveHandle (`{name}.bsky.social`)     | 200 taken / 400 free      |
 | Mastodon  | `mastodon.social/api/v1/accounts/lookup?acct={name}`           | 200 taken / 404 free      |
 
-Domains run once per TLD in `TLDS` (`.com`, `.org`, `.net`, `.dev`), each a
+Domains run once per TLD in `TLDS` (`.com`, `.org`, `.net`, `.dev`, `.app`), each a
 separate provider. The TLD is resolved to its registry through the IANA RDAP
 bootstrap (`data.iana.org/rdap/dns.json`, cached for 7 days).
 

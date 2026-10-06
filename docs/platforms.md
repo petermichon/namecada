@@ -17,7 +17,7 @@ Legend:
 
 Status: `[x]` = already a provider, `[ ]` = candidate.
 
-- [x] Domains (RDAP TLDs) — ✅ — `.com .org .net .dev` + any TLD in the IANA bootstrap
+- [x] Domains (RDAP TLDs) — ✅ — `.com .org .net .dev .app` + any TLD in the IANA bootstrap
 - [ ] ccTLDs / new gTLDs — 🌐 — RDAP coverage varies; not all are in the bootstrap
 - [ ] ENS (`.eth`) — 🌐 — public RPC / resolver
 - [ ] Handshake (HNS) — 🌐 — HNS resolver

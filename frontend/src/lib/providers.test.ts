@@ -431,7 +431,7 @@ describe('checkAll', () => {
 					return Promise.resolve(
 						new Response(
 							JSON.stringify({
-								services: [[['com', 'org', 'net', 'dev'], ['https://rdap.test/']]]
+								services: [[['com', 'org', 'net', 'dev', 'app'], ['https://rdap.test/']]]
 							}),
 							{ status: 200 }
 						)
@@ -469,7 +469,7 @@ describe('checkAll', () => {
 					return Promise.resolve(
 						new Response(
 							JSON.stringify({
-								services: [[['com', 'org', 'net', 'dev'], ['https://rdap.test/']]]
+								services: [[['com', 'org', 'net', 'dev', 'app'], ['https://rdap.test/']]]
 							}),
 							{ status: 200 }
 						)
@@ -498,7 +498,7 @@ describe('streamAll', () => {
 					return Promise.resolve(
 						new Response(
 							JSON.stringify({
-								services: [[['com', 'org', 'net', 'dev'], ['https://rdap.test/']]]
+								services: [[['com', 'org', 'net', 'dev', 'app'], ['https://rdap.test/']]]
 							}),
 							{ status: 200 }
 						)
@@ -547,7 +547,7 @@ describe('runProvider caching', () => {
 					return Promise.resolve(
 						new Response(
 							JSON.stringify({
-								services: [[['com', 'org', 'net', 'dev'], ['https://rdap.test/']]]
+								services: [[['com', 'org', 'net', 'dev', 'app'], ['https://rdap.test/']]]
 							}),
 							{ status: 200 }
 						)
