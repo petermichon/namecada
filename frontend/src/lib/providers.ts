@@ -451,6 +451,7 @@ export const minehut: Provider = {
 	id: 'minehut',
 	label: 'Minehut',
 	kind: 'social',
+	minLength: 4,
 	name: (label) => label,
 	url: (label) => `https://www.minehut.com/servers/${label}`,
 	async check(label, signal) {
