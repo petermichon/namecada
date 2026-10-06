@@ -298,6 +298,22 @@ export const bitbucket: Provider = {
 	}
 };
 
+export const codeberg: Provider = {
+	id: 'codeberg',
+	label: 'Codeberg',
+	kind: 'social',
+	name: (label) => label,
+	url: (label) => `https://codeberg.org/${label}`,
+	async check(label, signal) {
+		return {
+			status: await checkHttp(
+				`https://codeberg.org/api/v1/users/${encodeURIComponent(label)}`,
+				signal
+			)
+		};
+	}
+};
+
 export const devto: Provider = {
 	id: 'devto',
 	label: 'DEV',
@@ -345,6 +361,7 @@ export const providers: Provider[] = [
 	github,
 	gitlab,
 	bitbucket,
+	codeberg,
 	devto,
 	farcaster,
 	bluesky,

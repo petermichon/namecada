@@ -3,6 +3,7 @@ import {
 	bitbucket,
 	bluesky,
 	checkAll,
+	codeberg,
 	crates,
 	devto,
 	farcaster,
@@ -288,6 +289,21 @@ describe('bitbucket', () => {
 		);
 		expect(await bitbucket.check('taken')).toEqual({ status: 'taken' });
 		expect(await bitbucket.check('free')).toEqual({ status: 'available' });
+	});
+});
+
+describe('codeberg', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('maps 200 to taken and 404 to available', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			)
+		);
+		expect(await codeberg.check('taken')).toEqual({ status: 'taken' });
+		expect(await codeberg.check('free')).toEqual({ status: 'available' });
 	});
 });
 

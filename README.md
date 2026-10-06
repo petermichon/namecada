@@ -33,6 +33,7 @@ deferred (see below).
 | GitHub    | `api.github.com/users/{name}`                                  | 200 taken / 404 free      |
 | GitLab    | `gitlab.com/api/v4/users?username={name}`                      | array empty = free        |
 | Bitbucket | `api.bitbucket.org/2.0/workspaces/{name}`                      | 200 taken / 404 free      |
+| Codeberg  | `codeberg.org/api/v1/users/{name}`                             | 200 taken / 404 free      |
 | DEV       | `dev.to/api/users/by_username?url={name}`                      | 200 taken / 404 free      |
 | Farcaster | `fnames.farcaster.xyz/transfers/current?name={name}`           | 200 taken / 404 free      |
 | Bluesky   | `public.api.bsky.app` resolveHandle (`{name}.bsky.social`)     | 200 taken / 400 free      |

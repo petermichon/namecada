@@ -37,15 +37,15 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [x] Homebrew — ✅ — `formulae.brew.sh/api/formula/{name}.json`
 - [ ] Chocolatey — 🕸 — redirects / no CORS
 - [ ] Snap Store — 🕸 — no CORS + required header
-- [ ] Flathub — 🌐 — `flathub.org` API
+- [ ] Flathub — 🌐 — app-id is reverse-DNS, not a label
 - [ ] AUR (Arch) — 🕸 — no CORS
 - [ ] CPAN — 🕸 — blocked (402)
-- [ ] Hackage — 🌐 — `hackage.haskell.org`
+- [ ] Hackage — 🕸 — no CORS
 - [ ] Clojars — 🕸 — no CORS on 404
 - [ ] LuaRocks — 🌐 — `luarocks.org` API
-- [ ] Terraform Registry — 🌐 — `registry.terraform.io`
-- [ ] VS Code Marketplace — 🌐 — marketplace API
-- [ ] JetBrains Marketplace — 🌐 — `plugins.jetbrains.com` API
+- [ ] Terraform Registry — 🕸 — scoped path + no CORS
+- [ ] VS Code Marketplace — 🕸 — no simple API (use Open VSX)
+- [ ] JetBrains Marketplace — 🌐 — search API only (body signal)
 - [x] WordPress plugins/themes — ✅ — `api.wordpress.org/plugins/info/1.2`
 - [ ] Figma Community — 🕸 — no public API
 - [ ] Shopify App Store — 🕸
@@ -55,6 +55,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [x] Mastodon (`mastodon.social`) — ✅ — `/api/v1/accounts/lookup?acct={name}`
 - [x] GitLab — ✅ — `gitlab.com/api/v4/users?username={name}` (array body)
 - [x] Bitbucket — ✅ — `api.bitbucket.org/2.0/workspaces/{name}`
+- [x] Codeberg — ✅ — `codeberg.org/api/v1/users/{name}`
 - [ ] Nostr (NIP-05) — 🌐 — `/.well-known/nostr.json`
 - [x] Farcaster — ✅ — `fnames.farcaster.xyz/transfers/current?name={name}`
 - [ ] Lemmy — 🌐 — `/api/v3/user?username={name}`
