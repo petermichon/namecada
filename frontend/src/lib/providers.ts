@@ -103,6 +103,9 @@ export const github: Provider = {
 	id: 'github',
 	label: 'GitHub',
 	kind: 'social',
+	minLength: 2,
+	minLengthSource:
+		'GitHub 1-character usernames are effectively unavailable (32/36 are claimed; the rest reserved)',
 	name: (label) => label,
 	url: (label) => `https://github.com/${label}`,
 	async check(label, signal) {
