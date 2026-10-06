@@ -367,12 +367,26 @@ export const codeberg: Provider = {
 	name: (label) => label,
 	url: (label) => `https://codeberg.org/${label}`,
 	async check(label, signal) {
-		return {
-			status: await checkHttp(
-				`https://codeberg.org/api/v1/users/${encodeURIComponent(label)}`,
-				signal
-			)
-		};
+		const res = await fetch(`https://codeberg.org/api/v1/users/${encodeURIComponent(label)}`, {
+			signal,
+			referrerPolicy: 'no-referrer',
+			credentials: 'omit',
+			headers: { Accept: 'application/json' }
+		});
+		if (res.status === 200) {
+			res.body?.cancel().catch(() => {});
+			return { status: 'taken' };
+		}
+		if (res.status === 404) {
+			const data = await res.json().catch(() => null);
+			const message = (data as { message?: unknown } | null)?.message;
+			if (typeof message !== 'string') return { status: 'unknown' };
+			// Free names report the user "does not exist"; any other 404 body
+			// (e.g. a limited-visibility account) means the name is occupied.
+			return { status: message.includes('does not exist') ? 'available' : 'taken' };
+		}
+		res.body?.cancel().catch(() => {});
+		return { status: 'unknown' };
 	}
 };
 

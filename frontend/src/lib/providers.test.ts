@@ -369,15 +369,36 @@ describe('bitbucket', () => {
 describe('codeberg', () => {
 	afterEach(() => vi.unstubAllGlobals());
 
-	it('maps 200 to taken and 404 to available', async () => {
+	it('is taken on 200', async () => {
 		vi.stubGlobal(
 			'fetch',
-			vi.fn((input: unknown) =>
-				Promise.resolve(new Response(null, { status: String(input).includes('taken') ? 200 : 404 }))
+			vi.fn(() => Promise.resolve(new Response(null, { status: 200 })))
+		);
+		expect(await codeberg.check('b')).toEqual({ status: 'taken' });
+	});
+
+	it('is available when the 404 body says the user does not exist', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(() =>
+				Promise.resolve(
+					new Response(JSON.stringify({ message: 'user redirect does not exist [name: x]' }), {
+						status: 404
+					})
+				)
 			)
 		);
-		expect(await codeberg.check('taken')).toEqual({ status: 'taken' });
 		expect(await codeberg.check('free')).toEqual({ status: 'available' });
+	});
+
+	it('is taken when the 404 body is not the does-not-exist message (limited account)', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(() =>
+				Promise.resolve(new Response(JSON.stringify({ message: 'Visit Project' }), { status: 404 }))
+			)
+		);
+		expect(await codeberg.check('a')).toEqual({ status: 'taken' });
 	});
 });
 
@@ -648,6 +669,13 @@ describe('checkAll', () => {
 				}
 				if (url.includes('hacker-news.firebaseio.com')) {
 					return Promise.resolve(new Response('null', { status: 200 }));
+				}
+				if (url.includes('codeberg.org')) {
+					return Promise.resolve(
+						new Response(JSON.stringify({ message: 'user redirect does not exist [name: x]' }), {
+							status: 404
+						})
+					);
 				}
 				if (url.includes('api.minehut.com')) {
 					return Promise.resolve(new Response(JSON.stringify({ server: null }), { status: 200 }));
