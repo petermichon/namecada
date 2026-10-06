@@ -91,10 +91,7 @@ export const github: Provider = {
 	name: (label) => label,
 	url: (label) => `https://github.com/${label}`,
 	async check(label, signal) {
-		const user = await checkHttp(`https://api.github.com/users/${label}`, signal);
-		if (user !== 'available') return { status: user };
-		const org = await checkHttp(`https://api.github.com/orgs/${label}`, signal);
-		return { status: org };
+		return { status: await checkHttp(`https://api.github.com/users/${label}`, signal) };
 	}
 };
 

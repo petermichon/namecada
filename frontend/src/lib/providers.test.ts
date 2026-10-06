@@ -24,27 +24,17 @@ describe('toLabel', () => {
 describe('github', () => {
 	afterEach(() => vi.unstubAllGlobals());
 
-	it('falls back to the org when the user is free', async () => {
+	it('maps 200 to taken and 404 to available from a single users lookup', async () => {
 		vi.stubGlobal(
 			'fetch',
-			vi.fn((input: unknown) => {
-				const url = String(input);
-				if (url.endsWith('/users/acema'))
-					return Promise.resolve(new Response(null, { status: 404 }));
-				if (url.endsWith('/orgs/acema'))
-					return Promise.resolve(new Response(null, { status: 200 }));
-				return Promise.resolve(new Response(null, { status: 500 }));
-			})
+			vi.fn((input: unknown) =>
+				Promise.resolve(
+					new Response(null, { status: String(input).includes('/users/taken') ? 200 : 404 })
+				)
+			)
 		);
-		expect(await github.check('acema')).toEqual({ status: 'taken' });
-	});
-
-	it('is available when both the user and org are free', async () => {
-		vi.stubGlobal(
-			'fetch',
-			vi.fn(() => Promise.resolve(new Response(null, { status: 404 })))
-		);
-		expect(await github.check('acema')).toEqual({ status: 'available' });
+		expect(await github.check('taken')).toEqual({ status: 'taken' });
+		expect(await github.check('free')).toEqual({ status: 'available' });
 	});
 });
 
