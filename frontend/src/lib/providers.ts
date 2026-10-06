@@ -262,7 +262,7 @@ export const mastodon: Provider = {
 
 export const jsr: Provider = {
 	id: 'jsr',
-	label: 'JSR (scope)',
+	label: 'JSR',
 	kind: 'dev',
 	name: (label) => label,
 	url: (label) => `https://jsr.io/@${label}`,
