@@ -23,7 +23,7 @@ export interface ProviderResult {
 	detail?: string;
 }
 
-export const TLDS = ['.com', '.org', '.net', '.dev', '.app'] as const;
+export const TLDS = ['.com', '.org', '.io', '.ai', '.dev', '.app'] as const;
 
 const LABEL = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
 
