@@ -10,7 +10,6 @@ interface Cached {
 
 const FALLBACK = new Map<string, string>([
 	['com', 'https://rdap.verisign.com/com/v1/'],
-	['net', 'https://rdap.verisign.com/net/v1/'],
 	['ai', 'https://rdap.identitydigital.services/rdap/'],
 	['io', 'https://rdap.identitydigital.services/rdap/']
 ]);
