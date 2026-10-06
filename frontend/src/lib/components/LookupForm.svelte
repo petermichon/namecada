@@ -24,7 +24,7 @@
 	}}
 >
 	<div
-		class="flex h-12 items-center gap-2 rounded-full border border-border bg-card pr-1.5 pl-4 shadow-sm focus-within:border-ring focus-within:ring-4 focus-within:ring-ring/10 dark:shadow-none"
+		class="flex h-10 items-center gap-2 rounded-full border border-border bg-card pr-1 pl-3.5 shadow-sm focus-within:border-ring focus-within:ring-4 focus-within:ring-ring/10 dark:shadow-none"
 	>
 		<SearchIcon class="size-4 shrink-0 text-muted-foreground" />
 		<label for="domain" class="sr-only">Name</label>
@@ -46,7 +46,7 @@
 		<Button
 			type="submit"
 			size="icon"
-			class="size-9 shrink-0 rounded-full"
+			class="size-8 shrink-0 rounded-full"
 			disabled={loading}
 			aria-label="Check name"
 		>

@@ -24,6 +24,8 @@
 
 	const QUERY_KEY = 'domain-browser:query';
 
+	const EXAMPLES = ['acema', 'lumen', 'quartz', 'nimbus'];
+
 	interface Row {
 		id: string;
 		platform: PlatformId;
@@ -163,23 +165,27 @@
 <ModeWatcher />
 
 <div class="min-h-svh bg-background text-foreground">
-	<div class="mx-auto max-w-xl px-4 py-16">
-		<header class="mb-6 flex items-start justify-between gap-4">
-			<div>
-				<h1 class="text-2xl font-semibold tracking-tight">Domain Browser</h1>
-				<p class="mt-1 text-sm text-muted-foreground">
-					Check a name across domains, package registries and social handles.
-				</p>
+	<header class="sticky top-0 z-20 border-b border-border/60 bg-background/85 backdrop-blur">
+		<div class="mx-auto flex max-w-xl items-center gap-3 px-4 py-2.5">
+			<h1 class="shrink-0 text-sm font-semibold tracking-tight sm:text-base">Domain Browser</h1>
+			<div class="min-w-0 flex-1">
+				<LookupForm bind:value={input} loading={searching} onsubmit={check} />
 			</div>
-			<Button variant="ghost" size="icon" onclick={toggleMode} aria-label="Toggle theme">
+			<Button
+				variant="ghost"
+				size="icon"
+				class="shrink-0"
+				onclick={toggleMode}
+				aria-label="Toggle theme"
+			>
 				<SunIcon class="size-4 dark:hidden" />
 				<MoonIcon class="hidden size-4 dark:block" />
 			</Button>
-		</header>
+		</div>
+	</header>
 
-		<LookupForm bind:value={input} loading={searching} onsubmit={check} />
-
-		<p class="mt-2 text-sm text-muted-foreground">
+	<div class="mx-auto max-w-xl px-4 py-5">
+		<p class="text-sm text-muted-foreground">
 			Best-effort from public sources. <em>Unavailable</em> means the name is taken or the platform
 			blocks it (too short, reserved, suspended); <em>available</em> means none of that was found — not
 			a guarantee you can register it.
@@ -258,7 +264,11 @@
 									class="hidden w-28 shrink-0 truncate text-xs font-medium text-muted-foreground sm:block"
 									title={PLATFORMS[row.platform]}>{PLATFORMS[row.platform]}</span
 								>
-								<span class="min-w-0 flex-1 truncate text-sm">{text}</span>
+								<span
+									class="min-w-0 flex-1 truncate text-sm {row.status === 'taken'
+										? 'text-muted-foreground'
+										: ''}">{text}</span
+								>
 								{#if row.detail}
 									<span class="hidden shrink-0 text-xs text-muted-foreground sm:inline"
 										>{row.detail}</span
@@ -269,6 +279,24 @@
 						</li>
 					{/each}
 				</ul>
+			</div>
+		{:else if !error}
+			<div class="mt-6">
+				<p class="text-sm text-muted-foreground">Try a name:</p>
+				<div class="mt-2 flex flex-wrap gap-2">
+					{#each EXAMPLES as name (name)}
+						<button
+							type="button"
+							class="rounded-full border border-border px-3 py-1 text-sm transition-colors hover:bg-muted/50"
+							onclick={() => {
+								input = name;
+								check();
+							}}
+						>
+							{name}
+						</button>
+					{/each}
+				</div>
 			</div>
 		{/if}
 	</div>
