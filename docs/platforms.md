@@ -226,6 +226,7 @@ AI / dev tools:
 Jobs:
 
 - [ ] Wellfound (AngelList) — 🕸
+- [ ] HelloWork — 🕸 — job board; no public username namespace/API
 - [ ] Fiverr — 🕸
 - [ ] Upwork — 🕸
 - [ ] Polywork — 🕸
