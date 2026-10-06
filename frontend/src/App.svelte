@@ -196,6 +196,10 @@
 								{#each group.rows as row (row.id)}
 									{@const status = STATUS[row.status]}
 									{@const Icon = status.Icon}
+									{@const primary = row.kind === 'domain' ? row.name : row.label}
+									{@const identifier =
+										row.kind !== 'domain' && row.name !== lastLabel ? row.name : ''}
+									{@const secondary = [identifier, row.detail].filter(Boolean).join(' · ')}
 									<li>
 										<a
 											href={row.url}
@@ -207,10 +211,10 @@
 												class="size-4 shrink-0 {status.cls} {status.spin ? 'animate-spin' : ''}"
 											/>
 											<div class="flex min-w-0 flex-1 flex-col">
-												<span class="truncate font-mono text-sm">{row.name}</span>
-												<span class="truncate text-xs text-muted-foreground">
-													{row.label}{row.detail ? ` · ${row.detail}` : ''}
-												</span>
+												<span class="truncate text-sm font-medium">{primary}</span>
+												{#if secondary}
+													<span class="truncate text-xs text-muted-foreground">{secondary}</span>
+												{/if}
 											</div>
 											<span class="shrink-0 text-xs {status.cls}">{status.text}</span>
 										</a>
