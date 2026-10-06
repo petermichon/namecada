@@ -1,4 +1,5 @@
 import { lookupDomain, parseDomain, UnsupportedTldError } from './rdap';
+import { getCached, isFresh, setCached } from './providerCache';
 
 export type Status = 'available' | 'taken' | 'unknown';
 export type ProviderKind = 'domain' | 'dev' | 'social' | 'org' | 'brand';
@@ -120,8 +121,13 @@ async function runProvider(
 		name: provider.name(label),
 		url: provider.url(label)
 	};
+	const cached = getCached(provider.id, label);
+	if (cached && isFresh(cached)) {
+		return { ...base, status: cached.status, detail: cached.detail };
+	}
 	try {
 		const { status, detail } = await provider.check(label, signal);
+		if (status !== 'unknown') setCached(provider.id, label, status, detail);
 		return { ...base, status, detail };
 	} catch (e) {
 		if (e instanceof DOMException && e.name === 'AbortError') throw e;

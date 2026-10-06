@@ -1,6 +1,7 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { checkAll, github, npm, providers, streamAll, toLabel } from './providers';
 import { BOOTSTRAP_URL } from './bootstrap';
+import { setCached } from './providerCache';
 
 describe('toLabel', () => {
 	it('accepts a bare label', () => {
@@ -138,5 +139,47 @@ describe('providers registry', () => {
 	it('has a unique id per provider', () => {
 		const ids = providers.map((provider) => provider.id);
 		expect(new Set(ids).size).toBe(ids.length);
+	});
+});
+
+describe('runProvider caching', () => {
+	beforeEach(() => {
+		const map = new Map<string, string>();
+		vi.stubGlobal('localStorage', {
+			getItem: (key: string) => map.get(key) ?? null,
+			setItem: (key: string, value: string) => void map.set(key, value),
+			removeItem: (key: string) => void map.delete(key),
+			clear: () => map.clear(),
+			key: (index: number) => [...map.keys()][index] ?? null,
+			get length() {
+				return map.size;
+			}
+		});
+	});
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('serves a fresh cached result without hitting the network', async () => {
+		setCached('npm', 'acema', 'taken');
+		const calls: string[] = [];
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) => {
+				calls.push(String(input));
+				if (String(input) === BOOTSTRAP_URL) {
+					return Promise.resolve(
+						new Response(
+							JSON.stringify({
+								services: [[['com', 'org', 'net', 'dev'], ['https://rdap.test/']]]
+							}),
+							{ status: 200 }
+						)
+					);
+				}
+				return Promise.resolve(new Response(null, { status: 404 }));
+			})
+		);
+		const rows = await checkAll('acema');
+		expect(rows.find((row) => row.id === 'npm')?.status).toBe('taken');
+		expect(calls.some((url) => url.includes('registry.npmjs.org'))).toBe(false);
 	});
 });
