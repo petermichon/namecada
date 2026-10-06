@@ -721,6 +721,22 @@ describe('providers registry', () => {
 		const ids = providers.map((provider) => provider.id);
 		expect(new Set(ids).size).toBe(ids.length);
 	});
+
+	it('every minLength is accompanied by a cited source', () => {
+		for (const provider of providers) {
+			if (provider.minLength !== undefined) {
+				expect(provider.minLengthSource, `${provider.id} needs a minLengthSource`).toBeTruthy();
+			}
+		}
+	});
+
+	it('every minLengthSource belongs to a minLength', () => {
+		for (const provider of providers) {
+			if (provider.minLengthSource !== undefined) {
+				expect(provider.minLength, `${provider.id} needs a minLength`).toBeGreaterThan(0);
+			}
+		}
+	});
 });
 
 describe('runProvider caching', () => {

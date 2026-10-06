@@ -9,6 +9,7 @@ export interface Provider {
 	label: string;
 	kind: ProviderKind;
 	minLength?: number;
+	minLengthSource?: string;
 	name: (label: string) => string;
 	url: (label: string) => string;
 	check: (label: string, signal?: AbortSignal) => Promise<{ status: Status; detail?: string }>;
@@ -42,34 +43,43 @@ export function toLabel(input: string): string | null {
 	return LABEL.test(value) ? value : null;
 }
 
-const TLD_MIN_LENGTH: Record<string, number> = { '.dev': 2 };
-
-const rdap = (tld: string): Provider => ({
-	id: `domain${tld}`,
-	label: `Domain ${tld}`,
-	kind: 'domain',
-	minLength: TLD_MIN_LENGTH[tld],
-	name: (label) => `${label}${tld}`,
-	url: (label) => `https://${label}${tld}`,
-	async check(label, signal) {
-		try {
-			const res = await lookupDomain(`${label}${tld}`, signal);
-			return {
-				status:
-					res.status === 'registered'
-						? 'taken'
-						: res.status === 'unregistered'
-							? 'available'
-							: 'unknown'
-			};
-		} catch (e) {
-			if (e instanceof DOMException && e.name === 'AbortError') throw e;
-			if (e instanceof UnsupportedTldError)
-				return { status: 'unknown', detail: 'no RDAP endpoint' };
-			throw e;
-		}
+const TLD_MIN_LENGTH: Record<string, { min: number; source: string }> = {
+	'.dev': {
+		min: 2,
+		source: 'Google Registry reserves 1-character .dev labels (no 1-char .dev is registered)'
 	}
-});
+};
+
+const rdap = (tld: string): Provider => {
+	const rule = TLD_MIN_LENGTH[tld];
+	return {
+		id: `domain${tld}`,
+		label: `Domain ${tld}`,
+		kind: 'domain',
+		minLength: rule?.min,
+		minLengthSource: rule?.source,
+		name: (label) => `${label}${tld}`,
+		url: (label) => `https://${label}${tld}`,
+		async check(label, signal) {
+			try {
+				const res = await lookupDomain(`${label}${tld}`, signal);
+				return {
+					status:
+						res.status === 'registered'
+							? 'taken'
+							: res.status === 'unregistered'
+								? 'available'
+								: 'unknown'
+				};
+			} catch (e) {
+				if (e instanceof DOMException && e.name === 'AbortError') throw e;
+				if (e instanceof UnsupportedTldError)
+					return { status: 'unknown', detail: 'no RDAP endpoint' };
+				throw e;
+			}
+		}
+	};
+};
 
 async function checkHttp(
 	url: string,
@@ -235,6 +245,7 @@ export const bluesky: Provider = {
 	label: 'Bluesky',
 	kind: 'social',
 	minLength: 3,
+	minLengthSource: 'bsky.social help: "Handle Too Short – Must be at least 3 characters"',
 	name: (label) => `${label}.bsky.social`,
 	url: (label) => `https://bsky.app/profile/${label}.bsky.social`,
 	async check(label, signal) {
@@ -374,6 +385,7 @@ export const devto: Provider = {
 	label: 'DEV',
 	kind: 'social',
 	minLength: 2,
+	minLengthSource: 'Forem/DEV usernames are at least 2 characters',
 	name: (label) => label,
 	url: (label) => `https://dev.to/${label}`,
 	async check(label, signal) {
@@ -411,6 +423,7 @@ export const hackernews: Provider = {
 	label: 'Hacker News',
 	kind: 'social',
 	minLength: 2,
+	minLengthSource: 'Hacker News usernames are 2–15 characters',
 	name: (label) => label,
 	url: (label) => `https://news.ycombinator.com/user?id=${label}`,
 	async check(label, signal) {
@@ -455,6 +468,7 @@ export const minehut: Provider = {
 	label: 'Minehut',
 	kind: 'social',
 	minLength: 4,
+	minLengthSource: 'Minehut server names require at least 4 characters (legacy names shorter)',
 	name: (label) => label,
 	url: (label) => `https://www.minehut.com/servers/${label}`,
 	async check(label, signal) {
@@ -484,6 +498,7 @@ export const lichess: Provider = {
 	label: 'Lichess',
 	kind: 'social',
 	minLength: 2,
+	minLengthSource: 'Lichess usernames are at least 2 characters',
 	name: (label) => label,
 	url: (label) => `https://lichess.org/@/${label}`,
 	async check(label, signal) {
@@ -498,6 +513,7 @@ export const chesscom: Provider = {
 	label: 'Chess.com',
 	kind: 'social',
 	minLength: 3,
+	minLengthSource: 'Chess.com usernames are 3–25 characters',
 	name: (label) => label,
 	url: (label) => `https://www.chess.com/member/${label}`,
 	async check(label, signal) {
@@ -515,6 +531,7 @@ export const huggingface: Provider = {
 	label: 'Hugging Face',
 	kind: 'social',
 	minLength: 2,
+	minLengthSource: 'Hugging Face: 2-char users exist, none 1-char (min 2 observed)',
 	name: (label) => label,
 	url: (label) => `https://huggingface.co/${label}`,
 	async check(label, signal) {
@@ -532,6 +549,7 @@ export const dailymotion: Provider = {
 	label: 'Dailymotion',
 	kind: 'social',
 	minLength: 3,
+	minLengthSource: 'Dailymotion: no 2-char users exist, 3-char do (min 3 observed)',
 	name: (label) => label,
 	url: (label) => `https://www.dailymotion.com/${label}`,
 	async check(label, signal) {
