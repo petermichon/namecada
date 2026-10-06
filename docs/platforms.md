@@ -214,3 +214,17 @@ Jobs:
 - [ ] Fiverr — 🕸
 - [ ] Upwork — 🕸
 - [ ] Polywork — 🕸
+
+Free subdomain namespaces (developer-oriented):
+
+- [ ] eu.org — 🌐 — DoH-checkable (no wildcard); note: sends the name to the resolver
+- [ ] duckdns.org — 🌐 — DoH-checkable (no wildcard)
+- [ ] freedns.afraid.org — 🌐 — DoH (verify no wildcard)
+- [ ] no-ip.org — 🌐 — DoH (verify no wildcard)
+- [ ] dynv6.net — 🌐 — DoH (verify no wildcard)
+- [ ] js.org — 🔌 — wildcard DNS; needs HTTP status via proxy
+- [ ] is-a.dev — 🔌 — wildcard DNS
+- [ ] is-a-good.dev — 🔌 — wildcard DNS
+- [ ] ngrok-free.app — 🔌 — needs proxy
+- [ ] localhost.run — 🔌 — needs proxy
+- [ ] trycloudflare.com — 🔌 — needs proxy
