@@ -60,6 +60,11 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [x] Farcaster — ✅ — `fnames.farcaster.xyz/transfers/current?name={name}`
 - [ ] Lemmy — 🌐 — `/api/v3/user?username={name}`
 - [x] DEV — ✅ — `dev.to/api/users/by_username?url={name}`
+- [x] Wikipedia — ✅ — `en.wikipedia.org/w/api.php` list=users (`missing` = free)
+- [ ] Fandom — 🕸 — `{name}.fandom.com` has no CORS
+- [ ] Bilibili — 🕸 — API returns 412 (banned)
+- [ ] Discord — 🕸 — usernames have no public API
+- [ ] Telegram — 🕸 — `t.me/{name}` scrape
 - [ ] Hashnode — 🌐 — GraphQL
 - [ ] Substack — 🌐 — `substack.com/@{name}` (scrape)
 - [ ] Product Hunt — 🌐 — GraphQL (key)

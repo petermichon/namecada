@@ -21,6 +21,7 @@ import {
 	pypi,
 	streamAll,
 	toLabel,
+	wikipedia,
 	wordpress
 } from './providers';
 import { BOOTSTRAP_URL } from './bootstrap';
@@ -307,6 +308,38 @@ describe('codeberg', () => {
 	});
 });
 
+describe('wikipedia', () => {
+	afterEach(() => vi.unstubAllGlobals());
+
+	it('is available when the user is marked missing', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) =>
+				Promise.resolve(
+					new Response(
+						JSON.stringify(
+							String(input).includes('taken')
+								? { query: { users: [{ userid: 1, name: 'x' }] } }
+								: { query: { users: [{ name: 'x', missing: '' }] } }
+						),
+						{ status: 200 }
+					)
+				)
+			)
+		);
+		expect(await wikipedia.check('taken')).toEqual({ status: 'taken' });
+		expect(await wikipedia.check('free')).toEqual({ status: 'available' });
+	});
+
+	it('is unknown on a non-200 response', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(() => Promise.resolve(new Response(null, { status: 500 })))
+		);
+		expect(await wikipedia.check('acema')).toEqual({ status: 'unknown' });
+	});
+});
+
 describe('devto', () => {
 	afterEach(() => vi.unstubAllGlobals());
 
@@ -357,6 +390,13 @@ describe('checkAll', () => {
 				}
 				if (url.includes('gitlab.com')) {
 					return Promise.resolve(new Response(JSON.stringify([]), { status: 200 }));
+				}
+				if (url.includes('wikipedia.org')) {
+					return Promise.resolve(
+						new Response(JSON.stringify({ query: { users: [{ name: 'x', missing: '' }] } }), {
+							status: 200
+						})
+					);
 				}
 				return Promise.resolve(new Response(null, { status: 404 }));
 			})

@@ -314,6 +314,34 @@ export const codeberg: Provider = {
 	}
 };
 
+export const wikipedia: Provider = {
+	id: 'wikipedia',
+	label: 'Wikipedia',
+	kind: 'social',
+	name: (label) => label,
+	url: (label) => `https://en.wikipedia.org/wiki/User:${label}`,
+	async check(label, signal) {
+		const res = await fetch(
+			`https://en.wikipedia.org/w/api.php?action=query&list=users&ususers=${encodeURIComponent(label)}&format=json&origin=*`,
+			{
+				signal,
+				referrerPolicy: 'no-referrer',
+				credentials: 'omit',
+				headers: { Accept: 'application/json' }
+			}
+		);
+		if (res.status !== 200) {
+			res.body?.cancel().catch(() => {});
+			return { status: 'unknown' };
+		}
+		const data = await res.json().catch(() => null);
+		const users = (data as { query?: { users?: unknown[] } })?.query?.users;
+		if (!Array.isArray(users) || users.length === 0) return { status: 'unknown' };
+		const user = users[0] as { missing?: unknown };
+		return { status: 'missing' in user ? 'available' : 'taken' };
+	}
+};
+
 export const devto: Provider = {
 	id: 'devto',
 	label: 'DEV',
@@ -362,6 +390,7 @@ export const providers: Provider[] = [
 	gitlab,
 	bitbucket,
 	codeberg,
+	wikipedia,
 	devto,
 	farcaster,
 	bluesky,
