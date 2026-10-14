@@ -4,6 +4,7 @@ import (
 	"context"
 	"io"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -132,7 +133,45 @@ func checkHTTPAccept(ctx context.Context, client *http.Client, url string, codes
 	}
 	defer drainAndClose(resp)
 
-	return codes.classify(resp.StatusCode), nil
+	result := codes.classify(resp.StatusCode)
+	// A bot-challenge interstitial can answer 200 (Cloudflare's "Just a moment"
+	// / "Client Challenge" pages), so a status-only source would otherwise
+	// report every label as taken. Only a would-be taken verdict is inspected,
+	// and never cached as unknown, so a real taken response is untouched.
+	if result.Status == StatusTaken && isChallenge(resp) {
+		return Result{Status: StatusUnknown}, nil
+	}
+	return result, nil
+}
+
+// challengeMarkers are substrings of the HTML bot-challenge interstitials that
+// servers such as Cloudflare return with a 200 status. They are matched
+// case-insensitively against a bounded body prefix.
+var challengeMarkers = []string{"client challenge", "just a moment"}
+
+// challengeBodyLimit bounds how much of a taken response body is scanned for
+// challenge markers, keeping the extra read cheap.
+const challengeBodyLimit = 8 << 10
+
+// isChallenge reports whether resp looks like a bot-challenge page rather than a
+// real taken answer. It checks Cloudflare's cf-mitigated header and a bounded
+// prefix of the body. Callers invoke it only on the taken path.
+func isChallenge(resp *http.Response) bool {
+	if strings.EqualFold(resp.Header.Get("cf-mitigated"), "challenge") {
+		return true
+	}
+	buf := make([]byte, challengeBodyLimit)
+	n, err := io.ReadFull(resp.Body, buf)
+	if err != nil && err != io.ErrUnexpectedEOF && err != io.EOF {
+		return false
+	}
+	body := strings.ToLower(string(buf[:n]))
+	for _, marker := range challengeMarkers {
+		if strings.Contains(body, marker) {
+			return true
+		}
+	}
+	return false
 }
 
 func (c codeMap) classify(status int) Result {
