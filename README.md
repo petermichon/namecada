@@ -125,7 +125,7 @@ unauthenticated requests (GitHub: 60/hour per IP).
 ## Development
 
 ```sh
-npm install        # installs the web workspace
+npm install        # installs the web workspace + git hooks
 npm run dev        # vite dev server
 npm run build      # single-file production build
 npm test           # vitest
@@ -134,6 +134,10 @@ npm run lint       # prettier --check + eslint
 npm run format     # prettier --write + gofmt
 npm run verify     # check + test + lint (web and server)
 ```
+
+A husky `pre-commit` hook (installed by `npm install` via the `prepare`
+script) runs lint-staged, which formats and lints staged web files
+(prettier + eslint) and formats staged Go files (gofmt).
 
 The app needs the server running (`cd server && go run ./cmd/domainbrowser
 serve`); it streams every result from it. The server's CORS origin defaults to

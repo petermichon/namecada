@@ -25,9 +25,20 @@
 		"server:lint": "go -C server vet ./...",
 		"server:fmt": "gofmt -w server",
 		"server:tidy": "go -C server mod tidy",
-		"verify": "npm run check && npm test && npm run lint && npm run server:lint && npm run server:test"
+		"verify": "npm run check && npm test && npm run lint && npm run server:lint && npm run server:test",
+		"prepare": "husky"
+	},
+	"lint-staged": {
+		"web/**/*.{js,cjs,mjs,ts,svelte}": [
+			"prettier --write",
+			"eslint --fix"
+		],
+		"web/**/*.{json,css,html,md}": "prettier --write",
+		"server/**/*.go": "gofmt -w"
 	},
 	"devDependencies": {
-		"concurrently": "^10.0.6"
+		"concurrently": "^10.0.6",
+		"husky": "^9.1.7",
+		"lint-staged": "^17.6.0"
 	}
 }
