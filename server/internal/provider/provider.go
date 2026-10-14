@@ -267,5 +267,6 @@ func Default() *Registry {
 	_ = r.Register(NewMastodon())
 	_ = r.Register(NewOpenCollective())
 	_ = r.Register(NewVercel())
+	_ = r.Register(NewNetlify())
 	return r
 }

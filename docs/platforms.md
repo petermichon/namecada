@@ -125,7 +125,7 @@ browser DoH):
 
 - [x] Vercel — ✅ — `{name}.vercel.app` (wildcard DNS; HTTP 404, no CORS)
 - [ ] GitHub Pages — 🔌 — `{name}.github.io` (wildcard DNS; no CORS)
-- [ ] Netlify — 🔌 — `{name}.netlify.app` (wildcard DNS; no CORS)
+- [x] Netlify — ✅ — `{name}.netlify.app` (wildcard DNS; HTTP 404, no CORS)
 - [ ] Cloudflare Pages — 🔌 — `{name}.pages.dev` (not wildcard; DoH may work)
 - [ ] GitLab Pages — 🔌 — `{name}.gitlab.io`
 - [ ] Render — 🔌 — `{name}.onrender.com`

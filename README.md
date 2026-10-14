@@ -56,6 +56,7 @@ can't be reached is deferred (see below).
 | Bluesky   | `bsky.social/xrpc/com.atproto.temp.checkHandleAvailability` (`{name}.bsky.social`) | resultAvailable free / resultUnavailable taken |
 | Mastodon  | `mastodon.social/@{name}` (profile)                            | 200/410 taken / 404 free  |
 | Vercel    | `{name}.vercel.app` (subdomain)                                | 200 taken / 404 free      |
+| Netlify   | `{name}.netlify.app` (subdomain)                               | 200 taken / 404 free      |
 
 Domains run once per TLD (`.com`, `.org`, `.dev`, `.io`, `.ai`, `.app`), each a
 separate provider. The TLD is resolved to its registry through the IANA RDAP
