@@ -5,9 +5,12 @@ package api
 
 import (
 	"encoding/json"
+	"io"
+	"log/slog"
 	"net/http"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/petermichon/domain-browser/server/internal/engine"
 )
@@ -34,15 +37,19 @@ func normalizeLabel(input string) (string, bool) {
 type Server struct {
 	engine *engine.Engine
 	origin string
+	logger *slog.Logger
 }
 
 // New returns a Server that scans with eng and allows origin through CORS. An
-// empty origin falls back to DefaultOrigin.
-func New(eng *engine.Engine, origin string) *Server {
+// empty origin falls back to DefaultOrigin. A nil logger discards request logs.
+func New(eng *engine.Engine, origin string, logger *slog.Logger) *Server {
 	if origin == "" {
 		origin = DefaultOrigin
 	}
-	return &Server{engine: eng, origin: origin}
+	if logger == nil {
+		logger = slog.New(slog.NewTextHandler(io.Discard, nil))
+	}
+	return &Server{engine: eng, origin: origin, logger: logger}
 }
 
 // Handler returns the HTTP routes for the server.
@@ -56,6 +63,18 @@ func (s *Server) Handler() http.Handler {
 // fresh in-memory cache is reused across requests by the engine, so repeated
 // labels are served without re-checking the sources.
 func (s *Server) handleCheck(w http.ResponseWriter, r *http.Request) {
+	start := time.Now()
+	label := strings.TrimSpace(r.URL.Query().Get("name"))
+	results := 0
+	defer func() {
+		s.logger.Info("request",
+			"method", r.Method,
+			"label", label,
+			"duration", time.Since(start),
+			"results", results,
+		)
+	}()
+
 	s.setCORS(w)
 
 	switch r.Method {
@@ -71,12 +90,11 @@ func (s *Server) handleCheck(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	raw := strings.TrimSpace(r.URL.Query().Get("name"))
-	if raw == "" {
+	if label == "" {
 		writeError(w, http.StatusBadRequest, "missing required query parameter \"name\"")
 		return
 	}
-	name, ok := normalizeLabel(raw)
+	name, ok := normalizeLabel(label)
 	if !ok {
 		writeError(w, http.StatusBadRequest, "invalid query parameter \"name\"")
 		return
@@ -92,6 +110,7 @@ func (s *Server) handleCheck(w http.ResponseWriter, r *http.Request) {
 		if err := enc.Encode(res); err != nil {
 			return
 		}
+		results++
 		if flusher != nil {
 			flusher.Flush()
 		}

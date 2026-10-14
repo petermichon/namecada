@@ -7,6 +7,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"os"
 	"os/signal"
@@ -90,17 +91,25 @@ func serve(args []string) error {
 // fails, then shuts it down. It is separated from serve so tests can drive the
 // shutdown path with their own context.
 func serveContext(ctx context.Context, addr, origin string) error {
+	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	return serveWithLogger(ctx, addr, origin, logger)
+}
+
+// serveWithLogger runs the HTTP server with logger, emitting a structured
+// request log per call plus startup and shutdown lines. It is separated from
+// serveContext so tests can capture its logs.
+func serveWithLogger(ctx context.Context, addr, origin string, logger *slog.Logger) error {
 	// A long-lived engine over one memory store so cached verdicts survive
 	// across requests (the point of serve, versus the one-shot check).
 	eng := newEngine()
 	srv := &http.Server{
 		Addr:    addr,
-		Handler: withScanTimeout(engine.ScanTimeout, api.New(eng, origin).Handler()),
+		Handler: withScanTimeout(engine.ScanTimeout, api.New(eng, origin, logger).Handler()),
 	}
 
 	errc := make(chan error, 1)
 	go func() { errc <- srv.ListenAndServe() }()
-	fmt.Fprintf(os.Stderr, "domainbrowser: listening on %s (CORS origin %s)\n", addr, origin)
+	logger.Info("listening", "addr", addr, "origin", origin)
 
 	select {
 	case err := <-errc:
@@ -109,9 +118,16 @@ func serveContext(ctx context.Context, addr, origin string) error {
 		}
 		return err
 	case <-ctx.Done():
+		logger.Info("shutting down")
 		shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
-		return srv.Shutdown(shutdownCtx)
+		err := srv.Shutdown(shutdownCtx)
+		if err != nil {
+			logger.Error("shutdown failed", "error", err)
+			return err
+		}
+		logger.Info("stopped")
+		return nil
 	}
 }
 

@@ -2,8 +2,10 @@ package api
 
 import (
 	"bufio"
+	"bytes"
 	"context"
 	"encoding/json"
+	"log/slog"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -39,7 +41,7 @@ func (f *fake) Check(context.Context, string) (provider.Result, error) {
 func newTestServer(t *testing.T, origin string, ps ...provider.Provider) *httptest.Server {
 	t.Helper()
 	eng := engine.NewWithStore(store.NewMemory(), ps...)
-	return httptest.NewServer(New(eng, origin).Handler())
+	return httptest.NewServer(New(eng, origin, nil).Handler())
 }
 
 func TestCheckStreamsNDJSON(t *testing.T) {
@@ -83,6 +85,32 @@ func TestCheckStreamsNDJSON(t *testing.T) {
 	}
 	if r := byID["b"]; r.Status != provider.StatusTaken {
 		t.Errorf("b = %+v", r)
+	}
+}
+
+// TestCheckLogsRequest pins the structured request log: one line per request
+// with the method, label, duration, and streamed result count.
+func TestCheckLogsRequest(t *testing.T) {
+	eng := engine.NewWithStore(store.NewMemory(),
+		&fake{id: "a", result: provider.Result{Status: provider.StatusAvailable}},
+		&fake{id: "b", result: provider.Result{Status: provider.StatusTaken}},
+	)
+	var buf bytes.Buffer
+	logger := slog.New(slog.NewTextHandler(&buf, nil))
+	srv := httptest.NewServer(New(eng, DefaultOrigin, logger).Handler())
+	defer srv.Close()
+
+	resp, err := http.Get(srv.URL + "/check?name=acema")
+	if err != nil {
+		t.Fatal(err)
+	}
+	resp.Body.Close()
+
+	logged := buf.String()
+	for _, want := range []string{"msg=request", "method=GET", "label=acema", "duration=", "results=2"} {
+		if !strings.Contains(logged, want) {
+			t.Errorf("log = %q, want to contain %q", logged, want)
+		}
 	}
 }
 

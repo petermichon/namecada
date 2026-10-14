@@ -5,6 +5,7 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
+	"log/slog"
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
@@ -284,6 +285,39 @@ func TestServeContextShutsDownOnCancel(t *testing.T) {
 		}
 	case <-time.After(3 * time.Second):
 		t.Fatal("serveContext did not return after cancel")
+	}
+}
+
+// TestServeWithLoggerLogsLifecycle pins that the serve loop logs a startup line
+// and, on shutdown, a shutting-down and a stopped line.
+func TestServeWithLoggerLogsLifecycle(t *testing.T) {
+	withTestEngine(t, testEngine())
+
+	var buf bytes.Buffer
+	logger := slog.New(slog.NewTextHandler(&buf, nil))
+
+	ctx, cancel := context.WithCancel(context.Background())
+	errc := make(chan error, 1)
+	go func() { errc <- serveWithLogger(ctx, "127.0.0.1:0", "", logger) }()
+
+	// Let the listener bind before asking it to stop.
+	time.Sleep(100 * time.Millisecond)
+	cancel()
+
+	select {
+	case err := <-errc:
+		if err != nil {
+			t.Fatalf("serveWithLogger: %v", err)
+		}
+	case <-time.After(3 * time.Second):
+		t.Fatal("serveWithLogger did not return after cancel")
+	}
+
+	logged := buf.String()
+	for _, want := range []string{"msg=listening", `msg="shutting down"`, "msg=stopped"} {
+		if !strings.Contains(logged, want) {
+			t.Errorf("log = %q, want to contain %q", logged, want)
+		}
 	}
 }
 
