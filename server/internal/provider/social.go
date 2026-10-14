@@ -67,6 +67,13 @@ func NewLastfm() Provider {
 		"https://www.last.fm", "/user/%s", "https://www.last.fm/user/%s", defaultCodes)
 }
 
+// NewSoundCloud checks a user on SoundCloud. The keyless profile route answers
+// 200 for a claimed username and 404 for a free one.
+func NewSoundCloud() Provider {
+	return newEndpoint("soundcloud", "soundcloud",
+		"https://soundcloud.com", "/%s", "https://soundcloud.com/%s", defaultCodes)
+}
+
 // NewMastodon checks an account on mastodon.social. The account lookup API
 // flattens suspended accounts to 404, so it probes the profile instead: 200 and
 // 410 Gone both mean the username is taken, 404 is free. The profile route

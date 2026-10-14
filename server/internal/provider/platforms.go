@@ -36,6 +36,7 @@ var platformNames = map[string]string{
 	"dailymotion":    "Dailymotion",
 	"mixcloud":       "Mixcloud",
 	"lastfm":         "Last.fm",
+	"soundcloud":     "SoundCloud",
 	"bluesky":        "Bluesky",
 	"mastodon":       "Mastodon",
 	"youtube":        "YouTube",

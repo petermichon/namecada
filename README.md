@@ -54,6 +54,7 @@ can't be reached is deferred (see below).
 | Dailymotion | `api.dailymotion.com/user/{name}`                            | 200 taken / 404 free      |
 | Mixcloud  | `api.mixcloud.com/{name}/`                                     | 200 taken / 404 free      |
 | Last.fm   | `last.fm/user/{name}` (profile)                                | 200 taken / 404 free      |
+| SoundCloud | `soundcloud.com/{name}` (profile)                             | 200 taken / 404 free      |
 | Open Collective | `opencollective.com/{name}.json`                         | 200 taken / 404 free      |
 | Bluesky   | `bsky.social/xrpc/com.atproto.temp.checkHandleAvailability` (`{name}.bsky.social`) | resultAvailable free / resultUnavailable taken |
 | Mastodon  | `mastodon.social/@{name}` (profile)                            | 200/410 taken / 404 free  |

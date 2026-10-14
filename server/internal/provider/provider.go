@@ -353,6 +353,7 @@ func Default(cfg Config) *Registry {
 	_ = r.Register(NewDailymotion())
 	_ = r.Register(NewMixcloud())
 	_ = r.Register(NewLastfm())
+	_ = r.Register(NewSoundCloud())
 	_ = r.Register(NewBluesky())
 	_ = r.Register(NewMastodon())
 	_ = r.Register(NewYouTube())

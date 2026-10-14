@@ -112,7 +112,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Epic Games — 🕸
 - [ ] Patreon — 🌐
 - [ ] Bandcamp — 🌐
-- [ ] SoundCloud — 🌐
+- [x] SoundCloud — ✅ — `soundcloud.com/{name}` (keyless profile: 200 taken / 404 free)
 - [ ] Gumroad — 🌐
 - [ ] Kickstarter — 🌐
 - [ ] Indiegogo — 🕸
