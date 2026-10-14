@@ -87,8 +87,10 @@ small core assembled from four pluggable packages:
   over the free names.
 
 Two commands drive it (`go run ./cmd/domainbrowser ...`): `serve` exposes the
-engine over HTTP for the app, and `check <label> [--out <file.sqlite>]` prints
-results as JSON or writes them to a SQLite file.
+engine over HTTP for the app, streaming one NDJSON object per source as it
+resolves, and `check <label> [--out <file.sqlite>]` runs a one-shot scan and
+prints the whole result set as a single JSON array — or, with `--out`, writes it
+to a SQLite file. Unlike `serve`, `check` buffers every source before emitting.
 
 The live source is always the source of truth. SQLite — like the in-memory store
 — is a **cache** of what a source last reported, not an authoritative record: a

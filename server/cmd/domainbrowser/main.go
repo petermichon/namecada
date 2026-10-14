@@ -6,6 +6,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"os/signal"
@@ -23,8 +24,9 @@ const usage = `usage: domainbrowser <command> [args]
 
 Commands:
   serve [--addr :8080] [--origin URL] start the HTTP server (GET /check?name=)
-  check <label> [--out <file.sqlite>]  check a single label across the sources
-                                      (--out writes a SQLite report instead of JSON)
+  check <label> [--out <file.sqlite>]  check a single label across the sources,
+                                      printing one JSON array of results
+                                      (--out writes a SQLite report instead)
 `
 
 func main() {
@@ -100,18 +102,23 @@ func check(args []string) error {
 	}
 
 	eng := engine.NewWithStore(store.NewMemory(), provider.Default().All()...)
+	return runCheck(os.Stdout, eng, label, out)
+}
 
+// runCheck performs a one-shot scan and writes the whole buffered result set:
+// a single JSON array for stdout, or a SQLite report when out is set. Unlike
+// serve, no result is emitted until every provider has resolved.
+func runCheck(w io.Writer, eng *engine.Engine, label, out string) error {
+	results := eng.ScanAll(context.Background(), label)
 	if out != "" {
-		return checkSQLite(eng, label, out)
+		return checkSQLite(results, out)
 	}
+	return writeJSON(w, results)
+}
 
-	enc := json.NewEncoder(os.Stdout)
-	for res := range eng.Scan(context.Background(), label) {
-		if err := enc.Encode(res); err != nil {
-			return err
-		}
-	}
-	return nil
+// writeJSON encodes results as a single JSON array (plus a trailing newline).
+func writeJSON(w io.Writer, results []engine.Result) error {
+	return json.NewEncoder(w).Encode(results)
 }
 
 // parseCheck splits "check" arguments into the label and an optional --out path.
@@ -139,17 +146,13 @@ func parseCheck(args []string) (label, out string, err error) {
 	return label, out, nil
 }
 
-// checkSQLite runs the scan and upserts every result into the SQLite report.
-func checkSQLite(eng *engine.Engine, label, path string) error {
+// checkSQLite upserts every buffered result into the SQLite report.
+func checkSQLite(results []engine.Result, path string) error {
 	s, err := sink.OpenSQLite(path)
 	if err != nil {
 		return err
 	}
 
-	results := make([]engine.Result, 0, len(eng.Providers()))
-	for res := range eng.Scan(context.Background(), label) {
-		results = append(results, res)
-	}
 	if err := s.Write(context.Background(), results); err != nil {
 		s.Close()
 		return err
