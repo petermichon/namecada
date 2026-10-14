@@ -18,11 +18,14 @@ export interface Row {
 export type Filter = 'all' | Status;
 
 // Order rows alphabetically by their display name, independent of status, so
-// the list stays stable as results stream in. Array.prototype.sort is stable,
-// so rows sharing a platformName keep their arrival order.
+// the list stays stable as results stream in. Ties break on the provider URL so
+// the order is deterministic regardless of arrival order — domains sort by TLD
+// (.ai .app .com .dev .io .org) and Hex sorts packages/ before users/.
 export function byPlatformName(a: Row, b: Row): number {
 	if (a.platformName < b.platformName) return -1;
 	if (a.platformName > b.platformName) return 1;
+	if (a.url < b.url) return -1;
+	if (a.url > b.url) return 1;
 	return 0;
 }
 

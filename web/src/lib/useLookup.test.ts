@@ -59,6 +59,27 @@ describe('byPlatformName', () => {
 		expect(byPlatformName(row('PeerTube', 'taken'), row('Lemmy', 'taken'))).toBeGreaterThan(0);
 		expect(byPlatformName(row('Lemmy', 'taken'), row('Lemmy', 'available'))).toBe(0);
 	});
+
+	it('breaks display-name ties by URL, not arrival order', () => {
+		const withUrl = (url: string): Row => ({ ...row('Domains', 'taken'), url });
+		const tld = ['.org', '.ai', '.com', '.app', '.io', '.dev'].map((s) =>
+			withUrl(`https://example${s}`)
+		);
+		expect(tld.toSorted(byPlatformName).map((r) => r.url)).toEqual([
+			'https://example.ai',
+			'https://example.app',
+			'https://example.com',
+			'https://example.dev',
+			'https://example.io',
+			'https://example.org'
+		]);
+
+		const hex = [
+			{ ...row('Hex', 'taken'), url: 'https://hex.pm/users/acema' },
+			{ ...row('Hex', 'taken'), url: 'https://hex.pm/packages/acema' }
+		];
+		expect(hex.toSorted(byPlatformName)[0].url).toBe('https://hex.pm/packages/acema');
+	});
 });
 
 describe('byPaidThenPlatformName', () => {
@@ -75,7 +96,7 @@ describe('byPaidThenPlatformName', () => {
 		expect(byPaidThenPlatformName(row('GitHub', 'taken'), row('Lemmy', 'taken'))).toBeLessThan(0);
 		expect(
 			byPaidThenPlatformName(row('Domains', 'taken', 'a', true), row('Domains', 'taken', 'b', true))
-		).toBe(0);
+		).toBeLessThan(0);
 	});
 });
 
@@ -93,10 +114,10 @@ describe('visibleRows', () => {
 		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['GitHub', 'PeerTube']);
 	});
 
-	it('is stable for rows sharing a platformName', () => {
+	it('breaks platformName ties by URL, not arrival order', () => {
 		const lookup = new Lookup();
 		lookup.rows = [row('Lemmy', 'taken', 'b'), row('Lemmy', 'available', 'a')];
-		expect(lookup.visibleRows.map((r) => r.name)).toEqual(['b', 'a']);
+		expect(lookup.visibleRows.map((r) => r.name)).toEqual(['a', 'b']);
 	});
 
 	it('puts paid rows before free rows', () => {
