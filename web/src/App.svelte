@@ -8,7 +8,7 @@
 	import { ModeWatcher, toggleMode } from 'mode-watcher';
 	import { onMount } from 'svelte';
 	import { isAbort, streamFromApi } from '$lib/api';
-	import { PLATFORMS, toLabel, type PlatformId, type Status } from '$lib/providers';
+	import { toLabel, type Status } from '$lib/providers';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Skeleton } from '$lib/components/ui/skeleton/index.js';
@@ -21,7 +21,8 @@
 
 	interface Row {
 		id: string;
-		platform: PlatformId;
+		platform: string;
+		platformName: string;
 		name: string;
 		url: string;
 		status: Status | 'pending';
@@ -117,6 +118,7 @@
 				const next: Row = {
 					id: result.id,
 					platform: result.platform,
+					platformName: result.platformName,
 					name: result.name,
 					url: result.url,
 					status: result.status,
@@ -193,7 +195,7 @@
 	);
 
 	async function copyResults() {
-		const lines = rows.map((row) => `${PLATFORMS[row.platform]}\t${row.name}\t${row.status}`);
+		const lines = rows.map((row) => `${row.platformName}\t${row.name}\t${row.status}`);
 		const text = `${lastLabel ?? ''}\n${lines.join('\n')}`;
 		try {
 			await navigator.clipboard.writeText(text);
@@ -321,7 +323,7 @@
 							>
 								<span
 									class="hidden w-28 shrink-0 truncate text-xs font-medium text-muted-foreground sm:block"
-									title={PLATFORMS[row.platform]}>{PLATFORMS[row.platform]}</span
+									title={row.platformName}>{row.platformName}</span
 								>
 								<span
 									class="min-w-0 flex-1 truncate text-sm {row.status === 'taken'

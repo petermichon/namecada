@@ -39,12 +39,27 @@ describe('parseResult', () => {
 				line({
 					id: 'lemmy',
 					platform: 'lemmy',
+					platformName: 'Lemmy',
 					name: 'acema',
 					url: 'https://lemmy.world/u/acema',
 					status: 'taken'
 				})
 			)
-		).toMatchObject({ id: 'lemmy', status: 'taken' });
+		).toMatchObject({ id: 'lemmy', platformName: 'Lemmy', status: 'taken' });
+	});
+
+	it('falls back to the platform id when platformName is missing', () => {
+		expect(
+			parseResult(
+				line({
+					id: 'lemmy',
+					platform: 'lemmy',
+					name: 'acema',
+					url: 'https://lemmy.world/u/acema',
+					status: 'taken'
+				})
+			)
+		).toMatchObject({ platformName: 'lemmy' });
 	});
 
 	it('drops an empty detail', () => {
@@ -83,6 +98,7 @@ describe('streamFromApi', () => {
 				line({
 					id: 'lemmy',
 					platform: 'lemmy',
+					platformName: 'Lemmy',
 					name: 'acema',
 					url: 'https://lemmy.world/u/acema',
 					status: 'taken'
@@ -90,6 +106,7 @@ describe('streamFromApi', () => {
 				line({
 					id: 'peertube',
 					platform: 'peertube',
+					platformName: 'PeerTube',
 					name: 'acema',
 					url: 'https://framatube.org/a/acema',
 					status: 'available',
@@ -102,6 +119,7 @@ describe('streamFromApi', () => {
 		await streamFromApi('acema', (result) => seen.push(result));
 
 		expect(seen.map((result) => result.id)).toEqual(['lemmy', 'peertube']);
+		expect(seen[0].platformName).toBe('Lemmy');
 		expect(seen[1].detail).toBeUndefined();
 	});
 

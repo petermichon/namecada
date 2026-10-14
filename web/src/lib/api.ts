@@ -1,4 +1,4 @@
-import type { PlatformId, ProviderResult, Status } from './providers';
+import type { ProviderResult, Status } from './providers';
 
 // The backend `serve` command defaults to :8080 (see backend/internal/api).
 export const DEFAULT_API_BASE = 'http://localhost:8080';
@@ -33,9 +33,12 @@ export function parseResult(line: string): ProviderResult | null {
 	if (typeof row.id !== 'string' || !row.id) return null;
 	if (typeof row.name !== 'string' || typeof row.url !== 'string') return null;
 	if (typeof row.status !== 'string' || !STATUSES.includes(row.status as Status)) return null;
+	const platform = typeof row.platform === 'string' ? row.platform : '';
 	return {
 		id: row.id,
-		platform: row.platform as PlatformId,
+		platform,
+		platformName:
+			typeof row.platformName === 'string' && row.platformName ? row.platformName : platform,
 		name: row.name,
 		url: row.url,
 		status: row.status as Status,

@@ -103,6 +103,22 @@ func TestScanEmitsOneResultPerProvider(t *testing.T) {
 	}
 }
 
+func TestScanPopulatesPlatformName(t *testing.T) {
+	p := &fake{id: "pypi", platform: "pypi", result: provider.Result{Status: provider.StatusAvailable}}
+	unknown := &fake{id: "other", platform: "brand-new", result: provider.Result{Status: provider.StatusTaken}}
+
+	byID := map[string]Result{}
+	for _, r := range New(p, unknown).ScanAll(context.Background(), "acema") {
+		byID[r.ID] = r
+	}
+	if got := byID["pypi"].PlatformName; got != "PyPI" {
+		t.Errorf("pypi platformName = %q, want %q", got, "PyPI")
+	}
+	if got := byID["other"].PlatformName; got != "brand-new" {
+		t.Errorf("unknown platformName = %q, want the id unchanged", got)
+	}
+}
+
 func TestScanRunsProvidersConcurrently(t *testing.T) {
 	const n = 5
 	started := make(chan string, n)

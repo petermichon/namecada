@@ -26,12 +26,13 @@ const DefaultConcurrency = 8
 // Result is the outcome of one provider's check for a label. Its shape
 // mirrors the frontend ProviderResult so the two consumers stay in sync.
 type Result struct {
-	ID       string          `json:"id"`
-	Platform string          `json:"platform"`
-	Name     string          `json:"name"`
-	URL      string          `json:"url"`
-	Status   provider.Status `json:"status"`
-	Detail   string          `json:"detail,omitempty"`
+	ID           string          `json:"id"`
+	Platform     string          `json:"platform"`
+	PlatformName string          `json:"platformName"`
+	Name         string          `json:"name"`
+	URL          string          `json:"url"`
+	Status       provider.Status `json:"status"`
+	Detail       string          `json:"detail,omitempty"`
 }
 
 // Engine scans a label across a fixed, ordered set of providers.
@@ -154,10 +155,11 @@ func (e *Engine) ScanAll(ctx context.Context, label string) []Result {
 
 func (e *Engine) check(ctx context.Context, p provider.Provider, label string) Result {
 	res := Result{
-		ID:       p.ID(),
-		Platform: p.Platform(),
-		Name:     p.Name(label),
-		URL:      p.URL(label),
+		ID:           p.ID(),
+		Platform:     p.Platform(),
+		PlatformName: provider.PlatformName(p.Platform()),
+		Name:         p.Name(label),
+		URL:          p.URL(label),
 	}
 
 	// A label shorter than the source's minimum can never exist there, so it
