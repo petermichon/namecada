@@ -135,6 +135,16 @@ func NewX() Provider {
 		"https://x.com", "/%s", "https://x.com/%s", defaultCodes)
 }
 
+// NewOpenSea checks a username on OpenSea. The keyless profile route answers
+// 200 for a claimed username and 404 for a free one. Usernames are user-chosen
+// and cost nothing to set, so the source is free. Cloudflare fronts the route:
+// a 403/429 is not in the table and degrades to unknown (uncached) rather than
+// an error.
+func NewOpenSea() Provider {
+	return newEndpoint("opensea", "opensea",
+		"https://opensea.io", "/%s", "https://opensea.io/%s", defaultCodes)
+}
+
 // Wikipedia checks a global account on Wikimedia. Unlike the status-only
 // sources it reads the body: globaluserinfo carries a "missing" key when the
 // name is free. Source: docs/platforms.md — meta.wikimedia.org/w/api.php.

@@ -219,6 +219,7 @@ Name systems / crypto:
 - [ ] OpenNIC — 🌐
 - [x] Lens Protocol — ✅ — `api.lens.xyz/graphql` (keyless GraphQL: POST an `account(username.localName:)` query; non-null `data.account` taken / null `data.account` free; page `hey.xyz/u/{name}`; undocumented keyless read access)
 - [x] Paragraph — ✅ — `paragraph.com/@{name}` (keyless profile: 200 taken / real 404 free; `paragraph.xyz` 301s here)
+- [x] OpenSea — ✅ — `opensea.io/{name}` (keyless profile: 200 taken / 404 free; usernames are free to set with a wallet; Cloudflare-protected, so 403/429 degrades to unknown/uncached)
 
 Creators / commerce / media:
 

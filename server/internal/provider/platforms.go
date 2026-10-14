@@ -57,6 +57,7 @@ var platformNames = map[string]string{
 	"opencollective": "Open Collective",
 	"discogs":        "Discogs",
 	"x":              "X / Twitter",
+	"opensea":        "OpenSea",
 	"twitch":         "Twitch",
 	"companieshouse": "Companies House",
 	"opencorporates": "OpenCorporates",

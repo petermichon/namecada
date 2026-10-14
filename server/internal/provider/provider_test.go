@@ -79,6 +79,7 @@ func httpSources() []httpSource {
 		endpointSource("mastodon", "mastodon", "/@acema", "", NewMastodon),
 		endpointSource("youtube", "youtube", "/@acema", "", NewYouTube),
 		endpointSource("x", "x", "/acema", "", NewX),
+		endpointSource("opensea", "opensea", "/acema", "", NewOpenSea),
 		endpointSource("kaggle", "kaggle", "/acema", "", NewKaggle),
 		endpointSource("dribbble", "dribbble", "/acema", "", NewDribbble),
 		endpointSource("behance", "behance", "/acema", "", NewBehance),
@@ -198,6 +199,32 @@ func TestJSRCodes(t *testing.T) {
 	}
 	if got.Status != StatusTaken {
 		t.Errorf("status = %q, want %q", got.Status, StatusTaken)
+	}
+}
+
+// TestOpenSeaCloudflareStatuses guards the Cloudflare caveat: a 403 or 429 is
+// neither taken nor available, so it must classify as unknown with no error
+// (the engine never caches unknown, so the check self-heals).
+func TestOpenSeaCloudflareStatuses(t *testing.T) {
+	for _, code := range []int{http.StatusForbidden, http.StatusTooManyRequests} {
+		t.Run(http.StatusText(code), func(t *testing.T) {
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				w.WriteHeader(code)
+			}))
+			defer srv.Close()
+
+			e := NewOpenSea().(*endpoint)
+			e.baseURL = srv.URL
+			e.client = srv.Client()
+
+			got, err := e.Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != StatusUnknown {
+				t.Errorf("status = %q, want %q", got.Status, StatusUnknown)
+			}
+		})
 	}
 }
 
@@ -1071,8 +1098,8 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default(Config{})
-	if r.Len() != 80 {
-		t.Fatalf("Len = %d, want 80", r.Len())
+	if r.Len() != 81 {
+		t.Fatalf("Len = %d, want 81", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
@@ -1085,6 +1112,7 @@ func TestDefaultRegistry(t *testing.T) {
 		"huggingface", "dailymotion", "mixcloud", "lastfm", "soundcloud", "anilist", "bluesky", "mastodon",
 		"youtube",
 		"x",
+		"opensea",
 		"kaggle",
 		"dribbble",
 		"behance",

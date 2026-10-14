@@ -71,6 +71,7 @@ can't be reached is deferred (see below).
 | HackerNoon | `hackernoon.com/u/{name}` (profile)                           | 200 taken / 404 free      |
 | Spotify   | `open.spotify.com/user/{name}` (profile)                       | 200 taken / 404 free      |
 | Paragraph | `paragraph.com/@{name}` (profile)                              | 200 taken / 404 free      |
+| OpenSea   | `opensea.io/{name}` (profile)                                 | 200 taken / 404 free      |
 | Instagram | `instagram.com/{name}/` (profile)                              | `"username":"{name}"` taken / generic shell free |
 | Hacker News | `news.ycombinator.com/user?id={name}`                        | `No such user.` free / `karma` taken |
 | Discogs   | `api.discogs.com/users/{name}` (token)                         | 200 taken / 404 free      |

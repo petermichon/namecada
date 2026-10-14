@@ -355,6 +355,7 @@ func Default(cfg Config) *Registry {
 	_ = r.Register(NewMastodon())
 	_ = r.Register(NewYouTube())
 	_ = r.Register(NewX())
+	_ = r.Register(NewOpenSea())
 	_ = r.Register(NewKaggle())
 	_ = r.Register(NewDribbble())
 	_ = r.Register(NewBehance())
