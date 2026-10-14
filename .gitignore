@@ -12,6 +12,7 @@ npm-debug.log*
 # Build artifacts
 frontend/dist
 frontend/.svelte-check
+backend/domainbrowser
 
 # todoworker queue
 plan/PLAN.md
