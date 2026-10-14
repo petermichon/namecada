@@ -1,10 +1,11 @@
 # Domain Browser
 
 A name availability report. Enter a bare name (`acema`) and it checks that name
-across several independent sources at once, fetched directly from the browser.
-Dots aren't accepted — the sources are checked per label, so a dotted input
-(`acema.com`) is rejected with a prompt to drop the dot rather than silently
-reduced.
+across several independent sources at once. A Go backend does the checking when
+it is reachable; otherwise the app falls back to fetching the sources directly
+from the browser. Dots aren't accepted — the sources are checked per label, so a
+dotted input (`acema.com`) is rejected with a prompt to drop the dot rather than
+silently reduced.
 
 ## How it works
 
@@ -12,12 +13,13 @@ Each source runs independently and streams its verdict into the report as soon
 as it resolves, so one slow or failing source never blocks the others. Nothing
 waits for the whole set.
 
-Most sources are **browser-direct**: they must send `Access-Control-Allow-Origin`,
-so no proxy is needed. The app is also a consumer of the optional backend
-(`backend/`, `serve`): when its API is reachable the app streams results from
-`GET /check?name=<label>`; otherwise it falls back to checking each source
-directly from the browser. Anything that can't be reached either way is deferred
-(see below).
+The app prefers the backend: when its API is reachable it streams results from
+`GET /check?name=<label>` over NDJSON, and only falls back to checking each
+source directly from the browser when no backend is reachable. The backend is
+where sources that need a proxy, a key, or no CORS are meant to live;
+browser-direct is limited to sources that send `Access-Control-Allow-Origin` on
+both the taken and free response. Anything that can't be reached either way is
+deferred (see below).
 
 ### Sources
 
@@ -72,6 +74,35 @@ covers both.
 - Some platforms enforce a minimum name length (Chess.com 3, Lichess 2); shorter
   names are shown as **unavailable** (not registrable) rather than free.
 
+## Backend
+
+`backend/` is the optional Go module that runs the checks server-side. It is a
+small core assembled from four pluggable packages:
+
+- `internal/provider` — the `Provider` interface (`ID`, `Platform`, `Name`,
+  `URL`, `Check`) plus an ordered registry; each source is a provider.
+- `internal/engine` — runs the registered providers concurrently and streams a
+  result as each resolves, mirroring the frontend `streamAll`.
+- `internal/store` — a cache of verdicts keyed `provider:label` with a one-hour
+  TTL, mirroring the frontend `providerCache`.
+- `internal/sink` — durable destinations for a finished scan. The SQLite sink
+  upserts one row per `provider:label` into a `checks` table (primary key `name`
+  + `provider`, so a re-check updates in place) and exposes an `available` view
+  over the free names.
+
+Two commands drive it (`go run ./cmd/domainbrowser ...`): `serve` exposes the
+engine over HTTP for the app, and `check <label> [--out <file.sqlite>]` prints
+results as JSON or writes them to a SQLite file.
+
+The live source is always the source of truth. SQLite — like the in-memory store
+— is a **cache** of what a source last reported, not an authoritative record: a
+row can be stale, rate-limited, or wrong, and a domain row captures registry
+state rather than registrability, so re-check the source rather than trusting
+the file. The backend is preferred over browser-direct because it lifts the
+browser's CORS limit, keeps one shared cache in front of rate-limited APIs, and
+is where keyed or no-CORS sources can be added; the browser path remains the
+fallback so the app still works with no backend running.
+
 ## Caching
 
 Results are cached per provider in `localStorage`, keyed `provider:label`
@@ -84,6 +115,7 @@ This matters most for GitHub and npm, which rate-limit unauthenticated requests
 
 ## Layout
 
+- `backend/` — Go core (provider/engine/store/sink), see [Backend](#backend).
 - `frontend/` — Svelte 5 + Vite + Tailwind + shadcn-svelte (maia) app.
   - `src/lib/providers.ts` — `Provider` interface, the provider registry,
     `streamAll`/`checkAll`. Each provider declares a `platform`; the report
