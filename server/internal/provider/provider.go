@@ -282,5 +282,7 @@ func Default() *Registry {
 	_ = r.Register(NewDynV6())
 	_ = r.Register(NewNotedLol())
 	_ = r.Register(NewIsAGoodDev())
+	_ = r.Register(NewPagesDev())
+	_ = r.Register(NewFly())
 	return r
 }

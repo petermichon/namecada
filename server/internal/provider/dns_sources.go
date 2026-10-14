@@ -36,3 +36,14 @@ func NewNotedLol() Provider { return newDNS("notedlol", "notedlol", "noted.lol")
 // resolving means taken and an NXDOMAIN means free. The label is sent to the
 // DNS resolver.
 func NewIsAGoodDev() Provider { return newDNS("isagooddev", "isagooddev", "is-a-good.dev") }
+
+// NewPagesDev checks a Cloudflare Pages project subdomain under pages.dev.
+// pages.dev has no wildcard DNS, so only claimed names resolve:
+// `{label}.pages.dev` resolving means taken and an NXDOMAIN means free. The
+// label is sent to the DNS resolver.
+func NewPagesDev() Provider { return newDNS("pagesdev", "pagesdev", "pages.dev") }
+
+// NewFly checks a Fly.io app hostname under fly.dev. fly.dev has no wildcard
+// DNS, so only claimed names resolve: `{label}.fly.dev` resolving means taken
+// and an NXDOMAIN means free. The label is sent to the DNS resolver.
+func NewFly() Provider { return newDNS("fly", "fly", "fly.dev") }

@@ -22,6 +22,8 @@ func TestDNSSources(t *testing.T) {
 		{"dynv6", NewDynV6, "dynv6", "dynv6", "dynv6.net", "dynv6"},
 		{"notedlol", NewNotedLol, "notedlol", "notedlol", "noted.lol", "noted.lol"},
 		{"isagooddev", NewIsAGoodDev, "isagooddev", "isagooddev", "is-a-good.dev", "is-a-good.dev"},
+		{"pagesdev", NewPagesDev, "pagesdev", "pagesdev", "pages.dev", "Cloudflare Pages"},
+		{"fly", NewFly, "fly", "fly", "fly.dev", "Fly.io"},
 	}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {

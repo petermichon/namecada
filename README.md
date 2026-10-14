@@ -71,6 +71,8 @@ can't be reached is deferred (see below).
 | dynv6     | `{name}.dynv6.net` (DNS, no wildcard)                          | resolves taken / NXDOMAIN free |
 | noted.lol | `{name}.noted.lol` (DNS, no wildcard)                          | resolves taken / NXDOMAIN free |
 | is-a-good.dev | `{name}.is-a-good.dev` (DNS, no wildcard)                  | resolves taken / NXDOMAIN free |
+| Cloudflare Pages | `{name}.pages.dev` (DNS, no wildcard)                    | resolves taken / NXDOMAIN free |
+| Fly.io    | `{name}.fly.dev` (DNS, no wildcard)                            | resolves taken / NXDOMAIN free |
 
 Domains run once per TLD (`.com`, `.org`, `.dev`, `.io`, `.ai`, `.app`), each a
 separate provider. The TLD is resolved to its registry through the IANA RDAP
@@ -82,7 +84,7 @@ report renders a Paid card above a Free card, and each provider carries a `paid`
 flag the server streams on every `/check` result.
 
 The free-subdomain sources (eu.org, DuckDNS, No-IP, dynv6, noted.lol,
-is-a-good.dev) have no wildcard DNS, so they resolve `{name}.{host}` and treat a
+is-a-good.dev, Cloudflare Pages, Fly.io) have no wildcard DNS, so they resolve `{name}.{host}` and treat a
 successful answer as taken and an NXDOMAIN as free. Because that is a DNS
 lookup, the label is sent to the resolver — the same privacy exposure as
 looking the name up directly.

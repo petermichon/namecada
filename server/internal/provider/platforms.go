@@ -55,6 +55,8 @@ var platformNames = map[string]string{
 	"dynv6":          "dynv6",
 	"notedlol":       "noted.lol",
 	"isagooddev":     "is-a-good.dev",
+	"pagesdev":       "Cloudflare Pages",
+	"fly":            "Fly.io",
 }
 
 // PlatformName returns the display name for a platform id. An unknown id is

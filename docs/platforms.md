@@ -143,12 +143,6 @@ Hosting subdomains — ruled out (status can't isolate a user-chosen name):
 - [ ] AWS Amplify — 🔌 — `{name}.amplifyapp.com` — host is
   `{branch}.{appid}.amplifyapp.com`, where `appid` is an AWS-generated id, not a
   chosen name; also non-wildcard (random names NXDOMAIN).
-- [ ] Cloudflare Pages — 🔌 — `{name}.pages.dev` — not wildcard: random names
-  NXDOMAIN and only claimed ones resolve, so free vs. claimed is a DNS
-  distinction, not an HTTP one (belongs with the DoH free-subdomain group).
-- [ ] Fly.io — 🔌 — `{name}.fly.dev` — not wildcard: only claimed names resolve;
-  both free and non-existent give a DNS failure, so HTTP status can't tell them
-  apart.
 - [ ] Replit — 🔌 — `{name}.repl.co` — deprecated old domain; random NXDOMAIN and
   the apex 301s to `replit.com/deployments`.
 - [ ] Glitch — 🔌 — `{name}.glitch.me` — Glitch is shut down; every name,
@@ -275,6 +269,8 @@ Free subdomain namespaces (developer-oriented):
 - [ ] js.org — 🔌 — wildcard DNS; needs HTTP status via proxy
 - [ ] is-a.dev — 🔌 — wildcard DNS
 - [x] is-a-good.dev — ✅ — `{name}.is-a-good.dev` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
+- [x] pages.dev — ✅ — `{name}.pages.dev` (Cloudflare Pages; DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
+- [x] fly.dev — ✅ — `{name}.fly.dev` (Fly.io; DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
 - [ ] ngrok-free.app — 🔌 — needs proxy
 - [ ] localhost.run — 🔌 — needs proxy
 - [ ] trycloudflare.com — 🔌 — needs proxy
