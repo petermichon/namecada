@@ -112,6 +112,14 @@ func NewBehance() Provider {
 		"https://www.behance.net", "/%s", "https://www.behance.net/%s", defaultCodes)
 }
 
+// NewReplicate checks a user on Replicate. The API has no arbitrary-username
+// lookup, so it probes the profile page, which answers 200 for a claimed
+// username and 404 for a free one.
+func NewReplicate() Provider {
+	return newEndpoint("replicate", "replicate",
+		"https://replicate.com", "/%s", "https://replicate.com/%s", defaultCodes)
+}
+
 // Wikipedia checks a global account on Wikimedia. Unlike the status-only
 // sources it reads the body: globaluserinfo carries a "missing" key when the
 // name is free. Source: docs/platforms.md — meta.wikimedia.org/w/api.php.

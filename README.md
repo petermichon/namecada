@@ -60,6 +60,7 @@ can't be reached is deferred (see below).
 | Kaggle    | `kaggle.com/{name}` (profile)                                  | 200 taken / 404 free      |
 | Dribbble  | `dribbble.com/{name}` (profile)                                | 200 taken / 404 free      |
 | Behance   | `behance.net/{name}` (profile)                                 | 200 taken / 404 free      |
+| Replicate | `replicate.com/{name}` (profile)                               | 200 taken / 404 free      |
 | Hacker News | `news.ycombinator.com/user?id={name}`                        | `No such user.` free / `karma` taken |
 | Vercel    | `{name}.vercel.app` (subdomain)                                | 200 taken / 404 free      |
 | Netlify   | `{name}.netlify.app` (subdomain)                               | 200 taken / 404 free      |
