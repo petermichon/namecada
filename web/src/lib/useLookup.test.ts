@@ -156,7 +156,7 @@ describe('visibleRows', () => {
 });
 
 describe('unsupported', () => {
-	it('builds catalogue rows for the current label, carrying its reason as detail', () => {
+	it('builds catalogue rows for the current label with the substituted url', () => {
 		const lookup = new Lookup();
 		expect(lookup.unsupportedRows).toEqual([]);
 
@@ -165,13 +165,13 @@ describe('unsupported', () => {
 		expect(lookup.unsupportedRows).toHaveLength(UNSUPPORTED.length);
 		expect(lookup.unsupportedRows.every((row) => row.status === 'unsupported')).toBe(true);
 		expect(lookup.unsupportedRows.every((row) => row.name === 'acema')).toBe(true);
-		expect(lookup.unsupportedRows.map((row) => row.detail)).toEqual(
-			UNSUPPORTED.map((source) => source.reason)
-		);
+		expect(lookup.unsupportedRows.every((row) => row.detail === undefined)).toBe(true);
 		expect(lookup.unsupportedRows.map((row) => row.paid)).toEqual(
 			UNSUPPORTED.map((source) => source.paid)
 		);
-		expect(lookup.unsupportedRows[0].url).toContain('acema');
+		expect(lookup.unsupportedRows.map((row) => row.url)).toEqual(
+			UNSUPPORTED.map((source) => source.url.replace('{name}', 'acema'))
+		);
 	});
 
 	it('keeps unsupported rows out of the available/taken/unknown counts', () => {
@@ -187,24 +187,21 @@ describe('unsupported', () => {
 		});
 	});
 
-	it('includes unsupported rows under all but not in the verdict groups', () => {
+	it('mixes unsupported rows into the paid and free lists like verdict rows', () => {
 		const lookup = new Lookup();
 		lookup.lastLabel = 'acema';
 		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available')];
 
 		expect(lookup.visibleRows).toHaveLength(2 + UNSUPPORTED.length);
-		expect(lookup.visibleUnsupportedRows).toHaveLength(UNSUPPORTED.length);
-		expect(lookup.paidRows.every((row) => row.status !== 'unsupported')).toBe(true);
-		expect(lookup.freeRows.map((row) => row.platformName)).toEqual(['GitHub', 'Lemmy']);
-		expect(lookup.paidUnsupportedRows.map((r) => r.platformName).toSorted()).toEqual(
-			UNSUPPORTED.filter((source) => source.paid)
-				.map((source) => source.platformName)
-				.toSorted()
-		);
-		expect(lookup.freeUnsupportedRows.map((r) => r.platformName).toSorted()).toEqual(
-			UNSUPPORTED.filter((source) => !source.paid)
-				.map((source) => source.platformName)
-				.toSorted()
+		expect(lookup.paidRows.map((r) => r.platformName)).toContain('Unstoppable Domains');
+		expect(lookup.paidRows.every((row) => row.paid)).toBe(true);
+		expect(lookup.freeRows.map((r) => r.platformName)).toContain('GitHub');
+		expect(lookup.freeRows.map((r) => r.platformName)).toContain('TikTok');
+		expect(lookup.freeRows.every((row) => !row.paid)).toBe(true);
+		// Ordered by display name, so unsupported and verdict rows interleave
+		// rather than forming a separate trailing group.
+		expect(lookup.freeRows.map((r) => r.platformName)).toEqual(
+			[...lookup.freeRows.map((r) => r.platformName)].toSorted()
 		);
 	});
 
@@ -216,11 +213,9 @@ describe('unsupported', () => {
 
 		expect(lookup.visibleRows).toHaveLength(UNSUPPORTED.length);
 		expect(lookup.visibleRows.every((row) => row.status === 'unsupported')).toBe(true);
-		expect(lookup.paidRows).toEqual([]);
-		expect(lookup.freeRows).toEqual([]);
-		expect(lookup.paidUnsupportedRows.length + lookup.freeUnsupportedRows.length).toBe(
-			UNSUPPORTED.length
-		);
+		expect(lookup.paidRows.length + lookup.freeRows.length).toBe(UNSUPPORTED.length);
+		expect(lookup.paidRows.every((row) => row.status === 'unsupported')).toBe(true);
+		expect(lookup.freeRows.every((row) => row.status === 'unsupported')).toBe(true);
 	});
 
 	it('drops unsupported rows when there is no checked label', () => {

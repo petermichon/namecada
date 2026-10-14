@@ -209,7 +209,8 @@ export class Lookup {
 
 	// Unsupported rows are derived from the static catalogue for the current
 	// label. They are not verdicts, so they never enter this.rows and never
-	// affect the available/taken/unknown counts.
+	// affect the available/taken/unknown counts; they render like any other row
+	// (a real link to the substituted url) with an empty status slot.
 	unsupportedRows = $derived.by<Row[]>(() => {
 		const label = this.lastLabel;
 		if (!label) return [];
@@ -220,7 +221,6 @@ export class Lookup {
 			name: label,
 			url: source.url.replace('{name}', label),
 			status: 'unsupported' as const,
-			detail: source.reason,
 			paid: source.paid
 		}));
 	});
@@ -234,16 +234,12 @@ export class Lookup {
 		).toSorted(byPaidThenPlatformName)
 	);
 
-	paidRows = $derived(this.visibleRows.filter((row) => row.status !== 'unsupported' && row.paid));
-	freeRows = $derived(this.visibleRows.filter((row) => row.status !== 'unsupported' && !row.paid));
-
-	visibleUnsupportedRows = $derived(this.visibleRows.filter((row) => row.status === 'unsupported'));
-
-	// Unsupported rows are folded into the Paid or Free card by their catalogue
-	// `paid` flag. They stay out of paidRows/freeRows so those (verdict-only)
-	// lists keep driving the available counts and the "N of M available" line.
-	paidUnsupportedRows = $derived(this.visibleUnsupportedRows.filter((row) => row.paid));
-	freeUnsupportedRows = $derived(this.visibleUnsupportedRows.filter((row) => !row.paid));
+	// Unsupported rows are mixed into the Paid or Free list by their catalogue
+	// `paid` flag, exactly like verdict rows — the only difference is the empty
+	// status slot. They are not verdicts, so ResultsList derives the "N of M
+	// available" line from the rows that carry a verdict only.
+	paidRows = $derived(this.visibleRows.filter((row) => row.paid));
+	freeRows = $derived(this.visibleRows.filter((row) => !row.paid));
 
 	counts = $derived.by(() => {
 		const totals = { available: 0, taken: 0, unknown: 0, unsupported: this.unsupportedRows.length };
