@@ -143,5 +143,16 @@ func Default() *Registry {
 	// Registration cannot fail for the constants below.
 	_ = r.Register(NewLemmy())
 	_ = r.Register(NewPeerTube())
+	_ = r.Register(NewNPM())
+	_ = r.Register(NewPyPI())
+	_ = r.Register(NewCrates())
+	_ = r.Register(NewNuGet())
+	_ = r.Register(NewHex())
+	_ = r.Register(NewHexUser())
+	_ = r.Register(NewPub())
+	_ = r.Register(NewHomebrew())
+	_ = r.Register(NewJSR())
+	_ = r.Register(NewWordPress())
+	_ = r.Register(NewOpenVSX())
 	return r
 }

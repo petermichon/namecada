@@ -39,6 +39,44 @@ func httpSources() []httpSource {
 				return &PeerTube{BaseURL: baseURL, Client: client}
 			},
 		},
+		endpointSource("npm", "npm", "/acema", "", NewNPM),
+		endpointSource("pypi", "pypi", "/pypi/acema/json", "", NewPyPI),
+		endpointSource("crates", "crates", "/api/v1/crates/acema", "", NewCrates),
+		endpointSource("nuget", "nuget", "/v3-flatcontainer/acema/index.json", "", NewNuGet),
+		endpointSource("hex", "hex", "/api/packages/acema", "", NewHex),
+		endpointSource("hex-user", "hex", "/api/users/acema", "", NewHexUser),
+		endpointSource("pub", "pub", "/api/packages/acema", "", NewPub),
+		endpointSource("homebrew", "homebrew", "/api/formula/acema.json", "", NewHomebrew),
+		endpointSource("jsr", "jsr", "/api/scopes/acema", "", NewJSR),
+		endpointSource("openvsx", "openvsx", "/api/acema", "", NewOpenVSX),
+		{
+			name:     "wordpress",
+			id:       "wordpress",
+			platform: "wordpress",
+			wantPath: "/plugins/info/1.2/",
+			wantQ:    "action=plugin_information&request%5Bslug%5D=acema",
+			build: func(baseURL string, client *http.Client) Provider {
+				return &WordPress{BaseURL: baseURL, Client: client}
+			},
+		},
+	}
+}
+
+// endpointSource builds a table entry for a status-only registry provider,
+// pointing its constructor at a test server.
+func endpointSource(id, platform, wantPath, wantQ string, newProvider func() Provider) httpSource {
+	return httpSource{
+		name:     id,
+		id:       id,
+		platform: platform,
+		wantPath: wantPath,
+		wantQ:    wantQ,
+		build: func(baseURL string, client *http.Client) Provider {
+			e := newProvider().(*endpoint)
+			e.baseURL = baseURL
+			e.client = client
+			return e
+		},
 	}
 }
 
@@ -92,6 +130,58 @@ func TestProvidersCheckTransportError(t *testing.T) {
 			_, err := src.build(url, srv.Client()).Check(context.Background(), "acema")
 			if err == nil {
 				t.Fatal("expected a transport error, got nil")
+			}
+		})
+	}
+}
+
+func TestJSRCodes(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusBadRequest)
+	}))
+	defer srv.Close()
+
+	e := NewJSR().(*endpoint)
+	e.baseURL = srv.URL
+	e.client = srv.Client()
+
+	got, err := e.Check(context.Background(), "acema")
+	if err != nil {
+		t.Fatalf("Check returned error: %v", err)
+	}
+	if got.Status != StatusTaken {
+		t.Errorf("status = %q, want %q", got.Status, StatusTaken)
+	}
+}
+
+func TestWordPressCheck(t *testing.T) {
+	tests := []struct {
+		name string
+		code int
+		body string
+		want Status
+	}{
+		{"published", http.StatusOK, `{}`, StatusTaken},
+		{"closed", http.StatusNotFound, `{"closed":true}`, StatusTaken},
+		{"free", http.StatusNotFound, `{"closed":false}`, StatusAvailable},
+		{"free without body", http.StatusNotFound, ``, StatusAvailable},
+		{"server error", http.StatusInternalServerError, ``, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				w.WriteHeader(tt.code)
+				_, _ = w.Write([]byte(tt.body))
+			}))
+			defer srv.Close()
+
+			got, err := (&WordPress{BaseURL: srv.URL, Client: srv.Client()}).
+				Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
 			}
 		})
 	}
@@ -179,10 +269,14 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default()
-	if r.Len() != 2 {
-		t.Fatalf("Len = %d, want 2", r.Len())
+	if r.Len() != 13 {
+		t.Fatalf("Len = %d, want 13", r.Len())
 	}
-	for _, id := range []string{"lemmy", "peertube"} {
+	for _, id := range []string{
+		"lemmy", "peertube",
+		"npm", "pypi", "crates", "nuget", "hex", "hex-user", "pub",
+		"homebrew", "jsr", "wordpress", "openvsx",
+	} {
 		if _, ok := r.Get(id); !ok {
 			t.Errorf("default registry is missing %q", id)
 		}
