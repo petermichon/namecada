@@ -1,0 +1,4 @@
+{
+	"check": "npm run verify && if [ -d backend ]; then cd backend && go vet ./... && go test ./...; fi",
+	"defaultRole": "implementer"
+}
