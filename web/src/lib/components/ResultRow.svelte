@@ -11,7 +11,7 @@
 		{ text: string; cls: string; Icon?: typeof CheckCircle2Icon }
 	> = {
 		available: { text: 'available', cls: 'text-success', Icon: CheckCircle2Icon },
-		taken: { text: 'unavailable', cls: 'text-muted-foreground', Icon: XCircleIcon },
+		taken: { text: 'unavailable', cls: 'text-destructive', Icon: XCircleIcon },
 		unknown: { text: 'unknown', cls: 'text-warning', Icon: HelpCircleIcon },
 		unsupported: { text: 'not checked', cls: 'text-muted-foreground', Icon: CircleMinusIcon },
 		pending: { text: 'checking', cls: 'text-muted-foreground' }
