@@ -247,3 +247,14 @@ below, written in the browser-direct era, must be re-checked before implementing
   generated subdomain per session, so the name never resolves.
 - [ ] trycloudflare.com — 🔌 — ruled out: ephemeral — Quick Tunnels get a random
   generated host per session; the name never resolves to a claimable namespace.
+- [ ] Notion — 🕸 — `{name}.notion.site` — keyless pass: 200 for both a real and a
+  fake page, so no status signal; deferred, not ported
+- [ ] Imgur — 🕸 — `imgur.com/user/{name}` — keyless pass: an always-200 SPA shell
+  for both real and fake users, so no status signal; deferred, not ported
+- [ ] Wix — 🕸 — `{name}.wixsite.com` — keyless pass: 404 for both real and fake
+  sites, so no status signal
+- [ ] Squarespace — 🕸 — `{name}.squarespace.com` — keyless pass: 401 for a claimed
+  site / 404 for a free name — ambiguous, so no reliable signal
+- [ ] Shopify storefront — 🕸 — `{name}.myshopify.com` — keyless: 301 → (followed)
+  200 when claimed / 404 free; the merchant store namespace, distinct from the
+  already-listed Shopify App Store
