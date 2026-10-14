@@ -2,10 +2,12 @@ package engine
 
 import (
 	"context"
+	"sync/atomic"
 	"testing"
 	"time"
 
 	"github.com/petermichon/domain-browser/backend/internal/provider"
+	"github.com/petermichon/domain-browser/backend/internal/store"
 )
 
 // fake is a provider whose Check can block, fail, or report a fixed result.
@@ -16,6 +18,7 @@ type fake struct {
 	err      error
 	release  <-chan struct{}
 	started  chan<- string
+	calls    *atomic.Int32
 }
 
 func (f *fake) ID() string               { return f.id }
@@ -24,6 +27,9 @@ func (f *fake) Name(label string) string { return f.id + ":" + label }
 func (f *fake) URL(label string) string  { return "https://" + f.id + ".test/" + label }
 
 func (f *fake) Check(ctx context.Context, label string) (provider.Result, error) {
+	if f.calls != nil {
+		f.calls.Add(1)
+	}
 	if f.started != nil {
 		f.started <- f.id
 	}
@@ -164,6 +170,63 @@ func TestScanAllPreservesProviderOrder(t *testing.T) {
 		if got[i].ID != want {
 			t.Fatalf("result[%d] = %q, want %q (order %v)", i, got[i].ID, want, ids(got))
 		}
+	}
+}
+
+func TestScanAllReusesStoreCache(t *testing.T) {
+	var calls atomic.Int32
+	p := &fake{
+		id:     "a",
+		result: provider.Result{Status: provider.StatusTaken, Detail: "found"},
+		calls:  &calls,
+	}
+	eng := NewWithStore(store.NewMemory(), p)
+
+	first := eng.ScanAll(context.Background(), "acema")
+	if len(first) != 1 || first[0].Status != provider.StatusTaken || first[0].Detail != "found" {
+		t.Fatalf("first = %+v, want taken/found", first)
+	}
+	if calls.Load() != 1 {
+		t.Fatalf("calls after first scan = %d, want 1", calls.Load())
+	}
+
+	second := eng.ScanAll(context.Background(), "acema")
+	if len(second) != 1 || second[0].Status != provider.StatusTaken || second[0].Detail != "found" {
+		t.Fatalf("second = %+v, want the cached taken/found", second)
+	}
+	if calls.Load() != 1 {
+		t.Fatalf("calls after cached scan = %d, want 1", calls.Load())
+	}
+}
+
+func TestScanAllDoesNotCacheUnknown(t *testing.T) {
+	var calls atomic.Int32
+	p := &fake{id: "a", result: provider.Result{Status: provider.StatusUnknown}, calls: &calls}
+	eng := NewWithStore(store.NewMemory(), p)
+
+	eng.ScanAll(context.Background(), "acema")
+	eng.ScanAll(context.Background(), "acema")
+	if calls.Load() != 2 {
+		t.Fatalf("calls = %d, want 2 (unknown results are not cached)", calls.Load())
+	}
+}
+
+func TestScanAllDoesNotCacheErrors(t *testing.T) {
+	var calls atomic.Int32
+	p := &fake{id: "a", err: context.DeadlineExceeded, calls: &calls}
+	eng := NewWithStore(store.NewMemory(), p)
+
+	got := eng.ScanAll(context.Background(), "acema")
+	if len(got) != 1 || got[0].Status != provider.StatusUnknown || got[0].Detail != "unreachable" {
+		t.Fatalf("got %+v, want unknown/unreachable", got)
+	}
+	if calls.Load() != 1 {
+		t.Fatalf("calls after first scan = %d, want 1", calls.Load())
+	}
+
+	eng.ScanAll(context.Background(), "acema")
+	if calls.Load() != 2 {
+		t.Fatalf("calls = %d, want 2 (errors are not cached)", calls.Load())
 	}
 }
 

@@ -1,8 +1,14 @@
 package main
 
 import (
+	"context"
+	"encoding/json"
 	"fmt"
 	"os"
+
+	"github.com/petermichon/domain-browser/backend/internal/engine"
+	"github.com/petermichon/domain-browser/backend/internal/provider"
+	"github.com/petermichon/domain-browser/backend/internal/store"
 )
 
 const usage = `usage: domainbrowser <command> [args]
@@ -47,5 +53,13 @@ func serve(args []string) error {
 }
 
 func check(label string) error {
-	return fmt.Errorf("check %q: not implemented", label)
+	eng := engine.NewWithStore(store.NewMemory(), provider.Default().All()...)
+
+	enc := json.NewEncoder(os.Stdout)
+	for res := range eng.Scan(context.Background(), label) {
+		if err := enc.Encode(res); err != nil {
+			return err
+		}
+	}
+	return nil
 }

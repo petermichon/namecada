@@ -7,6 +7,7 @@ import (
 	"sync"
 
 	"github.com/petermichon/domain-browser/backend/internal/provider"
+	"github.com/petermichon/domain-browser/backend/internal/store"
 )
 
 // Result is the outcome of one provider's check for a label. Its shape
@@ -23,11 +24,21 @@ type Result struct {
 // Engine scans a label across a fixed, ordered set of providers.
 type Engine struct {
 	providers []provider.Provider
+	store     store.Store
 }
 
 // New returns an Engine over the given providers, preserving their order.
 func New(providers ...provider.Provider) *Engine {
 	return &Engine{providers: append([]provider.Provider(nil), providers...)}
+}
+
+// NewWithStore returns an Engine over the given providers backed by s. Before
+// checking, a provider's fresh cached entry is reused; a non-unknown result is
+// then recorded, mirroring the frontend runProvider.
+func NewWithStore(s store.Store, providers ...provider.Provider) *Engine {
+	e := New(providers...)
+	e.store = s
+	return e
 }
 
 // NewFromRegistry returns an Engine over every provider in the registry.
@@ -94,6 +105,14 @@ func (e *Engine) check(ctx context.Context, p provider.Provider, label string) R
 		URL:      p.URL(label),
 	}
 
+	if e.store != nil {
+		if entry, ok := e.store.Get(p.ID(), label); ok {
+			res.Status = entry.Status
+			res.Detail = entry.Detail
+			return res
+		}
+	}
+
 	got, err := p.Check(ctx, label)
 	if err != nil {
 		res.Status = provider.StatusUnknown
@@ -102,5 +121,8 @@ func (e *Engine) check(ctx context.Context, p provider.Provider, label string) R
 	}
 	res.Status = got.Status
 	res.Detail = got.Detail
+	if e.store != nil && got.Status != provider.StatusUnknown {
+		e.store.Set(p.ID(), label, got.Status, got.Detail)
+	}
 	return res
 }
