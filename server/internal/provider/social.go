@@ -76,6 +76,14 @@ func NewMastodon() Provider {
 	return e
 }
 
+// NewYouTube checks a channel handle on YouTube. The keyless profile route
+// redirects to the channel page and the redirect-following client resolves it:
+// a 200 means the handle exists and a 404 means it is free.
+func NewYouTube() Provider {
+	return newEndpoint("youtube", "youtube",
+		"https://www.youtube.com", "/@%s", "https://www.youtube.com/@%s", defaultCodes)
+}
+
 // Wikipedia checks a global account on Wikimedia. Unlike the status-only
 // sources it reads the body: globaluserinfo carries a "missing" key when the
 // name is free. Source: docs/platforms.md — meta.wikimedia.org/w/api.php.

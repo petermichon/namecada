@@ -71,7 +71,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Substack — 🌐 — `substack.com/@{name}` (scrape)
 - [ ] Product Hunt — 🌐 — GraphQL (key)
 - [ ] X / Twitter — 🔑
-- [ ] YouTube — 🔑 — Data API
+- [x] YouTube — ✅ — `youtube.com/@{name}` (profile redirects and resolves 200 taken / 404 free; keyless, no Data API key needed)
 - [ ] Twitch — 🔑
 - [ ] LinkedIn — 🔑
 - [ ] Instagram — 🕸
