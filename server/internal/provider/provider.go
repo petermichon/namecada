@@ -361,6 +361,7 @@ func Default(cfg Config) *Registry {
 	_ = r.Register(NewReplicate())
 	_ = r.Register(NewHackerNoon())
 	_ = r.Register(NewSpotify())
+	_ = r.Register(NewParagraph())
 	_ = r.Register(NewInstagram())
 	_ = r.Register(NewHackerNews())
 	_ = r.Register(NewOpenCollective())

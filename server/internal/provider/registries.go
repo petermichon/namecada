@@ -189,3 +189,12 @@ func NewSpotify() Provider {
 	return newEndpoint("spotify", "spotify",
 		"https://open.spotify.com", "/user/%s", "https://open.spotify.com/user/%s", defaultCodes)
 }
+
+// NewParagraph checks a publication on Paragraph. The keyless profile route
+// answers 200 for a claimed handle and a real 404 for a free one (the SPA does
+// not serve a soft 200). paragraph.xyz 301s to paragraph.com, so the request
+// uses the canonical host.
+func NewParagraph() Provider {
+	return newEndpoint("paragraph", "paragraph",
+		"https://paragraph.com", "/@%s", "https://paragraph.com/@%s", defaultCodes)
+}
