@@ -35,18 +35,6 @@ func httpSources() []httpSource {
 				return p
 			},
 		},
-		{
-			name:     "peertube",
-			id:       "peertube",
-			platform: "peertube",
-			wantPath: "/api/v1/accounts/acema",
-			build: func(baseURL string, client *http.Client) Provider {
-				p := NewPeerTube()
-				p.BaseURL = baseURL
-				p.Client = client
-				return p
-			},
-		},
 		endpointSource("npm", "npm", "/acema", "", NewNPM),
 		endpointSource("pypi", "pypi", "/pypi/acema/json", "", NewPyPI),
 		endpointSource("crates", "crates", "/api/v1/crates/acema", "", NewCrates),
@@ -617,6 +605,99 @@ func TestMastodonCheck(t *testing.T) {
 				t.Errorf("Accept = %q, want %q", gotAccept, "text/html")
 			}
 		})
+	}
+}
+
+// TestPeerTubeCheck pins that a name is taken when either the account or the
+// video-channel endpoint answers 200, and free only when both answer 404.
+func TestPeerTubeCheck(t *testing.T) {
+	tests := []struct {
+		name        string
+		accountCode int
+		channelCode int
+		want        Status
+		wantChannel bool
+	}{
+		{"account taken", http.StatusOK, http.StatusOK, StatusTaken, false},
+		{"channel taken", http.StatusNotFound, http.StatusOK, StatusTaken, true},
+		{"both free", http.StatusNotFound, http.StatusNotFound, StatusAvailable, true},
+		{"account free channel unknown", http.StatusNotFound, http.StatusInternalServerError, StatusUnknown, true},
+		{"account unknown channel free", http.StatusInternalServerError, http.StatusNotFound, StatusUnknown, true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var channelCalled bool
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				switch r.URL.Path {
+				case "/api/v1/accounts/acema":
+					w.WriteHeader(tt.accountCode)
+				case "/api/v1/video-channels/acema":
+					channelCalled = true
+					w.WriteHeader(tt.channelCode)
+				default:
+					t.Errorf("unexpected path %q", r.URL.Path)
+					w.WriteHeader(http.StatusNotFound)
+				}
+			}))
+			defer srv.Close()
+
+			got, err := (&PeerTube{BaseURL: srv.URL, Client: srv.Client()}).
+				Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+			if channelCalled != tt.wantChannel {
+				t.Errorf("channel endpoint called = %v, want %v", channelCalled, tt.wantChannel)
+			}
+		})
+	}
+}
+
+// TestPeerTubeMetadata covers the metadata and User-Agent contract that the
+// shared table tests no longer exercise now that PeerTube makes two requests.
+func TestPeerTubeMetadata(t *testing.T) {
+	var gotUA string
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		gotUA = r.Header.Get("User-Agent")
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer srv.Close()
+
+	p := NewPeerTube()
+	p.BaseURL = srv.URL
+	p.Client = srv.Client()
+
+	if p.ID() != "peertube" || p.Platform() != "peertube" {
+		t.Errorf("metadata = %q/%q, want peertube/peertube", p.ID(), p.Platform())
+	}
+	if got := p.Name("acema"); got != "acema" {
+		t.Errorf("Name = %q, want %q", got, "acema")
+	}
+	if p.URL("acema") == "" {
+		t.Error("URL is empty")
+	}
+	if _, err := p.Check(context.Background(), "acema"); err != nil {
+		t.Fatalf("Check returned error: %v", err)
+	}
+	if gotUA != UserAgent {
+		t.Errorf("User-Agent = %q, want %q", gotUA, UserAgent)
+	}
+}
+
+// TestPeerTubeTransportError pins that a failed request is surfaced as an error
+// rather than folded into an available/taken verdict.
+func TestPeerTubeTransportError(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(http.ResponseWriter, *http.Request) {}))
+	url := srv.URL
+	srv.Close() // no listener: connection refused
+
+	_, err := (&PeerTube{BaseURL: url, Client: srv.Client()}).
+		Check(context.Background(), "acema")
+	if err == nil {
+		t.Fatal("expected a transport error, got nil")
 	}
 }
 
