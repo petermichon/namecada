@@ -109,6 +109,7 @@ func TestParseCheck(t *testing.T) {
 		{name: "with out", args: []string{"acema", "--out", "report.sqlite"}, wantLabel: "acema", wantOut: "report.sqlite"},
 		{name: "empty", args: nil, wantErr: true},
 		{name: "dangling out", args: []string{"acema", "--out"}, wantErr: true},
+		{name: "empty out", args: []string{"acema", "--out", ""}, wantErr: true},
 		{name: "unknown flag", args: []string{"acema", "--nope"}, wantErr: true},
 	}
 
@@ -182,5 +183,124 @@ func TestWithScanTimeoutDeadline(t *testing.T) {
 	h.ServeHTTP(httptest.NewRecorder(), httptest.NewRequest(http.MethodGet, "/check", nil))
 	if !deadline {
 		t.Fatal("handler context did not reach its deadline")
+	}
+}
+
+// withTestEngine swaps the package-level engine factory for a deterministic one
+// so the command wiring never touches the network.
+func withTestEngine(t *testing.T, eng *engine.Engine) {
+	t.Helper()
+	old := newEngine
+	newEngine = func() *engine.Engine { return eng }
+	t.Cleanup(func() { newEngine = old })
+}
+
+func testResults() []engine.Result {
+	return []engine.Result{
+		{ID: "a", Platform: "p-a", Name: "a:acema", URL: "https://a.test/acema", Status: provider.StatusTaken},
+	}
+}
+
+// TestRunDispatchesCommands pins the CLI wiring: every command maps to the
+// expected exit code and writes to the stream it is handed.
+func TestRunDispatchesCommands(t *testing.T) {
+	withTestEngine(t, testEngine())
+
+	tests := []struct {
+		name       string
+		args       []string
+		wantCode   int
+		wantStdout string
+		wantStderr string
+	}{
+		{name: "no args", wantCode: 2, wantStderr: "usage:"},
+		{name: "help", args: []string{"help"}, wantCode: 0, wantStdout: "usage:"},
+		{name: "unknown command", args: []string{"frobnicate"}, wantCode: 2, wantStderr: "unknown command"},
+		{name: "check", args: []string{"check", "acema"}, wantCode: 0, wantStdout: "["},
+		{name: "check without label", args: []string{"check"}, wantCode: 1, wantStderr: "requires a <label>"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var stdout, stderr bytes.Buffer
+			if got := run(tt.args, &stdout, &stderr); got != tt.wantCode {
+				t.Fatalf("run(%v) = %d, want %d", tt.args, got, tt.wantCode)
+			}
+			if !strings.Contains(stdout.String(), tt.wantStdout) {
+				t.Errorf("stdout = %q, want to contain %q", stdout.String(), tt.wantStdout)
+			}
+			if !strings.Contains(stderr.String(), tt.wantStderr) {
+				t.Errorf("stderr = %q, want to contain %q", stderr.String(), tt.wantStderr)
+			}
+		})
+	}
+}
+
+// TestServeFlagParsing pins that serve rejects a bad flag or a stray argument
+// before it ever binds a listener.
+func TestServeFlagParsing(t *testing.T) {
+	withTestEngine(t, testEngine())
+
+	for _, tt := range []struct {
+		name string
+		args []string
+	}{
+		{name: "unknown flag", args: []string{"--nope"}},
+		{name: "unexpected argument", args: []string{"extra"}},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := serve(tt.args); err == nil {
+				t.Fatalf("serve(%v) = nil, want error", tt.args)
+			}
+		})
+	}
+}
+
+// TestServeContextListenError pins that a listener failure is surfaced.
+func TestServeContextListenError(t *testing.T) {
+	withTestEngine(t, testEngine())
+	if err := serveContext(context.Background(), "127.0.0.1:99999", ""); err == nil {
+		t.Fatal("serveContext = nil, want a listen error")
+	}
+}
+
+// TestServeContextShutsDownOnCancel pins that the serve loop returns cleanly
+// once its context is canceled.
+func TestServeContextShutsDownOnCancel(t *testing.T) {
+	withTestEngine(t, testEngine())
+
+	ctx, cancel := context.WithCancel(context.Background())
+	errc := make(chan error, 1)
+	go func() { errc <- serveContext(ctx, "127.0.0.1:0", "") }()
+
+	// Let the listener bind before asking it to stop.
+	time.Sleep(100 * time.Millisecond)
+	cancel()
+
+	select {
+	case err := <-errc:
+		if err != nil {
+			t.Fatalf("serveContext: %v", err)
+		}
+	case <-time.After(3 * time.Second):
+		t.Fatal("serveContext did not return after cancel")
+	}
+}
+
+// TestCheckSQLiteOpenError pins that an unwritable report path is reported.
+func TestCheckSQLiteOpenError(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "missing", "report.sqlite")
+	if err := checkSQLite(context.Background(), testResults(), path); err == nil {
+		t.Fatal("checkSQLite = nil, want an open error")
+	}
+}
+
+// TestCheckSQLiteWriteError pins that a canceled context aborts the write.
+func TestCheckSQLiteWriteError(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "report.sqlite")
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	if err := checkSQLite(ctx, testResults(), path); err == nil {
+		t.Fatal("checkSQLite = nil, want a write error")
 	}
 }

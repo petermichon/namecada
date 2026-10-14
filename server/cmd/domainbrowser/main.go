@@ -30,29 +30,42 @@ Commands:
 `
 
 func main() {
-	args := os.Args[1:]
+	os.Exit(run(os.Args[1:], os.Stdout, os.Stderr))
+}
+
+// run dispatches a command line, returning the process exit code. It is split
+// out of main so the CLI wiring can be exercised without exiting the test
+// process.
+func run(args []string, stdout, stderr io.Writer) int {
 	if len(args) == 0 {
-		fmt.Fprint(os.Stderr, usage)
-		os.Exit(2)
+		fmt.Fprint(stderr, usage)
+		return 2
 	}
 
 	switch args[0] {
 	case "serve":
 		if err := serve(args[1:]); err != nil {
-			fmt.Fprintf(os.Stderr, "domainbrowser: %v\n", err)
-			os.Exit(1)
+			fmt.Fprintf(stderr, "domainbrowser: %v\n", err)
+			return 1
 		}
 	case "check":
-		if err := check(args[1:]); err != nil {
-			fmt.Fprintf(os.Stderr, "domainbrowser: %v\n", err)
-			os.Exit(1)
+		if err := check(args[1:], stdout); err != nil {
+			fmt.Fprintf(stderr, "domainbrowser: %v\n", err)
+			return 1
 		}
 	case "help", "-h", "--help":
-		fmt.Print(usage)
+		fmt.Fprint(stdout, usage)
 	default:
-		fmt.Fprintf(os.Stderr, "domainbrowser: unknown command %q\n\n%s", args[0], usage)
-		os.Exit(2)
+		fmt.Fprintf(stderr, "domainbrowser: unknown command %q\n\n%s", args[0], usage)
+		return 2
 	}
+	return 0
+}
+
+// newEngine builds the engine both commands scan with. It is a variable so
+// tests can substitute a deterministic engine that never touches the network.
+var newEngine = func() *engine.Engine {
+	return engine.NewWithStore(store.NewMemory(), provider.Default().All()...)
 }
 
 func serve(args []string) error {
@@ -67,20 +80,27 @@ func serve(args []string) error {
 		return fmt.Errorf("serve: unexpected argument %q", fs.Arg(0))
 	}
 
-	// A long-lived engine over one memory store so cached verdicts survive
-	// across requests (the point of serve, versus the one-shot check).
-	eng := engine.NewWithStore(store.NewMemory(), provider.Default().All()...)
-	srv := &http.Server{
-		Addr:    *addr,
-		Handler: withScanTimeout(engine.ScanTimeout, api.New(eng, *origin).Handler()),
-	}
-
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
+	return serveContext(ctx, *addr, *origin)
+}
+
+// serveContext runs the HTTP server until ctx is canceled or the listener
+// fails, then shuts it down. It is separated from serve so tests can drive the
+// shutdown path with their own context.
+func serveContext(ctx context.Context, addr, origin string) error {
+	// A long-lived engine over one memory store so cached verdicts survive
+	// across requests (the point of serve, versus the one-shot check).
+	eng := newEngine()
+	srv := &http.Server{
+		Addr:    addr,
+		Handler: withScanTimeout(engine.ScanTimeout, api.New(eng, origin).Handler()),
+	}
+
 	errc := make(chan error, 1)
 	go func() { errc <- srv.ListenAndServe() }()
-	fmt.Fprintf(os.Stderr, "domainbrowser: listening on %s (CORS origin %s)\n", *addr, *origin)
+	fmt.Fprintf(os.Stderr, "domainbrowser: listening on %s (CORS origin %s)\n", addr, origin)
 
 	select {
 	case err := <-errc:
@@ -95,7 +115,7 @@ func serve(args []string) error {
 	}
 }
 
-func check(args []string) error {
+func check(args []string, w io.Writer) error {
 	label, out, err := parseCheck(args)
 	if err != nil {
 		return err
@@ -104,8 +124,7 @@ func check(args []string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), engine.ScanTimeout)
 	defer cancel()
 
-	eng := engine.NewWithStore(store.NewMemory(), provider.Default().All()...)
-	return runCheck(ctx, os.Stdout, eng, label, out)
+	return runCheck(ctx, w, newEngine(), label, out)
 }
 
 // withScanTimeout bounds every served scan with a context deadline, so a hung

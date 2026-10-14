@@ -155,6 +155,31 @@ func TestSQLiteAvailableView(t *testing.T) {
 	}
 }
 
+// TestOpenSQLiteReportsInitError pins that a path whose parent directory does
+// not exist is reported instead of silently returning a usable handle.
+func TestOpenSQLiteReportsInitError(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "missing", "checks.sqlite")
+	if _, err := OpenSQLite(path); err == nil {
+		t.Fatal("OpenSQLite on a missing directory = nil, want error")
+	}
+}
+
+// TestSQLiteWriteBeginError pins that Write surfaces a failure to start its
+// transaction (here, because the database handle is already closed).
+func TestSQLiteWriteBeginError(t *testing.T) {
+	s, _ := openTest(t)
+	if err := s.db.Close(); err != nil {
+		t.Fatalf("close db: %v", err)
+	}
+
+	err := s.Write(context.Background(), []engine.Result{
+		result("lemmy", "lemmy", "acema", "u1", provider.StatusTaken, ""),
+	})
+	if err == nil {
+		t.Fatal("Write on a closed DB = nil, want error")
+	}
+}
+
 func TestSQLitePersistsAndReopens(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "checks.sqlite")
 
