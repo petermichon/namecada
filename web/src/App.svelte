@@ -110,7 +110,12 @@
 			{/if}
 
 			<div class={lookup.busy ? 'opacity-60' : ''} aria-busy={lookup.busy}>
-				<ResultsList paidRows={lookup.paidRows} freeRows={lookup.freeRows} />
+				<ResultsList
+					paidRows={lookup.paidRows}
+					freeRows={lookup.freeRows}
+					unsupportedRows={lookup.visibleUnsupportedRows}
+					unsupportedOpen={lookup.filter === 'unsupported'}
+				/>
 			</div>
 		{:else if !lookup.error && !lookup.searching}
 			<EmptyState

@@ -8,7 +8,7 @@
 		disabled = false
 	}: {
 		filter: Filter;
-		counts: { available: number; taken: number; unknown: number };
+		counts: { available: number; taken: number; unknown: number; unsupported: number };
 		disabled?: boolean;
 	} = $props();
 </script>
@@ -38,6 +38,14 @@
 			class="data-[state=on]:border-warning/40 data-[state=on]:bg-warning/15 data-[state=on]:text-warning"
 		>
 			{counts.unknown} unknown
+		</ToggleGroup.Item>
+	{/if}
+	{#if counts.unsupported}
+		<ToggleGroup.Item
+			value="unsupported"
+			class="data-[state=on]:border-border data-[state=on]:bg-muted data-[state=on]:text-muted-foreground"
+		>
+			{counts.unsupported} unsupported
 		</ToggleGroup.Item>
 	{/if}
 </ToggleGroup.Root>

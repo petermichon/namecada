@@ -1,6 +1,7 @@
 import { onMount } from 'svelte';
 import { isAbort, streamFromApi } from './api';
 import { toLabel, type Status } from './platforms';
+import { UNSUPPORTED } from './unsupported';
 
 const QUERY_KEY = 'domain-browser:query';
 
@@ -10,12 +11,12 @@ export interface Row {
 	platformName: string;
 	name: string;
 	url: string;
-	status: Status | 'pending';
+	status: Status | 'pending' | 'unsupported';
 	detail?: string;
 	paid: boolean;
 }
 
-export type Filter = 'all' | Status;
+export type Filter = 'all' | Status | 'unsupported';
 
 // Order rows alphabetically by their display name, independent of status, so
 // the list stays stable as results stream in. Ties break on the provider URL so
@@ -206,18 +207,40 @@ export class Lookup {
 			toLabel(this.input) !== this.lastLabel
 	);
 
+	// Unsupported rows are derived from the static catalogue for the current
+	// label. They are not verdicts, so they never enter this.rows and never
+	// affect the available/taken/unknown counts.
+	unsupportedRows = $derived.by<Row[]>(() => {
+		const label = this.lastLabel;
+		if (!label) return [];
+		return UNSUPPORTED.map((source) => ({
+			id: `unsupported:${source.id}`,
+			platform: source.id,
+			platformName: source.platformName,
+			name: label,
+			url: source.url.replace('{name}', label),
+			status: 'unsupported' as const,
+			detail: source.reason,
+			paid: false
+		}));
+	});
+
 	visibleRows = $derived(
 		(this.filter === 'all'
-			? this.rows
-			: this.rows.filter((row) => row.status === this.filter)
+			? [...this.rows, ...this.unsupportedRows]
+			: this.filter === 'unsupported'
+				? this.unsupportedRows
+				: this.rows.filter((row) => row.status === this.filter)
 		).toSorted(byPaidThenPlatformName)
 	);
 
-	paidRows = $derived(this.visibleRows.filter((row) => row.paid));
-	freeRows = $derived(this.visibleRows.filter((row) => !row.paid));
+	paidRows = $derived(this.visibleRows.filter((row) => row.status !== 'unsupported' && row.paid));
+	freeRows = $derived(this.visibleRows.filter((row) => row.status !== 'unsupported' && !row.paid));
+
+	visibleUnsupportedRows = $derived(this.visibleRows.filter((row) => row.status === 'unsupported'));
 
 	counts = $derived.by(() => {
-		const totals = { available: 0, taken: 0, unknown: 0 };
+		const totals = { available: 0, taken: 0, unknown: 0, unsupported: this.unsupportedRows.length };
 		for (const row of this.rows) {
 			if (row.status !== 'pending') totals[row.status]++;
 		}

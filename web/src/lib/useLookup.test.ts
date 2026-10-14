@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { byPaidThenPlatformName, byPlatformName, Lookup, type Row } from './useLookup.svelte';
 import type { Status } from './platforms';
+import { UNSUPPORTED } from './unsupported';
 
 function row(platformName: string, status: Row['status'], name = 'acema', paid = false): Row {
 	return {
@@ -151,6 +152,68 @@ describe('visibleRows', () => {
 		lookup.filter = 'taken';
 		expect(lookup.paidRows.map((r) => r.platformName)).toEqual(['Domains']);
 		expect(lookup.freeRows.map((r) => r.platformName)).toEqual(['GitHub']);
+	});
+});
+
+describe('unsupported', () => {
+	it('builds catalogue rows for the current label, carrying its reason as detail', () => {
+		const lookup = new Lookup();
+		expect(lookup.unsupportedRows).toEqual([]);
+
+		lookup.lastLabel = 'acema';
+
+		expect(lookup.unsupportedRows).toHaveLength(UNSUPPORTED.length);
+		expect(lookup.unsupportedRows.every((row) => row.status === 'unsupported')).toBe(true);
+		expect(lookup.unsupportedRows.every((row) => row.name === 'acema')).toBe(true);
+		expect(lookup.unsupportedRows.map((row) => row.detail)).toEqual(
+			UNSUPPORTED.map((source) => source.reason)
+		);
+		expect(lookup.unsupportedRows[0].url).toContain('acema');
+	});
+
+	it('keeps unsupported rows out of the available/taken/unknown counts', () => {
+		const lookup = new Lookup();
+		lookup.lastLabel = 'acema';
+		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available'), row('PeerTube', 'unknown')];
+
+		expect(lookup.counts).toEqual({
+			available: 1,
+			taken: 1,
+			unknown: 1,
+			unsupported: UNSUPPORTED.length
+		});
+	});
+
+	it('includes unsupported rows under all but not in the verdict groups', () => {
+		const lookup = new Lookup();
+		lookup.lastLabel = 'acema';
+		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available')];
+
+		expect(lookup.visibleRows).toHaveLength(2 + UNSUPPORTED.length);
+		expect(lookup.visibleUnsupportedRows).toHaveLength(UNSUPPORTED.length);
+		expect(lookup.paidRows.every((row) => row.status !== 'unsupported')).toBe(true);
+		expect(lookup.freeRows.map((row) => row.platformName)).toEqual(['GitHub', 'Lemmy']);
+	});
+
+	it('shows only unsupported rows when the unsupported filter is selected', () => {
+		const lookup = new Lookup();
+		lookup.lastLabel = 'acema';
+		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available')];
+		lookup.filter = 'unsupported';
+
+		expect(lookup.visibleRows).toHaveLength(UNSUPPORTED.length);
+		expect(lookup.visibleRows.every((row) => row.status === 'unsupported')).toBe(true);
+		expect(lookup.paidRows).toEqual([]);
+		expect(lookup.freeRows).toEqual([]);
+	});
+
+	it('drops unsupported rows when there is no checked label', () => {
+		const lookup = new Lookup();
+		lookup.rows = [row('GitHub', 'taken')];
+		lookup.filter = 'unsupported';
+
+		expect(lookup.unsupportedRows).toEqual([]);
+		expect(lookup.visibleRows).toEqual([]);
 	});
 });
 

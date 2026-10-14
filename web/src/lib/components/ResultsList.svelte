@@ -3,7 +3,17 @@
 	import ResultRow from './ResultRow.svelte';
 	import type { Row } from '$lib/useLookup.svelte';
 
-	let { paidRows = [], freeRows = [] }: { paidRows?: Row[]; freeRows?: Row[] } = $props();
+	let {
+		paidRows = [],
+		freeRows = [],
+		unsupportedRows = [],
+		unsupportedOpen = false
+	}: {
+		paidRows?: Row[];
+		freeRows?: Row[];
+		unsupportedRows?: Row[];
+		unsupportedOpen?: boolean;
+	} = $props();
 
 	const availableCount = (rows: Row[]) => rows.filter((row) => row.status === 'available').length;
 </script>
@@ -37,5 +47,25 @@
 				<ResultRow {row} />
 			{/each}
 		</ul>
+	</Card.Root>
+{/if}
+
+{#if unsupportedRows.length}
+	<Card.Root class="mt-3 gap-0 py-0">
+		<details open={unsupportedOpen}>
+			<summary
+				class="flex list-none flex-wrap items-baseline gap-x-2 px-3 py-2 [&::-webkit-details-marker]:hidden"
+			>
+				<h2 class="text-sm font-semibold tracking-tight text-muted-foreground">Unsupported</h2>
+				<p class="text-xs text-muted-foreground">
+					{unsupportedRows.length} known platforms not checked
+				</p>
+			</summary>
+			<ul class="grid grid-cols-1 gap-px bg-border lg:grid-cols-2">
+				{#each unsupportedRows as row (row.id)}
+					<ResultRow {row} />
+				{/each}
+			</ul>
+		</details>
 	</Card.Root>
 {/if}
