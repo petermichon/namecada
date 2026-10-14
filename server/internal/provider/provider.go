@@ -141,6 +141,9 @@ func (r *Registry) Len() int {
 func Default() *Registry {
 	r := NewRegistry()
 	// Registration cannot fail for the constants below.
+	for _, p := range NewDomains() {
+		_ = r.Register(p)
+	}
 	_ = r.Register(NewLemmy())
 	_ = r.Register(NewPeerTube())
 	_ = r.Register(NewNPM())

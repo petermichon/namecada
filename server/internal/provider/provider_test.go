@@ -628,10 +628,11 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default()
-	if r.Len() != 29 {
-		t.Fatalf("Len = %d, want 29", r.Len())
+	if r.Len() != 35 {
+		t.Fatalf("Len = %d, want 35", r.Len())
 	}
 	for _, id := range []string{
+		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
 		"lemmy", "peertube",
 		"npm", "pypi", "crates", "nuget", "hex", "hex-user", "pub",
 		"homebrew", "jsr", "wordpress", "openvsx",
