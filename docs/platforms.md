@@ -237,7 +237,7 @@ Creators / commerce / media:
 - [ ] Flickr — 🕸 — endpoints inconclusive
 - [x] Mixcloud — ✅ — `api.mixcloud.com/{name}/`
 - [x] Discogs — ✅ — `api.discogs.com/users/{name}` (token; the keyless route 403s; 200 taken / 404 free)
-- [x] Last.fm — ✅ — `last.fm/user/{name}` (keyless profile: 200 taken / 404 free)
+- [ ] Last.fm — 🔑 — the keyless profile route now bot-challenges (`last.fm/user/{name}` returns Cloudflare "Client Challenge" with 200 for every name), so it would need the keyed API (`ws.audioscrobbler.com/2.0/?method=user.getinfo&user={name}&api_key={key}`); deferred
 - [ ] Letterboxd — 🕸
 - [ ] Goodreads — 🕸
 - [ ] MyAnimeList — 🕸 — Jikan API unavailable

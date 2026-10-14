@@ -348,7 +348,6 @@ func Default(cfg Config) *Registry {
 	_ = r.Register(NewHuggingFace())
 	_ = r.Register(NewDailymotion())
 	_ = r.Register(NewMixcloud())
-	_ = r.Register(NewLastfm())
 	_ = r.Register(NewSoundCloud())
 	_ = r.Register(NewAniList())
 	_ = r.Register(NewBluesky())

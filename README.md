@@ -57,7 +57,6 @@ can't be reached is deferred (see below).
 | Hugging Face | `huggingface.co/api/users/{name}/overview`                 | 200 taken / 404 free      |
 | Dailymotion | `api.dailymotion.com/user/{name}`                            | 200 taken / 404 free      |
 | Mixcloud  | `api.mixcloud.com/{name}/`                                     | 200 taken / 404 free      |
-| Last.fm   | `last.fm/user/{name}` (profile)                                | 200 taken / 404 free      |
 | SoundCloud | `soundcloud.com/{name}` (profile)                             | 200 taken / 404 free      |
 | AniList   | `graphql.anilist.co` `User(name:)` (POST)                      | non-null `User` taken / null free |
 | Open Collective | `opencollective.com/{name}.json`                         | 200 taken / 404 free      |
