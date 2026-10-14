@@ -617,12 +617,13 @@ func TestPeerTubeCheck(t *testing.T) {
 		channelCode int
 		want        Status
 		wantChannel bool
+		wantURL     string
 	}{
-		{"account taken", http.StatusOK, http.StatusOK, StatusTaken, false},
-		{"channel taken", http.StatusNotFound, http.StatusOK, StatusTaken, true},
-		{"both free", http.StatusNotFound, http.StatusNotFound, StatusAvailable, true},
-		{"account free channel unknown", http.StatusNotFound, http.StatusInternalServerError, StatusUnknown, true},
-		{"account unknown channel free", http.StatusInternalServerError, http.StatusNotFound, StatusUnknown, true},
+		{"account taken", http.StatusOK, http.StatusOK, StatusTaken, false, "https://framatube.org/a/acema"},
+		{"channel taken", http.StatusNotFound, http.StatusOK, StatusTaken, true, "https://framatube.org/c/acema"},
+		{"both free", http.StatusNotFound, http.StatusNotFound, StatusAvailable, true, ""},
+		{"account free channel unknown", http.StatusNotFound, http.StatusInternalServerError, StatusUnknown, true, ""},
+		{"account unknown channel free", http.StatusInternalServerError, http.StatusNotFound, StatusUnknown, true, ""},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -641,13 +642,19 @@ func TestPeerTubeCheck(t *testing.T) {
 			}))
 			defer srv.Close()
 
-			got, err := (&PeerTube{BaseURL: srv.URL, Client: srv.Client()}).
-				Check(context.Background(), "acema")
+			p := NewPeerTube()
+			p.BaseURL = srv.URL
+			p.Client = srv.Client()
+
+			got, err := p.Check(context.Background(), "acema")
 			if err != nil {
 				t.Fatalf("Check returned error: %v", err)
 			}
 			if got.Status != tt.want {
 				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+			if got.URL != tt.wantURL {
+				t.Errorf("URL = %q, want %q", got.URL, tt.wantURL)
 			}
 			if channelCalled != tt.wantChannel {
 				t.Errorf("channel endpoint called = %v, want %v", channelCalled, tt.wantChannel)

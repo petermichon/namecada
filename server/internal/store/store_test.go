@@ -38,7 +38,7 @@ func TestIsFresh(t *testing.T) {
 
 func TestMemorySetGet(t *testing.T) {
 	s := NewMemory()
-	s.Set("npm", "acema", provider.StatusAvailable, "")
+	s.Set("npm", "acema", provider.StatusAvailable, "", "")
 
 	got, ok := s.Get("npm", "acema")
 	if !ok {
@@ -54,7 +54,7 @@ func TestMemorySetGet(t *testing.T) {
 
 func TestMemoryKeepsDetail(t *testing.T) {
 	s := NewMemory()
-	s.Set("domain.com", "acema", provider.StatusTaken, "registered 1997-09-15")
+	s.Set("domain.com", "acema", provider.StatusTaken, "registered 1997-09-15", "")
 
 	got, ok := s.Get("domain.com", "acema")
 	if !ok {
@@ -65,10 +65,23 @@ func TestMemoryKeepsDetail(t *testing.T) {
 	}
 }
 
+func TestMemoryKeepsURL(t *testing.T) {
+	s := NewMemory()
+	s.Set("peertube", "acema", provider.StatusTaken, "", "https://framatube.org/c/acema")
+
+	got, ok := s.Get("peertube", "acema")
+	if !ok {
+		t.Fatal("Get reported a miss")
+	}
+	if got.Status != provider.StatusTaken || got.URL != "https://framatube.org/c/acema" {
+		t.Errorf("entry = %+v, want taken with the channel URL", got)
+	}
+}
+
 func TestMemoryExpires(t *testing.T) {
 	now := time.Unix(1_000, 0)
 	s := NewMemoryWithTTL(time.Hour, func() time.Time { return now })
-	s.Set("npm", "acema", provider.StatusAvailable, "")
+	s.Set("npm", "acema", provider.StatusAvailable, "", "")
 
 	now = now.Add(59 * time.Minute)
 	if _, ok := s.Get("npm", "acema"); !ok {
@@ -87,7 +100,7 @@ func TestMemoryExpires(t *testing.T) {
 
 func TestMemoryDelete(t *testing.T) {
 	s := NewMemory()
-	s.Set("npm", "acema", provider.StatusAvailable, "")
+	s.Set("npm", "acema", provider.StatusAvailable, "", "")
 	s.Delete("npm", "acema")
 	if _, ok := s.Get("npm", "acema"); ok {
 		t.Fatal("entry survived Delete")
@@ -96,8 +109,8 @@ func TestMemoryDelete(t *testing.T) {
 
 func TestMemoryClear(t *testing.T) {
 	s := NewMemory()
-	s.Set("npm", "acema", provider.StatusAvailable, "")
-	s.Set("github", "acema", provider.StatusTaken, "")
+	s.Set("npm", "acema", provider.StatusAvailable, "", "")
+	s.Set("github", "acema", provider.StatusTaken, "", "")
 	s.Clear()
 	if _, ok := s.Get("npm", "acema"); ok {
 		t.Error("npm entry survived Clear")
@@ -115,7 +128,7 @@ func TestMemoryConcurrent(t *testing.T) {
 		go func() {
 			defer wg.Done()
 			for j := 0; j < 100; j++ {
-				s.Set("npm", "acema", provider.StatusAvailable, "")
+				s.Set("npm", "acema", provider.StatusAvailable, "", "")
 				s.Get("npm", "acema")
 				s.Delete("npm", "acema")
 			}

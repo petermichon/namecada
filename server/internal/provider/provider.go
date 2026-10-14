@@ -23,6 +23,9 @@ const (
 type Result struct {
 	Status Status
 	Detail string
+	// URL is the matched public page when it differs from the provider's
+	// default URL(label); empty means the default applies.
+	URL string
 }
 
 // Provider checks whether a label is taken on one source.

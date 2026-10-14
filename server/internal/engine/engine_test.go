@@ -107,6 +107,25 @@ func TestScanEmitsOneResultPerProvider(t *testing.T) {
 	}
 }
 
+func TestScanUsesProviderResultURL(t *testing.T) {
+	overridden := &fake{
+		id:     "peertube",
+		result: provider.Result{Status: provider.StatusTaken, URL: "https://framatube.org/c/acema"},
+	}
+	def := &fake{id: "npm", result: provider.Result{Status: provider.StatusAvailable}}
+
+	byID := map[string]Result{}
+	for _, r := range New(overridden, def).ScanAll(context.Background(), "acema") {
+		byID[r.ID] = r
+	}
+	if got := byID["peertube"].URL; got != "https://framatube.org/c/acema" {
+		t.Errorf("peertube URL = %q, want the provider-reported channel URL", got)
+	}
+	if got := byID["npm"].URL; got != "https://npm.test/acema" {
+		t.Errorf("npm URL = %q, want the provider default", got)
+	}
+}
+
 func TestScanPopulatesPlatformName(t *testing.T) {
 	p := &fake{id: "pypi", platform: "pypi", result: provider.Result{Status: provider.StatusAvailable}}
 	unknown := &fake{id: "other", platform: "brand-new", result: provider.Result{Status: provider.StatusTaken}}
@@ -418,6 +437,29 @@ func TestScanAllReusesStoreCache(t *testing.T) {
 	}
 	if calls.Load() != 1 {
 		t.Fatalf("calls after cached scan = %d, want 1", calls.Load())
+	}
+}
+
+func TestScanAllCacheKeepsResultURL(t *testing.T) {
+	var calls atomic.Int32
+	p := &fake{
+		id:     "peertube",
+		result: provider.Result{Status: provider.StatusTaken, URL: "https://framatube.org/c/acema"},
+		calls:  &calls,
+	}
+	eng := NewWithStore(store.NewMemory(), p)
+
+	first := eng.ScanAll(context.Background(), "acema")
+	if len(first) != 1 || first[0].URL != "https://framatube.org/c/acema" {
+		t.Fatalf("first = %+v, want the provider-reported channel URL", first)
+	}
+
+	second := eng.ScanAll(context.Background(), "acema")
+	if len(second) != 1 || second[0].URL != "https://framatube.org/c/acema" {
+		t.Fatalf("second = %+v, want the cached channel URL", second)
+	}
+	if calls.Load() != 1 {
+		t.Fatalf("calls = %d, want 1 (the second scan is a cache hit)", calls.Load())
 	}
 }
 

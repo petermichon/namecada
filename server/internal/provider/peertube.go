@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 // PeerTube checks a name on a single PeerTube instance.
@@ -27,6 +28,18 @@ func NewPeerTube() *PeerTube {
 	}
 }
 
+// accountURL is the public page for an account name, the provider's default.
+func (p *PeerTube) accountURL(label string) string {
+	return p.URL(label)
+}
+
+// channelURL is the public page for a video-channel name. PeerTube serves
+// channels under /c/, unlike the /a/ path accounts use.
+func (p *PeerTube) channelURL(label string) string {
+	format := strings.Replace(p.urlFmt, "/a/", "/c/", 1)
+	return fmt.Sprintf(format, url.PathEscape(label))
+}
+
 // Check queries both /api/v1/accounts/{label} and /api/v1/video-channels/{label}
 // because a PeerTube instance gives accounts and channels one shared local
 // actor namespace (the `actor` table is unique on lower(preferredUsername)).
@@ -41,6 +54,7 @@ func (p *PeerTube) Check(ctx context.Context, label string) (Result, error) {
 		return Result{}, err
 	}
 	if account.Status == StatusTaken {
+		account.URL = p.accountURL(label)
 		return account, nil
 	}
 
@@ -49,6 +63,7 @@ func (p *PeerTube) Check(ctx context.Context, label string) (Result, error) {
 		return Result{}, err
 	}
 	if channel.Status == StatusTaken {
+		channel.URL = p.channelURL(label)
 		return channel, nil
 	}
 

@@ -18,7 +18,10 @@ const Fresh = time.Hour
 type Entry struct {
 	Status provider.Status
 	Detail string
-	At     time.Time
+	// URL is the page the result was emitted with, so a cache hit keeps the
+	// right link when a provider reports a non-default one.
+	URL string
+	At  time.Time
 }
 
 // Key returns the cache key for a provider and label, matching the frontend
@@ -38,9 +41,9 @@ type Store interface {
 	// Get returns the fresh entry for the pair. A missing or stale entry
 	// reports ok=false and is dropped from the store.
 	Get(providerID, label string) (Entry, bool)
-	// Set records the status and detail for the pair, stamped with the store's
-	// current time.
-	Set(providerID, label string, status provider.Status, detail string)
+	// Set records the status, detail and URL for the pair, stamped with the
+	// store's current time.
+	Set(providerID, label string, status provider.Status, detail, url string)
 	// Delete removes the entry for the pair.
 	Delete(providerID, label string)
 	// Clear removes every entry.
@@ -90,11 +93,11 @@ func (m *Memory) Get(providerID, label string) (Entry, bool) {
 	return entry, true
 }
 
-// Set records the status and detail for the pair, stamped with the store's
-// current time.
-func (m *Memory) Set(providerID, label string, status provider.Status, detail string) {
+// Set records the status, detail and URL for the pair, stamped with the
+// store's current time.
+func (m *Memory) Set(providerID, label string, status provider.Status, detail, url string) {
 	m.mu.Lock()
-	m.entries[Key(providerID, label)] = Entry{Status: status, Detail: detail, At: m.now()}
+	m.entries[Key(providerID, label)] = Entry{Status: status, Detail: detail, URL: url, At: m.now()}
 	m.mu.Unlock()
 }
 

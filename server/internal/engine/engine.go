@@ -183,6 +183,9 @@ func (e *Engine) check(ctx context.Context, p provider.Provider, label string) R
 		if entry, ok := e.store.Get(p.ID(), label); ok {
 			res.Status = entry.Status
 			res.Detail = entry.Detail
+			if entry.URL != "" {
+				res.URL = entry.URL
+			}
 			return res
 		}
 	}
@@ -195,8 +198,13 @@ func (e *Engine) check(ctx context.Context, p provider.Provider, label string) R
 	}
 	res.Status = got.Status
 	res.Detail = got.Detail
+	// A provider may report the matched page when it differs from the default,
+	// e.g. PeerTube accounts link under /a/ and channels under /c/.
+	if got.URL != "" {
+		res.URL = got.URL
+	}
 	if e.store != nil && got.Status != provider.StatusUnknown {
-		e.store.Set(p.ID(), label, got.Status, got.Detail)
+		e.store.Set(p.ID(), label, got.Status, got.Detail, res.URL)
 	}
 	return res
 }
