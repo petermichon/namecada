@@ -49,6 +49,12 @@ var platformNames = map[string]string{
 	"heroku":         "Heroku",
 	"denodeploy":     "Deno Deploy",
 	"readthedocs":    "Read the Docs",
+	"euorg":          "eu.org",
+	"duckdns":        "DuckDNS",
+	"noip":           "No-IP",
+	"dynv6":          "dynv6",
+	"notedlol":       "noted.lol",
+	"isagooddev":     "is-a-good.dev",
 }
 
 // PlatformName returns the display name for a platform id. An unknown id is

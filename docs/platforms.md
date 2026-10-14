@@ -266,15 +266,15 @@ Jobs:
 
 Free subdomain namespaces (developer-oriented):
 
-- [ ] eu.org — 🌐 — DoH-checkable (no wildcard); note: sends the name to the resolver
-- [ ] duckdns.org — 🌐 — DoH-checkable (no wildcard)
+- [x] eu.org — ✅ — `{name}.eu.org` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
+- [x] duckdns.org — ✅ — `{name}.duckdns.org` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
 - [ ] freedns.afraid.org — 🌐 — DoH (verify no wildcard)
-- [ ] no-ip.org — 🌐 — DoH (verify no wildcard)
-- [ ] dynv6.net — 🌐 — DoH (verify no wildcard)
-- [ ] noted.lol — 🌐 — DoH-checkable (no wildcard)
+- [x] no-ip.org — ✅ — `{name}.no-ip.org` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
+- [x] dynv6.net — ✅ — `{name}.dynv6.net` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
+- [x] noted.lol — ✅ — `{name}.noted.lol` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
 - [ ] js.org — 🔌 — wildcard DNS; needs HTTP status via proxy
 - [ ] is-a.dev — 🔌 — wildcard DNS
-- [ ] is-a-good.dev — 🔌 — wildcard DNS
+- [x] is-a-good.dev — ✅ — `{name}.is-a-good.dev` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
 - [ ] ngrok-free.app — 🔌 — needs proxy
 - [ ] localhost.run — 🔌 — needs proxy
 - [ ] trycloudflare.com — 🔌 — needs proxy

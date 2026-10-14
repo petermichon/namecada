@@ -813,9 +813,16 @@ func defaultClientOf(p Provider) (*http.Client, bool) {
 
 // TestDefaultProvidersUseTimeoutClient asserts every registered provider is
 // bound to a client that carries a request timeout, so one hung source cannot
-// stall a scan.
+// stall a scan. DNS providers make no HTTP request, so they are exempt: the
+// assertion is that each has a resolver instead.
 func TestDefaultProvidersUseTimeoutClient(t *testing.T) {
 	for _, p := range Default().All() {
+		if d, ok := p.(*dns); ok {
+			if d.resolverOrDefault() == nil {
+				t.Errorf("provider %q has no resolver", p.ID())
+			}
+			continue
+		}
 		client, known := defaultClientOf(p)
 		if !known {
 			t.Errorf("provider %q has an unknown type; add it to defaultClientOf", p.ID())
@@ -895,8 +902,8 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default()
-	if r.Len() != 51 {
-		t.Fatalf("Len = %d, want 51", r.Len())
+	if r.Len() != 57 {
+		t.Fatalf("Len = %d, want 57", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
@@ -917,6 +924,12 @@ func TestDefaultRegistry(t *testing.T) {
 		"heroku",
 		"denodeploy",
 		"readthedocs",
+		"euorg",
+		"duckdns",
+		"noip",
+		"dynv6",
+		"notedlol",
+		"isagooddev",
 	} {
 		if _, ok := r.Get(id); !ok {
 			t.Errorf("default registry is missing %q", id)

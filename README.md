@@ -65,6 +65,12 @@ can't be reached is deferred (see below).
 | Heroku    | `{name}.herokuapp.com` (subdomain)                             | 200 taken / 404 free      |
 | Deno Deploy | `{name}.deno.dev` (subdomain)                                | 200 taken / 404 free      |
 | Read the Docs | `{name}.readthedocs.io` (subdomain)                        | 200 taken / 404 free      |
+| eu.org    | `{name}.eu.org` (DNS, no wildcard)                             | resolves taken / NXDOMAIN free |
+| DuckDNS   | `{name}.duckdns.org` (DNS, no wildcard)                        | resolves taken / NXDOMAIN free |
+| No-IP     | `{name}.no-ip.org` (DNS, no wildcard)                          | resolves taken / NXDOMAIN free |
+| dynv6     | `{name}.dynv6.net` (DNS, no wildcard)                          | resolves taken / NXDOMAIN free |
+| noted.lol | `{name}.noted.lol` (DNS, no wildcard)                          | resolves taken / NXDOMAIN free |
+| is-a-good.dev | `{name}.is-a-good.dev` (DNS, no wildcard)                  | resolves taken / NXDOMAIN free |
 
 Domains run once per TLD (`.com`, `.org`, `.dev`, `.io`, `.ai`, `.app`), each a
 separate provider. The TLD is resolved to its registry through the IANA RDAP
@@ -74,6 +80,12 @@ Heroku is also paid (its free tier ended in November 2022) but is still
 surfaced. Every handle, package and social source is **free** to register. The
 report renders a Paid card above a Free card, and each provider carries a `paid`
 flag the server streams on every `/check` result.
+
+The free-subdomain sources (eu.org, DuckDNS, No-IP, dynv6, noted.lol,
+is-a-good.dev) have no wildcard DNS, so they resolve `{name}.{host}` and treat a
+successful answer as taken and an NXDOMAIN as free. Because that is a DNS
+lookup, the label is sent to the resolver — the same privacy exposure as
+looking the name up directly.
 
 GitHub users and organizations share a single namespace, so one `/users` lookup
 covers both.

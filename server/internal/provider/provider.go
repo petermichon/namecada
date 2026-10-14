@@ -276,5 +276,11 @@ func Default() *Registry {
 	_ = r.Register(NewHeroku())
 	_ = r.Register(NewDenoDeploy())
 	_ = r.Register(NewReadTheDocs())
+	_ = r.Register(NewEUOrg())
+	_ = r.Register(NewDuckDNS())
+	_ = r.Register(NewNoIP())
+	_ = r.Register(NewDynV6())
+	_ = r.Register(NewNotedLol())
+	_ = r.Register(NewIsAGoodDev())
 	return r
 }
