@@ -833,6 +833,8 @@ func defaultClientOf(p Provider) (*http.Client, bool) {
 		return v.client, true
 	case *Domain:
 		return v.Client, true
+	case *ENS:
+		return v.Client, true
 	case *Lemmy:
 		return v.Client, true
 	case *PeerTube:
@@ -960,11 +962,12 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default(Config{})
-	if r.Len() != 66 {
-		t.Fatalf("Len = %d, want 66", r.Len())
+	if r.Len() != 67 {
+		t.Fatalf("Len = %d, want 67", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
+		"ens",
 		"lemmy", "peertube",
 		"npm", "pypi", "crates", "nuget", "rubygems", "hex", "hex-user", "pub",
 		"homebrew", "hackage", "clojars", "chocolatey", "aur", "firefox", "jsr", "wordpress", "openvsx",
@@ -1124,11 +1127,11 @@ func TestPaid(t *testing.T) {
 	}
 }
 
-// TestDefaultPaidSources pins that the domain TLDs and Heroku are the only
-// paid sources.
+// TestDefaultPaidSources pins that the domain TLDs, ENS and Heroku are the
+// only paid sources.
 func TestDefaultPaidSources(t *testing.T) {
 	for _, p := range Default(Config{}).All() {
-		want := p.Platform() == "domains" || p.Platform() == "heroku"
+		want := p.Platform() == "domains" || p.Platform() == "ens" || p.Platform() == "heroku"
 		if got := Paid(p); got != want {
 			t.Errorf("Paid(%q) = %v, want %v", p.ID(), got, want)
 		}

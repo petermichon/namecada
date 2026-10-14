@@ -319,6 +319,7 @@ func Default(cfg Config) *Registry {
 	for _, p := range NewDomains() {
 		_ = r.Register(p)
 	}
+	_ = r.Register(NewENS())
 	_ = r.Register(NewLemmy())
 	_ = r.Register(NewPeerTube())
 	_ = r.Register(NewNPM())

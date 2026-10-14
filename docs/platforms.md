@@ -21,7 +21,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 
 - [x] Domains (RDAP TLDs) — ✅ — `.com .org .dev .io .ai .app` (`.io` via fallback) + any TLD in the IANA bootstrap
 - [ ] ccTLDs / new gTLDs — 🌐 — RDAP coverage varies; not all are in the bootstrap
-- [ ] ENS (`.eth`) — 🌐 — public RPC / resolver
+- [x] ENS (`.eth`) — ✅ — `api.ensideas.com/ens/resolve/{name}.eth` (200 always; non-null `address` = taken, `null` = free; third-party resolver — a follow-up could query a public Ethereum RPC against the ENS registry directly)
 - [ ] Handshake (HNS) — 🌐 — HNS resolver
 - [ ] Unstoppable Domains — 🌐 — resolver API
 - [ ] Solana Name Service — 🌐 — SNS API

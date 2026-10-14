@@ -5,6 +5,7 @@ package provider
 // result the engine streams back, so the web app does not need its own copy.
 var platformNames = map[string]string{
 	"domains":        "Domains",
+	"ens":            "ENS",
 	"npm":            "npm",
 	"pypi":           "PyPI",
 	"crates":         "crates.io",
