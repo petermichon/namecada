@@ -86,6 +86,8 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] is-a-good.dev — ✅ — `{name}.is-a-good.dev` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
 - [x] pages.dev — ✅ — `{name}.pages.dev` (Cloudflare Pages; DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
 - [x] fly.dev — ✅ — `{name}.fly.dev` (Fly.io; DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
+- [x] Lemmy — ✅ — `lemmy.world/api/v3/user?username={name}` (200 = taken, 404 = free)
+- [x] PeerTube — ✅ — `framatube.org/api/v1/accounts/{name}` and `/api/v1/video-channels/{name}` (accounts and channels share one actor namespace; either 200 = taken, both 404 = free)
 
 ## Candidates
 
@@ -105,7 +107,6 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Figma Community — 🕸 — no public API
 - [ ] Shopify App Store — 🕸
 - [ ] Nostr (NIP-05) — 🌐 — `/.well-known/nostr.json`
-- [ ] Lemmy — 🌐 — `/api/v3/user?username={name}`
 - [ ] Fandom — 🕸 — `{name}.fandom.com` has no CORS
 - [ ] Bilibili — 🕸 — API returns 412 (banned)
 - [ ] Discord — 🕸 — usernames have no public API
@@ -190,7 +191,6 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Tumblr — 🔑
 - [ ] Vimeo — 🕸 — bot-blocked: 403 for both real and fake names, so no signal
 - [ ] Odysee / LBRY — 🕸 — no usable API
-- [ ] PeerTube — 🌐 — per-instance
 - [ ] VK — 🔑
 - [ ] Weibo — 🕸
 - [ ] Zhihu — 🕸
@@ -202,7 +202,6 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Guilded — 🕸
 - [ ] Slack — 🕸
 - [ ] DeviantArt — 🕸 — profile pages are an always-200 SPA (any name returns 200), so no signal
-- [ ] Namecoin (`.bit`) — 🌐 — name lookup
 - [ ] OpenNIC — 🌐
 - [ ] Ko-fi — 🕸 — redirects, no signal
 - [ ] Buy Me a Coffee — 🕸 — no CORS
