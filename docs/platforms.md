@@ -30,22 +30,22 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [x] crates.io — ✅ — `crates.io/api/v1/crates/{name}`
 - [x] NuGet — ✅ — `api.nuget.org/v3-flatcontainer/{name}/index.json`
 - [x] RubyGems — ✅ — `rubygems.org/api/v1/gems/{name}.json`
-- [ ] Packagist — 🕸 — no CORS
-- [ ] Maven Central — 🕸 — no CORS
+- [ ] Packagist — 🕸 — composite `vendor/name`, no single-label namespace
+- [ ] Maven Central — 🕸 — composite `group:artifact`, no single-label namespace
 - [x] Hex (Elixir) — ✅ — `hex.pm/api/packages/{name}` (packages) and `hex.pm/api/users/{name}` (users)
 - [x] pub.dev (Dart) — ✅ — `pub.dev/api/packages/{name}`
 - [x] JSR (JavaScript) — ✅ — `jsr.io/api/scopes/{name}`
-- [ ] Deno (`deno.land/x`) — 🕸 — no clean API (redirect/HTML)
-- [ ] Docker Hub — 🕸 — no CORS
+- [ ] Deno (`deno.land/x`) — 🕸 — `/x/{name}` 302-redirects and even taken names resolve 404, no signal
+- [ ] Docker Hub — 🕸 — composite `user/repo`, no single-label namespace
 - [x] Homebrew — ✅ — `formulae.brew.sh/api/formula/{name}.json`
 - [x] Chocolatey — ✅ — `community.chocolatey.org/packages/{name}` (status-only HTML; package ids are case-insensitive)
-- [ ] Snap Store — 🕸 — no CORS + required header
+- [ ] Snap Store — 🕸 — viable with the `Snap-Device-Series: 16` header; deferred until the `endpoint` helper supports a custom header
 - [ ] Flathub — 🌐 — app-id is reverse-DNS, not a label
 - [x] AUR (Arch) — ✅ — `aur.archlinux.org/packages/{name}` (status-only HTML; the RPC endpoint always answers 200)
-- [ ] CPAN — 🕸 — blocked (402)
+- [ ] CPAN — 🕸 — case-sensitive CamelCase names; labels are lowercased (`platforms.ts:14-18`), so it would false-available
 - [x] Hackage — ✅ — `hackage.haskell.org/package/{name}` (bare name resolves; status-only HTML)
 - [x] Clojars — ✅ — `clojars.org/api/artifacts/{name}` (single segment resolves)
-- [ ] LuaRocks — 🕸 — no CORS
+- [ ] LuaRocks — 🕸 — composite `owner/name`, no single-label namespace
 - [ ] Terraform Registry — 🕸 — scoped path + no CORS
 - [ ] VS Code Marketplace — 🕸 — no simple API (use Open VSX)
 - [ ] JetBrains Marketplace — 🌐 — search API only (body signal)
@@ -145,7 +145,7 @@ browser DoH):
 More package registries:
 
 - [x] Open VSX — ✅ — `open-vsx.org/api/{namespace}` (namespace)
-- [ ] CocoaPods — 🕸 — no CORS
+- [ ] CocoaPods — 🕸 — case-sensitive CamelCase names; labels are lowercased (`platforms.ts:14-18`), so it would false-available
 - [ ] Swift Package Index — 🕸 — 403
 - [ ] Gradle Plugin Portal — 🕸 — no usable API
 - [ ] Ansible Galaxy — 🕸 — scoped / no CORS
