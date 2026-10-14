@@ -39,6 +39,7 @@ var platformNames = map[string]string{
 	"mastodon":       "Mastodon",
 	"youtube":        "YouTube",
 	"kaggle":         "Kaggle",
+	"dribbble":       "Dribbble",
 	"hackernews":     "Hacker News",
 	"opencollective": "Open Collective",
 	"lemmy":          "Lemmy",

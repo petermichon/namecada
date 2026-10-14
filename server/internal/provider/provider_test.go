@@ -76,6 +76,7 @@ func httpSources() []httpSource {
 		endpointSource("mastodon", "mastodon", "/@acema", "", NewMastodon),
 		endpointSource("youtube", "youtube", "/@acema", "", NewYouTube),
 		endpointSource("kaggle", "kaggle", "/acema", "", NewKaggle),
+		endpointSource("dribbble", "dribbble", "/acema", "", NewDribbble),
 	}
 }
 
@@ -945,8 +946,8 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default()
-	if r.Len() != 63 {
-		t.Fatalf("Len = %d, want 63", r.Len())
+	if r.Len() != 64 {
+		t.Fatalf("Len = %d, want 64", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
@@ -958,6 +959,7 @@ func TestDefaultRegistry(t *testing.T) {
 		"huggingface", "dailymotion", "mixcloud", "lastfm", "bluesky", "mastodon",
 		"youtube",
 		"kaggle",
+		"dribbble",
 		"hackernews",
 		"opencollective",
 		"vercel",

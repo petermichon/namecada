@@ -91,7 +91,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Minecraft (Mojang) — 🕸 — API has no CORS
 - [ ] Roblox — 🕸 — rate-limited / no CORS
 - [ ] SourceForge — 🕸 — 200 has CORS, 404 does not
-- [ ] Dribbble — 🔑 — API needs a token
+- [x] Dribbble — ✅ — `dribbble.com/{name}` (keyless profile: 200 taken / 404 free; the API needs a token but the profile route does not)
 - [ ] Behance — 🔑 — Adobe API needs a key
 - [ ] XDA Forums — 🕸 — Cloudflare-blocked (403)
 - [ ] USPTO (trademarks) — 🔑

@@ -98,6 +98,13 @@ func NewKaggle() Provider {
 		"https://www.kaggle.com", "/%s", "https://www.kaggle.com/%s", defaultCodes)
 }
 
+// NewDribbble checks a user on Dribbble. The keyless profile route answers 200
+// for a claimed username and 404 for a free one.
+func NewDribbble() Provider {
+	return newEndpoint("dribbble", "dribbble",
+		"https://dribbble.com", "/%s", "https://dribbble.com/%s", defaultCodes)
+}
+
 // Wikipedia checks a global account on Wikimedia. Unlike the status-only
 // sources it reads the body: globaluserinfo carries a "missing" key when the
 // name is free. Source: docs/platforms.md — meta.wikimedia.org/w/api.php.
