@@ -56,8 +56,8 @@ separate provider. The TLD is resolved to its registry through the IANA RDAP
 bootstrap (`data.iana.org/rdap/dns.json`). Domains are the **paid** sources: a
 registration costs money, and the amount varies (premium names cost more).
 Every handle, package and social source is **free** to register. The report
-splits the rows into a Paid section above a Free one, and each provider carries
-a `paid` flag the server streams on every `/check` result.
+renders a Paid card above a Free card, and each provider carries a `paid` flag
+the server streams on every `/check` result.
 
 GitHub users and organizations share a single namespace, so one `/users` lookup
 covers both.
@@ -120,8 +120,8 @@ unauthenticated requests (GitHub: 60/hour per IP).
 - `web/` — Svelte 5 + Vite + Tailwind + shadcn-svelte (maia) app.
   - `src/lib/platforms.ts` — the result types (`Status`, `ProviderResult`) and
     `toLabel`. The display name in `platformName` and the `paid` flag come from
-    the server; the report groups the URLs into one card per platform, split
-    into a Paid section above a Free one.
+    the server; the report renders the URLs as a Paid card above a Free card,
+    each with its own heading and available count.
   - `src/lib/api.ts` — the server client: `streamFromApi` consumes the `serve`
     API (`GET /check?name=<label>`, NDJSON) and is the app's sole source. The
     base URL defaults to `http://localhost:8080` and is overridable at build

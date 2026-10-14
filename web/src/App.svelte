@@ -97,13 +97,9 @@
 				<p class="mt-4 text-sm text-muted-foreground">
 					Checking {lookup.checked} of {lookup.rows.length}…
 				</p>
-			{:else}
+			{:else if lookup.stale}
 				<p class="mt-4 text-lg font-semibold tracking-tight">
-					{#if lookup.stale}
-						Press Enter to check the updated name.
-					{:else}
-						{lookup.counts.available} of {lookup.rows.length} available
-					{/if}
+					Press Enter to check the updated name.
 				</p>
 			{/if}
 
