@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { byPaidThenPlatformName, byPlatformName, Lookup, type Row } from './useLookup.svelte';
+import type { Status } from './platforms';
 
 function row(platformName: string, status: Row['status'], name = 'acema', paid = false): Row {
 	return {
@@ -11,6 +12,41 @@ function row(platformName: string, status: Row['status'], name = 'acema', paid =
 		status,
 		paid
 	};
+}
+
+// providerRow mirrors the backend: one row per provider, keyed by the stable
+// provider id rather than the label being looked up.
+function providerRow(id: string, platformName: string, status: Status, name = 'acema'): Row {
+	return {
+		id,
+		platform: id,
+		platformName,
+		name,
+		url: `https://example.com/${id}/${name}`,
+		status,
+		paid: false
+	};
+}
+
+function providerResult(id: string, platformName: string, status: Status, name = 'acema'): string {
+	return JSON.stringify({
+		id,
+		platform: id,
+		platformName,
+		name,
+		url: `https://example.com/${id}/${name}`,
+		status,
+		paid: false
+	});
+}
+
+function stubApi(body: string) {
+	return vi.fn((input: unknown) => {
+		if (String(input).includes('/check?name=')) {
+			return Promise.resolve(new Response(body, { status: 200 }));
+		}
+		return Promise.resolve(new Response(null, { status: 404 }));
+	});
 }
 
 afterEach(() => {
@@ -127,6 +163,70 @@ describe('stale', () => {
 		lookup.lastLabel = 'acema';
 		lookup.rows = [row('GitHub', 'taken')];
 		expect(lookup.stale).toBe(false);
+	});
+});
+
+describe('check', () => {
+	it('keeps the previous rows mounted and flags busy on a re-scan', async () => {
+		vi.stubGlobal('fetch', stubApi(''));
+		const lookup = new Lookup();
+		lookup.input = 'lumen';
+		lookup.lastLabel = 'acema';
+		lookup.rows = [
+			providerRow('github', 'GitHub', 'taken'),
+			providerRow('lemmy', 'Lemmy', 'available')
+		];
+
+		lookup.check({ sync: false });
+
+		// The old list stays on screen (height-stable, no scroll clamp) and is
+		// dimmed/aria-busy until the first fresh result arrives.
+		expect(lookup.rows.map((r) => r.id)).toEqual(['github', 'lemmy']);
+		expect(lookup.busy).toBe(true);
+		expect(lookup.searching).toBe(true);
+
+		await vi.waitFor(() => expect(lookup.loading).toBe(false));
+	});
+
+	it('overwrites stale rows by id and clears busy once results arrive', async () => {
+		const body =
+			[
+				providerResult('github', 'GitHub', 'available'),
+				providerResult('lemmy', 'Lemmy', 'taken')
+			].join('\n') + '\n';
+		vi.stubGlobal('fetch', stubApi(body));
+		const lookup = new Lookup();
+		lookup.input = 'lumen';
+		lookup.lastLabel = 'acema';
+		lookup.rows = [
+			providerRow('github', 'GitHub', 'taken'),
+			providerRow('lemmy', 'Lemmy', 'available')
+		];
+
+		lookup.check({ sync: false });
+		await vi.waitFor(() => expect(lookup.loading).toBe(false));
+
+		expect(lookup.rows.map((r) => r.id)).toEqual(['github', 'lemmy']);
+		expect(lookup.rows.map((r) => r.status)).toEqual(['available', 'taken']);
+		expect(lookup.busy).toBe(false);
+		expect(lookup.checked).toBe(2);
+	});
+
+	it('drops stale rows and surfaces the error when a re-scan fails', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(() => Promise.reject(new TypeError('Failed to fetch')))
+		);
+		const lookup = new Lookup();
+		lookup.input = 'lumen';
+		lookup.lastLabel = 'acema';
+		lookup.rows = [providerRow('github', 'GitHub', 'taken')];
+
+		lookup.check({ sync: false });
+		await vi.waitFor(() => expect(lookup.loading).toBe(false));
+
+		expect(lookup.rows).toEqual([]);
+		expect(lookup.error).toContain('Could not reach the backend');
 	});
 });
 

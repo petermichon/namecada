@@ -20,7 +20,7 @@
 		if (target && (target.isContentEditable || /^(input|textarea|select)$/i.test(target.tagName)))
 			return;
 		e.preventDefault();
-		document.getElementById('domain')?.focus();
+		document.getElementById('domain')?.focus({ preventScroll: true });
 	}
 
 	onMount(() => {
@@ -66,14 +66,20 @@
 
 			{#if lookup.rows.length}
 				<div class="mt-2 flex flex-wrap items-center gap-2">
-					{#if lookup.searching}
-						<span class="text-xs text-muted-foreground">{lookup.lastLabel}</span>
-					{:else}
-						<StatusFilter bind:filter={lookup.filter} counts={lookup.counts} />
-						<Button variant="outline" size="sm" class="ml-auto" onclick={lookup.copyResults}>
-							{lookup.copied ? 'Copied' : 'Copy'}
-						</Button>
-					{/if}
+					<StatusFilter
+						bind:filter={lookup.filter}
+						counts={lookup.counts}
+						disabled={lookup.searching}
+					/>
+					<Button
+						variant="outline"
+						size="sm"
+						class="ml-auto"
+						onclick={lookup.copyResults}
+						disabled={lookup.searching}
+					>
+						{lookup.copied ? 'Copied' : 'Copy'}
+					</Button>
 				</div>
 			{/if}
 		</div>
@@ -98,13 +104,15 @@
 					Checking {lookup.checked} of {lookup.rows.length}…
 				</p>
 			{:else if lookup.stale}
-				<p class="mt-4 text-lg font-semibold tracking-tight">
+				<p class="mt-4 text-sm font-semibold tracking-tight">
 					Press Enter to check the updated name.
 				</p>
 			{/if}
 
-			<ResultsList paidRows={lookup.paidRows} freeRows={lookup.freeRows} />
-		{:else if !lookup.error}
+			<div class={lookup.busy ? 'opacity-60' : ''} aria-busy={lookup.busy}>
+				<ResultsList paidRows={lookup.paidRows} freeRows={lookup.freeRows} />
+			</div>
+		{:else if !lookup.error && !lookup.searching}
 			<EmptyState
 				examples={EXAMPLES}
 				onselect={(name) => {

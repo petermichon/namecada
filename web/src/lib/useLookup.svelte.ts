@@ -66,6 +66,14 @@ export class Lookup {
 	lastLabel = $state<string | null>(null);
 	filter = $state<Filter>('all');
 	copied = $state(false);
+	// busy marks a re-scan running over rows from the previous label. The stale
+	// rows stay mounted (so the document keeps its height and scroll cannot
+	// clamp, P49) and are dimmed + aria-busy until the first fresh result lands.
+	busy = $state(false);
+	// received counts results resolved for the current generation, so the
+	// summary reports progress against the in-flight scan rather than the
+	// stale rows still on screen.
+	received = $state(0);
 
 	#controller: AbortController | null = null;
 	#generation = 0;
@@ -83,6 +91,8 @@ export class Lookup {
 			this.rows = [];
 			this.lastLabel = null;
 			this.loading = false;
+			this.busy = false;
+			this.received = 0;
 			const raw = this.input.trim();
 			this.error = !raw
 				? 'Enter a name to check.'
@@ -103,12 +113,22 @@ export class Lookup {
 		this.#controller = ac;
 		this.lastLabel = label;
 		this.loading = true;
-		this.rows = [];
+		// Stale-while-revalidate: keep the previous label's rows mounted so the
+		// document never collapses below the viewport (a shrink would clamp
+		// scroll to 0, P49). They overwrite by id — one result per provider, so
+		// the set is constant — and are flagged busy until the first fresh
+		// result arrives.
+		this.busy = this.rows.length > 0;
+		this.received = 0;
+		const fresh: string[] = [];
 
 		streamFromApi(
 			label,
 			(result) => {
 				if (gen !== this.#generation || ac.signal.aborted) return;
+				fresh.push(result.id);
+				this.received += 1;
+				this.busy = false;
 				const next: Row = {
 					id: result.id,
 					platform: result.platform,
@@ -128,15 +148,20 @@ export class Lookup {
 			.catch((e) => {
 				if (isAbort(e)) return;
 				if (ac.signal.aborted || gen !== this.#generation) return;
-				// The backend is the sole source, so a failed request leaves no
-				// rows to mark unreachable; surface it instead.
-				if (!this.rows.length) this.error = 'Could not reach the backend. Is `serve` running?';
+				// Drop rows the failed scan never refreshed; a re-scan that
+				// cannot reach the backend must not keep showing the previous
+				// label's results.
+				this.rows = this.rows.filter((row) => fresh.includes(row.id));
 				this.rows = this.rows.map((row) =>
 					row.status === 'pending' ? { ...row, status: 'unknown', detail: 'unreachable' } : row
 				);
+				if (!this.rows.length) this.error = 'Could not reach the backend. Is `serve` running?';
 			})
 			.finally(() => {
-				if (gen === this.#generation) this.loading = false;
+				if (gen === this.#generation) {
+					this.loading = false;
+					this.busy = false;
+				}
 			});
 	};
 
@@ -155,7 +180,7 @@ export class Lookup {
 	};
 
 	searching = $derived(this.loading || this.rows.some((row) => row.status === 'pending'));
-	checked = $derived(this.rows.filter((row) => row.status !== 'pending').length);
+	checked = $derived(this.received);
 
 	stale = $derived(
 		!this.searching &&

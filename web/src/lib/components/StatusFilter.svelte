@@ -4,10 +4,12 @@
 
 	let {
 		filter = $bindable<Filter>('all'),
-		counts
+		counts,
+		disabled = false
 	}: {
 		filter: Filter;
 		counts: { available: number; taken: number; unknown: number };
+		disabled?: boolean;
 	} = $props();
 </script>
 
@@ -18,6 +20,7 @@
 	variant="outline"
 	size="sm"
 	spacing={2}
+	{disabled}
 	class="text-xs"
 >
 	<ToggleGroup.Item
