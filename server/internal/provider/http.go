@@ -21,9 +21,18 @@ var DefaultClient = &http.Client{Timeout: DefaultTimeout}
 // with a 403, so the descriptive product string below is set instead.
 const UserAgent = "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
 
-// setCommonHeaders applies the headers every provider request carries.
-func setCommonHeaders(req *http.Request) {
-	req.Header.Set("Accept", "application/json")
+// defaultAccept is the Accept header providers send unless they override it.
+// Most sources only speak JSON, but some (e.g. Mastodon's profile page) reject
+// an application/json Accept on an HTML route.
+const defaultAccept = "application/json"
+
+// setCommonHeaders applies the headers every provider request carries. An empty
+// accept falls back to defaultAccept.
+func setCommonHeaders(req *http.Request, accept string) {
+	if accept == "" {
+		accept = defaultAccept
+	}
+	req.Header.Set("Accept", accept)
 	req.Header.Set("User-Agent", UserAgent)
 }
 
@@ -37,9 +46,15 @@ type codeMap struct {
 // checkHttp defaults.
 var defaultCodes = codeMap{available: []int{http.StatusNotFound}, taken: []int{http.StatusOK}}
 
-// doGet performs a GET with the shared Accept header; a nil client falls back
-// to DefaultClient so every request carries a timeout.
+// doGet performs a GET with the shared JSON Accept header; a nil client falls
+// back to DefaultClient so every request carries a timeout.
 func doGet(ctx context.Context, client *http.Client, url string) (*http.Response, error) {
+	return doGetAccept(ctx, client, url, defaultAccept)
+}
+
+// doGetAccept is doGet with an Accept override; an empty accept keeps
+// defaultAccept. It exists for sources that serve HTML rather than JSON.
+func doGetAccept(ctx context.Context, client *http.Client, url, accept string) (*http.Response, error) {
 	if client == nil {
 		client = DefaultClient
 	}
@@ -47,7 +62,7 @@ func doGet(ctx context.Context, client *http.Client, url string) (*http.Response
 	if err != nil {
 		return nil, err
 	}
-	setCommonHeaders(req)
+	setCommonHeaders(req, accept)
 	return client.Do(req)
 }
 
@@ -62,7 +77,13 @@ func drainAndClose(resp *http.Response) {
 // status that is neither taken nor available yields StatusUnknown with no
 // error; transport failures are returned as errors.
 func checkHTTP(ctx context.Context, client *http.Client, url string, codes codeMap) (Result, error) {
-	resp, err := doGet(ctx, client, url)
+	return checkHTTPAccept(ctx, client, url, codes, defaultAccept)
+}
+
+// checkHTTPAccept is checkHTTP with an Accept override; an empty accept keeps
+// defaultAccept.
+func checkHTTPAccept(ctx context.Context, client *http.Client, url string, codes codeMap, accept string) (Result, error) {
+	resp, err := doGetAccept(ctx, client, url, accept)
 	if err != nil {
 		return Result{}, err
 	}

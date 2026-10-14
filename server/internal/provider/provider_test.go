@@ -585,14 +585,19 @@ func TestMastodonCheck(t *testing.T) {
 		{http.StatusOK, StatusTaken},
 		{http.StatusGone, StatusTaken},
 		{http.StatusNotFound, StatusAvailable},
+		// The HTML profile route answers 401 to a JSON Accept; Mastodon must
+		// not read that as taken the way Firefox's API does.
+		{http.StatusUnauthorized, StatusUnknown},
 		{http.StatusInternalServerError, StatusUnknown},
 	}
 	for _, tt := range tests {
 		t.Run(http.StatusText(tt.code), func(t *testing.T) {
+			var gotAccept string
 			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				if r.URL.Path != "/@acema" {
 					t.Errorf("path = %q, want %q", r.URL.Path, "/@acema")
 				}
+				gotAccept = r.Header.Get("Accept")
 				w.WriteHeader(tt.code)
 			}))
 			defer srv.Close()
@@ -608,7 +613,30 @@ func TestMastodonCheck(t *testing.T) {
 			if got.Status != tt.want {
 				t.Errorf("status = %q, want %q", got.Status, tt.want)
 			}
+			if gotAccept != "text/html" {
+				t.Errorf("Accept = %q, want %q", gotAccept, "text/html")
+			}
 		})
+	}
+}
+
+func TestEndpointDefaultAccept(t *testing.T) {
+	var gotAccept string
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		gotAccept = r.Header.Get("Accept")
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer srv.Close()
+
+	e := NewNPM().(*endpoint)
+	e.baseURL = srv.URL
+	e.client = srv.Client()
+
+	if _, err := e.Check(context.Background(), "acema"); err != nil {
+		t.Fatalf("Check returned error: %v", err)
+	}
+	if gotAccept != defaultAccept {
+		t.Errorf("Accept = %q, want %q", gotAccept, defaultAccept)
 	}
 }
 

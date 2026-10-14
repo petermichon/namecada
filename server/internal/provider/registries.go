@@ -21,6 +21,8 @@ type endpoint struct {
 	pageURL string
 	codes   codeMap
 	client  *http.Client
+	// accept overrides the request Accept header; empty keeps defaultAccept.
+	accept string
 }
 
 func newEndpoint(id, platform, baseURL, path, pageURL string, codes codeMap) *endpoint {
@@ -32,6 +34,7 @@ func newEndpoint(id, platform, baseURL, path, pageURL string, codes codeMap) *en
 		pageURL:  pageURL,
 		codes:    codes,
 		client:   DefaultClient,
+		accept:   defaultAccept,
 	}
 }
 
@@ -47,7 +50,7 @@ func (e *endpoint) URL(label string) string {
 // through the endpoint's code table.
 func (e *endpoint) Check(ctx context.Context, label string) (Result, error) {
 	target := e.baseURL + fmt.Sprintf(e.path, url.PathEscape(label))
-	return checkHTTP(ctx, e.client, target, e.codes)
+	return checkHTTPAccept(ctx, e.client, target, e.codes, e.accept)
 }
 
 // NewNPM checks a package on the npm registry.

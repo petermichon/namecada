@@ -61,14 +61,18 @@ func NewMixcloud() Provider {
 
 // NewMastodon checks an account on mastodon.social. The account lookup API
 // flattens suspended accounts to 404, so it probes the profile instead: 200 and
-// 410 Gone both mean the username is taken, 404 is free.
+// 410 Gone both mean the username is taken, 404 is free. The profile route
+// serves HTML, so it overrides the default JSON Accept; sending
+// application/json makes the route answer 401.
 func NewMastodon() Provider {
-	return newEndpoint("mastodon", "mastodon",
+	e := newEndpoint("mastodon", "mastodon",
 		"https://mastodon.social", "/@%s", "https://mastodon.social/@%s",
 		codeMap{
 			available: []int{http.StatusNotFound},
 			taken:     []int{http.StatusOK, http.StatusGone},
 		})
+	e.accept = "text/html"
+	return e
 }
 
 // Wikipedia checks a global account on Wikimedia. Unlike the status-only
