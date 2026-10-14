@@ -47,6 +47,7 @@ var platformNames = map[string]string{
 	"render":         "Render",
 	"railway":        "Railway",
 	"heroku":         "Heroku",
+	"denodeploy":     "Deno Deploy",
 }
 
 // PlatformName returns the display name for a platform id. An unknown id is

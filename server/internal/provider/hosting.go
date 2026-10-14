@@ -89,3 +89,16 @@ func NewHeroku() Provider {
 	e.paid = true
 	return e
 }
+
+// NewDenoDeploy checks a project subdomain on Deno Deploy. Deno Deploy serves
+// wildcard DNS for deno.dev, so the HTTP status is the signal:
+// `https://{name}.deno.dev/` answers 404 when the name is free. A claimed name
+// can answer 301 before redirecting to the project's own custom domain (for
+// example `fresh.deno.dev` → `usefresh.dev`), and DefaultClient follows
+// redirects, so the final 200 is what classify sees. Project names are
+// user-chosen. The origin is empty because the label is part of the host, not a
+// path segment.
+func NewDenoDeploy() Provider {
+	return newEndpoint("denodeploy", "denodeploy",
+		"", "https://%s.deno.dev/", "https://%s.deno.dev/", defaultCodes)
+}

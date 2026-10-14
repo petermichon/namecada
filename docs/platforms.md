@@ -133,7 +133,7 @@ browser DoH):
 - [x] Railway — ✅ — `{name}.up.railway.app` (wildcard DNS; HTTP 404, no CORS; HTML Accept; user-chosen names, collisions get a suffix so the exact label still 404s)
 - [x] Heroku — ✅ — `{name}.herokuapp.com` (wildcard DNS; HTTP 404, no CORS; user-chosen names; paid-only since Nov 2022, so marked paid)
 - [x] Surge — ✅ — `{name}.surge.sh` (wildcard DNS; HTTP 404, no CORS)
-- [ ] Deno Deploy — 🔌 — `{name}.deno.dev`
+- [x] Deno Deploy — ✅ — `{name}.deno.dev` (wildcard DNS; HTTP 404, no CORS; a claimed name can 301 to a custom domain, followed to 200; user-chosen project names)
 - [x] Firebase Hosting — ✅ — `{name}.web.app` (wildcard DNS; HTTP 404, no CORS)
 - [ ] Azure Static Web Apps — 🔌 — `{name}.azurestaticapps.net`
 - [ ] AWS Amplify — 🔌 — `{name}.amplifyapp.com`
