@@ -21,4 +21,10 @@ describe('UNSUPPORTED', () => {
 	it('templates every url with the label placeholder', () => {
 		expect(UNSUPPORTED.every((source) => source.url.includes('{name}'))).toBe(true);
 	});
+
+	it('classifies every entry as paid or free', () => {
+		expect(UNSUPPORTED.every((source) => typeof source.paid === 'boolean')).toBe(true);
+		expect(UNSUPPORTED.some((source) => source.paid)).toBe(true);
+		expect(UNSUPPORTED.some((source) => !source.paid)).toBe(true);
+	});
 });

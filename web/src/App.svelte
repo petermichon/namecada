@@ -113,8 +113,8 @@
 				<ResultsList
 					paidRows={lookup.paidRows}
 					freeRows={lookup.freeRows}
-					unsupportedRows={lookup.visibleUnsupportedRows}
-					unsupportedOpen={lookup.filter === 'unsupported'}
+					paidUnsupportedRows={lookup.paidUnsupportedRows}
+					freeUnsupportedRows={lookup.freeUnsupportedRows}
 				/>
 			</div>
 		{:else if !lookup.error && !lookup.searching}

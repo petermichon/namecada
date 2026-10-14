@@ -168,6 +168,9 @@ describe('unsupported', () => {
 		expect(lookup.unsupportedRows.map((row) => row.detail)).toEqual(
 			UNSUPPORTED.map((source) => source.reason)
 		);
+		expect(lookup.unsupportedRows.map((row) => row.paid)).toEqual(
+			UNSUPPORTED.map((source) => source.paid)
+		);
 		expect(lookup.unsupportedRows[0].url).toContain('acema');
 	});
 
@@ -193,6 +196,16 @@ describe('unsupported', () => {
 		expect(lookup.visibleUnsupportedRows).toHaveLength(UNSUPPORTED.length);
 		expect(lookup.paidRows.every((row) => row.status !== 'unsupported')).toBe(true);
 		expect(lookup.freeRows.map((row) => row.platformName)).toEqual(['GitHub', 'Lemmy']);
+		expect(lookup.paidUnsupportedRows.map((r) => r.platformName).toSorted()).toEqual(
+			UNSUPPORTED.filter((source) => source.paid)
+				.map((source) => source.platformName)
+				.toSorted()
+		);
+		expect(lookup.freeUnsupportedRows.map((r) => r.platformName).toSorted()).toEqual(
+			UNSUPPORTED.filter((source) => !source.paid)
+				.map((source) => source.platformName)
+				.toSorted()
+		);
 	});
 
 	it('shows only unsupported rows when the unsupported filter is selected', () => {
@@ -205,6 +218,9 @@ describe('unsupported', () => {
 		expect(lookup.visibleRows.every((row) => row.status === 'unsupported')).toBe(true);
 		expect(lookup.paidRows).toEqual([]);
 		expect(lookup.freeRows).toEqual([]);
+		expect(lookup.paidUnsupportedRows.length + lookup.freeUnsupportedRows.length).toBe(
+			UNSUPPORTED.length
+		);
 	});
 
 	it('drops unsupported rows when there is no checked label', () => {

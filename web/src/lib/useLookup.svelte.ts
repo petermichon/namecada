@@ -221,7 +221,7 @@ export class Lookup {
 			url: source.url.replace('{name}', label),
 			status: 'unsupported' as const,
 			detail: source.reason,
-			paid: false
+			paid: source.paid
 		}));
 	});
 
@@ -238,6 +238,12 @@ export class Lookup {
 	freeRows = $derived(this.visibleRows.filter((row) => row.status !== 'unsupported' && !row.paid));
 
 	visibleUnsupportedRows = $derived(this.visibleRows.filter((row) => row.status === 'unsupported'));
+
+	// Unsupported rows are folded into the Paid or Free card by their catalogue
+	// `paid` flag. They stay out of paidRows/freeRows so those (verdict-only)
+	// lists keep driving the available counts and the "N of M available" line.
+	paidUnsupportedRows = $derived(this.visibleUnsupportedRows.filter((row) => row.paid));
+	freeUnsupportedRows = $derived(this.visibleUnsupportedRows.filter((row) => !row.paid));
 
 	counts = $derived.by(() => {
 		const totals = { available: 0, taken: 0, unknown: 0, unsupported: this.unsupportedRows.length };
