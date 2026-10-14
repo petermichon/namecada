@@ -149,3 +149,13 @@ func NewReadTheDocs() Provider {
 	return newHostEndpoint("readthedocs", "readthedocs",
 		"https://%s.readthedocs.io/", "https://%s.readthedocs.io/", defaultCodes)
 }
+
+// NewWeebly checks a site subdomain on Weebly. Weebly serves wildcard DNS for
+// weebly.com, so the HTTP status is the signal:
+// `https://{name}.weebly.com/` answers 200 when the name is claimed and 404
+// when it is free. Site names are user-chosen. The origin is empty because the
+// label is part of the host, not a path segment.
+func NewWeebly() Provider {
+	return newHostEndpoint("weebly", "weebly",
+		"https://%s.weebly.com/", "https://%s.weebly.com/", defaultCodes)
+}

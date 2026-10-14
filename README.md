@@ -94,6 +94,7 @@ can't be reached is deferred (see below).
 | Gumroad   | `{name}.gumroad.com` (subdomain)                               | 200 taken / 404 free      |
 | Substack  | `{name}.substack.com` (subdomain)                              | 200 taken / 404 free      |
 | Shopify   | `{name}.myshopify.com` (subdomain)                             | 200 taken / 404 free      |
+| Weebly    | `{name}.weebly.com` (subdomain)                                | 200 taken / 404 free      |
 | eu.org    | `{name}.eu.org` (DNS, no wildcard)                             | resolves taken / NXDOMAIN free |
 | DuckDNS   | `{name}.duckdns.org` (DNS, no wildcard)                        | resolves taken / NXDOMAIN free |
 | No-IP     | `{name}.no-ip.org` (DNS, no wildcard)                          | resolves taken / NXDOMAIN free |

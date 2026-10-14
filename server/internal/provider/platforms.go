@@ -78,6 +78,7 @@ var platformNames = map[string]string{
 	"gumroad":        "Gumroad",
 	"substack":       "Substack",
 	"shopify":        "Shopify",
+	"weebly":         "Weebly",
 	"euorg":          "eu.org",
 	"duckdns":        "DuckDNS",
 	"noip":           "No-IP",
