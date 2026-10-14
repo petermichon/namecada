@@ -10,8 +10,8 @@ npm-debug.log*
 .idea
 
 # Build artifacts
-frontend/dist
-frontend/.svelte-check
+web/dist
+web/.svelte-check
 server/domainbrowser
 server/bin/
 

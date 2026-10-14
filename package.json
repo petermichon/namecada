@@ -7,17 +7,17 @@
 		"node": ">=20.19"
 	},
 	"workspaces": [
-		"frontend"
+		"web"
 	],
 	"scripts": {
-		"dev": "npm run dev -w @domain-browser/frontend",
+		"dev": "npm run dev -w @domain-browser/web",
 		"dev:android": "adb reverse tcp:5173 tcp:5173 && npm run dev",
-		"build": "npm run build -w @domain-browser/frontend",
-		"preview": "npm run preview -w @domain-browser/frontend",
-		"test": "npm run test -w @domain-browser/frontend",
-		"check": "npm run check -w @domain-browser/frontend",
-		"lint": "npm run lint -w @domain-browser/frontend",
-		"format": "npm run format -w @domain-browser/frontend",
+		"build": "npm run build -w @domain-browser/web",
+		"preview": "npm run preview -w @domain-browser/web",
+		"test": "npm run test -w @domain-browser/web",
+		"check": "npm run check -w @domain-browser/web",
+		"lint": "npm run lint -w @domain-browser/web",
+		"format": "npm run format -w @domain-browser/web",
 		"server:dev": "go -C server run ./cmd/domainbrowser serve",
 		"server:build": "go -C server build -o bin/domainbrowser ./cmd/domainbrowser",
 		"server:test": "go -C server test ./...",

@@ -6,7 +6,7 @@ file is the human-readable plan. Architecture and decisions live in the README.
 ## Goal
 
 Maximize the number of working name-availability sources. Browser-direct
-(frontend-only) tops out around 64 sources; a server unlocks ~49 more (no-CORS
+(web-only) tops out around 64 sources; a server unlocks ~49 more (no-CORS
 and keyed APIs).
 
 ## Roadmap

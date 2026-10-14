@@ -111,7 +111,7 @@ unauthenticated requests (GitHub: 60/hour per IP).
 ## Layout
 
 - `server/` — Go core (provider/engine/store/sink), see [Server](#server).
-- `frontend/` — Svelte 5 + Vite + Tailwind + shadcn-svelte (maia) app.
+- `web/` — Svelte 5 + Vite + Tailwind + shadcn-svelte (maia) app.
   - `src/lib/providers.ts` — the result types (`Status`, `PlatformId`,
     `ProviderResult`), the `PLATFORMS` display names, and `toLabel`. The report
     groups the URLs into one card per platform.
@@ -123,7 +123,7 @@ unauthenticated requests (GitHub: 60/hour per IP).
 ## Development
 
 ```sh
-npm install        # installs the frontend workspace
+npm install        # installs the web workspace
 npm run dev        # vite dev server
 npm run build      # single-file production build
 npm test           # vitest
