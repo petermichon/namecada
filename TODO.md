@@ -14,14 +14,15 @@ namespaces), not the browser.
 
 ## Next
 
-Ordered phases; `docs/platforms.md` lists the sources in each. Promote a source
-to a `plan/PLAN.md` item when it reaches the front of the line.
+Ordered by preference; `docs/platforms.md` lists the sources in each. Promote a
+source to a `plan/PLAN.md` item when it reaches the front of the line.
 
-1. No-CORS registries the server can now reach — the largest batch.
-2. Hosting subdomains (`{name}.<host>`): server-side HTTP status sidesteps
-   wildcard DNS.
-3. Free subdomain namespaces, via DoH or HTTP status.
-4. Hacker News — now viable: the server reads the profile page.
-5. Keyed sources — gated on a key/config story.
-6. Trademark and company registries — keyed, and marks are not names.
-
+1. Official keyless API — the default. Verify each on the taken/free response.
+2. Body-parse a server-rendered page — fallback when there's no API: match a
+   stable marker (e.g. `og:title`/`"username"`), never localized "not found"
+   text; return `unknown` on ambiguity.
+3. Keyed API — **deferred**, opt-in only: a source is omitted from the registry
+   unless its `DOMAINBROWSER_<SOURCE>_<KIND>` env vars are set. Add one only when
+   neither (1) nor (2) can answer and the source is high-value.
+4. Headless-browser scraping — avoid; slow, brittle, usually bot-blocked. Never
+   scrape behind a login.
