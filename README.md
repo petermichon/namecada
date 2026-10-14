@@ -25,6 +25,7 @@ can't be reached is deferred (see below).
 | ENS       | `api.ensideas.com/ens/resolve/{name}.eth`                     | non-null `address` taken / `null` free |
 | SNS       | `sdk-proxy.sns.id/resolve/{name}.sol`                          | `"s":"ok"` taken / `"s":"error"` free |
 | HNS       | `hnsscan.com/api/names/{name}/details`                         | `info.state` `CLOSED` taken / `AVAILABLE`/`UNKNOWN` free |
+| Namecoin  | `explorer.namecoin.co/api/name/d%2F{name}`                     | 404 free / 200 `expired:true` free, `false` taken |
 | npm       | `registry.npmjs.org/{name}`                                    | 200 taken / 404 free      |
 | PyPI      | `pypi.org/pypi/{name}/json`                                    | 200 taken / 404 free      |
 | crates.io | `crates.io/api/v1/crates/{name}`                               | 200 taken / 404 free      |
@@ -102,7 +103,8 @@ bootstrap (`data.iana.org/rdap/dns.json`). Domains are **paid** sources: a
 registration costs money, and the amount varies (premium names cost more). ENS
 (`.eth`) is likewise paid — registering costs ETH. SNS (`.sol`) is paid too —
 registering costs SOL. HNS is paid as well — a new Handshake name is won in an
-auction, and an expired one is reclaimed the same way. Heroku is also paid (its free
+auction, and an expired one is reclaimed the same way. Namecoin (`.bit`) is paid
+too — registering a `d/` name costs NMC. Heroku is also paid (its free
 tier ended in November 2022) but is still surfaced. Every handle, package and
 social source is **free** to register. The
 report renders a Paid card above a Free card, and each provider carries a `paid`
