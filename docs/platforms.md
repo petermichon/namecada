@@ -217,7 +217,7 @@ Name systems / crypto:
 
 - [ ] Namecoin (`.bit`) — 🌐 — name lookup
 - [ ] OpenNIC — 🌐
-- [ ] Lens Protocol — 🌐
+- [x] Lens Protocol — ✅ — `api.lens.xyz/graphql` (keyless GraphQL: POST an `account(username.localName:)` query; non-null `data.account` taken / null `data.account` free; page `hey.xyz/u/{name}`; undocumented keyless read access)
 - [ ] Paragraph — 🌐
 
 Creators / commerce / media:

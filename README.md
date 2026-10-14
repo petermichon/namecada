@@ -26,6 +26,7 @@ can't be reached is deferred (see below).
 | SNS       | `sdk-proxy.sns.id/resolve/{name}.sol`                          | `"s":"ok"` taken / `"s":"error"` free |
 | HNS       | `hnsscan.com/api/names/{name}/details`                         | `info.state` `CLOSED` taken / `AVAILABLE`/`UNKNOWN` free |
 | Namecoin  | `explorer.namecoin.co/api/name/d%2F{name}`                     | 404 free / 200 `expired:true` free, `false` taken |
+| Lens      | `api.lens.xyz/graphql` `account(username.localName:)` (POST)   | non-null `account` taken / null free |
 | npm       | `registry.npmjs.org/{name}`                                    | 200 taken / 404 free      |
 | PyPI      | `pypi.org/pypi/{name}/json`                                    | 200 taken / 404 free      |
 | crates.io | `crates.io/api/v1/crates/{name}`                               | 200 taken / 404 free      |

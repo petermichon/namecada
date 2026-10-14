@@ -9,6 +9,7 @@ var platformNames = map[string]string{
 	"sns":            "Solana Name Service",
 	"hns":            "Handshake",
 	"namecoin":       "Namecoin",
+	"lens":           "Lens",
 	"npm":            "npm",
 	"pypi":           "PyPI",
 	"crates":         "crates.io",
