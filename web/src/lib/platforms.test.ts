@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { toLabel } from './providers';
+import { toLabel } from './platforms';
 
 describe('toLabel', () => {
 	it('accepts a bare label', () => {

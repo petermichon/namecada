@@ -1,6 +1,6 @@
 import { onMount } from 'svelte';
 import { isAbort, streamFromApi } from './api';
-import { toLabel, type Status } from './providers';
+import { toLabel, type Status } from './platforms';
 
 const QUERY_KEY = 'domain-browser:query';
 

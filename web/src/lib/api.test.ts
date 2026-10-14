@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { apiBase, createNdjsonReader, DEFAULT_API_BASE, parseResult, streamFromApi } from './api';
-import type { ProviderResult } from './providers';
+import type { ProviderResult } from './platforms';
 
 function line(result: Partial<ProviderResult> & { id: string }): string {
 	return JSON.stringify(result);

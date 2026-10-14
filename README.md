@@ -114,7 +114,7 @@ unauthenticated requests (GitHub: 60/hour per IP).
 
 - `server/` — Go core (provider/engine/store/sink), see [Server](#server).
 - `web/` — Svelte 5 + Vite + Tailwind + shadcn-svelte (maia) app.
-  - `src/lib/providers.ts` — the result types (`Status`, `ProviderResult`) and
+  - `src/lib/platforms.ts` — the result types (`Status`, `ProviderResult`) and
     `toLabel`. The display name in `platformName` comes from the server; the
     report groups the URLs into one card per platform.
   - `src/lib/api.ts` — the server client: `streamFromApi` consumes the `serve`

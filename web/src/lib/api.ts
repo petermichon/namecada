@@ -1,4 +1,4 @@
-import type { ProviderResult, Status } from './providers';
+import type { ProviderResult, Status } from './platforms';
 
 // The backend `serve` command defaults to :8080 (see backend/internal/api).
 export const DEFAULT_API_BASE = 'http://localhost:8080';
