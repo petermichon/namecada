@@ -50,7 +50,10 @@
 			<span class="hidden shrink-0 text-xs text-muted-foreground sm:inline">{row.detail}</span>
 		{/if}
 		{#if pending}
-			<Skeleton class="h-3 w-14 shrink-0 rounded-full motion-reduce:animate-none" />
+			<span class="flex shrink-0 items-center gap-1.5 text-xs {status.cls}">
+				<LoaderCircleIcon class="size-3.5 shrink-0 animate-spin motion-reduce:animate-none" />
+				<span class="w-20" aria-hidden="true"></span>
+			</span>
 		{:else}
 			<span class="flex shrink-0 items-center gap-1.5 text-xs {status.cls}">
 				<Icon class="size-3.5 shrink-0" />
