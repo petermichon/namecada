@@ -66,8 +66,8 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Fandom — 🕸 — `{name}.fandom.com` has no CORS
 - [ ] Bilibili — 🕸 — API returns 412 (banned)
 - [ ] Discord — 🕸 — usernames have no public API
-- [ ] Telegram — 🕸 — `t.me/{name}` scrape
-- [ ] Hashnode — 🌐 — GraphQL
+- [ ] Telegram — 🕸 — `t.me/{name}` is an always-200 SPA (any name returns 200), so no status signal
+- [ ] Hashnode — 🕸 — the GraphQL host 301s (reads now paid) and `hashnode.com/{name}` is an always-200 SPA, so no signal
 - [x] Substack — ✅ — `{name}.substack.com` (wildcard DNS; HTTP 404, HTML Accept; user-chosen publication names)
 - [ ] Product Hunt — 🌐 — GraphQL (key)
 - [x] X / Twitter — ✅ — `api.twitter.com/2/users/by/username/{name}` (App-Only bearer; 200 `data` taken / 404 or no `data` free)
@@ -111,11 +111,11 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Google Play — 🕸
 - [ ] Steam — 🕸
 - [ ] Epic Games — 🕸
-- [ ] Patreon — 🌐
-- [ ] Bandcamp — 🌐
+- [ ] Patreon — 🕸 — bot-blocked: 403 for both real and fake names, so no signal
+- [ ] Bandcamp — 🕸 — distinguishes free only via a redirect to `/signup`; would need redirect-target inspection
 - [x] SoundCloud — ✅ — `soundcloud.com/{name}` (keyless profile: 200 taken / 404 free)
 - [x] Gumroad — ✅ — `{name}.gumroad.com` (wildcard DNS; HTTP 404, no CORS; HTML Accept; user-chosen storefront names)
-- [ ] Kickstarter — 🌐
+- [ ] Kickstarter — 🕸 — bot-blocked: 403 for both real and fake names, so no signal
 - [ ] Indiegogo — 🕸
 - [ ] Etsy — 🕸
 - [ ] Amazon — 🕸
@@ -191,13 +191,12 @@ More social / community:
 
 - [ ] Quora — 🕸
 - [ ] Lobste.rs — 🕸
-- [ ] HackerNoon — 🌐
 - [ ] Beehiiv — 🕸
 - [ ] Ghost — 🕸
 - [ ] WordPress.com — 🕸 — wildcard DNS
 - [ ] Blogger — 🕸
 - [ ] Tumblr — 🔑
-- [ ] Vimeo — 🔑
+- [ ] Vimeo — 🕸 — bot-blocked: 403 for both real and fake names, so no signal
 - [x] Dailymotion — ✅ — `api.dailymotion.com/user/{name}`
 - [ ] Odysee / LBRY — 🕸 — no usable API
 - [ ] PeerTube — 🌐 — per-instance
@@ -207,10 +206,11 @@ More social / community:
 - [ ] Douyin — 🕸
 - [ ] Line — 🔑
 - [ ] Kakao — 🔑
-- [ ] Matrix — 🌐 — per-homeserver
-- [ ] Revolt — 🌐
+- [ ] Matrix — 🕸 — inconclusive: availability is a per-homeserver localpart, and the register/available endpoint only answers on open-registration servers (see plan/results/P2.md)
+- [ ] Revolt — 🕸 — the profile route 301s, so no status signal
 - [ ] Guilded — 🕸
 - [ ] Slack — 🕸
+- [ ] DeviantArt — 🕸 — profile pages are an always-200 SPA (any name returns 200), so no signal
 
 Name systems / crypto:
 
@@ -223,7 +223,7 @@ Creators / commerce / media:
 
 - [ ] Ko-fi — 🕸 — redirects, no signal
 - [ ] Buy Me a Coffee — 🕸 — no CORS
-- [ ] Lemon Squeezy — 🌐
+- [ ] Lemon Squeezy — 🕸 — bot-blocked: 403 for both real and fake names, so no signal
 - [ ] thanks.dev — 🕸 — Cloudflare-blocked (403)
 - [ ] Liberapay — 🕸 — 404 lacks CORS
 - [ ] PayPal.me — 🕸 — 301 redirect / always 200, no signal
@@ -231,6 +231,7 @@ Creators / commerce / media:
 - [ ] Spotify (artist) — 🔑
 - [ ] Apple Music — 🔑
 - [ ] Audiomack — 🕸 — redirects
+- [ ] Flickr — 🕸 — endpoints inconclusive
 - [x] Mixcloud — ✅ — `api.mixcloud.com/{name}/`
 - [x] Discogs — ✅ — `api.discogs.com/users/{name}` (token; the keyless route 403s; 200 taken / 404 free)
 - [x] Last.fm — ✅ — `last.fm/user/{name}` (keyless profile: 200 taken / 404 free)
