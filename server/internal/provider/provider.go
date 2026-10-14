@@ -263,6 +263,7 @@ func Default() *Registry {
 	_ = r.Register(NewHuggingFace())
 	_ = r.Register(NewDailymotion())
 	_ = r.Register(NewMixcloud())
+	_ = r.Register(NewLastfm())
 	_ = r.Register(NewBluesky())
 	_ = r.Register(NewMastodon())
 	_ = r.Register(NewYouTube())

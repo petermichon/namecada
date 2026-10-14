@@ -231,7 +231,7 @@ Creators / commerce / media:
 - [ ] Audiomack — 🕸 — redirects
 - [x] Mixcloud — ✅ — `api.mixcloud.com/{name}/`
 - [ ] Discogs — 🔑
-- [ ] Last.fm — 🔑
+- [x] Last.fm — ✅ — `last.fm/user/{name}` (keyless profile: 200 taken / 404 free)
 - [ ] Letterboxd — 🕸
 - [ ] Goodreads — 🕸
 - [ ] MyAnimeList — 🕸 — Jikan API unavailable

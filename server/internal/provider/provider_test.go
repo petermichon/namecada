@@ -72,6 +72,7 @@ func httpSources() []httpSource {
 		endpointSource("huggingface", "huggingface", "/api/users/acema/overview", "", NewHuggingFace),
 		endpointSource("dailymotion", "dailymotion", "/user/acema", "", NewDailymotion),
 		endpointSource("mixcloud", "mixcloud", "/acema/", "", NewMixcloud),
+		endpointSource("lastfm", "lastfm", "/user/acema", "", NewLastfm),
 		endpointSource("mastodon", "mastodon", "/@acema", "", NewMastodon),
 		endpointSource("youtube", "youtube", "/@acema", "", NewYouTube),
 		endpointSource("kaggle", "kaggle", "/acema", "", NewKaggle),
@@ -944,8 +945,8 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default()
-	if r.Len() != 62 {
-		t.Fatalf("Len = %d, want 62", r.Len())
+	if r.Len() != 63 {
+		t.Fatalf("Len = %d, want 63", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
@@ -954,7 +955,7 @@ func TestDefaultRegistry(t *testing.T) {
 		"homebrew", "hackage", "clojars", "chocolatey", "aur", "firefox", "jsr", "wordpress", "openvsx",
 		"github", "gitlab", "bitbucket", "codeberg",
 		"wikipedia", "devto", "farcaster", "minehut", "lichess", "chesscom",
-		"huggingface", "dailymotion", "mixcloud", "bluesky", "mastodon",
+		"huggingface", "dailymotion", "mixcloud", "lastfm", "bluesky", "mastodon",
 		"youtube",
 		"kaggle",
 		"hackernews",

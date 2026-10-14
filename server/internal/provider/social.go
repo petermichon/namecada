@@ -13,7 +13,7 @@ import (
 
 // The providers in this file cover the account/handle sources ported from the
 // frontend providers.ts (wikipedia, devto, farcaster, minehut, lichess,
-// chesscom, huggingface, dailymotion, mixcloud, bluesky, mastodon,
+// chesscom, huggingface, dailymotion, mixcloud, lastfm, bluesky, mastodon,
 // opencollective, hackernews). Status-only sources reuse the endpoint helper;
 // the rest inspect the response body.
 
@@ -58,6 +58,13 @@ func NewDailymotion() Provider {
 func NewMixcloud() Provider {
 	return newEndpoint("mixcloud", "mixcloud",
 		"https://api.mixcloud.com", "/%s/", "https://www.mixcloud.com/%s/", defaultCodes)
+}
+
+// NewLastfm checks a user on Last.fm. The keyless profile route answers 200
+// for a claimed username and 404 for a free one.
+func NewLastfm() Provider {
+	return newEndpoint("lastfm", "lastfm",
+		"https://www.last.fm", "/user/%s", "https://www.last.fm/user/%s", defaultCodes)
 }
 
 // NewMastodon checks an account on mastodon.social. The account lookup API
