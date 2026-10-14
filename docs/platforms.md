@@ -24,7 +24,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [x] ENS (`.eth`) — ✅ — `api.ensideas.com/ens/resolve/{name}.eth` (200 always; non-null `address` = taken, `null` = free; third-party resolver — a follow-up could query a public Ethereum RPC against the ENS registry directly)
 - [ ] Handshake (HNS) — 🌐 — HNS resolver
 - [ ] Unstoppable Domains — 🌐 — resolver API
-- [ ] Solana Name Service — 🌐 — SNS API
+- [x] Solana Name Service (`.sol`) — ✅ — `sdk-proxy.sns.id/resolve/{name}.sol` (200 always; `{"s":"ok","result":"<pubkey>"}` = taken, `{"s":"error","result":"Domain not found"}` = free; third-party SDK proxy with an undocumented wire shape — anything else degrades to unknown)
 - [x] npm — ✅ — `registry.npmjs.org/{name}`
 - [x] PyPI — ✅ — `pypi.org/pypi/{name}/json`
 - [x] crates.io — ✅ — `crates.io/api/v1/crates/{name}`
