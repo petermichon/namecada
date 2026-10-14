@@ -158,5 +158,17 @@ func Default() *Registry {
 	_ = r.Register(NewGitLab())
 	_ = r.Register(NewBitbucket())
 	_ = r.Register(NewCodeberg())
+	_ = r.Register(NewWikipedia())
+	_ = r.Register(NewDevTo())
+	_ = r.Register(NewFarcaster())
+	_ = r.Register(NewMinehut())
+	_ = r.Register(NewLichess())
+	_ = r.Register(NewChesscom())
+	_ = r.Register(NewHuggingFace())
+	_ = r.Register(NewDailymotion())
+	_ = r.Register(NewMixcloud())
+	_ = r.Register(NewBluesky())
+	_ = r.Register(NewMastodon())
+	_ = r.Register(NewOpenCollective())
 	return r
 }

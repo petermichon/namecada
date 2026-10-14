@@ -5,7 +5,9 @@ import (
 	"errors"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"testing"
+	"time"
 )
 
 // httpSource builds a provider pointed at a test server.
@@ -61,6 +63,13 @@ func httpSources() []httpSource {
 				return &WordPress{BaseURL: baseURL, Client: client}
 			},
 		},
+		endpointSource("farcaster", "farcaster", "/transfers/current", "name=acema", NewFarcaster),
+		endpointSource("lichess", "lichess", "/api/user/acema", "", NewLichess),
+		endpointSource("chesscom", "chesscom", "/pub/player/acema", "", NewChesscom),
+		endpointSource("huggingface", "huggingface", "/api/users/acema/overview", "", NewHuggingFace),
+		endpointSource("dailymotion", "dailymotion", "/user/acema", "", NewDailymotion),
+		endpointSource("mixcloud", "mixcloud", "/acema/", "", NewMixcloud),
+		endpointSource("mastodon", "mastodon", "/@acema", "", NewMastodon),
 	}
 }
 
@@ -277,6 +286,266 @@ func TestCodebergCheck(t *testing.T) {
 	}
 }
 
+func TestWikipediaCheck(t *testing.T) {
+	tests := []struct {
+		name string
+		code int
+		body string
+		want Status
+	}{
+		{"taken", http.StatusOK, `{"query":{"globaluserinfo":{"id":1,"name":"acema"}}}`, StatusTaken},
+		{"available", http.StatusOK, `{"query":{"globaluserinfo":{"missing":"1"}}}`, StatusAvailable},
+		{"no query", http.StatusOK, `{}`, StatusUnknown},
+		{"no info", http.StatusOK, `{"query":{}}`, StatusUnknown},
+		{"null info", http.StatusOK, `{"query":{"globaluserinfo":null}}`, StatusUnknown},
+		{"invalid body", http.StatusOK, `not json`, StatusUnknown},
+		{"server error", http.StatusInternalServerError, ``, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var gotQuery url.Values
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.URL.Path != "/w/api.php" {
+					t.Errorf("path = %q, want %q", r.URL.Path, "/w/api.php")
+				}
+				gotQuery = r.URL.Query()
+				w.WriteHeader(tt.code)
+				_, _ = w.Write([]byte(tt.body))
+			}))
+			defer srv.Close()
+
+			got, err := (&Wikipedia{BaseURL: srv.URL, Client: srv.Client()}).
+				Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+			if got := gotQuery.Get("guiuser"); got != "acema" {
+				t.Errorf("guiuser = %q, want %q", got, "acema")
+			}
+			if got := gotQuery.Get("meta"); got != "globaluserinfo" {
+				t.Errorf("meta = %q, want %q", got, "globaluserinfo")
+			}
+		})
+	}
+}
+
+func TestDevToCheck(t *testing.T) {
+	tests := []struct {
+		name     string
+		userCode int
+		orgCode  int
+		want     Status
+		wantOrg  bool
+	}{
+		{"user taken", http.StatusOK, http.StatusOK, StatusTaken, false},
+		{"org taken", http.StatusNotFound, http.StatusOK, StatusTaken, true},
+		{"free name", http.StatusNotFound, http.StatusNotFound, StatusAvailable, true},
+		{"user unknown", http.StatusInternalServerError, http.StatusOK, StatusUnknown, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var orgCalled bool
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				switch r.URL.Path {
+				case "/api/users/by_username":
+					if got := r.URL.Query().Get("url"); got != "acema" {
+						t.Errorf("url = %q, want %q", got, "acema")
+					}
+					w.WriteHeader(tt.userCode)
+				case "/api/organizations/acema":
+					orgCalled = true
+					w.WriteHeader(tt.orgCode)
+				default:
+					t.Errorf("unexpected path %q", r.URL.Path)
+					w.WriteHeader(http.StatusNotFound)
+				}
+			}))
+			defer srv.Close()
+
+			got, err := (&DevTo{BaseURL: srv.URL, Client: srv.Client()}).
+				Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+			if orgCalled != tt.wantOrg {
+				t.Errorf("org fallback called = %v, want %v", orgCalled, tt.wantOrg)
+			}
+		})
+	}
+}
+
+func TestMinehutCheck(t *testing.T) {
+	tests := []struct {
+		name string
+		code int
+		body string
+		want Status
+	}{
+		{"taken", http.StatusOK, `{"server":{"name":"acema"}}`, StatusTaken},
+		{"available", http.StatusOK, `{"server":null}`, StatusAvailable},
+		{"absent field", http.StatusOK, `{}`, StatusUnknown},
+		{"invalid body", http.StatusOK, `not json`, StatusUnknown},
+		{"server error", http.StatusInternalServerError, ``, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.URL.Path != "/server/acema" {
+					t.Errorf("path = %q, want %q", r.URL.Path, "/server/acema")
+				}
+				if got := r.URL.Query().Get("byName"); got != "true" {
+					t.Errorf("byName = %q, want %q", got, "true")
+				}
+				w.WriteHeader(tt.code)
+				_, _ = w.Write([]byte(tt.body))
+			}))
+			defer srv.Close()
+
+			got, err := (&Minehut{BaseURL: srv.URL, Client: srv.Client()}).
+				Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+		})
+	}
+}
+
+func TestBlueskyCheck(t *testing.T) {
+	tests := []struct {
+		name string
+		code int
+		body string
+		want Status
+	}{
+		{"available", http.StatusOK, `{"result":{"$type":"com.atproto.temp.defs#resultAvailable"}}`, StatusAvailable},
+		{"taken", http.StatusOK, `{"result":{"$type":"com.atproto.temp.defs#resultUnavailable"}}`, StatusTaken},
+		{"missing type", http.StatusOK, `{"result":{}}`, StatusUnknown},
+		{"null body", http.StatusOK, `null`, StatusUnknown},
+		{"invalid body", http.StatusOK, `not json`, StatusUnknown},
+		{"server error", http.StatusInternalServerError, ``, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.URL.Path != "/xrpc/com.atproto.temp.checkHandleAvailability" {
+					t.Errorf("path = %q", r.URL.Path)
+				}
+				if got := r.URL.Query().Get("handle"); got != "acema.bsky.social" {
+					t.Errorf("handle = %q, want %q", got, "acema.bsky.social")
+				}
+				w.WriteHeader(tt.code)
+				_, _ = w.Write([]byte(tt.body))
+			}))
+			defer srv.Close()
+
+			got, err := (&Bluesky{BaseURL: srv.URL, Client: srv.Client()}).
+				Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+		})
+	}
+}
+
+func TestOpenCollectiveCheck(t *testing.T) {
+	tests := []struct {
+		name     string
+		codes    []int
+		want     Status
+		wantCall int
+	}{
+		{"taken", []int{http.StatusOK}, StatusTaken, 1},
+		{"available", []int{http.StatusNotFound}, StatusAvailable, 1},
+		{"retry taken", []int{http.StatusInternalServerError, http.StatusOK}, StatusTaken, 2},
+		{"retry available", []int{http.StatusInternalServerError, http.StatusNotFound}, StatusAvailable, 2},
+		{"retry unknown", []int{http.StatusInternalServerError, http.StatusInternalServerError}, StatusUnknown, 2},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var calls int
+			var queries []url.Values
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				queries = append(queries, r.URL.Query())
+				code := tt.codes[calls]
+				calls++
+				w.WriteHeader(code)
+			}))
+			defer srv.Close()
+
+			oc := &OpenCollective{
+				BaseURL: srv.URL,
+				Client:  srv.Client(),
+				Now:     func() time.Time { return time.UnixMilli(1700000000000) },
+			}
+			got, err := oc.Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+			if calls != tt.wantCall {
+				t.Fatalf("calls = %d, want %d", calls, tt.wantCall)
+			}
+			if _, ok := queries[0]["_"]; ok {
+				t.Error("first request unexpectedly had a cache-buster")
+			}
+			if tt.wantCall == 2 {
+				if got := queries[1].Get("_"); got != "1700000000000" {
+					t.Errorf("cache-buster = %q, want %q", got, "1700000000000")
+				}
+			}
+		})
+	}
+}
+
+func TestMastodonCheck(t *testing.T) {
+	tests := []struct {
+		code int
+		want Status
+	}{
+		{http.StatusOK, StatusTaken},
+		{http.StatusGone, StatusTaken},
+		{http.StatusNotFound, StatusAvailable},
+		{http.StatusInternalServerError, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(http.StatusText(tt.code), func(t *testing.T) {
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.URL.Path != "/@acema" {
+					t.Errorf("path = %q, want %q", r.URL.Path, "/@acema")
+				}
+				w.WriteHeader(tt.code)
+			}))
+			defer srv.Close()
+
+			e := NewMastodon().(*endpoint)
+			e.baseURL = srv.URL
+			e.client = srv.Client()
+
+			got, err := e.Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+		})
+	}
+}
+
 func TestProvidersMetadata(t *testing.T) {
 	for _, src := range httpSources() {
 		t.Run(src.name, func(t *testing.T) {
@@ -359,14 +628,17 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default()
-	if r.Len() != 17 {
-		t.Fatalf("Len = %d, want 17", r.Len())
+	if r.Len() != 29 {
+		t.Fatalf("Len = %d, want 29", r.Len())
 	}
 	for _, id := range []string{
 		"lemmy", "peertube",
 		"npm", "pypi", "crates", "nuget", "hex", "hex-user", "pub",
 		"homebrew", "jsr", "wordpress", "openvsx",
 		"github", "gitlab", "bitbucket", "codeberg",
+		"wikipedia", "devto", "farcaster", "minehut", "lichess", "chesscom",
+		"huggingface", "dailymotion", "mixcloud", "bluesky", "mastodon",
+		"opencollective",
 	} {
 		if _, ok := r.Get(id); !ok {
 			t.Errorf("default registry is missing %q", id)
