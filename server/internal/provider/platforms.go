@@ -51,6 +51,7 @@ var platformNames = map[string]string{
 	"hackernoon":     "HackerNoon",
 	"spotify":        "Spotify",
 	"paragraph":      "Paragraph",
+	"steam":          "Steam",
 	"instagram":      "Instagram",
 	"hackernews":     "Hacker News",
 	"opencollective": "Open Collective",

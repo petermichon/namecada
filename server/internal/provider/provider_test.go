@@ -988,6 +988,8 @@ func defaultClientOf(p Provider) (*http.Client, bool) {
 		return v.Client, true
 	case *AniList:
 		return v.Client, true
+	case *Steam:
+		return v.Client, true
 	case *Instagram:
 		return v.Client, true
 	case *HackerNews:
@@ -1097,8 +1099,8 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default(Config{})
-	if r.Len() != 80 {
-		t.Fatalf("Len = %d, want 80", r.Len())
+	if r.Len() != 81 {
+		t.Fatalf("Len = %d, want 81", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
@@ -1119,6 +1121,7 @@ func TestDefaultRegistry(t *testing.T) {
 		"hackernoon",
 		"spotify",
 		"paragraph",
+		"steam",
 		"instagram",
 		"hackernews",
 		"opencollective",

@@ -135,7 +135,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Edge Add-ons — 🔌 — ruled out: every name returns 200, so status alone has no signal
 - [ ] Apple App Store — 🕸
 - [ ] Google Play — 🕸
-- [ ] Steam — 🕸
+- [x] Steam — ✅ — `steamcommunity.com/id/{name}?xml=1` (body signal: a taken custom id reports a `<steamID64>` element, a free one an `<error>` element; both are 200, so status alone has no signal)
 - [ ] Epic Games — 🕸
 - [ ] Patreon — 🕸 — bot-blocked: 403 for both real and fake names, so no signal
 - [ ] Bandcamp — 🕸 — distinguishes free only via a redirect to `/signup`; would need redirect-target inspection
