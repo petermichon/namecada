@@ -133,6 +133,7 @@ npm run check      # svelte-check + tsc
 npm run lint       # prettier --check + eslint
 npm run format     # prettier --write + gofmt
 npm run verify     # check + test + lint (web and server)
+npm run server:watch  # air: rebuild + restart the Go server on save
 ```
 
 A husky `pre-commit` hook (installed by `npm install` via the `prepare`
@@ -142,6 +143,12 @@ script) runs lint-staged, which formats and lints staged web files
 The app needs the server running (`cd server && go run ./cmd/domainbrowser
 serve`); it streams every result from it. The server's CORS origin defaults to
 the Vite dev origin (`http://localhost:5173`).
+
+For the same edit-refresh loop as Vite's HMR, run `npm run server:watch`
+instead. It drives [air](https://github.com/air-verse/air) (install with
+`go install github.com/air-verse/air@latest`) using the root `.air.toml`, which
+watches `server/` and, on a Go change, rebuilds and restarts `serve` on
+`:8080`.
 
 ## Adding a source
 

@@ -20,6 +20,7 @@
 		"lint": "npm run lint -w @domain-browser/web",
 		"format": "npm run format -w @domain-browser/web && npm run server:fmt",
 		"server:dev": "go -C server run ./cmd/domainbrowser serve",
+		"server:watch": "air -c .air.toml",
 		"server:build": "go -C server build -o bin/domainbrowser ./cmd/domainbrowser",
 		"server:test": "go -C server test ./...",
 		"server:lint": "go -C server vet ./...",
