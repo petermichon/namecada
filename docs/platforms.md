@@ -132,7 +132,7 @@ browser DoH):
 - [ ] Fly.io — 🔌 — `{name}.fly.dev`
 - [ ] Railway — 🔌 — `{name}.up.railway.app`
 - [ ] Heroku — 🔌 — `{name}.herokuapp.com`
-- [ ] Surge — 🔌 — `{name}.surge.sh`
+- [x] Surge — ✅ — `{name}.surge.sh` (wildcard DNS; HTTP 404, no CORS)
 - [ ] Deno Deploy — 🔌 — `{name}.deno.dev`
 - [ ] Firebase Hosting — 🔌 — `{name}.web.app` / `.firebaseapp.com`
 - [ ] Azure Static Web Apps — 🔌 — `{name}.azurestaticapps.net`

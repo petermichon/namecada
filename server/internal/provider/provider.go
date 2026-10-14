@@ -268,5 +268,6 @@ func Default() *Registry {
 	_ = r.Register(NewOpenCollective())
 	_ = r.Register(NewVercel())
 	_ = r.Register(NewNetlify())
+	_ = r.Register(NewSurge())
 	return r
 }

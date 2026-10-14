@@ -41,6 +41,7 @@ var platformNames = map[string]string{
 	"peertube":       "PeerTube",
 	"vercel":         "Vercel",
 	"netlify":        "Netlify",
+	"surge":          "Surge",
 }
 
 // PlatformName returns the display name for a platform id. An unknown id is

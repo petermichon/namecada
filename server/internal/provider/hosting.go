@@ -17,3 +17,12 @@ func NewNetlify() Provider {
 	return newEndpoint("netlify", "netlify",
 		"", "https://%s.netlify.app/", "https://%s.netlify.app/", defaultCodes)
 }
+
+// NewSurge checks a project subdomain on Surge. Surge serves wildcard DNS for
+// surge.sh, so the HTTP status is the signal: `https://{name}.surge.sh/`
+// answers 200 when the name is claimed and 404 when it is free. The origin is
+// empty because the label is part of the host, not a path segment.
+func NewSurge() Provider {
+	return newEndpoint("surge", "surge",
+		"", "https://%s.surge.sh/", "https://%s.surge.sh/", defaultCodes)
+}

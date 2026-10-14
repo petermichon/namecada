@@ -895,8 +895,8 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default()
-	if r.Len() != 43 {
-		t.Fatalf("Len = %d, want 43", r.Len())
+	if r.Len() != 44 {
+		t.Fatalf("Len = %d, want 44", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
@@ -909,6 +909,7 @@ func TestDefaultRegistry(t *testing.T) {
 		"opencollective",
 		"vercel",
 		"netlify",
+		"surge",
 	} {
 		if _, ok := r.Get(id); !ok {
 			t.Errorf("default registry is missing %q", id)
