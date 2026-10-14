@@ -124,23 +124,39 @@ Hosting subdomains (server-side HTTP status is the signal; wildcard DNS defeats
 browser DoH):
 
 - [x] Vercel — ✅ — `{name}.vercel.app` (wildcard DNS; HTTP 404, no CORS)
-- [ ] GitHub Pages — 🔌 — `{name}.github.io` (wildcard DNS; no CORS)
 - [x] Netlify — ✅ — `{name}.netlify.app` (wildcard DNS; HTTP 404, no CORS)
-- [ ] Cloudflare Pages — 🔌 — `{name}.pages.dev` (not wildcard; DoH may work)
-- [ ] GitLab Pages — 🔌 — `{name}.gitlab.io`
 - [x] Render — ✅ — `{name}.onrender.com` (wildcard DNS; HTTP 404, no CORS; HTML Accept; spun-down free tier answers 503 → unknown)
-- [ ] Fly.io — 🔌 — `{name}.fly.dev`
 - [x] Railway — ✅ — `{name}.up.railway.app` (wildcard DNS; HTTP 404, no CORS; HTML Accept; user-chosen names, collisions get a suffix so the exact label still 404s)
 - [x] Heroku — ✅ — `{name}.herokuapp.com` (wildcard DNS; HTTP 404, no CORS; user-chosen names; paid-only since Nov 2022, so marked paid)
 - [x] Surge — ✅ — `{name}.surge.sh` (wildcard DNS; HTTP 404, no CORS)
 - [x] Deno Deploy — ✅ — `{name}.deno.dev` (wildcard DNS; HTTP 404, no CORS; a claimed name can 301 to a custom domain, followed to 200; user-chosen project names)
 - [x] Firebase Hosting — ✅ — `{name}.web.app` (wildcard DNS; HTTP 404, no CORS)
-- [ ] Azure Static Web Apps — 🔌 — `{name}.azurestaticapps.net`
-- [ ] AWS Amplify — 🔌 — `{name}.amplifyapp.com`
-- [ ] Replit — 🔌 — `{name}.repl.co`
-- [ ] Glitch — 🔌 — `{name}.glitch.me`
 - [x] Read the Docs — ✅ — `{name}.readthedocs.io` (wildcard DNS; HTTP 404, no CORS; a claimed slug 302s to the project docs, followed to 200; user-chosen project slugs)
 - [x] Neocities — ✅ — `{name}.neocities.org` (wildcard DNS; HTTP 404, no CORS)
+
+Hosting subdomains — ruled out (status can't isolate a user-chosen name):
+
+- [ ] Azure Static Web Apps — 🔌 — `{name}.azurestaticapps.net` — the host is
+  Azure-generated `{two-words}-{hash}.{region}.azurestaticapps.net`; Azure picks
+  the phrase, so the name is **not user-choosable** — a single-label probe never
+  corresponds to a claimable name.
+- [ ] AWS Amplify — 🔌 — `{name}.amplifyapp.com` — host is
+  `{branch}.{appid}.amplifyapp.com`, where `appid` is an AWS-generated id, not a
+  chosen name; also non-wildcard (random names NXDOMAIN).
+- [ ] Cloudflare Pages — 🔌 — `{name}.pages.dev` — not wildcard: random names
+  NXDOMAIN and only claimed ones resolve, so free vs. claimed is a DNS
+  distinction, not an HTTP one (belongs with the DoH free-subdomain group).
+- [ ] Fly.io — 🔌 — `{name}.fly.dev` — not wildcard: only claimed names resolve;
+  both free and non-existent give a DNS failure, so HTTP status can't tell them
+  apart.
+- [ ] Replit — 🔌 — `{name}.repl.co` — deprecated old domain; random NXDOMAIN and
+  the apex 301s to `replit.com/deployments`.
+- [ ] Glitch — 🔌 — `{name}.glitch.me` — Glitch is shut down; every name,
+  including random ones, returns **410 Gone**.
+- [ ] GitHub Pages — 🔌 — `{name}.github.io` — the subdomain *is* the GitHub
+  account name, already covered by the GitHub provider; redundant.
+- [ ] GitLab Pages — 🔌 — `{name}.gitlab.io` — the subdomain *is* the GitLab
+  account name, already covered by the GitLab provider; redundant.
 
 More package registries:
 
