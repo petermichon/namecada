@@ -38,7 +38,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Deno (`deno.land/x`) — 🕸 — no clean API (redirect/HTML)
 - [ ] Docker Hub — 🕸 — no CORS
 - [x] Homebrew — ✅ — `formulae.brew.sh/api/formula/{name}.json`
-- [ ] Chocolatey — 🕸 — redirects / no CORS
+- [x] Chocolatey — ✅ — `community.chocolatey.org/packages/{name}` (status-only HTML; package ids are case-insensitive)
 - [ ] Snap Store — 🕸 — no CORS + required header
 - [ ] Flathub — 🌐 — app-id is reverse-DNS, not a label
 - [x] AUR (Arch) — ✅ — `aur.archlinux.org/packages/{name}` (status-only HTML; the RPC endpoint always answers 200)

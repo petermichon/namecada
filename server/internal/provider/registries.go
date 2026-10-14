@@ -132,6 +132,16 @@ func NewClojars() Provider {
 		"https://clojars.org/%s", defaultCodes)
 }
 
+// NewChocolatey checks a package on the Chocolatey community repository. The
+// package page serves HTML and the package id is case-insensitive, so the HTTP
+// status alone is the signal: a 200 means the package exists and a 404 means
+// the name is free.
+func NewChocolatey() Provider {
+	return newEndpoint("chocolatey", "chocolatey",
+		"https://community.chocolatey.org", "/packages/%s",
+		"https://community.chocolatey.org/packages/%s", defaultCodes)
+}
+
 // NewAUR checks a package on the Arch User Repository. The RPC endpoint always
 // answers 200, so this uses the package web page, where a 200 means the package
 // exists and a 404 means the name is free.

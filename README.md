@@ -33,6 +33,7 @@ can't be reached is deferred (see below).
 | Homebrew  | `formulae.brew.sh/api/formula/{name}.json`                     | 200 taken / 404 free      |
 | Hackage   | `hackage.haskell.org/package/{name}`                           | 200 taken / 404 free      |
 | Clojars   | `clojars.org/api/artifacts/{name}`                             | 200 taken / 404 free      |
+| Chocolatey | `community.chocolatey.org/packages/{name}`                    | 200 taken / 404 free      |
 | AUR       | `aur.archlinux.org/packages/{name}`                            | 200 taken / 404 free      |
 | Firefox   | `addons.mozilla.org/api/v5/addons/addon/{name}/`               | 200/401 taken / 404 free  |
 | JSR       | `jsr.io/api/scopes/{name}`                                     | 200/400 taken / 404 free  |
