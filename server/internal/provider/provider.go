@@ -269,6 +269,7 @@ func Default() *Registry {
 	_ = r.Register(NewYouTube())
 	_ = r.Register(NewKaggle())
 	_ = r.Register(NewDribbble())
+	_ = r.Register(NewBehance())
 	_ = r.Register(NewHackerNews())
 	_ = r.Register(NewOpenCollective())
 	_ = r.Register(NewVercel())

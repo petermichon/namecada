@@ -92,7 +92,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Roblox — 🕸 — rate-limited / no CORS
 - [ ] SourceForge — 🕸 — 200 has CORS, 404 does not
 - [x] Dribbble — ✅ — `dribbble.com/{name}` (keyless profile: 200 taken / 404 free; the API needs a token but the profile route does not)
-- [ ] Behance — 🔑 — Adobe API needs a key
+- [x] Behance — ✅ — `behance.net/{name}` (keyless profile: 200 taken / 404 free; the Adobe API needs a key but the profile route does not)
 - [ ] XDA Forums — 🕸 — Cloudflare-blocked (403)
 - [ ] USPTO (trademarks) — 🔑
 - [ ] EUIPO (trademarks) — 🔑

@@ -105,6 +105,13 @@ func NewDribbble() Provider {
 		"https://dribbble.com", "/%s", "https://dribbble.com/%s", defaultCodes)
 }
 
+// NewBehance checks a user on Behance. The keyless profile route answers 200
+// for a claimed username and 404 for a free one.
+func NewBehance() Provider {
+	return newEndpoint("behance", "behance",
+		"https://www.behance.net", "/%s", "https://www.behance.net/%s", defaultCodes)
+}
+
 // Wikipedia checks a global account on Wikimedia. Unlike the status-only
 // sources it reads the body: globaluserinfo carries a "missing" key when the
 // name is free. Source: docs/platforms.md — meta.wikimedia.org/w/api.php.
