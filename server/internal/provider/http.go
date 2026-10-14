@@ -26,6 +26,11 @@ const UserAgent = "domain-browser/1.0 (+https://github.com/petermichon/domain-br
 // an application/json Accept on an HTML route.
 const defaultAccept = "application/json"
 
+// htmlAccept is the Accept header for providers whose probe hits an HTML route.
+// It prefers HTML but allows anything, so a strictly-negotiating app that would
+// answer 406 to application/json (e.g. a claimed Railway app) still responds.
+const htmlAccept = "text/html,*/*"
+
 // setCommonHeaders applies the headers every provider request carries. An empty
 // accept falls back to defaultAccept.
 func setCommonHeaders(req *http.Request, accept string) {

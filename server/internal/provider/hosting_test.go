@@ -28,10 +28,11 @@ func TestVercelCheck(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			var gotURL string
+			var gotURL, gotAccept string
 			client := &http.Client{
 				Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
 					gotURL = req.URL.String()
+					gotAccept = req.Header.Get("Accept")
 					return &http.Response{
 						StatusCode: tt.code,
 						Body:       io.NopCloser(strings.NewReader("")),
@@ -53,6 +54,9 @@ func TestVercelCheck(t *testing.T) {
 			if gotURL != "https://acema.vercel.app/" {
 				t.Errorf("url = %q, want %q", gotURL, "https://acema.vercel.app/")
 			}
+			if gotAccept != htmlAccept {
+				t.Errorf("Accept = %q, want %q", gotAccept, htmlAccept)
+			}
 		})
 	}
 }
@@ -71,10 +75,11 @@ func TestNetlifyCheck(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			var gotURL string
+			var gotURL, gotAccept string
 			client := &http.Client{
 				Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
 					gotURL = req.URL.String()
+					gotAccept = req.Header.Get("Accept")
 					return &http.Response{
 						StatusCode: tt.code,
 						Body:       io.NopCloser(strings.NewReader("")),
@@ -96,6 +101,9 @@ func TestNetlifyCheck(t *testing.T) {
 			if gotURL != "https://acema.netlify.app/" {
 				t.Errorf("url = %q, want %q", gotURL, "https://acema.netlify.app/")
 			}
+			if gotAccept != htmlAccept {
+				t.Errorf("Accept = %q, want %q", gotAccept, htmlAccept)
+			}
 		})
 	}
 }
@@ -114,10 +122,11 @@ func TestFirebaseCheck(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			var gotURL string
+			var gotURL, gotAccept string
 			client := &http.Client{
 				Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
 					gotURL = req.URL.String()
+					gotAccept = req.Header.Get("Accept")
 					return &http.Response{
 						StatusCode: tt.code,
 						Body:       io.NopCloser(strings.NewReader("")),
@@ -139,6 +148,9 @@ func TestFirebaseCheck(t *testing.T) {
 			if gotURL != "https://acema.web.app/" {
 				t.Errorf("url = %q, want %q", gotURL, "https://acema.web.app/")
 			}
+			if gotAccept != htmlAccept {
+				t.Errorf("Accept = %q, want %q", gotAccept, htmlAccept)
+			}
 		})
 	}
 }
@@ -158,10 +170,11 @@ func TestNeocitiesCheck(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			var gotURL string
+			var gotURL, gotAccept string
 			client := &http.Client{
 				Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
 					gotURL = req.URL.String()
+					gotAccept = req.Header.Get("Accept")
 					return &http.Response{
 						StatusCode: tt.code,
 						Body:       io.NopCloser(strings.NewReader("")),
@@ -183,13 +196,16 @@ func TestNeocitiesCheck(t *testing.T) {
 			if gotURL != "https://acema.neocities.org/" {
 				t.Errorf("url = %q, want %q", gotURL, "https://acema.neocities.org/")
 			}
+			if gotAccept != htmlAccept {
+				t.Errorf("Accept = %q, want %q", gotAccept, htmlAccept)
+			}
 		})
 	}
 }
 
 // TestRenderCheck pins the host-based signal: the request must target
-// https://{name}.onrender.com/ with an HTML Accept and the status must map to
-// taken/available/unknown.
+// https://{name}.onrender.com/ with the host-status HTML Accept and the status
+// must map to taken/available/unknown.
 func TestRenderCheck(t *testing.T) {
 	tests := []struct {
 		name string
@@ -229,16 +245,16 @@ func TestRenderCheck(t *testing.T) {
 			if gotURL != "https://acema.onrender.com/" {
 				t.Errorf("url = %q, want %q", gotURL, "https://acema.onrender.com/")
 			}
-			if gotAccept != "text/html" {
-				t.Errorf("Accept = %q, want %q", gotAccept, "text/html")
+			if gotAccept != htmlAccept {
+				t.Errorf("Accept = %q, want %q", gotAccept, htmlAccept)
 			}
 		})
 	}
 }
 
 // TestRailwayCheck pins the host-based signal: the request must target
-// https://{name}.up.railway.app/ with an HTML Accept and the status must map to
-// taken/available/unknown.
+// https://{name}.up.railway.app/ with the host-status HTML Accept and the status
+// must map to taken/available/unknown.
 func TestRailwayCheck(t *testing.T) {
 	tests := []struct {
 		name string
@@ -278,8 +294,8 @@ func TestRailwayCheck(t *testing.T) {
 			if gotURL != "https://acema.up.railway.app/" {
 				t.Errorf("url = %q, want %q", gotURL, "https://acema.up.railway.app/")
 			}
-			if gotAccept != "text/html" {
-				t.Errorf("Accept = %q, want %q", gotAccept, "text/html")
+			if gotAccept != htmlAccept {
+				t.Errorf("Accept = %q, want %q", gotAccept, htmlAccept)
 			}
 		})
 	}
@@ -304,10 +320,11 @@ func TestHerokuCheck(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			var gotURL string
+			var gotURL, gotAccept string
 			client := &http.Client{
 				Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
 					gotURL = req.URL.String()
+					gotAccept = req.Header.Get("Accept")
 					return &http.Response{
 						StatusCode: tt.code,
 						Body:       io.NopCloser(strings.NewReader("")),
@@ -329,6 +346,9 @@ func TestHerokuCheck(t *testing.T) {
 			if gotURL != "https://acema.herokuapp.com/" {
 				t.Errorf("url = %q, want %q", gotURL, "https://acema.herokuapp.com/")
 			}
+			if gotAccept != htmlAccept {
+				t.Errorf("Accept = %q, want %q", gotAccept, htmlAccept)
+			}
 		})
 	}
 }
@@ -347,10 +367,11 @@ func TestSurgeCheck(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			var gotURL string
+			var gotURL, gotAccept string
 			client := &http.Client{
 				Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
 					gotURL = req.URL.String()
+					gotAccept = req.Header.Get("Accept")
 					return &http.Response{
 						StatusCode: tt.code,
 						Body:       io.NopCloser(strings.NewReader("")),
@@ -371,6 +392,9 @@ func TestSurgeCheck(t *testing.T) {
 			}
 			if gotURL != "https://acema.surge.sh/" {
 				t.Errorf("url = %q, want %q", gotURL, "https://acema.surge.sh/")
+			}
+			if gotAccept != htmlAccept {
+				t.Errorf("Accept = %q, want %q", gotAccept, htmlAccept)
 			}
 		})
 	}
@@ -394,10 +418,11 @@ func TestReadTheDocsCheck(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			var gotURL string
+			var gotURL, gotAccept string
 			client := &http.Client{
 				Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
 					gotURL = req.URL.String()
+					gotAccept = req.Header.Get("Accept")
 					return &http.Response{
 						StatusCode: tt.code,
 						Body:       io.NopCloser(strings.NewReader("")),
@@ -419,6 +444,9 @@ func TestReadTheDocsCheck(t *testing.T) {
 			if gotURL != "https://acema.readthedocs.io/" {
 				t.Errorf("url = %q, want %q", gotURL, "https://acema.readthedocs.io/")
 			}
+			if gotAccept != htmlAccept {
+				t.Errorf("Accept = %q, want %q", gotAccept, htmlAccept)
+			}
 		})
 	}
 }
@@ -437,10 +465,11 @@ func TestDenoDeployCheck(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			var gotURL string
+			var gotURL, gotAccept string
 			client := &http.Client{
 				Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
 					gotURL = req.URL.String()
+					gotAccept = req.Header.Get("Accept")
 					return &http.Response{
 						StatusCode: tt.code,
 						Body:       io.NopCloser(strings.NewReader("")),
@@ -461,6 +490,9 @@ func TestDenoDeployCheck(t *testing.T) {
 			}
 			if gotURL != "https://acema.deno.dev/" {
 				t.Errorf("url = %q, want %q", gotURL, "https://acema.deno.dev/")
+			}
+			if gotAccept != htmlAccept {
+				t.Errorf("Accept = %q, want %q", gotAccept, htmlAccept)
 			}
 		})
 	}
