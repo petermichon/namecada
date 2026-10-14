@@ -83,6 +83,7 @@ type MinLengthProvider interface {
 // that source, so the engine reports it as taken without a request.
 var minLengths = map[string]int{
 	"github":      2,
+	"lemmy":       2,
 	"hex":         2,
 	"hex-user":    3,
 	"wordpress":   5,
