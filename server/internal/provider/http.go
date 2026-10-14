@@ -16,27 +16,36 @@ type codeMap struct {
 // checkHttp defaults.
 var defaultCodes = codeMap{available: []int{http.StatusNotFound}, taken: []int{http.StatusOK}}
 
-// checkHTTP performs a GET and maps the response status through codes. Any
-// status that is neither taken nor available yields StatusUnknown with no
-// error; transport failures are returned as errors.
-func checkHTTP(ctx context.Context, client *http.Client, url string, codes codeMap) (Result, error) {
+// doGet performs a GET with the shared Accept header; a nil client falls back
+// to http.DefaultClient.
+func doGet(ctx context.Context, client *http.Client, url string) (*http.Response, error) {
 	if client == nil {
 		client = http.DefaultClient
 	}
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
-		return Result{}, err
+		return nil, err
 	}
 	req.Header.Set("Accept", "application/json")
+	return client.Do(req)
+}
 
-	resp, err := client.Do(req)
+// drainAndClose fully reads and closes a response body so the connection can be
+// reused.
+func drainAndClose(resp *http.Response) {
+	_, _ = io.Copy(io.Discard, resp.Body)
+	_ = resp.Body.Close()
+}
+
+// checkHTTP performs a GET and maps the response status through codes. Any
+// status that is neither taken nor available yields StatusUnknown with no
+// error; transport failures are returned as errors.
+func checkHTTP(ctx context.Context, client *http.Client, url string, codes codeMap) (Result, error) {
+	resp, err := doGet(ctx, client, url)
 	if err != nil {
 		return Result{}, err
 	}
-	defer func() {
-		_, _ = io.Copy(io.Discard, resp.Body)
-		_ = resp.Body.Close()
-	}()
+	defer drainAndClose(resp)
 
 	return codes.classify(resp.StatusCode), nil
 }

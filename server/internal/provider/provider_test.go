@@ -49,6 +49,8 @@ func httpSources() []httpSource {
 		endpointSource("homebrew", "homebrew", "/api/formula/acema.json", "", NewHomebrew),
 		endpointSource("jsr", "jsr", "/api/scopes/acema", "", NewJSR),
 		endpointSource("openvsx", "openvsx", "/api/acema", "", NewOpenVSX),
+		endpointSource("github", "github", "/users/acema", "", NewGitHub),
+		endpointSource("bitbucket", "bitbucket", "/2.0/workspaces/acema", "", NewBitbucket),
 		{
 			name:     "wordpress",
 			id:       "wordpress",
@@ -187,6 +189,94 @@ func TestWordPressCheck(t *testing.T) {
 	}
 }
 
+func TestGitLabCheck(t *testing.T) {
+	tests := []struct {
+		name      string
+		usersCode int
+		usersBody string
+		groupCode int
+		want      Status
+		wantGroup bool
+	}{
+		{"user exists", http.StatusOK, `[{"id":1}]`, http.StatusOK, StatusTaken, false},
+		{"group takes empty users", http.StatusOK, `[]`, http.StatusOK, StatusTaken, true},
+		{"free name", http.StatusOK, `[]`, http.StatusNotFound, StatusAvailable, true},
+		{"users error", http.StatusInternalServerError, ``, http.StatusOK, StatusUnknown, false},
+		{"users non-array body", http.StatusOK, `{"message":"boom"}`, http.StatusOK, StatusUnknown, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var groupCalled bool
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				switch r.URL.Path {
+				case "/api/v4/users":
+					if got := r.URL.Query().Get("username"); got != "acema" {
+						t.Errorf("username = %q, want %q", got, "acema")
+					}
+					w.WriteHeader(tt.usersCode)
+					_, _ = w.Write([]byte(tt.usersBody))
+				case "/api/v4/groups/acema":
+					groupCalled = true
+					w.WriteHeader(tt.groupCode)
+				default:
+					t.Errorf("unexpected path %q", r.URL.Path)
+					w.WriteHeader(http.StatusNotFound)
+				}
+			}))
+			defer srv.Close()
+
+			got, err := (&GitLab{BaseURL: srv.URL, Client: srv.Client()}).
+				Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+			if groupCalled != tt.wantGroup {
+				t.Errorf("group fallback called = %v, want %v", groupCalled, tt.wantGroup)
+			}
+		})
+	}
+}
+
+func TestCodebergCheck(t *testing.T) {
+	tests := []struct {
+		name string
+		code int
+		body string
+		want Status
+	}{
+		{"taken", http.StatusOK, `{}`, StatusTaken},
+		{"available", http.StatusNotFound, `{"message":"user acema does not exist"}`, StatusAvailable},
+		{"hidden account", http.StatusNotFound, `{"message":"user is not visible"}`, StatusTaken},
+		{"404 without message", http.StatusNotFound, `{}`, StatusUnknown},
+		{"404 invalid body", http.StatusNotFound, `not json`, StatusUnknown},
+		{"server error", http.StatusInternalServerError, ``, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.URL.Path != "/api/v1/users/acema" {
+					t.Errorf("path = %q, want %q", r.URL.Path, "/api/v1/users/acema")
+				}
+				w.WriteHeader(tt.code)
+				_, _ = w.Write([]byte(tt.body))
+			}))
+			defer srv.Close()
+
+			got, err := (&Codeberg{BaseURL: srv.URL, Client: srv.Client()}).
+				Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+		})
+	}
+}
+
 func TestProvidersMetadata(t *testing.T) {
 	for _, src := range httpSources() {
 		t.Run(src.name, func(t *testing.T) {
@@ -269,13 +359,14 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default()
-	if r.Len() != 13 {
-		t.Fatalf("Len = %d, want 13", r.Len())
+	if r.Len() != 17 {
+		t.Fatalf("Len = %d, want 17", r.Len())
 	}
 	for _, id := range []string{
 		"lemmy", "peertube",
 		"npm", "pypi", "crates", "nuget", "hex", "hex-user", "pub",
 		"homebrew", "jsr", "wordpress", "openvsx",
+		"github", "gitlab", "bitbucket", "codeberg",
 	} {
 		if _, ok := r.Get(id); !ok {
 			t.Errorf("default registry is missing %q", id)

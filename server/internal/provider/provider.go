@@ -154,5 +154,9 @@ func Default() *Registry {
 	_ = r.Register(NewJSR())
 	_ = r.Register(NewWordPress())
 	_ = r.Register(NewOpenVSX())
+	_ = r.Register(NewGitHub())
+	_ = r.Register(NewGitLab())
+	_ = r.Register(NewBitbucket())
+	_ = r.Register(NewCodeberg())
 	return r
 }
