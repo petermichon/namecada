@@ -123,7 +123,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 Hosting subdomains (server-side HTTP status is the signal; wildcard DNS defeats
 browser DoH):
 
-- [ ] Vercel — 🔌 — `{name}.vercel.app` (wildcard DNS; HTTP 404, no CORS)
+- [x] Vercel — ✅ — `{name}.vercel.app` (wildcard DNS; HTTP 404, no CORS)
 - [ ] GitHub Pages — 🔌 — `{name}.github.io` (wildcard DNS; no CORS)
 - [ ] Netlify — 🔌 — `{name}.netlify.app` (wildcard DNS; no CORS)
 - [ ] Cloudflare Pages — 🔌 — `{name}.pages.dev` (not wildcard; DoH may work)

@@ -266,5 +266,6 @@ func Default() *Registry {
 	_ = r.Register(NewBluesky())
 	_ = r.Register(NewMastodon())
 	_ = r.Register(NewOpenCollective())
+	_ = r.Register(NewVercel())
 	return r
 }
