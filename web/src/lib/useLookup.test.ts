@@ -200,11 +200,34 @@ describe('check', () => {
 
 		lookup.check({ sync: false });
 
-		// The old list stays on screen (height-stable, no scroll clamp) and is
-		// dimmed/aria-busy until the first fresh result arrives.
+		// The row slots stay on screen (height-stable, no scroll clamp) and the
+		// container is dimmed/aria-busy until the first fresh result arrives.
 		expect(lookup.rows.map((r) => r.id)).toEqual(['github', 'lemmy']);
 		expect(lookup.busy).toBe(true);
 		expect(lookup.searching).toBe(true);
+
+		await vi.waitFor(() => expect(lookup.loading).toBe(false));
+	});
+
+	it('blanks every retained row to pending until its own result arrives', async () => {
+		vi.stubGlobal('fetch', stubApi(''));
+		const lookup = new Lookup();
+		lookup.input = 'lumen';
+		lookup.lastLabel = 'acema';
+		lookup.rows = [
+			providerRow('github', 'GitHub', 'taken'),
+			providerRow('lemmy', 'Lemmy', 'available')
+		];
+
+		lookup.check({ sync: false });
+
+		// The slots (id/platform) survive for height (P52), but the previous
+		// label's verdicts are cleared so old and new searches never mix (P76).
+		expect(lookup.rows.map((r) => r.id)).toEqual(['github', 'lemmy']);
+		expect(lookup.rows.map((r) => r.platformName)).toEqual(['GitHub', 'Lemmy']);
+		expect(lookup.rows.every((r) => r.status === 'pending')).toBe(true);
+		expect(lookup.rows.every((r) => r.url === '' && r.name === '')).toBe(true);
+		expect(lookup.rows.every((r) => r.detail === undefined)).toBe(true);
 
 		await vi.waitFor(() => expect(lookup.loading).toBe(false));
 	});

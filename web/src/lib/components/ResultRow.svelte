@@ -26,7 +26,7 @@
 
 <li class="bg-card">
 	<a
-		href={row.url}
+		href={pending ? undefined : row.url}
 		target="_blank"
 		rel="noopener noreferrer"
 		class="flex items-center gap-3 px-3 py-3 {row.status === 'available'
@@ -37,11 +37,15 @@
 			class="hidden w-28 shrink-0 truncate text-xs font-medium text-muted-foreground sm:block"
 			title={row.platformName}>{row.platformName}</span
 		>
-		<span
-			class="min-w-0 flex-1 truncate text-sm {row.status === 'taken'
-				? 'text-muted-foreground'
-				: ''}">{text}</span
-		>
+		{#if pending}
+			<Skeleton class="h-5 w-40 max-w-full min-w-0 flex-1 rounded motion-reduce:animate-none" />
+		{:else}
+			<span
+				class="min-w-0 flex-1 truncate text-sm {row.status === 'taken'
+					? 'text-muted-foreground'
+					: ''}">{text}</span
+			>
+		{/if}
 		{#if row.detail}
 			<span class="hidden shrink-0 text-xs text-muted-foreground sm:inline">{row.detail}</span>
 		{/if}

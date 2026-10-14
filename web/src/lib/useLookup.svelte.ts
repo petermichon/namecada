@@ -116,13 +116,27 @@ export class Lookup {
 		this.#controller = ac;
 		this.lastLabel = label;
 		this.loading = true;
-		// Stale-while-revalidate: keep the previous label's rows mounted so the
-		// document never collapses below the viewport (a shrink would clamp
-		// scroll to 0, P49). They overwrite by id — one result per provider, so
-		// the set is constant — and are flagged busy until the first fresh
-		// result arrives.
+		// Height-stable re-scan: keep the previous label's row slots mounted so
+		// the document never collapses below the viewport (a shrink would clamp
+		// scroll to 0, P49/P52). Their content is blanked to `pending` below,
+		// then overwritten by id — one result per provider, so the set is
+		// constant — and are flagged busy until the first fresh result arrives.
 		this.busy = this.rows.length > 0;
 		this.received = 0;
+		// Clear the retained rows up front: keep the slots (id/platform so the
+		// list height survives, P49/P52) but blank the stale content and mark
+		// each pending, so the previous label's verdicts never mix with the new
+		// search while providers re-resolve (P76). Rows fill in individually as
+		// their result arrives.
+		if (this.rows.length) {
+			this.rows = this.rows.map((row) => ({
+				...row,
+				name: '',
+				url: '',
+				status: 'pending' as const,
+				detail: undefined
+			}));
+		}
 		const fresh: string[] = [];
 
 		streamFromApi(
