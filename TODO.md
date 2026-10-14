@@ -11,6 +11,7 @@ and keyed APIs).
 
 ## Roadmap
 
-- Move the web app onto the server API and drop the browser-direct sources.
+- Point the web app's fetching at the server's `/check` API instead of calling
+  platforms from the browser.
+- Remove the browser-direct provider code once the web app uses the server.
 - Port every remaining source to the server, including no-CORS and keyed ones.
-- Add a Datasette front over the SQLite file for browsing without a web app.
