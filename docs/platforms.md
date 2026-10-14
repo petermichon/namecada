@@ -41,7 +41,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Chocolatey — 🕸 — redirects / no CORS
 - [ ] Snap Store — 🕸 — no CORS + required header
 - [ ] Flathub — 🌐 — app-id is reverse-DNS, not a label
-- [ ] AUR (Arch) — 🕸 — no CORS
+- [x] AUR (Arch) — ✅ — `aur.archlinux.org/packages/{name}` (status-only HTML; the RPC endpoint always answers 200)
 - [ ] CPAN — 🕸 — blocked (402)
 - [x] Hackage — ✅ — `hackage.haskell.org/package/{name}` (bare name resolves; status-only HTML)
 - [x] Clojars — ✅ — `clojars.org/api/artifacts/{name}` (single segment resolves)

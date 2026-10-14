@@ -15,6 +15,7 @@ var platformNames = map[string]string{
 	"homebrew":       "Homebrew",
 	"hackage":        "Hackage",
 	"clojars":        "Clojars",
+	"aur":            "AUR",
 	"firefox":        "Firefox Add-ons",
 	"jsr":            "JSR",
 	"wordpress":      "WordPress.org",

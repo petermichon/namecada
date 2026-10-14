@@ -46,6 +46,7 @@ func httpSources() []httpSource {
 		endpointSource("homebrew", "homebrew", "/api/formula/acema.json", "", NewHomebrew),
 		endpointSource("hackage", "hackage", "/package/acema", "", NewHackage),
 		endpointSource("clojars", "clojars", "/api/artifacts/acema", "", NewClojars),
+		endpointSource("aur", "aur", "/packages/acema", "", NewAUR),
 		endpointSource("firefox", "firefox", "/api/v5/addons/addon/acema/", "", NewFirefox),
 		endpointSource("jsr", "jsr", "/api/scopes/acema", "", NewJSR),
 		endpointSource("openvsx", "openvsx", "/api/acema", "", NewOpenVSX),
@@ -893,14 +894,14 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default()
-	if r.Len() != 39 {
-		t.Fatalf("Len = %d, want 39", r.Len())
+	if r.Len() != 40 {
+		t.Fatalf("Len = %d, want 40", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
 		"lemmy", "peertube",
 		"npm", "pypi", "crates", "nuget", "rubygems", "hex", "hex-user", "pub",
-		"homebrew", "hackage", "clojars", "firefox", "jsr", "wordpress", "openvsx",
+		"homebrew", "hackage", "clojars", "aur", "firefox", "jsr", "wordpress", "openvsx",
 		"github", "gitlab", "bitbucket", "codeberg",
 		"wikipedia", "devto", "farcaster", "minehut", "lichess", "chesscom",
 		"huggingface", "dailymotion", "mixcloud", "bluesky", "mastodon",

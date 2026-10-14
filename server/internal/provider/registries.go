@@ -132,6 +132,15 @@ func NewClojars() Provider {
 		"https://clojars.org/%s", defaultCodes)
 }
 
+// NewAUR checks a package on the Arch User Repository. The RPC endpoint always
+// answers 200, so this uses the package web page, where a 200 means the package
+// exists and a 404 means the name is free.
+func NewAUR() Provider {
+	return newEndpoint("aur", "aur",
+		"https://aur.archlinux.org", "/packages/%s",
+		"https://aur.archlinux.org/packages/%s", defaultCodes)
+}
+
 // NewFirefox checks an add-on on Firefox Add-ons (AMO). A 401 is treated as
 // taken alongside 200: the API returns 401 for add-ons that hide their
 // existence from unauthenticated callers.
