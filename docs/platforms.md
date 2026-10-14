@@ -82,7 +82,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Snapchat — 🕸
 - [ ] Pinterest — 🕸
 - [ ] Medium — 🕸
-- [ ] Hacker News — 🕸 — `hacker-news.firebaseio.com/v0/user/{name}.json` only exposes users with public activity, so `null` can mean free *or* a real no-activity account. Viable now via the server: fetch `news.ycombinator.com/user?id={name}` and treat `No such user.` as free
+- [x] Hacker News — ✅ — `news.ycombinator.com/user?id={name}` (body signal: `No such user.` = free, `karma` = taken; the firebase JSON API only exposes users with public activity, so `null` can't confirm free)
 - [x] Open Collective — ✅ — `opencollective.com/{name}.json` (200 taken / 404 free). The CDN caches responses for 1h and can cache a transient 5xx per-`Origin`; the provider retries once with a cache-busting param to bypass a poisoned entry
 - [x] Minehut — ✅ — `api.minehut.com/server/{name}?byName=true` (`server: null` = free)
 - [x] Lichess — ✅ — `lichess.org/api/user/{name}`

@@ -55,6 +55,7 @@ can't be reached is deferred (see below).
 | Open Collective | `opencollective.com/{name}.json`                         | 200 taken / 404 free      |
 | Bluesky   | `bsky.social/xrpc/com.atproto.temp.checkHandleAvailability` (`{name}.bsky.social`) | resultAvailable free / resultUnavailable taken |
 | Mastodon  | `mastodon.social/@{name}` (profile)                            | 200/410 taken / 404 free  |
+| Hacker News | `news.ycombinator.com/user?id={name}`                        | `No such user.` free / `karma` taken |
 | Vercel    | `{name}.vercel.app` (subdomain)                                | 200 taken / 404 free      |
 | Netlify   | `{name}.netlify.app` (subdomain)                               | 200 taken / 404 free      |
 | Surge     | `{name}.surge.sh` (subdomain)                                  | 200 taken / 404 free      |
@@ -193,6 +194,5 @@ Implement the `Provider` interface in the server
 Sources live server-side, so CORS is no longer a constraint.
 
 Deferred: Packagist, Docker Hub, Go proxy (modules are paths, not
-single labels), Hacker News (its API only exposes users with public activity, so
-it can never confirm a name is free), and trademark / social / company
-registries (need a key and a proxy).
+single labels), and trademark / social / company registries (need a key and a
+proxy).

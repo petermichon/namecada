@@ -518,6 +518,44 @@ func TestBlueskyCheck(t *testing.T) {
 	}
 }
 
+func TestHackerNewsCheck(t *testing.T) {
+	tests := []struct {
+		name string
+		code int
+		body string
+		want Status
+	}{
+		{"available", http.StatusOK, `No such user.`, StatusAvailable},
+		{"taken", http.StatusOK, `<a href="user?id=pg">pg</a> karma: 1`, StatusTaken},
+		{"unrecognised body", http.StatusOK, `<html>something else</html>`, StatusUnknown},
+		{"server error", http.StatusInternalServerError, ``, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.URL.Path != "/user" {
+					t.Errorf("path = %q, want %q", r.URL.Path, "/user")
+				}
+				if got := r.URL.Query().Get("id"); got != "acema" {
+					t.Errorf("id = %q, want %q", got, "acema")
+				}
+				w.WriteHeader(tt.code)
+				_, _ = w.Write([]byte(tt.body))
+			}))
+			defer srv.Close()
+
+			got, err := (&HackerNews{BaseURL: srv.URL, Client: srv.Client()}).
+				Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+		})
+	}
+}
+
 func TestOpenCollectiveCheck(t *testing.T) {
 	tests := []struct {
 		name     string
@@ -805,6 +843,8 @@ func defaultClientOf(p Provider) (*http.Client, bool) {
 		return v.Client, true
 	case *Bluesky:
 		return v.Client, true
+	case *HackerNews:
+		return v.Client, true
 	case *OpenCollective:
 		return v.Client, true
 	}
@@ -902,8 +942,8 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default()
-	if r.Len() != 59 {
-		t.Fatalf("Len = %d, want 59", r.Len())
+	if r.Len() != 60 {
+		t.Fatalf("Len = %d, want 60", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
@@ -913,6 +953,7 @@ func TestDefaultRegistry(t *testing.T) {
 		"github", "gitlab", "bitbucket", "codeberg",
 		"wikipedia", "devto", "farcaster", "minehut", "lichess", "chesscom",
 		"huggingface", "dailymotion", "mixcloud", "bluesky", "mastodon",
+		"hackernews",
 		"opencollective",
 		"vercel",
 		"netlify",

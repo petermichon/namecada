@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"encoding/json"
+	"io"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -13,8 +14,8 @@ import (
 // The providers in this file cover the account/handle sources ported from the
 // frontend providers.ts (wikipedia, devto, farcaster, minehut, lichess,
 // chesscom, huggingface, dailymotion, mixcloud, bluesky, mastodon,
-// opencollective). Status-only sources reuse the endpoint helper; the rest
-// inspect the response body.
+// opencollective, hackernews). Status-only sources reuse the endpoint helper;
+// the rest inspect the response body.
 
 // NewFarcaster checks a username on Farcaster via the fname registry.
 func NewFarcaster() Provider {
@@ -319,4 +320,58 @@ func (o *OpenCollective) Check(ctx context.Context, label string) (Result, error
 	}
 	bust := target + "?_=" + strconv.FormatInt(now().UnixMilli(), 10)
 	return checkHTTP(ctx, o.Client, bust, defaultCodes)
+}
+
+// HackerNews checks a user on Hacker News. The firebase JSON API only exposes
+// accounts with public activity, so a null there cannot prove a name is free.
+// The profile page is used instead: a free name renders a small "No such user."
+// page, while a taken profile lists the account's karma. Source:
+// docs/platforms.md — news.ycombinator.com/user?id={name}.
+type HackerNews struct {
+	base
+	// BaseURL is the site origin; "https://news.ycombinator.com" when defaulted.
+	BaseURL string
+	// Client is used for the request; DefaultClient when nil.
+	Client *http.Client
+}
+
+// NewHackerNews returns a provider bound to news.ycombinator.com.
+func NewHackerNews() *HackerNews {
+	return &HackerNews{
+		base: base{
+			id:       "hackernews",
+			platform: "hackernews",
+			urlFmt:   "https://news.ycombinator.com/user?id=%s",
+		},
+		BaseURL: "https://news.ycombinator.com",
+		Client:  DefaultClient,
+	}
+}
+
+// Check GETs the profile page and reads the body: "No such user." means free,
+// a page mentioning "karma" means taken. A non-200, an unreadable body, or a
+// body matching neither marker is unknown.
+func (h *HackerNews) Check(ctx context.Context, label string) (Result, error) {
+	target := h.BaseURL + "/user?id=" + url.QueryEscape(label)
+	resp, err := doGet(ctx, h.Client, target)
+	if err != nil {
+		return Result{}, err
+	}
+	defer drainAndClose(resp)
+
+	if resp.StatusCode != http.StatusOK {
+		return Result{Status: StatusUnknown}, nil
+	}
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return Result{Status: StatusUnknown}, nil
+	}
+	text := string(body)
+	if strings.Contains(text, "No such user.") {
+		return Result{Status: StatusAvailable}, nil
+	}
+	if strings.Contains(text, "karma") {
+		return Result{Status: StatusTaken}, nil
+	}
+	return Result{Status: StatusUnknown}, nil
 }
