@@ -12,19 +12,21 @@ import (
 
 // fake is a provider whose Check can block, fail, or report a fixed result.
 type fake struct {
-	id       string
-	platform string
-	result   provider.Result
-	err      error
-	release  <-chan struct{}
-	started  chan<- string
-	calls    *atomic.Int32
+	id        string
+	platform  string
+	minLength int
+	result    provider.Result
+	err       error
+	release   <-chan struct{}
+	started   chan<- string
+	calls     *atomic.Int32
 }
 
 func (f *fake) ID() string               { return f.id }
 func (f *fake) Platform() string         { return f.platform }
 func (f *fake) Name(label string) string { return f.id + ":" + label }
 func (f *fake) URL(label string) string  { return "https://" + f.id + ".test/" + label }
+func (f *fake) MinLength() int           { return f.minLength }
 
 func (f *fake) Check(ctx context.Context, label string) (provider.Result, error) {
 	if f.calls != nil {
@@ -152,6 +154,53 @@ func TestScanMapsErrorsToUnknown(t *testing.T) {
 				t.Errorf("boom = %+v, want unknown/unreachable", r)
 			}
 		}
+	}
+}
+
+func TestScanTreatsShortLabelsAsTaken(t *testing.T) {
+	var calls atomic.Int32
+	p := &fake{
+		id:        "a",
+		minLength: 4,
+		result:    provider.Result{Status: provider.StatusAvailable, Detail: "free"},
+		calls:     &calls,
+	}
+
+	short := New(p).ScanAll(context.Background(), "abc")
+	if len(short) != 1 || short[0].Status != provider.StatusTaken {
+		t.Fatalf("short label = %+v, want a single taken result", short)
+	}
+	if calls.Load() != 0 {
+		t.Fatalf("Check calls = %d, want 0 (a short label short-circuits)", calls.Load())
+	}
+
+	atMinimum := New(p).ScanAll(context.Background(), "abcd")
+	if len(atMinimum) != 1 || atMinimum[0].Status != provider.StatusAvailable {
+		t.Fatalf("at-minimum label = %+v, want available", atMinimum)
+	}
+	if calls.Load() != 1 {
+		t.Fatalf("Check calls = %d, want 1 after the at-minimum scan", calls.Load())
+	}
+}
+
+func TestScanDoesNotCacheShortLabels(t *testing.T) {
+	var calls atomic.Int32
+	p := &fake{id: "a", minLength: 4, result: provider.Result{Status: provider.StatusAvailable}, calls: &calls}
+	mem := store.NewMemory()
+	eng := NewWithStore(mem, p)
+
+	if got := eng.ScanAll(context.Background(), "abc"); len(got) != 1 || got[0].Status != provider.StatusTaken {
+		t.Fatalf("short label = %+v, want taken", got)
+	}
+	if _, ok := mem.Get("a", "abc"); ok {
+		t.Fatal("short label was cached, want not cached")
+	}
+
+	if got := eng.ScanAll(context.Background(), "abcd"); len(got) != 1 || got[0].Status != provider.StatusAvailable {
+		t.Fatalf("at-minimum label = %+v, want available", got)
+	}
+	if calls.Load() != 1 {
+		t.Fatalf("Check calls = %d, want 1", calls.Load())
 	}
 }
 

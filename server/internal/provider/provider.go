@@ -38,6 +38,45 @@ type Provider interface {
 	Check(ctx context.Context, label string) (Result, error)
 }
 
+// MinLengthProvider is implemented by a provider that rejects labels shorter
+// than a minimum length. It is optional: a provider that does not implement it
+// still inherits any minimum recorded for its id in the known table.
+type MinLengthProvider interface {
+	// MinLength is the shortest label the source accepts; 0 means no minimum.
+	MinLength() int
+}
+
+// minLengths records the known minimum label length for sources whose rules
+// are documented. A label shorter than its provider's minimum cannot exist on
+// that source, so the engine reports it as taken without a request.
+var minLengths = map[string]int{
+	"github":      2,
+	"hex":         2,
+	"hex-user":    3,
+	"wordpress":   5,
+	"bitbucket":   4,
+	"minehut":     4,
+	"lichess":     2,
+	"chesscom":    3,
+	"huggingface": 2,
+	"dailymotion": 3,
+	"bluesky":     3,
+	"devto":       2,
+}
+
+// MinLength reports the minimum label length for p. An explicit
+// MinLengthProvider wins; otherwise the known table is consulted by id. A
+// result of 0 means the provider has no minimum.
+func MinLength(p Provider) int {
+	if p == nil {
+		return 0
+	}
+	if ml, ok := p.(MinLengthProvider); ok {
+		return ml.MinLength()
+	}
+	return minLengths[p.ID()]
+}
+
 // ErrDuplicate is returned when a provider id is registered twice.
 var ErrDuplicate = errors.New("provider: duplicate id")
 

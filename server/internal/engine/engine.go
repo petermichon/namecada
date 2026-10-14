@@ -5,6 +5,7 @@ package engine
 import (
 	"context"
 	"sync"
+	"unicode/utf8"
 
 	"github.com/petermichon/domain-browser/server/internal/provider"
 	"github.com/petermichon/domain-browser/server/internal/store"
@@ -103,6 +104,14 @@ func (e *Engine) check(ctx context.Context, p provider.Provider, label string) R
 		Platform: p.Platform(),
 		Name:     p.Name(label),
 		URL:      p.URL(label),
+	}
+
+	// A label shorter than the source's minimum can never exist there, so it
+	// is reported taken without a request, mirroring the web app's runProvider.
+	// Like there, the short-circuit result is not cached.
+	if min := provider.MinLength(p); min > 0 && utf8.RuneCountInString(label) < min {
+		res.Status = provider.StatusTaken
+		return res
 	}
 
 	if e.store != nil {

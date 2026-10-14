@@ -189,6 +189,70 @@ func TestDefaultRegistry(t *testing.T) {
 	}
 }
 
+// stubProvider implements only Provider, so it has no explicit minimum.
+type stubProvider struct{ id string }
+
+func (s stubProvider) ID() string                                    { return s.id }
+func (s stubProvider) Platform() string                              { return s.id }
+func (s stubProvider) Name(label string) string                      { return label }
+func (s stubProvider) URL(label string) string                       { return label }
+func (s stubProvider) Check(context.Context, string) (Result, error) { return Result{}, nil }
+
+// stubWithMin additionally declares its own minimum length.
+type stubWithMin struct {
+	stubProvider
+	min int
+}
+
+func (s stubWithMin) MinLength() int { return s.min }
+
+func TestMinLength(t *testing.T) {
+	tests := []struct {
+		name string
+		p    Provider
+		want int
+	}{
+		{"known table by id", stubProvider{id: "github"}, 2},
+		{"known table by id with a dash", stubProvider{id: "hex-user"}, 3},
+		{"unknown id has no minimum", stubProvider{id: "lemmy"}, 0},
+		{"explicit minimum wins", stubWithMin{stubProvider{id: "github"}, 7}, 7},
+		{"explicit zero disables the table", stubWithMin{stubProvider{id: "github"}, 0}, 0},
+		{"nil has no minimum", nil, 0},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := MinLength(tt.p); got != tt.want {
+				t.Errorf("MinLength = %d, want %d", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestKnownMinLengths(t *testing.T) {
+	want := map[string]int{
+		"github":      2,
+		"hex":         2,
+		"hex-user":    3,
+		"wordpress":   5,
+		"bitbucket":   4,
+		"minehut":     4,
+		"lichess":     2,
+		"chesscom":    3,
+		"huggingface": 2,
+		"dailymotion": 3,
+		"bluesky":     3,
+		"devto":       2,
+	}
+	if len(minLengths) != len(want) {
+		t.Fatalf("known minimums has %d entries, want %d", len(minLengths), len(want))
+	}
+	for id, minimum := range want {
+		if got := minLengths[id]; got != minimum {
+			t.Errorf("minLengths[%q] = %d, want %d", id, got, minimum)
+		}
+	}
+}
+
 func TestCodeMapClassify(t *testing.T) {
 	codes := codeMap{available: []int{404}, taken: []int{200, 401}}
 	tests := []struct {
