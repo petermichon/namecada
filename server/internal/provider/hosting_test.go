@@ -285,6 +285,54 @@ func TestRailwayCheck(t *testing.T) {
 	}
 }
 
+// TestHerokuCheck pins the host-based signal: the request must target
+// https://{name}.herokuapp.com/ and the status must map to
+// taken/available/unknown. Heroku is paid-only, so the paid flag must be set.
+func TestHerokuCheck(t *testing.T) {
+	e := NewHeroku().(*endpoint)
+	if !e.Paid() {
+		t.Error("Paid = false, want true")
+	}
+	tests := []struct {
+		name string
+		code int
+		want Status
+	}{
+		{"taken", http.StatusOK, StatusTaken},
+		{"available", http.StatusNotFound, StatusAvailable},
+		{"unknown", http.StatusInternalServerError, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var gotURL string
+			client := &http.Client{
+				Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
+					gotURL = req.URL.String()
+					return &http.Response{
+						StatusCode: tt.code,
+						Body:       io.NopCloser(strings.NewReader("")),
+						Header:     make(http.Header),
+					}, nil
+				}),
+			}
+
+			e := NewHeroku().(*endpoint)
+			e.client = client
+
+			got, err := e.Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+			if gotURL != "https://acema.herokuapp.com/" {
+				t.Errorf("url = %q, want %q", gotURL, "https://acema.herokuapp.com/")
+			}
+		})
+	}
+}
+
 // TestSurgeCheck pins the host-based signal: the request must target
 // https://{name}.surge.sh/ and the status must map to taken/available/unknown.
 func TestSurgeCheck(t *testing.T) {

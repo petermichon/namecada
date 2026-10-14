@@ -895,8 +895,8 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default()
-	if r.Len() != 48 {
-		t.Fatalf("Len = %d, want 48", r.Len())
+	if r.Len() != 49 {
+		t.Fatalf("Len = %d, want 49", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
@@ -914,6 +914,7 @@ func TestDefaultRegistry(t *testing.T) {
 		"neocities",
 		"render",
 		"railway",
+		"heroku",
 	} {
 		if _, ok := r.Get(id); !ok {
 			t.Errorf("default registry is missing %q", id)
@@ -976,10 +977,11 @@ func TestPaid(t *testing.T) {
 	}
 }
 
-// TestDefaultPaidSources pins that the domain TLDs are the only paid sources.
+// TestDefaultPaidSources pins that the domain TLDs and Heroku are the only
+// paid sources.
 func TestDefaultPaidSources(t *testing.T) {
 	for _, p := range Default().All() {
-		want := p.Platform() == "domains"
+		want := p.Platform() == "domains" || p.Platform() == "heroku"
 		if got := Paid(p); got != want {
 			t.Errorf("Paid(%q) = %v, want %v", p.ID(), got, want)
 		}

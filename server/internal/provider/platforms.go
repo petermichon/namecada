@@ -46,6 +46,7 @@ var platformNames = map[string]string{
 	"neocities":      "Neocities",
 	"render":         "Render",
 	"railway":        "Railway",
+	"heroku":         "Heroku",
 }
 
 // PlatformName returns the display name for a platform id. An unknown id is

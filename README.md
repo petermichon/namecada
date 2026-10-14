@@ -62,14 +62,16 @@ can't be reached is deferred (see below).
 | Neocities | `{name}.neocities.org` (subdomain)                             | 200 taken / 404 free      |
 | Render    | `{name}.onrender.com` (subdomain)                              | 200 taken / 404 free      |
 | Railway   | `{name}.up.railway.app` (subdomain)                            | 200 taken / 404 free      |
+| Heroku    | `{name}.herokuapp.com` (subdomain)                             | 200 taken / 404 free      |
 
 Domains run once per TLD (`.com`, `.org`, `.dev`, `.io`, `.ai`, `.app`), each a
 separate provider. The TLD is resolved to its registry through the IANA RDAP
-bootstrap (`data.iana.org/rdap/dns.json`). Domains are the **paid** sources: a
+bootstrap (`data.iana.org/rdap/dns.json`). Domains are **paid** sources: a
 registration costs money, and the amount varies (premium names cost more).
-Every handle, package and social source is **free** to register. The report
-renders a Paid card above a Free card, and each provider carries a `paid` flag
-the server streams on every `/check` result.
+Heroku is also paid (its free tier ended in November 2022) but is still
+surfaced. Every handle, package and social source is **free** to register. The
+report renders a Paid card above a Free card, and each provider carries a `paid`
+flag the server streams on every `/check` result.
 
 GitHub users and organizations share a single namespace, so one `/users` lookup
 covers both.

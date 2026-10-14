@@ -273,5 +273,6 @@ func Default() *Registry {
 	_ = r.Register(NewNeocities())
 	_ = r.Register(NewRender())
 	_ = r.Register(NewRailway())
+	_ = r.Register(NewHeroku())
 	return r
 }

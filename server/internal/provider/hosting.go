@@ -75,3 +75,17 @@ func NewRailway() Provider {
 	e.accept = "text/html"
 	return e
 }
+
+// NewHeroku checks an app subdomain on Heroku. Heroku serves wildcard DNS for
+// herokuapp.com, so the HTTP status is the signal:
+// `https://{name}.herokuapp.com/` answers 200 when the name is claimed and 404
+// when it is free. App names are user-chosen, and a claimed app may answer 302
+// before the client follows it to a 200. The origin is empty because the label
+// is part of the host, not a path segment. Heroku has been paid-only since
+// November 2022, so the source is marked paid; it is still surfaced.
+func NewHeroku() Provider {
+	e := newEndpoint("heroku", "heroku",
+		"", "https://%s.herokuapp.com/", "https://%s.herokuapp.com/", defaultCodes)
+	e.paid = true
+	return e
+}
