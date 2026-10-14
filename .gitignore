@@ -16,3 +16,9 @@ __pycache__/
 # Build artifacts
 frontend/dist
 frontend/.svelte-check
+
+# todoworker queue
+plan/PLAN.md
+plan/DONE.md
+plan/results/
+plan/.run.lock
