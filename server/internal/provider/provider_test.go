@@ -835,6 +835,14 @@ type stubWithMin struct {
 
 func (s stubWithMin) MinLength() int { return s.min }
 
+// stubWithMax additionally declares its own maximum length.
+type stubWithMax struct {
+	stubProvider
+	max int
+}
+
+func (s stubWithMax) MaxLength() int { return s.max }
+
 func TestMinLength(t *testing.T) {
 	tests := []struct {
 		name string
@@ -883,6 +891,41 @@ func TestKnownMinLengths(t *testing.T) {
 	for id, minimum := range want {
 		if got := minLengths[id]; got != minimum {
 			t.Errorf("minLengths[%q] = %d, want %d", id, got, minimum)
+		}
+	}
+}
+
+func TestMaxLength(t *testing.T) {
+	tests := []struct {
+		name string
+		p    Provider
+		want int
+	}{
+		{"known table by id", stubProvider{id: "lemmy"}, 20},
+		{"unknown id has no maximum", stubProvider{id: "nonexistent"}, 0},
+		{"explicit maximum wins", stubWithMax{stubProvider{id: "lemmy"}, 12}, 12},
+		{"explicit zero disables the table", stubWithMax{stubProvider{id: "lemmy"}, 0}, 0},
+		{"nil has no maximum", nil, 0},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := MaxLength(tt.p); got != tt.want {
+				t.Errorf("MaxLength = %d, want %d", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestKnownMaxLengths(t *testing.T) {
+	want := map[string]int{
+		"lemmy": 20,
+	}
+	if len(maxLengths) != len(want) {
+		t.Fatalf("known maximums has %d entries, want %d", len(maxLengths), len(want))
+	}
+	for id, maximum := range want {
+		if got := maxLengths[id]; got != maximum {
+			t.Errorf("maxLengths[%q] = %d, want %d", id, got, maximum)
 		}
 	}
 }

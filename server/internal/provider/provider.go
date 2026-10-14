@@ -110,6 +110,34 @@ func MinLength(p Provider) int {
 	return minLengths[p.ID()]
 }
 
+// MaxLengthProvider is implemented by a provider that rejects labels longer
+// than a maximum length. It is optional: a provider that does not implement it
+// still inherits any maximum recorded for its id in the known table.
+type MaxLengthProvider interface {
+	// MaxLength is the longest label the source accepts; 0 means no maximum.
+	MaxLength() int
+}
+
+// maxLengths records the known maximum label length for sources whose rules
+// are documented. A label longer than its provider's maximum cannot exist on
+// that source, so the engine reports it as taken without a request.
+var maxLengths = map[string]int{
+	"lemmy": 20,
+}
+
+// MaxLength reports the maximum label length for p. An explicit
+// MaxLengthProvider wins; otherwise the known table is consulted by id. A
+// result of 0 means the provider has no maximum.
+func MaxLength(p Provider) int {
+	if p == nil {
+		return 0
+	}
+	if ml, ok := p.(MaxLengthProvider); ok {
+		return ml.MaxLength()
+	}
+	return maxLengths[p.ID()]
+}
+
 // ErrDuplicate is returned when a provider id is registered twice.
 var ErrDuplicate = errors.New("provider: duplicate id")
 

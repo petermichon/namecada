@@ -170,6 +170,13 @@ func (e *Engine) check(ctx context.Context, p provider.Provider, label string) R
 		return res
 	}
 
+	// A label longer than the source's maximum can never exist there either, so
+	// it is likewise reported taken without a request and is not cached.
+	if max := provider.MaxLength(p); max > 0 && utf8.RuneCountInString(label) > max {
+		res.Status = provider.StatusTaken
+		return res
+	}
+
 	if e.store != nil {
 		if entry, ok := e.store.Get(p.ID(), label); ok {
 			res.Status = entry.Status

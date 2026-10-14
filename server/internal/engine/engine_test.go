@@ -15,6 +15,7 @@ type fake struct {
 	id        string
 	platform  string
 	minLength int
+	maxLength int
 	result    provider.Result
 	err       error
 	release   <-chan struct{}
@@ -29,6 +30,7 @@ func (f *fake) Platform() string         { return f.platform }
 func (f *fake) Name(label string) string { return f.id + ":" + label }
 func (f *fake) URL(label string) string  { return "https://" + f.id + ".test/" + label }
 func (f *fake) MinLength() int           { return f.minLength }
+func (f *fake) MaxLength() int           { return f.maxLength }
 
 func (f *fake) Check(ctx context.Context, label string) (provider.Result, error) {
 	if f.calls != nil {
@@ -304,6 +306,53 @@ func TestScanDoesNotCacheShortLabels(t *testing.T) {
 
 	if got := eng.ScanAll(context.Background(), "abcd"); len(got) != 1 || got[0].Status != provider.StatusAvailable {
 		t.Fatalf("at-minimum label = %+v, want available", got)
+	}
+	if calls.Load() != 1 {
+		t.Fatalf("Check calls = %d, want 1", calls.Load())
+	}
+}
+
+func TestScanTreatsLongLabelsAsTaken(t *testing.T) {
+	var calls atomic.Int32
+	p := &fake{
+		id:        "a",
+		maxLength: 4,
+		result:    provider.Result{Status: provider.StatusAvailable, Detail: "free"},
+		calls:     &calls,
+	}
+
+	long := New(p).ScanAll(context.Background(), "abcde")
+	if len(long) != 1 || long[0].Status != provider.StatusTaken {
+		t.Fatalf("long label = %+v, want a single taken result", long)
+	}
+	if calls.Load() != 0 {
+		t.Fatalf("Check calls = %d, want 0 (a long label short-circuits)", calls.Load())
+	}
+
+	atMaximum := New(p).ScanAll(context.Background(), "abcd")
+	if len(atMaximum) != 1 || atMaximum[0].Status != provider.StatusAvailable {
+		t.Fatalf("at-maximum label = %+v, want available", atMaximum)
+	}
+	if calls.Load() != 1 {
+		t.Fatalf("Check calls = %d, want 1 after the at-maximum scan", calls.Load())
+	}
+}
+
+func TestScanDoesNotCacheLongLabels(t *testing.T) {
+	var calls atomic.Int32
+	p := &fake{id: "a", maxLength: 4, result: provider.Result{Status: provider.StatusAvailable}, calls: &calls}
+	mem := store.NewMemory()
+	eng := NewWithStore(mem, p)
+
+	if got := eng.ScanAll(context.Background(), "abcde"); len(got) != 1 || got[0].Status != provider.StatusTaken {
+		t.Fatalf("long label = %+v, want taken", got)
+	}
+	if _, ok := mem.Get("a", "abcde"); ok {
+		t.Fatal("long label was cached, want not cached")
+	}
+
+	if got := eng.ScanAll(context.Background(), "abcd"); len(got) != 1 || got[0].Status != provider.StatusAvailable {
+		t.Fatalf("at-maximum label = %+v, want available", got)
 	}
 	if calls.Load() != 1 {
 		t.Fatalf("Check calls = %d, want 1", calls.Load())
