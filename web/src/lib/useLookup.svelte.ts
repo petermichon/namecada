@@ -16,6 +16,15 @@ export interface Row {
 
 export type Filter = 'all' | Status;
 
+// Order rows alphabetically by their display name, independent of status, so
+// the list stays stable as results stream in. Array.prototype.sort is stable,
+// so rows sharing a platformName keep their arrival order.
+export function byPlatformName(a: Row, b: Row): number {
+	if (a.platformName < b.platformName) return -1;
+	if (a.platformName > b.platformName) return 1;
+	return 0;
+}
+
 function queryParam(): string {
 	if (typeof location === 'undefined') return '';
 	return new URLSearchParams(location.search).get('q') ?? '';
@@ -41,7 +50,7 @@ function syncUrl(query: string) {
 
 // Lookup owns the form state, the abort/generation guards that keep a stale
 // stream from winning, and the query's URL plus localStorage persistence.
-class Lookup {
+export class Lookup {
 	input = $state(loadQuery());
 	rows = $state<Row[]>([]);
 	error = $state('');
@@ -123,7 +132,9 @@ class Lookup {
 	};
 
 	copyResults = async (): Promise<void> => {
-		const lines = this.rows.map((row) => `${row.platformName}\t${row.name}\t${row.status}`);
+		const lines = this.rows
+			.toSorted(byPlatformName)
+			.map((row) => `${row.platformName}\t${row.name}\t${row.status}`);
 		const text = `${this.lastLabel ?? ''}\n${lines.join('\n')}`;
 		try {
 			await navigator.clipboard.writeText(text);
@@ -145,7 +156,10 @@ class Lookup {
 	);
 
 	visibleRows = $derived(
-		this.filter === 'all' ? this.rows : this.rows.filter((row) => row.status === this.filter)
+		(this.filter === 'all'
+			? this.rows
+			: this.rows.filter((row) => row.status === this.filter)
+		).toSorted(byPlatformName)
 	);
 
 	counts = $derived.by(() => {
