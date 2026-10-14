@@ -59,6 +59,7 @@ can't be reached is deferred (see below).
 | Mixcloud  | `api.mixcloud.com/{name}/`                                     | 200 taken / 404 free      |
 | SoundCloud | `soundcloud.com/{name}` (profile)                             | 200 taken / 404 free      |
 | AniList   | `graphql.anilist.co` `User(name:)` (POST)                      | non-null `User` taken / null free |
+| Roblox    | `users.roblox.com/v1/usernames/users` (POST)                   | non-empty `data` taken / empty free |
 | Open Collective | `opencollective.com/{name}.json`                         | 200 taken / 404 free      |
 | Bluesky   | `bsky.social/xrpc/com.atproto.temp.checkHandleAvailability` (`{name}.bsky.social`) | resultAvailable free / resultUnavailable taken |
 | Mastodon  | `mastodon.social/@{name}` (profile)                            | 200/410 taken / 404 free  |

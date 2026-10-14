@@ -350,6 +350,7 @@ func Default(cfg Config) *Registry {
 	_ = r.Register(NewMixcloud())
 	_ = r.Register(NewSoundCloud())
 	_ = r.Register(NewAniList())
+	_ = r.Register(NewRoblox())
 	_ = r.Register(NewBluesky())
 	_ = r.Register(NewMastodon())
 	_ = r.Register(NewYouTube())
