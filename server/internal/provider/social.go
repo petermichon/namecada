@@ -84,6 +84,13 @@ func NewYouTube() Provider {
 		"https://www.youtube.com", "/@%s", "https://www.youtube.com/@%s", defaultCodes)
 }
 
+// NewKaggle checks a user on Kaggle. The keyless profile route answers 200 for a
+// claimed username and 404 for a free one.
+func NewKaggle() Provider {
+	return newEndpoint("kaggle", "kaggle",
+		"https://www.kaggle.com", "/%s", "https://www.kaggle.com/%s", defaultCodes)
+}
+
 // Wikipedia checks a global account on Wikimedia. Unlike the status-only
 // sources it reads the body: globaluserinfo carries a "missing" key when the
 // name is free. Source: docs/platforms.md — meta.wikimedia.org/w/api.php.

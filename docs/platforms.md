@@ -244,7 +244,7 @@ Creators / commerce / media:
 AI / dev tools:
 
 - [ ] Replicate — 🔑
-- [ ] Kaggle — 🔑
+- [x] Kaggle — ✅ — `kaggle.com/{name}` (keyless profile: 200 taken / 404 free)
 - [ ] CodeSandbox — 🕸 — Cloudflare-blocked (403)
 - [ ] StackBlitz — 🕸
 - [ ] CodePen — 🕸

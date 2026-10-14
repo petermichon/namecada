@@ -266,6 +266,7 @@ func Default() *Registry {
 	_ = r.Register(NewBluesky())
 	_ = r.Register(NewMastodon())
 	_ = r.Register(NewYouTube())
+	_ = r.Register(NewKaggle())
 	_ = r.Register(NewHackerNews())
 	_ = r.Register(NewOpenCollective())
 	_ = r.Register(NewVercel())

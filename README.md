@@ -56,6 +56,7 @@ can't be reached is deferred (see below).
 | Bluesky   | `bsky.social/xrpc/com.atproto.temp.checkHandleAvailability` (`{name}.bsky.social`) | resultAvailable free / resultUnavailable taken |
 | Mastodon  | `mastodon.social/@{name}` (profile)                            | 200/410 taken / 404 free  |
 | YouTube   | `youtube.com/@{name}` (profile)                                | 200 taken / 404 free      |
+| Kaggle    | `kaggle.com/{name}` (profile)                                  | 200 taken / 404 free      |
 | Hacker News | `news.ycombinator.com/user?id={name}`                        | `No such user.` free / `karma` taken |
 | Vercel    | `{name}.vercel.app` (subdomain)                                | 200 taken / 404 free      |
 | Netlify   | `{name}.netlify.app` (subdomain)                               | 200 taken / 404 free      |
