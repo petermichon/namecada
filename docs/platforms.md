@@ -68,7 +68,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Discord — 🕸 — usernames have no public API
 - [ ] Telegram — 🕸 — `t.me/{name}` scrape
 - [ ] Hashnode — 🌐 — GraphQL
-- [ ] Substack — 🌐 — `substack.com/@{name}` (scrape)
+- [x] Substack — ✅ — `{name}.substack.com` (wildcard DNS; HTTP 404, HTML Accept; user-chosen publication names)
 - [ ] Product Hunt — 🌐 — GraphQL (key)
 - [x] X / Twitter — ✅ — `api.twitter.com/2/users/by/username/{name}` (App-Only bearer; 200 `data` taken / 404 or no `data` free)
 - [x] YouTube — ✅ — `youtube.com/@{name}` (profile redirects and resolves 200 taken / 404 free; keyless, no Data API key needed)

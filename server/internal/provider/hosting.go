@@ -117,6 +117,16 @@ func NewGumroad() Provider {
 		"https://%s.gumroad.com/", "https://%s.gumroad.com/", defaultCodes)
 }
 
+// NewSubstack checks a publication subdomain on Substack. Substack serves
+// wildcard DNS for substack.com, so the HTTP status is the signal:
+// `https://{name}.substack.com/` answers 200 when the name is claimed and 404
+// when it is free. Publication names are user-chosen. The origin is empty
+// because the label is part of the host, not a path segment.
+func NewSubstack() Provider {
+	return newHostEndpoint("substack", "substack",
+		"https://%s.substack.com/", "https://%s.substack.com/", defaultCodes)
+}
+
 // NewReadTheDocs checks a project subdomain on Read the Docs. Read the Docs
 // serves wildcard DNS for readthedocs.io, so the HTTP status is the signal:
 // `https://{name}.readthedocs.io/` answers 302 to the project's latest docs

@@ -966,8 +966,8 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default(Config{})
-	if r.Len() != 71 {
-		t.Fatalf("Len = %d, want 71", r.Len())
+	if r.Len() != 72 {
+		t.Fatalf("Len = %d, want 72", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
@@ -997,6 +997,7 @@ func TestDefaultRegistry(t *testing.T) {
 		"denodeploy",
 		"readthedocs",
 		"gumroad",
+		"substack",
 		"euorg",
 		"duckdns",
 		"noip",
