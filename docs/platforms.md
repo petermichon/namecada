@@ -3,17 +3,19 @@
 Candidate sources for checking whether a name is taken. Flat list — one entry per
 line.
 
-**Rule:** nothing gets added to the app until its CORS is verified on **both** the
-taken and free response (see the README's "Adding a source"). Reachability below
-is best-effort and must be re-checked before implementing.
+**Rule:** nothing gets added until its signal is verified **server-side** on both
+the taken and free response (see the README's "Adding a source"). CORS is no
+longer a constraint — checks run from the server — so the reachability notes
+below, written in the browser-direct era, must be re-checked before implementing.
 
-Legend:
+Legend — reachability with checks running from the server (the server is the
+proxy, so CORS no longer gates anything):
 
-- ✅ verified browser-direct (CORS tested)
-- 🌐 likely browser-direct (public CORS API — verify)
-- 🔌 needs a proxy (no key) — CORS/DNS-blocked but otherwise reachable
-- 🔑 needs an API key and a proxy
-- 🕸 no public API / scrape / TOS-blocked
+- ✅ verified working
+- 🌐 public API, likely works — verify server-side
+- 🔌 reachable server-side by HTTP status (no key) — formerly "needs a proxy"
+- 🔑 needs an API key / config
+- 🕸 needs an HTML/body signal — some in this group are also bot- or TOS-blocked
 
 Status: `[x]` = already a provider, `[ ]` = candidate.
 
@@ -50,7 +52,6 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [x] WordPress plugins/themes — ✅ — `api.wordpress.org/plugins/info/1.2`
 - [ ] Figma Community — 🕸 — no public API
 - [ ] Shopify App Store — 🕸
-- [ ] Go modules — 🕸 — modules are paths, not single labels
 - [x] GitHub — ✅ — `api.github.com/users/{name}`
 - [x] Bluesky — ✅ — `bsky.social/xrpc/com.atproto.temp.checkHandleAvailability` (`{name}.bsky.social`); resolveHandle hides reserved/deactivated/over-length (max 18) handles
 - [x] Mastodon (`mastodon.social`) — ✅ — `/@{name}` profile (200/410 taken, 404 free; the lookup API hides suspended accounts as 404)
@@ -81,7 +82,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Snapchat — 🕸
 - [ ] Pinterest — 🕸
 - [ ] Medium — 🕸
-- [ ] Hacker News — 🕸 — `hacker-news.firebaseio.com/v0/user/{name}.json` only exposes users with public activity, so `null` can mean free *or* a real no-activity account: it can never confirm a name is free. The profile page that can is behind no CORS. Needs a proxy
+- [ ] Hacker News — 🕸 — `hacker-news.firebaseio.com/v0/user/{name}.json` only exposes users with public activity, so `null` can mean free *or* a real no-activity account. Viable now via the server: fetch `news.ycombinator.com/user?id={name}` and treat `No such user.` as free
 - [x] Open Collective — ✅ — `opencollective.com/{name}.json` (200 taken / 404 free). The CDN caches responses for 1h and can cache a transient 5xx per-`Origin`; the provider retries once with a cache-busting param to bypass a poisoned entry
 - [x] Minehut — ✅ — `api.minehut.com/server/{name}?byName=true` (`server: null` = free)
 - [x] Lichess — ✅ — `lichess.org/api/user/{name}`
@@ -89,12 +90,10 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [x] Hugging Face — ✅ — `huggingface.co/api/users/{name}/overview`
 - [ ] Minecraft (Mojang) — 🕸 — API has no CORS
 - [ ] Roblox — 🕸 — rate-limited / no CORS
-- [ ] Stack Exchange — 🕸 — display names aren't unique (no availability)
 - [ ] SourceForge — 🕸 — 200 has CORS, 404 does not
 - [ ] Dribbble — 🔑 — API needs a token
 - [ ] Behance — 🔑 — Adobe API needs a key
 - [ ] XDA Forums — 🕸 — Cloudflare-blocked (403)
-- [ ] WhatsApp — 🕸 — phone-based, no username
 - [ ] USPTO (trademarks) — 🔑
 - [ ] EUIPO (trademarks) — 🔑
 - [ ] WIPO Global Brand Database — 🕸
@@ -121,7 +120,8 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] eBay — 🕸
 - [ ] IMDb — 🕸
 
-Hosting subdomains (need a proxy to read the 404; wildcard DNS defeats DoH):
+Hosting subdomains (server-side HTTP status is the signal; wildcard DNS defeats
+browser DoH):
 
 - [ ] Vercel — 🔌 — `{name}.vercel.app` (wildcard DNS; HTTP 404, no CORS)
 - [ ] GitHub Pages — 🔌 — `{name}.github.io` (wildcard DNS; no CORS)
@@ -168,9 +168,15 @@ Ruled out — account namespaces (no public availability API):
   (200, byte-identical "Client Challenge" page for real and fake users) and sends
   no CORS; Warehouse exposes no JSON user endpoint.
 
+Ruled out — can't answer "is the name free" (semantic, not reachability; the
+server doesn't change this):
+
+- [ ] Stack Exchange — 🕸 — display names aren't unique (no availability)
+- [ ] Go modules — 🕸 — modules are paths, not single labels
+- [ ] WhatsApp — 🕸 — phone-based, no username
+
 More social / community:
 
-- [ ] Stack Overflow / Stack Exchange — 🌐 — `api.stackexchange.com`
 - [ ] Quora — 🕸
 - [ ] Lobste.rs — 🕸
 - [ ] HackerNoon — 🌐
