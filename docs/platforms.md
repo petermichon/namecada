@@ -54,13 +54,13 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [x] GitHub — ✅ — `api.github.com/users/{name}`
 - [x] Bluesky — ✅ — `bsky.social/xrpc/com.atproto.temp.checkHandleAvailability` (`{name}.bsky.social`); resolveHandle hides reserved/deactivated/over-length (max 18) handles
 - [x] Mastodon (`mastodon.social`) — ✅ — `/@{name}` profile (200/410 taken, 404 free; the lookup API hides suspended accounts as 404)
-- [x] GitLab — ✅ — `gitlab.com/api/v4/users?username={name}` (array body)
+- [x] GitLab — ✅ — `gitlab.com/api/v4/users?username={name}` (array body), then `/api/v4/groups/{name}` as a fallback
 - [x] Bitbucket — ✅ — `api.bitbucket.org/2.0/workspaces/{name}`
 - [x] Codeberg — ✅ — `codeberg.org/api/v1/users/{name}`
 - [ ] Nostr (NIP-05) — 🌐 — `/.well-known/nostr.json`
 - [x] Farcaster — ✅ — `fnames.farcaster.xyz/transfers/current?name={name}`
 - [ ] Lemmy — 🌐 — `/api/v3/user?username={name}`
-- [x] DEV — ✅ — `dev.to/api/users/by_username?url={name}`
+- [x] DEV — ✅ — `dev.to/api/users/by_username?url={name}`, then `/api/organizations/{name}` as a fallback
 - [x] Wikipedia — ✅ — `meta.wikimedia.org/w/api.php` globaluserinfo (`missing` = free)
 - [ ] Fandom — 🕸 — `{name}.fandom.com` has no CORS
 - [ ] Bilibili — 🕸 — API returns 412 (banned)
