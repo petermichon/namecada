@@ -15,8 +15,7 @@
 
 <ToggleGroup.Root
 	type="multiple"
-	value={filter}
-	onValueChange={(value) => (filter = value as Filter)}
+	bind:value={filter}
 	variant="outline"
 	size="sm"
 	spacing={2}
