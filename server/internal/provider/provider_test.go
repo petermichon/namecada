@@ -2,10 +2,12 @@ package provider
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"strings"
 	"testing"
 	"time"
 )
@@ -862,7 +864,7 @@ func defaultClientOf(p Provider) (*http.Client, bool) {
 // stall a scan. DNS providers make no HTTP request, so they are exempt: the
 // assertion is that each has a resolver instead.
 func TestDefaultProvidersUseTimeoutClient(t *testing.T) {
-	for _, p := range Default().All() {
+	for _, p := range Default(Config{}).All() {
 		if d, ok := p.(*dns); ok {
 			if d.resolverOrDefault() == nil {
 				t.Errorf("provider %q has no resolver", p.ID())
@@ -947,7 +949,7 @@ func TestRegistry(t *testing.T) {
 }
 
 func TestDefaultRegistry(t *testing.T) {
-	r := Default()
+	r := Default(Config{})
 	if r.Len() != 66 {
 		t.Fatalf("Len = %d, want 66", r.Len())
 	}
@@ -987,6 +989,72 @@ func TestDefaultRegistry(t *testing.T) {
 	} {
 		if _, ok := r.Get(id); !ok {
 			t.Errorf("default registry is missing %q", id)
+		}
+	}
+}
+
+// TestDefaultOmitsKeyedSources pins the enablement rule: a source gated on
+// credentials is registered only when the Config carries them, so a zero Config
+// leaves it out entirely, and KeyedNames reports names (never values).
+func TestDefaultOmitsKeyedSources(t *testing.T) {
+	old := keyedSources
+	keyedSources = []keyedSource{{
+		id:      "keyed-test",
+		enabled: func(cfg Config) bool { return cfg.DiscogsToken != "" },
+		new:     func(Config) Provider { return stubProvider{id: "keyed-test"} },
+	}}
+	t.Cleanup(func() { keyedSources = old })
+
+	if _, ok := Default(Config{}).Get("keyed-test"); ok {
+		t.Error("Default(Config{}) registered a keyed source whose credentials are absent")
+	}
+	if got := KeyedNames(Config{}); len(got) != 0 {
+		t.Errorf("KeyedNames(Config{}) = %v, want none", got)
+	}
+
+	cfg := Config{DiscogsToken: "token"}
+	if _, ok := Default(cfg).Get("keyed-test"); !ok {
+		t.Error("Default did not register a keyed source whose credentials are present")
+	}
+	if got := KeyedNames(cfg); len(got) != 1 || got[0] != "keyed-test" {
+		t.Errorf("KeyedNames = %v, want [keyed-test]", got)
+	}
+}
+
+// TestDefaultEmitsNoCredentials pins that no configured credential surfaces in
+// any registered source's public metadata. A keyed provider must keep its
+// secret inside a request header, never in an emitted URL or name.
+func TestDefaultEmitsNoCredentials(t *testing.T) {
+	const secret = "s3cr3t-credential-value"
+	cfg := Config{
+		DiscogsToken:        secret,
+		XBearerToken:        secret,
+		TwitchClientID:      secret,
+		TwitchClientSecret:  secret,
+		CompaniesHouseKey:   secret,
+		OpenCorporatesToken: secret,
+	}
+
+	type emitted struct {
+		ID       string `json:"id"`
+		Platform string `json:"platform"`
+		Name     string `json:"name"`
+		URL      string `json:"url"`
+		Detail   string `json:"detail,omitempty"`
+	}
+
+	for _, p := range Default(cfg).All() {
+		b, err := json.Marshal(emitted{
+			ID:       p.ID(),
+			Platform: p.Platform(),
+			Name:     p.Name("acema"),
+			URL:      p.URL("acema"),
+		})
+		if err != nil {
+			t.Fatalf("marshal %q: %v", p.ID(), err)
+		}
+		if strings.Contains(string(b), secret) {
+			t.Errorf("provider %q emitted a credential: %s", p.ID(), b)
 		}
 	}
 }
@@ -1049,7 +1117,7 @@ func TestPaid(t *testing.T) {
 // TestDefaultPaidSources pins that the domain TLDs and Heroku are the only
 // paid sources.
 func TestDefaultPaidSources(t *testing.T) {
-	for _, p := range Default().All() {
+	for _, p := range Default(Config{}).All() {
 		want := p.Platform() == "domains" || p.Platform() == "heroku"
 		if got := Paid(p); got != want {
 			t.Errorf("Paid(%q) = %v, want %v", p.ID(), got, want)

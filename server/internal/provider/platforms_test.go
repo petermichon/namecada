@@ -26,7 +26,7 @@ func TestPlatformNameFallsBackToID(t *testing.T) {
 }
 
 func TestDefaultPlatformsHaveNames(t *testing.T) {
-	for _, p := range Default().All() {
+	for _, p := range Default(Config{}).All() {
 		platform := p.Platform()
 		if _, ok := platformNames[platform]; !ok {
 			t.Errorf("provider %q has platform %q with no display name", p.ID(), platform)

@@ -68,6 +68,13 @@ origin defaults to the Vite origin `http://localhost:5173`.
   `unknown` is never cached, so transient failures self-heal. Match the
   documented semantics in the README (domain rows report registry state, handle
   rows mean "the name exists").
+- **Keyed sources** — credentials live in `provider.Config`, read once in
+  `cmd/domainbrowser` from `DOMAINBROWSER_<SOURCE>_<KIND>` env vars (the list is
+  in the README). `provider.Default(cfg)` registers a keyed source only when its
+  credentials are present; an absent credential **omits** the source entirely
+  (never a row, request, or cache entry — not `unknown`). Secrets go in request
+  headers only: never in a returned `Result.URL`/`Detail`, a log, or a test.
+  Startup logs list enabled keyed sources by name only.
 
 ## Adding a source
 
@@ -78,7 +85,8 @@ origin defaults to the Vite origin `http://localhost:5173`.
 2. Map the response to `available` / `taken` / `unknown`. Declare any documented
    minimum name length in the `minLengths` table in `provider.go` (or implement
    `MinLengthProvider`).
-3. Register it in `provider.Default()` in `provider.go`, and add the source row
-   to the table in `README.md` (and `docs/platforms.md`).
+3. Register it in `provider.Default(cfg)` in `provider.go` (append to the
+   `keyedSources` table when it needs a credential), and add the source row to
+   the table in `README.md` (and `docs/platforms.md`).
 4. Add tests under `server/internal/provider` covering available, taken, and
    unknown. Run `npm run verify` — the tree must stay green.

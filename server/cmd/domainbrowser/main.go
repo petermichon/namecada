@@ -43,14 +43,18 @@ func run(args []string, stdout, stderr io.Writer) int {
 		return 2
 	}
 
+	// Read keyed-source credentials once, at the edge; the provider package
+	// never touches the environment.
+	cfg := configFromEnv()
+
 	switch args[0] {
 	case "serve":
-		if err := serve(args[1:]); err != nil {
+		if err := serve(cfg, args[1:]); err != nil {
 			fmt.Fprintf(stderr, "domainbrowser: %v\n", err)
 			return 1
 		}
 	case "check":
-		if err := check(args[1:], stdout); err != nil {
+		if err := check(cfg, args[1:], stdout); err != nil {
 			fmt.Fprintf(stderr, "domainbrowser: %v\n", err)
 			return 1
 		}
@@ -63,13 +67,27 @@ func run(args []string, stdout, stderr io.Writer) int {
 	return 0
 }
 
-// newEngine builds the engine both commands scan with. It is a variable so
-// tests can substitute a deterministic engine that never touches the network.
-var newEngine = func() *engine.Engine {
-	return engine.NewWithStore(store.NewMemory(), provider.Default().All()...)
+// configFromEnv reads keyed-source credentials from the
+// DOMAINBROWSER_<SOURCE>_<KIND> environment variables. An unset variable leaves
+// its field empty, which omits the corresponding source from the registry.
+func configFromEnv() provider.Config {
+	return provider.Config{
+		DiscogsToken:        os.Getenv("DOMAINBROWSER_DISCOGS_TOKEN"),
+		XBearerToken:        os.Getenv("DOMAINBROWSER_X_BEARER_TOKEN"),
+		TwitchClientID:      os.Getenv("DOMAINBROWSER_TWITCH_CLIENT_ID"),
+		TwitchClientSecret:  os.Getenv("DOMAINBROWSER_TWITCH_CLIENT_SECRET"),
+		CompaniesHouseKey:   os.Getenv("DOMAINBROWSER_COMPANIESHOUSE_KEY"),
+		OpenCorporatesToken: os.Getenv("DOMAINBROWSER_OPENCORPORATES_TOKEN"),
+	}
 }
 
-func serve(args []string) error {
+// newEngine builds the engine both commands scan with. It is a variable so
+// tests can substitute a deterministic engine that never touches the network.
+var newEngine = func(cfg provider.Config) *engine.Engine {
+	return engine.NewWithStore(store.NewMemory(), provider.Default(cfg).All()...)
+}
+
+func serve(cfg provider.Config, args []string) error {
 	fs := flag.NewFlagSet("serve", flag.ContinueOnError)
 	fs.SetOutput(os.Stderr)
 	addr := fs.String("addr", ":8080", "address to listen on")
@@ -84,24 +102,24 @@ func serve(args []string) error {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
-	return serveContext(ctx, *addr, *origin)
+	return serveContext(ctx, cfg, *addr, *origin)
 }
 
 // serveContext runs the HTTP server until ctx is canceled or the listener
 // fails, then shuts it down. It is separated from serve so tests can drive the
 // shutdown path with their own context.
-func serveContext(ctx context.Context, addr, origin string) error {
+func serveContext(ctx context.Context, cfg provider.Config, addr, origin string) error {
 	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
-	return serveWithLogger(ctx, addr, origin, logger)
+	return serveWithLogger(ctx, cfg, addr, origin, logger)
 }
 
 // serveWithLogger runs the HTTP server with logger, emitting a structured
 // request log per call plus startup and shutdown lines. It is separated from
 // serveContext so tests can capture its logs.
-func serveWithLogger(ctx context.Context, addr, origin string, logger *slog.Logger) error {
+func serveWithLogger(ctx context.Context, cfg provider.Config, addr, origin string, logger *slog.Logger) error {
 	// A long-lived engine over one memory store so cached verdicts survive
 	// across requests (the point of serve, versus the one-shot check).
-	eng := newEngine()
+	eng := newEngine(cfg)
 	srv := &http.Server{
 		Addr:    addr,
 		Handler: withScanTimeout(engine.ScanTimeout, api.New(eng, origin, logger).Handler()),
@@ -109,6 +127,12 @@ func serveWithLogger(ctx context.Context, addr, origin string, logger *slog.Logg
 
 	errc := make(chan error, 1)
 	go func() { errc <- srv.ListenAndServe() }()
+	// Log which optional (keyed) sources are live by name only — never their
+	// credential values.
+	logger.Info("sources",
+		"keyed", provider.KeyedNames(cfg),
+		"total", len(eng.Providers()),
+	)
 	logger.Info("listening", "addr", addr, "origin", origin)
 
 	select {
@@ -131,7 +155,7 @@ func serveWithLogger(ctx context.Context, addr, origin string, logger *slog.Logg
 	}
 }
 
-func check(args []string, w io.Writer) error {
+func check(cfg provider.Config, args []string, w io.Writer) error {
 	label, out, err := parseCheck(args)
 	if err != nil {
 		return err
@@ -140,7 +164,7 @@ func check(args []string, w io.Writer) error {
 	ctx, cancel := context.WithTimeout(context.Background(), engine.ScanTimeout)
 	defer cancel()
 
-	return runCheck(ctx, w, newEngine(), label, out)
+	return runCheck(ctx, w, newEngine(cfg), label, out)
 }
 
 // withScanTimeout bounds every served scan with a context deadline, so a hung

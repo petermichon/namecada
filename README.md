@@ -133,6 +133,26 @@ resolves, and `check <label> [--out <file.sqlite>]` runs a one-shot scan and
 prints the whole result set as a single JSON array — or, with `--out`, writes it
 to a SQLite file. Unlike `serve`, `check` buffers every source before emitting.
 
+### Keyed sources
+
+Some sources need an API key or token. Supply those through
+`DOMAINBROWSER_<SOURCE>_<KIND>` environment variables; they are read once when
+the process starts:
+
+| Source | Environment variables |
+| --- | --- |
+| Discogs | `DOMAINBROWSER_DISCOGS_TOKEN` |
+| X / Twitter | `DOMAINBROWSER_X_BEARER_TOKEN` |
+| Twitch | `DOMAINBROWSER_TWITCH_CLIENT_ID`, `DOMAINBROWSER_TWITCH_CLIENT_SECRET` |
+| Companies House | `DOMAINBROWSER_COMPANIESHOUSE_KEY` |
+| OpenCorporates | `DOMAINBROWSER_OPENCORPORATES_TOKEN` |
+
+A source whose credentials are unset is **omitted** from the scan entirely — it
+produces no row, makes no request, and never enters the cache. It is not
+reported as `unknown`, which keeps that status meaning "checked, inconclusive".
+Startup logs list the enabled keyed sources by name only; credential values are
+never logged and never appear in a result.
+
 The live source is always the source of truth. SQLite — like the in-memory store
 — is a **cache** of what a source last reported, not an authoritative record: a
 row can be stale, rate-limited, or wrong, and a domain row captures registry
@@ -196,8 +216,11 @@ watches `server/` and, on a Go change, rebuilds and restarts `serve` on
 
 Implement the `Provider` interface in the server
 (`server/internal/provider`) — a `Check` that maps an HTTP response to
-`available` / `taken` / `unknown` — and register it in `provider.Default()`.
-Sources live server-side, so CORS is no longer a constraint.
+`available` / `taken` / `unknown` — and register it in `provider.Default(cfg)`.
+A source that needs a credential goes in the `keyedSources` table with an
+`enabled` predicate instead, so `Default` omits it when the credential is
+unset (see [Keyed sources](#keyed-sources)). Sources live server-side, so CORS
+is no longer a constraint.
 
 Deferred: Packagist, Docker Hub, Go proxy (modules are paths, not
 single labels), and trademark / social / company registries (need a key and a

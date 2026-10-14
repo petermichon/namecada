@@ -192,7 +192,7 @@ func TestWithScanTimeoutDeadline(t *testing.T) {
 func withTestEngine(t *testing.T, eng *engine.Engine) {
 	t.Helper()
 	old := newEngine
-	newEngine = func() *engine.Engine { return eng }
+	newEngine = func(provider.Config) *engine.Engine { return eng }
 	t.Cleanup(func() { newEngine = old })
 }
 
@@ -250,7 +250,7 @@ func TestServeFlagParsing(t *testing.T) {
 		{name: "unexpected argument", args: []string{"extra"}},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := serve(tt.args); err == nil {
+			if err := serve(provider.Config{}, tt.args); err == nil {
 				t.Fatalf("serve(%v) = nil, want error", tt.args)
 			}
 		})
@@ -260,7 +260,7 @@ func TestServeFlagParsing(t *testing.T) {
 // TestServeContextListenError pins that a listener failure is surfaced.
 func TestServeContextListenError(t *testing.T) {
 	withTestEngine(t, testEngine())
-	if err := serveContext(context.Background(), "127.0.0.1:99999", ""); err == nil {
+	if err := serveContext(context.Background(), provider.Config{}, "127.0.0.1:99999", ""); err == nil {
 		t.Fatal("serveContext = nil, want a listen error")
 	}
 }
@@ -272,7 +272,7 @@ func TestServeContextShutsDownOnCancel(t *testing.T) {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	errc := make(chan error, 1)
-	go func() { errc <- serveContext(ctx, "127.0.0.1:0", "") }()
+	go func() { errc <- serveContext(ctx, provider.Config{}, "127.0.0.1:0", "") }()
 
 	// Let the listener bind before asking it to stop.
 	time.Sleep(100 * time.Millisecond)
@@ -298,7 +298,7 @@ func TestServeWithLoggerLogsLifecycle(t *testing.T) {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	errc := make(chan error, 1)
-	go func() { errc <- serveWithLogger(ctx, "127.0.0.1:0", "", logger) }()
+	go func() { errc <- serveWithLogger(ctx, provider.Config{}, "127.0.0.1:0", "", logger) }()
 
 	// Let the listener bind before asking it to stop.
 	time.Sleep(100 * time.Millisecond)
@@ -336,5 +336,76 @@ func TestCheckSQLiteWriteError(t *testing.T) {
 	cancel()
 	if err := checkSQLite(ctx, testResults(), path); err == nil {
 		t.Fatal("checkSQLite = nil, want a write error")
+	}
+}
+
+// TestConfigFromEnv pins the DOMAINBROWSER_<SOURCE>_<KIND> mapping.
+func TestConfigFromEnv(t *testing.T) {
+	t.Setenv("DOMAINBROWSER_DISCOGS_TOKEN", "d")
+	t.Setenv("DOMAINBROWSER_X_BEARER_TOKEN", "x")
+	t.Setenv("DOMAINBROWSER_TWITCH_CLIENT_ID", "ti")
+	t.Setenv("DOMAINBROWSER_TWITCH_CLIENT_SECRET", "ts")
+	t.Setenv("DOMAINBROWSER_COMPANIESHOUSE_KEY", "c")
+	t.Setenv("DOMAINBROWSER_OPENCORPORATES_TOKEN", "o")
+
+	want := provider.Config{
+		DiscogsToken:        "d",
+		XBearerToken:        "x",
+		TwitchClientID:      "ti",
+		TwitchClientSecret:  "ts",
+		CompaniesHouseKey:   "c",
+		OpenCorporatesToken: "o",
+	}
+	if got := configFromEnv(); got != want {
+		t.Errorf("configFromEnv() = %+v, want %+v", got, want)
+	}
+}
+
+// TestCheckOutputHasNoCredentials pins that a configured credential never
+// reaches the emitted JSON.
+func TestCheckOutputHasNoCredentials(t *testing.T) {
+	const secret = "leaky-credential-token"
+	t.Setenv("DOMAINBROWSER_DISCOGS_TOKEN", secret)
+	withTestEngine(t, testEngine())
+
+	var stdout, stderr bytes.Buffer
+	if code := run([]string{"check", "acema"}, &stdout, &stderr); code != 0 {
+		t.Fatalf("run = %d, want 0; stderr=%q", code, stderr.String())
+	}
+	if strings.Contains(stdout.String(), secret) || strings.Contains(stderr.String(), secret) {
+		t.Errorf("credential leaked into output: stdout=%q stderr=%q", stdout.String(), stderr.String())
+	}
+}
+
+// TestServeLogsNoCredentials pins that startup logs source names, never values.
+func TestServeLogsNoCredentials(t *testing.T) {
+	const secret = "leaky-credential-token"
+	t.Setenv("DOMAINBROWSER_DISCOGS_TOKEN", secret)
+	withTestEngine(t, testEngine())
+
+	var buf bytes.Buffer
+	logger := slog.New(slog.NewTextHandler(&buf, nil))
+
+	ctx, cancel := context.WithCancel(context.Background())
+	errc := make(chan error, 1)
+	go func() { errc <- serveWithLogger(ctx, configFromEnv(), "127.0.0.1:0", "", logger) }()
+
+	time.Sleep(100 * time.Millisecond)
+	cancel()
+
+	select {
+	case err := <-errc:
+		if err != nil {
+			t.Fatalf("serveWithLogger: %v", err)
+		}
+	case <-time.After(3 * time.Second):
+		t.Fatal("serveWithLogger did not return after cancel")
+	}
+
+	if strings.Contains(buf.String(), secret) {
+		t.Errorf("credential leaked into logs: %q", buf.String())
+	}
+	if !strings.Contains(buf.String(), "msg=sources") {
+		t.Errorf("log = %q, want a sources line", buf.String())
 	}
 }

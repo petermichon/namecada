@@ -224,8 +224,66 @@ func (r *Registry) Len() int {
 	return len(r.order)
 }
 
-// Default returns a registry populated with the built-in providers.
-func Default() *Registry {
+// Config carries the credentials a credential-gated ("keyed") source needs. It
+// is populated once at process start (see cmd/domainbrowser) from
+// DOMAINBROWSER_<SOURCE>_<KIND> environment variables. A zero Config omits
+// every keyed source from the registry, leaving the keyless default set.
+//
+// A Config is a secret: its fields must never be logged, and a provider must
+// keep them inside request headers (or a private request URL) only — never in a
+// returned Result.URL or Result.Detail.
+type Config struct {
+	// DiscogsToken authenticates the Discogs API
+	// (DOMAINBROWSER_DISCOGS_TOKEN).
+	DiscogsToken string
+	// XBearerToken is the App-Only bearer token for the X/Twitter API
+	// (DOMAINBROWSER_X_BEARER_TOKEN).
+	XBearerToken string
+	// TwitchClientID and TwitchClientSecret authorize the Twitch Helix API
+	// (DOMAINBROWSER_TWITCH_CLIENT_ID, DOMAINBROWSER_TWITCH_CLIENT_SECRET).
+	TwitchClientID     string
+	TwitchClientSecret string
+	// CompaniesHouseKey is the HTTP Basic key for the Companies House API
+	// (DOMAINBROWSER_COMPANIESHOUSE_KEY).
+	CompaniesHouseKey string
+	// OpenCorporatesToken authenticates the OpenCorporates API
+	// (DOMAINBROWSER_OPENCORPORATES_TOKEN).
+	OpenCorporatesToken string
+}
+
+// keyedSource describes a source that cannot answer without credentials.
+// enabled reports whether cfg supplies what the source needs; new builds the
+// provider when it does. A source whose enabled reports false is omitted from
+// the registry entirely: it never appears as a row, never receives a request,
+// and never reaches the cache. Keyed ports append their sources here.
+type keyedSource struct {
+	id      string
+	enabled func(Config) bool
+	new     func(Config) Provider
+}
+
+// keyedSources lists the credential-gated sources in registration order. It is
+// empty until the first keyed port lands, so a zero Config yields the keyless
+// registry unchanged.
+var keyedSources []keyedSource
+
+// KeyedNames returns the ids of the credential-gated sources cfg enables, in
+// registration order. Callers use it for startup logging only, so it returns
+// names and never touches credential values.
+func KeyedNames(cfg Config) []string {
+	names := make([]string, 0, len(keyedSources))
+	for _, k := range keyedSources {
+		if k.enabled(cfg) {
+			names = append(names, k.id)
+		}
+	}
+	return names
+}
+
+// Default returns a registry populated with the built-in providers. Keyless
+// providers are always registered; sources in keyedSources are added only when
+// cfg carries the credentials they need, so a zero Config omits them all.
+func Default(cfg Config) *Registry {
 	r := NewRegistry()
 	// Registration cannot fail for the constants below.
 	for _, p := range NewDomains() {
@@ -291,5 +349,11 @@ func Default() *Registry {
 	_ = r.Register(NewIsAGoodDev())
 	_ = r.Register(NewPagesDev())
 	_ = r.Register(NewFly())
+	// Keyed sources are omitted entirely when their credentials are absent.
+	for _, k := range keyedSources {
+		if k.enabled(cfg) {
+			_ = r.Register(k.new(cfg))
+		}
+	}
 	return r
 }
