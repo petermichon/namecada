@@ -100,6 +100,50 @@ func TestNetlifyCheck(t *testing.T) {
 	}
 }
 
+// TestNeocitiesCheck pins the host-based signal: the request must target
+// https://{name}.neocities.org/ and the status must map to
+// taken/available/unknown.
+func TestNeocitiesCheck(t *testing.T) {
+	tests := []struct {
+		name string
+		code int
+		want Status
+	}{
+		{"taken", http.StatusOK, StatusTaken},
+		{"available", http.StatusNotFound, StatusAvailable},
+		{"unknown", http.StatusInternalServerError, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var gotURL string
+			client := &http.Client{
+				Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
+					gotURL = req.URL.String()
+					return &http.Response{
+						StatusCode: tt.code,
+						Body:       io.NopCloser(strings.NewReader("")),
+						Header:     make(http.Header),
+					}, nil
+				}),
+			}
+
+			e := NewNeocities().(*endpoint)
+			e.client = client
+
+			got, err := e.Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+			if gotURL != "https://acema.neocities.org/" {
+				t.Errorf("url = %q, want %q", gotURL, "https://acema.neocities.org/")
+			}
+		})
+	}
+}
+
 // TestSurgeCheck pins the host-based signal: the request must target
 // https://{name}.surge.sh/ and the status must map to taken/available/unknown.
 func TestSurgeCheck(t *testing.T) {

@@ -26,3 +26,13 @@ func NewSurge() Provider {
 	return newEndpoint("surge", "surge",
 		"", "https://%s.surge.sh/", "https://%s.surge.sh/", defaultCodes)
 }
+
+// NewNeocities checks a site subdomain on Neocities. Neocities serves wildcard
+// DNS for neocities.org, so the HTTP status is the signal:
+// `https://{name}.neocities.org/` answers 200 when the name is claimed and 404
+// when it is free. The origin is empty because the label is part of the host,
+// not a path segment.
+func NewNeocities() Provider {
+	return newEndpoint("neocities", "neocities",
+		"", "https://%s.neocities.org/", "https://%s.neocities.org/", defaultCodes)
+}

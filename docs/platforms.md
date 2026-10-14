@@ -140,7 +140,7 @@ browser DoH):
 - [ ] Replit — 🔌 — `{name}.repl.co`
 - [ ] Glitch — 🔌 — `{name}.glitch.me`
 - [ ] Read the Docs — 🔌 — `{name}.readthedocs.io`
-- [ ] Neocities — 🔌 — `{name}.neocities.org`
+- [x] Neocities — ✅ — `{name}.neocities.org` (wildcard DNS; HTTP 404, no CORS)
 
 More package registries:
 

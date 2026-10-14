@@ -42,6 +42,7 @@ var platformNames = map[string]string{
 	"vercel":         "Vercel",
 	"netlify":        "Netlify",
 	"surge":          "Surge",
+	"neocities":      "Neocities",
 }
 
 // PlatformName returns the display name for a platform id. An unknown id is

@@ -269,5 +269,6 @@ func Default() *Registry {
 	_ = r.Register(NewVercel())
 	_ = r.Register(NewNetlify())
 	_ = r.Register(NewSurge())
+	_ = r.Register(NewNeocities())
 	return r
 }
