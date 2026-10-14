@@ -20,10 +20,10 @@ function statusSlot(row: Row): string {
 }
 
 describe('ResultRow', () => {
-	it('labels unsupported rows as unsupported with an icon, not a verdict', () => {
+	it('labels unsupported rows as not checked with an icon, not a verdict', () => {
 		const html = statusSlot(row('unsupported'));
 
-		expect(html).toContain('unsupported');
+		expect(html).toContain('not checked');
 		expect(html).not.toContain('>available<');
 		expect(html).not.toContain('unavailable');
 		expect(html).not.toContain('unknown');

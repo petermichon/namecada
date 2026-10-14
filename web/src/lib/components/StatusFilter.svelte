@@ -45,7 +45,7 @@
 			value="unsupported"
 			class="data-[state=on]:border-border data-[state=on]:bg-muted data-[state=on]:text-muted-foreground"
 		>
-			{counts.unsupported} unsupported
+			{counts.unsupported} not checked
 		</ToggleGroup.Item>
 	{/if}
 </ToggleGroup.Root>
