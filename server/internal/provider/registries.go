@@ -174,3 +174,10 @@ func NewOpenVSX() Provider {
 	return newEndpoint("openvsx", "openvsx",
 		"https://open-vsx.org", "/api/%s", "https://open-vsx.org/namespace/%s", defaultCodes)
 }
+
+// NewHackerNoon checks a user on HackerNoon. The profile page serves HTML and a
+// 200 means the handle exists while a 404 means it is free.
+func NewHackerNoon() Provider {
+	return newEndpoint("hackernoon", "hackernoon",
+		"https://hackernoon.com", "/u/%s", "https://hackernoon.com/u/%s", defaultCodes)
+}

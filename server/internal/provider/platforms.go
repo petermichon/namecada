@@ -44,6 +44,7 @@ var platformNames = map[string]string{
 	"dribbble":       "Dribbble",
 	"behance":        "Behance",
 	"replicate":      "Replicate",
+	"hackernoon":     "HackerNoon",
 	"hackernews":     "Hacker News",
 	"opencollective": "Open Collective",
 	"discogs":        "Discogs",

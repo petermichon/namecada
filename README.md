@@ -63,6 +63,7 @@ can't be reached is deferred (see below).
 | Dribbble  | `dribbble.com/{name}` (profile)                                | 200 taken / 404 free      |
 | Behance   | `behance.net/{name}` (profile)                                 | 200 taken / 404 free      |
 | Replicate | `replicate.com/{name}` (profile)                               | 200 taken / 404 free      |
+| HackerNoon | `hackernoon.com/u/{name}` (profile)                           | 200 taken / 404 free      |
 | Hacker News | `news.ycombinator.com/user?id={name}`                        | `No such user.` free / `karma` taken |
 | Discogs   | `api.discogs.com/users/{name}` (token)                         | 200 taken / 404 free      |
 | X / Twitter | `api.twitter.com/2/users/by/username/{name}` (bearer)        | 200 taken / 404 free      |
