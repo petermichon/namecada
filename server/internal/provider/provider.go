@@ -262,10 +262,30 @@ type keyedSource struct {
 	new     func(Config) Provider
 }
 
-// keyedSources lists the credential-gated sources in registration order. It is
-// empty until the first keyed port lands, so a zero Config yields the keyless
-// registry unchanged.
-var keyedSources []keyedSource
+// keyedSources lists the credential-gated sources in registration order, each
+// with the predicate that decides whether cfg enables it. A zero Config yields
+// the keyless registry unchanged.
+var keyedSources = []keyedSource{
+	{
+		id:      "discogs",
+		enabled: func(cfg Config) bool { return cfg.DiscogsToken != "" },
+		new:     func(cfg Config) Provider { return NewDiscogs(cfg.DiscogsToken) },
+	},
+	{
+		id:      "x",
+		enabled: func(cfg Config) bool { return cfg.XBearerToken != "" },
+		new:     func(cfg Config) Provider { return NewX(cfg.XBearerToken) },
+	},
+	{
+		id: "twitch",
+		enabled: func(cfg Config) bool {
+			return cfg.TwitchClientID != "" && cfg.TwitchClientSecret != ""
+		},
+		new: func(cfg Config) Provider {
+			return NewTwitch(cfg.TwitchClientID, cfg.TwitchClientSecret)
+		},
+	},
+}
 
 // KeyedNames returns the ids of the credential-gated sources cfg enables, in
 // registration order. Callers use it for startup logging only, so it returns

@@ -70,9 +70,9 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Hashnode — 🌐 — GraphQL
 - [ ] Substack — 🌐 — `substack.com/@{name}` (scrape)
 - [ ] Product Hunt — 🌐 — GraphQL (key)
-- [ ] X / Twitter — 🔑
+- [x] X / Twitter — ✅ — `api.twitter.com/2/users/by/username/{name}` (App-Only bearer; 200 `data` taken / 404 or no `data` free)
 - [x] YouTube — ✅ — `youtube.com/@{name}` (profile redirects and resolves 200 taken / 404 free; keyless, no Data API key needed)
-- [ ] Twitch — 🔑
+- [x] Twitch — ✅ — `api.twitch.tv/helix/users?login={name}` (Client-Id + app access token via client-credentials grant; non-empty `data` taken / empty free)
 - [ ] LinkedIn — 🔑
 - [ ] Instagram — 🕸
 - [ ] TikTok — 🕸
@@ -231,7 +231,7 @@ Creators / commerce / media:
 - [ ] Apple Music — 🔑
 - [ ] Audiomack — 🕸 — redirects
 - [x] Mixcloud — ✅ — `api.mixcloud.com/{name}/`
-- [ ] Discogs — 🔑
+- [x] Discogs — ✅ — `api.discogs.com/users/{name}` (token; the keyless route 403s; 200 taken / 404 free)
 - [x] Last.fm — ✅ — `last.fm/user/{name}` (keyless profile: 200 taken / 404 free)
 - [ ] Letterboxd — 🕸
 - [ ] Goodreads — 🕸

@@ -62,6 +62,9 @@ can't be reached is deferred (see below).
 | Behance   | `behance.net/{name}` (profile)                                 | 200 taken / 404 free      |
 | Replicate | `replicate.com/{name}` (profile)                               | 200 taken / 404 free      |
 | Hacker News | `news.ycombinator.com/user?id={name}`                        | `No such user.` free / `karma` taken |
+| Discogs   | `api.discogs.com/users/{name}` (token)                         | 200 taken / 404 free      |
+| X / Twitter | `api.twitter.com/2/users/by/username/{name}` (bearer)        | 200 taken / 404 free      |
+| Twitch    | `api.twitch.tv/helix/users?login={name}` (app token)           | non-empty `data` taken / empty free |
 | Vercel    | `{name}.vercel.app` (subdomain)                                | 200 taken / 404 free      |
 | Netlify   | `{name}.netlify.app` (subdomain)                               | 200 taken / 404 free      |
 | Surge     | `{name}.surge.sh` (subdomain)                                  | 200 taken / 404 free      |
@@ -223,5 +226,5 @@ unset (see [Keyed sources](#keyed-sources)). Sources live server-side, so CORS
 is no longer a constraint.
 
 Deferred: Packagist, Docker Hub, Go proxy (modules are paths, not
-single labels), and trademark / social / company registries (need a key and a
-proxy).
+single labels), and the remaining trademark / social / company registries that
+need a key.

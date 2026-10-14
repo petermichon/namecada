@@ -71,6 +71,25 @@ func doGetAccept(ctx context.Context, client *http.Client, url, accept string) (
 	return client.Do(req)
 }
 
+// doGetHeaders performs a GET with the shared headers plus extra request
+// headers. It exists for the credential-gated sources, which carry a token (and
+// sometimes an identity header) on every request. The extra values are secrets:
+// callers must keep them out of a returned Result, a log, and a URL.
+func doGetHeaders(ctx context.Context, client *http.Client, url string, headers map[string]string) (*http.Response, error) {
+	if client == nil {
+		client = DefaultClient
+	}
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	if err != nil {
+		return nil, err
+	}
+	setCommonHeaders(req, defaultAccept)
+	for key, value := range headers {
+		req.Header.Set(key, value)
+	}
+	return client.Do(req)
+}
+
 // drainAndClose fully reads and closes a response body so the connection can be
 // reused.
 func drainAndClose(resp *http.Response) {
