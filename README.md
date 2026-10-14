@@ -67,7 +67,7 @@ can't be reached is deferred (see below).
 | HackerNoon | `hackernoon.com/u/{name}` (profile)                           | 200 taken / 404 free      |
 | Hacker News | `news.ycombinator.com/user?id={name}`                        | `No such user.` free / `karma` taken |
 | Discogs   | `api.discogs.com/users/{name}` (token)                         | 200 taken / 404 free      |
-| X / Twitter | `api.twitter.com/2/users/by/username/{name}` (bearer)        | 200 taken / 404 free      |
+| X / Twitter | `x.com/{name}` (profile)                                     | 200 taken / 404 free      |
 | Twitch    | `api.twitch.tv/helix/users?login={name}` (app token)           | non-empty `data` taken / empty free |
 | Companies House | `api.company-information.service.gov.uk/search/companies?q={name}` (key) | exact company name taken / else free |
 | OpenCorporates | `api.opencorporates.com/v0.4/companies/search?q={name}` (token) | exact company name taken / else free |
@@ -154,7 +154,6 @@ the process starts:
 | Source | Environment variables |
 | --- | --- |
 | Discogs | `DOMAINBROWSER_DISCOGS_TOKEN` |
-| X / Twitter | `DOMAINBROWSER_X_BEARER_TOKEN` |
 | Twitch | `DOMAINBROWSER_TWITCH_CLIENT_ID`, `DOMAINBROWSER_TWITCH_CLIENT_SECRET` |
 | Companies House | `DOMAINBROWSER_COMPANIESHOUSE_KEY` |
 | OpenCorporates | `DOMAINBROWSER_OPENCORPORATES_TOKEN` |

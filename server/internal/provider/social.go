@@ -127,6 +127,14 @@ func NewReplicate() Provider {
 		"https://replicate.com", "/%s", "https://replicate.com/%s", defaultCodes)
 }
 
+// NewX checks a username on X/Twitter. The keyless profile route answers 200
+// for a claimed username and 404 for a free one; twitter.com redirects to
+// x.com, so the request uses the canonical host.
+func NewX() Provider {
+	return newEndpoint("x", "x",
+		"https://x.com", "/%s", "https://x.com/%s", defaultCodes)
+}
+
 // Wikipedia checks a global account on Wikimedia. Unlike the status-only
 // sources it reads the body: globaluserinfo carries a "missing" key when the
 // name is free. Source: docs/platforms.md — meta.wikimedia.org/w/api.php.

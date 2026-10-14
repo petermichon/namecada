@@ -236,9 +236,6 @@ type Config struct {
 	// DiscogsToken authenticates the Discogs API
 	// (DOMAINBROWSER_DISCOGS_TOKEN).
 	DiscogsToken string
-	// XBearerToken is the App-Only bearer token for the X/Twitter API
-	// (DOMAINBROWSER_X_BEARER_TOKEN).
-	XBearerToken string
 	// TwitchClientID and TwitchClientSecret authorize the Twitch Helix API
 	// (DOMAINBROWSER_TWITCH_CLIENT_ID, DOMAINBROWSER_TWITCH_CLIENT_SECRET).
 	TwitchClientID     string
@@ -270,11 +267,6 @@ var keyedSources = []keyedSource{
 		id:      "discogs",
 		enabled: func(cfg Config) bool { return cfg.DiscogsToken != "" },
 		new:     func(cfg Config) Provider { return NewDiscogs(cfg.DiscogsToken) },
-	},
-	{
-		id:      "x",
-		enabled: func(cfg Config) bool { return cfg.XBearerToken != "" },
-		new:     func(cfg Config) Provider { return NewX(cfg.XBearerToken) },
 	},
 	{
 		id: "twitch",
@@ -358,6 +350,7 @@ func Default(cfg Config) *Registry {
 	_ = r.Register(NewBluesky())
 	_ = r.Register(NewMastodon())
 	_ = r.Register(NewYouTube())
+	_ = r.Register(NewX())
 	_ = r.Register(NewKaggle())
 	_ = r.Register(NewDribbble())
 	_ = r.Register(NewBehance())

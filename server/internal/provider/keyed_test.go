@@ -57,53 +57,6 @@ func TestDiscogsCheck(t *testing.T) {
 	}
 }
 
-// TestXCheck pins the body signal (data present = taken, missing = free) and
-// that the bearer token travels in the Authorization header.
-func TestXCheck(t *testing.T) {
-	tests := []struct {
-		name string
-		code int
-		body string
-		want Status
-	}{
-		{"taken", http.StatusOK, `{"data":{"id":"1","username":"acema"}}`, StatusTaken},
-		{"free with errors body", http.StatusOK, `{"errors":[{"title":"Not Found Error"}]}`, StatusAvailable},
-		{"free with empty data", http.StatusOK, `{"data":{}}`, StatusAvailable},
-		{"available 404", http.StatusNotFound, `{"errors":[{"title":"Not Found Error"}]}`, StatusAvailable},
-		{"invalid body", http.StatusOK, `not json`, StatusUnknown},
-		{"server error", http.StatusInternalServerError, ``, StatusUnknown},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			var gotAuth string
-			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				if r.URL.Path != "/2/users/by/username/acema" {
-					t.Errorf("path = %q, want %q", r.URL.Path, "/2/users/by/username/acema")
-				}
-				gotAuth = r.Header.Get("Authorization")
-				w.WriteHeader(tt.code)
-				_, _ = w.Write([]byte(tt.body))
-			}))
-			defer srv.Close()
-
-			x := NewX("test-token")
-			x.BaseURL = srv.URL
-			x.Client = srv.Client()
-
-			got, err := x.Check(context.Background(), "acema")
-			if err != nil {
-				t.Fatalf("Check returned error: %v", err)
-			}
-			if got.Status != tt.want {
-				t.Errorf("status = %q, want %q", got.Status, tt.want)
-			}
-			if gotAuth != "Bearer test-token" {
-				t.Errorf("Authorization = %q, want %q", gotAuth, "Bearer test-token")
-			}
-		})
-	}
-}
-
 // TestTwitchCheck pins the users response mapping, the credentials path (token
 // request body, Helix headers), and the login query.
 func TestTwitchCheck(t *testing.T) {
@@ -454,7 +407,7 @@ func queryValue(rawQuery, key string) string {
 // TestDefaultKeyedSources pins that each keyed source is registered only when
 // its credentials are present, and that KeyedNames reports them by name.
 func TestDefaultKeyedSources(t *testing.T) {
-	all := []string{"discogs", "x", "twitch", "companieshouse", "opencorporates"}
+	all := []string{"discogs", "twitch", "companieshouse", "opencorporates"}
 	for _, id := range all {
 		if _, ok := Default(Config{}).Get(id); ok {
 			t.Errorf("Default(Config{}) registered %q with no credentials", id)
@@ -467,17 +420,6 @@ func TestDefaultKeyedSources(t *testing.T) {
 	discogs := Config{DiscogsToken: "d"}
 	if _, ok := Default(discogs).Get("discogs"); !ok {
 		t.Error("Default did not register discogs with a token")
-	}
-	if _, ok := Default(discogs).Get("x"); ok {
-		t.Error("Default registered x without a bearer token")
-	}
-
-	x := Config{XBearerToken: "b"}
-	if _, ok := Default(x).Get("x"); !ok {
-		t.Error("Default did not register x with a bearer token")
-	}
-	if _, ok := Default(x).Get("discogs"); ok {
-		t.Error("Default registered discogs without a token")
 	}
 
 	// Twitch needs both halves of the client credentials.
@@ -510,14 +452,13 @@ func TestDefaultKeyedSources(t *testing.T) {
 
 	cfg := Config{
 		DiscogsToken:        "d",
-		XBearerToken:        "b",
 		TwitchClientID:      "i",
 		TwitchClientSecret:  "s",
 		CompaniesHouseKey:   "k",
 		OpenCorporatesToken: "t",
 	}
-	if got := KeyedNames(cfg); strings.Join(got, ",") != "discogs,x,twitch,companieshouse,opencorporates" {
-		t.Errorf("KeyedNames = %v, want [discogs x twitch companieshouse opencorporates]", got)
+	if got := KeyedNames(cfg); strings.Join(got, ",") != "discogs,twitch,companieshouse,opencorporates" {
+		t.Errorf("KeyedNames = %v, want [discogs twitch companieshouse opencorporates]", got)
 	}
 }
 
@@ -526,13 +467,12 @@ func TestDefaultKeyedSources(t *testing.T) {
 func TestKeyedProvidersUseTimeoutClient(t *testing.T) {
 	cfg := Config{
 		DiscogsToken:        "d",
-		XBearerToken:        "b",
 		TwitchClientID:      "i",
 		TwitchClientSecret:  "s",
 		CompaniesHouseKey:   "k",
 		OpenCorporatesToken: "t",
 	}
-	for _, id := range []string{"discogs", "x", "twitch", "companieshouse", "opencorporates"} {
+	for _, id := range []string{"discogs", "twitch", "companieshouse", "opencorporates"} {
 		p, ok := Default(cfg).Get(id)
 		if !ok {
 			t.Fatalf("keyed source %q is not registered", id)

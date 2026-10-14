@@ -73,7 +73,6 @@ func run(args []string, stdout, stderr io.Writer) int {
 func configFromEnv() provider.Config {
 	return provider.Config{
 		DiscogsToken:        os.Getenv("DOMAINBROWSER_DISCOGS_TOKEN"),
-		XBearerToken:        os.Getenv("DOMAINBROWSER_X_BEARER_TOKEN"),
 		TwitchClientID:      os.Getenv("DOMAINBROWSER_TWITCH_CLIENT_ID"),
 		TwitchClientSecret:  os.Getenv("DOMAINBROWSER_TWITCH_CLIENT_SECRET"),
 		CompaniesHouseKey:   os.Getenv("DOMAINBROWSER_COMPANIESHOUSE_KEY"),

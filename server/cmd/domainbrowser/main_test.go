@@ -342,7 +342,6 @@ func TestCheckSQLiteWriteError(t *testing.T) {
 // TestConfigFromEnv pins the DOMAINBROWSER_<SOURCE>_<KIND> mapping.
 func TestConfigFromEnv(t *testing.T) {
 	t.Setenv("DOMAINBROWSER_DISCOGS_TOKEN", "d")
-	t.Setenv("DOMAINBROWSER_X_BEARER_TOKEN", "x")
 	t.Setenv("DOMAINBROWSER_TWITCH_CLIENT_ID", "ti")
 	t.Setenv("DOMAINBROWSER_TWITCH_CLIENT_SECRET", "ts")
 	t.Setenv("DOMAINBROWSER_COMPANIESHOUSE_KEY", "c")
@@ -350,7 +349,6 @@ func TestConfigFromEnv(t *testing.T) {
 
 	want := provider.Config{
 		DiscogsToken:        "d",
-		XBearerToken:        "x",
 		TwitchClientID:      "ti",
 		TwitchClientSecret:  "ts",
 		CompaniesHouseKey:   "c",

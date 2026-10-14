@@ -14,7 +14,7 @@ import (
 )
 
 // The providers in this file are the credential-gated ("keyed") sources:
-// Discogs, X/Twitter and Twitch. Unlike the keyless sources they cannot answer
+// Discogs and Twitch. Unlike the keyless sources they cannot answer
 // without a token, so Default registers them only when provider.Config carries
 // their credentials (see keyedSources in provider.go); an absent credential
 // omits the source entirely. Every secret travels in a request header or POST
@@ -62,72 +62,6 @@ func (d *Discogs) Check(ctx context.Context, label string) (Result, error) {
 	defer drainAndClose(resp)
 
 	return defaultCodes.classify(resp.StatusCode), nil
-}
-
-// X checks a username on X/Twitter. It calls the users-by-username endpoint
-// with an App-Only bearer token (native app auth): a 200 carrying a data object
-// is taken, a 404 — or a 200 whose payload has no data (an errors array) — is
-// free.
-type X struct {
-	base
-	// Token is the App-Only bearer token (DOMAINBROWSER_X_BEARER_TOKEN).
-	Token string
-	// BaseURL is the API origin; "https://api.twitter.com" when defaulted.
-	BaseURL string
-	// Client is used for the request; DefaultClient when nil.
-	Client *http.Client
-}
-
-// NewX returns a provider bound to api.twitter.com and authenticated with
-// token.
-func NewX(token string) *X {
-	return &X{
-		base: base{
-			id:       "x",
-			platform: "x",
-			urlFmt:   "https://x.com/%s",
-		},
-		Token:   token,
-		BaseURL: "https://api.twitter.com",
-		Client:  DefaultClient,
-	}
-}
-
-// Check GETs the users-by-username endpoint. A 404 is free. A 200 is taken when
-// its body carries a non-empty data.id and free when it carries no data (the
-// API reports an unknown username in an errors array). Any other status, an
-// unreadable body, or invalid JSON is unknown.
-func (x *X) Check(ctx context.Context, label string) (Result, error) {
-	target := x.BaseURL + "/2/users/by/username/" + url.PathEscape(label)
-	resp, err := doGetHeaders(ctx, x.Client, target, map[string]string{
-		"Authorization": "Bearer " + x.Token,
-	})
-	if err != nil {
-		return Result{}, err
-	}
-	defer drainAndClose(resp)
-
-	switch resp.StatusCode {
-	case http.StatusNotFound:
-		return Result{Status: StatusAvailable}, nil
-	case http.StatusOK:
-		// Inspect the body below.
-	default:
-		return Result{Status: StatusUnknown}, nil
-	}
-
-	var data struct {
-		Data *struct {
-			ID string `json:"id"`
-		} `json:"data"`
-	}
-	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
-		return Result{Status: StatusUnknown}, nil
-	}
-	if data.Data == nil || data.Data.ID == "" {
-		return Result{Status: StatusAvailable}, nil
-	}
-	return Result{Status: StatusTaken}, nil
 }
 
 // twitchTokenMargin refreshes an app access token slightly before it expires,

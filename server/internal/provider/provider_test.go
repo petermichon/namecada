@@ -78,6 +78,7 @@ func httpSources() []httpSource {
 		endpointSource("soundcloud", "soundcloud", "/acema", "", NewSoundCloud),
 		endpointSource("mastodon", "mastodon", "/@acema", "", NewMastodon),
 		endpointSource("youtube", "youtube", "/@acema", "", NewYouTube),
+		endpointSource("x", "x", "/acema", "", NewX),
 		endpointSource("kaggle", "kaggle", "/acema", "", NewKaggle),
 		endpointSource("dribbble", "dribbble", "/acema", "", NewDribbble),
 		endpointSource("behance", "behance", "/acema", "", NewBehance),
@@ -863,8 +864,6 @@ func defaultClientOf(p Provider) (*http.Client, bool) {
 		return v.Client, true
 	case *Discogs:
 		return v.Client, true
-	case *X:
-		return v.Client, true
 	case *Twitch:
 		return v.Client, true
 	case *CompaniesHouse:
@@ -966,8 +965,8 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default(Config{})
-	if r.Len() != 72 {
-		t.Fatalf("Len = %d, want 72", r.Len())
+	if r.Len() != 73 {
+		t.Fatalf("Len = %d, want 73", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
@@ -979,6 +978,7 @@ func TestDefaultRegistry(t *testing.T) {
 		"wikipedia", "devto", "farcaster", "minehut", "lichess", "chesscom",
 		"huggingface", "dailymotion", "mixcloud", "lastfm", "soundcloud", "anilist", "bluesky", "mastodon",
 		"youtube",
+		"x",
 		"kaggle",
 		"dribbble",
 		"behance",
@@ -1048,7 +1048,6 @@ func TestDefaultEmitsNoCredentials(t *testing.T) {
 	const secret = "s3cr3t-credential-value"
 	cfg := Config{
 		DiscogsToken:        secret,
-		XBearerToken:        secret,
 		TwitchClientID:      secret,
 		TwitchClientSecret:  secret,
 		CompaniesHouseKey:   secret,
