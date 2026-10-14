@@ -66,7 +66,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Fandom — 🕸 — `{name}.fandom.com` has no CORS
 - [ ] Bilibili — 🕸 — API returns 412 (banned)
 - [ ] Discord — 🕸 — usernames have no public API
-- [ ] Telegram — 🕸 — `t.me/{name}` is an always-200 SPA (any name returns 200), so no status signal
+- [ ] Telegram — 🕸 — keyless pass: `t.me/{name}` returns 200 for every name (JS/SPA shell), so no status signal; needs a key or a scrape — deferred, not ported
 - [ ] Hashnode — 🕸 — the GraphQL host 301s (reads now paid) and `hashnode.com/{name}` is an always-200 SPA, so no signal
 - [x] Substack — ✅ — `{name}.substack.com` (wildcard DNS; HTTP 404, HTML Accept; user-chosen publication names)
 - [ ] Product Hunt — 🌐 — GraphQL (key)
@@ -74,14 +74,14 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [x] YouTube — ✅ — `youtube.com/@{name}` (profile redirects and resolves 200 taken / 404 free; keyless, no Data API key needed)
 - [x] Twitch — ✅ — `api.twitch.tv/helix/users?login={name}` (Client-Id + app access token via client-credentials grant; non-empty `data` taken / empty free)
 - [ ] LinkedIn — 🕸 — no public vanity-availability API; profile pages are auth-walled (999/redirect for both real and fake), so it cannot answer "is this name free"
-- [ ] Instagram — 🕸
-- [ ] TikTok — 🕸
-- [ ] Threads — 🕸
-- [ ] Facebook — 🕸
-- [ ] Reddit — 🕸 — 403 from server IPs
-- [ ] Snapchat — 🕸
-- [ ] Pinterest — 🕸
-- [ ] Medium — 🕸
+- [ ] Instagram — 🕸 — keyless pass: every name returns 200 (JS/SPA shell), so no status signal; needs a key or a scrape — deferred, not ported
+- [ ] TikTok — 🕸 — keyless pass: every name returns 200 (JS/SPA shell), so no status signal; needs a key or a scrape — deferred, not ported
+- [ ] Threads — 🕸 — keyless pass: 301 → (followed) 200 for both real and fake names, so no status signal; needs a key or a scrape — deferred, not ported
+- [ ] Facebook — 🕸 — keyless pass: 200 (present) / 302 (missing) is a login redirect, not a name signal; needs a key or a scrape — deferred, not ported
+- [ ] Reddit — 🕸 — keyless pass: 301 → (followed) 200 for both real and fake names, so no status signal (supersedes the old "403 from server IPs"); needs a key or a scrape — deferred, not ported
+- [ ] Snapchat — 🕸 — keyless pass: the assumed URL shape 404s for both real and fake names, so no status signal; needs a key or a scrape — deferred, not ported
+- [ ] Pinterest — 🕸 — keyless pass: every name returns 200 (JS/SPA shell), so no status signal; needs a key or a scrape — deferred, not ported
+- [ ] Medium — 🕸 — keyless pass: 403 (bot-block) for both real and fake names, so no status signal; needs a key or a scrape — deferred, not ported
 - [x] Hacker News — ✅ — `news.ycombinator.com/user?id={name}` (body signal: `No such user.` = free, `karma` = taken; the firebase JSON API only exposes users with public activity, so `null` can't confirm free)
 - [x] HackerNoon — ✅ — `hackernoon.com/u/{name}` (keyless profile: 200 taken / 404 free)
 - [x] Open Collective — ✅ — `opencollective.com/{name}.json` (200 taken / 404 free). The CDN caches responses for 1h and can cache a transient 5xx per-`Origin`; the provider retries once with a cache-busting param to bypass a poisoned entry
