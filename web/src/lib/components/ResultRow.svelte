@@ -2,7 +2,7 @@
 	import CheckCircle2Icon from '@lucide/svelte/icons/check-circle-2';
 	import XCircleIcon from '@lucide/svelte/icons/x-circle';
 	import HelpCircleIcon from '@lucide/svelte/icons/help-circle';
-	import CircleSlashIcon from '@lucide/svelte/icons/circle-slash';
+	import CircleMinusIcon from '@lucide/svelte/icons/circle-minus';
 	import { Skeleton } from '$lib/components/ui/skeleton/index.js';
 	import type { Row } from '$lib/useLookup.svelte';
 
@@ -13,7 +13,7 @@
 		available: { text: 'available', cls: 'text-success', Icon: CheckCircle2Icon },
 		taken: { text: 'unavailable', cls: 'text-muted-foreground', Icon: XCircleIcon },
 		unknown: { text: 'unknown', cls: 'text-warning', Icon: HelpCircleIcon },
-		unsupported: { text: 'unsupported', cls: 'text-muted-foreground', Icon: CircleSlashIcon },
+		unsupported: { text: 'unsupported', cls: 'text-muted-foreground', Icon: CircleMinusIcon },
 		pending: { text: 'checking', cls: 'text-muted-foreground' }
 	};
 
