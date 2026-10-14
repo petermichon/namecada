@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 	"sync/atomic"
 	"testing"
@@ -143,6 +144,81 @@ func TestCheckRequiresName(t *testing.T) {
 	}
 	if body["error"] == "" {
 		t.Errorf("error body = %+v, want a message", body)
+	}
+}
+
+func TestNormalizeLabel(t *testing.T) {
+	tests := []struct {
+		in   string
+		want string
+		ok   bool
+	}{
+		{"  AceMa ", "acema", true},
+		{"a-1-b", "a-1-b", true},
+		{"a", "a", true},
+		{"A", "a", true},
+		{"acema.com", "", false},
+		{"www.bbc.co.uk", "", false},
+		{"", "", false},
+		{"   ", "", false},
+		{"a b", "", false},
+		{"-abc", "", false},
+		{"abc-", "", false},
+		{strings.Repeat("a", 63), strings.Repeat("a", 63), true},
+		{strings.Repeat("a", 64), "", false},
+	}
+	for _, tc := range tests {
+		got, ok := normalizeLabel(tc.in)
+		if got != tc.want || ok != tc.ok {
+			t.Errorf("normalizeLabel(%q) = (%q, %v), want (%q, %v)", tc.in, got, ok, tc.want, tc.ok)
+		}
+	}
+}
+
+func TestCheckNormalizesName(t *testing.T) {
+	srv := newTestServer(t, DefaultOrigin, &fake{id: "a"})
+	defer srv.Close()
+
+	resp, err := http.Get(srv.URL + "/check?name=" + url.QueryEscape("  AceMa "))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		t.Fatalf("status = %d, want 200", resp.StatusCode)
+	}
+	var res engine.Result
+	if err := json.NewDecoder(resp.Body).Decode(&res); err != nil {
+		t.Fatalf("decode: %v", err)
+	}
+	if res.URL != "https://a.test/acema" {
+		t.Errorf("URL = %q, want https://a.test/acema (trimmed and lowercased)", res.URL)
+	}
+}
+
+func TestCheckRejectsInvalidName(t *testing.T) {
+	srv := newTestServer(t, DefaultOrigin, &fake{id: "a"})
+	defer srv.Close()
+
+	for _, name := range []string{"acema.com", "-abc", "abc-", "a b"} {
+		resp, err := http.Get(srv.URL + "/check?name=" + url.QueryEscape(name))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if resp.StatusCode != http.StatusBadRequest {
+			resp.Body.Close()
+			t.Fatalf("name %q: status = %d, want 400", name, resp.StatusCode)
+		}
+		var body map[string]string
+		if err := json.NewDecoder(resp.Body).Decode(&body); err != nil {
+			resp.Body.Close()
+			t.Fatalf("name %q: decode error body: %v", name, err)
+		}
+		resp.Body.Close()
+		if body["error"] == "" {
+			t.Errorf("name %q: error body = %+v, want a message", name, body)
+		}
 	}
 }
 

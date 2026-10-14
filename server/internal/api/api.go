@@ -6,6 +6,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
+	"regexp"
 	"strings"
 
 	"github.com/petermichon/domain-browser/server/internal/engine"
@@ -13,6 +14,21 @@ import (
 
 // DefaultOrigin is the origin the dev app is served from (Vite's default port).
 const DefaultOrigin = "http://localhost:5173"
+
+// labelPattern is the DNS-label rule a scan name must satisfy: at most 63
+// characters, lowercase alphanumerics with single interior hyphens. It mirrors
+// the frontend's toLabel so the client and server agree on valid names.
+var labelPattern = regexp.MustCompile(`^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$`)
+
+// normalizeLabel trims and lowercases input, reporting whether the result is a
+// valid label. It mirrors the frontend's toLabel.
+func normalizeLabel(input string) (string, bool) {
+	label := strings.ToLower(strings.TrimSpace(input))
+	if !labelPattern.MatchString(label) {
+		return "", false
+	}
+	return label, true
+}
 
 // Server serves the engine over HTTP with a single allowed CORS origin.
 type Server struct {
@@ -55,9 +71,14 @@ func (s *Server) handleCheck(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	name := strings.TrimSpace(r.URL.Query().Get("name"))
-	if name == "" {
+	raw := strings.TrimSpace(r.URL.Query().Get("name"))
+	if raw == "" {
 		writeError(w, http.StatusBadRequest, "missing required query parameter \"name\"")
+		return
+	}
+	name, ok := normalizeLabel(raw)
+	if !ok {
+		writeError(w, http.StatusBadRequest, "invalid query parameter \"name\"")
 		return
 	}
 
