@@ -107,6 +107,16 @@ func NewDenoDeploy() Provider {
 		"https://%s.deno.dev/", "https://%s.deno.dev/", defaultCodes)
 }
 
+// NewGumroad checks a creator storefront subdomain on Gumroad. Gumroad serves
+// wildcard DNS for gumroad.com, so the HTTP status is the signal:
+// `https://{name}.gumroad.com/` answers 200 when the name is claimed and 404
+// when it is free. Storefront names are user-chosen. The origin is empty because
+// the label is part of the host, not a path segment.
+func NewGumroad() Provider {
+	return newHostEndpoint("gumroad", "gumroad",
+		"https://%s.gumroad.com/", "https://%s.gumroad.com/", defaultCodes)
+}
+
 // NewReadTheDocs checks a project subdomain on Read the Docs. Read the Docs
 // serves wildcard DNS for readthedocs.io, so the HTTP status is the signal:
 // `https://{name}.readthedocs.io/` answers 302 to the project's latest docs

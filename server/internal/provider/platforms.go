@@ -64,6 +64,7 @@ var platformNames = map[string]string{
 	"heroku":         "Heroku",
 	"denodeploy":     "Deno Deploy",
 	"readthedocs":    "Read the Docs",
+	"gumroad":        "Gumroad",
 	"euorg":          "eu.org",
 	"duckdns":        "DuckDNS",
 	"noip":           "No-IP",

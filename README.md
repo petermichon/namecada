@@ -80,6 +80,7 @@ can't be reached is deferred (see below).
 | Heroku    | `{name}.herokuapp.com` (subdomain)                             | 200 taken / 404 free      |
 | Deno Deploy | `{name}.deno.dev` (subdomain)                                | 200 taken / 404 free      |
 | Read the Docs | `{name}.readthedocs.io` (subdomain)                        | 200 taken / 404 free      |
+| Gumroad   | `{name}.gumroad.com` (subdomain)                               | 200 taken / 404 free      |
 | eu.org    | `{name}.eu.org` (DNS, no wildcard)                             | resolves taken / NXDOMAIN free |
 | DuckDNS   | `{name}.duckdns.org` (DNS, no wildcard)                        | resolves taken / NXDOMAIN free |
 | No-IP     | `{name}.no-ip.org` (DNS, no wildcard)                          | resolves taken / NXDOMAIN free |

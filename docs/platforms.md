@@ -114,7 +114,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Patreon — 🌐
 - [ ] Bandcamp — 🌐
 - [x] SoundCloud — ✅ — `soundcloud.com/{name}` (keyless profile: 200 taken / 404 free)
-- [ ] Gumroad — 🌐
+- [x] Gumroad — ✅ — `{name}.gumroad.com` (wildcard DNS; HTTP 404, no CORS; HTML Accept; user-chosen storefront names)
 - [ ] Kickstarter — 🌐
 - [ ] Indiegogo — 🕸
 - [ ] Etsy — 🕸
