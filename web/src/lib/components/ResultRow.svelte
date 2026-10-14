@@ -2,6 +2,7 @@
 	import CheckCircle2Icon from '@lucide/svelte/icons/check-circle-2';
 	import XCircleIcon from '@lucide/svelte/icons/x-circle';
 	import HelpCircleIcon from '@lucide/svelte/icons/help-circle';
+	import CircleSlashIcon from '@lucide/svelte/icons/circle-slash';
 	import { Skeleton } from '$lib/components/ui/skeleton/index.js';
 	import type { Row } from '$lib/useLookup.svelte';
 
@@ -12,14 +13,13 @@
 		available: { text: 'available', cls: 'text-success', Icon: CheckCircle2Icon },
 		taken: { text: 'unavailable', cls: 'text-muted-foreground', Icon: XCircleIcon },
 		unknown: { text: 'unknown', cls: 'text-warning', Icon: HelpCircleIcon },
-		unsupported: { text: '', cls: 'text-muted-foreground' },
+		unsupported: { text: 'unsupported', cls: 'text-muted-foreground', Icon: CircleSlashIcon },
 		pending: { text: 'checking', cls: 'text-muted-foreground' }
 	};
 
 	let { row }: { row: Row } = $props();
 
 	const pending = $derived(row.status === 'pending');
-	const unsupported = $derived(row.status === 'unsupported');
 	const status = $derived(STATUS[row.status]);
 	const text = $derived(row.url.replace(/^https?:\/\//, ''));
 	const Icon = $derived(status.Icon);
@@ -54,8 +54,6 @@
 			<span class="flex shrink-0 items-center text-xs">
 				<Skeleton class="h-3 w-14 shrink-0 rounded-full motion-reduce:animate-none" />
 			</span>
-		{:else if unsupported}
-			<span class="w-20 shrink-0" aria-hidden="true"></span>
 		{:else}
 			<span class="flex shrink-0 items-center gap-1.5 text-xs {status.cls}">
 				{#if Icon}<Icon class="size-3.5 shrink-0" />{/if}
