@@ -13,6 +13,7 @@ var platformNames = map[string]string{
 	"hex":            "Hex",
 	"pub":            "pub.dev",
 	"homebrew":       "Homebrew",
+	"hackage":        "Hackage",
 	"firefox":        "Firefox Add-ons",
 	"jsr":            "JSR",
 	"wordpress":      "WordPress.org",

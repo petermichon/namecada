@@ -31,6 +31,7 @@ can't be reached is deferred (see below).
 | Hex user  | `hex.pm/api/users/{name}`                                      | 200 taken / 404 free      |
 | pub.dev   | `pub.dev/api/packages/{name}`                                  | 200 taken / 404 free      |
 | Homebrew  | `formulae.brew.sh/api/formula/{name}.json`                     | 200 taken / 404 free      |
+| Hackage   | `hackage.haskell.org/package/{name}`                           | 200 taken / 404 free      |
 | Firefox   | `addons.mozilla.org/api/v5/addons/addon/{name}/`               | 200/401 taken / 404 free  |
 | JSR       | `jsr.io/api/scopes/{name}`                                     | 200/400 taken / 404 free  |
 | WordPress | `api.wordpress.org/plugins/info/1.2/?request[slug]={name}`     | 200/closed taken / 404 free |

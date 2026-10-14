@@ -43,7 +43,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Flathub — 🌐 — app-id is reverse-DNS, not a label
 - [ ] AUR (Arch) — 🕸 — no CORS
 - [ ] CPAN — 🕸 — blocked (402)
-- [ ] Hackage — 🕸 — no CORS
+- [x] Hackage — ✅ — `hackage.haskell.org/package/{name}` (bare name resolves; status-only HTML)
 - [ ] Clojars — 🕸 — no CORS on 404
 - [ ] LuaRocks — 🕸 — no CORS
 - [ ] Terraform Registry — 🕸 — scoped path + no CORS

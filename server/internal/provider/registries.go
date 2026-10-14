@@ -115,6 +115,15 @@ func NewHomebrew() Provider {
 		"https://formulae.brew.sh/formula/%s", defaultCodes)
 }
 
+// NewHackage checks a package on Hackage (Haskell). It serves HTML, and the
+// bare package name resolves, so the HTTP status alone is the signal: a 200
+// means the package exists and a 404 means the name is free.
+func NewHackage() Provider {
+	return newEndpoint("hackage", "hackage",
+		"https://hackage.haskell.org", "/package/%s",
+		"https://hackage.haskell.org/package/%s", defaultCodes)
+}
+
 // NewFirefox checks an add-on on Firefox Add-ons (AMO). A 401 is treated as
 // taken alongside 200: the API returns 401 for add-ons that hide their
 // existence from unauthenticated callers.
