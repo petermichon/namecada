@@ -243,6 +243,7 @@ func Default() *Registry {
 	_ = r.Register(NewPub())
 	_ = r.Register(NewHomebrew())
 	_ = r.Register(NewHackage())
+	_ = r.Register(NewClojars())
 	_ = r.Register(NewFirefox())
 	_ = r.Register(NewJSR())
 	_ = r.Register(NewWordPress())

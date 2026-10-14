@@ -44,7 +44,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] AUR (Arch) — 🕸 — no CORS
 - [ ] CPAN — 🕸 — blocked (402)
 - [x] Hackage — ✅ — `hackage.haskell.org/package/{name}` (bare name resolves; status-only HTML)
-- [ ] Clojars — 🕸 — no CORS on 404
+- [x] Clojars — ✅ — `clojars.org/api/artifacts/{name}` (single segment resolves)
 - [ ] LuaRocks — 🕸 — no CORS
 - [ ] Terraform Registry — 🕸 — scoped path + no CORS
 - [ ] VS Code Marketplace — 🕸 — no simple API (use Open VSX)

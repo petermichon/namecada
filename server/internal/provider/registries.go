@@ -124,6 +124,14 @@ func NewHackage() Provider {
 		"https://hackage.haskell.org/package/%s", defaultCodes)
 }
 
+// NewClojars checks an artifact on Clojars. The API answers 200 for a taken
+// name and 404 for a free one, and a single segment resolves on the public page.
+func NewClojars() Provider {
+	return newEndpoint("clojars", "clojars",
+		"https://clojars.org", "/api/artifacts/%s",
+		"https://clojars.org/%s", defaultCodes)
+}
+
 // NewFirefox checks an add-on on Firefox Add-ons (AMO). A 401 is treated as
 // taken alongside 200: the API returns 401 for add-ons that hide their
 // existence from unauthenticated callers.
