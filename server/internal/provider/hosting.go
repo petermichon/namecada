@@ -46,3 +46,17 @@ func NewNeocities() Provider {
 	return newEndpoint("neocities", "neocities",
 		"", "https://%s.neocities.org/", "https://%s.neocities.org/", defaultCodes)
 }
+
+// NewRender checks a service subdomain on Render. Render serves wildcard DNS
+// for onrender.com, so the HTTP status is the signal:
+// `https://{name}.onrender.com/` answers 200 when the name is claimed and 404
+// when it is free. The origin is empty because the label is part of the host,
+// not a path segment. A free-tier service that has spun down answers 503, which
+// is classified unknown and never cached, so it self-heals. The route serves
+// HTML, so it overrides the default JSON Accept.
+func NewRender() Provider {
+	e := newEndpoint("render", "render",
+		"", "https://%s.onrender.com/", "https://%s.onrender.com/", defaultCodes)
+	e.accept = "text/html"
+	return e
+}

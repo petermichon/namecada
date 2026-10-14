@@ -44,6 +44,7 @@ var platformNames = map[string]string{
 	"surge":          "Surge",
 	"firebase":       "Firebase Hosting",
 	"neocities":      "Neocities",
+	"render":         "Render",
 }
 
 // PlatformName returns the display name for a platform id. An unknown id is

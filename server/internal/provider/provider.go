@@ -271,5 +271,6 @@ func Default() *Registry {
 	_ = r.Register(NewSurge())
 	_ = r.Register(NewFirebase())
 	_ = r.Register(NewNeocities())
+	_ = r.Register(NewRender())
 	return r
 }

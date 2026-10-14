@@ -128,7 +128,7 @@ browser DoH):
 - [x] Netlify — ✅ — `{name}.netlify.app` (wildcard DNS; HTTP 404, no CORS)
 - [ ] Cloudflare Pages — 🔌 — `{name}.pages.dev` (not wildcard; DoH may work)
 - [ ] GitLab Pages — 🔌 — `{name}.gitlab.io`
-- [ ] Render — 🔌 — `{name}.onrender.com`
+- [x] Render — ✅ — `{name}.onrender.com` (wildcard DNS; HTTP 404, no CORS; HTML Accept; spun-down free tier answers 503 → unknown)
 - [ ] Fly.io — 🔌 — `{name}.fly.dev`
 - [ ] Railway — 🔌 — `{name}.up.railway.app`
 - [ ] Heroku — 🔌 — `{name}.herokuapp.com`

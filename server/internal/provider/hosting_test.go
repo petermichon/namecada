@@ -187,6 +187,55 @@ func TestNeocitiesCheck(t *testing.T) {
 	}
 }
 
+// TestRenderCheck pins the host-based signal: the request must target
+// https://{name}.onrender.com/ with an HTML Accept and the status must map to
+// taken/available/unknown.
+func TestRenderCheck(t *testing.T) {
+	tests := []struct {
+		name string
+		code int
+		want Status
+	}{
+		{"taken", http.StatusOK, StatusTaken},
+		{"available", http.StatusNotFound, StatusAvailable},
+		{"spun down", http.StatusServiceUnavailable, StatusUnknown},
+		{"unknown", http.StatusInternalServerError, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var gotURL, gotAccept string
+			client := &http.Client{
+				Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
+					gotURL = req.URL.String()
+					gotAccept = req.Header.Get("Accept")
+					return &http.Response{
+						StatusCode: tt.code,
+						Body:       io.NopCloser(strings.NewReader("")),
+						Header:     make(http.Header),
+					}, nil
+				}),
+			}
+
+			e := NewRender().(*endpoint)
+			e.client = client
+
+			got, err := e.Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+			if gotURL != "https://acema.onrender.com/" {
+				t.Errorf("url = %q, want %q", gotURL, "https://acema.onrender.com/")
+			}
+			if gotAccept != "text/html" {
+				t.Errorf("Accept = %q, want %q", gotAccept, "text/html")
+			}
+		})
+	}
+}
+
 // TestSurgeCheck pins the host-based signal: the request must target
 // https://{name}.surge.sh/ and the status must map to taken/available/unknown.
 func TestSurgeCheck(t *testing.T) {
