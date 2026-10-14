@@ -1,15 +1,12 @@
-import { streamAll, type PlatformId, type ProviderResult, type Status } from './providers';
+import type { PlatformId, ProviderResult, Status } from './providers';
 
 // The backend `serve` command defaults to :8080 (see backend/internal/api).
 export const DEFAULT_API_BASE = 'http://localhost:8080';
 
-export type Source = 'api' | 'direct';
-
 const STATUSES: Status[] = ['available', 'taken', 'unknown'];
 
 // apiBase resolves the backend origin. VITE_API_BASE overrides the default so a
-// deployment can point the app at a remote `serve` without a rebuild of the
-// fallback path.
+// deployment can point the app at a remote `serve`.
 export function apiBase(): string {
 	const base = import.meta.env.VITE_API_BASE?.trim();
 	return (base || DEFAULT_API_BASE).replace(/\/+$/, '');
@@ -98,7 +95,7 @@ async function openCheck(label: string, signal?: AbortSignal): Promise<Response>
 
 // streamFromApi consumes the backend NDJSON stream, emitting each result as it
 // arrives. It rejects when the backend is unreachable or responds with an
-// error, leaving the caller free to fall back to browser-direct checks.
+// error. The backend is the sole source: there is no browser-direct fallback.
 export async function streamFromApi(
 	label: string,
 	onResult: (result: ProviderResult) => void,
@@ -111,36 +108,4 @@ export async function streamFromApi(
 	}
 	if (!res.body) throw new Error('backend returned an empty response');
 	await consume(res.body, onResult);
-}
-
-// streamResults prefers the backend API and falls back to browser-direct checks
-// when it is unreachable. `onSource` is called once the source is known, before
-// any result, so the caller can seed its UI accordingly. An abort propagates
-// instead of triggering the fallback.
-export async function streamResults(
-	label: string,
-	onResult: (result: ProviderResult) => void,
-	signal?: AbortSignal,
-	onSource?: (source: Source) => void
-): Promise<Source> {
-	let res: Response;
-	try {
-		res = await openCheck(label, signal);
-	} catch (error) {
-		if (isAbort(error)) throw error;
-		onSource?.('direct');
-		await streamAll(label, onResult, signal);
-		return 'direct';
-	}
-
-	if (!res.ok || !res.body) {
-		res.body?.cancel().catch(() => {});
-		onSource?.('direct');
-		await streamAll(label, onResult, signal);
-		return 'direct';
-	}
-
-	onSource?.('api');
-	await consume(res.body, onResult);
-	return 'api';
 }

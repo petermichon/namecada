@@ -7,16 +7,13 @@
 	import LoaderCircleIcon from '@lucide/svelte/icons/loader-circle';
 	import { ModeWatcher, toggleMode } from 'mode-watcher';
 	import { onMount } from 'svelte';
-	import { getBootstrap } from '$lib/bootstrap';
-	import { isAbort, streamResults } from '$lib/api';
-	import { PLATFORMS, providers, toLabel, type PlatformId, type Status } from '$lib/providers';
+	import { isAbort, streamFromApi } from '$lib/api';
+	import { PLATFORMS, toLabel, type PlatformId, type Status } from '$lib/providers';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Skeleton } from '$lib/components/ui/skeleton/index.js';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 	import LookupForm from '$lib/components/LookupForm.svelte';
-
-	getBootstrap().catch(() => {});
 
 	const QUERY_KEY = 'domain-browser:query';
 
@@ -113,7 +110,7 @@
 		loading = true;
 		rows = [];
 
-		streamResults(
+		streamFromApi(
 			label,
 			(result) => {
 				if (gen !== generation || ac.signal.aborted) return;
@@ -129,25 +126,14 @@
 					? rows.map((row) => (row.id === result.id ? next : row))
 					: [...rows, next];
 			},
-			ac.signal,
-			(source) => {
-				if (gen !== generation) return;
-				// Browser-direct checks know the provider set up front, so seed
-				// the skeleton rows; the API decides its own provider set.
-				if (source === 'direct') {
-					rows = providers.map((provider) => ({
-						id: provider.id,
-						platform: provider.platform,
-						name: provider.name(label),
-						url: provider.url(label),
-						status: 'pending'
-					}));
-				}
-			}
+			ac.signal
 		)
 			.catch((e) => {
 				if (isAbort(e)) return;
 				if (ac.signal.aborted || gen !== generation) return;
+				// The backend is the sole source, so a failed request leaves no
+				// rows to mark unreachable; surface it instead.
+				if (!rows.length) error = 'Could not reach the backend. Is `serve` running?';
 				rows = rows.map((row) =>
 					row.status === 'pending' ? { ...row, status: 'unknown', detail: 'unreachable' } : row
 				);

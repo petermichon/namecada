@@ -1,14 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { BOOTSTRAP_URL } from './bootstrap';
-import {
-	apiBase,
-	createNdjsonReader,
-	DEFAULT_API_BASE,
-	parseResult,
-	streamFromApi,
-	streamResults
-} from './api';
-import { providers, type ProviderResult } from './providers';
+import { apiBase, createNdjsonReader, DEFAULT_API_BASE, parseResult, streamFromApi } from './api';
+import type { ProviderResult } from './providers';
 
 function line(result: Partial<ProviderResult> & { id: string }): string {
 	return JSON.stringify(result);
@@ -128,76 +120,12 @@ describe('streamFromApi', () => {
 		);
 		await expect(streamFromApi('acema', () => {})).rejects.toThrow('Failed to fetch');
 	});
-});
 
-describe('streamResults', () => {
-	it('prefers the API when it is reachable', async () => {
-		const body = line({ id: 'lemmy', platform: 'lemmy', name: 'acema', url: 'u', status: 'taken' });
-		vi.stubGlobal('fetch', stubApi(body + '\n'));
-
-		const seen: ProviderResult[] = [];
-		const sources: string[] = [];
-		const source = await streamResults(
-			'acema',
-			(result) => seen.push(result),
-			undefined,
-			(value) => sources.push(value)
-		);
-
-		expect(source).toBe('api');
-		expect(sources).toEqual(['api']);
-		expect(seen.map((result) => result.id)).toEqual(['lemmy']);
-	});
-
-	it('falls back to browser-direct checks when the backend is unreachable', async () => {
-		vi.stubGlobal(
-			'fetch',
-			vi.fn((input: unknown) => {
-				const url = String(input);
-				if (url.includes('/check?name=')) return Promise.reject(new TypeError('Failed to fetch'));
-				if (url === BOOTSTRAP_URL) {
-					return Promise.resolve(
-						new Response(
-							JSON.stringify({
-								services: [[['com', 'org', 'net', 'dev', 'app'], ['https://rdap.test/']]]
-							}),
-							{ status: 200 }
-						)
-					);
-				}
-				return Promise.resolve(new Response(null, { status: 404 }));
-			})
-		);
-
-		const seen: ProviderResult[] = [];
-		const sources: string[] = [];
-		const source = await streamResults(
-			'acema',
-			(result) => seen.push(result),
-			undefined,
-			(value) => sources.push(value)
-		);
-
-		expect(source).toBe('direct');
-		expect(sources).toEqual(['direct']);
-		expect(seen).toHaveLength(providers.length);
-	});
-
-	it('propagates an abort instead of falling back', async () => {
+	it('propagates an abort', async () => {
 		vi.stubGlobal(
 			'fetch',
 			vi.fn(() => Promise.reject(new DOMException('aborted', 'AbortError')))
 		);
-
-		const sources: string[] = [];
-		await expect(
-			streamResults(
-				'acema',
-				() => {},
-				undefined,
-				(value) => sources.push(value)
-			)
-		).rejects.toThrow();
-		expect(sources).toEqual([]);
+		await expect(streamFromApi('acema', () => {})).rejects.toBeInstanceOf(DOMException);
 	});
 });

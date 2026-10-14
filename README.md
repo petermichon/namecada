@@ -1,11 +1,10 @@
 # Domain Browser
 
 A name availability report. Enter a bare name (`acema`) and it checks that name
-across several independent sources at once. A Go backend does the checking when
-it is reachable; otherwise the app falls back to fetching the sources directly
-from the browser. Dots aren't accepted — the sources are checked per label, so a
-dotted input (`acema.com`) is rejected with a prompt to drop the dot rather than
-silently reduced.
+across several independent sources at once, all through a Go backend. Dots
+aren't accepted — the sources are checked per label, so a dotted input
+(`acema.com`) is rejected with a prompt to drop the dot rather than silently
+reduced.
 
 ## How it works
 
@@ -13,13 +12,10 @@ Each source runs independently and streams its verdict into the report as soon
 as it resolves, so one slow or failing source never blocks the others. Nothing
 waits for the whole set.
 
-The app prefers the backend: when its API is reachable it streams results from
-`GET /check?name=<label>` over NDJSON, and only falls back to checking each
-source directly from the browser when no backend is reachable. The backend is
-where sources that need a proxy, a key, or no CORS are meant to live;
-browser-direct is limited to sources that send `Access-Control-Allow-Origin` on
-both the taken and free response. Anything that can't be reached either way is
-deferred (see below).
+The app is a thin client of the backend: it streams results from
+`GET /check?name=<label>` over NDJSON. Every source lives in the backend, which
+is where sources that need a proxy, a key, or no CORS belong. Anything that
+can't be reached is deferred (see below).
 
 ### Sources
 
@@ -55,9 +51,9 @@ deferred (see below).
 | Bluesky   | `bsky.social/xrpc/com.atproto.temp.checkHandleAvailability` (`{name}.bsky.social`) | resultAvailable free / resultUnavailable taken |
 | Mastodon  | `mastodon.social/@{name}` (profile)                            | 200/410 taken / 404 free  |
 
-Domains run once per TLD in `TLDS` (`.com`, `.org`, `.dev`, `.io`, `.ai`, `.app`), each a
+Domains run once per TLD (`.com`, `.org`, `.dev`, `.io`, `.ai`, `.app`), each a
 separate provider. The TLD is resolved to its registry through the IANA RDAP
-bootstrap (`data.iana.org/rdap/dns.json`, cached for 7 days).
+bootstrap (`data.iana.org/rdap/dns.json`).
 
 GitHub users and organizations share a single namespace, so one `/users` lookup
 covers both.
@@ -82,9 +78,9 @@ small core assembled from four pluggable packages:
 - `internal/provider` — the `Provider` interface (`ID`, `Platform`, `Name`,
   `URL`, `Check`) plus an ordered registry; each source is a provider.
 - `internal/engine` — runs the registered providers concurrently and streams a
-  result as each resolves, mirroring the frontend `streamAll`.
+  result as each resolves.
 - `internal/store` — a cache of verdicts keyed `provider:label` with a one-hour
-  TTL, mirroring the frontend `providerCache`.
+  TTL.
 - `internal/sink` — durable destinations for a finished scan. The SQLite sink
   upserts one row per `provider:label` into a `checks` table (primary key `name`
   + `provider`, so a re-check updates in place) and exposes an `available` view
@@ -98,35 +94,31 @@ The live source is always the source of truth. SQLite — like the in-memory sto
 — is a **cache** of what a source last reported, not an authoritative record: a
 row can be stale, rate-limited, or wrong, and a domain row captures registry
 state rather than registrability, so re-check the source rather than trusting
-the file. The backend is preferred over browser-direct because it lifts the
-browser's CORS limit, keeps one shared cache in front of rate-limited APIs, and
-is where keyed or no-CORS sources can be added; the browser path remains the
-fallback so the app still works with no backend running.
+the file. The backend is the sole source for the app: it lifts the browser's CORS
+limit, keeps one shared cache in front of rate-limited APIs, and is where keyed
+or no-CORS sources can be added.
 
 ## Caching
 
-Results are cached per provider in `localStorage`, keyed `provider:label`
-(e.g. `domain.com:acema`), with a 1-hour TTL. Only definitive verdicts are
-cached — `unknown` is never stored, so transient rate-limit or network errors
-self-heal. A fresh entry is served without touching the network.
+Results are cached per provider in the backend's in-memory store, keyed
+`provider:label` (e.g. `lemy:acema`), with a 1-hour TTL. Only definitive
+verdicts are cached — `unknown` is never stored, so transient rate-limit or
+network errors self-heal. A fresh entry is served without touching the network.
 
-This matters most for GitHub and npm, which rate-limit unauthenticated requests
-(GitHub: 60/hour per IP).
+This matters most for sources like GitHub and npm, which rate-limit
+unauthenticated requests (GitHub: 60/hour per IP).
 
 ## Layout
 
 - `backend/` — Go core (provider/engine/store/sink), see [Backend](#backend).
 - `frontend/` — Svelte 5 + Vite + Tailwind + shadcn-svelte (maia) app.
-  - `src/lib/providers.ts` — `Provider` interface, the provider registry,
-    `streamAll`/`checkAll`. Each provider declares a `platform`; the report
+  - `src/lib/providers.ts` — the result types (`Status`, `PlatformId`,
+    `ProviderResult`), the `PLATFORMS` display names, and `toLabel`. The report
     groups the URLs into one card per platform.
-  - `src/lib/api.ts` — backend client: `streamResults` prefers the `serve` API
-    (`GET /check?name=<label>`, NDJSON) and falls back to `streamAll`
-    browser-direct when it is unreachable. The base URL defaults to
-    `http://localhost:8080` and is overridable at build time with
-    `VITE_API_BASE`.
-  - `src/lib/providerCache.ts` — per-provider response cache.
-  - `src/lib/rdap.ts`, `src/lib/bootstrap.ts` — domain lookup.
+  - `src/lib/api.ts` — the backend client: `streamFromApi` consumes the `serve`
+    API (`GET /check?name=<label>`, NDJSON) and is the app's sole source. The
+    base URL defaults to `http://localhost:8080` and is overridable at build
+    time with `VITE_API_BASE`.
 
 ## Development
 
@@ -140,20 +132,18 @@ npm run lint       # prettier --check + eslint
 npm run format     # prettier --write
 ```
 
-With a backend running (`cd backend && go run ./cmd/domainbrowser serve`), the
-app streams results from it; without one it checks the sources directly. The
-backend's CORS origin defaults to the Vite dev origin (`http://localhost:5173`).
+The app needs the backend running (`cd backend && go run ./cmd/domainbrowser
+serve`); it streams every result from it. The backend's CORS origin defaults to
+the Vite dev origin (`http://localhost:5173`).
 
 ## Adding a source
 
-Implement the `Provider` interface in `src/lib/providers.ts` (a `check` that maps
-an HTTP response to `available` / `taken` / `unknown`) and add it to the
-`providers` array. Confirm the source sends `Access-Control-Allow-Origin` on
-**both** 200 and 404 first — some send it only on success, which makes the
-verdict unreadable in the browser.
+Implement the `Provider` interface in the backend
+(`backend/internal/provider`) — a `Check` that maps an HTTP response to
+`available` / `taken` / `unknown` — and register it in `provider.Default()`.
+Sources live server-side, so CORS is no longer a constraint.
 
-Deferred (not browser-reachable): RubyGems (no CORS on 404), Packagist (no CORS),
-Reddit (403 from server IPs), Docker Hub (no CORS), Go proxy (modules are paths,
-not single labels), Hacker News (its API only exposes users with public activity,
-so it can never confirm a name is free; the profile page that can has no CORS),
-and trademark / social / company registries (need a key and a proxy).
+Deferred: RubyGems, Packagist, Docker Hub, Go proxy (modules are paths, not
+single labels), Hacker News (its API only exposes users with public activity, so
+it can never confirm a name is free), and trademark / social / company
+registries (need a key and a proxy).
