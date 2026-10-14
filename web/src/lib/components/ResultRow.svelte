@@ -2,18 +2,17 @@
 	import CheckCircle2Icon from '@lucide/svelte/icons/check-circle-2';
 	import XCircleIcon from '@lucide/svelte/icons/x-circle';
 	import HelpCircleIcon from '@lucide/svelte/icons/help-circle';
-	import LoaderCircleIcon from '@lucide/svelte/icons/loader-circle';
 	import { Skeleton } from '$lib/components/ui/skeleton/index.js';
 	import type { Row } from '$lib/useLookup.svelte';
 
 	const STATUS: Record<
 		Row['status'],
-		{ text: string; cls: string; Icon: typeof CheckCircle2Icon; spin?: boolean }
+		{ text: string; cls: string; Icon?: typeof CheckCircle2Icon }
 	> = {
 		available: { text: 'available', cls: 'text-success', Icon: CheckCircle2Icon },
 		taken: { text: 'unavailable', cls: 'text-muted-foreground', Icon: XCircleIcon },
 		unknown: { text: 'unknown', cls: 'text-warning', Icon: HelpCircleIcon },
-		pending: { text: 'checking', cls: 'text-muted-foreground', Icon: LoaderCircleIcon, spin: true }
+		pending: { text: 'checking', cls: 'text-muted-foreground' }
 	};
 
 	let { row }: { row: Row } = $props();
@@ -21,7 +20,7 @@
 	const pending = $derived(row.status === 'pending');
 	const status = $derived(STATUS[row.status]);
 	const text = $derived(row.url.replace(/^https?:\/\//, ''));
-	const Icon = $derived(status.Icon);
+	const Icon = $derived(status.Icon ?? CheckCircle2Icon);
 </script>
 
 <li class="bg-card">
@@ -50,9 +49,8 @@
 			<span class="hidden shrink-0 text-xs text-muted-foreground sm:inline">{row.detail}</span>
 		{/if}
 		{#if pending}
-			<span class="flex shrink-0 items-center gap-1.5 text-xs {status.cls}">
-				<LoaderCircleIcon class="size-3.5 shrink-0 animate-spin motion-reduce:animate-none" />
-				<span class="w-20" aria-hidden="true"></span>
+			<span class="flex shrink-0 items-center text-xs">
+				<Skeleton class="h-3 w-14 shrink-0 rounded-full motion-reduce:animate-none" />
 			</span>
 		{:else}
 			<span class="flex shrink-0 items-center gap-1.5 text-xs {status.cls}">
