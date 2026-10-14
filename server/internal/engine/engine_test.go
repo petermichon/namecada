@@ -14,6 +14,7 @@ import (
 type fake struct {
 	id        string
 	platform  string
+	paid      bool
 	minLength int
 	maxLength int
 	result    provider.Result
@@ -27,6 +28,7 @@ type fake struct {
 
 func (f *fake) ID() string               { return f.id }
 func (f *fake) Platform() string         { return f.platform }
+func (f *fake) Paid() bool               { return f.paid }
 func (f *fake) Name(label string) string { return f.id + ":" + label }
 func (f *fake) URL(label string) string  { return "https://" + f.id + ".test/" + label }
 func (f *fake) MinLength() int           { return f.minLength }
@@ -118,6 +120,22 @@ func TestScanPopulatesPlatformName(t *testing.T) {
 	}
 	if got := byID["other"].PlatformName; got != "brand-new" {
 		t.Errorf("unknown platformName = %q, want the id unchanged", got)
+	}
+}
+
+func TestScanPopulatesPaid(t *testing.T) {
+	paid := &fake{id: "domain.com", platform: "domains", paid: true, result: provider.Result{Status: provider.StatusTaken}}
+	free := &fake{id: "npm", platform: "npm", result: provider.Result{Status: provider.StatusAvailable}}
+
+	byID := map[string]Result{}
+	for _, r := range New(paid, free).ScanAll(context.Background(), "acema") {
+		byID[r.ID] = r
+	}
+	if !byID["domain.com"].Paid {
+		t.Errorf("domain.com paid = false, want true")
+	}
+	if byID["npm"].Paid {
+		t.Errorf("npm paid = true, want false")
 	}
 }
 

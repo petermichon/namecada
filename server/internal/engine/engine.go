@@ -33,6 +33,7 @@ type Result struct {
 	URL          string          `json:"url"`
 	Status       provider.Status `json:"status"`
 	Detail       string          `json:"detail,omitempty"`
+	Paid         bool            `json:"paid"`
 }
 
 // Engine scans a label across a fixed, ordered set of providers.
@@ -160,6 +161,7 @@ func (e *Engine) check(ctx context.Context, p provider.Provider, label string) R
 		PlatformName: provider.PlatformName(p.Platform()),
 		Name:         p.Name(label),
 		URL:          p.URL(label),
+		Paid:         provider.Paid(p),
 	}
 
 	// A label shorter than the source's minimum can never exist there, so it

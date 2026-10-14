@@ -8,6 +8,7 @@ export interface ProviderResult {
 	url: string;
 	status: Status;
 	detail?: string;
+	paid: boolean;
 }
 
 const LABEL = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;

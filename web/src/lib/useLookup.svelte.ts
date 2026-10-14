@@ -12,6 +12,7 @@ export interface Row {
 	url: string;
 	status: Status | 'pending';
 	detail?: string;
+	paid: boolean;
 }
 
 export type Filter = 'all' | Status;
@@ -23,6 +24,13 @@ export function byPlatformName(a: Row, b: Row): number {
 	if (a.platformName < b.platformName) return -1;
 	if (a.platformName > b.platformName) return 1;
 	return 0;
+}
+
+// Order rows paid-first, then alphabetically by display name within each group,
+// so the report can split into a Paid section above a Free one.
+export function byPaidThenPlatformName(a: Row, b: Row): number {
+	if (a.paid !== b.paid) return a.paid ? -1 : 1;
+	return byPlatformName(a, b);
 }
 
 function queryParam(): string {
@@ -108,7 +116,8 @@ export class Lookup {
 					name: result.name,
 					url: result.url,
 					status: result.status,
-					detail: result.detail
+					detail: result.detail,
+					paid: result.paid
 				};
 				this.rows = this.rows.some((row) => row.id === result.id)
 					? this.rows.map((row) => (row.id === result.id ? next : row))
@@ -159,8 +168,11 @@ export class Lookup {
 		(this.filter === 'all'
 			? this.rows
 			: this.rows.filter((row) => row.status === this.filter)
-		).toSorted(byPlatformName)
+		).toSorted(byPaidThenPlatformName)
 	);
+
+	paidRows = $derived(this.visibleRows.filter((row) => row.paid));
+	freeRows = $derived(this.visibleRows.filter((row) => !row.paid));
 
 	counts = $derived.by(() => {
 		const totals = { available: 0, taken: 0, unknown: 0 };

@@ -107,7 +107,7 @@
 				</p>
 			{/if}
 
-			<ResultsList rows={lookup.visibleRows} />
+			<ResultsList paidRows={lookup.paidRows} freeRows={lookup.freeRows} />
 		{:else if !lookup.error}
 			<EmptyState
 				examples={EXAMPLES}

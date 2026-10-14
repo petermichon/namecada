@@ -1,14 +1,15 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { byPlatformName, Lookup, type Row } from './useLookup.svelte';
+import { byPaidThenPlatformName, byPlatformName, Lookup, type Row } from './useLookup.svelte';
 
-function row(platformName: string, status: Row['status'], name = 'acema'): Row {
+function row(platformName: string, status: Row['status'], name = 'acema', paid = false): Row {
 	return {
 		id: `${platformName.toLowerCase()}-${name}`,
 		platform: platformName.toLowerCase(),
 		platformName,
 		name,
 		url: `https://example.com/${platformName}/${name}`,
-		status
+		status,
+		paid
 	};
 }
 
@@ -21,6 +22,24 @@ describe('byPlatformName', () => {
 		expect(byPlatformName(row('GitHub', 'taken'), row('Lemmy', 'taken'))).toBeLessThan(0);
 		expect(byPlatformName(row('PeerTube', 'taken'), row('Lemmy', 'taken'))).toBeGreaterThan(0);
 		expect(byPlatformName(row('Lemmy', 'taken'), row('Lemmy', 'available'))).toBe(0);
+	});
+});
+
+describe('byPaidThenPlatformName', () => {
+	it('puts paid rows before free ones', () => {
+		expect(
+			byPaidThenPlatformName(row('Domains', 'taken', 'acema', true), row('GitHub', 'taken'))
+		).toBeLessThan(0);
+		expect(
+			byPaidThenPlatformName(row('GitHub', 'taken'), row('Domains', 'taken', 'acema', true))
+		).toBeGreaterThan(0);
+	});
+
+	it('falls back to the display name within a group', () => {
+		expect(byPaidThenPlatformName(row('GitHub', 'taken'), row('Lemmy', 'taken'))).toBeLessThan(0);
+		expect(
+			byPaidThenPlatformName(row('Domains', 'taken', 'a', true), row('Domains', 'taken', 'b', true))
+		).toBe(0);
 	});
 });
 
@@ -42,6 +61,39 @@ describe('visibleRows', () => {
 		const lookup = new Lookup();
 		lookup.rows = [row('Lemmy', 'taken', 'b'), row('Lemmy', 'available', 'a')];
 		expect(lookup.visibleRows.map((r) => r.name)).toEqual(['b', 'a']);
+	});
+
+	it('puts paid rows before free rows', () => {
+		const lookup = new Lookup();
+		lookup.rows = [
+			row('npm', 'taken'),
+			row('Domains', 'taken', 'acema', true),
+			row('GitHub', 'taken')
+		];
+		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['Domains', 'GitHub', 'npm']);
+	});
+
+	it('groups rows into paid and free', () => {
+		const lookup = new Lookup();
+		lookup.rows = [
+			row('npm', 'taken'),
+			row('Domains', 'taken', 'acema', true),
+			row('GitHub', 'taken')
+		];
+		expect(lookup.paidRows.map((r) => r.platformName)).toEqual(['Domains']);
+		expect(lookup.freeRows.map((r) => r.platformName)).toEqual(['GitHub', 'npm']);
+	});
+
+	it('applies the status filter within the groups', () => {
+		const lookup = new Lookup();
+		lookup.rows = [
+			row('npm', 'available'),
+			row('Domains', 'taken', 'acema', true),
+			row('GitHub', 'taken')
+		];
+		lookup.filter = 'taken';
+		expect(lookup.paidRows.map((r) => r.platformName)).toEqual(['Domains']);
+		expect(lookup.freeRows.map((r) => r.platformName)).toEqual(['GitHub']);
 	});
 });
 

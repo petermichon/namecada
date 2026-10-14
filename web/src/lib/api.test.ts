@@ -68,6 +68,28 @@ describe('parseResult', () => {
 		).toMatchObject({ detail: undefined });
 	});
 
+	it('carries the paid flag', () => {
+		expect(
+			parseResult(
+				line({
+					id: 'domain.com',
+					platform: 'domains',
+					platformName: 'Domains',
+					name: 'acema.com',
+					url: 'https://acema.com',
+					status: 'taken',
+					paid: true
+				})
+			)
+		).toMatchObject({ paid: true });
+	});
+
+	it('defaults paid to false when the line omits it', () => {
+		expect(
+			parseResult(line({ id: 'npm', name: 'n', url: 'u', status: 'available' }))
+		).toMatchObject({ paid: false });
+	});
+
 	it('rejects blank, malformed, and incomplete lines', () => {
 		expect(parseResult('')).toBeNull();
 		expect(parseResult('  ')).toBeNull();

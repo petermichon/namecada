@@ -51,10 +51,13 @@ type base struct {
 	urlFmt string
 	// rawURL inserts the label into urlFmt unescaped; the default escapes it.
 	rawURL bool
+	// paid marks a source that charges money to register a name (domains).
+	paid bool
 }
 
 func (b base) ID() string       { return b.id }
 func (b base) Platform() string { return b.platform }
+func (b base) Paid() bool       { return b.paid }
 
 func (b base) Name(label string) string {
 	if b.nameFmt == "" {
@@ -136,6 +139,26 @@ func MaxLength(p Provider) int {
 		return ml.MaxLength()
 	}
 	return maxLengths[p.ID()]
+}
+
+// PaidProvider is implemented by a provider whose names cost money to
+// register. It is optional: a provider that does not implement it, or that
+// reports false, is free.
+type PaidProvider interface {
+	// Paid reports whether registering a name on the source costs money.
+	Paid() bool
+}
+
+// Paid reports whether p costs money to register. A nil or non-implementing
+// provider is free.
+func Paid(p Provider) bool {
+	if p == nil {
+		return false
+	}
+	if pp, ok := p.(PaidProvider); ok {
+		return pp.Paid()
+	}
+	return false
 }
 
 // ErrDuplicate is returned when a provider id is registered twice.

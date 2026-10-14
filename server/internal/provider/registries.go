@@ -23,6 +23,8 @@ type endpoint struct {
 	client  *http.Client
 	// accept overrides the request Accept header; empty keeps defaultAccept.
 	accept string
+	// paid marks a source that charges money to register; registries are free.
+	paid bool
 }
 
 func newEndpoint(id, platform, baseURL, path, pageURL string, codes codeMap) *endpoint {
@@ -40,6 +42,7 @@ func newEndpoint(id, platform, baseURL, path, pageURL string, codes codeMap) *en
 
 func (e *endpoint) ID() string               { return e.id }
 func (e *endpoint) Platform() string         { return e.platform }
+func (e *endpoint) Paid() bool               { return e.paid }
 func (e *endpoint) Name(label string) string { return label }
 
 func (e *endpoint) URL(label string) string {

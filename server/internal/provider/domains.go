@@ -211,6 +211,7 @@ func NewDomain(tld string) *Domain {
 			nameFmt:  "%s" + tld,
 			urlFmt:   "https://%s" + tld,
 			rawURL:   true,
+			paid:     true,
 		},
 		TLD:       tld,
 		Bootstrap: sharedBootstrap,

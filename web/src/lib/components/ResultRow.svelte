@@ -4,6 +4,7 @@
 	import HelpCircleIcon from '@lucide/svelte/icons/help-circle';
 	import LoaderCircleIcon from '@lucide/svelte/icons/loader-circle';
 	import { Skeleton } from '$lib/components/ui/skeleton/index.js';
+	import { Badge } from '$lib/components/ui/badge/index.js';
 	import type { Row } from '$lib/useLookup.svelte';
 
 	const STATUS: Record<
@@ -36,6 +37,11 @@
 		<span
 			class="hidden w-28 shrink-0 truncate text-xs font-medium text-muted-foreground sm:block"
 			title={row.platformName}>{row.platformName}</span
+		>
+		<Badge
+			variant={row.paid ? 'secondary' : 'outline'}
+			class="shrink-0 px-1.5 text-[10px] tracking-wide text-muted-foreground uppercase"
+			>{row.paid ? 'Paid' : 'Free'}</Badge
 		>
 		<span
 			class="min-w-0 flex-1 truncate text-sm {row.status === 'taken'

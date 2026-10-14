@@ -42,7 +42,8 @@ export function parseResult(line: string): ProviderResult | null {
 		name: row.name,
 		url: row.url,
 		status: row.status as Status,
-		detail: typeof row.detail === 'string' && row.detail ? row.detail : undefined
+		detail: typeof row.detail === 'string' && row.detail ? row.detail : undefined,
+		paid: row.paid === true
 	};
 }
 

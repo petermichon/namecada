@@ -737,6 +737,9 @@ func TestProvidersMetadata(t *testing.T) {
 			if got := p.URL("acema"); got == "" {
 				t.Error("URL is empty")
 			}
+			if Paid(p) {
+				t.Errorf("Paid = true, want free for registry/handle sources")
+			}
 		})
 	}
 }
@@ -923,6 +926,46 @@ type stubWithMax struct {
 }
 
 func (s stubWithMax) MaxLength() int { return s.max }
+
+// stubWithPaid additionally declares whether registering costs money.
+type stubWithPaid struct {
+	stubProvider
+	paid bool
+}
+
+func (s stubWithPaid) Paid() bool { return s.paid }
+
+func TestPaid(t *testing.T) {
+	tests := []struct {
+		name string
+		p    Provider
+		want bool
+	}{
+		{"domain is paid", NewDomain(".com"), true},
+		{"free registry is not paid", NewNPM(), false},
+		{"nil is not paid", nil, false},
+		{"provider without the method is free", stubProvider{id: "custom"}, false},
+		{"explicit paid wins", stubWithPaid{stubProvider{id: "custom"}, true}, true},
+		{"explicit free stays free", stubWithPaid{stubProvider{id: "domains"}, false}, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := Paid(tt.p); got != tt.want {
+				t.Errorf("Paid = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+// TestDefaultPaidSources pins that the domain TLDs are the only paid sources.
+func TestDefaultPaidSources(t *testing.T) {
+	for _, p := range Default().All() {
+		want := p.Platform() == "domains"
+		if got := Paid(p); got != want {
+			t.Errorf("Paid(%q) = %v, want %v", p.ID(), got, want)
+		}
+	}
+}
 
 func TestMinLength(t *testing.T) {
 	tests := []struct {
