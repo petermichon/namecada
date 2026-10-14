@@ -16,7 +16,11 @@ export interface Row {
 	paid: boolean;
 }
 
-export type Filter = 'all' | Status | 'unsupported';
+export type FilterStatus = Status | 'unsupported';
+// A filter is the set of statuses to keep. An empty set means no selection,
+// which shows every row (the default), so `available + not checked` unions
+// those two and hides the rest.
+export type Filter = FilterStatus[];
 
 // Order rows alphabetically by their display name, independent of status, so
 // the list stays stable as results stream in. Ties break on the provider URL so
@@ -68,7 +72,7 @@ export class Lookup {
 	error = $state('');
 	loading = $state(false);
 	lastLabel = $state<string | null>(null);
-	filter = $state<Filter>('all');
+	filter = $state<Filter>([]);
 	copied = $state(false);
 	// busy marks a re-scan running over rows from the previous label. The stale
 	// rows stay mounted (so the document keeps its height and scroll cannot
@@ -89,7 +93,7 @@ export class Lookup {
 		this.#controller?.abort();
 		this.#controller = null;
 		this.error = '';
-		this.filter = 'all';
+		this.filter = [];
 
 		if (!label) {
 			this.rows = [];
@@ -226,11 +230,11 @@ export class Lookup {
 	});
 
 	visibleRows = $derived(
-		(this.filter === 'all'
+		(this.filter.length === 0
 			? [...this.rows, ...this.unsupportedRows]
-			: this.filter === 'unsupported'
-				? this.unsupportedRows
-				: this.rows.filter((row) => row.status === this.filter)
+			: [...this.rows, ...this.unsupportedRows].filter((row) =>
+					this.filter.includes(row.status as FilterStatus)
+				)
 		).toSorted(byPaidThenPlatformName)
 	);
 
@@ -249,11 +253,11 @@ export class Lookup {
 		return totals;
 	});
 
-	announcement = $derived(
-		this.searching
-			? ''
-			: `${this.counts.available} available, ${this.counts.taken} unavailable, ${this.counts.unknown} unknown`
-	);
+	announcement = $derived.by(() => {
+		if (this.searching) return '';
+		const summary = `${this.counts.available} available, ${this.counts.taken} unavailable, ${this.counts.unknown} unknown`;
+		return this.filter.length === 0 ? summary : `${this.visibleRows.length} shown. ${summary}`;
+	});
 }
 
 export function useLookup(): Lookup {

@@ -3,7 +3,7 @@
 	import type { Filter } from '$lib/useLookup.svelte';
 
 	let {
-		filter = $bindable<Filter>('all'),
+		filter = $bindable<Filter>([]),
 		counts,
 		disabled = false
 	}: {
@@ -14,9 +14,9 @@
 </script>
 
 <ToggleGroup.Root
-	type="single"
+	type="multiple"
 	value={filter}
-	onValueChange={(value) => (filter = (value || 'all') as Filter)}
+	onValueChange={(value) => (filter = value as Filter)}
 	variant="outline"
 	size="sm"
 	spacing={2}

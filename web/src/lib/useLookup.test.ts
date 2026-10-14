@@ -111,8 +111,22 @@ describe('visibleRows', () => {
 	it('keeps the order when filtered', () => {
 		const lookup = new Lookup();
 		lookup.rows = [row('PeerTube', 'taken'), row('GitHub', 'taken'), row('Lemmy', 'available')];
-		lookup.filter = 'taken';
+		lookup.filter = ['taken'];
 		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['GitHub', 'PeerTube']);
+	});
+
+	it('unions the selected statuses', () => {
+		const lookup = new Lookup();
+		lookup.rows = [row('PeerTube', 'unknown'), row('GitHub', 'taken'), row('Lemmy', 'available')];
+		lookup.filter = ['available', 'unknown'];
+		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['Lemmy', 'PeerTube']);
+	});
+
+	it('treats an empty selection as every status', () => {
+		const lookup = new Lookup();
+		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available'), row('PeerTube', 'unknown')];
+		lookup.filter = [];
+		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['GitHub', 'Lemmy', 'PeerTube']);
 	});
 
 	it('breaks platformName ties by URL, not arrival order', () => {
@@ -149,7 +163,7 @@ describe('visibleRows', () => {
 			row('Domains', 'taken', 'acema', true),
 			row('GitHub', 'taken')
 		];
-		lookup.filter = 'taken';
+		lookup.filter = ['taken'];
 		expect(lookup.paidRows.map((r) => r.platformName)).toEqual(['Domains']);
 		expect(lookup.freeRows.map((r) => r.platformName)).toEqual(['GitHub']);
 	});
@@ -209,7 +223,7 @@ describe('unsupported', () => {
 		const lookup = new Lookup();
 		lookup.lastLabel = 'acema';
 		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available')];
-		lookup.filter = 'unsupported';
+		lookup.filter = ['unsupported'];
 
 		expect(lookup.visibleRows).toHaveLength(UNSUPPORTED.length);
 		expect(lookup.visibleRows.every((row) => row.status === 'unsupported')).toBe(true);
@@ -218,13 +232,40 @@ describe('unsupported', () => {
 		expect(lookup.freeRows.every((row) => row.status === 'unsupported')).toBe(true);
 	});
 
+	it('unions unsupported with a verdict status', () => {
+		const lookup = new Lookup();
+		lookup.lastLabel = 'acema';
+		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available')];
+		lookup.filter = ['available', 'unsupported'];
+
+		const unsupported = lookup.visibleRows.filter((r) => r.status === 'unsupported');
+		expect(unsupported).toHaveLength(UNSUPPORTED.length);
+		expect(lookup.visibleRows.map((r) => r.platformName)).toContain('Lemmy');
+		expect(lookup.visibleRows.map((r) => r.platformName)).not.toContain('GitHub');
+	});
+
 	it('drops unsupported rows when there is no checked label', () => {
 		const lookup = new Lookup();
 		lookup.rows = [row('GitHub', 'taken')];
-		lookup.filter = 'unsupported';
+		lookup.filter = ['unsupported'];
 
 		expect(lookup.unsupportedRows).toEqual([]);
 		expect(lookup.visibleRows).toEqual([]);
+	});
+});
+
+describe('announcement', () => {
+	it('summarises the counts when nothing is filtered', () => {
+		const lookup = new Lookup();
+		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available'), row('PeerTube', 'unknown')];
+		expect(lookup.announcement).toBe('1 available, 1 unavailable, 1 unknown');
+	});
+
+	it('prefixes the shown count when a filter is active', () => {
+		const lookup = new Lookup();
+		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available'), row('PeerTube', 'unknown')];
+		lookup.filter = ['available', 'unknown'];
+		expect(lookup.announcement).toBe('2 shown. 1 available, 1 unavailable, 1 unknown');
 	});
 });
 
