@@ -71,6 +71,7 @@ can't be reached is deferred (see below).
 | HackerNoon | `hackernoon.com/u/{name}` (profile)                           | 200 taken / 404 free      |
 | Spotify   | `open.spotify.com/user/{name}` (profile)                       | 200 taken / 404 free      |
 | Paragraph | `paragraph.com/@{name}` (profile)                              | 200 taken / 404 free      |
+| Linktree  | `linktr.ee/{name}` (profile)                                   | 200 taken / 404 free      |
 | Steam     | `steamcommunity.com/id/{name}?xml=1`                           | `<steamID64>` taken / `<error>` free |
 | OpenSea   | `opensea.io/{name}` (profile)                                 | 200 taken / 404 free      |
 | Instagram | `instagram.com/{name}/` (profile)                              | `"username":"{name}"` taken / generic shell free |

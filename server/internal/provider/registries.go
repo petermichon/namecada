@@ -198,3 +198,10 @@ func NewParagraph() Provider {
 	return newEndpoint("paragraph", "paragraph",
 		"https://paragraph.com", "/@%s", "https://paragraph.com/@%s", defaultCodes)
 }
+
+// NewLinktree checks a Linktree handle. The public profile page serves HTML and
+// a 200 means the handle exists while a 404 means it is free.
+func NewLinktree() Provider {
+	return newEndpoint("linktree", "linktree",
+		"https://linktr.ee", "/%s", "https://linktr.ee/%s", defaultCodes)
+}

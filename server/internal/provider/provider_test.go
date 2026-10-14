@@ -86,6 +86,7 @@ func httpSources() []httpSource {
 		endpointSource("hackernoon", "hackernoon", "/u/acema", "", NewHackerNoon),
 		endpointSource("spotify", "spotify", "/user/acema", "", NewSpotify),
 		endpointSource("paragraph", "paragraph", "/@acema", "", NewParagraph),
+		endpointSource("linktree", "linktree", "/acema", "", NewLinktree),
 	}
 }
 
@@ -784,6 +785,48 @@ func TestParagraphCheck(t *testing.T) {
 	}
 }
 
+// TestLinktreeCheck pins the keyless profile signal: the request must target
+// /{name} and a 200 means taken while a 404 means free.
+func TestLinktreeCheck(t *testing.T) {
+	tests := []struct {
+		name string
+		code int
+		want Status
+	}{
+		{"taken", http.StatusOK, StatusTaken},
+		{"available", http.StatusNotFound, StatusAvailable},
+		{"unknown", http.StatusInternalServerError, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var gotPath string
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				gotPath = r.URL.Path
+				w.WriteHeader(tt.code)
+			}))
+			defer srv.Close()
+
+			e := NewLinktree().(*endpoint)
+			e.baseURL = srv.URL
+			e.client = srv.Client()
+
+			got, err := e.Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+			if gotPath != "/acema" {
+				t.Errorf("path = %q, want %q", gotPath, "/acema")
+			}
+		})
+	}
+	if got := NewLinktree().URL("acema"); got != "https://linktr.ee/acema" {
+		t.Errorf("URL = %q, want %q", got, "https://linktr.ee/acema")
+	}
+}
+
 // TestPeerTubeCheck pins that a name is taken when either the account or the
 // video-channel endpoint answers 200, and free only when both answer 404.
 func TestPeerTubeCheck(t *testing.T) {
@@ -1101,8 +1144,8 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default(Config{})
-	if r.Len() != 83 {
-		t.Fatalf("Len = %d, want 83", r.Len())
+	if r.Len() != 84 {
+		t.Fatalf("Len = %d, want 84", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
@@ -1123,6 +1166,7 @@ func TestDefaultRegistry(t *testing.T) {
 		"hackernoon",
 		"spotify",
 		"paragraph",
+		"linktree",
 		"steam",
 		"instagram",
 		"hackernews",
