@@ -101,6 +101,16 @@ func NewHomebrew() Provider {
 		"https://formulae.brew.sh/formula/%s", defaultCodes)
 }
 
+// NewFirefox checks an add-on on Firefox Add-ons (AMO). A 401 is treated as
+// taken alongside 200: the API returns 401 for add-ons that hide their
+// existence from unauthenticated callers.
+func NewFirefox() Provider {
+	return newEndpoint("firefox", "firefox",
+		"https://addons.mozilla.org", "/api/v5/addons/addon/%s/",
+		"https://addons.mozilla.org/firefox/addon/%s/",
+		codeMap{available: []int{http.StatusNotFound}, taken: []int{http.StatusOK, http.StatusUnauthorized}})
+}
+
 // NewJSR checks a scope on JSR. A 400 is treated as taken alongside 200: the
 // scope API rejects invalid-but-taken names with a 400 rather than a 200.
 func NewJSR() Provider {

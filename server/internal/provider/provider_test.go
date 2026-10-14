@@ -49,6 +49,7 @@ func httpSources() []httpSource {
 		endpointSource("hex-user", "hex", "/api/users/acema", "", NewHexUser),
 		endpointSource("pub", "pub", "/api/packages/acema", "", NewPub),
 		endpointSource("homebrew", "homebrew", "/api/formula/acema.json", "", NewHomebrew),
+		endpointSource("firefox", "firefox", "/api/v5/addons/addon/acema/", "", NewFirefox),
 		endpointSource("jsr", "jsr", "/api/scopes/acema", "", NewJSR),
 		endpointSource("openvsx", "openvsx", "/api/acema", "", NewOpenVSX),
 		endpointSource("github", "github", "/users/acema", "", NewGitHub),
@@ -162,6 +163,42 @@ func TestJSRCodes(t *testing.T) {
 	}
 	if got.Status != StatusTaken {
 		t.Errorf("status = %q, want %q", got.Status, StatusTaken)
+	}
+}
+
+func TestFirefoxCheck(t *testing.T) {
+	tests := []struct {
+		name string
+		code int
+		want Status
+	}{
+		{"taken", http.StatusOK, StatusTaken},
+		{"restricted", http.StatusUnauthorized, StatusTaken},
+		{"available", http.StatusNotFound, StatusAvailable},
+		{"server error", http.StatusInternalServerError, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.URL.Path != "/api/v5/addons/addon/acema/" {
+					t.Errorf("path = %q, want %q", r.URL.Path, "/api/v5/addons/addon/acema/")
+				}
+				w.WriteHeader(tt.code)
+			}))
+			defer srv.Close()
+
+			e := NewFirefox().(*endpoint)
+			e.baseURL = srv.URL
+			e.client = srv.Client()
+
+			got, err := e.Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+		})
 	}
 }
 
@@ -628,14 +665,14 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default()
-	if r.Len() != 35 {
-		t.Fatalf("Len = %d, want 35", r.Len())
+	if r.Len() != 36 {
+		t.Fatalf("Len = %d, want 36", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
 		"lemmy", "peertube",
 		"npm", "pypi", "crates", "nuget", "hex", "hex-user", "pub",
-		"homebrew", "jsr", "wordpress", "openvsx",
+		"homebrew", "firefox", "jsr", "wordpress", "openvsx",
 		"github", "gitlab", "bitbucket", "codeberg",
 		"wikipedia", "devto", "farcaster", "minehut", "lichess", "chesscom",
 		"huggingface", "dailymotion", "mixcloud", "bluesky", "mastodon",
