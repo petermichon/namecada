@@ -843,7 +843,7 @@ func TestMinLength(t *testing.T) {
 	}{
 		{"known table by id", stubProvider{id: "github"}, 2},
 		{"known table by id with a dash", stubProvider{id: "hex-user"}, 3},
-		{"lemmy has a minimum", stubProvider{id: "lemmy"}, 2},
+		{"lemmy has a minimum", stubProvider{id: "lemmy"}, 3},
 		{"unknown id has no minimum", stubProvider{id: "nonexistent"}, 0},
 		{"explicit minimum wins", stubWithMin{stubProvider{id: "github"}, 7}, 7},
 		{"explicit zero disables the table", stubWithMin{stubProvider{id: "github"}, 0}, 0},
@@ -856,12 +856,15 @@ func TestMinLength(t *testing.T) {
 			}
 		})
 	}
+	if got := MinLength(stubProvider{id: "lemmy"}); got <= len("ab") {
+		t.Errorf("MinLength(lemmy) = %d, want > len(\"ab\")", got)
+	}
 }
 
 func TestKnownMinLengths(t *testing.T) {
 	want := map[string]int{
 		"github":      2,
-		"lemmy":       2,
+		"lemmy":       3,
 		"hex":         2,
 		"hex-user":    3,
 		"wordpress":   5,
