@@ -91,28 +91,28 @@ below, written in the browser-direct era, must be re-checked before implementing
 
 ## Candidates
 
-- [ ] ccTLDs / new gTLDs — 🌐 — RDAP coverage varies; not all are in the bootstrap
-- [ ] Unstoppable Domains — 🌐 — resolver API
+- [ ] ccTLDs / new gTLDs — 🔌 — ruled out: not a distinct source — the IANA RDAP bootstrap only covers some TLDs, and any TLD it lists is already checked by the Domains provider
+- [ ] Unstoppable Domains — 🔑 — deferred: the resolver API is keyed (401 unauthenticated)
 - [ ] Packagist — 🕸 — composite `vendor/name`, no single-label namespace
 - [ ] Maven Central — 🕸 — composite `group:artifact`, no single-label namespace
 - [ ] Deno (`deno.land/x`) — 🕸 — `/x/{name}` 302-redirects and even taken names resolve 404, no signal
 - [ ] Docker Hub — 🕸 — composite `user/repo`, no single-label namespace
 - [ ] Snap Store — 🕸 — viable with the `Snap-Device-Series: 16` header; deferred until the `endpoint` helper supports a custom header
-- [ ] Flathub — 🌐 — app-id is reverse-DNS, not a label
+- [ ] Flathub — 🔌 — ruled out: the app-id is reverse-DNS, not a single label, so a `{name}` probe never names a claimable app
 - [ ] CPAN — 🕸 — case-sensitive CamelCase names; labels are lowercased (`platforms.ts:14-18`), so it would false-available
 - [ ] LuaRocks — 🕸 — composite `owner/name`, no single-label namespace
 - [ ] Terraform Registry — 🕸 — scoped path + no CORS
 - [ ] VS Code Marketplace — 🕸 — no simple API (use Open VSX)
-- [ ] JetBrains Marketplace — 🌐 — search API only (body signal)
+- [ ] JetBrains Marketplace — 🔌 — ruled out: `/api/searchPlugins?search=` is a fuzzy substring search, not an exact-name signal, and plugin ids are numeric
 - [ ] Figma Community — 🕸 — no public API
 - [ ] Shopify App Store — 🕸
-- [ ] Nostr (NIP-05) — 🌐 — `/.well-known/nostr.json`
+- [ ] Nostr (NIP-05) — 🔌 — ruled out: names are per-domain (`https://{domain}/.well-known/nostr.json?name={name}`), not a global namespace, so no single-label source exists to probe
 - [ ] Fandom — 🕸 — `{name}.fandom.com` has no CORS
 - [ ] Bilibili — 🕸 — API returns 412 (banned)
 - [ ] Discord — 🕸 — usernames have no public API
 - [ ] Telegram — 🕸 — keyless pass: `t.me/{name}` returns 200 for every name (JS/SPA shell), so no status signal; needs a key or a scrape — deferred, not ported
 - [ ] Hashnode — 🕸 — the GraphQL host 301s (reads now paid) and `hashnode.com/{name}` is an always-200 SPA, so no signal
-- [ ] Product Hunt — 🌐 — GraphQL (key)
+- [ ] Product Hunt — 🔑 — deferred: the GraphQL API is keyed
 - [ ] LinkedIn — 🕸 — no public vanity-availability API; profile pages are auth-walled (999/redirect for both real and fake), so it cannot answer "is this name free"
 - [ ] TikTok — 🕸 — keyless pass: every name returns 200 (JS/SPA shell), so no status signal; needs a key or a scrape — deferred, not ported
 - [ ] Threads — 🕸 — keyless pass: 301 → (followed) 200 for both real and fake names, so no status signal; needs a key or a scrape — deferred, not ported
@@ -131,8 +131,8 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] SEC EDGAR — 🕸 — keyless (descriptive User-Agent) but not a claimable namespace: it indexes issuer/filing names, which you cannot register
 - [ ] Crunchbase — 🕸
 - [ ] US state business registries — 🕸
-- [ ] Chrome Web Store — 🌐
-- [ ] Edge Add-ons — 🌐
+- [ ] Chrome Web Store — 🔌 — ruled out: every name returns 302, so status alone has no signal
+- [ ] Edge Add-ons — 🔌 — ruled out: every name returns 200, so status alone has no signal
 - [ ] Apple App Store — 🕸
 - [ ] Google Play — 🕸
 - [ ] Steam — 🕸
@@ -202,7 +202,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Guilded — 🕸
 - [ ] Slack — 🕸
 - [ ] DeviantArt — 🕸 — profile pages are an always-200 SPA (any name returns 200), so no signal
-- [ ] OpenNIC — 🌐
+- [ ] OpenNIC — 🔌 — ruled out: the DoH endpoints are dead
 - [ ] Ko-fi — 🕸 — redirects, no signal
 - [ ] Buy Me a Coffee — 🕸 — no CORS
 - [ ] Lemon Squeezy — 🕸 — bot-blocked: 403 for both real and fake names, so no signal
@@ -231,7 +231,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Fiverr — 🕸
 - [ ] Upwork — 🕸
 - [ ] Polywork — 🕸
-- [ ] freedns.afraid.org — 🌐 — ruled out: FreeDNS hostnames live under shared
+- [ ] freedns.afraid.org — 🔌 — ruled out: FreeDNS hostnames live under shared
   domains (`{name}.{shared-domain}`), not `{name}.freedns.afraid.org`, so a
   single-label probe never names a claimable host.
 - [ ] js.org — 🔌 — ruled out: wildcard DNS — every `{name}.js.org` resolves and
