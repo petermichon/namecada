@@ -10,8 +10,9 @@
 		"web"
 	],
 	"scripts": {
-		"dev": "npm run dev -w @domain-browser/web",
-		"dev:android": "adb reverse tcp:5173 tcp:5173 && npm run dev",
+		"dev": "concurrently -k -n web,server -c blue,green \"npm:dev:web\" \"npm:server:dev\"",
+		"dev:web": "npm run dev -w @domain-browser/web",
+		"dev:android": "adb reverse tcp:5173 tcp:5173 && npm run dev:web",
 		"build": "npm run build -w @domain-browser/web",
 		"preview": "npm run preview -w @domain-browser/web",
 		"test": "npm run test -w @domain-browser/web",
@@ -25,5 +26,8 @@
 		"server:fmt": "gofmt -w server",
 		"server:tidy": "go -C server mod tidy",
 		"verify": "npm run check && npm test && npm run lint"
+	},
+	"devDependencies": {
+		"concurrently": "^10.0.6"
 	}
 }
