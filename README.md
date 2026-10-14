@@ -87,9 +87,6 @@ This matters most for GitHub and npm, which rate-limit unauthenticated requests
     groups the URLs into one card per platform.
   - `src/lib/providerCache.ts` — per-provider response cache.
   - `src/lib/rdap.ts`, `src/lib/bootstrap.ts` — domain lookup.
-- `scripts/domscan.py` — offline bulk scanner for `.com` names via Verisign RDAP
-  (offline research tooling; not used by the app).
-- `data/full.tsv` — legacy bulk snapshot from that scanner.
 
 ## Development
 
@@ -116,14 +113,3 @@ Reddit (403 from server IPs), Docker Hub (no CORS), Go proxy (modules are paths,
 not single labels), Hacker News (its API only exposes users with public activity,
 so it can never confirm a name is free; the profile page that can has no CORS),
 and trademark / social / company registries (need a key and a proxy).
-
-## Bulk scanning (offline)
-
-`scripts/domscan.py` brute-forces the 5-letter space over a chosen alphabet and
-appends results to a TSV, resumable and rate-limited:
-
-```sh
-python3 scripts/domscan.py --letters aceimnorsuvwxz --workers 8 --rate 30 --out data/full.tsv
-```
-
-Respect Verisign's RDAP rate limits — lower `--rate` if you see sustained `429`s.
