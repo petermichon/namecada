@@ -1,0 +1,1479 @@
+Flat list of the distinct name-availability sites discovered by the scout (P118), deduplicated by normalized service name (aliases like "X / Y" and domain-suffixed variants collapsed) and sorted alphabetically.
+1476 distinct sites. Each line: name — namespace/type — URL pattern — likely access.
+
+- 000webhost — free host — {name}.000webhostapp.com — access: keyless
+- 1bt.uk — free subdomain — {name}.1bt.uk — access: keyless
+- 365Chess — player — 365chess.com/players/{name} — access: scrape-only
+- 3Speak — channel — 3speak.tv/user/{name} — access: keyless
+- 3utilities.com — dynamic DNS host — {name}.3utilities.com — access: keyless
+- 4EVERLAND — subdomain — {name}.4everland.app — access: keyless
+- 4PDA — username — 4pda.to/forum — access: scrape-only
+- 500px — profile — 500px.com/{name} — access: keyless
+- 5apps — static site — {name}.5apps.com — access: keyless
+- 99designs — designer profile — 99designs.com/profiles/{name} — scrape-only
+- 9GAG — user — 9gag.com/u/{name} — access: scrape-only
+- ABN Lookup — business — abr.business.gov.au/Search/Results?guid={name} — access: keyless
+- About.me — profile page — about.me/{name} — access: keyless
+- Academia.edu — academic — academia.edu/{name} — access: scrape-only
+- AcFun — video user — acfun.cn/u/{id} — access: scrape-only
+- Achriom — user profile — achriom.com/u/{name} — scrape-only
+- Adaptable — app subdomain — {name}.adaptable.app — access: keyless
+- Adobe Portfolio — site — {name}.myportfolio.com — access: keyless
+- Adobe Stock — contributor — stock.adobe.com/contributor/{name} — access: scrape-only
+- Adzuna France — company profile — adzuna.fr/cmp/{name} — scrape-only
+- AfreecaTV — user — afreecatv.com/{name} — access: keyless
+- AIcrowd — user — aicrowd.com/users/{name} — access: keyless
+- .ai registry — domain name — {name}.ai — access: keyless
+- Akaswap — artist — akaswap.com/artist/{name} — access: scrape-only
+- Akkoma — fediverse handle — akkoma.dev — access: keyless
+- Album of the Year — user — albumoftheyear.org/user/{name} — access: keyless
+- Alexandrie — self-hosted crates registry — github.com/Hirevo/alexandrie — access: keyless
+- Algorand Name Service — Algorand naming (.algo) — algorandnameservice.com — access: keyless
+- AliExpress — store — aliexpress.com/store — access: scrape-only
+- AllDomains — Solana naming (.sol/.abc) — alldomains.id — access: keyless
+- AllMovie — title — allmovie.com — access: scrape-only
+- AllMusic — contributor — allmusic.com/user/{name} — access: scrape-only
+- Alpine Packages — Alpine package registry — pkgs.alpinelinux.org/packages?name={name} — access: keyless
+- AlternativeTo — app — alternativeto.net/software/{name} — access: keyless
+- Altgames.io — developer — altgames.io/{name} — access: scrape-only
+- AltStore — app — altstore.io — access: scrape-only
+- Amazing Radio — artist — amazingradio.com/artist/{name} — access: scrape-only
+- Amazon — seller storefront — amazon.com/shops/{name} — access: scrape-only
+- Amazon Appstore — app name — amazon.com/gp/product — access: scrape-only
+- Amazon Author — author page — amazon.com/author/{name} — access: scrape-only
+- Amazon ECR Public — container image — public.ecr.aws/{alias}/{name} — access: keyed
+- Amazon Music — artist — music.amazon.com/artists/{name} — access: keyed
+- Anaconda.org — conda registry — anaconda.org/{name} — access: keyless
+- Android Central Forums — username — forums.androidcentral.com/members/{name} — access: scrape-only
+- Android Forums — username — androidforums.com/members/{name} — access: scrape-only
+- Android Republic — username — androidrepublic.org/members/{name} — access: scrape-only
+- Android Stack Exchange — username — android.stackexchange.com/users/{name} — access: keyless
+- Angelfire — page folder — angelfire.com/{name} — access: keyless
+- AngelList — company/profile slug — angel.co/company/{name} — scrape-only
+- Anghami — artist — anghami.com — access: scrape-only
+- Anibito — user — anibito.app/user/{name} — access: keyless
+- AniDB — user — anidb.net/user/{name} — access: keyless
+- AniList — user — anilist.co/user/{name} — access: keyless
+- Anime-Planet — profile — anime-planet.com/users/{name} — access: keyless
+- AniSearch — user profile — anisearch.com/profile/{name} — scrape-only
+- AniTrack — user — anitrack.app/user/{name} — access: keyless
+- Annict — user — annict.com/@{name} — access: keyless
+- Anobii — username — anobii.com/{name} — access: scrape-only
+- Ansible Galaxy — Ansible role — galaxy.ansible.com/ui/standalone/roles/{user}/{name} — access: keyless
+- Answers.com — Q&A platform / profile — answers.com — access: keyless
+- Antigranular — user — antigranular.com/users/{name} — access: scrape-only
+- Aparat — video platform / user — aparat.com/{name} — access: keyless
+- Apec — recruiter/company profile — apec.fr/entreprise/{name} — scrape-only
+- Apex Hosting — server — apexminecrafthosting.com — access: keyed
+- APKMirror — app — apkmirror.com/?s={name} — access: scrape-only
+- APKPure — app — apkpure.com/search?q={name} — access: scrape-only
+- AppImageHub — AppImage catalog — appimage.github.io — access: keyless
+- Apple App Store (iOS) — app name — apps.apple.com/search?term={name} — access: scrape-only
+- Apple Music — artist — music.apple.com/artist/{name} — access: scrape-only
+- .app registry — domain name — {name}.app — access: keyless
+- AppSumo — product deal — appsumo.com/products/{name} — access: keyless
+- Aptoide — app — aptoide.com/search?query={name} — access: scrape-only
+- Aptos Names — Aptos naming (.apt) — aptosnames.com — access: keyless
+- Arc.dev — developer profile — arc.dev/{name} — scrape-only
+- Archive of Our Own — user — archiveofourown.org/users/{name} — access: keyless
+- Arch Linux Packages — Linux package — archlinux.org/packages/?q={name} — access: keyless
+- Arch official repos — Arch package registry — archlinux.org/packages/?q={name} — access: keyless
+- Arizona Corporation Commission — entity name — ecorp.azcc.gov — access: scrape-only
+- Artfol — username — artfol.co/{name} — access: scrape-only
+- Artifact Hub — chart/package — artifacthub.io/packages/search?q={name} — access: keyless
+- ArtStation — profile — artstation.com/{name} — access: keyless
+- Asana — workspace — app.asana.com — access: scrape-only
+- ASEAN TMview — trademark — asean-tmview.org/tmview — access: keyless
+- Ask.com — Q&A platform / profile — ask.com — access: keyless
+- Async Art — artist — async.art/{name} — access: scrape-only
+- A.Team — member profile — a.team/{name} — keyed
+- Aternos — server subdomain — {name}.aternos.me — access: keyless
+- Atlassian Marketplace — app — marketplace.atlassian.com/apps/{name} — access: scrape-only
+- Atlassian Public Maven — group/artifact — packages.atlassian.com/{name} — access: keyless
+- AT Protocol PDS — ATProto handle — {name}.bsky.social — access: keyless
+- Audiomack — artist — audiomack.com/{name} — access: keyless
+- Audius — artist — audius.co/{name} — access: keyless
+- AUR — Arch package registry — aur.archlinux.org/packages/{name} — access: keyless
+- .au registry (auDA) — domain name — {name}.au — access: keyless
+- AwardSpace — free host — {name}.awardspace.com — access: keyless
+- AWS Amplify — subdomain — {name}.amplifyapp.com — access: keyless
+- AWS CodeArtifact — artifact registry — aws.amazon.com/codeartifact — access: keyed
+- AWS CodeCommit — code host account — aws.amazon.com/codecommit — access: keyed
+- AWS ECR — container image — {account}.dkr.ecr.{region}.amazonaws.com — access: keyed
+- AWS ECR Public — container registry / alias — gallery.ecr.aws/{alias} — access: keyed
+- Awwwards — user — awwwards.com/u/{name} — access: keyless
+- azote.org — free subdomain — {name}.fr.nf — keyless
+- Azure Artifacts — artifact registry — azure.microsoft.com/products/devops/artifacts — access: keyed
+- Azure Container Registry — container image — {name}.azurecr.io — access: keyed
+- Azure Repos — code host account — dev.azure.com — access: keyed
+- Azure Static Web Apps — subdomain — {name}.azurestaticapps.net — access: keyless
+- BackerKit — creator — backerkit.com — access: scrape-only
+- Backgammon Galaxy — player — backgammongalaxy.com/player/{name} — access: scrape-only
+- Backloggd — username — backloggd.com/u/{name} — access: scrape-only
+- BaGet — self-hosted NuGet server — loic-sharma.github.io/BaGet — access: keyless
+- Baidu Baike — encyclopedia entry — baike.baidu.com/item/{name} — access: scrape-only
+- Baidu Tieba — user — tieba.baidu.com/home/main?un={name} — access: scrape-only
+- Baidu Zhidao — Q&A platform / profile — zhidao.baidu.com — access: keyless
+- Bandcamp — artist — bandcamp.com/{name} — access: scrape-only
+- BandLab — user — bandlab.com/{name} — access: keyless
+- Bandsintown — artist — bandsintown.com/a/{name} — access: scrape-only
+- Bark — professional profile — bark.com/{name} — scrape-only
+- Basecamp — account subdomain — {name}.basecamp.com — access: scrape-only
+- Basenames — Base naming (.base) — basenames.xyz — access: keyless
+- Baseten — user — app.baseten.co/{name} — access: keyed
+- Battle.net — game/account — battle.net — access: keyed
+- Bazaar — app — cafebazaar.ir/search?q={name} — access: scrape-only
+- Bazel Central Registry — Bazel module registry / module — registry.bazel.build/modules/{name} — access: keyless
+- Beacons — page — beacons.ai/{name} — access: keyless
+- Beanstalk — code host account — beanstalkapp.com — access: scrape-only
+- Bear Blog — blog subdomain — {name}.bearblog.dev — access: keyless
+- Beatport — artist — beatport.com/artist/{name} — access: scrape-only
+- BeatStars — producer — beatstars.com/{name} — access: scrape-only
+- Beeceptor — endpoint subdomain — {name}.beeceptor.com — keyed
+- beehiiv — publication subdomain — {name}.beehiiv.com — access: keyless
+- Behance — profile — behance.net/{name} — access: keyless
+- BeReal — profile — bere.al/{name} — access: keyless
+- BetaList — startup — betalist.com/{name} — access: keyless
+- BetaSeries — user profile — betaseries.com/profile/{name} — scrape-only
+- Better Business Bureau — business — bbb.org/search?find_text={name} — access: scrape-only
+- Big Cartel — store — {name}.bigcartel.com — access: keyless
+- BigCommerce App Marketplace — BigCommerce app directory — bigcommerce.com/apps — access: scrape-only
+- Bigo Live — profile — bigo.tv/{name} — access: keyless
+- Bilibili — space — space.bilibili.com/{name} — access: scrape-only
+- Bioconductor — R package — bioconductor.org/packages/{name} — access: keyless
+- BisectHosting — server — bisecthosting.com — access: keyed
+- Bit (Bit.dev) — component registry — bit.cloud/{scope} — access: keyed
+- Bitbucket — code host workspace — api.bitbucket.org/2.0/workspaces/{name} — access: keyless
+- BitChute — channel — bitchute.com/channel/{name} — access: keyless
+- Bitgrit — user — bitgrit.net/profile/{name} — access: scrape-only
+- Bitnami — container registry / stack — bitnami.com/stack/{name} — access: keyless
+- Bizapedia — company — bizapedia.com/{name} — access: scrape-only
+- BleepingComputer — username — bleepingcomputer.com/forums/user/{name} — access: scrape-only
+- Blizzard Battle.net — BattleTag — battle.net/{name} — access: scrape-only
+- Blogger — blog subdomain — {name}.blogspot.com — access: scrape-only
+- Bloomberg — company profile — bloomberg.com/profile/company — access: scrape-only
+- Blot — blog platform / site — blot.im — access: keyed
+- Bluesky — ATProto handle — bsky.social/xrpc/com.atproto.temp.checkHandleAvailability — access: keyless
+- Blur — collection — blur.io/collection/{name} — access: keyless
+- Blu-ray.com — user — blu-ray.com/community — access: scrape-only
+- BNS (Stacks) — Bitcoin naming (.btc) — bns.one — access: keyless
+- BOIP Benelux — trademark — boip.int — access: scrape-only
+- Bonanza — booth — bonanza.com/booths/{name} — access: scrape-only
+- Bonfida — Solana naming (.sol) — bonfida.com — access: keyless
+- Bonto — extension/site name — bonto.run — access: scrape-only
+- BookBrowse — user — bookbrowse.com/{name} — access: scrape-only
+- BookLikes — blog subdomain — {name}.booklikes.com — access: scrape-only
+- Book Tracker — username — booktrack.app/{name} — access: scrape-only
+- Bookwise — username — bookwiseapp.com/{name} — access: scrape-only
+- BookWyrm — fediverse handle — bookwyrm.social — access: keyless
+- Boomplay — artist — boomplay.com/artists — access: scrape-only
+- bore.pub — tunnel host — {name}.bore.pub — keyless
+- Bountysource — user — bountysource.com/people/{name} — access: scrape-only
+- Bower — frontend package registry — bower.io — access: keyless
+- Box Office Mojo — title — boxofficemojo.com — access: scrape-only
+- Braintrust — talent profile — braintrust.com/{name} — scrape-only
+- BrandNewTube — channel — brandnewtube.com/@{name} — access: keyless
+- Brightcove — player — players.brightcove.net/{name}_default — access: scrape-only
+- Brighteon — channel — brighteon.com/channel/{name} — access: scrape-only
+- Buho21 — user — buho21.com/{name} — access: scrape-only
+- Built In — company slug — builtin.com/company/{name} — scrape-only
+- Bun registry — JS package registry — registry.npmjs.org/{name} — access: keyless
+- Busuu — user profile — busuu.com/{name} — scrape-only
+- Buttondown — newsletter page — buttondown.com/{name} — access: keyless
+- Buy Me a Coffee — creator — buymeacoffee.com/{name} — access: keyless
+- Byethost — free host — {name}.byethost.com — access: keyless
+- Cadremploi — company profile — cadremploi.fr/entreprise/{name} — scrape-only
+- Cafe Bazaar — app — cafebazaar.ir/search?q={name} — access: scrape-only
+- California SOS BizFile — entity — bizfileonline.sos.ca.gov — access: scrape-only
+- Canva — creator profile — canva.com/{name} — access: keyless
+- Capterra — product — capterra.com/p/{id} — access: scrape-only
+- Cara — username — cara.app/{name} — access: scrape-only
+- Carbonmade — site — {name}.carbonmade.com — access: keyless
+- .ca registry (CIRA) — domain name — {name}.ca — access: keyless
+- Carthage — Obj-C/Swift dependency / repo — github.com/{owner}/{repo} — access: scrape-only
+- Cash App — cashtag — cash.app/${name} — access: scrape-only
+- Castopod — podcast host — {instance}/@{name} — access: keyless
+- CB Insights — company profile — cbinsights.com/company/{name} — access: keyed
+- CDNJS — JS CDN library / library — cdnjs.com/libraries/{name} — access: keyless
+- Chainguard — container image registry / image — chainguard.dev/{name} — access: keyed
+- Chainguard Registry — container image — cgr.dev/chainguard/{name} — access: keyless
+- Chairish — shop — chairish.com/shop/{name} — access: scrape-only
+- ChangeIP — dynamic DNS host — {name}.changeip.com — access: keyless
+- Chanty — workspace — chanty.com — access: scrape-only
+- Charity Commission — charity — register-of-charities.charitycommission.gov.uk/charity-search?p={name} — access: keyless
+- Chef Supermarket — Chef cookbook — supermarket.chef.io/cookbooks/{name} — access: keyless
+- Chess.com — player — api.chess.com/pub/player/{name} — access: keyless
+- Chess24 — user — chess24.com/en/profile/{name} — access: scrape-only
+- Chessable — profile — chessable.com/profile/{name} — access: scrape-only
+- ChessBase — account — chessbase.com/{name} — access: scrape-only
+- ChessBomb — ... — chessbomb.com/{name} — access: keyless
+- Chess.com Club — club — chess.com/club/{name} — access: keyless
+- ChessKid — profile — chesskid.com/profile/{name} — access: scrape-only
+- Chess-Results — player — chess-results.com/player/{name} — access: scrape-only
+- ChessTempo — user — chesstempo.com/user/{name} — access: scrape-only
+- Chingari — username — chingari.io/@{name} — access: scrape-only
+- Chocolatey — Windows package registry — community.chocolatey.org/packages/{name} — access: keyless
+- Chocolatey GUI — Windows package manager UI — chocolateygui.com — access: scrape-only
+- Choose My Company — company profile — choosemycompany.com/entreprise/{name} — scrape-only
+- Chrome Web Store — extension — chromewebstore.google.com/detail/{name} — access: scrape-only
+- Chuffed — campaign — chuffed.org/project/{name} — access: scrape-only
+- CIPO Canada — trademark — ised-isde.canada.ca/cipo/trademark-search — access: keyless
+- Circle — community subdomain — {name}.circle.so — access: keyless
+- Civitai — user — civitai.com/user/{name} — access: keyless
+- Clapper — short-video user — clapperapp.com/{name} — access: scrape-only
+- Clarifai — user — clarifai.com/{name} — access: keyless
+- Clever Cloud — subdomain — {name}.cleverapps.io — access: keyless
+- ClickUp — workspace — app.clickup.com — access: scrape-only
+- cli.rs — free subdomain — {name}.cli.rs — keyless
+- cljdoc — Clojure docs registry — cljdoc.org — access: keyless
+- Clojars — Clojure package registry — clojars.org/api/artifacts/{name} — access: keyless
+- Cloudflare Pages — project subdomain — {name}.pages.dev — access: keyless
+- Cloudflare Quick Tunnel — ephemeral tunnel — {name}.trycloudflare.com — keyless
+- Cloudflare Registrar — registrar — cloudflare.com/products/registrar — access: keyed
+- Cloudflare Workers — worker script — {name}.workers.dev — access: keyless
+- Cloudsmith — package registry — cloudsmith.com — access: keyed
+- Clozemaster — user profile — clozemaster.com/@/{name} — scrape-only
+- Clubhouse — social handle — clubhouse.com/@{name} — access: scrape-only
+- cluster.ws — free subdomain — {name}.cluster.ws — access: keyless
+- Clyp — user — clyp.it/user/{name} — access: keyless
+- CNIPA China — trademark — sbj.cnipa.gov.cn — access: scrape-only
+- CocoaPods — Apple package registry — cocoapods.org/pods/{name} — access: keyless
+- Codabench — user — codabench.org/profiles/{name} — access: scrape-only
+- CodaLab — user — codalab.lisn.upsaclay.fr/accounts/profile/{name} — access: scrape-only
+- Codeable — developer profile — codeable.io/developers/{name} — scrape-only
+- Codeanywhere — user profile — codeanywhere.com/{name} — scrape-only
+- Codeberg — code host username — codeberg.org/api/v1/users/{name} — access: keyless
+- Codeberg Pages — static site — {name}.codeberg.page — access: keyless
+- CodeCast — user profile — codecast.me/{name} — scrape-only
+- Codeforces — user profile — codeforces.com/profile/{name} — keyless
+- CodePen — front-end pen user — codepen.io/{name} — access: keyless
+- CodeProject — dev blog username — codeproject.com/Members/{name} — access: scrape-only
+- Coder — workspace owner — coder.com/@{name} — scrape-only
+- CodeSandbox — sandbox user — codesandbox.io/u/{name} — access: keyless
+- Codeshare — collaborative editor / room — codeshare.io/{name} — access: keyless
+- Codesphere — user profile — codesphere.com/@{name} — scrape-only
+- Codewars — user profile — codewars.com/users/{name} — scrape-only
+- Colorado SOS — entity — coloradosos.gov/biz/BusinessEntityCriteria — access: scrape-only
+- Companies House — company — api.company-information.service.gov.uk/search/companies?q={name} — access: keyed
+- Companies House Beta Search — company — find-and-update.company-information.service.gov.uk/search?q={name} — access: keyless
+- Company Check — company — companycheck.co.uk/company/{name} — access: keyless
+- CompanyNameCheck.uk — company — companynamecheck.uk/search?q={name} — access: keyless
+- Conan — C/C++ package registry / recipe — conan.io/center/recipes/{name} — access: keyless
+- Conan Center — C/C++ recipe — conan.io/center/recipes/{name} — access: keyless
+- Concrete CMS Marketplace — Concrete addon directory — marketplace.concretecms.com — access: keyless
+- Conda — conda package registry — anaconda.org/{name} — access: keyless
+- conda-forge — conda channel — anaconda.org/conda-forge/{name} — access: keyless
+- Confluence Cloud — space — {name}.atlassian.net — access: keyed
+- Conservapedia — article — conservapedia.com/{name} — access: scrape-only
+- Contra — profile — contra.com/{name} — access: keyless
+- ConversationExchange — member profile — conversationexchange.com/profiles/{name} — scrape-only
+- ConvertKit — newsletter platform / landing page — {name}.ck.page — access: keyless
+- .co registry — domain name — {name}.co — access: keyless
+- Coresignal — company data — coresignal.com — access: keyed
+- Coroflot — portfolio — coroflot.com/{name} — access: keyless
+- Cosmos — profile — cosmos.so/{name} — access: keyless
+- Coub — short video / channel — coub.com/{name} — access: keyless
+- CounterSocial — profile — counter.social/@{name} — access: keyless
+- CPAN — Perl package registry — metacpan.org/pod/{name} — access: keyless
+- Craft CMS Plugin Store — Craft plugin directory — plugins.craftcms.com — access: keyless
+- CRAN — R package — cran.r-project.org/package={name} — access: keyless
+- crates.io — Rust package registry — crates.io/api/v1/crates/{name} — access: keyless
+- crates.io sparse index — Rust index — index.crates.io — access: keyless
+- CrazyGames — developer — crazygames.com/{name} — access: scrape-only
+- Crevado — site — {name}.crevado.com — access: keyless
+- Criticker — user profile — criticker.com/user/{name} — scrape-only
+- CrossClj — Clojure cross-reference — crossclj.info — access: keyless
+- Crossplane Upbound Registry — provider — marketplace.upbound.io/{name} — access: keyless
+- Crowdcube — pitch — crowdcube.com — access: scrape-only
+- Crowdfunder — project — crowdfunder.co.uk — access: scrape-only
+- Crowdfundr — project — crowdfundr.com — access: scrape-only
+- Crowd Supply — project — crowdsupply.com/{name} — access: scrape-only
+- Crunchbase — organization — crunchbase.com/organization/{name} — access: scrape-only
+- CrunchDAO — user — crunchdao.com/user/{name} — access: scrape-only
+- Crystal Shards — Crystal package registry — shards.info/github/{name} — access: keyless
+- CSDN — user blog — blog.csdn.net/{name} — access: scrape-only
+- CSS Deck — user profile — cssdeck.com/user/{name} — scrape-only
+- CSS-Tricks — author — css-tricks.com/author/{name} — access: scrape-only
+- CTAN — TeX package — ctan.org/pkg/{name} — access: keyless
+- CurseForge — member — curseforge.com/members/{name} — access: scrape-only
+- CVR — company — datacvr.virk.dk/enhed/virksomhed/{name} — access: keyless
+- Cyber (CyberConnect) — profile — cyberconnect.xyz/{name} — access: keyed
+- Cyclic — app subdomain — {name}.cyclic.app — access: keyless
+- Dabblet — user profile — dabblet.com/{name} — scrape-only
+- daily.dev — dev profile username — app.daily.dev/{name} — access: keyless
+- Dailymotion — user — dailymotion.com/{name} — access: keyless
+- DaniWeb — username — daniweb.com/members/{name} — access: scrape-only
+- DataTau — user — data-tau.co/user?id={name} — access: scrape-only
+- data.world — user profile — data.world/{name} — scrape-only
+- Datawrapper — user profile — datawrapper.de/{name} — scrape-only
+- DatPiff — artist — datpiff.com/{name} — access: scrape-only
+- Daum Cafe — cafe id — cafe.daum.net/{name} — access: scrape-only
+- D&B D-U-N-S — company — dnb.com/business-directory/company-profiles.{name}.html — access: scrape-only
+- D&B Hoovers — company — hoovers.com — access: keyed
+- ddns.net — dynamic DNS host — {name}.ddns.net — access: keyless
+- ddnsgeek.com — dynamic DNS host — {name}.ddnsgeek.com — access: keyless
+- ddnss.de — dynamic DNS host — {name}.ddnss.de — access: keyless
+- DeadJournal — blogging platform / journal — {name}.deadjournal.com — access: keyless
+- Dealroom — company profile — app.dealroom.co/companies/{name} — access: keyed
+- Debian Packages — Debian package registry — packages.debian.org/{name} — access: keyless
+- dedyn.io — dynamic DNS subdomain — {name}.dedyn.io — access: keyless
+- Deepnote — user profile — deepnote.com/@{name} — scrape-only
+- Deezer — artist — deezer.com/artist/{name} — access: scrape-only
+- Delaware Division of Corporations — entity — icis.corp.delaware.gov — access: scrape-only
+- Deno Deploy — project subdomain — {name}.deno.dev — access: keyless
+- deno.land/x — Deno module registry — deno.land/x/{name} — access: scrape-only
+- Depop — shop — depop.com/{name} — access: scrape-only
+- .de registry (DENIC) — domain name — {name}.de — access: keyless
+- deSEC — subdomain — {name}.dedyn.io — keyed
+- deSEC dedyn.io — dynamic DNS subdomain — {name}.dedyn.io — access: keyless
+- DeSo — profile — diamondapp.com/{name} — access: keyless
+- DEV — dev blog username — dev.to/api/users/by_username?url={name} — access: keyless
+- DeviantArt — profile — deviantart.com/{name} — access: scrape-only
+- devpi — self-hosted PyPI server — devpi.net — access: keyless
+- .dev registry — domain name — {name}.dev — access: keyless
+- Diaspora — fediverse handle — diasporafoundation.org — access: keyless
+- Differ — dev blog publication — differ.blog — access: scrape-only
+- Digg — user — digg.com/@{name} — access: scrape-only
+- DigitalOcean Container Registry — container registry / namespace — registry.digitalocean.com/{name} — access: keyed
+- Discogs — user — api.discogs.com/users/{name} — access: keyed
+- Discord — social username — discord.com — access: scrape-only
+- Discord App Directory — app — discord.com/application-directory/{name} — access: scrape-only
+- Discord Server Invite — vanity URL — discord.gg/{name} — access: keyless
+- Discourse — forum user — {site}/u/{name}.json — access: keyless
+- Discourse forums (generic) — username — {forum}/u/{name} — access: keyless
+- Disqus — comment platform / profile — disqus.com/by/{name} — access: keyless
+- Disroot Git — user — git.disroot.org/{name} — access: keyless
+- Distr — container registry / namespace — distr.sh/{name} — access: keyed
+- DLive — channel — dlive.tv/{name} — access: keyless
+- DNS Exit — dynamic DNS host — {name}.dnsexit.com — access: keyless
+- Docker Hub — container image — hub.docker.com/r/{user}/{repo} — access: scrape-only
+- docs.rs — Rust docs registry — docs.rs/{name} — access: keyless
+- Docusaurus on GitHub Pages — docs site — {name}.github.io — access: keyless
+- Domainr — domain search API — domainr.com/?q={name} — access: keyed
+- Domains (RDAP) — domain registry — data.iana.org/rdap/dns.json + rdap.org/domain/{name}.com — access: keyless
+- Donorbox — campaign — donorbox.org/{name} — access: keyless
+- Douban — user — douban.com/people/{name} — access: scrape-only
+- Douyin — short-video user — douyin.com/user/{id} — access: scrape-only
+- Douyu — room — douyu.com/{name} — access: scrape-only
+- dpdns.org — free subdomain — {name}.dpdns.org — access: keyless
+- DPMA Germany — trademark — dpma.de — access: scrape-only
+- Dreamwidth — blogging platform / journal — {name}.dreamwidth.org — access: keyless
+- Dribbble — profile — dribbble.com/{name} — access: keyless
+- DrivenData — user — drivendata.org/users/{name} — access: keyless
+- Droid Forums — username — droidforums.net/members/{name} — access: scrape-only
+- Drupal.org Modules — Drupal module directory — drupal.org/project/{name} — access: keyless
+- Drupal.org Themes — Drupal theme directory — drupal.org/project/{name} — access: keyless
+- DTube — channel — d.tube/#!/c/{name} — access: keyless
+- dual.my — free subdomain — {name}.dual.my — keyless
+- DUB — D package registry / package — code.dlang.org/packages/{name} — access: keyless
+- duckdns.org — dynamic DNS host — {name}.duckdns.org — access: keyless
+- DueDil — company — duedil.com/company/{name} — access: scrape-only
+- duiadns.net — dynamic DNS host — {name}.duiadns.net — access: keyless
+- Duolingo — user profile — duolingo.com/profile/{name} — keyless
+- Dynadot — registrar — dynadot.com/domain/search?domain={name} — access: scrape-only
+- DynDNS — DDNS hostname — {name}.dyndns.org — scrape-only
+- dynDNS.it — dynamic DNS host — {name}.dyndns.it — access: keyless
+- dynip.org — dynamic DNS host — {name}.dynip.org — access: keyless
+- dynu.com — dynamic DNS host — {name}.dynu.com — access: keyless
+- dynv6.net — dynamic DNS host — {name}.dynv6.net — access: keyless
+- EA App — game/account — ea.com — access: keyed
+- eBay — username/store — ebay.com/usr/{name} — access: scrape-only
+- eBid — store — ebid.net — access: scrape-only
+- Eclipse Marketplace — plugin — marketplace.eclipse.org/content/{name} — access: scrape-only
+- eCrater — store — ecrater.com — access: scrape-only
+- Ecwid — store — {name}.company.site — access: keyless
+- Edge Add-ons — extension — microsoftedge.microsoft.com/addons/detail/{name} — access: scrape-only
+- Element — Matrix user — app.element.io — access: scrape-only
+- Element Market — collection — element.market/{name} — access: scrape-only
+- Ello — username — ello.co/{name} — access: scrape-only
+- Elm Packages — Elm package — package.elm-lang.org/packages/{user}/{name} — access: keyless
+- EmailOctopus — email marketing / list — emailoctopus.com — access: keyed
+- Emercoin — decentralized TLD (.emc) — emercoin.com — access: scrape-only
+- EmerDNS (Emercoin) — .emc name — {name}.emc — access: keyless
+- Encyclopedia Dramatica — article — encyclopediadramatica.online/{name} — access: scrape-only
+- Endole — company — endole.co.uk/search?q={name} — access: keyless
+- ENS — web3 TLD (.eth) — app.ens.domains/{name}.eth — access: keyless
+- ENS Ideas — .eth resolver — api.ensideas.com/ens/resolve/{name}.eth — access: keyless
+- entrydns.net — dynamic DNS host — {name}.entrydns.net — access: keyless
+- Epic Games — display name/account — epicgames.com/id/{name} — access: keyed
+- Epic Games Store — game title — store.epicgames.com/browse?q={name} — access: keyed
+- esm.sh — ESM CDN registry — esm.sh/{name} — access: keyless
+- Etsy — shop — etsy.com/shop/{name} — access: scrape-only
+- eu.org — free subdomain — {name}.eu.org — access: keyless
+- EUIPO eSearch Plus — trademark — euipo.europa.eu/eSearch — access: scrape-only
+- .eu registry (EURid) — domain name — {name}.eu — access: keyless
+- EvalAI — user — eval.ai/web/participate/user/{name} — access: scrape-only
+- Exaroton — server — exaroton.com — access: keyed
+- Exchange.art — artist — exchange.art/{name} — access: keyless
+- Exercism — user profile — exercism.org/profiles/{name} — keyless
+- Experts Exchange — Q&A platform / member — experts-exchange.com/members/{name} — access: keyless
+- Expose — tunnel subdomain — {name}.sharedwithexpose.com — keyed
+- ExpressionEngine Add-ons — EE addon directory — expressionengine.com/add-ons — access: scrape-only
+- EyeEm — profile — eyeem.com/u/{name} — access: scrape-only
+- F6S — startup — f6s.com/{name} — access: keyless
+- Fab — seller — fab.com/sellers/{name} — access: scrape-only
+- Fable — username — fable.co/{name} — access: scrape-only
+- Facebook — social handle — facebook.com/{name} — access: scrape-only
+- Facebook Gaming — channel — facebook.com/gaming/{name} — access: scrape-only
+- Facebook Groups — group — facebook.com/groups/{name} — access: scrape-only
+- Facebook Marketplace — shop — facebook.com/marketplace — access: scrape-only
+- Facebook Messenger — username — m.me/{name} — access: scrape-only
+- FACEIT — nickname — faceit.com/en/players/{name} — access: scrape-only
+- fal.ai — user — fal.ai/{name} — access: keyless
+- FalixNodes — server — falixnodes.net/server/{name} — access: keyed
+- Fanatical — game title — fanatical.com/en/browse?search={name} — access: scrape-only
+- Fandom — wiki subdomain — {name}.fandom.com — access: scrape-only
+- FanFiction.net — user — fanfiction.net/~{name} — access: scrape-only
+- Farcaster — Farcaster handle — fnames.farcaster.xyz/transfers/current?name={name} — access: keyless
+- Farcaster Names — Farcaster fnames — fnames.farcaster.xyz/transfers/current?name={name} — access: keyless
+- FDIC BankFind — bank name — banks.data.fdic.gov — access: keyless
+- F-Droid — app package id — f-droid.org/en/packages/{name} — access: keyless
+- Fedora Packages — Fedora package registry — packages.fedoraproject.org — access: keyless
+- FICS — user — freechess.org/{name} — access: keyless
+- FIDE Online Arena — profile — arena.myfide.net/{name} — access: keyed
+- Figma Community — user — figma.com/@{name} — access: keyless
+- Figma Community Plugins — Figma plugin — figma.com/community/plugin/{id} — access: keyless
+- Figma Profile — designer handle — figma.com/@{name} — access: keyless
+- FilmAffinity — user — filmaffinity.com — access: scrape-only
+- Final Surge — athlete profile — finalsurge.com/athlete/{name} — keyed
+- Fink — macOS package registry — finkproject.org — access: scrape-only
+- Firebase Hosting — site subdomain — {name}.web.app — access: keyless
+- Firefish — fediverse handle — firefish.dev — access: keyless
+- Firefox Add-ons — add-on — addons.mozilla.org/api/v5/addons/addon/{name}/ — access: keyless
+- Firefox Themes (AMO) — theme slug — addons.mozilla.org/en-US/firefox/addon/{name} — access: keyless
+- Fireworks AI — account — app.fireworks.ai (namespace {name}) — access: keyed
+- Fitbit — user profile — fitbit.com/user/{name} — keyed
+- Fiverr — seller — fiverr.com/{name} — access: scrape-only
+- Flathub — Flatpak app registry — flathub.org/apps/{name} — access: keyless
+- Flaticon — icon author — flaticon.com/authors/{name} — access: keyless
+- Flatpak — app runtime — flatpak.org — access: keyless
+- Flattr — user — flattr.com/@{name} — access: keyless
+- Fleek — subdomain — {name}.on.fleek.co — access: keyless
+- Flickr — profile — flickr.com/people/{name} — access: scrape-only
+- FlickTrackr — username — flicktrackr.com/{name} — access: scrape-only
+- Flipkart — seller — flipkart.com — access: scrape-only
+- Floatplane — video platform / channel — {name}.floatplane.com — access: keyed
+- Florida Sunbiz — entity — sunbiz.org — access: scrape-only
+- Flourish — user profile — public.flourish.studio/{name} — scrape-only
+- Fluxer — username — fluxer.app/{name} — access: scrape-only
+- Fly.io — app subdomain — {name}.fly.dev — access: keyless
+- Forgejo — code host username — forgejo.org — access: keyless
+- Fortnite Tracker — display name — fortnitetracker.com/profile/all/{name} — access: scrape-only
+- Forvo — user profile — forvo.com/user/{name} — scrape-only
+- Fotocommunity — user — fotocommunity.com/{name} — access: scrape-only
+- Foundation — creator — foundation.app/@{name} — access: keyless
+- Fourthwall — shop — fourthwall.com/{name} — access: keyless
+- FramaGit — user — framagit.org/{name} — access: keyless
+- Framer Community — template/profile — framer.com/community — access: keyless
+- France Travail — employer profile — francetravail.fr/offres/entreprise/{name} — scrape-only
+- FreeBSD Ports — BSD port — freshports.org/{name} — access: keyless
+- Freecode — project — freecode.com — access: scrape-only
+- freeCodeCamp News — dev blog author — freecodecamp.org/news — access: scrape-only
+- FreeDNS (afraid.org) — hostname — freedns.afraid.org/subdomain/{name} — access: scrape-only
+- freedns.afraid.org — shared-domain host — {name}.afraid.org — access: keyless
+- FreeDNS Project — subdomain — {name}.freedns.zone — scrape-only
+- Freelancer.com — user profile — freelancer.com/u/{name} — scrape-only
+- FreeMyIP — dynamic DNS host — {name}.freemyip.com — access: keyless
+- Freename — web3 domain — freename.io/{name} — access: keyed
+- Freenom — free ccTLD (.tk/.ml/.ga) — freenom.com — access: scrape-only
+- Freepik — asset author — freepik.com/{name} — access: keyless
+- Free-Work — freelancer profile — free-work.com/freelance/{name} — scrape-only
+- Friendica — fediverse handle — friendi.ca — access: keyless
+- .fr registry (AFNIC) — domain name — {name}.fr — access: keyless
+- Fundable — company/campaign — fundable.com — access: scrape-only
+- Fundly — campaign — fundly.com/{name} — access: scrape-only
+- Funkwhale — fediverse handle — funkwhale.audio — access: keyless
+- FurAffinity — user — furaffinity.net/user/{name} — access: scrape-only
+- FurNIC — .fur domain — furnic.net/{name} — access: scrape-only
+- Futurepedia — AI tool — futurepedia.io/tool/{name} — access: keyless
+- G2 — product — g2.com/products/{name} — access: scrape-only
+- Gab — profile — gab.com/{name} — access: keyless
+- Gamefound — project — gamefound.com/projects/{name} — access: scrape-only
+- Game Jolt — username — gamejolt.com/@{name} — access: keyless
+- GamersGate — game title — gamersgate.com — access: scrape-only
+- Gandi — registrar — gandi.net/domain/{name} — access: keyed
+- Garmin Connect — user profile — connect.garmin.com/modern/profile/{name} — keyed
+- Gem.coop — Ruby gem registry / gem — gem.coop/gems/{name} — access: keyless
+- Gemfury — package registry — gemfury.com — access: keyed
+- Gem in a Box — self-hosted gem server — github.com/geminabox/geminabox — access: keyless
+- Gemstash — self-hosted gem server — github.com/rubygems/gemstash — access: keyless
+- Generation Mobile — username — forum-generationmobiles.net — access: scrape-only
+- Genius — artist — genius.com/artists/{name} — access: keyed
+- Genome — Gnosis naming (.gno) — genome.gg — access: keyless
+- Gentoo Packages — Gentoo package registry — packages.gentoo.org — access: keyless
+- Georgia SOS — entity name — ecorp.sos.ga.gov — access: scrape-only
+- Gettr — profile — gettr.com/user/{name} — access: keyless
+- Getty Images — contributor — gettyimages.com/{name} — access: keyed
+- .gg registry — domain name — {name}.gg — access: keyless
+- Ghost — publishing username — ghost.org — access: keyed
+- Giphy — channel — giphy.com/{name} — access: keyless
+- GitBook — docs space — {name}.gitbook.io — access: keyed
+- GitBucket — code host username — gitbucket.github.io — access: scrape-only
+- GitCode — user — gitcode.com/{name} — access: keyless
+- Gitcoin — username — gitcoin.co/{name} — access: scrape-only
+- Gitea — code host username — gitea.com/{name} — access: keyless
+- Gitea Container Registry — container registry / owner — {host}/{owner} — access: keyed
+- Gitee — code host username — gitee.com/{name} — access: keyless
+- GitHub — code host username — api.github.com/users/{name} — access: keyless
+- GitHub Container Registry — OCI image — ghcr.io/{owner}/{name} — access: keyed
+- GitHub Gist — user profile — gist.github.com/{name} — keyless
+- GitHub Marketplace — app/action — github.com/marketplace/{name} — access: keyless
+- GitHub Packages (npm) — scoped package registry — npm.pkg.github.com/{owner} — access: keyed
+- GitHub Pages — site subdomain — {name}.github.io — access: keyless
+- GitHub Sponsors — sponsor profile — github.com/sponsors/{name} — access: keyless
+- GitLab — code host username — gitlab.com/api/v4/users?username={name} — access: keyless
+- GitLab Container Registry — OCI image — registry.gitlab.com/{path} — access: keyed
+- GitLab npm Registry — npm package — gitlab.com/api/v4/projects/{id}/packages/npm — access: keyed
+- GitLab NuGet Registry — scoped package registry — gitlab.com/api/v4/projects — access: keyed
+- GitLab Package Registry (npm) — scoped package registry — gitlab.com/api/v4/projects — access: keyed
+- GitLab Pages — site subdomain — {name}.gitlab.io — access: keyless
+- GitLab PyPI Registry — scoped package registry — gitlab.com/api/v4/projects — access: keyed
+- GitLab RubyGems Registry — scoped package registry — gitlab.com/api/v4/projects — access: keyed
+- Gitpod — workspace — gitpod.io/#https://github.com/{name} — access: keyed
+- GiveButter — campaign — givebutter.com/{name} — access: keyless
+- Glass — profile — glass.photo/{name} — access: keyless
+- Glassdoor — company — glassdoor.com/Overview/Working-at-{name}-EI_IE.htm — access: scrape-only
+- Glassdoor France — company profile — glassdoor.fr/entreprise/{name} — scrape-only
+- GLEIF — legal entity (LEI) — search.gleif.org/#/search/{name} — access: keyless
+- GLEIF LEI — entity identifier — search.gleif.org/#/search/{name} — access: keyless
+- Glitch — app — {name}.glitch.me — access: keyless
+- Global Brand Database (WIPO Express) — trademark — wipo.int/branddb — access: keyless
+- GNOME Apps — GNOME app — apps.gnome.org/app/{id} — access: keyless
+- GNOME Extensions — extension — extensions.gnome.org/extension/{name} — access: keyless
+- GNS (GNU Name System) — p2p naming (.gnu) — gnunet.org — access: scrape-only
+- GNU Name System — .gnu name — {name}.gnu — access: keyless
+- GNU social — account — {instance}/{name} — access: scrape-only
+- GoDaddy — registrar — godaddy.com/domainsearch/find?domainToCheck={name} — access: keyed
+- GoFundMe — fundraiser — gofundme.com/f/{name} — access: scrape-only
+- GOG — username — gog.com/u/{name} — access: scrape-only
+- Gogs — code host username — gogs.io — access: scrape-only
+- Golden — company profile — golden.com — access: scrape-only
+- Go modules — Go module proxy — proxy.golang.org/{name} — access: keyless
+- Goodreads — username — goodreads.com/{name} — access: scrape-only
+- Google Artifact Registry — artifact registry — cloud.google.com/artifact-registry — access: keyed
+- Google Chat — account — chat.google.com — access: keyed
+- Google Maven — Android/Jetpack package — maven.google.com/web/index.html?q={name} — access: keyless
+- Google Play — app name — play.google.com/store/search?q={name} — access: scrape-only
+- Google Workspace Marketplace — app — workspace.google.com/marketplace — access: keyless
+- GoToSocial — fediverse handle — gotosocial.org — access: keyless
+- Gradle Plugin Portal — Gradle plugin id — plugins.gradle.org/plugin/{id} — access: keyless
+- Grafana Plugins — Grafana plugin — grafana.com/grafana/plugins/{name}/ — access: keyless
+- Grailed — user — grailed.com/users/{name} — access: scrape-only
+- Grand Challenge — user — grand-challenge.org/users/{name} — access: keyless
+- Gravatar — avatar/identity service / profile — gravatar.com/{name} — access: keyless
+- Grav Plugins — Grav plugin directory — getgrav.org/downloads/plugins — access: scrape-only
+- Greasy Fork — user script slug — greasyfork.org/en/scripts/{name} — access: keyless
+- Green Man Gaming — game title — greenmangaming.com/search/{name} — access: scrape-only
+- GrowthHackers — profile — growthhackers.com/{name} — access: scrape-only
+- GSM-Forum — username — gsmforum.com/members/{name} — access: scrape-only
+- Guilded — community user — guilded.gg/{name} — access: keyed
+- Guix — Guix package registry — packages.guix.gnu.org/packages/{name} — access: keyless
+- Gumroad — storefront — {name}.gumroad.com — access: keyless
+- Gun.io — developer profile — gun.io/{name} — scrape-only
+- Guru — freelancer profile — guru.com/freelancers/{name} — scrape-only
+- Hackage — Haskell package registry — hackage.haskell.org/package/{name} — access: keyless
+- Hacker News — user — news.ycombinator.com/user?id={name} — access: scrape-only
+- HackerNoon — blog username — hackernoon.com/u/{name} — access: keyless
+- Handelsregister — company — handelsregister.de/rp_web/mask.do (search {name}) — access: scrape-only
+- Handshake (HNS) — decentralized TLD — hnsscan.com/api/names/{name}/details — access: keyless
+- Harbor — container image — {host}/harbor/projects/{name} — access: keyed
+- Hardcover — username — hardcover.app/@{name} — access: scrape-only
+- Harmonic — company profile — harmonic.ai — access: keyed
+- HashiCorp Releases — product release — releases.hashicorp.com/{name} — access: keyless
+- Hashnode — dev blog username — hashnode.com/{name} — access: scrape-only
+- Hearthis.at — user — hearthis.at/{name} — access: keyless
+- HelloTalk — user profile — hellotalk.com/{name} — scrape-only
+- HelloWork — company/recruiter profile — hellowork.com/fr-fr/entreprises/{name}.html — scrape-only
+- Help Scout Docs — knowledge base — {name}.helpscoutdocs.com — access: keyed
+- Heroku — app subdomain — {name}.herokuapp.com — access: keyless
+- Hevy — lifter profile — hevy.com/user/{name} — scrape-only
+- Hex — Elixir package registry — hex.pm/api/packages/{name} — access: keyless
+- HexDocs — Elixir docs registry — hexdocs.pm/{name} — access: keyless
+- Hex users — Elixir user registry — hex.pm/api/users/{name} — access: keyless
+- Hey (Lens) — Lens handle — hey.xyz/u/{name} — access: keyless
+- HF Spaces — space — huggingface.co/spaces/{name} — access: keyless
+- Hikara — username — hikara.io/{name} — access: scrape-only
+- Hive — account — peakd.com/@{name} — access: keyless
+- Hive Social — social handle — hivesocial.app/{name} — access: scrape-only
+- HNSscan — HNS explorer — hnsscan.com — access: keyless
+- Home Assistant Integrations — HA integration — home-assistant.io/integrations/{name} — access: keyless
+- Homebrew — macOS formulae registry — formulae.brew.sh/api/formula/{name}.json — access: keyless
+- Homebrew Cask — macOS cask registry — formulae.brew.sh/api/cask/{name}.json — access: keyless
+- Hoogle — Haskell API search — hoogle.haskell.org/?hoogle={name} — access: keyless
+- hopto.org — dynamic DNS host — {name}.hopto.org — access: keyless
+- House-Mixes — user — house-mixes.com/profile/{name} — access: scrape-only
+- Hovatek Forum — username — forum.hovatek.com/members/{name} — access: scrape-only
+- HowardForums — username — howardforums.com/member.php?username={name} — access: scrape-only
+- HoYoverse (HoYoLAB) — account nickname — hoyolab.com — access: keyed
+- Huawei AppGallery — app name — appgallery.huawei.com/search/{name} — access: scrape-only
+- Hubski — forum / user profile — hubski.com/user/{name} — access: keyless
+- HubSpot App Marketplace — HubSpot app directory — ecosystem.hubspot.com — access: scrape-only
+- Hubzilla — fediverse handle — hubzilla.org — access: keyless
+- Hugging Face — user — huggingface.co/{name} — access: keyless
+- Humble Store — game title — humblebundle.com/store/search?q={name} — access: scrape-only
+- Humyn — user — humyn.ai/users/{name} — access: scrape-only
+- Hype Machine — blog/artist — hypem.com/{name} — access: scrape-only
+- Hypixel — player — api.hypixel.net/player?name={name} — access: keyed
+- ICANN / IANA root zone — TLD registry — iana.org/domains/root/db — access: keyless
+- ICANN domains (RDAP) — domain — rdap.org/domain/{name} — access: keyless
+- ICheckMovies — user — icheckmovies.com/profiles/{name} — access: scrape-only
+- ICNS — Cosmos naming (.cosmos) — icns.xyz — access: keyless
+- iHeartRadio — artist — iheart.com/artist/{name} — access: scrape-only
+- Illinois SOS — entity name — ilsos.gov/corporatellc — access: scrape-only
+- IMDb — user — imdb.com/user/{name} — access: keyed
+- Imgur — profile — imgur.com/user/{name} — access: keyless
+- imo — user handle — imo.im/{name} — access: scrape-only
+- Indeed France — company page — fr.indeed.com/cmp/{name} — scrape-only
+- IndieDB — member — indiedb.com/members/{name} — access: scrape-only
+- Indiegogo — campaign — indiegogo.com/projects/{name} — access: scrape-only
+- Indie Hackers — profile — indiehackers.com/{name} — access: keyless
+- InfinityFree — free PHP host — {name}.infinityfreeapp.com — access: keyless
+- ing.ng — free subdomain — {name}.ing.ng — keyless
+- Inkbunny — user — inkbunny.net/{name} — access: scrape-only
+- INPI France — trademark — data.inpi.fr — access: scrape-only
+- In Plain English — dev blog publication — plainenglish.io — access: scrape-only
+- InsaneJournal — blogging platform / journal — {name}.insanejournal.com — access: keyless
+- INSEE Sirene — company — annuaire-entreprises.data.gouv.fr/entreprise/{name} — access: keyless
+- Instagram — social username — instagram.com/{name}/ — access: scrape-only
+- Intent Web — static host / site — {name}.web.int.yt — access: keyless
+- Intercom Help Center — help center — {name}.intercom.help — access: keyed
+- Internet Archive — media archive / uploader — archive.org/details/@{name} — access: keyless
+- Internet Chess Club — member — chessclub.com/member/{name} — access: keyed
+- Intervals.icu — athlete profile — intervals.icu/athlete/{name} — keyed
+- IONOS — registrar — ionos.com/domains — access: scrape-only
+- .io registry — domain name — {name}.io — access: keyless
+- IP Australia — trademark — search.ipaustralia.gov.au/trademarks — access: keyless
+- Ipernity — user — ipernity.com/home/{name} — access: scrape-only
+- IPFS/IPNS — content name — ipfs.io/ipns/{name} — access: keyless
+- IP India — trademark — ipindia.gov.in — access: scrape-only
+- IQ.wiki — wiki page — iq.wiki/wiki/{name} — access: keyless
+- iQiyi — video user — iqiyi.com/u/{id} — access: keyed
+- IRS Tax Exempt Organization Search — org name — apps.irs.gov/app/eos — access: keyless
+- is-a.dev — free subdomain — {name}.is-a.dev — access: keyless
+- is-a.bot — free subdomain — {name}.is-a.bot — access: keyless
+- is-a-fullstack.dev — free subdomain — {name}.is-a-fullstack.dev — keyless
+- is-a-good.dev — free subdomain — {name}.is-a-good.dev — access: keyless
+- is-an.app — free subdomain — {name}.is-an.app — access: keyless
+- is-cool.dev — free subdomain — {name}.is-cool.dev — access: keyless
+- is-local.org — free subdomain — {name}.is-local.org — access: keyless
+- is-not-a.dev — free subdomain — {name}.is-not-a.dev — access: keyless
+- is-really.cool — free subdomain — {name}.is-really.cool — keyless
+- Issuehunt — project — issuehunt.io/r/{name} — access: keyless
+- Itaku — profile — itaku.ee/profile/{name} — access: scrape-only
+- italki — teacher profile — italki.com/teacher/{name} — scrape-only
+- itch.io — username — {name}.itch.io — access: keyless
+- Jamendo — artist — jamendo.com/artist/{name} — access: keyless
+- JetBrains Marketplace — plugin registry — plugins.jetbrains.com/search?search={name} — access: scrape-only
+- JFrog Artifactory — artifact registry — jfrog.com/artifactory — access: keyed
+- Jike — user id — web.okjike.com/u/{name} — access: scrape-only
+- Jimdo — website builder / site — {name}.jimdofree.com — access: keyless
+- JioSaavn — artist — jiosaavn.com/artist — access: scrape-only
+- JitPack — GitHub-built JVM artifact — jitpack.io/#{user}/{repo} — access: keyless
+- Jobijoba — company profile — jobijoba.com/fr/entreprise/{name} — scrape-only
+- JobTeaser — company profile — jobteaser.com/en/companies/{name} — scrape-only
+- Joomla Extensions Directory — Joomla extension directory — extensions.joomla.org — access: scrape-only
+- JPO Japan — trademark — j-platpat.inpit.go.jp — access: scrape-only
+- .jp registry (JPRS) — domain name — {name}.jp — access: keyless
+- js.org — free subdomain — {name}.js.org — access: keyless
+- JS Bin — front-end playground / bin — jsbin.com/{name} — access: keyless
+- js.cool — free subdomain — {name}.js.cool — access: keyless
+- jsDelivr — npm CDN — cdn.jsdelivr.net/npm/{name} — access: keyless
+- JSFiddle — user — jsfiddle.net/user/{name} — access: scrape-only
+- jsid.dev — free subdomain — {name}.jsid.dev — keyless
+- JSPad — user profile — jspad.dev/{name} — scrape-only
+- jspm — ESM package registry — jspm.org — access: keyless
+- JSR — JS/TS package registry — jsr.io/api/scopes/{name} — access: keyless
+- Juejin — user id — juejin.cn/user/{name} — access: scrape-only
+- Julia General Registry — Julia package registry / package — juliahub.com/ui/Packages — access: keyed
+- JuliaHub — package — juliahub.com/{name} — access: keyless
+- JustAnswer — Q&A platform / expert — justanswer.com — access: keyed
+- JustWatch — title — justwatch.com — access: scrape-only
+- Kaggle — user — kaggle.com/{name} — access: keyless
+- kaize.io — user profile — kaize.io/profile/{name} — scrape-only
+- KakaoTalk — account — kakao.com — access: keyed
+- Kbin — user — kbin.social/u/{name} — access: keyless
+- KDE Applications — KDE app — apps.kde.org/{name} — access: keyless
+- KDE Store — add-on — store.kde.org/p/{name} — access: keyless
+- Kellnr — self-hosted crates registry — kellnr.io — access: keyless
+- Keppel — self-hosted container registry / account — {host}/{name} — access: keyed
+- Keybase — identity — keybase.io/{name}/proofs — access: keyed
+- KGS Go Server — user — gokgs.com/{name} — access: keyless
+- Kick — channel — kick.com/{name} — access: keyless
+- Kickstarter — project — kickstarter.com/projects/{name} — access: scrape-only
+- Kinorium — user — en.kinorium.com — access: scrape-only
+- KIPO Korea — trademark — kipris.or.kr — access: scrape-only
+- Kit — creator page — {name}.kit.com — access: keyless
+- Kitsu — user — kitsu.app/users/{name} — access: keyless
+- KitsuPage — git pages / user — {name}.kitsu.page — access: keyless
+- Kiva — borrower — kiva.org/lend — access: scrape-only
+- KnownOrigin — creator — knownorigin.io/{name} — access: scrape-only
+- Kobo — username — kobo.com/{name} — access: scrape-only
+- Ko-fi — creator page — ko-fi.com/{name} — access: keyless
+- Komoot — user profile — komoot.com/user/{name} — keyless
+- Kongregate — username — kongregate.com/accounts/{name} — access: keyless
+- Koyeb — app subdomain — {name}.koyeb.app — access: keyless
+- Krew Plugins — kubectl plugin — krew.sigs.k8s.io/plugins/{name} — access: keyless
+- Kuaishou — profile — kuaishou.com/profile/{name} — access: scrape-only
+- Kubernetes OperatorHub — operator — operatorhub.io/operator/{name} — access: keyless
+- Kwai — short-video user — kwai.com/@{name} — access: scrape-only
+- Laby.net — Minecraft username — laby.net/{name} — access: keyless
+- Lang-8 — user profile — lang-8.com/{name} — scrape-only
+- LangCorrect — user profile — langcorrect.com/{name} — scrape-only
+- LanguaTalk — tutor profile — languatalk.com/tutors/{name} — scrape-only
+- Last.fm — user — last.fm/user/{name} — access: keyed
+- Launchpad — code host username — launchpad.net/~{name} — access: keyless
+- Layers — profile — layers.to/{name} — access: keyless
+- Lazada — store — lazada.com/{name} — access: scrape-only
+- LBRY — content channel claim — lbry.tv/@{name} — access: scrape-only
+- LeetCode — user profile — leetcode.com/u/{name}/ — scrape-only
+- Le Figaro Emploi — company profile — emploi.lefigaro.fr/entreprise/{name} — scrape-only
+- Lemmy — fediverse handle — lemmy.world/api/v3/user?username={name} — access: keyless
+- Lemon.io — developer profile — lemon.io/{name} — keyed
+- Lemon Squeezy — store — {name}.lemonsqueezy.com — access: keyless
+- Lens Handles — Lens handles — hey.xyz/u/{name} — access: keyless
+- Lens Protocol — Lens handle — hey.xyz/u/{name} — access: keyless
+- LesJeudis — company profile — lesjeudis.com/entreprise/{name} — scrape-only
+- Letterboxd — user — letterboxd.com/{name} — access: keyless
+- Libera.Chat (IRC) — nick — libera.chat/{name} — access: scrape-only
+- Liberapay — user — liberapay.com/{name} — access: keyless
+- Libib — username — libib.com/u/{name} — access: scrape-only
+- LibraryThing — username — librarything.com/profile/{name} — access: scrape-only
+- Libre.fm — username — libre.fm/{name} — access: scrape-only
+- lib.rs — Rust crate index — lib.rs/crates/{name} — access: keyless
+- Lichess — user — lichess.org/api/user/{name} — access: keyless
+- Lichess Study — study — lichess.org/study/{name} — access: keyless
+- Lichess Team — team — lichess.org/team/{name} — access: keyless
+- Likee — profile — likee.video/@{name} — access: keyless
+- Limelight — username — thelimelight.app/{name} — access: scrape-only
+- Line — account — line.me — access: keyed
+- Linea Names — Linea naming (.linea) — linea.name — access: keyless
+- Linear — workspace — linear.app/{name} — access: scrape-only
+- Lingbe — user profile — lingbe.com/{name} — scrape-only
+- LingQ — user profile — lingq.com/{name} — scrape-only
+- LinkedIn — profile — linkedin.com/in/{name} — access: scrape-only
+- LinkedIn Company — company page — linkedin.com/company/{name} — access: scrape-only
+- LinkedIn Profile — personal profile — linkedin.com/in/{name} — access: scrape-only
+- Linktree — page — linktr.ee/{name} — access: keyless
+- ListenBrainz — user — listenbrainz.org/user/{name} — access: keyless
+- Literal — username — literal.club/{name} — access: scrape-only
+- Live.me — profile — live.me/{name} — access: scrape-only
+- LiveChart.me — user — livechart.me/users/{name} — access: keyless
+- LiveJournal — blogging platform / journal — {name}.livejournal.com — access: keyless
+- Liveweave — user profile — liveweave.com/user/{name} — scrape-only
+- Lobsters — user — lobste.rs/~{name} — access: keyless
+- localhost.run — tunnel subdomain — {name}.localhost.run — keyless
+- localhost.direct — tunnel subdomain — {name}.localhost.direct — keyless
+- localplayer.dev — free subdomain — {name}.localplayer.dev — access: keyless
+- localtunnel — tunnel subdomain — {name}.loca.lt — keyless
+- LocalXpose — tunnel subdomain — {name}.loclx.io — keyed
+- Locket — social handle — locket.camera/{name} — access: scrape-only
+- Loco — channel — loco.gg/{name} — access: keyless
+- LogRocket — author — blog.logrocket.com/author/{name} — access: scrape-only
+- LooksRare — collection — looksrare.org/collection/{name} — access: keyless
+- Loom — user — loom.com/{name} — access: keyless
+- Loophole — tunnel subdomain — {name}.loophole.site — keyed
+- Loops — account — loops.video/@{name} — access: keyless
+- Loudman Live — artist — loudman.live/artist/{name} — access: scrape-only
+- LuaRocks — Lua package registry — luarocks.org/modules/{name} — access: keyless
+- LyricsTranslate — translator profile — lyricstranslate.com/en/translator/{name} — scrape-only
+- Mac App Store — app name — apps.apple.com/mac/search?term={name} — access: scrape-only
+- MacPorts — macOS ports registry — ports.macports.org/port/{name} — access: keyless
+- Madrid Monitor — international trademark — madridmonitor.wipo.int — access: keyless
+- Magento Marketplace — Magento extension directory — marketplace.magento.com — access: scrape-only
+- Magic Eden — user — magiceden.io/{name} — access: keyless
+- Mailchimp — email marketing / audience — mailchimp.com — access: keyed
+- MailerLite — landing page — {name}.mailerlite.com — access: keyless
+- MailPoet — WordPress email / site — mailpoet.com — access: keyed
+- MakersPlace — creator — makersplace.com/{name} — access: keyless
+- Makuake — project — makuake.com/project — access: scrape-only
+- Maloja — self-hosted user — maloja.dev/{name} — access: scrape-only
+- Malt — freelancer profile — malt.fr/profile/{name} — scrape-only
+- MangaDex — user — mangadex.org/user/{name} — access: keyless
+- MangaUpdates — user — mangaupdates.com/user/{name} — access: keyless
+- MapMyRun — user profile — mapmyrun.com/profile/{name} — scrape-only
+- Marimo — user profile — marimo.io/@{name} — scrape-only
+- Markify — trademark search — markify.com — access: keyed
+- Massachusetts SOS — entity name — corp.sec.state.ma.us — access: scrape-only
+- Mastodon — fediverse handle — mastodon.social/@{name} — access: keyless
+- Mataroa — blog platform / blog — mataroa.blog/{name} — access: keyless
+- Matinee — username — matinee.app/{name} — access: scrape-only
+- Matrix — homeserver localpart — {homeserver}/_matrix/client/v3/register/available?username={name} — access: keyless
+- Mattermost — workspace — {name}.mattermost.com — access: keyless
+- Maven Central — JVM artifact registry — search.maven.org/solrsearch/select?q={name} — access: keyless
+- Mbin — fediverse handle — mbin — access: keyless
+- MCProfiles — Minecraft username — mcprofiles.me/player/{name} — access: keyless
+- MCSearch — Minecraft profile search — mcsearch.io/profile/{name} — access: keyless
+- MediaWiki — wiki install — mediawiki.org — access: keyless
+- Medium — blog username — medium.com/@{name} — access: scrape-only
+- Meetup — group/member — meetup.com/{name} — access: keyless
+- MELPA — Emacs package — melpa.org/#/{name} — access: keyless
+- Memrise — user profile — memrise.com/user/{name} — scrape-only
+- Mercado Libre — store — mercadolibre.com/{name} — access: scrape-only
+- Mercari — user — mercari.com/u/{name} — access: scrape-only
+- .me registry — domain name — {name}.me — access: keyless
+- MetaCPAN — Perl module — fastapi.metacpan.org/v1/module/{name} — access: keyless
+- Metacritic — user — metacritic.com/user/{name} — access: scrape-only
+- MetaFilter — user — metafilter.com/user/{name} — access: scrape-only
+- Metapedia — article — en.metapedia.org/wiki/{name} — access: scrape-only
+- Meteojob — company profile — meteojob.com/entreprise/{name} — scrape-only
+- MeWe — profile — mewe.com/i/{name} — access: keyless
+- Michigan LARA — entity name — cofs.lara.state.mi.us — access: scrape-only
+- Micro.blog — blog username — {name}.micro.blog — access: keyed
+- Microsoft AppSource — app — appsource.microsoft.com — access: keyless
+- Microsoft Artifact Registry — container image — mcr.microsoft.com/{name} — access: keyless
+- Microsoft Dev Tunnels — tunnel subdomain — {name}.devtunnels.ms — keyed
+- Microsoft Edge Add-ons — extension slug — microsoftedge.microsoft.com/addons/detail/{name} — access: scrape-only
+- Microsoft Store — Windows app registry — apps.microsoft.com — access: scrape-only
+- Microsoft Teams — account — teams.microsoft.com — access: keyed
+- Mightycause — fundraiser — mightycause.com — access: scrape-only
+- Mighty Networks — network subdomain — {name}.mightynetworks.com — access: keyless
+- Minds — channel — minds.com/{name} — access: keyless
+- Minecraft (Mojang) — Java username — api.mojang.com/users/profiles/minecraft/{name} — access: keyless
+- MinecraftAPI — Minecraft player data — minecraftapi.net/player/{name} — access: keyless
+- Minecraft Bedrock — gamertag — minecraft.net/en-us/profile — access: keyed
+- Minecraft-MP — server — minecraft-mp.com/server/{name} — access: scrape-only
+- Minecraft-Server-List — server — minecraft-server-list.com/server/{name} — access: scrape-only
+- Minehut — server — api.minehut.com/server/{name}?byName=true — access: keyless
+- Mintable — collection — mintable.app/{name} — access: keyless
+- Mintlify — docs site — {name}.mintlify.app — access: keyed
+- Miraheze — wiki subdomain — {name}.miraheze.org — access: keyless
+- Mirror — web3 publishing username — mirror.xyz/{name} — access: keyless
+- Misskey — fediverse handle — misskey.io/@{name} — access: keyless
+- Mixcloud — user — mixcloud.com/{name} — access: keyless
+- Mixcrate — user — mixcrate.com/{name} — access: scrape-only
+- Mix.dj — user — mix.dj/{name} — access: scrape-only
+- MixesDB — user — mixesdb.com/w/User:{name} — access: scrape-only
+- Mixlr — broadcaster — mixlr.com/{name} — access: keyless
+- MkDocs on GitHub Pages — docs site — {name}.github.io — access: keyless
+- MobyGames — game title — mobygames.com/search/?q={name} — access: scrape-only
+- Modal — user — modal.com/{name} — access: keyed
+- ModDB — member — moddb.com/members/{name} — access: scrape-only
+- Mode — user profile — mode.com/{name} — scrape-only
+- ModelScope — user — modelscope.cn/profile/{name} — access: keyless
+- mod.land — free subdomain — {name}.mod.land — keyless
+- MODX Extras — MODX addon directory — modx.com/extras — access: scrape-only
+- Moj — user handle — mojapp.in/@{name} — access: scrape-only
+- Mojang — Minecraft username — api.mojang.com/users/profiles/minecraft/{name} — access: keyless
+- Monday.com Apps — app — monday.com/apps — access: keyless
+- Monster France — company profile — monster.fr/entreprise/{name} — scrape-only
+- Moviebase — username — moviebase.app/{name} — access: scrape-only
+- MSYS2 — Windows package registry — packages.msys2.org — access: keyless
+- MSYS2 Packages — package — packages.msys2.org/package/{name} — access: keyless
+- Mumble — server user — mumble.info — access: keyed
+- Musicboard — user — musicboard.app/{name} — access: keyless
+- MusicBrainz — editor — musicbrainz.org/user/{name} — access: keyless
+- Musixmatch — artist — musixmatch.com/artist/{name} — access: scrape-only
+- MvnRepository — artifact index — mvnrepository.com/artifact/{group}/{artifact} — access: scrape-only
+- MyAnimeList — profile — myanimelist.net/profile/{name} — access: keyless
+- MyDramaList — profile — mydramalist.com/profile/{name} — access: keyless
+- MyFitnessPal — user profile — myfitnesspal.com/profile/{name} — scrape-only
+- myftp.org — dynamic DNS host — {name}.myftp.org — access: keyless
+- MyGet — package registry host — myget.org — access: keyed
+- Myket — app — myket.ir — access: scrape-only
+- MyLanguageExchange — member profile — mylanguageexchange.com/members/{name} — scrape-only
+- MyOnlinePortal — dynamic DNS host — {name}.myonlineportal.net — access: keyless
+- MySpace — user profile — myspace.com/{name} — scrape-only
+- Name.com — registrar — name.com/domain-search/?query={name} — access: scrape-only
+- Namebase — HNS registrar — namebase.io/domains/{name} — access: scrape-only
+- Namecheap — registrar — namecheap.com/domains/registration/results/?domain={name} — access: scrape-only
+- Namecoin — decentralized TLD (.bit) — explorer.namecoin.co/api/name/d%2F{name} — access: keyless
+- NameMC — Minecraft username — namemc.com/profile/{name} — access: keyless
+- Namu.wiki — encyclopedia entry — namu.wiki/w/{name} — access: scrape-only
+- Napster — artist — napster.com/artist/{name} — access: keyed
+- Naver Band — band handle — band.us/@{name} — access: scrape-only
+- Naver Blog — blog id — blog.naver.com/{name} — access: scrape-only
+- Naver Cafe — cafe id — cafe.naver.com/{name} — access: scrape-only
+- NEAR Names — NEAR naming (.near) — near.org — access: keyless
+- Nebula — video platform / creator — nebula.tv/{name} — access: keyed
+- Nekoweb — personal site — {name}.nekoweb.org — access: keyless
+- Neocities — personal site — {name}.neocities.org — access: keyless
+- NeoDB — federated user profile — neodb.social/@/{name} — keyless
+- Neoseeker — username — neoseeker.com/members/{name} — access: scrape-only
+- Neowin Forums — username — neowin.net/profile/{id}-{name} — access: scrape-only
+- NetEase — media user — 163.com — access: keyed
+- Netlify — project subdomain — {name}.netlify.app — access: keyless
+- Nevada SOS — entity name — esos.nv.gov — access: scrape-only
+- Newegg — seller store — newegg.com/sellers — access: scrape-only
+- Newgrounds — user — {name}.newgrounds.com — access: keyless
+- New Jersey Business — entity name — njportal.com/business — access: scrape-only
+- New Nations — alternative TLD domain — new-nations.net/{name} — access: scrape-only
+- NewsBlur — RSS reader / user — newsblur.com — access: keyed
+- New York DOS — entity — apps.dos.ny.gov/publicInquiry — access: scrape-only
+- Nextdoor — neighborhood profile — nextdoor.com/profile/{name} — access: scrape-only
+- Nexus Mods — username — nexusmods.com/users/{name} — access: scrape-only
+- ngo.us — free subdomain — {name}.ngo.us — keyless
+- ngrok — tunnel subdomain — {name}.ngrok-free.app — keyed
+- Niconico — user — nicovideo.jp/user/{name} — access: scrape-only
+- Nifty Gateway — user — niftygateway.com/{name} — access: keyless
+- Nimble — Nim package registry — nimble.directory/pkg/{name} — access: keyless
+- Nimo TV — channel — nimo.tv/{name} — access: keyless
+- Ninite — Windows bulk installer — ninite.com — access: scrape-only
+- Nintendo — user nickname — nintendo.com/{name} — access: scrape-only
+- Nintendo Account — account nickname — nintendo.com — access: keyed
+- Nintendo eShop — game title — nintendo.com/search/#q={name} — access: scrape-only
+- NixOS Packages — Linux package — search.nixos.org/packages?query={name} — access: keyless
+- Nixpkgs — Nix package registry — search.nixos.org/packages?query={name} — access: keyless
+- no-ip.org — dynamic DNS host — {name}.no-ip.org — access: keyless
+- Nonolive — channel — nonolive.com/{name} — access: keyless
+- North Carolina SOS — entity name — sosnc.gov — access: scrape-only
+- North Data — company — northdata.com/{name} — access: keyless
+- Northflank — service subdomain — {name}.northflank.app — access: keyless
+- Nostr — NIP-05 identifier — nostr — access: keyless
+- Nostr NIP-05 — per-domain identifier — {domain}/.well-known/nostr.json?name={name} — access: keyless
+- NotABug — user — notabug.org/{name} — access: keyless
+- Noteable — user profile — noteable.io/{name} — scrape-only
+- noted.lol — free subdomain — {name}.noted.lol — access: keyless
+- Notion — public page — {name}.notion.site — access: keyless
+- Notion Integrations — Notion integration — notion.so/integrations/{name} — access: keyless
+- Noun Project — icon designer — thenounproject.com/{name} — access: keyed
+- Novita AI — user — novita.ai/{name} — access: keyed
+- Now-DNS — dynamic DNS host — {name}.now-dns.com — access: keyless
+- npm — JS package registry — registry.npmjs.org/{name} — access: keyless
+- npm users — JS package registry / user profile — npmjs.com/~{name} — access: scrape-only
+- NPort — tunnel subdomain — {name}.nport.link — keyless
+- nsupdate.info — dynamic DNS host — {name}.nsupdate.info — access: keyless
+- NuGet — .NET package registry — api.nuget.org/v3-flatcontainer/{name}/index.json — access: keyless
+- NuGet Gallery — .NET package search — nuget.org/packages/{name} — access: keyless
+- NuGet profiles — .NET package registry / user profile — nuget.org/profiles/{name} — access: keyless
+- NVIDIA NGC — user — ngc.nvidia.com/{name} — access: keyed
+- NZ Companies Register — company — app.companiesoffice.govt.nz/companies/app/ui/pages/companies/search?q={name} — access: scrape-only
+- .nz registry (InternetNZ) — domain name — {name}.nz — access: keyless
+- Objkt — artist — objkt.com/@{name} — access: keyless
+- obl.ong — free subdomain — {name}.obl.ong — keyless
+- Observable — notebook — observablehq.com/@{name} — access: keyless
+- Obsidian Community Plugins — plugin — obsidian.md/plugins?id={name} — access: scrape-only
+- October CMS Marketplace — October plugin directory — octobercms.com/plugin/{name} — access: keyless
+- Odnoklassniki — profile — ok.ru/{name} — access: scrape-only
+- Odysee — channel — odysee.com/@{name} — access: keyless
+- OfferUp — profile — offerup.com/profile/{name} — access: scrape-only
+- Ohio SOS — entity — businesssearch.ohiosos.gov — access: scrape-only
+- OK.ru — social user — ok.ru/{name} — access: scrape-only
+- Ollama — model namespace — ollama.com/{name} — access: keyless
+- OneDev — code host username — onedev.io — access: scrape-only
+- Online-Go — user — online-go.com/user/view/{name} — access: keyless
+- OP.GG (Riot Games) — Riot ID — op.gg/summoners — access: scrape-only
+- opam — OCaml package registry — opam.ocaml.org/packages/{name} — access: keyless
+- OpenCart Marketplace — OpenCart extension directory — opencart.com/marketplace — access: scrape-only
+- Open Collective — collective — opencollective.com/{name} — access: keyless
+- OpenCorporates — company — api.opencorporates.com/v0.4/companies/search?q={name} — access: keyed
+- Open Domains — free subdomain — {name}.is-cool.dev — keyless
+- OpenGovUS — company — opengovus.com — access: scrape-only
+- Open Library — username — openlibrary.org/people/{name} — access: keyless
+- OpenML — user profile — openml.org/u/{name} — scrape-only
+- OpenNIC — alt-root TLD — opennic.org — access: keyless
+- OpenRegistry — self-hosted container registry / namespace — {host}/{name} — access: keyed
+- OpenRouter — account — openrouter.ai/{name} — access: keyed
+- OpenSea — web3 profile — opensea.io/{name} — access: keyless
+- OpenShift Image Registry — container image — {host}/openshift/{name} — access: keyed
+- OpenSocial — profile — opensocial.io/@{name} — access: keyless
+- Open Source Collective — slug — opencollective.com/{name} — access: keyless
+- openSUSE Build Service — Linux package — build.opensuse.org/package/show/{name} — access: keyless
+- openSUSE Software — openSUSE package registry — software.opensuse.org — access: keyless
+- OpenTofu Registry — IaC module/provider — search.opentofu.org/modules/{owner}/{name} — access: keyless
+- Open VSX — extension registry — open-vsx.org/api/{name} — access: keyless
+- Opera Add-ons — extension — addons.opera.com/en/extensions/details/{name} — access: scrape-only
+- Oracle Cloud Infrastructure Registry — container image — {region}.ocir.io/{namespace}/{repo} — access: keyed
+- ORCID — researcher iD — orcid.org/{id} — access: keyless
+- OSDN — user/project — osdn.net/users/{name} — access: scrape-only
+- Otta — company slug — otta.com/companies/{name} — scrape-only
+- Over-Blog — blog platform / blog — {name}.over-blog.com — access: keyless
+- Owler — company profile — owler.com/company/{name} — access: scrape-only
+- Owncast — fediverse handle — owncast.online — access: keyless
+- OxyPages — drop host / site — {name}.myoxypages.com — access: keyless
+- Packagist — PHP package registry — packagist.org/packages/{name} — access: keyless
+- Packer Plugins — Packer plugin — developer.hashicorp.com/packer/plugins — access: keyless
+- page.gd — free subdomain — {name}.page.gd — keyless
+- Pagekite — tunnel subdomain — {name}.pagekite.me — keyed
+- pages.dev — Cloudflare Pages project — {name}.pages.dev — access: keyless
+- pages.gay — static site — {name}.pages.gay — access: keyless
+- Pagure — code host username — pagure.io/{name} — access: keyless
+- Pale Moon Add-ons — add-on — addons.palemoon.org/addon/{name} — access: scrape-only
+- Pandora — artist — pandora.com/artist/{name} — access: keyed
+- Papers With Code — author — paperswithcode.com/author/{name} — access: scrape-only
+- Paragraph — web3 newsletter handle — paragraph.com/@{name} — access: keyless
+- Passes — creator page — passes.com/{name} — access: scrape-only
+- Patch My PC — Windows app catalog — patchmypc.com — access: scrape-only
+- Patreon — creator page — patreon.com/{name} — access: keyless
+- Payhip — store — payhip.com/{name} — access: keyless
+- PayPal.me — username — paypal.me/{name} — access: scrape-only
+- PebbleHost — server — pebblehost.com — access: keyed
+- Peerlist — profile — peerlist.io/{name} — access: keyless
+- PeerName — p2p naming — peername.com — access: scrape-only
+- PeerTube — fediverse handle — framatube.org/api/v1/accounts/{name} — access: keyless
+- Peloton — member profile — members.onepeloton.com/profile/{name} — scrape-only
+- Pennsylvania DOS — entity name — hub.bizfile.gov — access: scrape-only
+- Penpot — design profile — penpot.app — access: keyless
+- PeoplePerHour — freelancer profile — peopleperhour.com/freelancer/{name} — scrape-only
+- Pexels — profile — pexels.com/@{name} — access: scrape-only
+- Photobucket — profile — photobucket.com/user/{name} — access: scrape-only
+- Picarto — channel — picarto.tv/{name} — access: keyless
+- PieFed — fediverse handle — piefed — access: keyless
+- Pillowfort — social blogging / profile — pillowfort.social/{name} — access: keyless
+- Pinggy — tunnel subdomain — {name}.free.pinggy.io — keyless
+- Pinterest — profile — pinterest.com/{name} — access: scrape-only
+- PitchBook — company profile — pitchbook.com/profiles — access: keyed
+- piwheels — Raspberry Pi wheel registry — piwheels.org/project/{name} — access: keyless
+- Pixabay — user — pixabay.com/users/{name} — access: scrape-only
+- Pixelfed — fediverse handle — pixelfed.social/{name} — access: keyless
+- Pixiv — user id — pixiv.net/users/{name} — access: scrape-only
+- pkgsrc — cross-platform package registry — pkgsrc.se — access: scrape-only
+- Planet Minecraft — member — planetminecraft.com/member/{name} — access: scrape-only
+- PlayCode — user profile — playcode.io/{name} — scrape-only
+- playit.gg — tunnel subdomain — {name}.playit.gg — keyed
+- PlayOK — member — playok.com/members/{name} — access: scrape-only
+- PlayStation Network — online ID — psnprofiles.com/{name} — access: scrape-only
+- PlayStation Store — game title — store.playstation.com/search/{name} — access: scrape-only
+- Pleroma — fediverse handle — pleroma.social — access: keyless
+- Plotly Chart Studio — user profile — chart-studio.plotly.com/~{name} — scrape-only
+- PloudOS — server — ploudos.com/server/{name} — access: keyed
+- Plunker — user profile — plnkr.co/users/{name} — scrape-only
+- pnpm registry — JS package registry — registry.npmjs.org/{name} — access: keyless
+- Podia — creator site — {name}.podia.com — access: keyless
+- Podomatic — host — {name}.podomatic.com — access: keyless
+- Polar — organization — polar.sh/{name} — access: scrape-only
+- Polar Flow — user profile — flow.polar.com/{name} — keyed
+- PolyglotClub — member profile — polyglotclub.com/{name} — scrape-only
+- Polywork — professional profile — polywork.com/{name} — access: scrape-only
+- Porkbun — registrar — porkbun.com/products/domains — access: scrape-only
+- Portfoliobox — site — {name}.portfoliobox.net — access: keyless
+- Poshmark — closet — poshmark.com/closet/{name} — access: scrape-only
+- Posit Cloud — user profile — posit.cloud/{name} — scrape-only
+- Post — social news platform / profile — post.news/{name} — access: keyless
+- Posthaven — blog platform / site — {name}.posthaven.com — access: keyless
+- PowerShell Gallery — PowerShell module registry — powershellgallery.com/api/v2/FindPackagesById()?id='{name}' — access: keyless
+- pp.ua — free second-level domain — {name}.pp.ua — access: keyless
+- Preply — tutor profile — preply.com/en/tutor/{name} — scrape-only
+- PrestaShop Addons — PrestaShop addon directory — addons.prestashop.com — access: scrape-only
+- Product Hunt — user — producthunt.com/@{name} — access: scrape-only
+- Product Hunt Maker — user profile — producthunt.com/@{name} — access: keyed
+- PRV Sweden — trademark — prv.se — access: scrape-only
+- PSNProfiles (PlayStation Network) — online ID — psnprofiles.com/{name} — access: scrape-only
+- pub.dev — Dart package registry — pub.dev/api/packages/{name} — access: keyless
+- pub.dev score — Dart package score — pub.dev/packages/{name}/score — access: keyless
+- Publish0x — profile — publish0x.com/@{name} — access: keyless
+- pub mirror (China) — Dart package mirror — pub.flutter-io.cn/packages/{name} — access: keyless
+- Pulumi Registry — IaC package — pulumi.com/registry/packages/{name} — access: keyless
+- Pumble — workspace subdomain — {name}.pumble.com — access: scrape-only
+- Puppet Forge — Puppet module — forge.puppet.com/modules/{user}/{name} — access: keyless
+- PureScript Registry — PureScript package registry / package — github.com/purescript/registry — access: scrape-only
+- PyPI — Python package registry — pypi.org/pypi/{name}/json — access: keyless
+- PyPI users — Python package index / user profile — pypi.org/user/{name}/ — access: scrape-only
+- Qobuz — artist — qobuz.com/artist/{name} — access: keyed
+- Qovery — app subdomain — {name}.qovery.io — access: keyless
+- QQ — user id — user.qzone.qq.com/{name} — access: scrape-only
+- Quay.io — container image — quay.io/{org}/{repo} — access: keyless
+- Quizlet — user profile — quizlet.com/{name} — scrape-only
+- Quora — space — quora.com/q/{name} — access: scrape-only
+- qzz.io — free subdomain — {name}.qzz.io — access: keyless
+- Racket — package — pkgs.racket-lang.org/package/{name} — access: keyless
+- Racket Packages — Racket package — pkgs.racket-lang.org/package/{name} — access: keyless
+- Raddle — user — raddle.me/u/{name} — access: keyless
+- Radicle — p2p code host — radicle.xyz — access: keyless
+- Radio Wigwam — artist — radiowigwam.co.uk/artist/{name} — access: scrape-only
+- Railway — project subdomain — {name}.up.railway.app — access: keyless
+- Rakuten — shop — rakuten.com — access: scrape-only
+- Rarible — user — rarible.com/{name} — access: keyless
+- Rate Your Music — user — rateyourmusic.com/~{name} — access: scrape-only
+- RationalWiki — article — rationalwiki.org/wiki/{name} — access: keyless
+- Raycast Extensions — extension — raycast.com/{name} — access: keyless
+- Raycast Store — extension — raycast.com/store — access: scrape-only
+- Read.cv — profile — read.cv/{name} — access: keyless
+- ReadMe — API docs — {name}.readme.io — access: keyed
+- Read the Docs — documentation project — {name}.readthedocs.io — access: keyless
+- Readwise — username — readwise.io/{name} — access: scrape-only
+- Rec Room — username — rec.net — access: keyed
+- Redbubble — artist shop — redbubble.com/people/{name}/shop — access: scrape-only
+- Reddit — social username — reddit.com/user/{name} — access: scrape-only
+- Reddit Subreddit — community — reddit.com/r/{name} — access: scrape-only
+- Red Hat Quay — container image — registry.redhat.io/{name} — access: keyed
+- Reedsy — freelancer profile — reedsy.com/{name} — scrape-only
+- Reelgood — user — reelgood.com/{name} — access: scrape-only
+- registry.k8s.io — container image — registry.k8s.io/{name} — access: keyless
+- Render — service subdomain — {name}.onrender.com — access: keyless
+- Replicate — user — replicate.com/{name} — access: keyless
+- Replit — repl — {name}.repl.co — access: keyless
+- Republic — campaign — republic.com — access: scrape-only
+- ResearchGate — researcher — researchgate.net/profile/{name} — access: scrape-only
+- Reverb — shop — reverb.com/shop/{name} — access: scrape-only
+- ReverbNation — artist — reverbnation.com/{name} — access: scrape-only
+- Revolt — chat user — revolt.chat/{name} — access: scrape-only
+- Revolut — username — revolut.me/{name} — access: scrape-only
+- RideWithGPS — user profile — ridewithgps.com/users/{name} — scrape-only
+- Riot Games — Riot id — riotgames.com/{name} — access: scrape-only
+- Roblox — username — roblox.com/users?username={name} — access: keyless
+- Roblox Groups — group name — roblox.com/groups — access: keyless
+- Rocket.Chat — workspace — {name}.rocket.chat — access: keyless
+- Rokfin — video platform / channel — rokfin.com/{name} — access: keyless
+- Rooter — channel — rooter.gg/{name} — access: keyless
+- RootzWiki — username — rootzwiki.com/members/{name} — access: scrape-only
+- Roposo — user profile — roposo.com/profile/{name} — access: scrape-only
+- Rotten Tomatoes — title/profile — rottentomatoes.com — access: scrape-only
+- RPM Fusion — Fedora add-on registry — rpmfusion.org — access: keyless
+- rsproxy.cn — crates.io mirror — rsproxy.cn — access: keyless
+- RubyGems — Ruby package registry — rubygems.org/api/v1/gems/{name}.json — access: keyless
+- RubyGems profiles — Ruby gem registry / user profile — rubygems.org/profiles/{name} — access: keyless
+- RubyGems search — Ruby package search — rubygems.org/search?query={name} — access: keyless
+- Ruby Lane — shop — rubylane.com/{name} — access: scrape-only
+- RuckZuck — Windows app repository — ruckzuck.tools — access: keyless
+- Rumble — channel — rumble.com/c/{name} — access: keyless
+- Runalyze — athlete profile — runalyze.com/@/{name} — scrape-only
+- R-universe — R package registry / package — {name}.r-universe.dev — access: keyless
+- Runkeeper — user profile — runkeeper.com/user/{name} — scrape-only
+- RunPod — user — runpod.io/{name} — access: keyed
+- SaaSHub — app — saashub.com/{name} — access: keyless
+- Safari Extensions — extension — apps.apple.com/us/app/{name} — access: scrape-only
+- Salesforce AppExchange — app — appexchange.salesforce.com/appxListingDetail?listingId={name} — access: scrape-only
+- Salt Stack Formulas — Salt formula — github.com/saltstack-formulas/{name} — access: keyless
+- Samsung Galaxy Store — app name — galaxystore.samsung.com/search?q={name} — access: scrape-only
+- Sarna.net — article — sarna.net/wiki/{name} — access: scrape-only
+- Savannah — code host username — savannah.gnu.org — access: scrape-only
+- Savannah GNU — project — savannah.gnu.org/projects/{name} — access: scrape-only
+- Savannah NonGNU — project — savannah.nongnu.org/projects/{name} — access: scrape-only
+- Savee — profile — savee.it/{name} — access: keyless
+- Scala Library Index — Scala package index / package — index.scala-lang.org/{owner}/{repo} — access: keyless
+- Scoop — Windows package registry — scoop.sh — access: keyless
+- Screvi — username — screvi.com/{name} — access: scrape-only
+- Scuttlebutt — decentralized identity — {name}.ssb — access: scrape-only
+- SEC EDGAR — company — efts.sec.gov/LATEST/search-index?q={name} — access: keyless
+- SEC EDGAR CIK Lookup — company — sec.gov/cgi-bin/browse-edgar?action=getcompany — access: keyless
+- SEC EDGAR Full-Text Search — filing name — efts.sec.gov/LATEST/search-index?q={name} — access: keyless
+- SecStates — entity aggregator — secstates.com — access: scrape-only
+- Seed&Spark — project — seedandspark.com — access: scrape-only
+- SegmentFault — user handle — segmentfault.com/u/{name} — access: scrape-only
+- Segmind — user — segmind.com/{name} — access: keyless
+- selfHOST — dynamic DNS host — {name}.selfhost.de — access: keyless
+- Sellfy — store — {name}.sellfy.com — access: keyless
+- SendOwl — store — {name}.sendowl.com — access: keyless
+- SEOClerk — seller profile — seoclerk.com/{name} — scrape-only
+- Serializd — user — serializd.com/user/{name} — access: keyless
+- Serveo — tunnel subdomain — {name}.serveo.net — keyless
+- Server.pro — server subdomain — {name}.server.pro — access: keyless
+- Session — messaging / account ID — getsession.org — access: keyless
+- Setapp — app — setapp.com — access: keyed
+- Setlist.fm — user — setlist.fm/user/{name} — access: keyed
+- Sevalla — static/app hosting — {name}.sevalla.app — access: keyless
+- Sharkey — fediverse handle — sharkey — access: keyless
+- Sheezy.Art — username — sheezy.art/{name} — access: scrape-only
+- Shikimori — profile — shikimori.one/{name} — access: keyless
+- Shockbyte — server — shockbyte.com — access: keyed
+- Shopee — shop — shopee.com.my/{name} — access: scrape-only
+- Shopify — store — {name}.myshopify.com — access: keyless
+- Shopify App Store — Shopify app directory — apps.shopify.com/{name} — access: scrape-only
+- ShoutWiki — wiki subdomain — {name}.shoutwiki.com — access: keyless
+- .sh registry — domain name — {name}.sh — access: keyless
+- Shutterstock — contributor — shutterstock.com/g/{name} — access: scrape-only
+- Signal — username — signal.org — access: scrape-only
+- SIGNATE — user — signate.jp/users/{name} — access: scrape-only
+- Similarweb — domain profile — similarweb.com/website/{name} — access: scrape-only
+- Simkl — user — simkl.com/{name} — access: keyless
+- SimpleX — messaging / address — simplex.chat — access: keyless
+- Sketch — plugin/asset — sketch.com — access: keyless
+- SkinsMC — Minecraft player/skins — skinsmc.net/search/{name} — access: keyless
+- Skool — community — skool.com/{name} — access: scrape-only
+- Skypack — ESM CDN — cdn.skypack.dev/{name} — access: keyless
+- Skype — username — join.skype.com/{name} — access: scrape-only
+- Slack — workspace — {name}.slack.com — access: keyless
+- Slack App Directory — app — slack.com/apps/{name} — access: scrape-only
+- Slackware Packages — Slackware package registry — packages.slackware.com — access: keyless
+- Slashdot — user — slashdot.org/~{name} — access: scrape-only
+- Sleet — static NuGet feed — github.com/emgarten/Sleet — access: keyless
+- SlideME — app — slideme.org — access: scrape-only
+- Smashing Magazine — author — smashingmagazine.com/author/{name} — access: scrape-only
+- Smashrun — runner profile — smashrun.com/{name} — scrape-only
+- SmugMug — site subdomain — {name}.smugmug.com — access: scrape-only
+- snac — account — {instance}/{name} — access: scrape-only
+- Snapchat — profile — snapchat.com/add/{name} — access: scrape-only
+- Snap Store — Snap app registry — snapcraft.io/{name} — access: keyless
+- Snowdrift.coop — project — snowdrift.coop/p/{name} — access: keyless
+- Society6 — artist shop — society6.com/{name} — access: scrape-only
+- Softonic — app — softonic.com/search/{name} — access: scrape-only
+- SoHu — video user — tv.sohu.com — access: keyed
+- Solafune — user — solafune.com/users/{name} — access: scrape-only
+- Solana Name Service — web3 TLD (.sol) — sdk-proxy.sns.id/resolve/{name}.sol — access: keyless
+- Solus Packages — Linux package — dev.getsol.us — access: keyless
+- Sonatype Central — group/artifact — central.sonatype.com/artifact/{group}/{artifact} — access: keyless
+- Sonatype Nexus — artifact registry — sonatype.com/products/repository — access: keyed
+- Songkick — artist — songkick.com/artists/{name} — access: keyed
+- SongMeanings — user profile — songmeanings.com/user/{name} — scrape-only
+- Sound.xyz — web3 music artist — sound.xyz/{name} — access: keyless
+- SoundBetter — pro — soundbetter.com/profiles/{name} — access: keyed
+- SoundClick — artist — soundclick.com/{name} — access: scrape-only
+- SoundCloud — profile — soundcloud.com/{name} — access: keyless
+- SourceForge — code host username — sourceforge.net/u/{name} — access: scrape-only
+- SourceHut — code host username — sr.ht/~{name} — access: scrape-only
+- SourceHut Pages — git pages / user — {name}.srht.site — access: keyless
+- SoylentNews — user — soylentnews.org/~{name} — access: scrape-only
+- Spacebar — username — spacebar.chat/{name} — access: scrape-only
+- Space ID — web3 TLD (.bnb/.arb) — space.id — access: keyless
+- Spacelift Registry — module/provider — spacelift.io — access: keyed
+- Spack — HPC package registry — packages.spack.io/package.html?name={name} — access: keyless
+- Sparked Host — server — sparkedhost.com — access: keyed
+- spdyn.de — dynamic DNS host — {name}.spdyn.de — access: keyless
+- Speaky — user profile — speaky.com/{name} — scrape-only
+- Spiceworks — IT community / profile — community.spiceworks.com/people/{name} — access: keyless
+- Spinrilla — artist — spinrilla.com/{name} — access: scrape-only
+- Splunkbase — app — splunkbase.splunk.com/app/{name} — access: scrape-only
+- Sports Tracker — user profile — sportstracker.com/{name} — scrape-only
+- Spotify — user — open.spotify.com/user/{name} — access: keyless
+- Spoutible — profile — spoutible.com/{name} — access: keyless
+- Squarespace — site — {name}.squarespace.com — access: keyless
+- Stackage — Haskell package sets — stackage.org/package/{name} — access: keyless
+- StackBlitz — project — stackblitz.com/edit/{name} — access: keyless
+- Stacker News — Lightning user — stacker.news/{name} — access: keyless
+- Stack Exchange — site — stackexchange.com/sites — access: keyless
+- Stack Overflow — user — stackoverflow.com/users/{id} — access: scrape-only
+- StackShare — tool — stackshare.io/{name} — access: keyless
+- Stan Store — store — stan.store/{name} — access: keyless
+- Stargaze — creator/name — stargaze.zone/{name} — access: keyless
+- Starknet.id — .stark name — starknet.id/{name} — access: keyless
+- Starknet ID — Starknet naming (.stark) — starknet.id — access: keyless
+- StartEngine — startup — startengine.com — access: scrape-only
+- Startup Ranking — startup profile — startupranking.com/startup/{name} — scrape-only
+- Statamic Addons — Statamic addon directory — statamic.com/addons — access: scrape-only
+- Static.app — site subdomain — {name}.static.app — access: keyless
+- Statichost — static host / site — {name}.statichost.eu — access: keyless
+- stats.fm — username — stats.fm/{name} — access: scrape-only
+- Steady — creator page — steadyhq.com/{name} — access: scrape-only
+- Steam — vanity username — steamcommunity.com/id/{name} — access: keyless
+- Steam Community — vanity profile URL — steamcommunity.com/id/{name} — access: keyless
+- Steam Store — game title — store.steampowered.com/search?term={name} — access: keyless
+- Steemit — account — steemit.com/@{name} — access: keyless
+- Storenvy — store subdomain — {name}.storenvy.com — access: keyless
+- StoryFire — user — storyfire.com/user/{name} — access: keyless
+- Strava — athlete/club profile — strava.com/athletes/{name} — scrape-only
+- Streamable — user — streamable.com/{name} — access: keyless
+- Streamlabs — username — streamlabs.com/{name} — access: scrape-only
+- Streamlit Community Cloud — app owner — share.streamlit.io/{name} — scrape-only
+- Strikingly — website builder / site — {name}.strikingly.com — access: keyless
+- Stripe — account — stripe.com/{name} — access: keyed
+- Stripe App Marketplace — app — marketplace.stripe.com — access: keyless
+- Sublime Text Package Control — package — packagecontrol.io/packages/{name} — access: keyless
+- Subsocial — space — app.subsocial.network/{name} — access: keyless
+- Substack — newsletter subdomain — {name}.substack.com — access: keyless
+- SuiNS — Sui naming (.sui) — suins.io — access: keyless
+- SuperRare — creator — superrare.com/{name} — access: keyless
+- Surge — project subdomain — {name}.surge.sh — access: keyless
+- SUSE Registry — container image — registry.suse.com/{name} — access: keyless
+- Svbtle — blog username — svbtle.com — access: scrape-only
+- Swappa — seller — swappa.com/user/{name} — access: scrape-only
+- Swift Package Index — Swift package index — swiftpackageindex.com — access: scrape-only
+- Swissreg — trademark — swissreg.ch — access: scrape-only
+- sytes.net — dynamic DNS host — {name}.sytes.net — access: keyless
+- Tableau Public — user profile — public.tableau.com/app/profile/{name} — scrape-only
+- Tailscale Funnel — tailnet host — {name}.ts.net — keyed
+- Talent.io — company profile — talent.io/{name} — scrape-only
+- Tandem — user profile — tandem.net/{name} — scrape-only
+- Tangled — ATProto code host — tangled.org/{name} — access: keyless
+- TapTap — app — taptap.io/search?kw={name} — access: scrape-only
+- Taste — user profile — taste.io/user/{name} — scrape-only
+- Teachable — school — {name}.teachable.com — access: keyless
+- TeamSpeak — identity — myteamspeak.com — access: keyed
+- Teia — artist — teia.art/{name} — access: keyless
+- Telebit — tunnel subdomain — {name}.telebit.io — keyed
+- Telegram — social username — t.me/{name} — access: scrape-only
+- Telegram Channel — public channel — t.me/{name} — access: scrape-only
+- Telegra.ph — page — telegra.ph/{name} — access: keyless
+- Tencent Video — video user — v.qq.com — access: keyed
+- Tenor — channel — tenor.com/{name} — access: keyless
+- Tensor — trader — tensor.trade/{name} — access: keyless
+- TensorFlow Hub — publisher — tfhub.dev/{name} — access: scrape-only
+- Terraform Registry — IaC module/provider — registry.terraform.io/modules/{owner}/{name} — access: keyless
+- Terrakube Registry — module/provider — app.terrakube.io/registry — access: keyless
+- TestPyPI — Python test registry — test.pypi.org/pypi/{name}/json — access: keyless
+- Texas SOS — entity — mycpa.cpa.state.tx.us/taxcert — access: scrape-only
+- Tezos Domains — web3 TLD (.tez) — app.tezos.domains — access: keyless
+- thanks.dev — profile — thanks.dev/{name} — access: keyless
+- thedev.id — free subdomain — {name}.thedev.id — access: keyless
+- The Dots — profile — the-dots.com/users/{name} — access: keyless
+- The Gaming Nest — developer — thegamingnest.com/{name} — access: scrape-only
+- The New Stack — author — thenewstack.io/author/{name} — access: scrape-only
+- There's An AI For That — AI tool — theresanaiforthat.com — access: scrape-only
+- The StoryGraph — username — app.thestorygraph.com/profile/{name} — access: scrape-only
+- Theta.tv — channel — theta.tv/{name} — access: keyless
+- TheTVDB — user — thetvdb.com/user/{name} — access: keyed
+- Thinkific — school subdomain — {name}.thinkific.com — access: scrape-only
+- ThinkOnward — user — thinkonward.com/profile/{name} — access: scrape-only
+- Threads — social username — threads.net/@{name} — access: scrape-only
+- Threema — messaging / ID — threema.id/{name} — access: keyless
+- Tianchi — user — tianchi.aliyun.com/user/{name} — access: keyed
+- Tidal — artist — tidal.com/artist/{name} — access: scrape-only
+- tiiny.host — site subdomain — {name}.tiiny.site — access: keyless
+- TikTok — social username — tiktok.com/@{name} — access: scrape-only
+- tildegit Pages — git pages / user — {name}.tildepages.org — access: keyless
+- Tildes — user — tildes.net/user/{name} — access: keyless
+- TinyLetter — newsletter platform / publication — tinyletter.com/{name} — access: keyless
+- Tipeee — username — tipeee.com/{name} — access: scrape-only
+- TMDB — person/user — themoviedb.org/person/{id} — access: keyed
+- TMview — trademark — tmdn.org/tmview — access: keyless
+- Together AI — account — api.together.xyz (namespace {name}) — access: keyed
+- Tom's Guide Forum — username — forums.tomsguide.com/members/{name} — access: scrape-only
+- TON DNS — .ton name — ton.domains/{name} — access: keyless
+- Toolify — AI tool — toolify.ai/tool/{name} — access: keyless
+- TopG — server — topg.org/minecraft-servers/{name} — access: scrape-only
+- Toptal — talent profile — toptal.com/{name} — keyed
+- .to registry — domain name — {name}.to — access: keyless
+- Toutiao — user id — toutiao.com/c/user/{name} — access: scrape-only
+- Tox — messaging / username — toxme.io/{name} — access: keyless
+- Toyhouse — user — toyhou.se/{name} — access: scrape-only
+- Tracker.gg (Riot Games) — Riot ID — tracker.gg/valorant/profile/riot/{name} — access: scrape-only
+- Tracksaga — user profile — tracksaga.com/en/users/{name} — scrape-only
+- Tracxn — company profile — tracxn.com — access: keyed
+- Trademarkia — trademark aggregator — trademarkia.com — access: scrape-only
+- Trailforks — user profile — trailforks.com/profile/{name} — scrape-only
+- TrainingPeaks — athlete profile — trainingpeaks.com/athlete/{name} — keyed
+- Trakt — user — trakt.tv/users/{name} — access: keyed
+- Triller — profile — triller.co/@{name} — access: keyless
+- Trovo — channel — trovo.live/s/{name} — access: keyless
+- Truelancer — freelancer profile — truelancer.com/u/{name} — scrape-only
+- Trustii — user — trustii.io/profile/{name} — access: scrape-only
+- Truth Social — profile — truthsocial.com/@{name} — access: scrape-only
+- Tumblr — social username — {name}.tumblr.com — access: keyed
+- TUNA crates mirror — crates.io mirror — mirrors.tuna.tsinghua.edu.cn/crates.io-index — access: keyless
+- TuneIn — station — tunein.com/{name} — access: scrape-only
+- tunnelto.dev — tunnel subdomain — {name}.tunnelto.dev — keyless
+- .tv registry — domain name — {name}.tv — access: keyless
+- TVTime — user — tvtime.com/{name} — access: keyless
+- Twine — freelancer profile — twine.net/{name} — scrape-only
+- Twist — workspace subdomain — {name}.twist.com — access: scrape-only
+- Twitch — social username — twitch.tv/{name} — access: scrape-only
+- Ubisoft Connect — game/account — ubisoft.com — access: keyed
+- Ubuntu Packages — Ubuntu package registry — packages.ubuntu.com — access: keyless
+- UK Companies House — company name — api.company-information.service.gov.uk/search/companies?q={name} — access: keyed
+- UKIPO — trademark — gov.uk/search-for-trademark — access: keyless
+- .uk registry (Nominet) — domain name — {name}.uk — access: keyless
+- Ulule — project — ulule.com/{name} — access: scrape-only
+- Uneed — product — uneed.best/tool/{name} — access: keyless
+- UniGetUI — Windows package manager UI — marticliment.com/unigetui — access: scrape-only
+- Unity Asset Store — publisher — assetstore.unity.com/publishers/{name} — access: scrape-only
+- unpkg — npm CDN — unpkg.com/{name} — access: keyless
+- unpub — self-hosted pub server — github.com/bytedance/unpub — access: keyed
+- Unsplash — profile — unsplash.com/@{name} — access: keyless
+- Unstoppable Domains — web3 TLD (.crypto/.nft) — unstoppabledomains.com/domain-search?search={name} — access: keyless
+- Unstoppable Domains resolver — .crypto/.nft name — resolver.unstoppabledomains.com/{name} — access: keyed
+- Uptodown — app — uptodown.com/android/search/{name} — access: scrape-only
+- Upwork — freelancer — upwork.com/freelancers/{name} — access: scrape-only
+- UserStyles.world — style — userstyles.world/style/{name} — access: keyless
+- us.kg — free subdomain — {name}.us.kg — keyed
+- USPTO Trademark Search — trademark — tmsearch.uspto.gov/search/search-information — access: keyless
+- USPTO TSDR — trademark record — tsdr.uspto.gov — access: keyless
+- USTC crates mirror — crates.io mirror — mirrors.ustc.edu.cn/crates.io-index — access: keyless
+- Utreon — channel — utreon.com/c/{name} — access: keyless
+- V2EX — member — v2ex.com/member/{name} — access: scrape-only
+- Val Town — serverless function — {name}.val.run — access: keyless
+- Vaughn Live — channel — vaughn.live/{name} — access: keyless
+- vcpkg — C/C++ package registry — vcpkg.io — access: scrape-only
+- VeloViewer — athlete profile — veloviewer.com/athlete/{name} — scrape-only
+- Venmo — username — venmo.com/u/{name} — access: scrape-only
+- Veoh — user — veoh.com/user/{name} — access: scrape-only
+- Verbling — teacher profile — verbling.com/teachers/{name} — scrape-only
+- Vercel — project subdomain — {name}.vercel.app — access: keyless
+- Verdaccio — self-hosted registry — verdaccio.org — access: keyed
+- Vero — profile — vero.co/{name} — access: keyless
+- Vevo — artist — vevo.com/artist/{name} — access: scrape-only
+- vexr.dev — free subdomain — {name}.vexr.dev — keyless
+- Viber — account — viber.com — access: keyed
+- Vidyard — user — vidyard.com/{name} — access: keyless
+- Vimeo — profile — vimeo.com/{name} — access: keyless
+- Vim Scripts — script — vim.org/scripts/script.php?script_id={name} — access: scrape-only
+- Vinted — member — vinted.com/member — access: scrape-only
+- Visual Studio Marketplace — publisher id — marketplace.visualstudio.com/publishers/{name} — access: scrape-only
+- VitePress on Vercel — docs site — {name}.vercel.app — access: keyless
+- VK — profile — vk.com/{name} — access: keyless
+- Voat — community — voat.co/v/{name} — access: scrape-only
+- Void Packages — Void Linux package registry — voidlinux.org — access: scrape-only
+- VRChat — username — vrchat.com/home/user — access: keyed
+- VSCO — profile — vsco.co/{name} — access: keyless
+- VS Code Marketplace — extension registry — marketplace.visualstudio.com/items?itemName={name} — access: scrape-only
+- Walmart Marketplace — seller — walmart.com/seller/{name} — access: scrape-only
+- Warpcast — Farcaster client username — warpcast.com/{name} — access: keyless
+- Washington SOS — entity — ccfs.sos.wa.gov — access: scrape-only
+- WatchNext — user profile — watchnext.app/u/{name} — scrape-only
+- Wattpad — user — wattpad.com/user/{name} — access: scrape-only
+- Wayfair — seller — wayfair.com — access: scrape-only
+- Weasyl — user — weasyl.com/~{name} — access: scrape-only
+- webhook.site — endpoint token — webhook.site/{name} — keyless
+- Web Maker — user profile — webmaker.app/{name} — scrape-only
+- WeChat — account — wechat.com — access: scrape-only
+- Weebly — site — {name}.weebly.com — access: keyless
+- Wefunder — startup — wefunder.com/{name} — access: scrape-only
+- We Heart It — user — weheartit.com/{name} — access: scrape-only
+- Weibo — microblog user — weibo.com/{name} — access: scrape-only
+- Weights & Biases — user — wandb.ai/{name} — access: keyless
+- Welcome to the Jungle — company slug — welcometothejungle.com/en/companies/{name} — scrape-only
+- Wellfound — company — wellfound.com/company/{name} — access: scrape-only
+- WeLoveDevs — company profile — welovedevs.com/companies/{name} — scrape-only
+- Whatnot — seller — whatnot.com/user/{name} — access: scrape-only
+- WhatsApp — account — whatsapp.com — access: scrape-only
+- Whop — store/community — whop.com/{name} — access: scrape-only
+- WhoSampled — artist page — whosampled.com/artist/{name} — scrape-only
+- Wiki.gg — wiki subdomain — {name}.wiki.gg — access: keyless
+- WikiAlpha — article — en.wikialpha.org/{name} — access: scrape-only
+- Wikidata — user page — wikidata.org/wiki/User:{name} — access: keyless
+- Wikidot — wiki slug — {name}.wikidot.com — access: keyless
+- WikiIndex — wiki page — wikiindex.org/{name} — access: scrape-only
+- Wikimedia Commons — user page — commons.wikimedia.org/wiki/User:{name} — access: keyless
+- Wikipedia — user account (global) — meta.wikimedia.org/w/api.php (globaluserinfo for {name}) — access: keyless
+- Wikitravel — article — wikitravel.org/en/{name} — access: scrape-only
+- Wikivoyage — article — en.wikivoyage.org/wiki/{name} — access: keyless
+- WinGet — Windows package registry — winget.run — access: keyless
+- wip.la — free subdomain — {name}.wip.la — access: keyless
+- WIPO Global Brand Database — trademark — branddb.wipo.int — access: keyless
+- Wire — messaging / username — wire.com — access: keyed
+- Wise — username — wise.com/{name} — access: scrape-only
+- Wish — store — wish.com — access: scrape-only
+- Wistia — channel — {name}.wistia.com — access: keyless
+- Wix — site — {name}.wixsite.com — access: keyless
+- Wix App Market — Wix app directory — wix.com/app-market — access: scrape-only
+- WooCommerce Marketplace — WooCommerce extension directory — woocommerce.com/products — access: scrape-only
+- WordPress.com — blog subdomain — {name}.wordpress.com — access: scrape-only
+- WordPress.org Plugins — WP plugin directory — api.wordpress.org/plugins/info/1.2/?request[slug]={name} — access: keyless
+- WordPress.org Themes — WP theme directory — api.wordpress.org/themes/info/1.2/?request[slug]={name} — access: keyless
+- WordPress Plugin Directory — plugin — wordpress.org/plugins/{name}/ — access: keyless
+- WordPress Plugins — plugin — wordpress.org/plugins/{name} — access: keyless
+- Workana — freelancer profile — workana.com/freelancer/{name} — scrape-only
+- Write.as — blog username — write.as/{name} — access: keyless
+- WriteFreely — fediverse handle — writefreely.org — access: keyless
+- WT.Social — profile — wt.social/u/{name} — access: keyless
+- X / Twitter — social username — x.com/{name} — access: scrape-only
+- Xbox — gamertag — xboxgamertag.com/search/{name} — access: scrape-only
+- Xbox Live — gamertag — xboxgamertag.com/search/{name} — access: scrape-only
+- Xbox Live Gamertag — console gamertag — xboxgamertag.com/search/{name} — access: scrape-only
+- Xbox Store — game title — xbox.com/search/results?q={name} — access: scrape-only
+- XDA Developers (main) — account — xdaforums.com/{name} — access: scrape-only
+- XDA Forums — forum username — forum.xda-developers.com/m/{name} — access: scrape-only
+- Xiaohongshu — social user — xiaohongshu.com/user/profile/{id} — access: scrape-only
+- Xiaomi GetApps — app — global.app.mi.com/search?q={name} — access: scrape-only
+- Xigua Video — video user — ixigua.com — access: keyed
+- XING — professional profile — xing.com/profile/{name} — access: scrape-only
+- XMPP — JID localpart — {domain} — access: scrape-only
+- XRP Radio — artist — xrpradio.co.uk/artist/{name} — access: scrape-only
+- .xyz registry — domain name — {name}.xyz — access: keyless
+- Yarn registry — JS package registry — registry.yarnpkg.com/{name} — access: keyless
+- YC Directory — company profile — ycombinator.com/companies/{name} — access: keyless
+- Y Combinator Startup Jobs — company slug — workatastartup.com/companies/{name} — scrape-only
+- YDNS — dynamic DNS host — {name}.ydns.io — access: keyless
+- Yik Yak — local user — yikyak.com/{name} — access: scrape-only
+- Youku — video user — youku.com/u/{id} — access: keyed
+- YouNow — profile — younow.com/{name} — access: keyless
+- YouTube — social handle — youtube.com/@{name} — access: keyless
+- YouTube Gaming — channel — youtube.com/@{name} — access: keyless
+- YouTube Music — channel — music.youtube.com/channel/{name} — access: scrape-only
+- Zalo — user id — zalo.me/{name} — access: scrape-only
+- Zapier — integration app — zapier.com/apps/{name} — access: keyless
+- zapto.org — dynamic DNS host — {name}.zapto.org — access: keyless
+- Zazzle — store — zazzle.com/store/{name} — access: scrape-only
+- Zeabur — app subdomain — {name}.zeabur.app — access: keyless
+- Zeerk — micro-job profile — zeerk.com/{name} — scrape-only
+- Zefix — company — zefix.ch/en/search/entity/list?name={name} — access: keyless
+- Zendesk Guide — help center — {name}.zendesk.com — access: keyed
+- Zhihu — Q&A user — zhihu.com/people/{name} — access: scrape-only
+- Zig Package Manager — Zig package registry / package — zig.pm/{name} — access: keyless
+- Zilliqa Name Service — Zilliqa naming (.zil) — zns.bio — access: keyless
+- Zindi — user — zindi.africa/users/{name} — access: keyless
+- zone.id — free subdomain — {name}.zone.id — keyless
+- Zoom — user — zoom.us/{name} — access: scrape-only
+- Zora — creator profile — zora.co/@{name} — access: keyless
+- Zot — OCI registry — {host}/v2/_catalog — access: keyed
+- Zrok — share host — {name}.share.zrok.io — keyed
+- Zulip — organization — {name}.zulipchat.com — access: keyless
+- Zwift — rider profile — zwift.com/athlete/{name} — keyed
