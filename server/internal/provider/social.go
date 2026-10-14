@@ -75,6 +75,7 @@ func NewMastodon() Provider {
 // sources it reads the body: globaluserinfo carries a "missing" key when the
 // name is free. Source: docs/platforms.md — meta.wikimedia.org/w/api.php.
 type Wikipedia struct {
+	base
 	// BaseURL is the API origin; "https://meta.wikimedia.org" when defaulted.
 	BaseURL string
 	// Client is used for the request; DefaultClient when nil.
@@ -83,16 +84,11 @@ type Wikipedia struct {
 
 // NewWikipedia returns a provider bound to meta.wikimedia.org.
 func NewWikipedia() *Wikipedia {
-	return &Wikipedia{BaseURL: "https://meta.wikimedia.org", Client: DefaultClient}
-}
-
-func (w *Wikipedia) ID() string       { return "wikipedia" }
-func (w *Wikipedia) Platform() string { return "wikipedia" }
-
-func (w *Wikipedia) Name(label string) string { return label }
-
-func (w *Wikipedia) URL(label string) string {
-	return "https://en.wikipedia.org/wiki/Special:CentralAuth/" + url.PathEscape(label)
+	return &Wikipedia{
+		base:    base{id: "wikipedia", platform: "wikipedia", urlFmt: "https://en.wikipedia.org/wiki/Special:CentralAuth/%s"},
+		BaseURL: "https://meta.wikimedia.org",
+		Client:  DefaultClient,
+	}
 }
 
 // Check queries the globaluserinfo meta API. A 200 whose globaluserinfo object
@@ -137,6 +133,7 @@ func (w *Wikipedia) Check(ctx context.Context, label string) (Result, error) {
 // endpoint first and, only when that reports the name free, falls back to the
 // organisations endpoint. Its minimum length (2) is declared in the known table.
 type DevTo struct {
+	base
 	// BaseURL is the API origin; "https://dev.to" when defaulted.
 	BaseURL string
 	// Client is used for the request; DefaultClient when nil.
@@ -145,16 +142,11 @@ type DevTo struct {
 
 // NewDevTo returns a provider bound to dev.to.
 func NewDevTo() *DevTo {
-	return &DevTo{BaseURL: "https://dev.to", Client: DefaultClient}
-}
-
-func (d *DevTo) ID() string       { return "devto" }
-func (d *DevTo) Platform() string { return "devto" }
-
-func (d *DevTo) Name(label string) string { return label }
-
-func (d *DevTo) URL(label string) string {
-	return "https://dev.to/" + url.PathEscape(label)
+	return &DevTo{
+		base:    base{id: "devto", platform: "devto", urlFmt: "https://dev.to/%s"},
+		BaseURL: "https://dev.to",
+		Client:  DefaultClient,
+	}
 }
 
 // Check queries the username endpoint; anything other than available is
@@ -177,6 +169,7 @@ func (d *DevTo) Check(ctx context.Context, label string) (Result, error) {
 // field that is null when the name is free. Its minimum length (4) is declared
 // in the known table.
 type Minehut struct {
+	base
 	// BaseURL is the API origin; "https://api.minehut.com" when defaulted.
 	BaseURL string
 	// Client is used for the request; DefaultClient when nil.
@@ -185,16 +178,11 @@ type Minehut struct {
 
 // NewMinehut returns a provider bound to api.minehut.com.
 func NewMinehut() *Minehut {
-	return &Minehut{BaseURL: "https://api.minehut.com", Client: DefaultClient}
-}
-
-func (m *Minehut) ID() string       { return "minehut" }
-func (m *Minehut) Platform() string { return "minehut" }
-
-func (m *Minehut) Name(label string) string { return label }
-
-func (m *Minehut) URL(label string) string {
-	return "https://www.minehut.com/servers/" + url.PathEscape(label)
+	return &Minehut{
+		base:    base{id: "minehut", platform: "minehut", urlFmt: "https://www.minehut.com/servers/%s"},
+		BaseURL: "https://api.minehut.com",
+		Client:  DefaultClient,
+	}
 }
 
 // Check calls the by-name server endpoint. On a 200 an explicit "server": null
@@ -231,6 +219,7 @@ func (m *Minehut) Check(ctx context.Context, label string) (Result, error) {
 // check instead: a "resultAvailable" $type is free, anything else taken. Its
 // minimum length (3) is declared in the known table.
 type Bluesky struct {
+	base
 	// BaseURL is the API origin; "https://bsky.social" when defaulted.
 	BaseURL string
 	// Client is used for the request; DefaultClient when nil.
@@ -239,16 +228,16 @@ type Bluesky struct {
 
 // NewBluesky returns a provider bound to bsky.social.
 func NewBluesky() *Bluesky {
-	return &Bluesky{BaseURL: "https://bsky.social", Client: DefaultClient}
-}
-
-func (b *Bluesky) ID() string       { return "bluesky" }
-func (b *Bluesky) Platform() string { return "bluesky" }
-
-func (b *Bluesky) Name(label string) string { return label + ".bsky.social" }
-
-func (b *Bluesky) URL(label string) string {
-	return "https://bsky.app/profile/" + url.PathEscape(label+".bsky.social")
+	return &Bluesky{
+		base: base{
+			id:       "bluesky",
+			platform: "bluesky",
+			nameFmt:  "%s.bsky.social",
+			urlFmt:   "https://bsky.app/profile/%s.bsky.social",
+		},
+		BaseURL: "https://bsky.social",
+		Client:  DefaultClient,
+	}
 }
 
 // Check calls checkHandleAvailability for "{label}.bsky.social". A 200 with a
@@ -288,6 +277,7 @@ func (b *Bluesky) Check(ctx context.Context, label string) (Result, error) {
 // transient 5xx per Origin for up to an hour, so an unknown first response is
 // retried once with a cache-busting parameter.
 type OpenCollective struct {
+	base
 	// BaseURL is the API origin; "https://opencollective.com" when defaulted.
 	BaseURL string
 	// Client is used for the request; DefaultClient when nil.
@@ -299,19 +289,11 @@ type OpenCollective struct {
 // NewOpenCollective returns a provider bound to opencollective.com.
 func NewOpenCollective() *OpenCollective {
 	return &OpenCollective{
+		base:    base{id: "opencollective", platform: "opencollective", urlFmt: "https://opencollective.com/%s"},
 		BaseURL: "https://opencollective.com",
 		Client:  DefaultClient,
 		Now:     time.Now,
 	}
-}
-
-func (o *OpenCollective) ID() string       { return "opencollective" }
-func (o *OpenCollective) Platform() string { return "opencollective" }
-
-func (o *OpenCollective) Name(label string) string { return label }
-
-func (o *OpenCollective) URL(label string) string {
-	return "https://opencollective.com/" + url.PathEscape(label)
 }
 
 // Check GETs "{label}.json"; a taken/available result is returned directly. An

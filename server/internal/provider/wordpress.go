@@ -13,6 +13,7 @@ import (
 // plugins as 404 with {"closed":true}, so a plain 404 would falsely read as
 // available. Source: docs/platforms.md — api.wordpress.org/plugins/info/1.2.
 type WordPress struct {
+	base
 	// BaseURL is the API origin; "https://api.wordpress.org" when defaulted.
 	BaseURL string
 	// Client is used for the request; DefaultClient when nil.
@@ -21,16 +22,11 @@ type WordPress struct {
 
 // NewWordPress returns a provider bound to api.wordpress.org.
 func NewWordPress() *WordPress {
-	return &WordPress{BaseURL: "https://api.wordpress.org", Client: DefaultClient}
-}
-
-func (w *WordPress) ID() string       { return "wordpress" }
-func (w *WordPress) Platform() string { return "wordpress" }
-
-func (w *WordPress) Name(label string) string { return label }
-
-func (w *WordPress) URL(label string) string {
-	return "https://wordpress.org/plugins/" + url.PathEscape(label) + "/"
+	return &WordPress{
+		base:    base{id: "wordpress", platform: "wordpress", urlFmt: "https://wordpress.org/plugins/%s/"},
+		BaseURL: "https://api.wordpress.org",
+		Client:  DefaultClient,
+	}
 }
 
 // Check queries the plugin information API. 200 means the plugin exists; a 404

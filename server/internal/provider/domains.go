@@ -186,6 +186,7 @@ func (b *Bootstrap) fetch(ctx context.Context) map[string]string {
 // Domain checks whether a label is registered under one TLD using RDAP. Each
 // registered TLD is its own provider, sharing the "domains" platform.
 type Domain struct {
+	base
 	// TLD is the TLD including its leading dot, e.g. ".dev".
 	TLD string
 	// BaseURL overrides the RDAP registry base; when empty the base is resolved
@@ -203,7 +204,19 @@ type Domain struct {
 // NewDomain returns a provider for tld (with leading dot) bound to the shared
 // bootstrap resolver.
 func NewDomain(tld string) *Domain {
-	return &Domain{TLD: tld, Bootstrap: sharedBootstrap, Client: DefaultClient, Min: tldMinLength[tld]}
+	return &Domain{
+		base: base{
+			id:       "domain" + tld,
+			platform: "domains",
+			nameFmt:  "%s" + tld,
+			urlFmt:   "https://%s" + tld,
+			rawURL:   true,
+		},
+		TLD:       tld,
+		Bootstrap: sharedBootstrap,
+		Client:    DefaultClient,
+		Min:       tldMinLength[tld],
+	}
 }
 
 // NewDomains returns the per-TLD RDAP domain providers in order.
@@ -214,13 +227,6 @@ func NewDomains() []Provider {
 	}
 	return out
 }
-
-func (d *Domain) ID() string       { return "domain" + d.TLD }
-func (d *Domain) Platform() string { return "domains" }
-
-func (d *Domain) Name(label string) string { return label + d.TLD }
-
-func (d *Domain) URL(label string) string { return "https://" + label + d.TLD }
 
 // MinLength reports the TLD's minimum label length (2 for .dev, 0 otherwise).
 func (d *Domain) MinLength() int { return d.Min }

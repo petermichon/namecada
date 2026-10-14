@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"net/url"
 	"sync"
 )
 
@@ -36,6 +37,37 @@ type Provider interface {
 	URL(label string) string
 	// Check reports whether the label is taken, available, or unknown.
 	Check(ctx context.Context, label string) (Result, error)
+}
+
+// base carries the identity and presentation shared by every provider that
+// needs a hand-written Check. Embedding it promotes ID, Platform, Name and URL,
+// so such a provider only has to implement Check.
+type base struct {
+	id       string
+	platform string
+	// nameFmt formats the human label; the empty string keeps the label as-is.
+	nameFmt string
+	// urlFmt formats the public URL, with one %s for the label.
+	urlFmt string
+	// rawURL inserts the label into urlFmt unescaped; the default escapes it.
+	rawURL bool
+}
+
+func (b base) ID() string       { return b.id }
+func (b base) Platform() string { return b.platform }
+
+func (b base) Name(label string) string {
+	if b.nameFmt == "" {
+		return label
+	}
+	return fmt.Sprintf(b.nameFmt, label)
+}
+
+func (b base) URL(label string) string {
+	if b.rawURL {
+		return fmt.Sprintf(b.urlFmt, label)
+	}
+	return fmt.Sprintf(b.urlFmt, url.PathEscape(label))
 }
 
 // MinLengthProvider is implemented by a provider that rejects labels shorter

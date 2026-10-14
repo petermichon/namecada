@@ -10,6 +10,7 @@ import (
 // Lemmy checks a username on a single Lemmy instance.
 // Source: docs/platforms.md — lemmy.world /api/v3/user?username={name}.
 type Lemmy struct {
+	base
 	// BaseURL is the instance origin the API is called on.
 	BaseURL string
 	// Client is used for the request; DefaultClient when nil.
@@ -18,16 +19,11 @@ type Lemmy struct {
 
 // NewLemmy returns a provider bound to lemmy.world.
 func NewLemmy() *Lemmy {
-	return &Lemmy{BaseURL: "https://lemmy.world", Client: DefaultClient}
-}
-
-func (l *Lemmy) ID() string       { return "lemmy" }
-func (l *Lemmy) Platform() string { return "lemmy" }
-
-func (l *Lemmy) Name(label string) string { return label }
-
-func (l *Lemmy) URL(label string) string {
-	return "https://lemmy.world/u/" + url.PathEscape(label)
+	return &Lemmy{
+		base:    base{id: "lemmy", platform: "lemmy", urlFmt: "https://lemmy.world/u/%s"},
+		BaseURL: "https://lemmy.world",
+		Client:  DefaultClient,
+	}
 }
 
 // Check calls /api/v3/user?username={label}: 200 = taken, 404 = available.

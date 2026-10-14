@@ -29,7 +29,10 @@ func httpSources() []httpSource {
 			wantPath: "/api/v3/user",
 			wantQ:    "username=acema",
 			build: func(baseURL string, client *http.Client) Provider {
-				return &Lemmy{BaseURL: baseURL, Client: client}
+				p := NewLemmy()
+				p.BaseURL = baseURL
+				p.Client = client
+				return p
 			},
 		},
 		{
@@ -38,7 +41,10 @@ func httpSources() []httpSource {
 			platform: "peertube",
 			wantPath: "/api/v1/accounts/acema",
 			build: func(baseURL string, client *http.Client) Provider {
-				return &PeerTube{BaseURL: baseURL, Client: client}
+				p := NewPeerTube()
+				p.BaseURL = baseURL
+				p.Client = client
+				return p
 			},
 		},
 		endpointSource("npm", "npm", "/acema", "", NewNPM),
@@ -61,7 +67,10 @@ func httpSources() []httpSource {
 			wantPath: "/plugins/info/1.2/",
 			wantQ:    "action=plugin_information&request%5Bslug%5D=acema",
 			build: func(baseURL string, client *http.Client) Provider {
-				return &WordPress{BaseURL: baseURL, Client: client}
+				p := NewWordPress()
+				p.BaseURL = baseURL
+				p.Client = client
+				return p
 			},
 		},
 		endpointSource("farcaster", "farcaster", "/transfers/current", "name=acema", NewFarcaster),
