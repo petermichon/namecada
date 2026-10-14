@@ -26,6 +26,7 @@ can't be reached is deferred (see below).
 | PyPI      | `pypi.org/pypi/{name}/json`                                    | 200 taken / 404 free      |
 | crates.io | `crates.io/api/v1/crates/{name}`                               | 200 taken / 404 free      |
 | NuGet     | `api.nuget.org/v3-flatcontainer/{name}/index.json`             | 200 taken / 404 free      |
+| RubyGems  | `rubygems.org/api/v1/gems/{name}.json`                         | 200 taken / 404 free      |
 | Hex       | `hex.pm/api/packages/{name}`                                   | 200 taken / 404 free      |
 | Hex user  | `hex.pm/api/users/{name}`                                      | 200 taken / 404 free      |
 | pub.dev   | `pub.dev/api/packages/{name}`                                  | 200 taken / 404 free      |
@@ -162,7 +163,7 @@ Implement the `Provider` interface in the server
 `available` / `taken` / `unknown` — and register it in `provider.Default()`.
 Sources live server-side, so CORS is no longer a constraint.
 
-Deferred: RubyGems, Packagist, Docker Hub, Go proxy (modules are paths, not
+Deferred: Packagist, Docker Hub, Go proxy (modules are paths, not
 single labels), Hacker News (its API only exposes users with public activity, so
 it can never confirm a name is free), and trademark / social / company
 registries (need a key and a proxy).

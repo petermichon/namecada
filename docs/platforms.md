@@ -29,7 +29,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [x] PyPI — ✅ — `pypi.org/pypi/{name}/json`
 - [x] crates.io — ✅ — `crates.io/api/v1/crates/{name}`
 - [x] NuGet — ✅ — `api.nuget.org/v3-flatcontainer/{name}/index.json`
-- [ ] RubyGems — 🕸 — no CORS on 404
+- [x] RubyGems — ✅ — `rubygems.org/api/v1/gems/{name}.json`
 - [ ] Packagist — 🕸 — no CORS
 - [ ] Maven Central — 🕸 — no CORS
 - [x] Hex (Elixir) — ✅ — `hex.pm/api/packages/{name}` (packages) and `hex.pm/api/users/{name}` (users)

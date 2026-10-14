@@ -39,6 +39,7 @@ func httpSources() []httpSource {
 		endpointSource("pypi", "pypi", "/pypi/acema/json", "", NewPyPI),
 		endpointSource("crates", "crates", "/api/v1/crates/acema", "", NewCrates),
 		endpointSource("nuget", "nuget", "/v3-flatcontainer/acema/index.json", "", NewNuGet),
+		endpointSource("rubygems", "rubygems", "/api/v1/gems/acema.json", "", NewRubyGems),
 		endpointSource("hex", "hex", "/api/packages/acema", "", NewHex),
 		endpointSource("hex-user", "hex", "/api/users/acema", "", NewHexUser),
 		endpointSource("pub", "pub", "/api/packages/acema", "", NewPub),
@@ -890,13 +891,13 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default()
-	if r.Len() != 36 {
-		t.Fatalf("Len = %d, want 36", r.Len())
+	if r.Len() != 37 {
+		t.Fatalf("Len = %d, want 37", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
 		"lemmy", "peertube",
-		"npm", "pypi", "crates", "nuget", "hex", "hex-user", "pub",
+		"npm", "pypi", "crates", "nuget", "rubygems", "hex", "hex-user", "pub",
 		"homebrew", "firefox", "jsr", "wordpress", "openvsx",
 		"github", "gitlab", "bitbucket", "codeberg",
 		"wikipedia", "devto", "farcaster", "minehut", "lichess", "chesscom",

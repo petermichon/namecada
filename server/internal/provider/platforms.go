@@ -9,6 +9,7 @@ var platformNames = map[string]string{
 	"pypi":           "PyPI",
 	"crates":         "crates.io",
 	"nuget":          "NuGet",
+	"rubygems":       "RubyGems",
 	"hex":            "Hex",
 	"pub":            "pub.dev",
 	"homebrew":       "Homebrew",

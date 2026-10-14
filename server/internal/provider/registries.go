@@ -81,6 +81,14 @@ func NewNuGet() Provider {
 		"https://www.nuget.org/packages/%s", defaultCodes)
 }
 
+// NewRubyGems checks a gem on RubyGems. A 200 means the gem exists and a 404
+// means the name is free.
+func NewRubyGems() Provider {
+	return newEndpoint("rubygems", "rubygems",
+		"https://rubygems.org", "/api/v1/gems/%s.json",
+		"https://rubygems.org/gems/%s", defaultCodes)
+}
+
 // NewHex checks a package on Hex (Elixir). Its minimum length is declared in
 // the known table.
 func NewHex() Provider {

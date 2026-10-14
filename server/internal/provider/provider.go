@@ -237,6 +237,7 @@ func Default() *Registry {
 	_ = r.Register(NewPyPI())
 	_ = r.Register(NewCrates())
 	_ = r.Register(NewNuGet())
+	_ = r.Register(NewRubyGems())
 	_ = r.Register(NewHex())
 	_ = r.Register(NewHexUser())
 	_ = r.Register(NewPub())
