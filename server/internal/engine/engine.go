@@ -17,6 +17,12 @@ import (
 // open indefinitely.
 const ScanTimeout = 2 * provider.DefaultTimeout
 
+// DefaultConcurrency bounds how many provider checks run at once when an Engine
+// is built. The registry has far more providers than this, so a scan of the
+// default set proceeds in waves rather than opening one outbound check per
+// provider at once.
+const DefaultConcurrency = 8
+
 // Result is the outcome of one provider's check for a label. Its shape
 // mirrors the frontend ProviderResult so the two consumers stay in sync.
 type Result struct {
@@ -30,13 +36,29 @@ type Result struct {
 
 // Engine scans a label across a fixed, ordered set of providers.
 type Engine struct {
-	providers []provider.Provider
-	store     store.Store
+	providers   []provider.Provider
+	store       store.Store
+	concurrency int
 }
 
-// New returns an Engine over the given providers, preserving their order.
+// New returns an Engine over the given providers, preserving their order. It
+// starts with DefaultConcurrency checks in flight; use SetConcurrency to
+// change that.
 func New(providers ...provider.Provider) *Engine {
-	return &Engine{providers: append([]provider.Provider(nil), providers...)}
+	return &Engine{
+		providers:   append([]provider.Provider(nil), providers...),
+		concurrency: DefaultConcurrency,
+	}
+}
+
+// SetConcurrency caps how many provider checks the engine runs at once. A value
+// of zero or less restores DefaultConcurrency. It must be called before Scan
+// and is not safe to call concurrently with a scan.
+func (e *Engine) SetConcurrency(n int) {
+	if n <= 0 {
+		n = DefaultConcurrency
+	}
+	e.concurrency = n
 }
 
 // NewWithStore returns an Engine over the given providers backed by s. Before
@@ -58,26 +80,52 @@ func (e *Engine) Providers() []provider.Provider {
 	return append([]provider.Provider(nil), e.providers...)
 }
 
-// Scan runs every provider concurrently and returns a channel that emits each
-// result as it resolves and then closes. A transport error is reported as an
-// unknown status with an "unreachable" detail, matching the frontend. If ctx
-// is canceled the engine stops emitting and closes the channel once the
-// in-flight checks return.
+// Scan runs every provider through a bounded worker pool and returns a channel
+// that emits each result as it resolves and then closes. At most the engine's
+// concurrency (DefaultConcurrency unless SetConcurrency says otherwise) checks
+// run at once, so a large registry does not open one outbound request per
+// provider simultaneously; results still stream as each check finishes. A
+// transport error is reported as an unknown status with an "unreachable"
+// detail, matching the frontend. If ctx is canceled the engine stops emitting
+// and closes the channel once the in-flight checks return.
 func (e *Engine) Scan(ctx context.Context, label string) <-chan Result {
 	out := make(chan Result, len(e.providers))
 
+	workers := e.concurrency
+	if workers < 1 {
+		workers = DefaultConcurrency
+	}
+	if workers > len(e.providers) {
+		workers = len(e.providers)
+	}
+
+	jobs := make(chan provider.Provider)
+
 	var wg sync.WaitGroup
-	for _, p := range e.providers {
+	for i := 0; i < workers; i++ {
 		wg.Add(1)
-		go func(p provider.Provider) {
+		go func() {
 			defer wg.Done()
-			res := e.check(ctx, p, label)
-			if ctx.Err() != nil {
+			for p := range jobs {
+				res := e.check(ctx, p, label)
+				if ctx.Err() != nil {
+					continue
+				}
+				out <- res
+			}
+		}()
+	}
+
+	go func() {
+		defer close(jobs)
+		for _, p := range e.providers {
+			select {
+			case jobs <- p:
+			case <-ctx.Done():
 				return
 			}
-			out <- res
-		}(p)
-	}
+		}
+	}()
 
 	go func() {
 		wg.Wait()

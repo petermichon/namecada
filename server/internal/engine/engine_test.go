@@ -20,6 +20,8 @@ type fake struct {
 	release   <-chan struct{}
 	started   chan<- string
 	calls     *atomic.Int32
+	active    *atomic.Int32
+	max       *atomic.Int32
 }
 
 func (f *fake) ID() string               { return f.id }
@@ -31,6 +33,18 @@ func (f *fake) MinLength() int           { return f.minLength }
 func (f *fake) Check(ctx context.Context, label string) (provider.Result, error) {
 	if f.calls != nil {
 		f.calls.Add(1)
+	}
+	if f.active != nil {
+		cur := f.active.Add(1)
+		defer f.active.Add(-1)
+		if f.max != nil {
+			for {
+				peak := f.max.Load()
+				if cur <= peak || f.max.CompareAndSwap(peak, cur) {
+					break
+				}
+			}
+		}
 	}
 	if f.started != nil {
 		f.started <- f.id
@@ -109,6 +123,82 @@ func TestScanRunsProvidersConcurrently(t *testing.T) {
 		case <-started:
 		case <-time.After(2 * time.Second):
 			t.Fatalf("only %d of %d providers started; engine is not concurrent", i, n)
+		}
+	}
+	close(release)
+
+	if got := waitClosed(t, ch); len(got) != n {
+		t.Fatalf("got %d results, want %d", len(got), n)
+	}
+}
+
+func TestScanBoundsConcurrentChecks(t *testing.T) {
+	const n, limit = 6, 2
+	release := make(chan struct{})
+	started := make(chan string, n)
+	var active, max atomic.Int32
+	providers := make([]provider.Provider, n)
+	for i := 0; i < n; i++ {
+		providers[i] = &fake{
+			id:      string(rune('a' + i)),
+			release: release,
+			started: started,
+			active:  &active,
+			max:     &max,
+		}
+	}
+
+	eng := New(providers...)
+	eng.SetConcurrency(limit)
+	ch := eng.Scan(context.Background(), "acema")
+
+	for i := 0; i < limit; i++ {
+		select {
+		case <-started:
+		case <-time.After(2 * time.Second):
+			t.Fatalf("only %d of %d providers started", i, limit)
+		}
+	}
+	select {
+	case id := <-started:
+		t.Fatalf("provider %q started while %d checks were in flight; cap is %d", id, limit, limit)
+	case <-time.After(100 * time.Millisecond):
+	}
+
+	close(release)
+	if got := waitClosed(t, ch); len(got) != n {
+		t.Fatalf("got %d results, want %d", len(got), n)
+	}
+	if got := max.Load(); got > limit {
+		t.Fatalf("peak concurrency = %d, want <= %d", got, limit)
+	}
+}
+
+func TestScanSetConcurrencyZeroUsesDefault(t *testing.T) {
+	const n = 5
+	started := make(chan string, n)
+	release := make(chan struct{})
+	providers := make([]provider.Provider, n)
+	for i := 0; i < n; i++ {
+		providers[i] = &fake{
+			id:      string(rune('a' + i)),
+			release: release,
+			started: started,
+		}
+	}
+
+	eng := New(providers...)
+	eng.SetConcurrency(0)
+	ch := eng.Scan(context.Background(), "acema")
+
+	if DefaultConcurrency < n {
+		t.Fatalf("test assumes DefaultConcurrency (%d) >= %d", DefaultConcurrency, n)
+	}
+	for i := 0; i < n; i++ {
+		select {
+		case <-started:
+		case <-time.After(2 * time.Second):
+			t.Fatalf("only %d of %d providers started; a zero cap should restore the default", i, n)
 		}
 	}
 	close(release)
