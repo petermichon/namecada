@@ -13,6 +13,7 @@ npm-debug.log*
 frontend/dist
 frontend/.svelte-check
 backend/domainbrowser
+backend/bin/
 
 # todoworker queue
 plan/PLAN.md
