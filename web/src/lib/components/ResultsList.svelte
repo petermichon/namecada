@@ -13,8 +13,7 @@
 		<div class="flex flex-wrap items-baseline gap-x-2 px-3 py-2">
 			<h2 class="text-sm font-semibold tracking-tight">Paid</h2>
 			<p class="text-xs text-muted-foreground">
-				{availableCount(paidRows)} of {paidRows.length} available · Costs money to register; the amount
-				varies (premium names cost more).
+				{availableCount(paidRows)} of {paidRows.length} available
 			</p>
 		</div>
 		<ul class="grid grid-cols-1 gap-px bg-border lg:grid-cols-2">
