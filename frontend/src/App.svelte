@@ -8,14 +8,8 @@
 	import { ModeWatcher, toggleMode } from 'mode-watcher';
 	import { onMount } from 'svelte';
 	import { getBootstrap } from '$lib/bootstrap';
-	import {
-		PLATFORMS,
-		providers,
-		streamAll,
-		toLabel,
-		type PlatformId,
-		type Status
-	} from '$lib/providers';
+	import { isAbort, streamResults } from '$lib/api';
+	import { PLATFORMS, providers, toLabel, type PlatformId, type Status } from '$lib/providers';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Skeleton } from '$lib/components/ui/skeleton/index.js';
@@ -77,6 +71,7 @@
 	let input = $state(loadQuery());
 	let rows = $state<Row[]>([]);
 	let error = $state('');
+	let loading = $state(false);
 	let lastLabel = $state<string | null>(null);
 	let controller: AbortController | null = null;
 	let generation = 0;
@@ -95,6 +90,7 @@
 		if (!label) {
 			rows = [];
 			lastLabel = null;
+			loading = false;
 			const raw = input.trim();
 			error = !raw
 				? 'Enter a name to check.'
@@ -114,30 +110,51 @@
 		const ac = new AbortController();
 		controller = ac;
 		lastLabel = label;
-		rows = providers.map((provider) => ({
-			id: provider.id,
-			platform: provider.platform,
-			name: provider.name(label),
-			url: provider.url(label),
-			status: 'pending'
-		}));
+		loading = true;
+		rows = [];
 
-		streamAll(
+		streamResults(
 			label,
 			(result) => {
 				if (gen !== generation || ac.signal.aborted) return;
-				rows = rows.map((row) =>
-					row.id === result.id ? { ...row, status: result.status, detail: result.detail } : row
-				);
+				const next: Row = {
+					id: result.id,
+					platform: result.platform,
+					name: result.name,
+					url: result.url,
+					status: result.status,
+					detail: result.detail
+				};
+				rows = rows.some((row) => row.id === result.id)
+					? rows.map((row) => (row.id === result.id ? next : row))
+					: [...rows, next];
 			},
-			ac.signal
-		).catch((e) => {
-			if (e instanceof DOMException && e.name === 'AbortError') return;
-			if (ac.signal.aborted || gen !== generation) return;
-			rows = rows.map((row) =>
-				row.status === 'pending' ? { ...row, status: 'unknown', detail: 'unreachable' } : row
-			);
-		});
+			ac.signal,
+			(source) => {
+				if (gen !== generation) return;
+				// Browser-direct checks know the provider set up front, so seed
+				// the skeleton rows; the API decides its own provider set.
+				if (source === 'direct') {
+					rows = providers.map((provider) => ({
+						id: provider.id,
+						platform: provider.platform,
+						name: provider.name(label),
+						url: provider.url(label),
+						status: 'pending'
+					}));
+				}
+			}
+		)
+			.catch((e) => {
+				if (isAbort(e)) return;
+				if (ac.signal.aborted || gen !== generation) return;
+				rows = rows.map((row) =>
+					row.status === 'pending' ? { ...row, status: 'unknown', detail: 'unreachable' } : row
+				);
+			})
+			.finally(() => {
+				if (gen === generation) loading = false;
+			});
 	}
 
 	function onGlobalKeydown(e: KeyboardEvent) {
@@ -164,7 +181,7 @@
 		};
 	});
 
-	const searching = $derived(rows.some((row) => row.status === 'pending'));
+	const searching = $derived(loading || rows.some((row) => row.status === 'pending'));
 	const checked = $derived(rows.filter((row) => row.status !== 'pending').length);
 
 	const stale = $derived(

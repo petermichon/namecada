@@ -12,9 +12,12 @@ Each source runs independently and streams its verdict into the report as soon
 as it resolves, so one slow or failing source never blocks the others. Nothing
 waits for the whole set.
 
-Every source is **browser-direct**: it must send `Access-Control-Allow-Origin`,
-so there is no backend or proxy. Anything that can't be reached that way is
-deferred (see below).
+Most sources are **browser-direct**: they must send `Access-Control-Allow-Origin`,
+so no proxy is needed. The app is also a consumer of the optional backend
+(`backend/`, `serve`): when its API is reachable the app streams results from
+`GET /check?name=<label>`; otherwise it falls back to checking each source
+directly from the browser. Anything that can't be reached either way is deferred
+(see below).
 
 ### Sources
 
@@ -85,6 +88,11 @@ This matters most for GitHub and npm, which rate-limit unauthenticated requests
   - `src/lib/providers.ts` — `Provider` interface, the provider registry,
     `streamAll`/`checkAll`. Each provider declares a `platform`; the report
     groups the URLs into one card per platform.
+  - `src/lib/api.ts` — backend client: `streamResults` prefers the `serve` API
+    (`GET /check?name=<label>`, NDJSON) and falls back to `streamAll`
+    browser-direct when it is unreachable. The base URL defaults to
+    `http://localhost:8080` and is overridable at build time with
+    `VITE_API_BASE`.
   - `src/lib/providerCache.ts` — per-provider response cache.
   - `src/lib/rdap.ts`, `src/lib/bootstrap.ts` — domain lookup.
 
@@ -99,6 +107,10 @@ npm run check      # svelte-check + tsc
 npm run lint       # prettier --check + eslint
 npm run format     # prettier --write
 ```
+
+With a backend running (`cd backend && go run ./cmd/domainbrowser serve`), the
+app streams results from it; without one it checks the sources directly. The
+backend's CORS origin defaults to the Vite dev origin (`http://localhost:5173`).
 
 ## Adding a source
 

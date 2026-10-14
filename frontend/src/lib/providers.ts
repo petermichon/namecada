@@ -31,7 +31,9 @@ export const PLATFORMS = {
 	mixcloud: 'Mixcloud',
 	bluesky: 'Bluesky',
 	mastodon: 'Mastodon',
-	opencollective: 'Open Collective'
+	opencollective: 'Open Collective',
+	lemmy: 'Lemmy',
+	peertube: 'PeerTube'
 } as const;
 
 export type PlatformId = keyof typeof PLATFORMS;
