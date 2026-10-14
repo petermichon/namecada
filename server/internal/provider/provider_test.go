@@ -141,6 +141,26 @@ func TestProvidersCheck(t *testing.T) {
 	}
 }
 
+func TestProvidersUserAgent(t *testing.T) {
+	for _, src := range httpSources() {
+		t.Run(src.name, func(t *testing.T) {
+			var gotUA string
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				gotUA = r.Header.Get("User-Agent")
+				w.WriteHeader(http.StatusOK)
+			}))
+			defer srv.Close()
+
+			if _, err := src.build(srv.URL, srv.Client()).Check(context.Background(), "acema"); err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if gotUA != UserAgent {
+				t.Errorf("User-Agent = %q, want %q", gotUA, UserAgent)
+			}
+		})
+	}
+}
+
 func TestProvidersCheckTransportError(t *testing.T) {
 	for _, src := range httpSources() {
 		t.Run(src.name, func(t *testing.T) {

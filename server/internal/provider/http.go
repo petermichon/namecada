@@ -16,6 +16,17 @@ const DefaultTimeout = 10 * time.Second
 // Timeout applies to the whole request, including reading the body.
 var DefaultClient = &http.Client{Timeout: DefaultTimeout}
 
+// UserAgent identifies the client on every outbound request. Several sources
+// (crates.io, Wikimedia, Chess.com, Open Collective) reject the Go default UA
+// with a 403, so the descriptive product string below is set instead.
+const UserAgent = "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+
+// setCommonHeaders applies the headers every provider request carries.
+func setCommonHeaders(req *http.Request) {
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("User-Agent", UserAgent)
+}
+
 // codeMap maps HTTP status codes to a check outcome.
 type codeMap struct {
 	available []int
@@ -36,7 +47,7 @@ func doGet(ctx context.Context, client *http.Client, url string) (*http.Response
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("Accept", "application/json")
+	setCommonHeaders(req)
 	return client.Do(req)
 }
 

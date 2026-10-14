@@ -167,7 +167,7 @@ func (b *Bootstrap) fetch(ctx context.Context) map[string]string {
 	if err != nil {
 		return nil
 	}
-	req.Header.Set("Accept", "application/json")
+	setCommonHeaders(req)
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil

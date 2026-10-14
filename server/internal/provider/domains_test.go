@@ -216,6 +216,32 @@ func TestDomainCheckResolvesViaBootstrap(t *testing.T) {
 	}
 }
 
+func TestBootstrapUserAgent(t *testing.T) {
+	var gotUA string
+	registry := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer registry.Close()
+
+	bootstrap := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		gotUA = r.Header.Get("User-Agent")
+		_, _ = w.Write([]byte(`{"services":[[["com"],["` + registry.URL + `/"]]]}`))
+	}))
+	defer bootstrap.Close()
+
+	d := &Domain{
+		TLD:       ".com",
+		Bootstrap: &Bootstrap{URL: bootstrap.URL, Client: bootstrap.Client()},
+		Client:    registry.Client(),
+	}
+	if _, err := d.Check(context.Background(), "acema"); err != nil {
+		t.Fatalf("Check returned error: %v", err)
+	}
+	if gotUA != UserAgent {
+		t.Errorf("bootstrap User-Agent = %q, want %q", gotUA, UserAgent)
+	}
+}
+
 func TestDomainMinLength(t *testing.T) {
 	if got := NewDomain(".dev").MinLength(); got != 2 {
 		t.Errorf(".dev MinLength = %d, want 2", got)

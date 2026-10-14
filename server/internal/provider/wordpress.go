@@ -45,7 +45,7 @@ func (w *WordPress) Check(ctx context.Context, label string) (Result, error) {
 	if err != nil {
 		return Result{}, err
 	}
-	req.Header.Set("Accept", "application/json")
+	setCommonHeaders(req)
 
 	resp, err := client.Do(req)
 	if err != nil {
