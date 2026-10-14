@@ -12,13 +12,13 @@ import (
 type Lemmy struct {
 	// BaseURL is the instance origin the API is called on.
 	BaseURL string
-	// Client is used for the request; http.DefaultClient when nil.
+	// Client is used for the request; DefaultClient when nil.
 	Client *http.Client
 }
 
 // NewLemmy returns a provider bound to lemmy.world.
 func NewLemmy() *Lemmy {
-	return &Lemmy{BaseURL: "https://lemmy.world", Client: http.DefaultClient}
+	return &Lemmy{BaseURL: "https://lemmy.world", Client: DefaultClient}
 }
 
 func (l *Lemmy) ID() string       { return "lemmy" }

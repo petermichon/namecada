@@ -72,7 +72,7 @@ func serve(args []string) error {
 	eng := engine.NewWithStore(store.NewMemory(), provider.Default().All()...)
 	srv := &http.Server{
 		Addr:    *addr,
-		Handler: api.New(eng, *origin).Handler(),
+		Handler: withScanTimeout(engine.ScanTimeout, api.New(eng, *origin).Handler()),
 	}
 
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
@@ -101,17 +101,31 @@ func check(args []string) error {
 		return err
 	}
 
+	ctx, cancel := context.WithTimeout(context.Background(), engine.ScanTimeout)
+	defer cancel()
+
 	eng := engine.NewWithStore(store.NewMemory(), provider.Default().All()...)
-	return runCheck(os.Stdout, eng, label, out)
+	return runCheck(ctx, os.Stdout, eng, label, out)
+}
+
+// withScanTimeout bounds every served scan with a context deadline, so a hung
+// source cannot hold a request open past the timeout. The deadline flows to the
+// engine, which stops emitting once it fires.
+func withScanTimeout(timeout time.Duration, next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ctx, cancel := context.WithTimeout(r.Context(), timeout)
+		defer cancel()
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
 }
 
 // runCheck performs a one-shot scan and writes the whole buffered result set:
 // a single JSON array for stdout, or a SQLite report when out is set. Unlike
 // serve, no result is emitted until every provider has resolved.
-func runCheck(w io.Writer, eng *engine.Engine, label, out string) error {
-	results := eng.ScanAll(context.Background(), label)
+func runCheck(ctx context.Context, w io.Writer, eng *engine.Engine, label, out string) error {
+	results := eng.ScanAll(ctx, label)
 	if out != "" {
-		return checkSQLite(results, out)
+		return checkSQLite(ctx, results, out)
 	}
 	return writeJSON(w, results)
 }
@@ -147,13 +161,13 @@ func parseCheck(args []string) (label, out string, err error) {
 }
 
 // checkSQLite upserts every buffered result into the SQLite report.
-func checkSQLite(results []engine.Result, path string) error {
+func checkSQLite(ctx context.Context, results []engine.Result, path string) error {
 	s, err := sink.OpenSQLite(path)
 	if err != nil {
 		return err
 	}
 
-	if err := s.Write(context.Background(), results); err != nil {
+	if err := s.Write(ctx, results); err != nil {
 		s.Close()
 		return err
 	}

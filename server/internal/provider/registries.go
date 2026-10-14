@@ -31,7 +31,7 @@ func newEndpoint(id, platform, baseURL, path, pageURL string, codes codeMap) *en
 		path:     path,
 		pageURL:  pageURL,
 		codes:    codes,
-		client:   http.DefaultClient,
+		client:   DefaultClient,
 	}
 }
 

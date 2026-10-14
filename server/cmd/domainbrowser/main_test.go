@@ -5,9 +5,12 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
+	"net/http"
+	"net/http/httptest"
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/petermichon/domain-browser/server/internal/engine"
 	"github.com/petermichon/domain-browser/server/internal/provider"
@@ -41,7 +44,7 @@ func testEngine() *engine.Engine {
 // array of every buffered result, not newline-delimited objects.
 func TestRunCheckEmitsJSONArray(t *testing.T) {
 	var buf bytes.Buffer
-	if err := runCheck(&buf, testEngine(), "acema", ""); err != nil {
+	if err := runCheck(context.Background(), &buf, testEngine(), "acema", ""); err != nil {
 		t.Fatalf("runCheck: %v", err)
 	}
 
@@ -72,7 +75,7 @@ func TestRunCheckEmitsJSONArray(t *testing.T) {
 func TestRunCheckSQLiteWritesFile(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "checks.sqlite")
 	var buf bytes.Buffer
-	if err := runCheck(&buf, testEngine(), "acema", path); err != nil {
+	if err := runCheck(context.Background(), &buf, testEngine(), "acema", path); err != nil {
 		t.Fatalf("runCheck: %v", err)
 	}
 	if buf.Len() != 0 {
@@ -125,5 +128,59 @@ func TestParseCheck(t *testing.T) {
 				t.Errorf("parseCheck(%v) = %q, %q; want %q, %q", tt.args, label, out, tt.wantLabel, tt.wantOut)
 			}
 		})
+	}
+}
+
+// blockingProvider never resolves on its own; it waits for the scan context to
+// be canceled, mirroring a hung source.
+type blockingProvider struct{ fakeProvider }
+
+func (b blockingProvider) Check(ctx context.Context, _ string) (provider.Result, error) {
+	<-ctx.Done()
+	return provider.Result{}, ctx.Err()
+}
+
+// TestRunCheckHonorsScanDeadline pins that a one-shot check stops at the scan
+// deadline instead of hanging on a source that never answers.
+func TestRunCheckHonorsScanDeadline(t *testing.T) {
+	eng := engine.New(blockingProvider{fakeProvider{id: "slow"}})
+	ctx, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
+	defer cancel()
+
+	var buf bytes.Buffer
+	done := make(chan error, 1)
+	go func() { done <- runCheck(ctx, &buf, eng, "acema", "") }()
+
+	select {
+	case err := <-done:
+		if err != nil {
+			t.Fatalf("runCheck: %v", err)
+		}
+	case <-time.After(2 * time.Second):
+		t.Fatal("runCheck did not return after the scan deadline")
+	}
+
+	var got []engine.Result
+	if err := json.Unmarshal(buf.Bytes(), &got); err != nil {
+		t.Fatalf("output is not JSON: %v (%q)", err, buf.String())
+	}
+	if len(got) != 0 {
+		t.Errorf("got %+v, want no results (the blocked provider was abandoned)", got)
+	}
+}
+
+// TestWithScanTimeoutDeadline pins that the serve middleware hands the handler
+// a context that reaches its deadline.
+func TestWithScanTimeoutDeadline(t *testing.T) {
+	var deadline bool
+	h := withScanTimeout(50*time.Millisecond, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		<-r.Context().Done()
+		deadline = r.Context().Err() == context.DeadlineExceeded
+		_, _ = w.Write([]byte("late"))
+	}))
+
+	h.ServeHTTP(httptest.NewRecorder(), httptest.NewRequest(http.MethodGet, "/check", nil))
+	if !deadline {
+		t.Fatal("handler context did not reach its deadline")
 	}
 }

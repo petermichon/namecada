@@ -15,13 +15,13 @@ import (
 type WordPress struct {
 	// BaseURL is the API origin; "https://api.wordpress.org" when defaulted.
 	BaseURL string
-	// Client is used for the request; http.DefaultClient when nil.
+	// Client is used for the request; DefaultClient when nil.
 	Client *http.Client
 }
 
 // NewWordPress returns a provider bound to api.wordpress.org.
 func NewWordPress() *WordPress {
-	return &WordPress{BaseURL: "https://api.wordpress.org", Client: http.DefaultClient}
+	return &WordPress{BaseURL: "https://api.wordpress.org", Client: DefaultClient}
 }
 
 func (w *WordPress) ID() string       { return "wordpress" }
@@ -43,7 +43,7 @@ func (w *WordPress) Check(ctx context.Context, label string) (Result, error) {
 
 	client := w.Client
 	if client == nil {
-		client = http.DefaultClient
+		client = DefaultClient
 	}
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, endpoint, nil)
 	if err != nil {

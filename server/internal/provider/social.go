@@ -77,13 +77,13 @@ func NewMastodon() Provider {
 type Wikipedia struct {
 	// BaseURL is the API origin; "https://meta.wikimedia.org" when defaulted.
 	BaseURL string
-	// Client is used for the request; http.DefaultClient when nil.
+	// Client is used for the request; DefaultClient when nil.
 	Client *http.Client
 }
 
 // NewWikipedia returns a provider bound to meta.wikimedia.org.
 func NewWikipedia() *Wikipedia {
-	return &Wikipedia{BaseURL: "https://meta.wikimedia.org", Client: http.DefaultClient}
+	return &Wikipedia{BaseURL: "https://meta.wikimedia.org", Client: DefaultClient}
 }
 
 func (w *Wikipedia) ID() string       { return "wikipedia" }
@@ -139,13 +139,13 @@ func (w *Wikipedia) Check(ctx context.Context, label string) (Result, error) {
 type DevTo struct {
 	// BaseURL is the API origin; "https://dev.to" when defaulted.
 	BaseURL string
-	// Client is used for the request; http.DefaultClient when nil.
+	// Client is used for the request; DefaultClient when nil.
 	Client *http.Client
 }
 
 // NewDevTo returns a provider bound to dev.to.
 func NewDevTo() *DevTo {
-	return &DevTo{BaseURL: "https://dev.to", Client: http.DefaultClient}
+	return &DevTo{BaseURL: "https://dev.to", Client: DefaultClient}
 }
 
 func (d *DevTo) ID() string       { return "devto" }
@@ -179,13 +179,13 @@ func (d *DevTo) Check(ctx context.Context, label string) (Result, error) {
 type Minehut struct {
 	// BaseURL is the API origin; "https://api.minehut.com" when defaulted.
 	BaseURL string
-	// Client is used for the request; http.DefaultClient when nil.
+	// Client is used for the request; DefaultClient when nil.
 	Client *http.Client
 }
 
 // NewMinehut returns a provider bound to api.minehut.com.
 func NewMinehut() *Minehut {
-	return &Minehut{BaseURL: "https://api.minehut.com", Client: http.DefaultClient}
+	return &Minehut{BaseURL: "https://api.minehut.com", Client: DefaultClient}
 }
 
 func (m *Minehut) ID() string       { return "minehut" }
@@ -233,13 +233,13 @@ func (m *Minehut) Check(ctx context.Context, label string) (Result, error) {
 type Bluesky struct {
 	// BaseURL is the API origin; "https://bsky.social" when defaulted.
 	BaseURL string
-	// Client is used for the request; http.DefaultClient when nil.
+	// Client is used for the request; DefaultClient when nil.
 	Client *http.Client
 }
 
 // NewBluesky returns a provider bound to bsky.social.
 func NewBluesky() *Bluesky {
-	return &Bluesky{BaseURL: "https://bsky.social", Client: http.DefaultClient}
+	return &Bluesky{BaseURL: "https://bsky.social", Client: DefaultClient}
 }
 
 func (b *Bluesky) ID() string       { return "bluesky" }
@@ -290,7 +290,7 @@ func (b *Bluesky) Check(ctx context.Context, label string) (Result, error) {
 type OpenCollective struct {
 	// BaseURL is the API origin; "https://opencollective.com" when defaulted.
 	BaseURL string
-	// Client is used for the request; http.DefaultClient when nil.
+	// Client is used for the request; DefaultClient when nil.
 	Client *http.Client
 	// Now stamps the cache-busting retry; time.Now when nil.
 	Now func() time.Time
@@ -300,7 +300,7 @@ type OpenCollective struct {
 func NewOpenCollective() *OpenCollective {
 	return &OpenCollective{
 		BaseURL: "https://opencollective.com",
-		Client:  http.DefaultClient,
+		Client:  DefaultClient,
 		Now:     time.Now,
 	}
 }

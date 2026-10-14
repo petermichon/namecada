@@ -616,6 +616,83 @@ func TestCheckHTTPContextCanceled(t *testing.T) {
 	}
 }
 
+func TestDefaultClientHasTimeout(t *testing.T) {
+	if DefaultTimeout <= 0 {
+		t.Fatalf("DefaultTimeout = %v, want a positive timeout", DefaultTimeout)
+	}
+	if DefaultClient.Timeout != DefaultTimeout {
+		t.Errorf("DefaultClient.Timeout = %v, want %v", DefaultClient.Timeout, DefaultTimeout)
+	}
+}
+
+// defaultClientOf returns the request client a built-in provider holds. The
+// second result reports whether the provider's type is known, so the test fails
+// when a new provider is added without a timeout-bound client.
+func defaultClientOf(p Provider) (*http.Client, bool) {
+	switch v := p.(type) {
+	case *endpoint:
+		return v.client, true
+	case *Domain:
+		return v.Client, true
+	case *Lemmy:
+		return v.Client, true
+	case *PeerTube:
+		return v.Client, true
+	case *WordPress:
+		return v.Client, true
+	case *GitLab:
+		return v.Client, true
+	case *Codeberg:
+		return v.Client, true
+	case *Wikipedia:
+		return v.Client, true
+	case *DevTo:
+		return v.Client, true
+	case *Minehut:
+		return v.Client, true
+	case *Bluesky:
+		return v.Client, true
+	case *OpenCollective:
+		return v.Client, true
+	}
+	return nil, false
+}
+
+// TestDefaultProvidersUseTimeoutClient asserts every registered provider is
+// bound to a client that carries a request timeout, so one hung source cannot
+// stall a scan.
+func TestDefaultProvidersUseTimeoutClient(t *testing.T) {
+	for _, p := range Default().All() {
+		client, known := defaultClientOf(p)
+		if !known {
+			t.Errorf("provider %q has an unknown type; add it to defaultClientOf", p.ID())
+			continue
+		}
+		if client == nil || client.Timeout <= 0 {
+			t.Errorf("provider %q has no client timeout", p.ID())
+		}
+	}
+}
+
+// TestCheckHTTPClientTimeout proves a request timeout aborts a hung source
+// rather than waiting for it to answer.
+func TestCheckHTTPClientTimeout(t *testing.T) {
+	block := make(chan struct{})
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		select {
+		case <-block:
+		case <-r.Context().Done():
+		}
+	}))
+	defer srv.Close()
+	defer close(block)
+
+	client := &http.Client{Timeout: 50 * time.Millisecond}
+	if _, err := checkHTTP(context.Background(), client, srv.URL, defaultCodes); err == nil {
+		t.Fatal("expected a timeout error, got nil")
+	}
+}
+
 func TestRegistry(t *testing.T) {
 	t.Run("register and retrieve in order", func(t *testing.T) {
 		r := NewRegistry()

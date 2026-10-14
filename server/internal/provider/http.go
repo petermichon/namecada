@@ -4,7 +4,17 @@ import (
 	"context"
 	"io"
 	"net/http"
+	"time"
 )
+
+// DefaultTimeout is the request timeout on DefaultClient. It bounds a single
+// source's HTTP call so a hung server cannot stall a scan indefinitely, which
+// the timeout-less http.DefaultClient would allow.
+const DefaultTimeout = 10 * time.Second
+
+// DefaultClient is the request client providers use when none is supplied. Its
+// Timeout applies to the whole request, including reading the body.
+var DefaultClient = &http.Client{Timeout: DefaultTimeout}
 
 // codeMap maps HTTP status codes to a check outcome.
 type codeMap struct {
@@ -17,10 +27,10 @@ type codeMap struct {
 var defaultCodes = codeMap{available: []int{http.StatusNotFound}, taken: []int{http.StatusOK}}
 
 // doGet performs a GET with the shared Accept header; a nil client falls back
-// to http.DefaultClient.
+// to DefaultClient so every request carries a timeout.
 func doGet(ctx context.Context, client *http.Client, url string) (*http.Response, error) {
 	if client == nil {
-		client = http.DefaultClient
+		client = DefaultClient
 	}
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {

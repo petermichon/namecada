@@ -93,7 +93,7 @@ func mergeBases(base, extra map[string]string) map[string]string {
 type Bootstrap struct {
 	// URL is the bootstrap document; BootstrapURL when defaulted.
 	URL string
-	// Client is used for the request; http.DefaultClient when nil.
+	// Client is used for the request; DefaultClient when nil.
 	Client *http.Client
 	// TTL is how long a fetched map is reused; bootstrapTTL when zero.
 	TTL time.Duration
@@ -107,7 +107,7 @@ type Bootstrap struct {
 
 // NewBootstrap returns a resolver bound to the IANA bootstrap URL.
 func NewBootstrap() *Bootstrap {
-	return &Bootstrap{URL: BootstrapURL, Client: http.DefaultClient, TTL: bootstrapTTL, Now: time.Now}
+	return &Bootstrap{URL: BootstrapURL, Client: DefaultClient, TTL: bootstrapTTL, Now: time.Now}
 }
 
 // sharedBootstrap is the resolver the registered domain providers share, so its
@@ -161,7 +161,7 @@ func (b *Bootstrap) fetch(ctx context.Context) map[string]string {
 	}
 	client := b.Client
 	if client == nil {
-		client = http.DefaultClient
+		client = DefaultClient
 	}
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, target, nil)
 	if err != nil {
@@ -194,7 +194,7 @@ type Domain struct {
 	// Bootstrap resolves the registry base when BaseURL is empty; the shared
 	// resolver is used when nil.
 	Bootstrap *Bootstrap
-	// Client is used for the request; http.DefaultClient when nil.
+	// Client is used for the request; DefaultClient when nil.
 	Client *http.Client
 	// Min is the shortest label this TLD accepts; 0 means no minimum.
 	Min int
@@ -203,7 +203,7 @@ type Domain struct {
 // NewDomain returns a provider for tld (with leading dot) bound to the shared
 // bootstrap resolver.
 func NewDomain(tld string) *Domain {
-	return &Domain{TLD: tld, Bootstrap: sharedBootstrap, Min: tldMinLength[tld]}
+	return &Domain{TLD: tld, Bootstrap: sharedBootstrap, Client: DefaultClient, Min: tldMinLength[tld]}
 }
 
 // NewDomains returns the per-TLD RDAP domain providers in order.

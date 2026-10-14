@@ -12,13 +12,13 @@ import (
 type PeerTube struct {
 	// BaseURL is the instance origin the API is called on.
 	BaseURL string
-	// Client is used for the request; http.DefaultClient when nil.
+	// Client is used for the request; DefaultClient when nil.
 	Client *http.Client
 }
 
 // NewPeerTube returns a provider bound to framatube.org.
 func NewPeerTube() *PeerTube {
-	return &PeerTube{BaseURL: "https://framatube.org", Client: http.DefaultClient}
+	return &PeerTube{BaseURL: "https://framatube.org", Client: DefaultClient}
 }
 
 func (p *PeerTube) ID() string       { return "peertube" }

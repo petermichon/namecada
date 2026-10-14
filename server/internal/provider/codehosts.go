@@ -35,13 +35,13 @@ func NewBitbucket() Provider {
 type GitLab struct {
 	// BaseURL is the API origin; "https://gitlab.com" when defaulted.
 	BaseURL string
-	// Client is used for the request; http.DefaultClient when nil.
+	// Client is used for the request; DefaultClient when nil.
 	Client *http.Client
 }
 
 // NewGitLab returns a provider bound to gitlab.com.
 func NewGitLab() *GitLab {
-	return &GitLab{BaseURL: "https://gitlab.com", Client: http.DefaultClient}
+	return &GitLab{BaseURL: "https://gitlab.com", Client: DefaultClient}
 }
 
 func (g *GitLab) ID() string       { return "gitlab" }
@@ -86,13 +86,13 @@ func (g *GitLab) Check(ctx context.Context, label string) (Result, error) {
 type Codeberg struct {
 	// BaseURL is the API origin; "https://codeberg.org" when defaulted.
 	BaseURL string
-	// Client is used for the request; http.DefaultClient when nil.
+	// Client is used for the request; DefaultClient when nil.
 	Client *http.Client
 }
 
 // NewCodeberg returns a provider bound to codeberg.org.
 func NewCodeberg() *Codeberg {
-	return &Codeberg{BaseURL: "https://codeberg.org", Client: http.DefaultClient}
+	return &Codeberg{BaseURL: "https://codeberg.org", Client: DefaultClient}
 }
 
 func (c *Codeberg) ID() string       { return "codeberg" }

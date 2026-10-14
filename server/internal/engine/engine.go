@@ -11,6 +11,12 @@ import (
 	"github.com/petermichon/domain-browser/server/internal/store"
 )
 
+// ScanTimeout bounds a whole label's scan across every provider. It is twice
+// the per-request timeout so a provider that makes two sequential calls (GitLab,
+// Dev.to, OpenCollective) still fits, while a hung source cannot hold a scan
+// open indefinitely.
+const ScanTimeout = 2 * provider.DefaultTimeout
+
 // Result is the outcome of one provider's check for a label. Its shape
 // mirrors the frontend ProviderResult so the two consumers stay in sync.
 type Result struct {
