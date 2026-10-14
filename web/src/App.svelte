@@ -86,10 +86,6 @@
 			a guarantee you can register it.
 		</p>
 
-		{#if lookup.stale}
-			<p class="mt-3 text-xs text-muted-foreground">Press Enter to check the updated name.</p>
-		{/if}
-
 		<span class="sr-only" role="status" aria-live="polite">{lookup.announcement}</span>
 
 		{#if lookup.error}
@@ -103,7 +99,11 @@
 				</p>
 			{:else}
 				<p class="mt-4 text-lg font-semibold tracking-tight">
-					{lookup.counts.available} of {lookup.rows.length} available
+					{#if lookup.stale}
+						Press Enter to check the updated name.
+					{:else}
+						{lookup.counts.available} of {lookup.rows.length} available
+					{/if}
 				</p>
 			{/if}
 

@@ -45,6 +45,39 @@ describe('visibleRows', () => {
 	});
 });
 
+describe('stale', () => {
+	it('is false while results are still pending', () => {
+		const lookup = new Lookup();
+		lookup.input = 'lumen';
+		lookup.lastLabel = 'acema';
+		lookup.rows = [row('GitHub', 'pending')];
+		expect(lookup.stale).toBe(false);
+	});
+
+	it('is false with no rows', () => {
+		const lookup = new Lookup();
+		lookup.input = 'lumen';
+		lookup.lastLabel = 'acema';
+		expect(lookup.stale).toBe(false);
+	});
+
+	it('is true once a renamed input settles', () => {
+		const lookup = new Lookup();
+		lookup.input = 'lumen';
+		lookup.lastLabel = 'acema';
+		lookup.rows = [row('GitHub', 'taken')];
+		expect(lookup.stale).toBe(true);
+	});
+
+	it('is false when the input matches the last check', () => {
+		const lookup = new Lookup();
+		lookup.input = 'acema';
+		lookup.lastLabel = 'acema';
+		lookup.rows = [row('GitHub', 'taken')];
+		expect(lookup.stale).toBe(false);
+	});
+});
+
 describe('copyResults', () => {
 	it('copies rows ordered alphabetically by platformName', async () => {
 		const written: string[] = [];
