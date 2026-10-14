@@ -61,6 +61,7 @@ can't be reached is deferred (see below).
 | Firebase Hosting | `{name}.web.app` (subdomain)                            | 200 taken / 404 free      |
 | Neocities | `{name}.neocities.org` (subdomain)                             | 200 taken / 404 free      |
 | Render    | `{name}.onrender.com` (subdomain)                              | 200 taken / 404 free      |
+| Railway   | `{name}.up.railway.app` (subdomain)                            | 200 taken / 404 free      |
 
 Domains run once per TLD (`.com`, `.org`, `.dev`, `.io`, `.ai`, `.app`), each a
 separate provider. The TLD is resolved to its registry through the IANA RDAP

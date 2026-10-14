@@ -130,7 +130,7 @@ browser DoH):
 - [ ] GitLab Pages — 🔌 — `{name}.gitlab.io`
 - [x] Render — ✅ — `{name}.onrender.com` (wildcard DNS; HTTP 404, no CORS; HTML Accept; spun-down free tier answers 503 → unknown)
 - [ ] Fly.io — 🔌 — `{name}.fly.dev`
-- [ ] Railway — 🔌 — `{name}.up.railway.app`
+- [x] Railway — ✅ — `{name}.up.railway.app` (wildcard DNS; HTTP 404, no CORS; HTML Accept; user-chosen names, collisions get a suffix so the exact label still 404s)
 - [ ] Heroku — 🔌 — `{name}.herokuapp.com`
 - [x] Surge — ✅ — `{name}.surge.sh` (wildcard DNS; HTTP 404, no CORS)
 - [ ] Deno Deploy — 🔌 — `{name}.deno.dev`

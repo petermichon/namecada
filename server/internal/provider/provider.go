@@ -272,5 +272,6 @@ func Default() *Registry {
 	_ = r.Register(NewFirebase())
 	_ = r.Register(NewNeocities())
 	_ = r.Register(NewRender())
+	_ = r.Register(NewRailway())
 	return r
 }

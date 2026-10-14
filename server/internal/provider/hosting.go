@@ -60,3 +60,18 @@ func NewRender() Provider {
 	e.accept = "text/html"
 	return e
 }
+
+// NewRailway checks a service subdomain on Railway. Railway serves wildcard DNS
+// for up.railway.app, so the HTTP status is the signal:
+// `https://{name}.up.railway.app/` answers 200 when the name is claimed and 404
+// when it is free. Service names are user-chosen; on a collision Railway appends
+// a suffix, so a free name still answers 404 for the exact label. The origin is
+// empty because the label is part of the host, not a path segment. Some claimed
+// apps answer 406 to a JSON Accept, so the route overrides it with an HTML
+// Accept.
+func NewRailway() Provider {
+	e := newEndpoint("railway", "railway",
+		"", "https://%s.up.railway.app/", "https://%s.up.railway.app/", defaultCodes)
+	e.accept = "text/html"
+	return e
+}
