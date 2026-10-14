@@ -8,14 +8,16 @@ import (
 
 	"github.com/petermichon/domain-browser/backend/internal/engine"
 	"github.com/petermichon/domain-browser/backend/internal/provider"
+	"github.com/petermichon/domain-browser/backend/internal/sink"
 	"github.com/petermichon/domain-browser/backend/internal/store"
 )
 
 const usage = `usage: domainbrowser <command> [args]
 
 Commands:
-  serve           start the HTTP server
-  check <label>   check a single label across the sources
+  serve                              start the HTTP server
+  check <label> [--out <file.sqlite>] check a single label across the sources
+                                     (--out writes a SQLite report instead of JSON)
 `
 
 func main() {
@@ -32,11 +34,7 @@ func main() {
 			os.Exit(1)
 		}
 	case "check":
-		if len(args) < 2 {
-			fmt.Fprintln(os.Stderr, "domainbrowser: check requires a <label> argument")
-			os.Exit(2)
-		}
-		if err := check(args[1]); err != nil {
+		if err := check(args[1:]); err != nil {
 			fmt.Fprintf(os.Stderr, "domainbrowser: %v\n", err)
 			os.Exit(1)
 		}
@@ -52,8 +50,17 @@ func serve(args []string) error {
 	return fmt.Errorf("serve: not implemented")
 }
 
-func check(label string) error {
+func check(args []string) error {
+	label, out, err := parseCheck(args)
+	if err != nil {
+		return err
+	}
+
 	eng := engine.NewWithStore(store.NewMemory(), provider.Default().All()...)
+
+	if out != "" {
+		return checkSQLite(eng, label, out)
+	}
 
 	enc := json.NewEncoder(os.Stdout)
 	for res := range eng.Scan(context.Background(), label) {
@@ -62,4 +69,47 @@ func check(label string) error {
 		}
 	}
 	return nil
+}
+
+// parseCheck splits "check" arguments into the label and an optional --out path.
+func parseCheck(args []string) (label, out string, err error) {
+	if len(args) == 0 || args[0] == "" {
+		return "", "", fmt.Errorf("check requires a <label> argument")
+	}
+	label = args[0]
+
+	for i := 1; i < len(args); i++ {
+		switch args[i] {
+		case "--out":
+			if i+1 >= len(args) {
+				return "", "", fmt.Errorf("check: --out requires a <file.sqlite> argument")
+			}
+			out = args[i+1]
+			i++
+		default:
+			return "", "", fmt.Errorf("check: unexpected argument %q", args[i])
+		}
+	}
+	if out == "" && len(args) > 1 {
+		return "", "", fmt.Errorf("check: --out requires a <file.sqlite> argument")
+	}
+	return label, out, nil
+}
+
+// checkSQLite runs the scan and upserts every result into the SQLite report.
+func checkSQLite(eng *engine.Engine, label, path string) error {
+	s, err := sink.OpenSQLite(path)
+	if err != nil {
+		return err
+	}
+
+	results := make([]engine.Result, 0, len(eng.Providers()))
+	for res := range eng.Scan(context.Background(), label) {
+		results = append(results, res)
+	}
+	if err := s.Write(context.Background(), results); err != nil {
+		s.Close()
+		return err
+	}
+	return s.Close()
 }
