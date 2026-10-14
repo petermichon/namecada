@@ -861,6 +861,10 @@ func defaultClientOf(p Provider) (*http.Client, bool) {
 		return v.Client, true
 	case *Twitch:
 		return v.Client, true
+	case *CompaniesHouse:
+		return v.Client, true
+	case *OpenCorporates:
+		return v.Client, true
 	}
 	return nil, false
 }

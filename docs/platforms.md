@@ -98,8 +98,8 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] USPTO (trademarks) — 🔑
 - [ ] EUIPO (trademarks) — 🔑
 - [ ] WIPO Global Brand Database — 🕸
-- [ ] Companies House UK — 🔑
-- [ ] OpenCorporates — 🔑
+- [x] Companies House UK — ✅ — `api.company-information.service.gov.uk/search/companies?q={name}` (key; Basic auth; exact company-name hit taken / else free)
+- [x] OpenCorporates — ✅ — `api.opencorporates.com/v0.4/companies/search?q={name}` (token; `X-API-TOKEN` header; exact company-name hit taken / else free)
 - [ ] SEC EDGAR — 🔑
 - [ ] Crunchbase — 🕸
 - [ ] US state business registries — 🕸

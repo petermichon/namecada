@@ -285,6 +285,16 @@ var keyedSources = []keyedSource{
 			return NewTwitch(cfg.TwitchClientID, cfg.TwitchClientSecret)
 		},
 	},
+	{
+		id:      "companieshouse",
+		enabled: func(cfg Config) bool { return cfg.CompaniesHouseKey != "" },
+		new:     func(cfg Config) Provider { return NewCompaniesHouse(cfg.CompaniesHouseKey) },
+	},
+	{
+		id:      "opencorporates",
+		enabled: func(cfg Config) bool { return cfg.OpenCorporatesToken != "" },
+		new:     func(cfg Config) Provider { return NewOpenCorporates(cfg.OpenCorporatesToken) },
+	},
 }
 
 // KeyedNames returns the ids of the credential-gated sources cfg enables, in

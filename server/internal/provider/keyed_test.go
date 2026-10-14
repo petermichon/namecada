@@ -2,8 +2,10 @@ package provider
 
 import (
 	"context"
+	"encoding/base64"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 	"testing"
 )
@@ -293,10 +295,166 @@ func twitchProvider(srv *httptest.Server) *Twitch {
 	return tw
 }
 
+// TestCompanyQuery pins the label -> search-term mapping and the exact-name
+// comparison used by both company registries.
+func TestCompanyQuery(t *testing.T) {
+	cases := []struct {
+		label string
+		query string
+	}{
+		{"acme", "acme"},
+		{"acme-corp", "acme corp"},
+		{"acme_corp", "acme corp"},
+		{"acme--corp", "acme corp"},
+		{"Acme  Corp", "Acme Corp"},
+	}
+	for _, tt := range cases {
+		if got := companyQuery(tt.label); got != tt.query {
+			t.Errorf("companyQuery(%q) = %q, want %q", tt.label, got, tt.query)
+		}
+	}
+
+	matches := []struct {
+		label, name string
+		want        bool
+	}{
+		{"acme-corp", "ACME CORP", true},
+		{"acme-corp", "Acme  Corp", true},
+		{"acme corp", "ACME Corp", true},
+		{"acme-corp", "Acme Corporation", false},
+		{"acme", "Acme Corp", false},
+	}
+	for _, tt := range matches {
+		if got := companyNameMatches(tt.label, tt.name); got != tt.want {
+			t.Errorf("companyNameMatches(%q, %q) = %v, want %v", tt.label, tt.name, got, tt.want)
+		}
+	}
+}
+
+// TestCompaniesHouseCheck pins the exact-name signal (a fuzzy hit stays free)
+// and that the API key travels in an HTTP Basic Authorization header, never in
+// the URL.
+func TestCompaniesHouseCheck(t *testing.T) {
+	tests := []struct {
+		name string
+		code int
+		body string
+		want Status
+	}{
+		{"exact title", http.StatusOK, `{"items":[{"title":"Acme Corp"}]}`, StatusTaken},
+		{"exact company_name", http.StatusOK, `{"items":[{"company_name":"Acme Corp"}]}`, StatusTaken},
+		{"fuzzy only", http.StatusOK, `{"items":[{"title":"Acme Corporation"}]}`, StatusAvailable},
+		{"no items", http.StatusOK, `{"items":[]}`, StatusAvailable},
+		{"unauthorized", http.StatusUnauthorized, ``, StatusUnknown},
+		{"invalid body", http.StatusOK, `not json`, StatusUnknown},
+		{"server error", http.StatusInternalServerError, ``, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var gotAuth, gotQuery string
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.URL.Path != "/search/companies" {
+					t.Errorf("path = %q, want %q", r.URL.Path, "/search/companies")
+				}
+				gotAuth = r.Header.Get("Authorization")
+				gotQuery = r.URL.RawQuery
+				w.WriteHeader(tt.code)
+				_, _ = w.Write([]byte(tt.body))
+			}))
+			defer srv.Close()
+
+			c := NewCompaniesHouse("test-key")
+			c.BaseURL = srv.URL
+			c.Client = srv.Client()
+
+			got, err := c.Check(context.Background(), "acme-corp")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+			wantAuth := "Basic " + base64.StdEncoding.EncodeToString([]byte("test-key:"))
+			if gotAuth != wantAuth {
+				t.Errorf("Authorization = %q, want %q", gotAuth, wantAuth)
+			}
+			if got := queryValue(gotQuery, "q"); got != "acme corp" {
+				t.Errorf("q = %q, want %q", got, "acme corp")
+			}
+			if strings.Contains(gotQuery, "test-key") {
+				t.Errorf("key leaked into the query: %q", gotQuery)
+			}
+		})
+	}
+}
+
+// TestOpenCorporatesCheck pins the exact-name signal and that the token travels
+// in the X-API-TOKEN header, never in the URL.
+func TestOpenCorporatesCheck(t *testing.T) {
+	tests := []struct {
+		name string
+		code int
+		body string
+		want Status
+	}{
+		{"exact", http.StatusOK, `{"results":{"companies":[{"company":{"name":"Acme Corp"}}]}}`, StatusTaken},
+		{"fuzzy only", http.StatusOK, `{"results":{"companies":[{"company":{"name":"Acme Corporation"}}]}}`, StatusAvailable},
+		{"no companies", http.StatusOK, `{"results":{"companies":[]}}`, StatusAvailable},
+		{"unauthorized", http.StatusUnauthorized, ``, StatusUnknown},
+		{"invalid body", http.StatusOK, `not json`, StatusUnknown},
+		{"server error", http.StatusInternalServerError, ``, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var gotToken, gotQuery string
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.URL.Path != "/companies/search" {
+					t.Errorf("path = %q, want %q", r.URL.Path, "/companies/search")
+				}
+				gotToken = r.Header.Get("X-API-TOKEN")
+				gotQuery = r.URL.RawQuery
+				w.WriteHeader(tt.code)
+				_, _ = w.Write([]byte(tt.body))
+			}))
+			defer srv.Close()
+
+			o := NewOpenCorporates("test-token")
+			o.BaseURL = srv.URL
+			o.Client = srv.Client()
+
+			got, err := o.Check(context.Background(), "acme-corp")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+			if gotToken != "test-token" {
+				t.Errorf("X-API-TOKEN = %q, want %q", gotToken, "test-token")
+			}
+			if got := queryValue(gotQuery, "q"); got != "acme corp" {
+				t.Errorf("q = %q, want %q", got, "acme corp")
+			}
+			if strings.Contains(gotQuery, "test-token") {
+				t.Errorf("token leaked into the query: %q", gotQuery)
+			}
+		})
+	}
+}
+
+// queryValue parses a raw query and returns the first value for key.
+func queryValue(rawQuery, key string) string {
+	values, err := url.ParseQuery(rawQuery)
+	if err != nil {
+		return ""
+	}
+	return values.Get(key)
+}
+
 // TestDefaultKeyedSources pins that each keyed source is registered only when
 // its credentials are present, and that KeyedNames reports them by name.
 func TestDefaultKeyedSources(t *testing.T) {
-	all := []string{"discogs", "x", "twitch"}
+	all := []string{"discogs", "x", "twitch", "companieshouse", "opencorporates"}
 	for _, id := range all {
 		if _, ok := Default(Config{}).Get(id); ok {
 			t.Errorf("Default(Config{}) registered %q with no credentials", id)
@@ -334,14 +492,32 @@ func TestDefaultKeyedSources(t *testing.T) {
 		t.Error("Default did not register twitch with both credentials")
 	}
 
-	cfg := Config{
-		DiscogsToken:       "d",
-		XBearerToken:       "b",
-		TwitchClientID:     "i",
-		TwitchClientSecret: "s",
+	companiesHouse := Config{CompaniesHouseKey: "k"}
+	if _, ok := Default(companiesHouse).Get("companieshouse"); !ok {
+		t.Error("Default did not register companieshouse with a key")
 	}
-	if got := KeyedNames(cfg); strings.Join(got, ",") != "discogs,x,twitch" {
-		t.Errorf("KeyedNames = %v, want [discogs x twitch]", got)
+	if _, ok := Default(companiesHouse).Get("opencorporates"); ok {
+		t.Error("Default registered opencorporates without a token")
+	}
+
+	openCorporates := Config{OpenCorporatesToken: "t"}
+	if _, ok := Default(openCorporates).Get("opencorporates"); !ok {
+		t.Error("Default did not register opencorporates with a token")
+	}
+	if _, ok := Default(openCorporates).Get("companieshouse"); ok {
+		t.Error("Default registered companieshouse without a key")
+	}
+
+	cfg := Config{
+		DiscogsToken:        "d",
+		XBearerToken:        "b",
+		TwitchClientID:      "i",
+		TwitchClientSecret:  "s",
+		CompaniesHouseKey:   "k",
+		OpenCorporatesToken: "t",
+	}
+	if got := KeyedNames(cfg); strings.Join(got, ",") != "discogs,x,twitch,companieshouse,opencorporates" {
+		t.Errorf("KeyedNames = %v, want [discogs x twitch companieshouse opencorporates]", got)
 	}
 }
 
@@ -349,12 +525,14 @@ func TestDefaultKeyedSources(t *testing.T) {
 // a client with a request timeout.
 func TestKeyedProvidersUseTimeoutClient(t *testing.T) {
 	cfg := Config{
-		DiscogsToken:       "d",
-		XBearerToken:       "b",
-		TwitchClientID:     "i",
-		TwitchClientSecret: "s",
+		DiscogsToken:        "d",
+		XBearerToken:        "b",
+		TwitchClientID:      "i",
+		TwitchClientSecret:  "s",
+		CompaniesHouseKey:   "k",
+		OpenCorporatesToken: "t",
 	}
-	for _, id := range []string{"discogs", "x", "twitch"} {
+	for _, id := range []string{"discogs", "x", "twitch", "companieshouse", "opencorporates"} {
 		p, ok := Default(cfg).Get(id)
 		if !ok {
 			t.Fatalf("keyed source %q is not registered", id)

@@ -65,6 +65,8 @@ can't be reached is deferred (see below).
 | Discogs   | `api.discogs.com/users/{name}` (token)                         | 200 taken / 404 free      |
 | X / Twitter | `api.twitter.com/2/users/by/username/{name}` (bearer)        | 200 taken / 404 free      |
 | Twitch    | `api.twitch.tv/helix/users?login={name}` (app token)           | non-empty `data` taken / empty free |
+| Companies House | `api.company-information.service.gov.uk/search/companies?q={name}` (key) | exact company name taken / else free |
+| OpenCorporates | `api.opencorporates.com/v0.4/companies/search?q={name}` (token) | exact company name taken / else free |
 | Vercel    | `{name}.vercel.app` (subdomain)                                | 200 taken / 404 free      |
 | Netlify   | `{name}.netlify.app` (subdomain)                               | 200 taken / 404 free      |
 | Surge     | `{name}.surge.sh` (subdomain)                                  | 200 taken / 404 free      |
