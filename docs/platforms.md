@@ -229,6 +229,7 @@ Creators / commerce / media:
 - [ ] PayPal.me — 🕸 — 301 redirect / always 200, no signal
 - [ ] Itch.io — 🕸
 - [ ] Spotify (artist) — 🔑
+- [x] Spotify — ✅ — `open.spotify.com/user/{name}` (keyless profile: 200 taken / 404 free; the artist catalog still needs the keyed Web API)
 - [ ] Apple Music — 🔑
 - [ ] Audiomack — 🕸 — redirects
 - [ ] Flickr — 🕸 — endpoints inconclusive

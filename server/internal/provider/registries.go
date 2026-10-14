@@ -181,3 +181,11 @@ func NewHackerNoon() Provider {
 	return newEndpoint("hackernoon", "hackernoon",
 		"https://hackernoon.com", "/u/%s", "https://hackernoon.com/u/%s", defaultCodes)
 }
+
+// NewSpotify checks a user on Spotify. The public profile page serves HTML and
+// a 200 means the username exists while a 404 means it is free. The official
+// Web API needs a token, but the profile route does not.
+func NewSpotify() Provider {
+	return newEndpoint("spotify", "spotify",
+		"https://open.spotify.com", "/user/%s", "https://open.spotify.com/user/%s", defaultCodes)
+}

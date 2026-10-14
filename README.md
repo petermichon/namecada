@@ -65,6 +65,7 @@ can't be reached is deferred (see below).
 | Behance   | `behance.net/{name}` (profile)                                 | 200 taken / 404 free      |
 | Replicate | `replicate.com/{name}` (profile)                               | 200 taken / 404 free      |
 | HackerNoon | `hackernoon.com/u/{name}` (profile)                           | 200 taken / 404 free      |
+| Spotify   | `open.spotify.com/user/{name}` (profile)                       | 200 taken / 404 free      |
 | Hacker News | `news.ycombinator.com/user?id={name}`                        | `No such user.` free / `karma` taken |
 | Discogs   | `api.discogs.com/users/{name}` (token)                         | 200 taken / 404 free      |
 | X / Twitter | `x.com/{name}` (profile)                                     | 200 taken / 404 free      |
