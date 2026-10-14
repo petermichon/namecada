@@ -3,9 +3,16 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
+	"flag"
 	"fmt"
+	"net/http"
 	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
+	"github.com/petermichon/domain-browser/backend/internal/api"
 	"github.com/petermichon/domain-browser/backend/internal/engine"
 	"github.com/petermichon/domain-browser/backend/internal/provider"
 	"github.com/petermichon/domain-browser/backend/internal/sink"
@@ -15,9 +22,9 @@ import (
 const usage = `usage: domainbrowser <command> [args]
 
 Commands:
-  serve                              start the HTTP server
-  check <label> [--out <file.sqlite>] check a single label across the sources
-                                     (--out writes a SQLite report instead of JSON)
+  serve [--addr :8080] [--origin URL] start the HTTP server (GET /check?name=)
+  check <label> [--out <file.sqlite>]  check a single label across the sources
+                                      (--out writes a SQLite report instead of JSON)
 `
 
 func main() {
@@ -47,7 +54,43 @@ func main() {
 }
 
 func serve(args []string) error {
-	return fmt.Errorf("serve: not implemented")
+	fs := flag.NewFlagSet("serve", flag.ContinueOnError)
+	fs.SetOutput(os.Stderr)
+	addr := fs.String("addr", ":8080", "address to listen on")
+	origin := fs.String("origin", api.DefaultOrigin, "CORS origin allowed to call the API")
+	if err := fs.Parse(args); err != nil {
+		return err
+	}
+	if fs.NArg() > 0 {
+		return fmt.Errorf("serve: unexpected argument %q", fs.Arg(0))
+	}
+
+	// A long-lived engine over one memory store so cached verdicts survive
+	// across requests (the point of serve, versus the one-shot check).
+	eng := engine.NewWithStore(store.NewMemory(), provider.Default().All()...)
+	srv := &http.Server{
+		Addr:    *addr,
+		Handler: api.New(eng, *origin).Handler(),
+	}
+
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
+
+	errc := make(chan error, 1)
+	go func() { errc <- srv.ListenAndServe() }()
+	fmt.Fprintf(os.Stderr, "domainbrowser: listening on %s (CORS origin %s)\n", *addr, *origin)
+
+	select {
+	case err := <-errc:
+		if errors.Is(err, http.ErrServerClosed) {
+			return nil
+		}
+		return err
+	case <-ctx.Done():
+		shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		return srv.Shutdown(shutdownCtx)
+	}
 }
 
 func check(args []string) error {
