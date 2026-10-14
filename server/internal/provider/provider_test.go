@@ -568,6 +568,58 @@ func TestHackerNewsCheck(t *testing.T) {
 	}
 }
 
+func TestInstagramCheck(t *testing.T) {
+	tests := []struct {
+		name string
+		code int
+		body string
+		want Status
+	}{
+		{
+			"taken username field",
+			http.StatusOK,
+			`<title>acema • Instagram photos and videos</title>` +
+				`<script>{"username":"acema","full_name":"Ace"}</script>`,
+			StatusTaken,
+		},
+		{
+			"taken title fallback",
+			http.StatusOK,
+			`<html><head><title>acema • Instagram photos and videos</title></head></html>`,
+			StatusTaken,
+		},
+		{
+			"available generic shell",
+			http.StatusOK,
+			`<html><head><title>Instagram</title></head><body>shell</body></html>`,
+			StatusAvailable,
+		},
+		{"malformed body", http.StatusOK, `<html><body>not instagram</body></html>`, StatusUnknown},
+		{"server error", http.StatusInternalServerError, ``, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.URL.Path != "/acema/" {
+					t.Errorf("path = %q, want %q", r.URL.Path, "/acema/")
+				}
+				w.WriteHeader(tt.code)
+				_, _ = w.Write([]byte(tt.body))
+			}))
+			defer srv.Close()
+
+			got, err := (&Instagram{BaseURL: srv.URL, Client: srv.Client()}).
+				Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+		})
+	}
+}
+
 func TestOpenCollectiveCheck(t *testing.T) {
 	tests := []struct {
 		name     string
@@ -859,6 +911,8 @@ func defaultClientOf(p Provider) (*http.Client, bool) {
 		return v.Client, true
 	case *AniList:
 		return v.Client, true
+	case *Instagram:
+		return v.Client, true
 	case *HackerNews:
 		return v.Client, true
 	case *OpenCollective:
@@ -966,8 +1020,8 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default(Config{})
-	if r.Len() != 74 {
-		t.Fatalf("Len = %d, want 74", r.Len())
+	if r.Len() != 75 {
+		t.Fatalf("Len = %d, want 75", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
@@ -986,6 +1040,7 @@ func TestDefaultRegistry(t *testing.T) {
 		"replicate",
 		"hackernoon",
 		"spotify",
+		"instagram",
 		"hackernews",
 		"opencollective",
 		"vercel",

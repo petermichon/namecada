@@ -381,6 +381,68 @@ func (o *OpenCollective) Check(ctx context.Context, label string) (Result, error
 	return checkHTTP(ctx, o.Client, bust, defaultCodes)
 }
 
+// Instagram checks a username on Instagram. The profile route always answers
+// 200 (it is a JS/SPA shell), so the body carries the signal: a claimed profile
+// embeds the handle (a `"username":"{name}"` field and a `<title>` beginning
+// with it) while a free name renders the generic `<title>Instagram</title>`
+// shell with no username field. Transport failures and bodies matching neither
+// pattern are unknown. Source: docs/platforms.md — instagram.com/{name}/.
+type Instagram struct {
+	base
+	// BaseURL is the site origin; "https://www.instagram.com" when defaulted.
+	BaseURL string
+	// Client is used for the request; DefaultClient when nil.
+	Client *http.Client
+}
+
+// NewInstagram returns a provider bound to www.instagram.com.
+func NewInstagram() *Instagram {
+	return &Instagram{
+		base: base{
+			id:       "instagram",
+			platform: "instagram",
+			urlFmt:   "https://www.instagram.com/%s/",
+		},
+		BaseURL: "https://www.instagram.com",
+		Client:  DefaultClient,
+	}
+}
+
+// Check GETs the profile page and reads the body: it is taken when the body
+// carries a `"username":"{label}"` field or a `<title>` that begins with the
+// label. The generic shell (a `<title>Instagram</title>` with neither) is
+// available. A non-200, an unreadable body, or a body matching neither is
+// unknown.
+func (i *Instagram) Check(ctx context.Context, label string) (Result, error) {
+	target := i.BaseURL + "/" + url.PathEscape(label) + "/"
+	resp, err := doGet(ctx, i.Client, target)
+	if err != nil {
+		return Result{}, err
+	}
+	defer drainAndClose(resp)
+
+	if resp.StatusCode != http.StatusOK {
+		return Result{Status: StatusUnknown}, nil
+	}
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return Result{Status: StatusUnknown}, nil
+	}
+	text := string(body)
+	if strings.Contains(text, `"username":"`+label+`"`) {
+		return Result{Status: StatusTaken}, nil
+	}
+	if idx := strings.Index(text, "<title>"); idx >= 0 {
+		if strings.HasPrefix(text[idx+len("<title>"):], label) {
+			return Result{Status: StatusTaken}, nil
+		}
+	}
+	if strings.Contains(text, "<title>Instagram</title>") {
+		return Result{Status: StatusAvailable}, nil
+	}
+	return Result{Status: StatusUnknown}, nil
+}
+
 // HackerNews checks a user on Hacker News. The firebase JSON API only exposes
 // accounts with public activity, so a null there cannot prove a name is free.
 // The profile page is used instead: a free name renders a small "No such user."

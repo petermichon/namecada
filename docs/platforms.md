@@ -74,7 +74,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [x] YouTube — ✅ — `youtube.com/@{name}` (profile redirects and resolves 200 taken / 404 free; keyless, no Data API key needed)
 - [x] Twitch — ✅ — `api.twitch.tv/helix/users?login={name}` (Client-Id + app access token via client-credentials grant; non-empty `data` taken / empty free)
 - [ ] LinkedIn — 🕸 — no public vanity-availability API; profile pages are auth-walled (999/redirect for both real and fake), so it cannot answer "is this name free"
-- [ ] Instagram — 🕸 — keyless pass: every name returns 200 (JS/SPA shell), so no status signal; needs a key or a scrape — deferred, not ported
+- [x] Instagram — ✅ — `instagram.com/{name}/` (body signal: a claimed profile embeds `"username":"{name}"` — or a `<title>` starting with the handle — while a free name returns the generic `<title>Instagram</title>` shell; every name is a 200, so status alone has no signal)
 - [ ] TikTok — 🕸 — keyless pass: every name returns 200 (JS/SPA shell), so no status signal; needs a key or a scrape — deferred, not ported
 - [ ] Threads — 🕸 — keyless pass: 301 → (followed) 200 for both real and fake names, so no status signal; needs a key or a scrape — deferred, not ported
 - [ ] Facebook — 🕸 — keyless pass: 200 (present) / 302 (missing) is a login redirect, not a name signal; needs a key or a scrape — deferred, not ported
