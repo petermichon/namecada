@@ -313,6 +313,7 @@ func Default(cfg Config) *Registry {
 	}
 	_ = r.Register(NewENS())
 	_ = r.Register(NewSNS())
+	_ = r.Register(NewHNS())
 	_ = r.Register(NewLemmy())
 	_ = r.Register(NewPeerTube())
 	_ = r.Register(NewNPM())

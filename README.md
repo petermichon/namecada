@@ -24,6 +24,7 @@ can't be reached is deferred (see below).
 | Domains   | RDAP registry via IANA bootstrap                               | 200 registered / 404 free |
 | ENS       | `api.ensideas.com/ens/resolve/{name}.eth`                     | non-null `address` taken / `null` free |
 | SNS       | `sdk-proxy.sns.id/resolve/{name}.sol`                          | `"s":"ok"` taken / `"s":"error"` free |
+| HNS       | `hnsscan.com/api/names/{name}/details`                         | `info.state` `CLOSED` taken / `AVAILABLE`/`UNKNOWN` free |
 | npm       | `registry.npmjs.org/{name}`                                    | 200 taken / 404 free      |
 | PyPI      | `pypi.org/pypi/{name}/json`                                    | 200 taken / 404 free      |
 | crates.io | `crates.io/api/v1/crates/{name}`                               | 200 taken / 404 free      |
@@ -100,7 +101,8 @@ separate provider. The TLD is resolved to its registry through the IANA RDAP
 bootstrap (`data.iana.org/rdap/dns.json`). Domains are **paid** sources: a
 registration costs money, and the amount varies (premium names cost more). ENS
 (`.eth`) is likewise paid — registering costs ETH. SNS (`.sol`) is paid too —
-registering costs SOL. Heroku is also paid (its free
+registering costs SOL. HNS is paid as well — a new Handshake name is won in an
+auction, and an expired one is reclaimed the same way. Heroku is also paid (its free
 tier ended in November 2022) but is still surfaced. Every handle, package and
 social source is **free** to register. The
 report renders a Paid card above a Free card, and each provider carries a `paid`
