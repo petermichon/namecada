@@ -139,7 +139,7 @@ browser DoH):
 - [ ] AWS Amplify — 🔌 — `{name}.amplifyapp.com`
 - [ ] Replit — 🔌 — `{name}.repl.co`
 - [ ] Glitch — 🔌 — `{name}.glitch.me`
-- [ ] Read the Docs — 🔌 — `{name}.readthedocs.io`
+- [x] Read the Docs — ✅ — `{name}.readthedocs.io` (wildcard DNS; HTTP 404, no CORS; a claimed slug 302s to the project docs, followed to 200; user-chosen project slugs)
 - [x] Neocities — ✅ — `{name}.neocities.org` (wildcard DNS; HTTP 404, no CORS)
 
 More package registries:

@@ -64,6 +64,7 @@ can't be reached is deferred (see below).
 | Railway   | `{name}.up.railway.app` (subdomain)                            | 200 taken / 404 free      |
 | Heroku    | `{name}.herokuapp.com` (subdomain)                             | 200 taken / 404 free      |
 | Deno Deploy | `{name}.deno.dev` (subdomain)                                | 200 taken / 404 free      |
+| Read the Docs | `{name}.readthedocs.io` (subdomain)                        | 200 taken / 404 free      |
 
 Domains run once per TLD (`.com`, `.org`, `.dev`, `.io`, `.ai`, `.app`), each a
 separate provider. The TLD is resolved to its registry through the IANA RDAP

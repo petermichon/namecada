@@ -275,5 +275,6 @@ func Default() *Registry {
 	_ = r.Register(NewRailway())
 	_ = r.Register(NewHeroku())
 	_ = r.Register(NewDenoDeploy())
+	_ = r.Register(NewReadTheDocs())
 	return r
 }

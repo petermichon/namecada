@@ -102,3 +102,15 @@ func NewDenoDeploy() Provider {
 	return newEndpoint("denodeploy", "denodeploy",
 		"", "https://%s.deno.dev/", "https://%s.deno.dev/", defaultCodes)
 }
+
+// NewReadTheDocs checks a project subdomain on Read the Docs. Read the Docs
+// serves wildcard DNS for readthedocs.io, so the HTTP status is the signal:
+// `https://{name}.readthedocs.io/` answers 302 to the project's latest docs
+// when the name is claimed and 404 when it is free. DefaultClient follows the
+// redirect, so the final 200 is what classify sees. Project slugs are
+// user-chosen. The origin is empty because the label is part of the host, not a
+// path segment.
+func NewReadTheDocs() Provider {
+	return newEndpoint("readthedocs", "readthedocs",
+		"", "https://%s.readthedocs.io/", "https://%s.readthedocs.io/", defaultCodes)
+}
