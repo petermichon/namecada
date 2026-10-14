@@ -71,6 +71,25 @@ func doGetAccept(ctx context.Context, client *http.Client, url, accept string) (
 	return client.Do(req)
 }
 
+// doPost performs a POST with the shared JSON Accept header, a request body and
+// an explicit Content-Type; a nil client falls back to DefaultClient so every
+// request carries a timeout. It exists for the GraphQL sources, whose verdict
+// comes from a query body rather than the request path.
+func doPost(ctx context.Context, client *http.Client, url, contentType string, body io.Reader) (*http.Response, error) {
+	if client == nil {
+		client = DefaultClient
+	}
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, body)
+	if err != nil {
+		return nil, err
+	}
+	setCommonHeaders(req, defaultAccept)
+	if contentType != "" {
+		req.Header.Set("Content-Type", contentType)
+	}
+	return client.Do(req)
+}
+
 // doGetHeaders performs a GET with the shared headers plus extra request
 // headers. It exists for the credential-gated sources, which carry a token (and
 // sometimes an identity header) on every request. The extra values are secrets:

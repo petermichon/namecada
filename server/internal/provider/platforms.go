@@ -37,6 +37,7 @@ var platformNames = map[string]string{
 	"mixcloud":       "Mixcloud",
 	"lastfm":         "Last.fm",
 	"soundcloud":     "SoundCloud",
+	"anilist":        "AniList",
 	"bluesky":        "Bluesky",
 	"mastodon":       "Mastodon",
 	"youtube":        "YouTube",

@@ -237,7 +237,7 @@ Creators / commerce / media:
 - [ ] Letterboxd — 🕸
 - [ ] Goodreads — 🕸
 - [ ] MyAnimeList — 🕸 — Jikan API unavailable
-- [ ] AniList — 🌐 — GraphQL
+- [x] AniList — ✅ — `graphql.anilist.co` (keyless GraphQL: POST a `User(name:)` query; non-null `data.User` taken / null `data.User` + "Not Found." error free)
 - [ ] Trakt — 🔑
 - [ ] Genius — 🔑
 - [ ] Strava — 🔑
