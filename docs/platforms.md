@@ -262,15 +262,25 @@ Free subdomain namespaces (developer-oriented):
 
 - [x] eu.org — ✅ — `{name}.eu.org` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
 - [x] duckdns.org — ✅ — `{name}.duckdns.org` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
-- [ ] freedns.afraid.org — 🌐 — DoH (verify no wildcard)
+- [ ] freedns.afraid.org — 🌐 — ruled out: FreeDNS hostnames live under shared
+  domains (`{name}.{shared-domain}`), not `{name}.freedns.afraid.org`, so a
+  single-label probe never names a claimable host.
 - [x] no-ip.org — ✅ — `{name}.no-ip.org` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
 - [x] dynv6.net — ✅ — `{name}.dynv6.net` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
 - [x] noted.lol — ✅ — `{name}.noted.lol` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
-- [ ] js.org — 🔌 — wildcard DNS; needs HTTP status via proxy
-- [ ] is-a.dev — 🔌 — wildcard DNS
+- [ ] js.org — 🔌 — ruled out: wildcard DNS — every `{name}.js.org` resolves and
+  the host answers 200/302 for both real and fake names, so neither DNS nor HTTP
+  status isolates a claim.
+- [ ] is-a.dev — 🔌 — ruled out: wildcard DNS — every `{name}.is-a.dev` resolves
+  and the host answers 200/302 for both real and fake names, so neither DNS nor
+  HTTP status isolates a claim.
 - [x] is-a-good.dev — ✅ — `{name}.is-a-good.dev` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
 - [x] pages.dev — ✅ — `{name}.pages.dev` (Cloudflare Pages; DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
 - [x] fly.dev — ✅ — `{name}.fly.dev` (Fly.io; DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
-- [ ] ngrok-free.app — 🔌 — needs proxy
-- [ ] localhost.run — 🔌 — needs proxy
-- [ ] trycloudflare.com — 🔌 — needs proxy
+- [ ] ngrok-free.app — 🔌 — ruled out: ephemeral / no stable namespace — tunnels
+  get an agent-assigned host, not a user-chosen name, so there is nothing
+  claimable to probe.
+- [ ] localhost.run — 🔌 — ruled out: ephemeral — each tunnel gets a random
+  generated subdomain per session, so the name never resolves.
+- [ ] trycloudflare.com — 🔌 — ruled out: ephemeral — Quick Tunnels get a random
+  generated host per session; the name never resolves to a claimable namespace.
