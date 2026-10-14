@@ -127,6 +127,17 @@ func NewSubstack() Provider {
 		"https://%s.substack.com/", "https://%s.substack.com/", defaultCodes)
 }
 
+// NewShopify checks a storefront subdomain on Shopify. Shopify serves wildcard
+// DNS for myshopify.com, so the HTTP status is the signal:
+// `https://{name}.myshopify.com/` answers 301, which DefaultClient follows to
+// 200, when the merchant name is claimed, and 404 when it is free. Storefront
+// names are user-chosen. The origin is empty because the label is part of the
+// host, not a path segment.
+func NewShopify() Provider {
+	return newHostEndpoint("shopify", "shopify",
+		"https://%s.myshopify.com/", "https://%s.myshopify.com/", defaultCodes)
+}
+
 // NewReadTheDocs checks a project subdomain on Read the Docs. Read the Docs
 // serves wildcard DNS for readthedocs.io, so the HTTP status is the signal:
 // `https://{name}.readthedocs.io/` answers 302 to the project's latest docs

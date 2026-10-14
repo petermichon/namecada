@@ -547,6 +547,57 @@ func TestSubstackCheck(t *testing.T) {
 	}
 }
 
+// TestShopifyCheck pins the host-based signal: the request must target
+// https://{name}.myshopify.com/ with the host-status HTML Accept and the status
+// must map to taken/available/unknown. A claimed store answers 301, which
+// DefaultClient follows to 200; an unfollowed 301 is not in the code table, so
+// it classifies as unknown.
+func TestShopifyCheck(t *testing.T) {
+	tests := []struct {
+		name string
+		code int
+		want Status
+	}{
+		{"taken", http.StatusOK, StatusTaken},
+		{"available", http.StatusNotFound, StatusAvailable},
+		{"redirect", http.StatusMovedPermanently, StatusUnknown},
+		{"unknown", http.StatusInternalServerError, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var gotURL, gotAccept string
+			client := &http.Client{
+				Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
+					gotURL = req.URL.String()
+					gotAccept = req.Header.Get("Accept")
+					return &http.Response{
+						StatusCode: tt.code,
+						Body:       io.NopCloser(strings.NewReader("")),
+						Header:     make(http.Header),
+					}, nil
+				}),
+			}
+
+			e := NewShopify().(*endpoint)
+			e.client = client
+
+			got, err := e.Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+			if gotURL != "https://acema.myshopify.com/" {
+				t.Errorf("url = %q, want %q", gotURL, "https://acema.myshopify.com/")
+			}
+			if gotAccept != htmlAccept {
+				t.Errorf("Accept = %q, want %q", gotAccept, htmlAccept)
+			}
+		})
+	}
+}
+
 // TestDenoDeployCheck pins the host-based signal: the request must target
 // https://{name}.deno.dev/ and the status must map to taken/available/unknown.
 func TestDenoDeployCheck(t *testing.T) {

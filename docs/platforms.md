@@ -68,6 +68,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Firebase Hosting — ✅ — `{name}.web.app` (wildcard DNS; HTTP 404, no CORS)
 - [x] Read the Docs — ✅ — `{name}.readthedocs.io` (wildcard DNS; HTTP 404, no CORS; a claimed slug 302s to the project docs, followed to 200; user-chosen project slugs)
 - [x] Neocities — ✅ — `{name}.neocities.org` (wildcard DNS; HTTP 404, no CORS)
+- [x] Shopify storefront — ✅ — `{name}.myshopify.com` (wildcard DNS; HTTP 404, HTML Accept; a claimed store 301s, followed to 200; user-chosen merchant names; distinct from the Shopify App Store)
 - [x] Open VSX — ✅ — `open-vsx.org/api/{namespace}` (namespace)
 - [x] Dailymotion — ✅ — `api.dailymotion.com/user/{name}`
 - [x] Lens Protocol — ✅ — `api.lens.xyz/graphql` (keyless GraphQL: POST an `account(username.localName:)` query; non-null `data.account` taken / null `data.account` free; page `hey.xyz/u/{name}`; undocumented keyless read access)
@@ -256,6 +257,3 @@ below, written in the browser-direct era, must be re-checked before implementing
   sites, so no status signal
 - [ ] Squarespace — 🕸 — `{name}.squarespace.com` — keyless pass: 401 for a claimed
   site / 404 for a free name — ambiguous, so no reliable signal
-- [ ] Shopify storefront — 🕸 — `{name}.myshopify.com` — keyless: 301 → (followed)
-  200 when claimed / 404 free; the merchant store namespace, distinct from the
-  already-listed Shopify App Store
