@@ -131,7 +131,8 @@ npm run build      # single-file production build
 npm test           # vitest
 npm run check      # svelte-check + tsc
 npm run lint       # prettier --check + eslint
-npm run format     # prettier --write
+npm run format     # prettier --write + gofmt
+npm run verify     # check + test + lint (web and server)
 ```
 
 The app needs the server running (`cd server && go run ./cmd/domainbrowser

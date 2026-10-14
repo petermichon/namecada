@@ -18,14 +18,14 @@
 		"test": "npm run test -w @domain-browser/web",
 		"check": "npm run check -w @domain-browser/web",
 		"lint": "npm run lint -w @domain-browser/web",
-		"format": "npm run format -w @domain-browser/web",
+		"format": "npm run format -w @domain-browser/web && npm run server:fmt",
 		"server:dev": "go -C server run ./cmd/domainbrowser serve",
 		"server:build": "go -C server build -o bin/domainbrowser ./cmd/domainbrowser",
 		"server:test": "go -C server test ./...",
 		"server:lint": "go -C server vet ./...",
 		"server:fmt": "gofmt -w server",
 		"server:tidy": "go -C server mod tidy",
-		"verify": "npm run check && npm test && npm run lint"
+		"verify": "npm run check && npm test && npm run lint && npm run server:lint && npm run server:test"
 	},
 	"devDependencies": {
 		"concurrently": "^10.0.6"

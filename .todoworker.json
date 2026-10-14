@@ -1,4 +1,4 @@
 {
-	"check": "npm run verify && if [ -d server ]; then cd server && go vet ./... && go test ./...; fi",
+	"check": "npm run verify",
 	"defaultRole": "implementer"
 }
