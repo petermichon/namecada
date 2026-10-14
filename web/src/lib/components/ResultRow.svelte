@@ -25,7 +25,7 @@
 	const Icon = $derived(status.Icon);
 </script>
 
-<li class="bg-card">
+<li class="border-b border-border bg-card lg:border-l">
 	<a
 		href={pending ? undefined : row.url}
 		target="_blank"

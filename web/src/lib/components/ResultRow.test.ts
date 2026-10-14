@@ -35,4 +35,14 @@ describe('ResultRow', () => {
 		expect(statusSlot(row('taken'))).toContain('unavailable');
 		expect(statusSlot(row('unknown'))).toContain('unknown');
 	});
+
+	it('carries the grid separators as borders on the row', () => {
+		const html = statusSlot(row('available'));
+		const li = html.match(/<li[^>]*class="([^"]*)"/)?.[1] ?? '';
+
+		expect(li).toContain('bg-card');
+		expect(li).toContain('border-b');
+		expect(li).toContain('border-border');
+		expect(li).toContain('lg:border-l');
+	});
 });

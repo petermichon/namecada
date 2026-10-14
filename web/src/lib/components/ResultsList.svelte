@@ -29,7 +29,7 @@
 				</p>
 			{/if}
 		</div>
-		<ul class="grid grid-cols-1 gap-px bg-border lg:grid-cols-2">
+		<ul class="-mb-px grid grid-cols-1 bg-card lg:-ml-px lg:grid-cols-2">
 			{#each paidRows as row (row.id)}
 				<ResultRow {row} />
 			{/each}
@@ -47,7 +47,7 @@
 				</p>
 			{/if}
 		</div>
-		<ul class="grid grid-cols-1 gap-px bg-border lg:grid-cols-2">
+		<ul class="-mb-px grid grid-cols-1 bg-card lg:-ml-px lg:grid-cols-2">
 			{#each freeRows as row (row.id)}
 				<ResultRow {row} />
 			{/each}
