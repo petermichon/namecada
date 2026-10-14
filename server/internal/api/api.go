@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/petermichon/domain-browser/backend/internal/engine"
+	"github.com/petermichon/domain-browser/server/internal/engine"
 )
 
 // DefaultOrigin is the origin the dev app is served from (Vite's default port).

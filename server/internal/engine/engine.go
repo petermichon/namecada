@@ -6,8 +6,8 @@ import (
 	"context"
 	"sync"
 
-	"github.com/petermichon/domain-browser/backend/internal/provider"
-	"github.com/petermichon/domain-browser/backend/internal/store"
+	"github.com/petermichon/domain-browser/server/internal/provider"
+	"github.com/petermichon/domain-browser/server/internal/store"
 )
 
 // Result is the outcome of one provider's check for a label. Its shape

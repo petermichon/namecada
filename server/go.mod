@@ -1,4 +1,4 @@
-module github.com/petermichon/domain-browser/backend
+module github.com/petermichon/domain-browser/server
 
 go 1.24.0
 

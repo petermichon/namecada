@@ -12,11 +12,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/petermichon/domain-browser/backend/internal/api"
-	"github.com/petermichon/domain-browser/backend/internal/engine"
-	"github.com/petermichon/domain-browser/backend/internal/provider"
-	"github.com/petermichon/domain-browser/backend/internal/sink"
-	"github.com/petermichon/domain-browser/backend/internal/store"
+	"github.com/petermichon/domain-browser/server/internal/api"
+	"github.com/petermichon/domain-browser/server/internal/engine"
+	"github.com/petermichon/domain-browser/server/internal/provider"
+	"github.com/petermichon/domain-browser/server/internal/sink"
+	"github.com/petermichon/domain-browser/server/internal/store"
 )
 
 const usage = `usage: domainbrowser <command> [args]

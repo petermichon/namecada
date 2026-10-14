@@ -18,12 +18,12 @@
 		"check": "npm run check -w @domain-browser/frontend",
 		"lint": "npm run lint -w @domain-browser/frontend",
 		"format": "npm run format -w @domain-browser/frontend",
-		"backend:dev": "go -C backend run ./cmd/domainbrowser serve",
-		"backend:build": "go -C backend build -o bin/domainbrowser ./cmd/domainbrowser",
-		"backend:test": "go -C backend test ./...",
-		"backend:lint": "go -C backend vet ./...",
-		"backend:fmt": "gofmt -w backend",
-		"backend:tidy": "go -C backend mod tidy",
+		"server:dev": "go -C server run ./cmd/domainbrowser serve",
+		"server:build": "go -C server build -o bin/domainbrowser ./cmd/domainbrowser",
+		"server:test": "go -C server test ./...",
+		"server:lint": "go -C server vet ./...",
+		"server:fmt": "gofmt -w server",
+		"server:tidy": "go -C server mod tidy",
 		"verify": "npm run check && npm test && npm run lint"
 	}
 }

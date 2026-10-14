@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/petermichon/domain-browser/backend/internal/provider"
+	"github.com/petermichon/domain-browser/server/internal/provider"
 )
 
 func TestKey(t *testing.T) {

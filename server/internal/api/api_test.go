@@ -10,9 +10,9 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"github.com/petermichon/domain-browser/backend/internal/engine"
-	"github.com/petermichon/domain-browser/backend/internal/provider"
-	"github.com/petermichon/domain-browser/backend/internal/store"
+	"github.com/petermichon/domain-browser/server/internal/engine"
+	"github.com/petermichon/domain-browser/server/internal/provider"
+	"github.com/petermichon/domain-browser/server/internal/store"
 )
 
 // fake is a provider with a fixed result and an optional call counter.

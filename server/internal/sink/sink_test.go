@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/petermichon/domain-browser/backend/internal/engine"
-	"github.com/petermichon/domain-browser/backend/internal/provider"
+	"github.com/petermichon/domain-browser/server/internal/engine"
+	"github.com/petermichon/domain-browser/server/internal/provider"
 )
 
 func openTest(t *testing.T) (*SQLite, string) {

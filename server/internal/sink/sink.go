@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/petermichon/domain-browser/backend/internal/engine"
+	"github.com/petermichon/domain-browser/server/internal/engine"
 
 	_ "modernc.org/sqlite"
 )

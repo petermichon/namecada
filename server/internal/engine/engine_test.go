@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/petermichon/domain-browser/backend/internal/provider"
-	"github.com/petermichon/domain-browser/backend/internal/store"
+	"github.com/petermichon/domain-browser/server/internal/provider"
+	"github.com/petermichon/domain-browser/server/internal/store"
 )
 
 // fake is a provider whose Check can block, fail, or report a fixed result.

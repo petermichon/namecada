@@ -1,7 +1,7 @@
 # Domain Browser
 
 A name availability report. Enter a bare name (`acema`) and it checks that name
-across several independent sources at once, all through a Go backend. Dots
+across several independent sources at once, all through a Go server. Dots
 aren't accepted — the sources are checked per label, so a dotted input
 (`acema.com`) is rejected with a prompt to drop the dot rather than silently
 reduced.
@@ -12,8 +12,8 @@ Each source runs independently and streams its verdict into the report as soon
 as it resolves, so one slow or failing source never blocks the others. Nothing
 waits for the whole set.
 
-The app is a thin client of the backend: it streams results from
-`GET /check?name=<label>` over NDJSON. Every source lives in the backend, which
+The app is a thin client of the server: it streams results from
+`GET /check?name=<label>` over NDJSON. Every source lives in the server, which
 is where sources that need a proxy, a key, or no CORS belong. Anything that
 can't be reached is deferred (see below).
 
@@ -70,9 +70,9 @@ covers both.
 - Some platforms enforce a minimum name length (Chess.com 3, Lichess 2); shorter
   names are shown as **unavailable** (not registrable) rather than free.
 
-## Backend
+## Server
 
-`backend/` is the optional Go module that runs the checks server-side. It is a
+`server/` is the optional Go module that runs the checks server-side. It is a
 small core assembled from four pluggable packages:
 
 - `internal/provider` — the `Provider` interface (`ID`, `Platform`, `Name`,
@@ -94,13 +94,13 @@ The live source is always the source of truth. SQLite — like the in-memory sto
 — is a **cache** of what a source last reported, not an authoritative record: a
 row can be stale, rate-limited, or wrong, and a domain row captures registry
 state rather than registrability, so re-check the source rather than trusting
-the file. The backend is the sole source for the app: it lifts the browser's CORS
+the file. The server is the sole source for the app: it lifts the browser's CORS
 limit, keeps one shared cache in front of rate-limited APIs, and is where keyed
 or no-CORS sources can be added.
 
 ## Caching
 
-Results are cached per provider in the backend's in-memory store, keyed
+Results are cached per provider in the server's in-memory store, keyed
 `provider:label` (e.g. `lemy:acema`), with a 1-hour TTL. Only definitive
 verdicts are cached — `unknown` is never stored, so transient rate-limit or
 network errors self-heal. A fresh entry is served without touching the network.
@@ -110,12 +110,12 @@ unauthenticated requests (GitHub: 60/hour per IP).
 
 ## Layout
 
-- `backend/` — Go core (provider/engine/store/sink), see [Backend](#backend).
+- `server/` — Go core (provider/engine/store/sink), see [Server](#server).
 - `frontend/` — Svelte 5 + Vite + Tailwind + shadcn-svelte (maia) app.
   - `src/lib/providers.ts` — the result types (`Status`, `PlatformId`,
     `ProviderResult`), the `PLATFORMS` display names, and `toLabel`. The report
     groups the URLs into one card per platform.
-  - `src/lib/api.ts` — the backend client: `streamFromApi` consumes the `serve`
+  - `src/lib/api.ts` — the server client: `streamFromApi` consumes the `serve`
     API (`GET /check?name=<label>`, NDJSON) and is the app's sole source. The
     base URL defaults to `http://localhost:8080` and is overridable at build
     time with `VITE_API_BASE`.
@@ -132,14 +132,14 @@ npm run lint       # prettier --check + eslint
 npm run format     # prettier --write
 ```
 
-The app needs the backend running (`cd backend && go run ./cmd/domainbrowser
-serve`); it streams every result from it. The backend's CORS origin defaults to
+The app needs the server running (`cd server && go run ./cmd/domainbrowser
+serve`); it streams every result from it. The server's CORS origin defaults to
 the Vite dev origin (`http://localhost:5173`).
 
 ## Adding a source
 
-Implement the `Provider` interface in the backend
-(`backend/internal/provider`) — a `Check` that maps an HTTP response to
+Implement the `Provider` interface in the server
+(`server/internal/provider`) — a `Check` that maps an HTTP response to
 `available` / `taken` / `unknown` — and register it in `provider.Default()`.
 Sources live server-side, so CORS is no longer a constraint.
 
