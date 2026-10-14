@@ -27,6 +27,16 @@ func NewSurge() Provider {
 		"", "https://%s.surge.sh/", "https://%s.surge.sh/", defaultCodes)
 }
 
+// NewFirebase checks a Hosting subdomain on Firebase. Firebase serves wildcard
+// DNS for web.app, so the HTTP status is the signal:
+// `https://{name}.web.app/` answers 200 when the name is claimed and 404 when it
+// is free. The name is the globally-unique Firebase project id. The origin is
+// empty because the label is part of the host, not a path segment.
+func NewFirebase() Provider {
+	return newEndpoint("firebase", "firebase",
+		"", "https://%s.web.app/", "https://%s.web.app/", defaultCodes)
+}
+
 // NewNeocities checks a site subdomain on Neocities. Neocities serves wildcard
 // DNS for neocities.org, so the HTTP status is the signal:
 // `https://{name}.neocities.org/` answers 200 when the name is claimed and 404

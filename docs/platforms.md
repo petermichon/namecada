@@ -134,7 +134,7 @@ browser DoH):
 - [ ] Heroku — 🔌 — `{name}.herokuapp.com`
 - [x] Surge — ✅ — `{name}.surge.sh` (wildcard DNS; HTTP 404, no CORS)
 - [ ] Deno Deploy — 🔌 — `{name}.deno.dev`
-- [ ] Firebase Hosting — 🔌 — `{name}.web.app` / `.firebaseapp.com`
+- [x] Firebase Hosting — ✅ — `{name}.web.app` (wildcard DNS; HTTP 404, no CORS)
 - [ ] Azure Static Web Apps — 🔌 — `{name}.azurestaticapps.net`
 - [ ] AWS Amplify — 🔌 — `{name}.amplifyapp.com`
 - [ ] Replit — 🔌 — `{name}.repl.co`

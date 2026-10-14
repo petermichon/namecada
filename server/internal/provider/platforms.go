@@ -42,6 +42,7 @@ var platformNames = map[string]string{
 	"vercel":         "Vercel",
 	"netlify":        "Netlify",
 	"surge":          "Surge",
+	"firebase":       "Firebase Hosting",
 	"neocities":      "Neocities",
 }
 

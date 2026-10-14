@@ -58,6 +58,7 @@ can't be reached is deferred (see below).
 | Vercel    | `{name}.vercel.app` (subdomain)                                | 200 taken / 404 free      |
 | Netlify   | `{name}.netlify.app` (subdomain)                               | 200 taken / 404 free      |
 | Surge     | `{name}.surge.sh` (subdomain)                                  | 200 taken / 404 free      |
+| Firebase Hosting | `{name}.web.app` (subdomain)                            | 200 taken / 404 free      |
 | Neocities | `{name}.neocities.org` (subdomain)                             | 200 taken / 404 free      |
 
 Domains run once per TLD (`.com`, `.org`, `.dev`, `.io`, `.ai`, `.app`), each a
