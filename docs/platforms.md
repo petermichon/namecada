@@ -73,7 +73,7 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [x] X / Twitter — ✅ — `api.twitter.com/2/users/by/username/{name}` (App-Only bearer; 200 `data` taken / 404 or no `data` free)
 - [x] YouTube — ✅ — `youtube.com/@{name}` (profile redirects and resolves 200 taken / 404 free; keyless, no Data API key needed)
 - [x] Twitch — ✅ — `api.twitch.tv/helix/users?login={name}` (Client-Id + app access token via client-credentials grant; non-empty `data` taken / empty free)
-- [ ] LinkedIn — 🔑
+- [ ] LinkedIn — 🕸 — no public vanity-availability API; profile pages are auth-walled (999/redirect for both real and fake), so it cannot answer "is this name free"
 - [ ] Instagram — 🕸
 - [ ] TikTok — 🕸
 - [ ] Threads — 🕸
@@ -91,16 +91,16 @@ Status: `[x]` = already a provider, `[ ]` = candidate.
 - [ ] Minecraft (Mojang) — 🕸 — API has no CORS
 - [ ] Roblox — 🕸 — rate-limited / no CORS
 - [ ] SourceForge — 🕸 — 200 has CORS, 404 does not
-- [x] Dribbble — ✅ — `dribbble.com/{name}` (keyless profile: 200 taken / 404 free; the API needs a token but the profile route does not)
+- [x] Dribbble — ✅ — `dribbble.com/{name}` (keyless profile: 200 taken / 404 free; the API v2 is publishing-only with no arbitrary-user endpoint, so the profile route is the signal)
 - [x] Behance — ✅ — `behance.net/{name}` (keyless profile: 200 taken / 404 free; the Adobe API needs a key but the profile route does not)
 - [x] Replicate — ✅ — `replicate.com/{name}` (keyless profile: 200 taken / 404 free; the API has no arbitrary-username lookup, so the profile page is the signal)
 - [ ] XDA Forums — 🕸 — Cloudflare-blocked (403)
-- [ ] USPTO (trademarks) — 🔑
-- [ ] EUIPO (trademarks) — 🔑
+- [ ] USPTO (trademarks) — 🕸 — class-based, fuzzy-similarity trademark search; not a single claimable label, so it cannot answer name availability
+- [ ] EUIPO (trademarks) — 🕸 — class-based trademark search (eSearch plus, OAuth); not a single claimable label, so it cannot answer name availability
 - [ ] WIPO Global Brand Database — 🕸
 - [x] Companies House UK — ✅ — `api.company-information.service.gov.uk/search/companies?q={name}` (key; Basic auth; exact company-name hit taken / else free)
 - [x] OpenCorporates — ✅ — `api.opencorporates.com/v0.4/companies/search?q={name}` (token; `X-API-TOKEN` header; exact company-name hit taken / else free)
-- [ ] SEC EDGAR — 🔑
+- [ ] SEC EDGAR — 🕸 — keyless (descriptive User-Agent) but not a claimable namespace: it indexes issuer/filing names, which you cannot register
 - [ ] Crunchbase — 🕸
 - [ ] US state business registries — 🕸
 - [ ] Chrome Web Store — 🌐
@@ -244,7 +244,6 @@ Creators / commerce / media:
 
 AI / dev tools:
 
-- [ ] Replicate — 🔑
 - [x] Kaggle — ✅ — `kaggle.com/{name}` (keyless profile: 200 taken / 404 free)
 - [ ] CodeSandbox — 🕸 — Cloudflare-blocked (403)
 - [ ] StackBlitz — 🕸
