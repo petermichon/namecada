@@ -89,7 +89,8 @@
 		<p class="max-w-prose text-sm text-muted-foreground">
 			Best-effort from public sources. <em>Unavailable</em> means the name is taken or the platform
 			blocks it (too short, reserved, suspended); <em>available</em> means none of that was found — not
-			a guarantee you can register it.
+			a guarantee you can register it. Private accounts and organizations are invisible to public checks,
+			so they can appear available.
 		</p>
 
 		<span class="sr-only" role="status" aria-live="polite">{lookup.announcement}</span>
