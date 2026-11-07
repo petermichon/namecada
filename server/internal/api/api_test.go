@@ -131,6 +131,37 @@ func TestCheckAllowsAppOrigin(t *testing.T) {
 	}
 }
 
+// TestCheckAllowsLoopbackFallbackPorts pins that the dev app keeps working
+// when Vite falls back off its default port: any loopback origin is echoed,
+// while a remote origin still gets the configured one.
+func TestCheckAllowsLoopbackFallbackPorts(t *testing.T) {
+	srv := newTestServer(t, "http://localhost:5173", &fake{id: "a"})
+	defer srv.Close()
+
+	tests := []struct {
+		origin string
+		want   string
+	}{
+		{"http://localhost:5175", "http://localhost:5175"},
+		{"http://127.0.0.1:5174", "http://127.0.0.1:5174"},
+		{"http://[::1]:5175", "http://[::1]:5175"},
+		{"https://app.example.com", "http://localhost:5173"},
+		{"http://localhost", "http://localhost:5173"},
+	}
+	for _, tc := range tests {
+		req, _ := http.NewRequest(http.MethodGet, srv.URL+"/check?name=acema", nil)
+		req.Header.Set("Origin", tc.origin)
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		resp.Body.Close()
+		if got := resp.Header.Get("Access-Control-Allow-Origin"); got != tc.want {
+			t.Errorf("origin %q: Access-Control-Allow-Origin = %q, want %q", tc.origin, got, tc.want)
+		}
+	}
+}
+
 func TestCheckPreflight(t *testing.T) {
 	srv := newTestServer(t, "http://localhost:5173", &fake{id: "a"})
 	defer srv.Close()

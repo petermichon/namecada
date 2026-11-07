@@ -44,7 +44,9 @@ Server scripts (all shell out with `go -C server`):
 
 Run `npm run verify` (this is the canonical check; it also runs `go vet` and
 `go test`) before finishing. The app expects the server on `:8080`; its CORS
-origin defaults to the Vite origin `http://localhost:5173`.
+origin defaults to the Vite origin `http://localhost:5173`, and any loopback
+origin (`http://localhost:<port>`, `http://127.0.0.1:<port>`) is echoed back so
+Vite can fall back to another port without restarting the server.
 
 ## Conventions
 

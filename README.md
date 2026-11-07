@@ -230,7 +230,9 @@ script) runs lint-staged, which formats and lints staged web files
 
 The app needs the server running (`cd server && go run ./cmd/domainbrowser
 serve`); it streams every result from it. The server's CORS origin defaults to
-the Vite dev origin (`http://localhost:5173`).
+the Vite dev origin (`http://localhost:5173`); any loopback origin
+(`http://localhost:<port>`, `http://127.0.0.1:<port>`) is also echoed back, so
+Vite can fall back to another port without restarting the server.
 
 For the same edit-refresh loop as Vite's HMR, run `npm run server:watch`
 instead. It drives [air](https://github.com/air-verse/air) (install with

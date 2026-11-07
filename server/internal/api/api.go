@@ -8,6 +8,7 @@ import (
 	"io"
 	"log/slog"
 	"net/http"
+	"net/url"
 	"regexp"
 	"strings"
 	"time"
@@ -75,7 +76,7 @@ func (s *Server) handleCheck(w http.ResponseWriter, r *http.Request) {
 		)
 	}()
 
-	s.setCORS(w)
+	s.setCORS(w, r)
 
 	switch r.Method {
 	case http.MethodOptions:
@@ -117,10 +118,32 @@ func (s *Server) handleCheck(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// setCORS writes the headers that let the app origin read the response.
-func (s *Server) setCORS(w http.ResponseWriter) {
-	w.Header().Set("Access-Control-Allow-Origin", s.origin)
+// setCORS writes the headers that let the app origin read the response. A
+// loopback request origin is echoed back verbatim so the dev app keeps working
+// when Vite falls back to another port (5174, 5175, ...); every other request
+// gets the configured origin.
+func (s *Server) setCORS(w http.ResponseWriter, r *http.Request) {
+	origin := s.origin
+	if o := r.Header.Get("Origin"); isLoopbackOrigin(o) {
+		origin = o
+	}
+	w.Header().Set("Access-Control-Allow-Origin", origin)
 	w.Header().Add("Vary", "Origin")
+}
+
+// isLoopbackOrigin reports whether origin is an http origin on the local
+// machine with an explicit port, e.g. http://localhost:5173.
+func isLoopbackOrigin(origin string) bool {
+	u, err := url.Parse(origin)
+	if err != nil || u.Scheme != "http" || u.User != nil || u.Path != "" || u.RawQuery != "" || u.Fragment != "" {
+		return false
+	}
+	switch u.Hostname() {
+	case "localhost", "127.0.0.1", "::1":
+		return u.Port() != ""
+	default:
+		return false
+	}
 }
 
 // writeError sends a small JSON error body, keeping responses JSON even on
