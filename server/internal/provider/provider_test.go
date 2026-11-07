@@ -80,7 +80,18 @@ func httpSources() []httpSource {
 		endpointSource("x", "x", "/acema", "", NewX),
 		endpointSource("opensea", "opensea", "/acema", "", NewOpenSea),
 		endpointSource("kaggle", "kaggle", "/acema", "", NewKaggle),
-		endpointSource("dribbble", "dribbble", "/acema", "", NewDribbble),
+		{
+			name:     "dribbble",
+			id:       "dribbble",
+			platform: "dribbble",
+			wantPath: "/acema",
+			build: func(baseURL string, client *http.Client) Provider {
+				p := NewDribbble()
+				p.BaseURL = baseURL
+				p.Client = client
+				return p
+			},
+		},
 		endpointSource("behance", "behance", "/acema", "", NewBehance),
 		endpointSource("replicate", "replicate", "/acema", "", NewReplicate),
 		endpointSource("hackernoon", "hackernoon", "/u/acema", "", NewHackerNoon),
@@ -648,6 +659,60 @@ func TestInstagramCheck(t *testing.T) {
 	}
 }
 
+func TestDribbbleCheck(t *testing.T) {
+	tests := []struct {
+		name string
+		code int
+		body string
+		want Status
+	}{
+		{
+			"taken public profile",
+			http.StatusOK,
+			`<title>Dan Cederholm | Dribbble</title>`,
+			StatusTaken,
+		},
+		{
+			"taken private profile",
+			http.StatusNotFound,
+			`<title>Uh-oh!</title>` +
+				`<p>The profile you’re trying to view isn’t public yet.</p>`,
+			StatusTaken,
+		},
+		{
+			"available unknown profile",
+			http.StatusNotFound,
+			`<title>Sorry, the page you were looking for doesn't exist. (404)</title>`,
+			StatusAvailable,
+		},
+		{"server error", http.StatusInternalServerError, ``, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.URL.Path != "/acema" {
+					t.Errorf("path = %q, want %q", r.URL.Path, "/acema")
+				}
+				if got := r.Header.Get("Accept"); got != htmlAccept {
+					t.Errorf("Accept = %q, want %q", got, htmlAccept)
+				}
+				w.WriteHeader(tt.code)
+				_, _ = w.Write([]byte(tt.body))
+			}))
+			defer srv.Close()
+
+			got, err := (&Dribbble{BaseURL: srv.URL, Client: srv.Client()}).
+				Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+		})
+	}
+}
+
 func TestOpenCollectiveCheck(t *testing.T) {
 	tests := []struct {
 		name     string
@@ -1036,6 +1101,8 @@ func defaultClientOf(p Provider) (*http.Client, bool) {
 	case *Steam:
 		return v.Client, true
 	case *Instagram:
+		return v.Client, true
+	case *Dribbble:
 		return v.Client, true
 	case *HackerNews:
 		return v.Client, true

@@ -98,13 +98,6 @@ func NewKaggle() Provider {
 		"https://www.kaggle.com", "/%s", "https://www.kaggle.com/%s", defaultCodes)
 }
 
-// NewDribbble checks a user on Dribbble. The keyless profile route answers 200
-// for a claimed username and 404 for a free one.
-func NewDribbble() Provider {
-	return newEndpoint("dribbble", "dribbble",
-		"https://dribbble.com", "/%s", "https://dribbble.com/%s", defaultCodes)
-}
-
 // NewBehance checks a user on Behance. The keyless profile route answers 200
 // for a claimed username and 404 for a free one.
 func NewBehance() Provider {
@@ -441,6 +434,61 @@ func (i *Instagram) Check(ctx context.Context, label string) (Result, error) {
 		}
 	}
 	if strings.Contains(text, "<title>Instagram</title>") {
+		return Result{Status: StatusAvailable}, nil
+	}
+	return Result{Status: StatusUnknown}, nil
+}
+
+// Dribbble checks a designer profile. The profile route only serves HTML: with
+// the default JSON Accept it answers 404 for every name, claimed or not, so the
+// probe overrides it with htmlAccept. A 200 is taken. A 404 is free unless the
+// body is the "Uh-oh!" page Dribbble serves for a claimed profile that is not
+// public yet — that username is taken even though its profile URL 404s.
+type Dribbble struct {
+	base
+	// BaseURL is the site origin; "https://dribbble.com" when defaulted.
+	BaseURL string
+	// Client is used for the request; DefaultClient when nil.
+	Client *http.Client
+}
+
+// NewDribbble returns a provider bound to dribbble.com.
+func NewDribbble() *Dribbble {
+	return &Dribbble{
+		base:    base{id: "dribbble", platform: "dribbble", urlFmt: "https://dribbble.com/%s"},
+		BaseURL: "https://dribbble.com",
+		Client:  DefaultClient,
+	}
+}
+
+// dribbblePrivateMarker is the phrase in the 404 page Dribbble serves for a
+// claimed profile that has not been made public. It skips the apostrophe in
+// "isn't" so either typographic form matches.
+const dribbblePrivateMarker = "public yet"
+
+// Check GETs the profile page with an HTML Accept. A 200 is taken. A 404 is
+// available unless its body carries dribbblePrivateMarker, in which case the
+// username belongs to a non-public profile and is taken. Any other status, or
+// an unreadable body, is unknown.
+func (d *Dribbble) Check(ctx context.Context, label string) (Result, error) {
+	target := d.BaseURL + "/" + url.PathEscape(label)
+	resp, err := doGetAccept(ctx, d.Client, target, htmlAccept)
+	if err != nil {
+		return Result{}, err
+	}
+	defer drainAndClose(resp)
+
+	switch resp.StatusCode {
+	case http.StatusOK:
+		return Result{Status: StatusTaken}, nil
+	case http.StatusNotFound:
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return Result{Status: StatusUnknown}, nil
+		}
+		if strings.Contains(string(body), dribbblePrivateMarker) {
+			return Result{Status: StatusTaken}, nil
+		}
 		return Result{Status: StatusAvailable}, nil
 	}
 	return Result{Status: StatusUnknown}, nil

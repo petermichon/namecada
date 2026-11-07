@@ -50,7 +50,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Lichess — ✅ — `lichess.org/api/user/{name}`
 - [x] Chess.com — ✅ — `api.chess.com/pub/player/{name}`
 - [x] Hugging Face — ✅ — `huggingface.co/api/users/{name}/overview`
-- [x] Dribbble — ✅ — `dribbble.com/{name}` (keyless profile: 200 taken / 404 free; the API v2 is publishing-only with no arbitrary-user endpoint, so the profile route is the signal)
+- [x] Dribbble — ✅ — `dribbble.com/{name}` (keyless profile: 200 taken / 404 free, but the route needs an HTML Accept — `application/json` 404s every name; a claimed profile that is not public also 404s, and its "isn't public yet" body marks it taken; the API v2 is publishing-only with no arbitrary-user endpoint, so the profile route is the signal)
 - [x] Behance — ✅ — `behance.net/{name}` (keyless profile: 200 taken / 404 free; the Adobe API needs a key but the profile route does not)
 - [x] Replicate — ✅ — `replicate.com/{name}` (keyless profile: 200 taken / 404 free; the API has no arbitrary-username lookup, so the profile page is the signal)
 - [x] Companies House UK — ✅ — `api.company-information.service.gov.uk/search/companies?q={name}` (key; Basic auth; exact company-name hit taken / else free)

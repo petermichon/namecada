@@ -65,7 +65,7 @@ can't be reached is deferred (see below).
 | Mastodon  | `mastodon.social/@{name}` (profile)                            | 200/410 taken / 404 free  |
 | YouTube   | `youtube.com/@{name}` (profile)                                | 200 taken / 404 free      |
 | Kaggle    | `kaggle.com/{name}` (profile)                                  | 200 taken / 404 free      |
-| Dribbble  | `dribbble.com/{name}` (profile)                                | 200 taken / 404 free      |
+| Dribbble  | `dribbble.com/{name}` (profile)                                | 200 taken / 404 free; a non-public profile 404s an "isn't public yet" body and is taken |
 | Behance   | `behance.net/{name}` (profile)                                 | 200 taken / 404 free      |
 | Replicate | `replicate.com/{name}` (profile)                               | 200 taken / 404 free      |
 | HackerNoon | `hackernoon.com/u/{name}` (profile)                           | 200 taken / 404 free      |
