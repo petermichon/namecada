@@ -186,6 +186,8 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Stack Exchange — 🕸 — display names aren't unique (no availability)
 - [ ] Go modules — 🕸 — modules are paths, not single labels
 - [ ] WhatsApp — 🕸 — phone-based, no username
+- [ ] Gmail — 🔌 — ruled out: the old keyless probe `mail.google.com/mail/gxlu?email={name}@gmail.com` now returns 204 with no `COMPASS` cookie for real and fake addresses alike (2026-11), and username availability only exists inside the bot-protected signup flow, which this repo won't scrape; dots and `+suffix` are normalized, so a literal local-part check would be wrong even if it worked
+- [ ] Proton Mail — 🕸 — deferred: no public availability API. `account.proton.me/api/core/v4/users/available?Name={name}` needs an `x-pm-appversion` header plus an anonymous session (`POST /api/auth/v4/sessions`); with one, every name — including long random ones — returns 409 "Username already used", so taken/free is unverified. The endpoint is undocumented and version-gated, and the namespace is `local@domain` (proton.me/protonmail.com/pm.me/protonmail.ch), not a bare label
 - [ ] Quora — 🕸
 - [ ] Lobste.rs — 🕸
 - [ ] Beehiiv — 🕸
