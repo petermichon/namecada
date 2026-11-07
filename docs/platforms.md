@@ -261,3 +261,22 @@ below, written in the browser-direct era, must be re-checked before implementing
   sites, so no status signal
 - [ ] Squarespace — 🕸 — `{name}.squarespace.com` — keyless pass: 401 for a claimed
   site / 404 for a free name — ambiguous, so no reliable signal
+- [ ] ChatGPT profiles — 🕸 — `chatgpt.com/u/{name}` — keyless pass: signed-out
+  requests 404 for both real and fake usernames (profiles require sign-in, and a
+  username can be taken with no visible profile); the `chatgpt.com/@{name}` form
+  does not exist, and `*.chatgpt.com` has no wildcard DNS — deferred, not ported
+- [ ] ChatGPT Sites — 🔌 — ruled out: public Sites live at
+  `{site}.{username-or-workspace}.chatgpt.site`, not `{name}.chatgpt.site` — a
+  single label never names a claimable namespace (`uchz.chatgpt.site` and
+  `openai.chatgpt.site` both 404), personal default namespaces are random ids,
+  and a taken private Site answers 401
+- [ ] AI chat share links (Claude, Qwen, DeepSeek, Mistral) — 🔌 — ruled out:
+  public URLs are opaque ids, not names — `claude.ai/share/<uuid>` and
+  `claude.ai/public/artifacts/<uuid>`, `chat.deepseek.com/share/<token>`, and
+  equivalent Qwen/Vibe links; none has a public `/u/{name}` or `@<name>` route,
+  and Mistral's help says share links never include the username
+- [ ] Perplexity — 🕸 — `perplexity.ai/@username` is the only reported public
+  profile route, but Cloudflare 403s every keyless request (real and fake alike,
+  including `/@`, `/u/` and `/user/`), so there is no signal; the actual share
+  URLs are `search/<slug>-<id>` and `page/<slug>-<id>`, where the id — not the
+  slug — is the unique key; deferred, not ported
