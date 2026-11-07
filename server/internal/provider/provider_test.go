@@ -659,6 +659,135 @@ func TestInstagramCheck(t *testing.T) {
 	}
 }
 
+func TestGiphyCheck(t *testing.T) {
+	tests := []struct {
+		name         string
+		redirect     string
+		redirectBody string
+		code         int
+		body         string
+		want         Status
+	}{
+		{
+			"taken canonical channel",
+			"", "",
+			http.StatusOK,
+			`<title>acema GIFs on GIPHY - Be Animated</title>`,
+			StatusTaken,
+		},
+		{
+			"available explore redirect",
+			"/explore/acema",
+			`<title> GIFs - Find &amp; Share on GIPHY</title>`,
+			0, "",
+			StatusAvailable,
+		},
+		{
+			"taken title fallback",
+			"/channel/acema",
+			`<title>acema GIFs on GIPHY - Be Animated</title>`,
+			0, "",
+			StatusTaken,
+		},
+		{
+			"unknown redirect",
+			"/channel/acema",
+			`<html><body>something else</body></html>`,
+			0, "",
+			StatusUnknown,
+		},
+		{"server error", "", "", http.StatusInternalServerError, "", StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if got := r.Header.Get("Accept"); got != htmlAccept {
+					t.Errorf("Accept = %q, want %q", got, htmlAccept)
+				}
+				if r.URL.Path == "/acema" {
+					if tt.redirect != "" {
+						http.Redirect(w, r, tt.redirect, http.StatusMovedPermanently)
+						return
+					}
+					w.WriteHeader(tt.code)
+					_, _ = w.Write([]byte(tt.body))
+					return
+				}
+				if tt.redirect != "" && r.URL.Path == tt.redirect {
+					w.WriteHeader(http.StatusOK)
+					_, _ = w.Write([]byte(tt.redirectBody))
+					return
+				}
+				t.Errorf("unexpected path %q", r.URL.Path)
+			}))
+			defer srv.Close()
+
+			got, err := (&Giphy{BaseURL: srv.URL, Client: srv.Client()}).
+				Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+		})
+	}
+}
+
+func TestMindsCheck(t *testing.T) {
+	tests := []struct {
+		name string
+		code int
+		body string
+		want Status
+	}{
+		{
+			"taken channel",
+			http.StatusOK,
+			`{"status":"success","channel":{"guid":"1","type":"user"}}`,
+			StatusTaken,
+		},
+		{
+			"available channel",
+			http.StatusOK,
+			`{"status":"error","message":"Sorry, this user could not be found","type":"ChannelNotFoundException"}`,
+			StatusAvailable,
+		},
+		{
+			"unknown error type",
+			http.StatusOK,
+			`{"status":"error","type":"SomethingElse"}`,
+			StatusUnknown,
+		},
+		{"malformed body", http.StatusOK, `not json`, StatusUnknown},
+		{"server error", http.StatusInternalServerError, ``, StatusUnknown},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.URL.Path != "/api/v1/channel/acema" {
+					t.Errorf("path = %q, want %q", r.URL.Path, "/api/v1/channel/acema")
+				}
+				if got := r.Header.Get("Accept"); got != defaultAccept {
+					t.Errorf("Accept = %q, want %q", got, defaultAccept)
+				}
+				w.WriteHeader(tt.code)
+				_, _ = w.Write([]byte(tt.body))
+			}))
+			defer srv.Close()
+
+			got, err := (&Minds{BaseURL: srv.URL, Client: srv.Client()}).
+				Check(context.Background(), "acema")
+			if err != nil {
+				t.Fatalf("Check returned error: %v", err)
+			}
+			if got.Status != tt.want {
+				t.Errorf("status = %q, want %q", got.Status, tt.want)
+			}
+		})
+	}
+}
+
 func TestDribbbleCheck(t *testing.T) {
 	tests := []struct {
 		name string
@@ -1106,6 +1235,10 @@ func defaultClientOf(p Provider) (*http.Client, bool) {
 		return v.Client, true
 	case *HackerNews:
 		return v.Client, true
+	case *Giphy:
+		return v.Client, true
+	case *Minds:
+		return v.Client, true
 	case *OpenCollective:
 		return v.Client, true
 	case *Discogs:
@@ -1211,8 +1344,8 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default(Config{})
-	if r.Len() != 85 {
-		t.Fatalf("Len = %d, want 85", r.Len())
+	if r.Len() != 87 {
+		t.Fatalf("Len = %d, want 87", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
@@ -1237,6 +1370,8 @@ func TestDefaultRegistry(t *testing.T) {
 		"steam",
 		"instagram",
 		"hackernews",
+		"giphy",
+		"minds",
 		"opencollective",
 		"vercel",
 		"netlify",

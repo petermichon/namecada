@@ -56,6 +56,8 @@ var platformNames = map[string]string{
 	"steam":          "Steam",
 	"instagram":      "Instagram",
 	"hackernews":     "Hacker News",
+	"giphy":          "Giphy",
+	"minds":          "Minds",
 	"opencollective": "Open Collective",
 	"discogs":        "Discogs",
 	"x":              "X / Twitter",

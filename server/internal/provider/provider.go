@@ -367,6 +367,8 @@ func Default(cfg Config) *Registry {
 	_ = r.Register(NewSteam())
 	_ = r.Register(NewInstagram())
 	_ = r.Register(NewHackerNews())
+	_ = r.Register(NewGiphy())
+	_ = r.Register(NewMinds())
 	_ = r.Register(NewOpenCollective())
 	_ = r.Register(NewVercel())
 	_ = r.Register(NewNetlify())

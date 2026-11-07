@@ -92,6 +92,8 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] fly.dev — ✅ — `{name}.fly.dev` (Fly.io; DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
 - [x] Lemmy — ✅ — `lemmy.world/api/v3/user?username={name}` (200 = taken, 404 = free)
 - [x] PeerTube — ✅ — `framatube.org/api/v1/accounts/{name}` and `/api/v1/video-channels/{name}` (accounts and channels share one actor namespace; either 200 = taken, both 404 = free)
+- [x] Giphy — ✅ — `giphy.com/{name}` (keyless channel: 200 on the canonical `/{name}` taken / 301 to `/explore/{name}` free; status alone has no signal, so the redirect target or the `{Name} GIFs on GIPHY` title is the signal)
+- [x] Minds — ✅ — `minds.com/api/v1/channel/{name}` (keyless JSON: `{"status":"success","channel":…}` taken / `{"status":"error","type":"ChannelNotFoundException"}` free; the HTML profile route at `minds.com/{name}/` is flaky — it sometimes serves the SPA shell for a claimed channel — so the API is the signal; page `minds.com/{name}/`)
 
 ## Candidates
 
@@ -280,3 +282,14 @@ below, written in the browser-direct era, must be re-checked before implementing
   including `/@`, `/u/` and `/user/`), so there is no signal; the actual share
   URLs are `search/<slug>-<id>` and `page/<slug>-<id>`, where the id — not the
   slug — is the unique key; deferred, not ported
+- [ ] Bloomberg — 🔌 — ruled out: `bloomberg.com/profile/company/{id}` is keyed
+  by a Bloomberg company id/ticker (`1654159D:US`), not a claimable username/org
+  label; the page is also bot-blocked (403 "Are you a robot?" for both real and
+  fake ids)
+- [ ] NewsBreak — 🔌 — ruled out: publisher pages are
+  `newsbreak.com/m/{slug}-{id}`, where the numeric id is the key —
+  `…/m/zzqx9-560145` returns HackerNoon's publisher page — so the slug is
+  cosmetic and there is no username/org namespace
+- [ ] ViewBlock — 🔌 — ruled out: `viewblock.io/arweave/address/{address}` is
+  keyed by a base58 wallet address, not a claimable name; the HackerNoon footer
+  link is a wallet, not a username

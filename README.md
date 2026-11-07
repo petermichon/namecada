@@ -76,6 +76,8 @@ can't be reached is deferred (see below).
 | OpenSea   | `opensea.io/{name}` (profile)                                 | 200 taken / 404 free      |
 | Instagram | `instagram.com/{name}/` (profile)                              | `"username":"{name}"` taken / generic shell free |
 | Hacker News | `news.ycombinator.com/user?id={name}`                        | `No such user.` free / `karma` taken |
+| Giphy     | `giphy.com/{name}` (profile)                                   | 200 canonical `/{name}` taken / 301 → `/explore/{name}` free |
+| Minds     | `api/v1/channel/{name}` (profile `minds.com/{name}/`)           | `status:"success"` taken / `ChannelNotFoundException` free |
 | Discogs   | `api.discogs.com/users/{name}` (token)                         | 200 taken / 404 free      |
 | X / Twitter | `x.com/{name}` (profile)                                     | 200 taken / 404 free      |
 | Twitch    | `api.twitch.tv/helix/users?login={name}` (app token)           | non-empty `data` taken / empty free |

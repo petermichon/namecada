@@ -547,3 +547,115 @@ func (h *HackerNews) Check(ctx context.Context, label string) (Result, error) {
 	}
 	return Result{Status: StatusUnknown}, nil
 }
+
+// Giphy checks a channel on Giphy. The keyless profile route answers 200 both
+// ways: a claimed channel keeps the canonical /{name} path and its title reads
+// "{Name} GIFs on GIPHY", while a free name 301s to /explore/{name} (a search
+// page that also answers 200). Status alone therefore has no signal, so Check
+// inspects the final URL after redirects and falls back to the title. Source:
+// docs/platforms.md — giphy.com/{name}.
+type Giphy struct {
+	base
+	// BaseURL is the site origin; "https://giphy.com" when defaulted.
+	BaseURL string
+	// Client is used for the request; DefaultClient when nil.
+	Client *http.Client
+}
+
+// NewGiphy returns a provider bound to giphy.com.
+func NewGiphy() *Giphy {
+	return &Giphy{
+		base:    base{id: "giphy", platform: "giphy", urlFmt: "https://giphy.com/%s"},
+		BaseURL: "https://giphy.com",
+		Client:  DefaultClient,
+	}
+}
+
+// Check GETs the profile page with an HTML Accept. A 200 whose final path is
+// /explore/{label} is free; a 200 whose final path is /{label}, or whose title
+// carries "GIFs on GIPHY", is taken. Any other status or path/body is unknown.
+func (g *Giphy) Check(ctx context.Context, label string) (Result, error) {
+	target := g.BaseURL + "/" + url.PathEscape(label)
+	resp, err := doGetAccept(ctx, g.Client, target, htmlAccept)
+	if err != nil {
+		return Result{}, err
+	}
+	defer drainAndClose(resp)
+
+	if resp.StatusCode != http.StatusOK {
+		return Result{Status: StatusUnknown}, nil
+	}
+	final := ""
+	if resp.Request != nil && resp.Request.URL != nil {
+		final = resp.Request.URL.Path
+	}
+	if strings.HasPrefix(final, "/explore/") {
+		return Result{Status: StatusAvailable}, nil
+	}
+	if strings.EqualFold(final, "/"+label) {
+		return Result{Status: StatusTaken}, nil
+	}
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return Result{Status: StatusUnknown}, nil
+	}
+	if strings.Contains(strings.ToLower(string(body)), "gifs on giphy") {
+		return Result{Status: StatusTaken}, nil
+	}
+	return Result{Status: StatusUnknown}, nil
+}
+
+// Minds checks a channel on Minds. The public profile page is flaky — it
+// sometimes serves the SPA shell for a claimed channel — so Check queries the
+// keyless JSON API instead: /api/v1/channel/{name} answers 200 both ways, with
+// a "success" status and a channel object for a claimed name, or an "error"
+// status of type "ChannelNotFoundException" for a free one. The page is
+// minds.com/{name}/ (the trailing slash is required by the site). Source:
+// docs/platforms.md — minds.com/api/v1/channel/{name}.
+type Minds struct {
+	base
+	// BaseURL is the site origin; "https://www.minds.com" when defaulted.
+	BaseURL string
+	// Client is used for the request; DefaultClient when nil.
+	Client *http.Client
+}
+
+// NewMinds returns a provider bound to www.minds.com.
+func NewMinds() *Minds {
+	return &Minds{
+		base:    base{id: "minds", platform: "minds", urlFmt: "https://www.minds.com/%s/"},
+		BaseURL: "https://www.minds.com",
+		Client:  DefaultClient,
+	}
+}
+
+// Check GETs the channel API. A 200 with status "success" and a channel object
+// is taken; status "error" with type "ChannelNotFoundException" is free. A
+// non-200, invalid JSON, or any other shape is unknown.
+func (m *Minds) Check(ctx context.Context, label string) (Result, error) {
+	target := m.BaseURL + "/api/v1/channel/" + url.PathEscape(label)
+	resp, err := doGet(ctx, m.Client, target)
+	if err != nil {
+		return Result{}, err
+	}
+	defer drainAndClose(resp)
+
+	if resp.StatusCode != http.StatusOK {
+		return Result{Status: StatusUnknown}, nil
+	}
+	var data struct {
+		Status  string          `json:"status"`
+		Channel json.RawMessage `json:"channel"`
+		Type    string          `json:"type"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
+		return Result{Status: StatusUnknown}, nil
+	}
+	if data.Status == "success" && len(data.Channel) > 0 && string(data.Channel) != "null" {
+		return Result{Status: StatusTaken}, nil
+	}
+	if data.Status == "error" && data.Type == "ChannelNotFoundException" {
+		return Result{Status: StatusAvailable}, nil
+	}
+	return Result{Status: StatusUnknown}, nil
+}
