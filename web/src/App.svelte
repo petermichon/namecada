@@ -1,4 +1,5 @@
 <script lang="ts">
+	import InfoIcon from '@lucide/svelte/icons/info';
 	import SunIcon from '@lucide/svelte/icons/sun';
 	import MoonIcon from '@lucide/svelte/icons/moon';
 	import { ModeWatcher, toggleMode } from 'mode-watcher';
@@ -97,7 +98,7 @@
 		</main>
 	{:else}
 		<header class="sticky top-0 z-20 border-b border-border/60 bg-background/85 backdrop-blur">
-			<div class="mx-auto flex max-w-2xl items-center gap-3 px-4 py-2.5 lg:max-w-5xl">
+			<div class="mx-auto flex max-w-2xl items-center gap-3 px-4 py-2.5 lg:max-w-5xl xl:max-w-6xl">
 				<h1 class="shrink-0 text-base font-semibold tracking-tight">
 					<a
 						href="./"
@@ -121,12 +122,21 @@
 			</div>
 		</header>
 
-		<main id="main" class="mx-auto w-full max-w-2xl flex-1 px-4 py-5 lg:max-w-5xl">
+		<main id="main" class="mx-auto w-full max-w-2xl flex-1 px-4 py-5 lg:max-w-5xl xl:max-w-6xl">
 			{@render feedback()}
 
 			{#if lookup.rows.length}
-				<div class="mt-5">
+				<div class="mt-5 max-w-3xl">
 					<StatusFilter bind:filter={lookup.filter} counts={lookup.counts} total={totalSources} />
+					<div
+						class="mt-3 flex items-center gap-2 rounded-md border border-border/70 bg-muted/60 px-3 py-2 text-xs leading-5 text-pretty text-muted-foreground"
+					>
+						<InfoIcon class="size-3.5 shrink-0" aria-hidden="true" />
+						<p>
+							Best-effort; available isn’t a guarantee you can register it. Private accounts and
+							organizations can appear available.
+						</p>
+					</div>
 				</div>
 
 				{#if lookup.filter.length === 0}
@@ -137,15 +147,6 @@
 					</div>
 				{/if}
 			{/if}
-
-			<footer
-				class="mt-10 max-w-prose border-t border-border/60 pt-4 text-xs leading-relaxed text-muted-foreground"
-			>
-				<p>
-					Best-effort from public sources. <em>Available</em> means no public block was found — not a
-					guarantee you can register it. Private accounts and organizations can appear available.
-				</p>
-			</footer>
 		</main>
 	{/if}
 </div>

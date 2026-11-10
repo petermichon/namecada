@@ -52,12 +52,12 @@ describe('ResultsList', () => {
 		expect(ul).toContain('lg:grid-cols-2');
 	});
 
-	it('excludes not-checked rows from the section count', () => {
+	it('excludes not-checked rows from the section count and labels the denominator', () => {
 		const { body } = render(ResultsList, {
 			props: { paidRows: [row('a'), row('b', true, 'unsupported')] }
 		});
 
-		expect(body).toContain('1 of 1 available');
+		expect(body).toContain('1 of 1 checked available');
 		expect(liCount(body)).toBe(2);
 	});
 });
