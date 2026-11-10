@@ -98,6 +98,15 @@ func NewKaggle() Provider {
 		"https://www.kaggle.com", "/%s", "https://www.kaggle.com/%s", defaultCodes)
 }
 
+// NewSkills checks a publisher on skills.sh. The profile route serves a name
+// only once it publishes skills; it answers 200 for such a publisher and 404
+// for a name with none. Its reserved app routes (/docs, /packs, /trending)
+// resolve to 200, which is correct for the report: they cannot be claimed.
+func NewSkills() Provider {
+	return newEndpoint("skills", "skills",
+		"https://www.skills.sh", "/%s", "https://www.skills.sh/%s", defaultCodes)
+}
+
 // NewBehance checks a user on Behance. The keyless profile route answers 200
 // for a claimed username and 404 for a free one.
 func NewBehance() Provider {

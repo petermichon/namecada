@@ -80,6 +80,7 @@ func httpSources() []httpSource {
 		endpointSource("x", "x", "/acema", "", NewX),
 		endpointSource("opensea", "opensea", "/acema", "", NewOpenSea),
 		endpointSource("kaggle", "kaggle", "/acema", "", NewKaggle),
+		endpointSource("skills", "skills", "/acema", "", NewSkills),
 		{
 			name:     "dribbble",
 			id:       "dribbble",
@@ -1344,8 +1345,8 @@ func TestRegistry(t *testing.T) {
 
 func TestDefaultRegistry(t *testing.T) {
 	r := Default(Config{})
-	if r.Len() != 87 {
-		t.Fatalf("Len = %d, want 87", r.Len())
+	if r.Len() != 88 {
+		t.Fatalf("Len = %d, want 88", r.Len())
 	}
 	for _, id := range []string{
 		"domain.com", "domain.org", "domain.dev", "domain.io", "domain.ai", "domain.app",
@@ -1360,6 +1361,7 @@ func TestDefaultRegistry(t *testing.T) {
 		"x",
 		"opensea",
 		"kaggle",
+		"skills",
 		"dribbble",
 		"behance",
 		"replicate",

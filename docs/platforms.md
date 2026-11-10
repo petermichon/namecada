@@ -82,6 +82,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] AniList — ✅ — `graphql.anilist.co` (keyless GraphQL: POST a `User(name:)` query; non-null `data.User` taken / null `data.User` + "Not Found." error free)
 - [x] Roblox — ✅ — `users.roblox.com/v1/usernames/users` (keyless: POST `{"usernames":["{name}"],"excludeBannedUsers":false}`; non-empty `data` array taken / empty free; page `www.roblox.com/users?username={name}`)
 - [x] Kaggle — ✅ — `kaggle.com/{name}` (keyless profile: 200 taken / 404 free)
+- [x] skills.sh — ✅ — `skills.sh/{name}` (keyless publisher profile: 200 taken / 404 free; a name appears only once it publishes skills, and the app routes such as `/docs` and `/packs` answer 200, which reads as taken. This probes the GitHub-owner namespace only; publishers who serve skills from their own website live under the separate `/site/{host}` namespace, which is keyed by a hostname — dots, so not a bare label — and is not checked here)
 - [x] eu.org — ✅ — `{name}.eu.org` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
 - [x] duckdns.org — ✅ — `{name}.duckdns.org` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
 - [x] no-ip.org — ✅ — `{name}.no-ip.org` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)

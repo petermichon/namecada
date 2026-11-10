@@ -357,6 +357,7 @@ func Default(cfg Config) *Registry {
 	_ = r.Register(NewX())
 	_ = r.Register(NewOpenSea())
 	_ = r.Register(NewKaggle())
+	_ = r.Register(NewSkills())
 	_ = r.Register(NewDribbble())
 	_ = r.Register(NewBehance())
 	_ = r.Register(NewReplicate())
