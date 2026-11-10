@@ -226,6 +226,8 @@ unauthenticated requests (GitHub: 60/hour per IP).
     time with `VITE_API_BASE`.
 - `fixtures/` — captured source inventory and raw HTTP snapshots for parity;
   see [Fixtures](#fixtures).
+- `rust/` — parity-first Rust core for the engine rewrite; see
+  `rust/README.md`.
 
 ## Development
 
@@ -239,6 +241,8 @@ npm run lint       # prettier --check + eslint
 npm run format     # prettier --write + gofmt
 npm run verify     # check + test + lint (web and server)
 npm run server:export -- --label acema  # write a fixture parity oracle
+npm run rust:test  # Rust core parity tests
+npm run rust:clippy  # Rust lints
 npm run server:watch  # air: rebuild + restart the Go server on save
 ```
 

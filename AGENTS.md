@@ -11,6 +11,8 @@ conventions.
 - `fixtures/` — captured source inventory plus raw HTTP snapshots for engine
   parity. Regenerate with `npm run server:export -- --label <name>`; see
   `fixtures/README.md`.
+- `rust/` — parity-first Rust workspace (`core` + `cli`) for the engine rewrite;
+  see `rust/README.md`.
 - `server/` — Go module (`server/go.mod`) holding the checks. Four packages:
   `internal/provider` (the `Provider` interface + registry), `internal/engine`
   (concurrent streaming), `internal/store` (in-memory TTL cache), `internal/sink`
@@ -45,6 +47,9 @@ Server scripts (all shell out with `go -C server`):
 | `npm run server:fmt` | `gofmt -w server` |
 | `npm run server:tidy` | `go mod tidy` |
 | `npm run server:export` | write `fixtures/sources.json` (add `-- --label <name>` to capture a label) |
+| `npm run rust:test` | `cargo test` for the Rust workspace |
+| `npm run rust:fmt:check` | Rust formatting check |
+| `npm run rust:clippy` | Rust lints |
 
 Run `npm run verify` (this is the canonical check; it also runs `go vet` and
 `go test`) before finishing. The app expects the server on `:8080`; its CORS

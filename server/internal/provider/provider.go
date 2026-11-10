@@ -76,6 +76,44 @@ func (b base) URL(label string) string {
 	return fmt.Sprintf(b.urlFmt, url.PathEscape(label))
 }
 
+// NameTemplate is the name format with one %s for the label. An empty format
+// keeps the label as-is, so it is reported as %s.
+func (b base) NameTemplate() string {
+	if b.nameFmt == "" {
+		return "%s"
+	}
+	return b.nameFmt
+}
+
+// URLTemplate is the public-page format with one %s for the label.
+func (b base) URLTemplate() string { return b.urlFmt }
+
+// TemplateProvider is implemented by a provider that exposes its name and URL
+// formats. It is optional: the inventory falls back to plain label/default URL
+// placeholders when a provider does not implement it.
+type TemplateProvider interface {
+	NameTemplate() string
+	URLTemplate() string
+}
+
+// NameTemplate reports p's name format for tooling. A provider that does not
+// implement TemplateProvider reports the label unchanged.
+func NameTemplate(p Provider) string {
+	if tp, ok := p.(TemplateProvider); ok {
+		return tp.NameTemplate()
+	}
+	return "%s"
+}
+
+// URLTemplate reports p's public-page format for tooling. A provider that does
+// not implement TemplateProvider reports an empty format.
+func URLTemplate(p Provider) string {
+	if tp, ok := p.(TemplateProvider); ok {
+		return tp.URLTemplate()
+	}
+	return ""
+}
+
 // MinLengthProvider is implemented by a provider that rejects labels shorter
 // than a minimum length. It is optional: a provider that does not implement it
 // still inherits any minimum recorded for its id in the known table.

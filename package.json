@@ -27,6 +27,10 @@
 		"server:fmt": "gofmt -w server",
 		"server:tidy": "go -C server mod tidy",
 		"server:export": "go -C server run ./cmd/domainbrowser export --out ../fixtures",
+		"rust:test": "cargo test --manifest-path rust/Cargo.toml --workspace",
+		"rust:fmt": "cargo fmt --manifest-path rust/Cargo.toml --all",
+		"rust:fmt:check": "cargo fmt --manifest-path rust/Cargo.toml --all -- --check",
+		"rust:clippy": "cargo clippy --manifest-path rust/Cargo.toml --workspace --all-targets -- -D warnings",
 		"verify": "npm run check && npm test && npm run lint && npm run server:lint && npm run server:test",
 		"prepare": "husky"
 	},

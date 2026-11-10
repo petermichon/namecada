@@ -158,8 +158,14 @@ func TestBuildInventory(t *testing.T) {
 	if inv.Sources[0].ID != "npm" || inv.Sources[0].Keyed {
 		t.Errorf("first source = %+v", inv.Sources[0])
 	}
+	if inv.Sources[0].NameTemplate != "%s" || inv.Sources[0].URLTemplate != "https://www.npmjs.com/package/%s" {
+		t.Errorf("npm templates = %q, %q", inv.Sources[0].NameTemplate, inv.Sources[0].URLTemplate)
+	}
 	if inv.Sources[1].MinLength != 2 {
 		t.Errorf("domain min length = %d, want 2", inv.Sources[1].MinLength)
+	}
+	if inv.Sources[1].NameTemplate != "%s.dev" || inv.Sources[1].URLTemplate != "https://%s.dev" {
+		t.Errorf("domain templates = %q, %q", inv.Sources[1].NameTemplate, inv.Sources[1].URLTemplate)
 	}
 	if last := inv.Sources[2]; last.ID != "discogs" || !last.Keyed {
 		t.Errorf("keyed source = %+v", last)

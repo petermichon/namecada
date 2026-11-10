@@ -15,6 +15,7 @@ web/.svelte-check
 server/domainbrowser
 server/bin/
 server/tmp/
+rust/target/
 
 # todoworker queue
 plan/PLAN.md

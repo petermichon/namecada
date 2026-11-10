@@ -44,6 +44,8 @@ func (e *endpoint) ID() string               { return e.id }
 func (e *endpoint) Platform() string         { return e.platform }
 func (e *endpoint) Paid() bool               { return e.paid }
 func (e *endpoint) Name(label string) string { return label }
+func (e *endpoint) NameTemplate() string     { return "%s" }
+func (e *endpoint) URLTemplate() string      { return e.pageURL }
 
 func (e *endpoint) URL(label string) string {
 	return fmt.Sprintf(e.pageURL, url.PathEscape(label))

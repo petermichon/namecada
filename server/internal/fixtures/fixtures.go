@@ -33,7 +33,9 @@ type Source struct {
 	Platform     string `json:"platform"`
 	PlatformName string `json:"platformName"`
 	Name         string `json:"name"`
+	NameTemplate string `json:"nameTemplate"`
 	URL          string `json:"url"`
+	URLTemplate  string `json:"urlTemplate"`
 	Paid         bool   `json:"paid"`
 	MinLength    int    `json:"minLength"`
 	MaxLength    int    `json:"maxLength"`
@@ -202,7 +204,9 @@ func describe(p provider.Provider, label string, keyed bool) Source {
 		Platform:     p.Platform(),
 		PlatformName: provider.PlatformName(p.Platform()),
 		Name:         p.Name(label),
+		NameTemplate: provider.NameTemplate(p),
 		URL:          p.URL(label),
+		URLTemplate:  provider.URLTemplate(p),
 		Paid:         provider.Paid(p),
 		MinLength:    provider.MinLength(p),
 		MaxLength:    provider.MaxLength(p),
