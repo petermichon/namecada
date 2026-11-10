@@ -11,7 +11,7 @@
 
 	const lookup = useLookup();
 
-	const checkedTotal = $derived(lookup.rows.filter((row) => row.status !== 'unsupported').length);
+	const totalSources = $derived(lookup.rows.length);
 
 	function onHomeClick(e: MouseEvent) {
 		if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -126,7 +126,7 @@
 
 			{#if lookup.rows.length}
 				<div class="mt-5">
-					<StatusFilter bind:filter={lookup.filter} counts={lookup.counts} total={checkedTotal} />
+					<StatusFilter bind:filter={lookup.filter} counts={lookup.counts} total={totalSources} />
 				</div>
 
 				{#if lookup.filter.length === 0}

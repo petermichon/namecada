@@ -19,8 +19,8 @@ function firstUlClass(html: string): string {
 	return html.match(/<ul[^>]*class="([^"]*)"/)?.[1] ?? '';
 }
 
-function liClasses(html: string): string[] {
-	return [...html.matchAll(/<li[^>]*class="([^"]*)"/g)].map((match) => match[1]);
+function liCount(html: string): number {
+	return [...html.matchAll(/<li[\s>]/g)].length;
 }
 
 describe('ResultsList', () => {
@@ -32,15 +32,14 @@ describe('ResultsList', () => {
 		expect(body).not.toContain('Free platforms');
 	});
 
-	it('draws separators as borders on the rows, not a card', () => {
+	it('styles rows like the status filters instead of a divided table', () => {
 		const { body } = render(ResultsList, { props: { paidRows: [row('a'), row('b')] } });
+		const ul = firstUlClass(body);
 
-		for (const li of liClasses(body)) {
-			expect(li).toContain('border-b');
-			expect(li).toContain('border-border');
-			expect(li).not.toContain('bg-card');
-			expect(li).not.toContain('lg:border-l');
-		}
+		expect(ul).toContain('gap-y-0.5');
+		expect(body).toContain('rounded-md');
+		expect(body).not.toContain('border-b');
+		expect(liCount(body)).toBe(2);
 	});
 
 	it('keeps the responsive two-column layout', () => {
@@ -59,6 +58,6 @@ describe('ResultsList', () => {
 		});
 
 		expect(body).toContain('1 of 1 available');
-		expect(liClasses(body)).toHaveLength(2);
+		expect(liCount(body)).toBe(2);
 	});
 });

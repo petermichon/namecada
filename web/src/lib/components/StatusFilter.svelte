@@ -23,7 +23,7 @@
 			Icon: CheckCircle2Icon,
 			color: 'text-success',
 			bar: 'bg-success',
-			active: 'aria-pressed:bg-success/10'
+			active: 'aria-pressed:bg-success/10 aria-pressed:hover:bg-success/20'
 		},
 		{
 			value: 'taken' as const,
@@ -32,7 +32,7 @@
 			Icon: XCircleIcon,
 			color: 'text-destructive',
 			bar: 'bg-destructive',
-			active: 'aria-pressed:bg-destructive/10'
+			active: 'aria-pressed:bg-destructive/10 aria-pressed:hover:bg-destructive/20'
 		},
 		...(counts.unknown || filter.includes('unknown')
 			? [
@@ -43,7 +43,7 @@
 						Icon: HelpCircleIcon,
 						color: 'text-warning',
 						bar: 'bg-warning',
-						active: 'aria-pressed:bg-warning/10'
+						active: 'aria-pressed:bg-warning/10 aria-pressed:hover:bg-warning/20'
 					}
 				]
 			: []),
@@ -55,8 +55,8 @@
 						count: counts.unsupported,
 						Icon: CircleMinusIcon,
 						color: 'text-muted-foreground',
-						bar: null,
-						active: 'aria-pressed:bg-muted'
+						bar: 'bg-muted-foreground/40',
+						active: 'aria-pressed:bg-muted aria-pressed:hover:bg-foreground/[0.06]'
 					}
 				]
 			: [])

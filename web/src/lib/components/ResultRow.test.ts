@@ -36,13 +36,13 @@ describe('ResultRow', () => {
 		expect(statusSlot(row('unknown'))).toContain('unknown');
 	});
 
-	it('carries the section separators as a border on the row', () => {
+	it('uses the same rounded row treatment as the status filters', () => {
 		const html = statusSlot(row('available'));
-		const li = html.match(/<li[^>]*class="([^"]*)"/)?.[1] ?? '';
+		const anchor = html.match(/<a[^>]*class="([^"]*)"/)?.[1] ?? '';
 
-		expect(li).toContain('border-b');
-		expect(li).toContain('border-border');
-		expect(li).not.toContain('bg-card');
-		expect(li).not.toContain('lg:border-l');
+		expect(anchor).toContain('rounded-md');
+		expect(anchor).toContain('px-2');
+		expect(anchor).toContain('hover:bg-');
+		expect(html).not.toContain('border-b');
 	});
 });

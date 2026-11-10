@@ -20,7 +20,7 @@
 
 {#snippet group(title: string, rows: Row[])}
 	<section class="mt-8 first:mt-6">
-		<div class="flex items-baseline gap-3">
+		<div class="flex items-baseline gap-3 px-2">
 			<h2 class="text-sm font-semibold tracking-tight">{title}</h2>
 			{#if verdicts(rows).length}
 				<p class="text-xs text-muted-foreground">
@@ -29,7 +29,7 @@
 			{/if}
 			<span class="ml-1 h-px flex-1 self-center bg-border" aria-hidden="true"></span>
 		</div>
-		<ul class="mt-1 grid grid-cols-1 lg:grid-cols-2 lg:gap-x-10">
+		<ul class="mt-1 grid grid-cols-1 gap-y-0.5 lg:grid-cols-2 lg:gap-x-10">
 			{#each rows as row (row.id)}
 				<ResultRow {row} />
 			{/each}

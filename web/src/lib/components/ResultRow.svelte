@@ -25,14 +25,14 @@
 	const Icon = $derived(status.Icon);
 </script>
 
-<li class="border-b border-border">
+<li>
 	<a
 		href={pending ? undefined : row.url}
 		target="_blank"
 		rel="noopener noreferrer"
-		class="flex items-center gap-3 py-3 {row.status === 'available'
+		class="flex items-center gap-3 rounded-md px-2 py-2 {row.status === 'available'
 			? 'bg-success/[0.07] hover:bg-success/[0.12]'
-			: 'hover:bg-muted/50'} focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none focus-visible:ring-inset"
+			: 'hover:bg-muted'} focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none focus-visible:ring-inset"
 	>
 		<span
 			class="hidden w-28 shrink-0 truncate text-xs font-medium text-muted-foreground sm:block"
