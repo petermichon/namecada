@@ -16,9 +16,9 @@ the parity oracle.
 
 ## Layout
 
-- `core/` — `domain-browser-core`: `Provider`/`Transport` traits,
+- `core/` — `namecheck-core`: `Provider`/`Transport` traits,
   status/custom/DNS adapters, manifest, engine, cache, HTTP transport, replay.
-- `cli/` — `domain-browser`: `serve` and `check` commands.
+- `cli/` — `namecheck`: `serve` and `check` commands.
 
 ## Commands
 
@@ -39,7 +39,7 @@ Manual replay:
 
 ```sh
 cd rust
-cargo run -p domain-browser -- check acema \
+cargo run -p namecheck -- check acema \
   --manifest ../fixtures/sources.json \
   --fixtures ../fixtures
 ```
@@ -47,7 +47,7 @@ cargo run -p domain-browser -- check acema \
 Live check with real HTTP and DNS:
 
 ```sh
-cargo run -p domain-browser -- check acema \
+cargo run -p namecheck -- check acema \
   --live --manifest ../fixtures/sources.json
 ```
 

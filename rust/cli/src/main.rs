@@ -5,9 +5,9 @@ use std::io::{self, Write};
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use domain_browser_core::{Engine, Manifest, Provider};
+use namecheck_core::{Engine, Manifest, Provider};
 
-const USAGE: &str = "usage: domain-browser <command> [args]
+const USAGE: &str = "usage: namecheck <command> [args]
 
 Commands:
   check <label> [--live] [--manifest PATH] [--fixtures DIR] [--json]
@@ -23,7 +23,7 @@ fn main() {
         if is_broken_pipe(err.as_ref()) {
             return;
         }
-        eprintln!("domain-browser: {err}");
+        eprintln!("namecheck: {err}");
         std::process::exit(1);
     }
 }

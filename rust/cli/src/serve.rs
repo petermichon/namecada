@@ -4,7 +4,7 @@ use std::path::PathBuf;
 use std::sync::{mpsc, Arc};
 use std::thread;
 
-use domain_browser_core::{Cache, Engine, Manifest, MemoryCache, Provider, ProviderResult};
+use namecheck_core::{Cache, Engine, Manifest, MemoryCache, Provider, ProviderResult};
 use serde_json::json;
 use tiny_http::{Header, Method, Request, Response, Server, StatusCode};
 
@@ -205,7 +205,7 @@ impl Read for NdjsonStream {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use domain_browser_core::Status;
+    use namecheck_core::Status;
 
     #[test]
     fn parses_query_parameter() {

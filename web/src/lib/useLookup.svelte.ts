@@ -3,7 +3,7 @@ import { isAbort, streamFromApi } from './api';
 import { toLabel, type Status } from './platforms';
 import { UNSUPPORTED } from './unsupported';
 
-const QUERY_KEY = 'domain-browser:query';
+const QUERY_KEY = 'namecheck:query';
 
 export interface Row {
 	id: string;

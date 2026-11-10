@@ -1,7 +1,7 @@
 use std::path::Path;
 use std::sync::Arc;
 
-use domain_browser_core::{
+use namecheck_core::{
     build_custom_provider, build_dns_provider, build_status_provider, custom_specs, dns_hosts,
     status_specs, Fixture, HttpTransport, Manifest, Provider, ReplayTransport, SystemResolver,
     Transport,
@@ -26,7 +26,7 @@ pub fn live(manifest: &Manifest) -> Result<Vec<Arc<dyn Provider>>, Box<dyn std::
             Arc::clone(&transport),
         )?));
     }
-    let resolver: Arc<dyn domain_browser_core::Resolver> = Arc::new(SystemResolver);
+    let resolver: Arc<dyn namecheck_core::Resolver> = Arc::new(SystemResolver);
     for (id, _) in dns_hosts() {
         providers.push(Arc::new(build_dns_provider(
             manifest,

@@ -42,7 +42,7 @@
 	>
 		<div class="mx-auto max-w-2xl px-4 py-2.5 lg:max-w-5xl">
 			<div class="flex items-center gap-3">
-				<h1 class="shrink-0 text-sm font-semibold tracking-tight sm:text-base">Domain Browser</h1>
+				<h1 class="shrink-0 text-sm font-semibold tracking-tight sm:text-base">Namecheck</h1>
 				<div class="flex min-w-0 flex-1 justify-center">
 					<div class="w-full max-w-xl">
 						<LookupForm

@@ -1,4 +1,4 @@
-# Domain Browser
+# Namecheck
 
 A name availability report. Enter a bare name (`acema`) and it checks that name
 across several independent sources at once, all through a Rust server. Dots

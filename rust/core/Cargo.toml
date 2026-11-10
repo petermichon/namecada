@@ -1,5 +1,5 @@
 [package]
-name = "domain-browser-core"
+name = "namecheck-core"
 version.workspace = true
 edition.workspace = true
 

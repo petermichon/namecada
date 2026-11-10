@@ -1,7 +1,7 @@
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
-use domain_browser_core::{
+use namecheck_core::{
     build_custom_provider, build_dns_provider, build_status_provider, custom_specs, dns_hosts,
     status_specs, DnsError, Engine, Fixture, Manifest, Provider, ReplayTransport, Resolver, Status,
 };
@@ -76,7 +76,7 @@ fn assert_fixture(
     label: &str,
     fixture: &Fixture,
     transport: Arc<ReplayTransport>,
-    check: impl FnOnce() -> Result<domain_browser_core::Outcome, domain_browser_core::Error>,
+    check: impl FnOnce() -> Result<namecheck_core::Outcome, namecheck_core::Error>,
 ) {
     if let Some(expected) = fixture.expected_status() {
         let outcome = check().unwrap_or_else(|err| panic!("{id} {label}: {err}"));
