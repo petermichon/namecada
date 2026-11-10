@@ -1,0 +1,29 @@
+{
+  "source": "hackage",
+  "platform": "hackage",
+  "platformName": "Hackage",
+  "label": "google",
+  "name": "google",
+  "url": "https://hackage.haskell.org/package/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 646,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://hackage.haskell.org/package/google",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "text/plain"
+        },
+        "body": "Package not found: No such package in package index\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "source": "ens",
+  "platform": "ens",
+  "platformName": "ENS",
+  "label": "google",
+  "name": "google.eth",
+  "url": "https://app.ens.domains/google.eth",
+  "paid": true,
+  "status": "available",
+  "durationMs": 361,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.ensideas.com/ens/resolve/google.eth",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"address\":null,\"name\":\"google.eth\",\"displayName\":\"google.eth\",\"avatar\":\"https://metadata.ens.domains/mainnet/avatar/google.eth\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

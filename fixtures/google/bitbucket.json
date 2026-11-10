@@ -1,0 +1,29 @@
+{
+  "source": "bitbucket",
+  "platform": "bitbucket",
+  "platformName": "Bitbucket",
+  "label": "google",
+  "name": "google",
+  "url": "https://bitbucket.org/google/",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 407,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.bitbucket.org/2.0/workspaces/google",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"type\": \"workspace\", \"uuid\": \"{3b4fd6af-d4c0-4a2f-936b-2ab7151183c7}\", \"name\": \"google\", \"slug\": \"google\", \"is_private\": true, \"is_privacy_enforced\": false, \"links\": {\"avatar\": {\"href\": \"https://bitbucket.org/workspaces/google/avatar/?ts=1589250899\"}, \"hooks\": {\"href\": \"https://api.bitbucket.org/2.0/workspaces/google/hooks\"}, \"html\": {\"href\": \"https://bitbucket.org/google/\"}, \"html_overview\": {\"href\": \"https://bitbucket.org/google/workspace/overview/\"}, \"members\": {\"href\": \"https://api.bitbucket.org/2.0/workspaces/google/members\"}, \"owners\": {\"href\": \"https://api.bitbucket.org/2.0/workspaces/google/members?q=permission%3D%22owner%22\"}, \"projects\": {\"href\": \"https://api.bitbucket.org/2.0/workspaces/google/projects\"}, \"repositories\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/google\"}, \"snippets\": {\"href\": \"https://api.bitbucket.org/2.0/snippets/google\"}, \"self\": {\"href\": \"https://api.bitbucket.org/2.0/workspaces/google\"}}, \"created_on\": \"2020-05-12T02:34:59.789750+00:00\", \"forking_mode\": \"allow_forks\", \"sign_system_commits\": null, \"is_personal\": false}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

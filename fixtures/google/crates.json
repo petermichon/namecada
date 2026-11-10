@@ -1,0 +1,29 @@
+{
+  "source": "crates",
+  "platform": "crates",
+  "platformName": "crates.io",
+  "label": "google",
+  "name": "google",
+  "url": "https://crates.io/crates/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 471,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://crates.io/api/v1/crates/google",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"crate\":{\"id\":\"google\",\"name\":\"google\",\"updated_at\":\"2024-04-19T18:15:03.895721Z\",\"versions\":[1120170],\"keywords\":[],\"categories\":[],\"badges\":[],\"created_at\":\"2024-04-19T18:15:03.895721Z\",\"downloads\":1516,\"recent_downloads\":24,\"default_version\":\"0.0.0\",\"num_versions\":1,\"yanked\":false,\"max_version\":\"0.0.0\",\"newest_version\":\"0.0.0\",\"max_stable_version\":\"0.0.0\",\"description\":\"Reserved for use by Google.\",\"homepage\":null,\"documentation\":null,\"repository\":null,\"links\":{\"version_downloads\":\"/api/v1/crates/google/downloads\",\"versions\":null,\"owners\":\"/api/v1/crates/google/owners\",\"owner_team\":\"/api/v1/crates/google/owner_team\",\"owner_user\":\"/api/v1/crates/google/owner_user\",\"reverse_dependencies\":\"/api/v1/crates/google/reverse_dependencies\"},\"exact_match\":false,\"trustpub_only\":false},\"versions\":[{\"id\":1120170,\"crate\":\"google\",\"num\":\"0.0.0\",\"dl_path\":\"/api/v1/crates/google/0.0.0/download\",\"readme_path\":\"/api/v1/crates/google/0.0.0/readme\",\"updated_at\":\"2024-04-19T18:15:03.895721Z\",\"created_at\":\"2024-04-19T18:15:03.895721Z\",\"downloads\":1516,\"features\":{},\"yanked\":false,\"yank_message\":null,\"lib_links\":null,\"license\":\"MIT\",\"links\":{\"dependencies\":\"/api/v1/crates/google/0.0.0/dependencies\",\"version_downloads\":\"/api/v1/crates/google/0.0.0/downloads\",\"authors\":\"/api/v1/crates/google/0.0.0/authors\"},\"crate_size\":786,\"published_by\":{\"id\":6741,\"login\":\"Darksonn\",\"name\":\"Alice Ryhl\",\"avatar\":\"https://avatars.githubusercontent.com/u/928074?v=4\",\"url\":\"https://github.com/Darksonn\",\"github_username_matches\":true,\"created_at\":\"2011-07-20T14:55:07Z\"},\"audit_actions\":[{\"action\":\"publish\",\"user\":{\"id\":6741,\"login\":\"Darksonn\",\"name\":\"Alice Ryhl\",\"avatar\":\"https://avatars.githubusercontent.com/u/928074?v=4\",\"url\":\"https://github.com/Darksonn\",\"github_username_matches\":true,\"created_at\":\"2011-07-20T14:55:07Z\"},\"time\":\"2024-04-19T18:15:03.895721Z\"}],\"checksum\":\"35a8cbd9100db2f3d112c6b269033256f74c6737e7382a5526d883c5e4b0fd44\",\"rust_version\":null,\"has_lib\":false,\"bin_names\":[\"google\"],\"edition\":\"2021\",\"description\":\"Reserved for use by Google.\",\"homepage\":null,\"documentation\":null,\"repository\":null,\"trustpub_data\":null,\"linecounts\":{\"languages\":{\"Rust\":{\"code_lines\":3,\"comment_lines\":0,\"files\":1}},\"total_code_lines\":3,\"total_comment_lines\":0}}],\"keywords\":[],\"categories\":[]}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

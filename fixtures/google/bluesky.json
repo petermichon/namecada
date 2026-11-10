@@ -1,0 +1,29 @@
+{
+  "source": "bluesky",
+  "platform": "bluesky",
+  "platformName": "Bluesky",
+  "label": "google",
+  "name": "google.bsky.social",
+  "url": "https://bsky.app/profile/google.bsky.social",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 623,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://bsky.social/xrpc/com.atproto.temp.checkHandleAvailability?handle=google.bsky.social",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"handle\":\"google.bsky.social\",\"result\":{\"$type\":\"com.atproto.temp.checkHandleAvailability#resultUnavailable\",\"suggestions\":[{\"handle\":\"google72.bsky.social\",\"method\":\"random_digits\"},{\"handle\":\"google53.bsky.social\",\"method\":\"random_digits\"},{\"handle\":\"google42.bsky.social\",\"method\":\"random_digits\"},{\"handle\":\"google51.bsky.social\",\"method\":\"random_digits\"}]}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

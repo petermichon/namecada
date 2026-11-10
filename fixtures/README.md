@@ -4,6 +4,9 @@ This directory is the parity oracle for the engine rewrite. `sources.json` is th
 complete source inventory, and each `<label>/<source>.json` is one provider's
 captured result plus the raw HTTP request(s) and response(s) it made.
 
+The checked-in captures are `acema` (mostly available) and `google` (mostly
+taken), so both verdict branches are exercised.
+
 ## Regenerate
 
 From the repository root:

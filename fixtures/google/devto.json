@@ -1,0 +1,45 @@
+{
+  "source": "devto",
+  "platform": "devto",
+  "platformName": "DEV",
+  "label": "google",
+  "name": "google",
+  "url": "https://dev.to/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 541,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://dev.to/api/users/by_username?url=google",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"error\":\"not found\",\"status\":404}",
+        "bodyEncoding": "utf8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://dev.to/api/organizations/google",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"type_of\":\"organization\",\"id\":509,\"username\":\"google\",\"name\":\"Google\",\"summary\":\"Google LLC is an American multinational technology company that specializes in Internet-related services and products, which include online advertising technologies, search engine, cloud computing, software, and hardware.\",\"twitter_username\":\"\",\"github_username\":\"google\",\"url\":\"https://www.google.com\",\"location\":\"\",\"tech_stack\":\"\",\"tag_line\":\"\",\"story\":\"\",\"joined_at\":\"2019-02-20T11:50:50Z\",\"profile_image\":\"https://media2.dev.to/dynamic/image/width=640,height=640,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Forganization%2Fprofile_image%2F509%2Fae1ff511-f1eb-4092-b9c7-b307f77bd968.png\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

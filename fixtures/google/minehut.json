@@ -1,0 +1,29 @@
+{
+  "source": "minehut",
+  "platform": "minehut",
+  "platformName": "Minehut",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.minehut.com/servers/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 491,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.minehut.com/server/google?byName=true",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"server\":{\"category\":null,\"tags\":[],\"inheritedTags\":[],\"_id\":\"5a8192eeda29f932a0ef5239\",\"owner\":\"5a7df006c544c607ddb66a04\",\"name\":\"google\",\"name_lower\":\"google\",\"creation\":1518441198669,\"platform\":\"java\",\"__v\":6,\"port\":-1,\"purchased_icons\":[],\"server_plan\":\"FREE\",\"credits_per_day\":0,\"motd\":\"A Minehut Server.\",\"storage_node\":\"s1\",\"visibility\":true,\"suspended\":false,\"backup_slots\":0,\"categories\":[],\"server_version_type\":\"PAPER\",\"connectedServers\":[],\"inheritedCategories\":[],\"proxy\":false,\"last_online\":1788103241107,\"default_banner_image\":\"server-banner-08.png\",\"default_banner_tint\":\"#F15A24\",\"joins\":46,\"daily_online_time\":{\"30-7-2026\":342830},\"deletion\":{\"started\":false,\"started_at\":0,\"reason\":\"\",\"completed\":false,\"completed_at\":0,\"storage_completed\":false,\"storage_completed_at\":0},\"deleted\":false,\"hidden\":false,\"boosts\":0,\"using_cosmetics\":true,\"minehut_plugins\":[],\"online\":false,\"playerCount\":0,\"rawPlan\":\"FREE\",\"activeServerPlan\":\"Starter\"}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

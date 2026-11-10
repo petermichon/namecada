@@ -1,0 +1,29 @@
+{
+  "source": "namecoin",
+  "platform": "namecoin",
+  "platformName": "Namecoin",
+  "label": "google",
+  "name": "google",
+  "url": "https://explorer.namecoin.co/name/d/google",
+  "paid": true,
+  "status": "taken",
+  "durationMs": 360,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://explorer.namecoin.co/api/name/d%2Fgoogle",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"name\":\"d/google\",\"name_encoding\":\"hex\",\"value\":\"\",\"value_encoding\":\"hex\",\"txid\":\"a5d6155bed25703ed87eef3be835c5f755b04cd58fa4b4decb22d5cd8873ee29\",\"vout\":1,\"address\":\"MvgsgjzyQ5PXDKdHxKXdCgenWJmgAHZERS\",\"height\":840837,\"expires_in\":25876,\"expired\":false,\"name_hex\":\"642f676f6f676c65\",\"value_hex\":\"\",\"source\":\"rpc\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

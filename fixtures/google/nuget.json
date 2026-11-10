@@ -1,0 +1,22 @@
+{
+  "source": "nuget",
+  "platform": "nuget",
+  "platformName": "NuGet",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.nuget.org/packages/google",
+  "paid": false,
+  "error": "Get \"https://api.nuget.org/v3-flatcontainer/google/index.json\": EOF",
+  "durationMs": 490,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.nuget.org/v3-flatcontainer/google/index.json",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "error": "EOF"
+    }
+  ]
+}

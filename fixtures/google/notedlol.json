@@ -1,0 +1,12 @@
+{
+  "source": "notedlol",
+  "platform": "notedlol",
+  "platformName": "noted.lol",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.noted.lol/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 19,
+  "requests": []
+}

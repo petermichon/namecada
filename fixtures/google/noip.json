@@ -1,0 +1,12 @@
+{
+  "source": "noip",
+  "platform": "noip",
+  "platformName": "No-IP",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.no-ip.org/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 14,
+  "requests": []
+}

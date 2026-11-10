@@ -1,0 +1,29 @@
+{
+  "source": "rubygems",
+  "platform": "rubygems",
+  "platformName": "RubyGems",
+  "label": "google",
+  "name": "google",
+  "url": "https://rubygems.org/gems/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 252,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://rubygems.org/api/v1/gems/google.json",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"name\":\"google\",\"downloads\":98976,\"version\":\"1.0.10\",\"version_created_at\":\"2012-05-25T11:32:34.022Z\",\"version_downloads\":11929,\"platform\":\"ruby\",\"ruby_abi\":null,\"authors\":\"Kerrick Long\",\"info\":\"A ruby gem to give you the power of Google Search in your command line.\",\"licenses\":null,\"metadata\":{\"wiki_uri\":\"\",\"homepage_uri\":\"http://kerrick.github.com/google/\",\"bug_tracker_uri\":\"https://github.com/Kerrick/google/issues\",\"source_code_uri\":\"https://github.com/Kerrick/google\",\"mailing_list_uri\":\"\",\"documentation_uri\":\"http://kerrick.github.com/google\"},\"yanked\":false,\"sha\":\"db0aed65bfac289b72d1d9abd0a9e56a724c7194a5928cdba8cbb5e0ce874d68\",\"spec_sha\":\"72b72e97e369596209e62d992531067c27489b694ebc745ecdbfeec2e12d79c5\",\"project_uri\":\"https://rubygems.org/gems/google\",\"gem_uri\":\"https://rubygems.org/gems/google-1.0.10.gem\",\"homepage_uri\":\"http://kerrick.github.com/google/\",\"wiki_uri\":null,\"documentation_uri\":\"http://kerrick.github.com/google\",\"mailing_list_uri\":null,\"source_code_uri\":\"https://github.com/Kerrick/google\",\"bug_tracker_uri\":\"https://github.com/Kerrick/google/issues\",\"changelog_uri\":null,\"funding_uri\":null,\"dependencies\":{\"development\":[],\"runtime\":[{\"name\":\"formatador\",\"requirements\":\"~\u003e 0.2\"},{\"name\":\"htmlentities\",\"requirements\":\"~\u003e 4\"},{\"name\":\"json\",\"requirements\":\"~\u003e 1\"},{\"name\":\"ruby-readability\",\"requirements\":\"~\u003e 0.5\"},{\"name\":\"trollop\",\"requirements\":\"~\u003e 1\"}]}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

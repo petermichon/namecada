@@ -1,0 +1,29 @@
+{
+  "source": "chesscom",
+  "platform": "chesscom",
+  "platformName": "Chess.com",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.chess.com/member/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 299,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.chess.com/pub/player/google",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"avatar\":\"https://images.chesscomfiles.com/uploads/v1/user/288412919.84d44a96.200x200o.4883c7916169.png\",\"player_id\":288412919,\"@id\":\"https://api.chess.com/pub/player/google\",\"url\":\"https://www.chess.com/member/Google\",\"username\":\"google\",\"followers\":124,\"country\":\"https://api.chess.com/pub/country/XO\",\"last_online\":1794160233,\"joined\":1684995179,\"status\":\"basic\",\"is_streamer\":false,\"verified\":false,\"league\":\"Legend\",\"streaming_platforms\":[]}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

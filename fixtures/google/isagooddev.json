@@ -1,0 +1,12 @@
+{
+  "source": "isagooddev",
+  "platform": "isagooddev",
+  "platformName": "is-a-good.dev",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.is-a-good.dev/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 20,
+  "requests": []
+}

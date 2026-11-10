@@ -1,0 +1,12 @@
+{
+  "source": "euorg",
+  "platform": "euorg",
+  "platformName": "eu.org",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.eu.org/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 232,
+  "requests": []
+}

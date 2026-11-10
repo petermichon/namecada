@@ -1,0 +1,12 @@
+{
+  "source": "pagesdev",
+  "platform": "pagesdev",
+  "platformName": "Cloudflare Pages",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.pages.dev/",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 29,
+  "requests": []
+}

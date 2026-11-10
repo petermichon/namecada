@@ -1,0 +1,29 @@
+{
+  "source": "firefox",
+  "platform": "firefox",
+  "platformName": "Firefox Add-ons",
+  "label": "google",
+  "name": "google",
+  "url": "https://addons.mozilla.org/firefox/addon/google/",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 837,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://addons.mozilla.org/api/v5/addons/addon/google/",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"detail\":\"Authentication credentials were not provided.\",\"is_disabled_by_developer\":true,\"is_disabled_by_mozilla\":false}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

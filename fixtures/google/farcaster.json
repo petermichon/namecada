@@ -1,0 +1,29 @@
+{
+  "source": "farcaster",
+  "platform": "farcaster",
+  "platformName": "Farcaster",
+  "label": "google",
+  "name": "google",
+  "url": "https://farcaster.xyz/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 247,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://fnames.farcaster.xyz/transfers/current?name=google",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"transfer\":{\"id\":20927,\"timestamp\":1697027379,\"username\":\"google\",\"owner\":\"0x379595ccc2b73396166bd8b9e72f6f70b3c2e559\",\"from\":0,\"to\":2786,\"user_signature\":\"0x3c041f436cba1b9e1917adb499a2d7afb680d701bb335514aec7a5fd3a727c8f51814306c36a60a8f722ef9f776bb67a7473afe55772f69b3079e844628dc8121b\",\"server_signature\":\"0xe269999e88430b0ca2b11808cb4a0f197117cfd723eb1d48ff076f805d3f5f9a15cba381368d22a1d2730cfcd3825c374553b98538a08eae33fc68e8d32b53261b\"}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

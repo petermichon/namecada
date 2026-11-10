@@ -1,0 +1,29 @@
+{
+  "source": "wikipedia",
+  "platform": "wikipedia",
+  "platformName": "Wikipedia",
+  "label": "google",
+  "name": "google",
+  "url": "https://en.wikipedia.org/wiki/Special:CentralAuth/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 1151,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://meta.wikimedia.org/w/api.php?action=query\u0026format=json\u0026guiuser=google\u0026meta=globaluserinfo\u0026origin=%2A",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"batchcomplete\":\"\",\"query\":{\"globaluserinfo\":{\"home\":\"itwiki\",\"id\":37181888,\"registration\":\"2015-03-17T02:09:39Z\",\"name\":\"Google\"}}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "source": "hns",
+  "platform": "hns",
+  "platformName": "Handshake",
+  "label": "google",
+  "name": "google",
+  "url": "https://hnsscan.com/names/google",
+  "paid": true,
+  "status": "available",
+  "durationMs": 733,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://hnsscan.com/api/names/google/details",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"source\":\"rpc\",\"network\":\"main\",\"name\":\"google\",\"generatedAt\":\"2026-11-10T14:12:32.147Z\",\"info\":{\"nameHash\":\"6292be73bdfdc4ea12bdf3018c8c553d3022b37601bb2b19153c8804bdf8da15\",\"state\":\"UNKNOWN\",\"height\":null,\"renewal\":null,\"value\":null,\"highest\":null,\"claimed\":null,\"renewals\":null,\"weak\":false,\"registered\":false,\"transfer\":null,\"blocksUntilExpire\":null,\"daysUntilExpire\":null,\"expirationBlock\":null,\"expirationEstimate\":null},\"owner\":null,\"resource\":null,\"resourceStatus\":null,\"chainHeight\":355197,\"auction\":{\"state\":\"UNKNOWN\",\"phase\":\"unknown\",\"phaseStart\":null,\"phaseEnd\":null,\"phaseWindows\":{\"openStart\":null,\"openEnd\":null,\"bidStart\":null,\"bidEnd\":null,\"revealStart\":null,\"revealEnd\":null},\"result\":null,\"highest\":null,\"bidsCount\":0,\"revealsCount\":0,\"totalLockup\":0,\"totalBids\":0,\"blinds\":0,\"unrevealed\":0,\"highestLockup\":0,\"highestBid\":0,\"historyComplete\":false},\"bids\":[],\"covenants\":[],\"timeline\":[{\"label\":\"Rollout\",\"block\":35280,\"time\":null}]}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

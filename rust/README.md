@@ -6,17 +6,19 @@ oracle while providers move here.
 ## Status
 
 - Working: manifest loading, provider/transport contract, bounded-concurrency
-  engine, fixture replay, and **51 status-only providers**.
-- The check runs entirely against the committed fixtures; there is no production
-  HTTP transport yet.
-- Custom providers (RDAP, DNS, body parsing, multi-request, keyed) still live in
-  Go and are the next porting batches.
+  engine, fixture replay, **51 status-only providers**, **28 custom providers**
+  (body parsing, multi-request, 6 RDAP domains), and **8 DNS providers** —
+  **87 keyless sources**.
+- The check runs against the committed fixtures through a replay transport; the
+  production HTTP transport is not wired yet.
+- Remaining: the 4 keyed sources (Discogs, Twitch, Companies House,
+  OpenCorporates).
 
 ## Layout
 
-- `core/` — `domain-browser-core`: `Provider` trait, `StatusProvider` adapter,
+- `core/` — `domain-browser-core`: `Provider` trait, status/custom/DNS adapters,
   manifest model, engine, fixture replay.
-- `cli/` — `domain-browser`: replay CLI used to inspect the port.
+- `cli/` — `domain-browser`: replay CLI used to inspect the HTTP-backed port.
 
 ## Commands
 
@@ -37,7 +39,9 @@ cargo run -p domain-browser -- check acema \
   --fixtures ../fixtures
 ```
 
-`--json` emits the same result shape as the Go API.
+`--json` emits the same result shape as the Go API. The replay CLI covers the
+HTTP-backed providers; DNS providers are exercised by the core tests because
+their fixtures have no HTTP transcript.
 
 ## Parity
 
@@ -48,8 +52,6 @@ unconsumed fails the test.
 
 ## Next
 
-1. Add the production HTTP transport and the CLI socket-facing `serve` later.
-2. Port body-parsing providers (Minehut, Wikipedia, DEV, Bluesky, …).
-3. Port multi-request providers (GitLab, DEV, PeerTube, Open Collective).
-4. Port RDAP + DNS (DoH for web, native DNS for Tauri).
-5. Add keyed providers behind local configuration.
+1. Add the production HTTP transport and a `serve` API.
+2. Port the 4 keyed sources behind local configuration.
+3. Add the Tauri desktop shell and switch the UI transport.

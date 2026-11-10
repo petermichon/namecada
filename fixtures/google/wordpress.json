@@ -1,0 +1,29 @@
+{
+  "source": "wordpress",
+  "platform": "wordpress",
+  "platformName": "WordPress.org",
+  "label": "google",
+  "name": "google",
+  "url": "https://wordpress.org/plugins/google/",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 459,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.wordpress.org/plugins/info/1.2/?action=plugin_information\u0026request%5Bslug%5D=google",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"error\":\"closed\",\"name\":\"The Google+ plugin\",\"slug\":\"google\",\"description\":\"This plugin has been closed as of November 28, 2017 and is not available for download. Reason: Unknown.\",\"closed\":true,\"closed_date\":\"2017-11-28\",\"reason\":\"unknown\",\"reason_text\":\"Unknown\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

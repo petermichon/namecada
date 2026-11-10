@@ -1,0 +1,29 @@
+{
+  "source": "openvsx",
+  "platform": "openvsx",
+  "platformName": "Open VSX",
+  "label": "google",
+  "name": "google",
+  "url": "https://open-vsx.org/namespace/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 237,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://open-vsx.org/api/google",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"extensions\":{\"aidl-language\":\"https://open-vsx.org/api/Google/aidl-language\",\"arb-editor\":\"https://open-vsx.org/api/Google/arb-editor\",\"colab\":\"https://open-vsx.org/api/Google/colab\",\"cros-ide\":\"https://open-vsx.org/api/Google/cros-ide\",\"gemini-cli-vscode-ide-companion\":\"https://open-vsx.org/api/Google/gemini-cli-vscode-ide-companion\",\"geminicodeassist\":\"https://open-vsx.org/api/Google/geminicodeassist\",\"gn\":\"https://open-vsx.org/api/Google/gn\",\"google-antigravity\":\"https://open-vsx.org/api/Google/google-antigravity\",\"pdl-language\":\"https://open-vsx.org/api/Google/pdl-language\",\"selinux-policy-languages\":\"https://open-vsx.org/api/Google/selinux-policy-languages\",\"vscode-looker-official\":\"https://open-vsx.org/api/Google/vscode-looker-official\"},\"name\":\"Google\",\"verified\":true}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

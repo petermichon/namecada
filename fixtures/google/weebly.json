@@ -1,0 +1,29 @@
+{
+  "source": "weebly",
+  "platform": "weebly",
+  "platformName": "Weebly",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.weebly.com/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 371,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://google.weebly.com/",
+      "headers": {
+        "Accept": "text/html,*/*",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "text/html; charset=UTF-8"
+        },
+        "body": "\u003c!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"\u003e\n\u003chtml xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\"\u003e\n\u003chead\u003e\u003cscript src=\"/gdpr/gdprscript.js?buildTime=1794265515\"\u003e\u003c/script\u003e\n\t\u003ctitle\u003e404 - Page Not Found\u003c/title\u003e\n\t\u003cmeta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\" /\u003e\n\t\u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1\"\u003e\n\t\u003cmeta name=\"robots\" content=\"noarchive\" /\u003e\n\t\u003clink rel=\"shortcut icon\" href=\"//cdn1.editmysite.com/developer/none.ico\" /\u003e\n\n\t\u003cstyle type=\"text/css\"\u003e\n\t\t@font-face {\n\t\t\tfont-family: 'Proxima Nova';\n\t\t\tfont-weight: 300;\n\t\t\tsrc: url(\"//cdn2.editmysite.com/components/ui-framework/fonts/proxima-nova-light/31AC96_0_0.eot\");\n\t\t\tsrc: url(\"//cdn2.editmysite.com/components/ui-framework/fonts/proxima-nova-light/31AC96_0_0.eot?#iefix\") format(\"embedded-opentype\"), url(\"//cdn2.editmysite.com/components/ui-framework/fonts/proxima-nova-light/31AC96_0_0.woff\") format(\"woff\"), url(\"//cdn2.editmysite.com/components/ui-framework/fonts/proxima-nova-light/31AC96_0_0.ttf\") format(\"truetype\");\n\t\t}\n\n\t\t@font-face {\n\t\t\tfont-family: 'Proxima Nova';\n\t\t\tsrc: url(\"//cdn2.editmysite.com/components/ui-framework/fonts/proxima-nova-regular/31AC96_1_0.eot\");\n\t\t\tsrc: url(\"//cdn2.editmysite.com/components/ui-framework/fonts/proxima-nova-regular/31AC96_1_0eot?#iefix\") format(\"embedded-opentype\"), url(\"//cdn2.editmysite.com/components/ui-framework/fonts/proxima-nova-regular/31AC96_1_0.woff\") format(\"woff\"), url(\"//cdn2.editmysite.com/components/ui-framework/fonts/proxima-nova-regular/31AC96_1_0.ttf\") format(\"truetype\");\n\t\t}\n\n\t\t@font-face {\n\t\t\tfont-family: 'Proxima Nova';\n\t\t\tfont-weight: 500;\n\t\t\tsrc: url(\"//cdn2.editmysite.com/components/ui-framework/fonts/proxima-nova-semibold/31AC96_2_0.eot\");\n\t\t\tsrc: url(\"//cdn2.editmysite.com/components/ui-framework/fonts/proxima-nova-semibold/31AC96_2_0.eot?#iefix\") format(\"embedded-opentype\"), url(\"//cdn2.editmysite.com/components/ui-framework/fonts/proxima-nova-semibold/31AC96_2_0.woff\") format(\"woff\"), url(\"//cdn2.editmysite.com/components/ui-framework/fonts/proxima-nova-semibold/31AC96_2_0.ttf\") format(\"truetype\");\n\t\t}\n\n\t\tbody {\n\t\t\tbackground-color: #F8F8F8;\n\t\t\tfont-family: 'Proxima Nova';\n\t\t}\n\n\t\thr {\n\t\t\tborder: 1px solid #E7E7E7;\n\t\t\tborder-top: 0;\n\t\t}\n\n\t\t.warning-container {\n\t\t\tpadding: 29px 40px;\n\t\t\tpadding-bottom: 0;\n\t\t\tbox-sizing: border-box;\n\t\t\ttext-align: center;\n\t\t\tbackground-color: white;\n\t\t\tborder: 1px solid #D4D4D4;\n\t\t\theight: 335px;\n\t\t\twidth: 484px;\n\t\t\tmargin: 0 auto;\n\t\t\tmargin-top: 10%;\n\t\t\t-webkit-box-shadow: 0px 0px 41px -8px rgba(237,234,237,1);\n\t\t\t-moz-box-shadow: 0px 0px 41px -8px rgba(237,234,237,1);\n\t\t\tbox-shadow: 0px 0px 41px -8px rgba(237,234,237,1);\n\t\t}\n\n\t\t.header {\n\t\t\tmargin: 26px 0 0 0;\n\t\t\tcolor: #363B3E;\n\t\t\tfont-size: 45px;\n\t\t\tfont-weight: 500;\n\t\t}\n\n\t\t.error {\n\t\t\tmargin: 0 0 0 0;\n\t\t\tcolor: #9BA0A3;\n\t\t\tmargin-bottom: 35px;\n\t\t}\n\n\t\t.check-url, .otherwise {\n\t\t\tcolor: #666C70;\n\t\t}\n\n\t\t.check-url {\n\t\t\tmargin-top: 0;\n\t\t\tfont-weight: 500;\n\t\t}\n\n\t\t.otherwise {\n\t\t\tmargin-top: 0;\n\t\t}\n\n\t\t.logo {\n\t\t\twidth: 82px;\n\t\t}\n\n\t\t.bottom-content {\n\t\t\tdisplay: inline-block;\n\t\t\theight: 120px;\n\t\t\tline-height: 120px;\n\t\t}\n\n\t\t.bottom-content \u003e span {\n\t\t\tdisplay: inline-block;\n\t\t\tvertical-align: middle;\n\t\t\tline-height: normal;\n\t\t}\n\n\t\ta {\n\t\t\tcolor: #2990EA;\n\t\t\ttext-decoration: inherit;\n\t\t}\n\n\t\t@media (max-width: 550px) {\n\t\t\t.warning-container {\n\t\t\t\twidth: 80%;\n\t\t\t}\n\t\t}\n\n\t\u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n\t\u003cdiv class=\"warning-container\"\u003e\n\t\t\u003ca href=\"/\"\u003e\n\t\t\t\u003cimg class=\"logo\" src=\"//cdn1.editmysite.com/images/weebly-logo-blue.png\"\u003e\n\t\t\u003c/a\u003e\n\t\t\u003ch2 class=\"header\"\u003e404\u003c/h2\u003e\n\t\t\u003cp class=\"error\"\u003eError - Page Not Found\u003c/p\u003e\n\t\t\u003chr\u003e\n\t\t\u003cdiv class=\"bottom-content\"\u003e\n\t\t\t\u003cspan\u003e\n\t\t\t\t\u003cp class=\"check-url\"\u003ePlease check the URL.\u003c/p\u003e\n\t\t\t\t\u003cp class=\"otherwise\"\u003eOtherwise, \u003ca href=\"/\"\u003eclick here\u003c/a\u003e to be redirected to the homepage.\u003c/p\u003e\n\t\t\t\u003c/span\u003e\n\t\t\u003c/div\u003e\n\t\u003c/div\u003e\n\u003c/body\u003e\n\u003c/html\u003e",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

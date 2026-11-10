@@ -1,0 +1,29 @@
+{
+  "source": "opencollective",
+  "platform": "opencollective",
+  "platformName": "Open Collective",
+  "label": "google",
+  "name": "google",
+  "url": "https://opencollective.com/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 1660,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://opencollective.com/google.json",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"slug\":\"google\",\"currency\":\"USD\",\"image\":\"https://opencollective-production.s3.us-west-1.amazonaws.com/fa1c75e0-0e16-11ea-8219-7bf2c4551a64.png\",\"balance\":-665931877,\"yearlyIncome\":0,\"backersCount\":0}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "source": "fly",
+  "platform": "fly",
+  "platformName": "Fly.io",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.fly.dev/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 15,
+  "requests": []
+}

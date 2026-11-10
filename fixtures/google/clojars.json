@@ -1,0 +1,27 @@
+{
+  "source": "clojars",
+  "platform": "clojars",
+  "platformName": "Clojars",
+  "label": "google",
+  "name": "google",
+  "url": "https://clojars.org/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 627,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://clojars.org/api/artifacts/google",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/octet-stream"
+        }
+      }
+    }
+  ]
+}

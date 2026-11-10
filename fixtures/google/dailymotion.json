@@ -1,0 +1,29 @@
+{
+  "source": "dailymotion",
+  "platform": "dailymotion",
+  "platformName": "Dailymotion",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.dailymotion.com/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 237,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.dailymotion.com/user/google",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        "body": "{\"id\":\"x2s17o5\",\"screenname\":\"Inteligence\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

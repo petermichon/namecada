@@ -1,0 +1,45 @@
+{
+  "source": "gitlab",
+  "platform": "gitlab",
+  "platformName": "GitLab",
+  "label": "google",
+  "name": "google",
+  "url": "https://gitlab.com/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 725,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://gitlab.com/api/v4/users?username=google",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "[]",
+        "bodyEncoding": "utf8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://gitlab.com/api/v4/groups/google",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"id\":31433,\"web_url\":\"https://gitlab.com/groups/google\",\"name\":\"Google\",\"path\":\"google\",\"description\":\"Google ❤️ Open Source\\r\\n\\r\\nLearn more at https://opensource.google/\",\"visibility\":\"public\",\"share_with_group_lock\":false,\"require_two_factor_authentication\":true,\"two_factor_grace_period\":48,\"project_creation_level\":\"maintainer\",\"auto_devops_enabled\":null,\"subgroup_creation_level\":\"owner\",\"emails_disabled\":false,\"emails_enabled\":true,\"show_diff_preview_in_email\":true,\"mentions_disabled\":null,\"lfs_enabled\":true,\"archived\":false,\"math_rendering_limits_enabled\":true,\"lock_math_rendering_limits_enabled\":false,\"crm_enabled\":true,\"resource_access_token_notify_inherited\":false,\"lock_resource_access_token_notify_inherited\":false,\"default_branch\":null,\"default_branch_protection\":2,\"default_branch_protection_defaults\":{\"allowed_to_push\":[{\"access_level\":40}],\"allow_force_push\":false,\"allowed_to_merge\":[{\"access_level\":40}]},\"avatar_url\":\"https://gitlab.com/uploads/-/system/group/avatar/31433/21751306_10155724905022838_7192191338970086519_n.png?v=1688143271\",\"request_access_enabled\":false,\"full_name\":\"Google\",\"full_path\":\"google\",\"created_at\":\"2014-04-21T16:37:34.000Z\",\"parent_id\":null,\"organization_id\":1,\"shared_runners_setting\":\"enabled\",\"max_artifacts_size\":null,\"marked_for_deletion_on\":null,\"ldap_cn\":null,\"ldap_access\":null,\"wiki_access_level\":\"enabled\",\"require_sha_for_merge\":false,\"lock_require_sha_for_merge\":false,\"require_two_factor_authentication_from_ancestor\":false,\"shared_with_groups\":[],\"prevent_sharing_groups_outside_hierarchy\":false,\"projects\":[],\"shared_projects\":[],\"shared_runners_minutes_limit\":null,\"extra_shared_runners_minutes_limit\":null,\"prevent_forking_outside_group\":null,\"service_access_tokens_expiration_enforced\":true,\"membership_lock\":false}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

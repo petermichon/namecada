@@ -1,0 +1,12 @@
+{
+  "source": "dynv6",
+  "platform": "dynv6",
+  "platformName": "dynv6",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.dynv6.net/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 10372,
+  "requests": []
+}

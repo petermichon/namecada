@@ -1,0 +1,29 @@
+{
+  "source": "neocities",
+  "platform": "neocities",
+  "platformName": "Neocities",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.neocities.org/",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 166,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://google.neocities.org/",
+      "headers": {
+        "Accept": "text/html,*/*",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "text/html"
+        },
+        "body": "\u003chtml\u003e\n  \u003chead\u003e\n    \u003ctitle\u003e\n      Google's Site - Front Page\n    \u003c/title\u003e\n    \u003cstyle link rel=\"stylesheet\" \u003cstyle type=\"text/css\" href=\"css.css\" media=\"screen\"/\u003e\u003c/style\u003e\n  \u003c/head\u003e\n  \u003cbody bgcolor=\"#CCCCCC\"\u003e\n  \n    \u003cp\u003e\n      Chart generator:\n    \u003c/p\u003e\n    \u003cp\u003e\n    \u003cdiv class=\"container\"\u003e\n\n\u003cdiv class=\"chart\"\u003e\n   \u003cdiv class=\"percentage circle easyPieChart\" data-percent=\"25\" style=\"width: 140px; height: 140px; line-height: 140px;\"\u003e\u003cspan\u003e24\u003c/span\u003e%\u003ccanvas width=\"140\" height=\"140\"\u003e\u003c/canvas\u003e\u003c/div\u003e\n   \u003cdiv class=\"label\"\u003eNew visits\u003c/div\u003e\n\u003c/div\u003e\n\n\u003cdiv class=\"chart gray\"\u003e\n            \u003cdiv class=\"percentage-gray circle easyPieChart\" data-percent=\"19\" style=\"width: 140px; height: 140px; line-height: 140px;\"\u003e\u003cspan\u003e18\u003c/span\u003e%\u003ccanvas width=\"140\" height=\"140\"\u003e\u003c/canvas\u003e\u003c/div\u003e\n            \u003cdiv class=\"label\"\u003eBounce rate\u003c/div\u003e\n       \u003c/div\u003e\n\n\u003cdiv class=\"chart blue\"\u003e\n     \u003cdiv class=\"percentage-blue circle easyPieChart\" data-percent=\"77\" style=\"width: 140px; height: 140px; line-height: 140px;\"\u003e\u003cspan\u003e76\u003c/span\u003e%\u003ccanvas width=\"140\" height=\"140\"\u003e\u003c/canvas\u003e\u003c/div\u003e\n            \u003cdiv class=\"label\"\u003eDownload\u003c/div\u003e\n       \u003c/div\u003e\n\n\u003cdiv class=\"chart green\"\u003e\n     \u003cdiv class=\"percentage-green circle easyPieChart\" data-percent=\"95\" style=\"width: 140px; height: 140px; line-height: 140px;\"\u003e\u003cspan\u003e94\u003c/span\u003e%\u003ccanvas width=\"140\" height=\"140\"\u003e\u003c/canvas\u003e\u003c/div\u003e\n            \u003cdiv class=\"label\"\u003eBalance\u003c/div\u003e\n\u003c/div\u003e\n  \n\u003c/div\u003e  \n    \u003c/p\u003e\n    \n    \n  \u003c/body\u003e\n\u003c/html\u003e",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

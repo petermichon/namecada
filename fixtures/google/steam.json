@@ -1,0 +1,29 @@
+{
+  "source": "steam",
+  "platform": "steam",
+  "platformName": "Steam",
+  "label": "google",
+  "name": "google",
+  "url": "https://steamcommunity.com/id/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 370,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://steamcommunity.com/id/google?xml=1",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "text/xml; charset=utf-8"
+        },
+        "body": "\u003c?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?\u003e\u003cprofile\u003e\n\t\u003csteamID64\u003e76561197989316135\u003c/steamID64\u003e\n\t\u003csteamID\u003e\u003c![CDATA[screwloose48]]\u003e\u003c/steamID\u003e\n\t\u003conlineState\u003eoffline\u003c/onlineState\u003e\n\t\u003cstateMessage\u003e\u003c![CDATA[Offline]]\u003e\u003c/stateMessage\u003e\n\t\u003cprivacyState\u003epublic\u003c/privacyState\u003e\n\t\u003cvisibilityState\u003e3\u003c/visibilityState\u003e\n\t\u003cavatarIcon\u003e\u003c![CDATA[https://avatars.fastly.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg]]\u003e\u003c/avatarIcon\u003e\n\t\u003cavatarMedium\u003e\u003c![CDATA[https://avatars.fastly.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg]]\u003e\u003c/avatarMedium\u003e\n\t\u003cavatarFull\u003e\u003c![CDATA[https://avatars.fastly.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg]]\u003e\u003c/avatarFull\u003e\n\t\u003cvacBanned\u003e0\u003c/vacBanned\u003e\n\t\u003ctradeBanState\u003eNone\u003c/tradeBanState\u003e\n\t\u003cisLimitedAccount\u003e0\u003c/isLimitedAccount\u003e\n\t\u003ccustomURL\u003e\u003c![CDATA[google]]\u003e\u003c/customURL\u003e\n\t\u003cmemberSince\u003eApril 13, 2007\u003c/memberSince\u003e\n\t\u003csteamRating\u003e\u003c/steamRating\u003e\n\t\u003choursPlayed2Wk\u003e0.0\u003c/hoursPlayed2Wk\u003e\n\t\u003cheadline\u003e\u003c![CDATA[]]\u003e\u003c/headline\u003e\n\t\u003clocation\u003e\u003c![CDATA[]]\u003e\u003c/location\u003e\n\t\u003crealname\u003e\u003c![CDATA[]]\u003e\u003c/realname\u003e\n\t\u003csummary\u003e\u003c![CDATA[]]\u003e\u003c/summary\u003e\n\n\n\u003c/profile\u003e\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

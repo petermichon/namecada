@@ -1,0 +1,46 @@
+{
+  "source": "readthedocs",
+  "platform": "readthedocs",
+  "platformName": "Read the Docs",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.readthedocs.io/",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 522,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://google.readthedocs.io/",
+      "headers": {
+        "Accept": "text/html,*/*",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 302,
+        "headers": {
+          "Content-Language": "en",
+          "Content-Type": "text/html; charset=utf-8",
+          "Location": "https://google.readthedocs.io/en/latest/"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://google.readthedocs.io/en/latest/",
+      "headers": {
+        "Accept": "text/html,*/*",
+        "Referer": "https://google.readthedocs.io/",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "text/html; charset=utf-8"
+        },
+        "body": "\n\n\u003c!DOCTYPE html\u003e\n\u003c!--[if IE 8]\u003e\u003chtml class=\"no-js lt-ie9\" lang=\"en\" \u003e \u003c![endif]--\u003e\n\u003c!--[if gt IE 8]\u003e\u003c!--\u003e \u003chtml class=\"no-js\" lang=\"en\" \u003e \u003c!--\u003c![endif]--\u003e\n\u003chead\u003e\n  \u003cmeta charset=\"utf-8\"\u003e\n  \n  \u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\u003e\n  \n  \u003ctitle\u003eReadTheDocs \u0026mdash; google latest documentation\u003c/title\u003e\n  \n\n  \n  \n  \n  \n\n  \n  \u003cscript type=\"text/javascript\" src=\"_static/js/modernizr.min.js\"\u003e\u003c/script\u003e\n  \n    \n      \u003cscript type=\"text/javascript\" id=\"documentation_options\" data-url_root=\"./\" src=\"_static/documentation_options.js\"\u003e\u003c/script\u003e\n        \u003cscript type=\"text/javascript\" src=\"_static/jquery.js\"\u003e\u003c/script\u003e\n        \u003cscript type=\"text/javascript\" src=\"_static/underscore.js\"\u003e\u003c/script\u003e\n        \u003cscript type=\"text/javascript\" src=\"_static/doctools.js\"\u003e\u003c/script\u003e\n        \u003cscript type=\"text/javascript\" src=\"_static/language_data.js\"\u003e\u003c/script\u003e\n        \n    \n    \u003cscript type=\"text/javascript\" src=\"_static/js/theme.js\"\u003e\u003c/script\u003e\n\n    \n\n  \n  \u003clink rel=\"stylesheet\" href=\"_static/css/theme.css\" type=\"text/css\" /\u003e\n  \u003clink rel=\"stylesheet\" href=\"_static/pygments.css\" type=\"text/css\" /\u003e\n    \u003clink rel=\"index\" title=\"Index\" href=\"genindex.html\" /\u003e\n    \u003clink rel=\"search\" title=\"Search\" href=\"search.html\" /\u003e \n\n\u003c!-- RTD Extra Head --\u003e\n\n\n\n\u003cscript type=\"application/json\" id=\"READTHEDOCS_DATA\"\u003e{\"ad_free\": false, \"api_host\": \"https://readthedocs.org\", \"builder\": \"sphinx\", \"canonical_url\": null, \"docroot\": \"/docs/\", \"features\": {\"docsearch_disabled\": false}, \"global_analytics_code\": \"UA-17997319-1\", \"language\": \"en\", \"page\": \"index\", \"programming_language\": \"py\", \"project\": \"google\", \"proxied_api_host\": \"/_\", \"source_suffix\": \".rst\", \"subprojects\": {}, \"theme\": \"sphinx_rtd_theme\", \"user_analytics_code\": \"\", \"version\": \"latest\"}\u003c/script\u003e\n\n\u003c!--\nUsing this variable directly instead of using `JSON.parse` is deprecated.\nThe READTHEDOCS_DATA global variable will be removed in the future.\n--\u003e\n\u003cscript type=\"text/javascript\"\u003e\nREADTHEDOCS_DATA = JSON.parse(document.getElementById('READTHEDOCS_DATA').innerHTML);\n\u003c/script\u003e\n\n\n\n\u003c!-- end RTD \u003cextrahead\u003e --\u003e\n\u003cscript async type=\"text/javascript\" src=\"/_/static/javascript/readthedocs-addons.js\"\u003e\u003c/script\u003e\u003cmeta name=\"readthedocs-project-slug\" content=\"google\" /\u003e\u003cmeta name=\"readthedocs-version-slug\" content=\"latest\" /\u003e\u003cmeta name=\"readthedocs-resolver-filename\" content=\"/\" /\u003e\u003cmeta name=\"readthedocs-http-status\" content=\"200\" /\u003e\u003c/head\u003e\n\n\u003cbody class=\"wy-body-for-nav\"\u003e\n\n   \n  \u003cdiv class=\"wy-grid-for-nav\"\u003e\n    \n    \u003cnav data-toggle=\"wy-nav-shift\" class=\"wy-nav-side\"\u003e\n      \u003cdiv class=\"wy-side-scroll\"\u003e\n        \u003cdiv class=\"wy-side-nav-search\" \u003e\n          \n\n          \n            \u003ca href=\"#\" class=\"icon icon-home\"\u003e google\n          \n\n          \n          \u003c/a\u003e\n\n          \n            \n            \n            \n              \u003cdiv class=\"version\"\u003e\n                latest\n              \u003c/div\u003e\n            \n          \n\n          \n\u003cdiv role=\"search\"\u003e\n  \u003cform id=\"rtd-search-form\" class=\"wy-form\" action=\"search.html\" method=\"get\"\u003e\n    \u003cinput type=\"text\" name=\"q\" placeholder=\"Search docs\" /\u003e\n    \u003cinput type=\"hidden\" name=\"check_keywords\" value=\"yes\" /\u003e\n    \u003cinput type=\"hidden\" name=\"area\" value=\"default\" /\u003e\n  \u003c/form\u003e\n\u003c/div\u003e\n\n          \n        \u003c/div\u003e\n\n        \u003cdiv class=\"wy-menu wy-menu-vertical\" data-spy=\"affix\" role=\"navigation\" aria-label=\"main navigation\"\u003e\n          \n            \n            \n              \n            \n            \n              \u003c!-- Local TOC --\u003e\n              \u003cdiv class=\"local-toc\"\u003e\u003cul\u003e\n\u003cli\u003e\u003ca class=\"reference internal\" href=\"#\"\u003eReadTheDocs\u003c/a\u003e\u003c/li\u003e\n\u003c/ul\u003e\n\u003c/div\u003e\n            \n          \n        \u003c/div\u003e\n      \u003c/div\u003e\n    \u003c/nav\u003e\n\n    \u003csection data-toggle=\"wy-nav-shift\" class=\"wy-nav-content-wrap\"\u003e\n\n      \n      \u003cnav class=\"wy-nav-top\" aria-label=\"top navigation\"\u003e\n        \n          \u003ci data-toggle=\"wy-nav-top\" class=\"fa fa-bars\"\u003e\u003c/i\u003e\n          \u003ca href=\"#\"\u003egoogle\u003c/a\u003e\n        \n      \u003c/nav\u003e\n\n\n      \u003cdiv class=\"wy-nav-content\"\u003e\n        \n        \u003cdiv class=\"rst-content\"\u003e\n        \n          \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\u003cdiv role=\"navigation\" aria-label=\"breadcrumbs navigation\"\u003e\n\n  \u003cul class=\"wy-breadcrumbs\"\u003e\n    \n      \u003cli\u003e\u003ca href=\"#\"\u003eDocs\u003c/a\u003e \u0026raquo;\u003c/li\u003e\n        \n      \u003cli\u003eReadTheDocs\u003c/li\u003e\n    \n    \n      \u003cli class=\"wy-breadcrumbs-aside\"\u003e\n        \n            \n            \n              \u003ca href=\"https://github.com/menduo/readthedocs/blob/master/docs/index.rst\" class=\"fa fa-github\"\u003e Edit on GitHub\u003c/a\u003e\n            \n          \n        \n      \u003c/li\u003e\n    \n  \u003c/ul\u003e\n\n  \n  \u003chr/\u003e\n\u003c/div\u003e\n          \u003cdiv role=\"main\" class=\"document\" itemscope=\"itemscope\" itemtype=\"http://schema.org/Article\"\u003e\n           \u003cdiv itemprop=\"articleBody\"\u003e\n            \n  \u003cdiv class=\"section\" id=\"readthedocs\"\u003e\n\u003ch1\u003eReadTheDocs\u003ca class=\"headerlink\" href=\"#readthedocs\" title=\"Permalink to this headline\"\u003e¶\u003c/a\u003e\u003c/h1\u003e\n\u003cp\u003eReserve \u003ca class=\"reference external\" href=\"https://www.readthedocs.org\"\u003ereadthedocs.org\u003c/a\u003e names:\u003c/p\u003e\n\u003cul class=\"simple\"\u003e\n\u003cli\u003e\u003cem\u003eXXX.readthedocs.org\u003c/em\u003e domains.\u003c/li\u003e\n\u003cli\u003e\u003cem\u003eXXX.rtfd.io\u003c/em\u003e domains.\u003c/li\u003e\n\u003c/ul\u003e\n\u003cp\u003eNot a real repo.\u003c/p\u003e\n\u003c/div\u003e\n\n\n           \u003c/div\u003e\n           \n          \u003c/div\u003e\n          \u003cfooter\u003e\n  \n\n  \u003chr/\u003e\n\n  \u003cdiv role=\"contentinfo\"\u003e\n    \u003cp\u003e\n        \u0026copy; Copyright 2023\n      \n        \u003cspan class=\"commit\"\u003e\n          Revision \u003ccode\u003e81d97de0\u003c/code\u003e.\n        \u003c/span\u003e\n      \n\n    \u003c/p\u003e\n  \u003c/div\u003e\n  Built with \u003ca href=\"http://sphinx-doc.org/\"\u003eSphinx\u003c/a\u003e using a \u003ca href=\"https://github.com/rtfd/sphinx_rtd_theme\"\u003etheme\u003c/a\u003e provided by \u003ca href=\"https://readthedocs.org\"\u003eRead the Docs\u003c/a\u003e. \n\n\u003c/footer\u003e\n\n        \u003c/div\u003e\n      \u003c/div\u003e\n\n    \u003c/section\u003e\n\n  \u003c/div\u003e\n  \n\n  \n\n\n\n  \u003cscript type=\"text/javascript\"\u003e\n      jQuery(function () {\n          SphinxRtdTheme.Navigation.enable(true);\n      });\n  \u003c/script\u003e\n\n  \n   \n\n\u003c/body\u003e\n\u003c/html\u003e",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

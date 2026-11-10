@@ -1,0 +1,29 @@
+{
+  "source": "lichess",
+  "platform": "lichess",
+  "platformName": "Lichess",
+  "label": "google",
+  "name": "google",
+  "url": "https://lichess.org/@/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 304,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://lichess.org/api/user/google",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"id\":\"google\",\"username\":\"google\",\"perfs\":{\"bullet\":{\"games\":93,\"rating\":1759,\"rd\":301,\"prog\":-10,\"prov\":true},\"blitz\":{\"games\":52,\"rating\":1986,\"rd\":307,\"prog\":-122,\"prov\":true},\"rapid\":{\"games\":24,\"rating\":2101,\"rd\":313,\"prog\":0,\"prov\":true},\"classical\":{\"games\":2,\"rating\":2101,\"rd\":457,\"prog\":0,\"prov\":true},\"correspondence\":{\"games\":0,\"rating\":1500,\"rd\":500,\"prog\":0,\"prov\":true}},\"createdAt\":1291997947000,\"seenAt\":1471680317717,\"playTime\":{\"total\":56996,\"tv\":0},\"url\":\"https://lichess.org/@/google\",\"count\":{\"all\":182,\"rated\":182,\"draw\":2,\"loss\":44,\"win\":136,\"bookmark\":0,\"playing\":0,\"import\":0,\"me\":0}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "source": "sns",
+  "platform": "sns",
+  "platformName": "Solana Name Service",
+  "label": "google",
+  "name": "google.sol",
+  "url": "https://www.sns.id/domain/google.sol",
+  "paid": true,
+  "status": "available",
+  "durationMs": 302,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://sdk-proxy.sns.id/resolve/google.sol",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"s\":\"error\",\"result\":\"Domain not found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "source": "github",
+  "platform": "github",
+  "platformName": "GitHub",
+  "label": "google",
+  "name": "google",
+  "url": "https://github.com/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 414,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.github.com/users/google",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"login\":\"google\",\"id\":1342004,\"node_id\":\"MDEyOk9yZ2FuaXphdGlvbjEzNDIwMDQ=\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/1342004?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/google\",\"html_url\":\"https://github.com/google\",\"followers_url\":\"https://api.github.com/users/google/followers\",\"following_url\":\"https://api.github.com/users/google/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/google/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/google/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/google/subscriptions\",\"organizations_url\":\"https://api.github.com/users/google/orgs\",\"repos_url\":\"https://api.github.com/users/google/repos\",\"events_url\":\"https://api.github.com/users/google/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/google/received_events\",\"type\":\"Organization\",\"user_view_type\":\"public\",\"site_admin\":false,\"name\":\"Google\",\"company\":null,\"blog\":\"https://opensource.google/\",\"location\":\"United States of America\",\"email\":\"opensource@google.com\",\"hireable\":null,\"bio\":\"Google ❤️ Open Source\",\"twitter_username\":\"GoogleOSS\",\"public_repos\":2945,\"public_gists\":0,\"followers\":82082,\"following\":0,\"created_at\":\"2012-01-18T01:30:18Z\",\"updated_at\":\"2025-06-28T19:58:20Z\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

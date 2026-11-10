@@ -3,14 +3,15 @@ use std::path::PathBuf;
 use std::sync::Arc;
 
 use domain_browser_core::{
-    build_status_provider, status_specs, Engine, Fixture, Manifest, Provider, ReplayTransport,
+    build_custom_provider, build_status_provider, custom_specs, status_specs, Engine, Fixture,
+    Manifest, Provider, ReplayTransport,
 };
 
 const USAGE: &str = "usage: domain-browser <command> [args]
 
 Commands:
   check <label> [--manifest PATH] [--fixtures DIR] [--json]
-      replay every captured status provider for <label>
+      replay every captured HTTP-backed provider for <label>
   sources [--manifest PATH]
       list the source inventory
 ";
@@ -91,6 +92,17 @@ fn check(args: &[String]) -> Result<(), Box<dyn std::error::Error>> {
         let fixture = Fixture::load(&path)?;
         let transport = Arc::new(ReplayTransport::new(&fixture));
         providers.push(Arc::new(build_status_provider(
+            &manifest, spec.id, transport,
+        )?));
+    }
+    for spec in custom_specs() {
+        let path = label_dir.join(format!("{}.json", spec.id));
+        if !path.exists() {
+            continue;
+        }
+        let fixture = Fixture::load(&path)?;
+        let transport = Arc::new(ReplayTransport::new(&fixture));
+        providers.push(Arc::new(build_custom_provider(
             &manifest, spec.id, transport,
         )?));
     }

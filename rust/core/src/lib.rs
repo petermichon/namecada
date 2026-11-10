@@ -4,12 +4,16 @@
 //! replay transport lets every check run against the captured fixtures without
 //! touching the network.
 
+pub mod custom;
+pub mod dns;
 pub mod engine;
 pub mod fixture;
 pub mod manifest;
 pub mod provider;
 pub mod status;
 
+pub use custom::{build_custom_provider, custom_specs, CustomProvider, CustomSpec};
+pub use dns::{build_dns_provider, dns_hosts, DnsError, DnsProvider, Resolver, SystemResolver};
 pub use engine::{Engine, ProviderResult, DEFAULT_CONCURRENCY};
 pub use fixture::{Fixture, ReplayTransport};
 pub use manifest::{Manifest, Source};

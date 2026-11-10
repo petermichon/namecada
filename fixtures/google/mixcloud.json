@@ -1,0 +1,29 @@
+{
+  "source": "mixcloud",
+  "platform": "mixcloud",
+  "platformName": "Mixcloud",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.mixcloud.com/google/",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 147,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.mixcloud.com/google/",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "text/javascript; charset=utf-8"
+        },
+        "body": "{\n    \"key\": \"/google/\",\n    \"url\": \"https://www.mixcloud.com/google/\",\n    \"name\": \"dj.nanu;\",\n    \"username\": \"google\",\n    \"pictures\": {\n        \"small\": \"https://thumbnailer.mixcloud.com/unsafe/25x25/profile/0/1/f/0/42b5-3fe7-45ec-91e1-1056eb7890c5.jpg\",\n        \"thumbnail\": \"https://thumbnailer.mixcloud.com/unsafe/50x50/profile/0/1/f/0/42b5-3fe7-45ec-91e1-1056eb7890c5.jpg\",\n        \"medium_mobile\": \"https://thumbnailer.mixcloud.com/unsafe/80x80/profile/0/1/f/0/42b5-3fe7-45ec-91e1-1056eb7890c5.jpg\",\n        \"medium\": \"https://thumbnailer.mixcloud.com/unsafe/100x100/profile/0/1/f/0/42b5-3fe7-45ec-91e1-1056eb7890c5.jpg\",\n        \"large\": \"https://thumbnailer.mixcloud.com/unsafe/300x300/profile/0/1/f/0/42b5-3fe7-45ec-91e1-1056eb7890c5.jpg\",\n        \"320wx320h\": \"https://thumbnailer.mixcloud.com/unsafe/320x320/profile/0/1/f/0/42b5-3fe7-45ec-91e1-1056eb7890c5.jpg\",\n        \"extra_large\": \"https://thumbnailer.mixcloud.com/unsafe/600x600/profile/0/1/f/0/42b5-3fe7-45ec-91e1-1056eb7890c5.jpg\",\n        \"640wx640h\": \"https://thumbnailer.mixcloud.com/unsafe/640x640/profile/0/1/f/0/42b5-3fe7-45ec-91e1-1056eb7890c5.jpg\"\n    },\n    \"biog\": \"Dj nanu \",\n    \"created_time\": \"2010-06-06T18:42:01Z\",\n    \"updated_time\": \"2010-06-06T18:42:01Z\",\n    \"follower_count\": 19,\n    \"following_count\": 14,\n    \"cloudcast_count\": 19,\n    \"favorite_count\": 2,\n    \"listen_count\": 14,\n    \"is_pro\": false,\n    \"is_premium\": false,\n    \"city\": \"barcelona\",\n    \"country\": \"Spain\",\n    \"picture_primary_color\": \"020001\"\n}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}
