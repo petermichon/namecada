@@ -92,7 +92,6 @@ can't be reached is deferred (see below).
 | Render    | `{name}.onrender.com` (subdomain)                              | 200 taken / 404 free      |
 | Railway   | `{name}.up.railway.app` (subdomain)                            | 200 taken / 404 free      |
 | Heroku    | `{name}.herokuapp.com` (subdomain)                             | 200 taken / 404 free      |
-| Deno Deploy | `{name}.deno.dev` (subdomain)                                | 200 taken / 404 free      |
 | Read the Docs | `{name}.readthedocs.io` (subdomain)                        | 200 taken / 404 free      |
 | Gumroad   | `{name}.gumroad.com` (subdomain)                               | 200 taken / 404 free      |
 | Substack  | `{name}.substack.com` (subdomain)                              | 200 taken / 404 free      |

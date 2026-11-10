@@ -64,7 +64,6 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Railway — ✅ — `{name}.up.railway.app` (wildcard DNS; HTTP 404, no CORS; HTML Accept; user-chosen names, collisions get a suffix so the exact label still 404s)
 - [x] Heroku — ✅ — `{name}.herokuapp.com` (wildcard DNS; HTTP 404, no CORS; user-chosen names; paid-only since Nov 2022, so marked paid)
 - [x] Surge — ✅ — `{name}.surge.sh` (wildcard DNS; HTTP 404, no CORS)
-- [x] Deno Deploy — ✅ — `{name}.deno.dev` (wildcard DNS; HTTP 404, no CORS; a claimed name can 301 to a custom domain, followed to 200; user-chosen project names)
 - [x] Firebase Hosting — ✅ — `{name}.web.app` (wildcard DNS; HTTP 404, no CORS)
 - [x] Read the Docs — ✅ — `{name}.readthedocs.io` (wildcard DNS; HTTP 404, no CORS; a claimed slug 302s to the project docs, followed to 200; user-chosen project slugs)
 - [x] Neocities — ✅ — `{name}.neocities.org` (wildcard DNS; HTTP 404, no CORS)
@@ -159,6 +158,11 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] AWS Amplify — 🔌 — `{name}.amplifyapp.com` — host is
   `{branch}.{appid}.amplifyapp.com`, where `appid` is an AWS-generated id, not a
   chosen name; also non-wildcard (random names NXDOMAIN).
+- [ ] Deno Deploy (Classic) — 🔌 — `{name}.deno.dev` was the preview URL of a
+  Deploy Classic project, not an independently registrable name; Classic was
+  shut down on 2026-07-20, `dash.deno.com` redirects to the new console, and the
+  current platform uses wildcard `{app}.{org}.deno.net` hosts — composite, so
+  there is no single claimable label to probe.
 - [ ] Replit — 🔌 — `{name}.repl.co` — deprecated old domain; random NXDOMAIN and
   the apex 301s to `replit.com/deployments`.
 - [ ] Glitch — 🔌 — `{name}.glitch.me` — Glitch is shut down; every name,

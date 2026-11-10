@@ -76,7 +76,6 @@ var platformNames = map[string]string{
 	"render":         "Render",
 	"railway":        "Railway",
 	"heroku":         "Heroku",
-	"denodeploy":     "Deno Deploy",
 	"readthedocs":    "Read the Docs",
 	"gumroad":        "Gumroad",
 	"substack":       "Substack",
