@@ -1,0 +1,12 @@
+{
+  "source": "fly",
+  "platform": "fly",
+  "platformName": "Fly.io",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://acema.fly.dev/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 28,
+  "requests": []
+}

@@ -1,0 +1,29 @@
+{
+  "source": "bitbucket",
+  "platform": "bitbucket",
+  "platformName": "Bitbucket",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://bitbucket.org/acema/",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 336,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.bitbucket.org/2.0/workspaces/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"type\": \"workspace\", \"uuid\": \"{9067dd7e-dc55-4f31-a281-2a77d7451bfa}\", \"name\": \"IT department\", \"slug\": \"acema\", \"is_private\": false, \"is_privacy_enforced\": false, \"links\": {\"avatar\": {\"href\": \"https://bitbucket.org/workspaces/acema/avatar/?ts=1711456477\"}, \"hooks\": {\"href\": \"https://api.bitbucket.org/2.0/workspaces/acema/hooks\"}, \"html\": {\"href\": \"https://bitbucket.org/acema/\"}, \"html_overview\": {\"href\": \"https://bitbucket.org/acema/workspace/overview/\"}, \"members\": {\"href\": \"https://api.bitbucket.org/2.0/workspaces/acema/members\"}, \"owners\": {\"href\": \"https://api.bitbucket.org/2.0/workspaces/acema/members?q=permission%3D%22owner%22\"}, \"projects\": {\"href\": \"https://api.bitbucket.org/2.0/workspaces/acema/projects\"}, \"repositories\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/acema\"}, \"snippets\": {\"href\": \"https://api.bitbucket.org/2.0/snippets/acema\"}, \"self\": {\"href\": \"https://api.bitbucket.org/2.0/workspaces/acema\"}}, \"created_on\": \"2018-12-02T09:56:00.552617+00:00\", \"forking_mode\": \"allow_forks\", \"sign_system_commits\": null, \"is_personal\": false}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

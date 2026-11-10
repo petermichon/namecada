@@ -1,0 +1,29 @@
+{
+  "source": "chesscom",
+  "platform": "chesscom",
+  "platformName": "Chess.com",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://www.chess.com/member/acema",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 246,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.chess.com/pub/player/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"player_id\":44866710,\"@id\":\"https://api.chess.com/pub/player/acema\",\"url\":\"https://www.chess.com/member/acema\",\"name\":\"Cem Alg\\u00fcm\\u00fc\\u015f\",\"username\":\"acema\",\"followers\":0,\"country\":\"https://api.chess.com/pub/country/TR\",\"last_online\":1530317189,\"joined\":1522591056,\"status\":\"basic\",\"is_streamer\":false,\"verified\":false,\"streaming_platforms\":[]}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

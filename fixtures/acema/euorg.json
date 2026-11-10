@@ -1,0 +1,12 @@
+{
+  "source": "euorg",
+  "platform": "euorg",
+  "platformName": "eu.org",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://acema.eu.org/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 22,
+  "requests": []
+}

@@ -1,0 +1,29 @@
+{
+  "source": "pypi",
+  "platform": "pypi",
+  "platformName": "PyPI",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://pypi.org/project/acema/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 241,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://pypi.org/pypi/acema/json",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"message\": \"Not Found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

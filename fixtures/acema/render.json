@@ -1,0 +1,29 @@
+{
+  "source": "render",
+  "platform": "render",
+  "platformName": "Render",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://acema.onrender.com/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 266,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://acema.onrender.com/",
+      "headers": {
+        "Accept": "text/html,*/*",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "text/plain; charset=utf-8"
+        },
+        "body": "Not Found\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

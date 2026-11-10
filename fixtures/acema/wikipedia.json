@@ -1,0 +1,29 @@
+{
+  "source": "wikipedia",
+  "platform": "wikipedia",
+  "platformName": "Wikipedia",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://en.wikipedia.org/wiki/Special:CentralAuth/acema",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 370,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://meta.wikimedia.org/w/api.php?action=query\u0026format=json\u0026guiuser=acema\u0026meta=globaluserinfo\u0026origin=%2A",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"batchcomplete\":\"\",\"query\":{\"globaluserinfo\":{\"home\":\"enwiki\",\"id\":7670057,\"registration\":\"2010-08-22T16:26:06Z\",\"name\":\"Acema\"}}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

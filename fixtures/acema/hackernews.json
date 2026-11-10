@@ -1,0 +1,29 @@
+{
+  "source": "hackernews",
+  "platform": "hackernews",
+  "platformName": "Hacker News",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://news.ycombinator.com/user?id=acema",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 672,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://news.ycombinator.com/user?id=acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "text/html; charset=utf-8"
+        },
+        "body": "\u003chtml lang=\"en\" op=\"user\"\u003e\u003chead\u003e\u003cmeta name=\"referrer\" content=\"origin\"\u003e\u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\u003e\u003clink rel=\"icon\" href=\"y18.svg\"\u003e\u003clink rel=\"stylesheet\" type=\"text/css\" href=\"news.css?FmJw8tvF5GVURtPJ592v\"\u003e\u003clink rel=\"canonical\" href=\"https://news.ycombinator.com/user?id=acema\"\u003e\u003ctitle\u003eProfile: acema | Hacker News\u003c/title\u003e\u003c/head\u003e\u003cbody\u003e\u003ccenter\u003e\u003ctable id=\"hnmain\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"85%\" bgcolor=\"#f6f6ef\"\u003e\u003ctr\u003e\u003ctd bgcolor=\"#ff6600\"\u003e\u003ctable border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"padding:2px\"\u003e\u003ctr\u003e\u003ctd style=\"width:18px;padding-right:4px\"\u003e\u003ca href=\"https://news.ycombinator.com\"\u003e\u003cimg src=\"y18.svg\" width=\"18\" height=\"18\" style=\"border:1px white solid; display:block\"\u003e\u003c/a\u003e\u003c/td\u003e\u003ctd style=\"line-height:12pt; height:10px;\"\u003e\u003cspan class=\"pagetop\"\u003e\u003cb class=\"hnname\"\u003e\u003ca href=\"news\"\u003eHacker News\u003c/a\u003e\u003c/b\u003e\u003ca href=\"newest\"\u003enew\u003c/a\u003e | \u003ca href=\"front\"\u003epast\u003c/a\u003e | \u003ca href=\"newcomments\"\u003ecomments\u003c/a\u003e | \u003ca href=\"ask\"\u003eask\u003c/a\u003e | \u003ca href=\"show\"\u003eshow\u003c/a\u003e | \u003ca href=\"jobs\"\u003ejobs\u003c/a\u003e | \u003ca href=\"submit\" rel=\"nofollow\"\u003esubmit\u003c/a\u003e\u003c/span\u003e\u003c/td\u003e\u003ctd style=\"text-align:right;padding-right:4px;\"\u003e\u003cspan class=\"pagetop\"\u003e\u003ca href=\"login?goto=user%3Fid%3Dacema\"\u003elogin\u003c/a\u003e\u003c/span\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr style='height:10px'/\u003e\u003ctr id=\"bigbox\"\u003e\u003ctd\u003e\u003ctable border=\"0\"\u003e\u003ctr class=\"athing\"\u003e\u003ctd valign=\"top\"\u003euser:\u003c/td\u003e\u003ctd timestamp=\"1581996986\"\u003e\u003ca href=\"user?id=acema\"\u003eacema\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd valign=\"top\"\u003ecreated:\u003c/td\u003e\u003ctd\u003e\u003cspan class=\"age\"\u003e\u003ca href=\"front?day=2020-02-18\u0026birth=acema\"\u003eFebruary 18, 2020\u003c/a\u003e\u003c/span\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd valign=\"top\"\u003ekarma:\u003c/td\u003e\u003ctd\u003e1\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd valign=\"top\"\u003eabout:\u003c/td\u003e\u003ctd style=\"overflow:hidden\"\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e\u003c/td\u003e\u003ctd\u003e\u003ca href=\"submitted?id=acema\"\u003e\u003cu\u003esubmissions\u003c/u\u003e\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e\u003c/td\u003e\u003ctd\u003e\u003ca href=\"threads?id=acema\"\u003e\u003cu\u003ecomments\u003c/u\u003e\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e\u003c/td\u003e\u003ctd\u003e\u003ca href=\"favorites?id=acema\"\u003e\u003cu\u003efavorites\u003c/u\u003e\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003cbr\u003e\u003cbr\u003e\n\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/center\u003e\u003c/body\u003e\u003cscript type=\"text/javascript\" src=\"hn.js?FmJw8tvF5GVURtPJ592v\"\u003e\u003c/script\u003e\u003c/html\u003e",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

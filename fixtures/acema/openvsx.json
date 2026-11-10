@@ -1,0 +1,29 @@
+{
+  "source": "openvsx",
+  "platform": "openvsx",
+  "platformName": "Open VSX",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://open-vsx.org/namespace/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 203,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://open-vsx.org/api/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"error\":\"Namespace not found: acema\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

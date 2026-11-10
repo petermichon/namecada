@@ -1,0 +1,29 @@
+{
+  "source": "minds",
+  "platform": "minds",
+  "platformName": "Minds",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://www.minds.com/acema/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 256,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.minds.com/api/v1/channel/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"status\":\"error\",\"message\":\"Sorry, this user could not be found\",\"type\":\"ChannelNotFoundException\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

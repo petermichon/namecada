@@ -8,12 +8,14 @@ import (
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"path/filepath"
 	"strings"
 	"testing"
 	"time"
 
 	"github.com/petermichon/domain-browser/server/internal/engine"
+	"github.com/petermichon/domain-browser/server/internal/fixtures"
 	"github.com/petermichon/domain-browser/server/internal/provider"
 
 	_ "modernc.org/sqlite"
@@ -95,6 +97,47 @@ func TestRunCheckSQLiteWritesFile(t *testing.T) {
 	}
 	if n != 2 {
 		t.Fatalf("checks rows = %d, want 2", n)
+	}
+}
+
+// TestRunExportInventory proves the export command writes the full inventory
+// without touching the network: no --label means no capture.
+func TestRunExportInventory(t *testing.T) {
+	out := filepath.Join(t.TempDir(), "fixtures")
+	var buf bytes.Buffer
+	if err := exportFixtures([]string{"--out", out}, &buf); err != nil {
+		t.Fatalf("exportFixtures: %v", err)
+	}
+	if !strings.Contains(buf.String(), "sources:") {
+		t.Errorf("stdout = %q", buf.String())
+	}
+
+	data, err := os.ReadFile(filepath.Join(out, "sources.json"))
+	if err != nil {
+		t.Fatalf("read inventory: %v", err)
+	}
+	var inv fixtures.Inventory
+	if err := json.Unmarshal(data, &inv); err != nil {
+		t.Fatalf("inventory json: %v", err)
+	}
+	if inv.KeyedCount != 4 {
+		t.Errorf("keyed = %d, want 4", inv.KeyedCount)
+	}
+	if inv.SourceCount != inv.EnabledCount+inv.KeyedCount {
+		t.Errorf("counts = %+v", inv)
+	}
+	if len(inv.Sources) != inv.SourceCount {
+		t.Errorf("sources = %d, count = %d", len(inv.Sources), inv.SourceCount)
+	}
+}
+
+// TestExportRejectsInvalidLabel proves a label that is not a safe DNS label and
+// directory name never reaches the capture path.
+func TestExportRejectsInvalidLabel(t *testing.T) {
+	var buf bytes.Buffer
+	err := exportFixtures([]string{"--out", t.TempDir(), "--label", "bad_label"}, &buf)
+	if err == nil {
+		t.Fatal("expected an invalid-label error")
 	}
 }
 

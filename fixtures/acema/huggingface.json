@@ -1,0 +1,29 @@
+{
+  "source": "huggingface",
+  "platform": "huggingface",
+  "platformName": "Hugging Face",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://huggingface.co/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 234,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://huggingface.co/api/users/acema/overview",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"error\":\"This user does not exist\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

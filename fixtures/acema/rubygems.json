@@ -1,0 +1,29 @@
+{
+  "source": "rubygems",
+  "platform": "rubygems",
+  "platformName": "RubyGems",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://rubygems.org/gems/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 694,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://rubygems.org/api/v1/gems/acema.json",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "text/plain; charset=utf-8"
+        },
+        "body": "This rubygem could not be found.",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

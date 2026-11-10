@@ -1,0 +1,29 @@
+{
+  "source": "nuget",
+  "platform": "nuget",
+  "platformName": "NuGet",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://www.nuget.org/packages/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 365,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.nuget.org/v3-flatcontainer/acema/index.json",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/xml"
+        },
+        "body": "﻿\u003c?xml version=\"1.0\" encoding=\"utf-8\"?\u003e\u003cError\u003e\u003cCode\u003eBlobNotFound\u003c/Code\u003e\u003cMessage\u003eThe specified blob does not exist.\nRequestId:3140077e-e01e-0057-311b-7113c4000000\nTime:2026-11-10T13:57:19.2169372Z\u003c/Message\u003e\u003c/Error\u003e",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

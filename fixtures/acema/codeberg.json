@@ -1,0 +1,29 @@
+{
+  "source": "codeberg",
+  "platform": "codeberg",
+  "platformName": "Codeberg",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://codeberg.org/acema",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 252,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://codeberg.org/api/v1/users/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json;charset=utf-8"
+        },
+        "body": "{\"id\":1262486,\"login\":\"acema\",\"login_name\":\"\",\"source_id\":0,\"full_name\":\"\",\"email\":\"acema@noreply.codeberg.org\",\"avatar_url\":\"https://codeberg.org/avatars/acff0efa12feb14522056a947f8fa9b7\",\"html_url\":\"https://codeberg.org/acema\",\"language\":\"\",\"is_admin\":false,\"last_login\":\"0001-01-01T00:00:00Z\",\"created\":\"2026-06-24T09:02:04+02:00\",\"restricted\":false,\"active\":false,\"prohibit_login\":false,\"location\":\"\",\"pronouns\":\"\",\"website\":\"\",\"description\":\"\",\"visibility\":\"public\",\"followers_count\":0,\"following_count\":0,\"starred_repos_count\":0,\"username\":\"acema\"}\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

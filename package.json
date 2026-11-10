@@ -26,6 +26,7 @@
 		"server:lint": "go -C server vet ./...",
 		"server:fmt": "gofmt -w server",
 		"server:tidy": "go -C server mod tidy",
+		"server:export": "go -C server run ./cmd/domainbrowser export --out ../fixtures",
 		"verify": "npm run check && npm test && npm run lint && npm run server:lint && npm run server:test",
 		"prepare": "husky"
 	},

@@ -8,6 +8,9 @@ conventions.
 
 - `web/` — Svelte 5 + Vite + Tailwind + shadcn-svelte app. A thin client of the
   server (streams `GET /check?name=<label>` over NDJSON).
+- `fixtures/` — captured source inventory plus raw HTTP snapshots for engine
+  parity. Regenerate with `npm run server:export -- --label <name>`; see
+  `fixtures/README.md`.
 - `server/` — Go module (`server/go.mod`) holding the checks. Four packages:
   `internal/provider` (the `Provider` interface + registry), `internal/engine`
   (concurrent streaming), `internal/store` (in-memory TTL cache), `internal/sink`
@@ -41,6 +44,7 @@ Server scripts (all shell out with `go -C server`):
 | `npm run server:lint` | `go vet ./...` |
 | `npm run server:fmt` | `gofmt -w server` |
 | `npm run server:tidy` | `go mod tidy` |
+| `npm run server:export` | write `fixtures/sources.json` (add `-- --label <name>` to capture a label) |
 
 Run `npm run verify` (this is the canonical check; it also runs `go vet` and
 `go test`) before finishing. The app expects the server on `:8080`; its CORS

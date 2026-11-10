@@ -1,0 +1,29 @@
+{
+  "source": "github",
+  "platform": "github",
+  "platformName": "GitHub",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://github.com/acema",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 291,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.github.com/users/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"login\":\"AceMa\",\"id\":3377510,\"node_id\":\"MDQ6VXNlcjMzNzc1MTA=\",\"avatar_url\":\"https://avatars.githubusercontent.com/u/3377510?v=4\",\"gravatar_id\":\"\",\"url\":\"https://api.github.com/users/AceMa\",\"html_url\":\"https://github.com/AceMa\",\"followers_url\":\"https://api.github.com/users/AceMa/followers\",\"following_url\":\"https://api.github.com/users/AceMa/following{/other_user}\",\"gists_url\":\"https://api.github.com/users/AceMa/gists{/gist_id}\",\"starred_url\":\"https://api.github.com/users/AceMa/starred{/owner}{/repo}\",\"subscriptions_url\":\"https://api.github.com/users/AceMa/subscriptions\",\"organizations_url\":\"https://api.github.com/users/AceMa/orgs\",\"repos_url\":\"https://api.github.com/users/AceMa/repos\",\"events_url\":\"https://api.github.com/users/AceMa/events{/privacy}\",\"received_events_url\":\"https://api.github.com/users/AceMa/received_events\",\"type\":\"User\",\"user_view_type\":\"public\",\"site_admin\":false,\"name\":null,\"company\":null,\"blog\":\"\",\"location\":null,\"email\":null,\"hireable\":null,\"bio\":null,\"twitter_username\":null,\"public_repos\":2,\"public_gists\":0,\"followers\":0,\"following\":0,\"created_at\":\"2013-01-25T04:39:36Z\",\"updated_at\":\"2015-04-07T23:51:30Z\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

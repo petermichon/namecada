@@ -1,0 +1,45 @@
+{
+  "source": "gitlab",
+  "platform": "gitlab",
+  "platformName": "GitLab",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://gitlab.com/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 621,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://gitlab.com/api/v4/users?username=acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "[]",
+        "bodyEncoding": "utf8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://gitlab.com/api/v4/groups/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"message\":\"404 Group Not Found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

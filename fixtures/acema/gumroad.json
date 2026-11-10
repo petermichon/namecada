@@ -1,0 +1,29 @@
+{
+  "source": "gumroad",
+  "platform": "gumroad",
+  "platformName": "Gumroad",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://acema.gumroad.com/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 219,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://acema.gumroad.com/",
+      "headers": {
+        "Accept": "text/html,*/*",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "text/html; charset=utf-8"
+        },
+        "body": "\u003c!DOCTYPE html\u003e\n\u003chtml lang=\"en\"\u003e\n  \u003chead\u003e\n    \u003ctitle\u003ePage not found (404) - Gumroad\u003c/title\u003e\n    \u003cmeta charset=\"utf-8\"\u003e\n    \u003cmeta name=\"viewport\" content=\"width=device-width\"\u003e\n    \u003cmeta name=\"description\" content=\"Gumroad is a powerful, but simple, e-commerce platform. We make it easy to earn your first dollar online by selling digital products, memberships and more.\"\u003e\n\n    \u003clink rel=\"icon\" href=\"/error_pages/favicon.png\"\u003e\n    \u003clink rel=\"stylesheet\" href=\"/error_pages/style.css\"\u003e\n    \u003clink href=\"/opensearch.xml\" rel=\"search\" title=\"Gumroad\" type=\"application/opensearchdescription+xml\"\u003e\n  \u003c/head\u003e\n  \u003cbody\u003e\n    \u003cfigure\u003e\n      \u003cimg src=\"/error_pages/comic-rock.png\"\u003e\n    \u003c/figure\u003e\n    \u003ch1\u003ePage not found\u003c/h1\u003e\n    \u003chr\u003e\n    \u003cp\u003eThe thing you were looking for doesn't exist.\u003c/p\u003e\n    \u003cnav\u003e\n      \u003cul\u003e\n        \u003cli\u003e\u003ca href=\"https://gumroad.com\"\u003eGo home?\u003c/a\u003e\u003c/li\u003e\n      \u003c/ul\u003e\n    \u003c/nav\u003e\n  \u003cscript type=\"module\" src=\"https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092\" integrity=\"sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==\" data-cf-beacon='{\"version\":\"2024.11.0\",\"token\":\"5070e21320304a1ba2b0a42ce9682840\",\"spa\":2}' crossorigin=\"anonymous\"\u003e\u003c/script\u003e\n\u003c/body\u003e\n\u003c/html\u003e\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

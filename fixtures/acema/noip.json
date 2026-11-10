@@ -1,0 +1,12 @@
+{
+  "source": "noip",
+  "platform": "noip",
+  "platformName": "No-IP",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://acema.no-ip.org/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 16,
+  "requests": []
+}

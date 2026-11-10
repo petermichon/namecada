@@ -1640,6 +1640,21 @@ func TestCodeMapClassify(t *testing.T) {
 	}
 }
 
+func TestKeyedProviders(t *testing.T) {
+	got := KeyedProviders()
+	if len(got) != len(keyedSources) {
+		t.Fatalf("got %d keyed providers, want %d", len(got), len(keyedSources))
+	}
+	for i, p := range got {
+		if p.ID() != keyedSources[i].id {
+			t.Errorf("provider[%d] = %q, want %q", i, p.ID(), keyedSources[i].id)
+		}
+		if strings.Contains(p.URL("acema"), "placeholder") {
+			t.Errorf("%s leaked a placeholder credential into its URL", p.ID())
+		}
+	}
+}
+
 func ids(ps []Provider) []string {
 	out := make([]string, len(ps))
 	for i, p := range ps {

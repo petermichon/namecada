@@ -28,6 +28,9 @@ Commands:
   check <label> [--out <file.sqlite>]  check a single label across the sources,
                                       printing one JSON array of results
                                       (--out writes a SQLite report instead)
+  export [--out DIR] [--label LABEL]... [--concurrency N]
+                                      write the source inventory and, for each
+                                      label, one raw HTTP fixture per source
 `
 
 func main() {
@@ -55,6 +58,11 @@ func run(args []string, stdout, stderr io.Writer) int {
 		}
 	case "check":
 		if err := check(cfg, args[1:], stdout); err != nil {
+			fmt.Fprintf(stderr, "domainbrowser: %v\n", err)
+			return 1
+		}
+	case "export":
+		if err := exportFixtures(args[1:], stdout); err != nil {
 			fmt.Fprintf(stderr, "domainbrowser: %v\n", err)
 			return 1
 		}

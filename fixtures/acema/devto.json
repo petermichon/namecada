@@ -1,0 +1,45 @@
+{
+  "source": "devto",
+  "platform": "devto",
+  "platformName": "DEV",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://dev.to/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 414,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://dev.to/api/users/by_username?url=acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"error\":\"not found\",\"status\":404}",
+        "bodyEncoding": "utf8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://dev.to/api/organizations/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"error\":\"not found\",\"status\":404}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

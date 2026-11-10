@@ -1,0 +1,29 @@
+{
+  "source": "wordpress",
+  "platform": "wordpress",
+  "platformName": "WordPress.org",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://wordpress.org/plugins/acema/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 553,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.wordpress.org/plugins/info/1.2/?action=plugin_information\u0026request%5Bslug%5D=acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"error\":\"Plugin not found.\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

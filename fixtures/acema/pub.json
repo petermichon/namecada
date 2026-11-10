@@ -1,0 +1,29 @@
+{
+  "source": "pub",
+  "platform": "pub",
+  "platformName": "pub.dev",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://pub.dev/packages/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 226,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://pub.dev/api/packages/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/xml; charset=UTF-8"
+        },
+        "body": "\u003c?xml version='1.0' encoding='UTF-8'?\u003e\u003cError\u003e\u003cCode\u003eNoSuchKey\u003c/Code\u003e\u003cMessage\u003eThe specified key does not exist.\u003c/Message\u003e\u003c/Error\u003e",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

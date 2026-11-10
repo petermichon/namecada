@@ -189,6 +189,19 @@ the file. The server is the sole source for the app: it lifts the browser's CORS
 limit, keeps one shared cache in front of rate-limited APIs, and is where keyed
 or no-CORS sources can be added.
 
+### Fixtures
+
+`npm run server:export -- --label acema` writes a parity oracle for the engine
+rewrite: `fixtures/sources.json` is the complete source inventory (the keyless
+set plus every keyed source), and `fixtures/acema/<source>.json` holds each
+provider's result and the raw HTTP request/response it made. The provider always
+sees the full response; only the recorded snapshot is capped at 256 KiB, so a
+transcript can be marked `bodyTruncated`.
+
+Fixtures are a **capture**, not live truth: responses change, and keyed sources
+are inventoried but not captured. Secrets are redacted from headers and query
+strings. Re-run the export rather than treating an old fixture as current.
+
 ## Caching
 
 Results are cached per provider in the server's in-memory store, keyed
@@ -211,6 +224,8 @@ unauthenticated requests (GitHub: 60/hour per IP).
     API (`GET /check?name=<label>`, NDJSON) and is the app's sole source. The
     base URL defaults to `http://localhost:8080` and is overridable at build
     time with `VITE_API_BASE`.
+- `fixtures/` — captured source inventory and raw HTTP snapshots for parity;
+  see [Fixtures](#fixtures).
 
 ## Development
 
@@ -223,6 +238,7 @@ npm run check      # svelte-check + tsc
 npm run lint       # prettier --check + eslint
 npm run format     # prettier --write + gofmt
 npm run verify     # check + test + lint (web and server)
+npm run server:export -- --label acema  # write a fixture parity oracle
 npm run server:watch  # air: rebuild + restart the Go server on save
 ```
 

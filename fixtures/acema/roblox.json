@@ -1,0 +1,32 @@
+{
+  "source": "roblox",
+  "platform": "roblox",
+  "platformName": "Roblox",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://www.roblox.com/users?username=acema",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 244,
+  "requests": [
+    {
+      "method": "POST",
+      "url": "https://users.roblox.com/v1/usernames/users",
+      "headers": {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "body": "{\"excludeBannedUsers\":false,\"usernames\":[\"acema\"]}",
+      "bodyEncoding": "utf8",
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"data\":[{\"requestedUsername\":\"acema\",\"hasVerifiedBadge\":false,\"id\":13988925,\"name\":\"acema\",\"displayName\":\"acema\"}]}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "source": "hns",
+  "platform": "hns",
+  "platformName": "Handshake",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://hnsscan.com/names/acema",
+  "paid": true,
+  "status": "unknown",
+  "durationMs": 697,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://hnsscan.com/api/names/acema/details",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"source\":\"db\",\"network\":\"main\",\"name\":\"acema\",\"generatedAt\":\"2026-11-10T13:57:19.172Z\",\"info\":{\"nameHash\":\"9e80c212b75b48e0ca21ddb0400aaf2a5f2144b4de29409e3910619f3e5263a6\",\"state\":\"REVEAL\",\"height\":153329,\"renewal\":null,\"value\":0,\"highest\":1000,\"claimed\":null,\"renewals\":null,\"weak\":false,\"registered\":false,\"transfer\":null,\"blocksUntilExpire\":null,\"daysUntilExpire\":null,\"expirationBlock\":null,\"expirationEstimate\":null},\"owner\":null,\"resource\":{\"records\":[],\"size\":null},\"resourceStatus\":null,\"chainHeight\":355197,\"auction\":{\"state\":\"REVEAL\",\"phase\":\"reveal\",\"phaseStart\":154086,\"phaseEnd\":155526,\"phaseWindows\":{\"openStart\":153329,\"openEnd\":153366,\"bidStart\":153366,\"bidEnd\":154086,\"revealStart\":154086,\"revealEnd\":155526},\"result\":0,\"highest\":1000,\"bidsCount\":1,\"revealsCount\":1,\"totalLockup\":1000,\"totalBids\":0,\"blinds\":0,\"unrevealed\":1000,\"highestLockup\":1000,\"highestBid\":0,\"historyComplete\":true},\"bids\":[{\"block\":154045,\"time\":\"2023-01-07T08:18:46.000Z\",\"lockup\":1000,\"bid\":null,\"blind\":null,\"state\":\"Unrevealed\",\"txid\":\"74231a91dd7bd3c58f02efe3c8ed0a6994bf31a070bab97eec2cbae21f708abe\",\"address\":\"hs1q4v97l7gdk2x0rv7s7h9pqjzklx70zcdzz02sun\",\"outputIndex\":0}],\"covenants\":[{\"action\":\"REVEAL\",\"block\":154109,\"time\":\"2023-01-07T19:40:41.000Z\",\"value\":null,\"txid\":\"f9ced2ae1c947fadc09112c4151b288eb663492c95e4d05530cbd63169e423b9\"},{\"action\":\"BID\",\"block\":154045,\"time\":\"2023-01-07T08:18:46.000Z\",\"value\":1000,\"txid\":\"74231a91dd7bd3c58f02efe3c8ed0a6994bf31a070bab97eec2cbae21f708abe\"},{\"action\":\"OPEN\",\"block\":153329,\"time\":\"2023-01-02T09:34:11.000Z\",\"value\":null,\"txid\":\"5ac0fd6050ecec616cc7bc6243530ad7d9b7a44df918520d9398632d6d9b1466\"}],\"timeline\":[{\"label\":\"Auction Opened\",\"block\":153329,\"time\":null,\"estimate\":true},{\"label\":\"Bidding Period\",\"block\":153366,\"time\":null,\"estimate\":true},{\"label\":\"Reveal Period\",\"block\":154086,\"time\":null,\"estimate\":true},{\"label\":\"Auction Closed\",\"block\":155526,\"time\":null,\"estimate\":true}],\"enrichment\":{\"source\":\"rpc\",\"status\":\"fresh\",\"message\":\"Live HSD returned no active name state; indexed and owner-history data are shown.\"},\"snapshot\":{\"source\":\"db\",\"refreshedAt\":\"2026-11-10T13:34:57.601Z\",\"checkedAt\":\"2026-11-10T13:34:57.601Z\",\"rowCount\":12179174,\"snapshotStatus\":\"ready\"}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "source": "duckdns",
+  "platform": "duckdns",
+  "platformName": "DuckDNS",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://acema.duckdns.org/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 106,
+  "requests": []
+}

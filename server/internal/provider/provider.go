@@ -302,6 +302,27 @@ func KeyedNames(cfg Config) []string {
 	return names
 }
 
+// KeyedProviders returns every credential-gated provider in registration order,
+// built with placeholder credentials. It exists for tooling that inventories the
+// full source set without enabling those sources for a scan. The returned
+// providers must never be used to check a label or to log credentials.
+func KeyedProviders() []Provider {
+	cfg := Config{
+		DiscogsToken:        "placeholder",
+		TwitchClientID:      "placeholder",
+		TwitchClientSecret:  "placeholder",
+		CompaniesHouseKey:   "placeholder",
+		OpenCorporatesToken: "placeholder",
+	}
+	out := make([]Provider, 0, len(keyedSources))
+	for _, k := range keyedSources {
+		if k.enabled(cfg) {
+			out = append(out, k.new(cfg))
+		}
+	}
+	return out
+}
+
 // Default returns a registry populated with the built-in providers. Keyless
 // providers are always registered; sources in keyedSources are added only when
 // cfg carries the credentials they need, so a zero Config omits them all.

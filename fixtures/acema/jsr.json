@@ -1,0 +1,29 @@
+{
+  "source": "jsr",
+  "platform": "jsr",
+  "platformName": "JSR",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://jsr.io/@acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 278,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://jsr.io/api/scopes/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\n  \"code\": \"scopeNotFound\",\n  \"message\": \"The requested scope was not found.\"\n}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "source": "bluesky",
+  "platform": "bluesky",
+  "platformName": "Bluesky",
+  "label": "acema",
+  "name": "acema.bsky.social",
+  "url": "https://bsky.app/profile/acema.bsky.social",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 575,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://bsky.social/xrpc/com.atproto.temp.checkHandleAvailability?handle=acema.bsky.social",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"handle\":\"acema.bsky.social\",\"result\":{\"$type\":\"com.atproto.temp.checkHandleAvailability#resultUnavailable\",\"suggestions\":[{\"handle\":\"a-cema.bsky.social\",\"method\":\"hyphen\"},{\"handle\":\"ace-ma.bsky.social\",\"method\":\"hyphen\"},{\"handle\":\"acema35.bsky.social\",\"method\":\"random_digits\"},{\"handle\":\"acema0.bsky.social\",\"method\":\"random_digits\"},{\"handle\":\"ac-ema.bsky.social\",\"method\":\"hyphen\"}]}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "source": "dailymotion",
+  "platform": "dailymotion",
+  "platformName": "Dailymotion",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://www.dailymotion.com/acema",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 145,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.dailymotion.com/user/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        "body": "{\"id\":\"x2jtu1w\",\"screenname\":\"Ace Ma\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

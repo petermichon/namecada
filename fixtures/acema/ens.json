@@ -1,0 +1,29 @@
+{
+  "source": "ens",
+  "platform": "ens",
+  "platformName": "ENS",
+  "label": "acema",
+  "name": "acema.eth",
+  "url": "https://app.ens.domains/acema.eth",
+  "paid": true,
+  "status": "available",
+  "durationMs": 292,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.ensideas.com/ens/resolve/acema.eth",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"address\":null,\"name\":\"acema.eth\",\"displayName\":\"acema.eth\",\"avatar\":\"https://metadata.ens.domains/mainnet/avatar/acema.eth\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

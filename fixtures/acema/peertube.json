@@ -1,0 +1,45 @@
+{
+  "source": "peertube",
+  "platform": "peertube",
+  "platformName": "PeerTube",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://framatube.org/a/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 208,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://framatube.org/api/v1/accounts/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/problem+json; charset=utf-8"
+        },
+        "body": "{\"type\":\"about:blank\",\"title\":\"Not Found\",\"detail\":\"Account not found\",\"status\":404}",
+        "bodyEncoding": "utf8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://framatube.org/api/v1/video-channels/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/problem+json; charset=utf-8"
+        },
+        "body": "{\"type\":\"about:blank\",\"title\":\"Not Found\",\"detail\":\"Video channel not found\",\"status\":404}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

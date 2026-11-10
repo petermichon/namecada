@@ -1,0 +1,29 @@
+{
+  "source": "crates",
+  "platform": "crates",
+  "platformName": "crates.io",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://crates.io/crates/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 422,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://crates.io/api/v1/crates/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"errors\":[{\"detail\":\"crate `acema` does not exist\"}]}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

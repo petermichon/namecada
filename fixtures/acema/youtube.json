@@ -1,0 +1,61 @@
+{
+  "source": "youtube",
+  "platform": "youtube",
+  "platformName": "YouTube",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://www.youtube.com/@acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 457,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.youtube.com/@acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 302,
+        "headers": {
+          "Content-Type": "application/binary",
+          "Location": "https://consent.youtube.com/m?continue=https%3A%2F%2Fwww.youtube.com%2F%40acema%3Fcbrd%3D1\u0026gl=FR\u0026m=0\u0026pc=yt\u0026cm=2\u0026hl=fr\u0026src=1"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://consent.youtube.com/m?continue=https%3A%2F%2Fwww.youtube.com%2F%40acema%3Fcbrd%3D1\u0026gl=FR\u0026m=0\u0026pc=yt\u0026cm=2\u0026hl=fr\u0026src=1",
+      "headers": {
+        "Accept": "application/json",
+        "Referer": "https://www.youtube.com/@acema",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 303,
+        "headers": {
+          "Content-Type": "application/binary",
+          "Location": "https://www.youtube.com/@acema?cbrd=1\u0026ucbcb=1"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://www.youtube.com/@acema?cbrd=1\u0026ucbcb=1",
+      "headers": {
+        "Accept": "application/json",
+        "Referer": "https://consent.youtube.com/m?continue=https%3A%2F%2Fwww.youtube.com%2F%40acema%3Fcbrd%3D1\u0026gl=FR\u0026m=0\u0026pc=yt\u0026cm=2\u0026hl=fr\u0026src=1",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "text/html; charset=utf-8"
+        },
+        "body": "\u003chtml lang=\"fr-FR\" dir=\"ltr\"\u003e\u003chead\u003e\u003ctitle\u003e404 Not Found\u003c/title\u003e\u003cstyle nonce=\"bCohnJf0mrMtGXfDvnDzIA\"\u003e*{margin:0;padding:0;border:0}html,body{height:100%;}\u003c/style\u003e\u003clink rel=\"shortcut icon\" href=\"https://www.youtube.com/img/favicon.ico\" type=\"image/x-icon\"\u003e\u003clink rel=\"icon\" href=\"https://www.youtube.com/img/favicon_32.png\" sizes=\"32x32\"\u003e\u003clink rel=\"icon\" href=\"https://www.youtube.com/img/favicon_48.png\" sizes=\"48x48\"\u003e\u003clink rel=\"icon\" href=\"https://www.youtube.com/img/favicon_96.png\" sizes=\"96x96\"\u003e\u003clink rel=\"icon\" href=\"https://www.youtube.com/img/favicon_144.png\" sizes=\"144x144\"\u003e\u003c/head\u003e\u003cbody\u003e\u003ciframe style=\"display:block;border:0;\" src=\"/error?src=404\u0026amp;ifr=1\u0026amp;error=\" width=\"100%\" height=\"100%\" frameborder=\"\\\" scrolling=\"no\"\u003e\u003c/iframe\u003e\u003c/body\u003e\u003c/html\u003e",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

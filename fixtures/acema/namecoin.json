@@ -1,0 +1,29 @@
+{
+  "source": "namecoin",
+  "platform": "namecoin",
+  "platformName": "Namecoin",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://explorer.namecoin.co/name/d/acema",
+  "paid": true,
+  "status": "available",
+  "durationMs": 133,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://explorer.namecoin.co/api/name/d%2Facema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"error\":\"name never existed: 'd/acema'\",\"name\":\"d/acema\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

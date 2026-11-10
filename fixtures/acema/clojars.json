@@ -1,0 +1,27 @@
+{
+  "source": "clojars",
+  "platform": "clojars",
+  "platformName": "Clojars",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://clojars.org/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 590,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://clojars.org/api/artifacts/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/octet-stream"
+        }
+      }
+    }
+  ]
+}

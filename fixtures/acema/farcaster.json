@@ -1,0 +1,29 @@
+{
+  "source": "farcaster",
+  "platform": "farcaster",
+  "platformName": "Farcaster",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://farcaster.xyz/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 262,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://fnames.farcaster.xyz/transfers/current?name=acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"error\":\"No transfer found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

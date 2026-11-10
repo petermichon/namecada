@@ -1,0 +1,29 @@
+{
+  "source": "domain.com",
+  "platform": "domains",
+  "platformName": "Domains",
+  "label": "acema",
+  "name": "acema.com",
+  "url": "https://acema.com",
+  "paid": true,
+  "status": "taken",
+  "durationMs": 257,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://rdap.verisign.com/com/v1/domain/acema.com",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/rdap+json"
+        },
+        "body": "{\"objectClassName\":\"domain\",\"handle\":\"92729017_DOMAIN_COM-VRSN\",\"ldhName\":\"ACEMA.COM\",\"links\":[{\"value\":\"https:\\/\\/rdap.verisign.com\\/com\\/v1\\/domain\\/acema.com\",\"rel\":\"self\",\"href\":\"https:\\/\\/rdap.verisign.com\\/com\\/v1\\/domain\\/acema.com\",\"type\":\"application\\/rdap+json\"},{\"value\":\"https:\\/\\/rdap.verisign.com\\/com\\/v1\\/domain\\/acema.com\",\"rel\":\"related\",\"href\":\"https:\\/\\/rdap.spaceship.com\\/domain\\/ACEMA.COM\",\"type\":\"application\\/rdap+json\"}],\"status\":[\"client transfer prohibited\"],\"entities\":[{\"objectClassName\":\"entity\",\"handle\":\"3862\",\"roles\":[\"registrar\"],\"links\":[{\"href\":\"http:\\/\\/www.spaceship.com\",\"type\":\"text\\/html\",\"value\":\"https:\\/\\/rdap.spaceship.com\\/\",\"rel\":\"about\"}],\"publicIds\":[{\"type\":\"IANA Registrar ID\",\"identifier\":\"3862\"}],\"vcardArray\":[\"vcard\",[[\"version\",{},\"text\",\"4.0\"],[\"fn\",{},\"text\",\"Spaceship, Inc.\"]]],\"entities\":[{\"objectClassName\":\"entity\",\"roles\":[\"abuse\"],\"vcardArray\":[\"vcard\",[[\"version\",{},\"text\",\"4.0\"],[\"fn\",{},\"text\",\"\"],[\"tel\",{\"type\":\"voice\"},\"uri\",\"tel:+1.9854014545\"],[\"email\",{},\"text\",\"abuse@spaceship.com\"]]]}]}],\"events\":[{\"eventAction\":\"registration\",\"eventDate\":\"2002-12-02T07:04:31Z\"},{\"eventAction\":\"expiration\",\"eventDate\":\"2027-12-02T07:04:31Z\"},{\"eventAction\":\"last changed\",\"eventDate\":\"2026-10-13T21:03:54Z\"},{\"eventAction\":\"last update of RDAP database\",\"eventDate\":\"2026-11-10T13:57:00Z\"}],\"secureDNS\":{\"delegationSigned\":false},\"nameservers\":[{\"objectClassName\":\"nameserver\",\"ldhName\":\"NS1.EFTYDNS.COM\"},{\"objectClassName\":\"nameserver\",\"ldhName\":\"NS2.EFTYDNS.COM\"}],\"rdapConformance\":[\"rdap_level_0\",\"icann_rdap_technical_implementation_guide_1\",\"icann_rdap_response_profile_1\"],\"notices\":[{\"title\":\"Terms of Service\",\"description\":[\"Service subject to Terms of Use.\"],\"links\":[{\"href\":\"https:\\/\\/www.verisign.com\\/domain-names\\/registration-data-access-protocol\\/terms-service\\/index.xhtml\",\"type\":\"text\\/html\",\"value\":\"https:\\/\\/rdap.verisign.com\\/com\\/v1\\/domain\\/acema.com\",\"rel\":\"terms-of-service\"}]},{\"title\":\"Status Codes\",\"description\":[\"For more information on domain status codes, please visit https:\\/\\/icann.org\\/epp\"],\"links\":[{\"href\":\"https:\\/\\/icann.org\\/epp\",\"type\":\"text\\/html\",\"value\":\"https:\\/\\/rdap.verisign.com\\/com\\/v1\\/domain\\/acema.com\",\"rel\":\"glossary\"}]},{\"title\":\"RDDS Inaccuracy Complaint Form\",\"description\":[\"URL of the ICANN RDDS Inaccuracy Complaint Form: https:\\/\\/icann.org\\/wicf\"],\"links\":[{\"href\":\"https:\\/\\/icann.org\\/wicf\",\"type\":\"text\\/html\",\"value\":\"https:\\/\\/rdap.verisign.com\\/com\\/v1\\/domain\\/acema.com\",\"rel\":\"help\"}]}]}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

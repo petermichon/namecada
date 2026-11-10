@@ -1,0 +1,29 @@
+{
+  "source": "opencollective",
+  "platform": "opencollective",
+  "platformName": "Open Collective",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://opencollective.com/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 423,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://opencollective.com/acema.json",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "text/html; charset=utf-8"
+        },
+        "body": "Not found",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

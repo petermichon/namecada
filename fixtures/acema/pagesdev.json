@@ -1,0 +1,12 @@
+{
+  "source": "pagesdev",
+  "platform": "pagesdev",
+  "platformName": "Cloudflare Pages",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://acema.pages.dev/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 20,
+  "requests": []
+}

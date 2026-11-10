@@ -1,0 +1,29 @@
+{
+  "source": "hackage",
+  "platform": "hackage",
+  "platformName": "Hackage",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://hackage.haskell.org/package/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 271,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://hackage.haskell.org/package/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "text/plain"
+        },
+        "body": "Package not found: No such package in package index\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}
