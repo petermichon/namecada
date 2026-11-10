@@ -8,7 +8,7 @@ the full candidate list, with per-source reachability notes, lives in
 ## Goal
 
 Report whether a bare name is taken across as many independent sources as
-possible. The app is server-only now, so CORS is no longer the ceiling — the
+possible. Checks run in the Rust server, so CORS is no longer the ceiling — the
 remaining limit is each source's API shape (keys, scrapes, non-label
 namespaces), not the browser.
 
@@ -21,8 +21,7 @@ source to a `plan/PLAN.md` item when it reaches the front of the line.
 2. Body-parse a server-rendered page — fallback when there's no API: match a
    stable marker (e.g. `og:title`/`"username"`), never localized "not found"
    text; return `unknown` on ambiguity.
-3. Keyed API — **deferred**, opt-in only: a source is omitted from the registry
-   unless its `DOMAINBROWSER_<SOURCE>_<KIND>` env vars are set. Add one only when
-   neither (1) nor (2) can answer and the source is high-value.
+3. Keyed API — **currently omitted**: no row, request, or cache entry. Add one
+   only when neither (1) nor (2) can answer and the source is high-value.
 4. Headless-browser scraping — avoid; slow, brittle, usually bot-blocked. Never
    scrape behind a login.

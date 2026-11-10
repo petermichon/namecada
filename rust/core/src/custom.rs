@@ -1,6 +1,6 @@
-//! Body-parsing and multi-request providers. Each check mirrors the Go
-//! implementation: transport failures propagate; malformed or unexpected
-//! bodies degrade to `unknown`.
+//! Body-parsing and multi-request providers. Each check mirrors the source
+//! semantics: transport failures propagate; malformed or unexpected bodies
+//! degrade to `unknown`.
 
 use std::collections::BTreeMap;
 use std::sync::Arc;

@@ -9,13 +9,17 @@ taken), so both verdict branches are exercised.
 
 ## Regenerate
 
-From the repository root:
+The Rust-only tree does not have a fixture exporter yet, so these captures are
+frozen. If a source changes and a capture must be refreshed, recover the
+exporter from the Git history before the Go server was removed.
+
+With the old Go exporter it was:
 
 ```sh
 npm run server:export -- --label acema
 ```
 
-`--label` is repeatable. With no label only `sources.json` is written.
+`--label` was repeatable. With no label only `sources.json` was written.
 
 ## Format
 
@@ -34,8 +38,9 @@ engine's minimum/maximum-length short-circuits are described by
 
 ## Caveats
 
-- This is a **capture**, not live truth. Sources change and rate-limit; re-run
-  the export instead of treating an old response as current.
+- This is a **capture**, not live truth. Sources change and rate-limit; refresh
+  the capture from the archived exporter instead of treating an old response as
+  current.
 - Keyed sources appear only in `sources.json`; they are not captured because
   that would require secrets.
 - Secrets are redacted from request headers and query strings. Response cookies

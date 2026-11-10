@@ -1,4 +1,4 @@
-//! The source inventory produced by `server/cmd/domainbrowser export`.
+//! The source inventory in `fixtures/sources.json`.
 
 use std::path::Path;
 

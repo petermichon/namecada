@@ -12,9 +12,6 @@ npm-debug.log*
 # Build artifacts
 web/dist
 web/.svelte-check
-server/domainbrowser
-server/bin/
-server/tmp/
 rust/target/
 
 # todoworker queue

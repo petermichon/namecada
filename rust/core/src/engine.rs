@@ -7,6 +7,7 @@ use std::thread;
 
 use serde::Serialize;
 
+use crate::cache::Cache;
 use crate::provider::{Outcome, Provider, Status};
 
 /// DefaultConcurrency bounds how many provider checks run at once.
@@ -31,6 +32,7 @@ pub struct ProviderResult {
 pub struct Engine {
     providers: Vec<Arc<dyn Provider>>,
     concurrency: usize,
+    cache: Option<Arc<dyn Cache>>,
 }
 
 impl Engine {
@@ -38,11 +40,17 @@ impl Engine {
         Self {
             providers,
             concurrency: DEFAULT_CONCURRENCY,
+            cache: None,
         }
     }
 
     pub fn with_concurrency(mut self, concurrency: usize) -> Self {
         self.concurrency = concurrency.max(1);
+        self
+    }
+
+    pub fn with_cache(mut self, cache: Arc<dyn Cache>) -> Self {
+        self.cache = Some(cache);
         self
     }
 
@@ -60,6 +68,7 @@ impl Engine {
 
         let providers = self.providers.clone();
         let label = label.to_string();
+        let cache = self.cache.clone();
         let next = Arc::new(AtomicUsize::new(0));
         let workers = self.concurrency.min(providers.len()).max(1);
 
@@ -67,13 +76,14 @@ impl Engine {
             let providers = providers.clone();
             let tx = tx.clone();
             let label = label.clone();
+            let cache = cache.clone();
             let next = Arc::clone(&next);
             thread::spawn(move || loop {
                 let index = next.fetch_add(1, Ordering::Relaxed);
                 if index >= providers.len() {
                     break;
                 }
-                let result = check_one(providers[index].as_ref(), &label);
+                let result = check_one(providers[index].as_ref(), &label, cache.as_deref());
                 if tx.send(result).is_err() {
                     break;
                 }
@@ -96,7 +106,7 @@ impl Engine {
     }
 }
 
-fn check_one(provider: &dyn Provider, label: &str) -> ProviderResult {
+fn check_one(provider: &dyn Provider, label: &str, cache: Option<&dyn Cache>) -> ProviderResult {
     let mut result = ProviderResult {
         id: provider.id().to_string(),
         platform: provider.platform().to_string(),
@@ -120,11 +130,34 @@ fn check_one(provider: &dyn Provider, label: &str) -> ProviderResult {
         }
     }
 
+    if let Some(cache) = cache {
+        if let Some(entry) = cache.get(provider.id(), label) {
+            result.status = entry.status;
+            result.detail = entry.detail;
+            if !entry.url.is_empty() {
+                result.url = entry.url;
+            }
+            return result;
+        }
+    }
+
     match provider.check(label) {
         Ok(outcome) => apply(&mut result, outcome),
         Err(_) => {
             result.status = Status::Unknown;
             result.detail = "unreachable".to_string();
+        }
+    }
+
+    if let Some(cache) = cache {
+        if result.status != Status::Unknown {
+            cache.set(
+                provider.id(),
+                label,
+                result.status,
+                &result.detail,
+                &result.url,
+            );
         }
     }
     result
@@ -137,5 +170,55 @@ fn apply(result: &mut ProviderResult, outcome: Outcome) {
         if !url.is_empty() {
             result.url = url;
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::cache::MemoryCache;
+    use crate::provider::{Error, Outcome};
+
+    struct CountingProvider {
+        calls: Arc<AtomicUsize>,
+    }
+
+    impl Provider for CountingProvider {
+        fn id(&self) -> &str {
+            "stub"
+        }
+        fn platform(&self) -> &str {
+            "stub"
+        }
+        fn name(&self, label: &str) -> String {
+            label.to_string()
+        }
+        fn url(&self, label: &str) -> String {
+            format!("https://example.test/{label}")
+        }
+        fn paid(&self) -> bool {
+            false
+        }
+        fn check(&self, _: &str) -> Result<Outcome, Error> {
+            self.calls.fetch_add(1, Ordering::SeqCst);
+            Ok(Outcome::new(Status::Available))
+        }
+    }
+
+    #[test]
+    fn cache_avoids_a_second_check() {
+        let calls = Arc::new(AtomicUsize::new(0));
+        let provider = Arc::new(CountingProvider {
+            calls: Arc::clone(&calls),
+        });
+        let cache = Arc::new(MemoryCache::new());
+        let engine = Engine::new(vec![provider]).with_cache(cache);
+
+        let first = engine.scan_all("acema");
+        let second = engine.scan_all("acema");
+
+        assert_eq!(calls.load(Ordering::SeqCst), 1);
+        assert_eq!(first[0].status, Status::Available);
+        assert_eq!(second[0].status, Status::Available);
     }
 }

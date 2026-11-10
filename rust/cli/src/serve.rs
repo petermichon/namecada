@@ -4,7 +4,7 @@ use std::path::PathBuf;
 use std::sync::{mpsc, Arc};
 use std::thread;
 
-use domain_browser_core::{Engine, Manifest, Provider, ProviderResult};
+use domain_browser_core::{Cache, Engine, Manifest, MemoryCache, Provider, ProviderResult};
 use serde_json::json;
 use tiny_http::{Header, Method, Request, Response, Server, StatusCode};
 
@@ -39,19 +39,21 @@ pub fn run(args: &[String]) -> Result<(), Box<dyn Error>> {
 
     let manifest = Manifest::load(manifest_path)?;
     let providers: Arc<Vec<Arc<dyn Provider>>> = Arc::new(providers::live(&manifest)?);
+    let cache: Arc<dyn Cache> = Arc::new(MemoryCache::new());
     let server = Server::http(&addr)
         .map_err(|err| -> Box<dyn Error> { format!("listen on {addr}: {err}").into() })?;
     eprintln!("listening on http://{addr}");
 
     for request in server.incoming_requests() {
         let providers = Arc::clone(&providers);
+        let cache = Arc::clone(&cache);
         let origin = origin.clone();
-        thread::spawn(move || handle(request, providers.as_slice(), &origin));
+        thread::spawn(move || handle(request, providers.as_slice(), cache, &origin));
     }
     Ok(())
 }
 
-fn handle(request: Request, providers: &[Arc<dyn Provider>], origin: &str) {
+fn handle(request: Request, providers: &[Arc<dyn Provider>], cache: Arc<dyn Cache>, origin: &str) {
     let cors = allowed_origin(origin, &request);
     if request.method() == &Method::Options {
         let response = Response::new_empty(StatusCode(204))
@@ -88,7 +90,7 @@ fn handle(request: Request, providers: &[Arc<dyn Provider>], origin: &str) {
         return;
     }
 
-    let engine = Engine::new(providers.to_vec());
+    let engine = Engine::new(providers.to_vec()).with_cache(cache);
     let receiver = engine.scan(&label);
     let response = Response::new(
         StatusCode(200),

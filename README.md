@@ -1,7 +1,7 @@
 # Domain Browser
 
 A name availability report. Enter a bare name (`acema`) and it checks that name
-across several independent sources at once, all through a Go server. Dots
+across several independent sources at once, all through a Rust server. Dots
 aren't accepted — the sources are checked per label, so a dotted input
 (`acema.com`) is rejected with a prompt to drop the dot rather than silently
 reduced.
@@ -79,11 +79,7 @@ can't be reached is deferred (see below).
 | Hacker News | `news.ycombinator.com/user?id={name}`                        | `No such user.` free / `karma` taken |
 | Giphy     | `giphy.com/{name}` (profile)                                   | 200 canonical `/{name}` taken / 301 → `/explore/{name}` free |
 | Minds     | `api/v1/channel/{name}` (profile `minds.com/{name}/`)           | `status:"success"` taken / `ChannelNotFoundException` free |
-| Discogs   | `api.discogs.com/users/{name}` (token)                         | 200 taken / 404 free      |
 | X / Twitter | `x.com/{name}` (profile)                                     | 200 taken / 404 free      |
-| Twitch    | `api.twitch.tv/helix/users?login={name}` (app token)           | non-empty `data` taken / empty free |
-| Companies House | `api.company-information.service.gov.uk/search/companies?q={name}` (key) | exact company name taken / else free |
-| OpenCorporates | `api.opencorporates.com/v0.4/companies/search?q={name}` (token) | exact company name taken / else free |
 | Vercel    | `{name}.vercel.app` (subdomain)                                | 200 taken / 404 free      |
 | Netlify   | `{name}.netlify.app` (subdomain)                               | 200 taken / 404 free      |
 | Surge     | `{name}.surge.sh` (subdomain)                                  | 200 taken / 404 free      |
@@ -106,10 +102,14 @@ can't be reached is deferred (see below).
 | Cloudflare Pages | `{name}.pages.dev` (DNS, no wildcard)                    | resolves taken / NXDOMAIN free |
 | Fly.io    | `{name}.fly.dev` (DNS, no wildcard)                            | resolves taken / NXDOMAIN free |
 
+Credential-gated sources (Discogs, Twitch, Companies House, OpenCorporates) are
+not currently included.
+
 Domains run once per TLD (`.com`, `.org`, `.dev`, `.io`, `.ai`, `.app`), each a
-separate provider. The TLD is resolved to its registry through the IANA RDAP
-bootstrap (`data.iana.org/rdap/dns.json`). Domains are **paid** sources: a
-registration costs money, and the amount varies (premium names cost more). ENS
+separate provider. Each TLD uses its registry's RDAP endpoint; the live IANA
+bootstrap lookup is not wired into the Rust server yet. Domains are **paid**
+sources: a registration costs money, and the amount varies (premium names cost
+more). ENS
 (`.eth`) is likewise paid — registering costs ETH. SNS (`.sol`) is paid too —
 registering costs SOL. HNS is paid as well — a new Handshake name is won in an
 auction, and an expired one is reclaimed the same way. Namecoin (`.bit`) is paid
@@ -142,79 +142,63 @@ covers both.
 
 ## Server
 
-`server/` is the optional Go module that runs the checks server-side. It is a
-small core assembled from four pluggable packages:
+`rust/` is the server and engine. It is a Rust workspace assembled from a small
+core plus two commands:
 
-- `internal/provider` — the `Provider` interface (`ID`, `Platform`, `Name`,
-  `URL`, `Check`) plus an ordered registry; each source is a provider.
-- `internal/engine` — runs the registered providers concurrently and streams a
-  result as each resolves.
-- `internal/store` — a cache of verdicts keyed `provider:label` with a one-hour
-  TTL.
-- `internal/sink` — durable destinations for a finished scan. The SQLite sink
-  upserts one row per `provider:label` into a `checks` table (primary key `name`
-  + `provider`, so a re-check updates in place) and exposes an `available` view
-  over the free names.
+- `core/src/provider.rs` — the `Provider` and `Transport` contracts and the
+  result/status types.
+- `core/src/status.rs` — status-only adapter; covers 51 sources whose verdict is
+  just an HTTP status code.
+- `core/src/custom.rs` — body-parsing, multi-request, POST/GraphQL, and RDAP
+  domain adapters.
+- `core/src/dns.rs` — DNS adapters for free-subdomain namespaces.
+- `core/src/engine.rs` — bounded-concurrency scan engine that streams each
+  result as it resolves.
+- `core/src/cache.rs` — in-memory verdict cache with a one-hour TTL.
+- `core/src/http.rs` — production HTTP transport.
+- `cli/src/serve.rs` — the NDJSON HTTP server.
+- `cli/src/providers.rs` — assembles the live or replay provider registry.
 
-Two commands drive it (`go run ./cmd/domainbrowser ...`): `serve` exposes the
-engine over HTTP for the app, streaming one NDJSON object per source as it
-resolves, and `check <label> [--out <file.sqlite>]` runs a one-shot scan and
-prints the whole result set as a single JSON array — or, with `--out`, writes it
-to a SQLite file. Unlike `serve`, `check` buffers every source before emitting.
+Two commands drive it:
 
-### Keyed sources
+- `npm run rust:serve` exposes `GET /check?name=<label>`, streaming one NDJSON
+  object per source as it resolves.
+- `check <label>` runs a one-shot scan. It replays the checked-in fixtures by
+  default; add `--live` to use real HTTP and DNS.
 
-Some sources need an API key or token. Supply those through
-`DOMAINBROWSER_<SOURCE>_<KIND>` environment variables; they are read once when
-the process starts:
+The credential-gated sources (Discogs, Twitch, Companies House,
+OpenCorporates) are intentionally omitted. They produce no row and make no
+request.
 
-| Source | Environment variables |
-| --- | --- |
-| Discogs | `DOMAINBROWSER_DISCOGS_TOKEN` |
-| Twitch | `DOMAINBROWSER_TWITCH_CLIENT_ID`, `DOMAINBROWSER_TWITCH_CLIENT_SECRET` |
-| Companies House | `DOMAINBROWSER_COMPANIESHOUSE_KEY` |
-| OpenCorporates | `DOMAINBROWSER_OPENCORPORATES_TOKEN` |
-
-A source whose credentials are unset is **omitted** from the scan entirely — it
-produces no row, makes no request, and never enters the cache. It is not
-reported as `unknown`, which keeps that status meaning "checked, inconclusive".
-Startup logs list the enabled keyed sources by name only; credential values are
-never logged and never appear in a result.
-
-The live source is always the source of truth. SQLite — like the in-memory store
-— is a **cache** of what a source last reported, not an authoritative record: a
-row can be stale, rate-limited, or wrong, and a domain row captures registry
-state rather than registrability, so re-check the source rather than trusting
-the file. The server is the sole source for the app: it lifts the browser's CORS
-limit, keeps one shared cache in front of rate-limited APIs, and is where keyed
-or no-CORS sources can be added.
+The live source is always the source of truth. The cache is a record of what a
+source last reported, not an authoritative result: a row can be stale,
+rate-limited, or wrong, and a domain row captures registry state rather than
+registrability, so re-check the source rather than trusting the cache.
 
 ### Fixtures
 
-`npm run server:export -- --label acema` writes a parity oracle for the engine
-rewrite: `fixtures/sources.json` is the complete source inventory (the keyless
-set plus every keyed source), and `fixtures/acema/<source>.json` holds each
-provider's result and the raw HTTP request/response it made. The provider always
-sees the full response; only the recorded snapshot is capped at 256 KiB, so a
-transcript can be marked `bodyTruncated`.
+`fixtures/sources.json` is the complete source inventory, and
+`fixtures/<label>/<source>.json` holds each provider's captured result and the
+raw HTTP request/response it made. The checked-in labels are `acema` (mostly
+available) and `google` (mostly taken), so both verdict branches are exercised.
 
-Fixtures are a **capture**, not live truth: responses change, and keyed sources
-are inventoried but not captured. Secrets are redacted from headers and query
-strings. Re-run the export rather than treating an old fixture as current.
+Fixtures are a **capture**, not live truth: responses change. They were produced
+by the pre-Rust exporter; the Rust-only tree has no exporter yet, so treat them
+as a frozen oracle and regenerate from git history if a source changes.
 
 ## Caching
 
-Results are cached per provider in the server's in-memory store, keyed
-`provider:label` (e.g. `lemy:acema`), with a 1-hour TTL. Only definitive
-verdicts are cached — `unknown` is never stored, so transient rate-limit or
-network errors self-heal. A fresh entry is served without touching the network.
+`serve` caches results per provider, keyed `provider:label` (e.g. `lemy:acema`),
+with a 1-hour TTL. Only definitive verdicts are cached — `unknown` is never
+stored, so transient rate-limit or network errors self-heal. A fresh entry is
+served without touching the network.
 
 This matters most for sources like GitHub and npm, which rate-limit
 unauthenticated requests (GitHub: 60/hour per IP).
 
 ## Layout
 
-- `server/` — Go core (provider/engine/store/sink), see [Server](#server).
+- `rust/` — Rust server and engine (core + CLI); see `rust/README.md`.
 - `web/` — Svelte 5 + Vite + Tailwind + shadcn-svelte (maia) app.
   - `src/lib/platforms.ts` — the result types (`Status`, `ProviderResult`) and
     `toLabel`. The display name in `platformName` and the `paid` flag come from
@@ -224,55 +208,59 @@ unauthenticated requests (GitHub: 60/hour per IP).
     API (`GET /check?name=<label>`, NDJSON) and is the app's sole source. The
     base URL defaults to `http://localhost:8080` and is overridable at build
     time with `VITE_API_BASE`.
-- `fixtures/` — captured source inventory and raw HTTP snapshots for parity;
-  see [Fixtures](#fixtures).
-- `rust/` — parity-first Rust core for the engine rewrite; see
-  `rust/README.md`.
+- `fixtures/` — captured source inventory and raw HTTP snapshots; see
+  [Fixtures](#fixtures).
 
 ## Development
 
+Rust commands need `cargo` on `PATH` (install with rustup, then open a new
+shell or `source "$HOME/.cargo/env"`). The workspace pins stable Rust in
+`rust-toolchain.toml`.
+
 ```sh
 npm install        # installs the web workspace + git hooks
-npm run dev        # vite dev server
+npm run dev        # Vite + the Rust server
 npm run build      # single-file production build
 npm test           # vitest
 npm run check      # svelte-check + tsc
 npm run lint       # prettier --check + eslint
-npm run format     # prettier --write + gofmt
-npm run verify     # check + test + lint (web and server)
-npm run server:export -- --label acema  # write a fixture parity oracle
-npm run rust:test  # Rust core parity tests
+npm run format     # prettier --write + cargo fmt
+npm run verify     # web check/test/lint + Rust fmt/clippy/test
+npm run rust:test  # Rust tests
 npm run rust:clippy  # Rust lints
+npm run rust:build  # release build
 npm run rust:serve  # Rust NDJSON server on 127.0.0.1:8080
-npm run server:watch  # air: rebuild + restart the Go server on save
 ```
 
 A husky `pre-commit` hook (installed by `npm install` via the `prepare`
 script) runs lint-staged, which formats and lints staged web files
-(prettier + eslint) and formats staged Go files (gofmt).
+(prettier + eslint) and formats staged Rust files with `cargo fmt`.
 
-The app needs the server running (`cd server && go run ./cmd/domainbrowser
-serve`); it streams every result from it. The server's CORS origin defaults to
-the Vite dev origin (`http://localhost:5173`); any loopback origin
-(`http://localhost:<port>`, `http://127.0.0.1:<port>`) is also echoed back, so
-Vite can fall back to another port without restarting the server.
-
-For the same edit-refresh loop as Vite's HMR, run `npm run server:watch`
-instead. It drives [air](https://github.com/air-verse/air) (install with
-`go install github.com/air-verse/air@latest`) using the root `.air.toml`, which
-watches `server/` and, on a Go change, rebuilds and restarts `serve` on
-`:8080`.
+`npm run dev` starts the Vite app and the Rust server. The app streams every
+result from `serve`. The server's CORS origin defaults to the Vite dev origin
+(`http://localhost:5173`); any loopback origin (`http://localhost:<port>`,
+`http://127.0.0.1:<port>`) is also echoed back, so Vite can fall back to another
+port without restarting the server. Use `npm run dev:web` when the server is
+already running separately.
 
 ## Adding a source
 
-Implement the `Provider` interface in the server
-(`server/internal/provider`) — a `Check` that maps an HTTP response to
-`available` / `taken` / `unknown` — and register it in `provider.Default(cfg)`.
-A source that needs a credential goes in the `keyedSources` table with an
-`enabled` predicate instead, so `Default` omits it when the credential is
-unset (see [Keyed sources](#keyed-sources)). Sources live server-side, so CORS
-is no longer a constraint.
+1. Add the source metadata to `fixtures/sources.json`: `id`, `platform`,
+   `platformName`, `nameTemplate`, `urlTemplate`, `paid`, `minLength`,
+   `maxLength`, and `keyed`.
+2. Implement the check in `rust/core`:
+   - a status-only source goes in `rust/core/src/status.rs`;
+   - a body-parsing, multi-request, POST/GraphQL, or RDAP source goes in
+     `rust/core/src/custom.rs`;
+   - a DNS source goes in `rust/core/src/dns.rs`.
+3. Register it in the corresponding spec table.
+4. Add a unit test or capture fixture. Status-only and custom sources are
+   exercised by `rust/core/tests/parity.rs`; DNS providers use a fake resolver.
+5. Run `npm run verify`.
 
-Deferred: Packagist, Docker Hub, Go proxy (modules are paths, not
-single labels), and the remaining trademark / social / company registries that
-need a key.
+Sources live server-side, so CORS is not a constraint. Keyed sources are
+deliberately omitted for now.
+
+Deferred: Packagist, Docker Hub, Go proxy (modules are paths, not single
+labels), and the remaining trademark / social / company registries that need a
+key.
