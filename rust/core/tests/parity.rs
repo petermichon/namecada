@@ -24,7 +24,7 @@ fn manifest_loads() {
     assert_eq!(manifest.source_count, manifest.sources.len());
     assert_eq!(
         manifest.source_count,
-        manifest.enabled_count + manifest.keyed_count
+        manifest.enabled_count + manifest.keyed_count + manifest.deferred_count
     );
     assert!(manifest.enabled_count > 50);
 }

@@ -1,49 +1,71 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { byPaidThenPlatformName, byPlatformName, Lookup, type Row } from './useLookup.svelte';
+import { parseEvent, type CheckClient } from './api';
+import {
+	byPaidThenPlatformName,
+	byPlatformName,
+	DEFAULT_FILTER,
+	Lookup,
+	type Row
+} from './useLookup.svelte';
 import type { Status } from './platforms';
-import { UNSUPPORTED } from './unsupported';
 
-function row(platformName: string, status: Row['status'], name = 'acema', paid = false): Row {
+function row(
+	platformName: string,
+	status: Row['status'],
+	name = 'acema',
+	paid = false,
+	url = `https://example.com/${platformName.toLowerCase()}/${name}`
+): Row {
 	return {
 		id: `${platformName.toLowerCase()}-${name}`,
 		platform: platformName.toLowerCase(),
 		platformName,
 		name,
-		url: `https://example.com/${platformName}/${name}`,
+		url,
 		status,
 		paid
 	};
 }
 
-// providerRow mirrors the backend: one row per provider, keyed by the stable
-// provider id rather than the label being looked up.
-function providerRow(id: string, platformName: string, status: Status, name = 'acema'): Row {
-	return {
-		id,
-		platform: id,
-		platformName,
-		name,
-		url: `https://example.com/${id}/${name}`,
-		status,
-		paid: false
-	};
+function manifest(
+	sources: Array<{
+		id: string;
+		platformName: string;
+		url: string;
+		paid?: boolean;
+		checked?: boolean;
+	}>,
+	label = 'acema'
+): string {
+	return JSON.stringify({
+		type: 'manifest',
+		version: 1,
+		label,
+		sources: sources.map((source) => ({
+			paid: false,
+			checked: true,
+			...source
+		}))
+	});
 }
 
-function providerResult(id: string, platformName: string, status: Status, name = 'acema'): string {
+function result(id: string, platformName: string, status: Status, overrides = {}): string {
 	return JSON.stringify({
+		type: 'result',
 		id,
 		platform: id,
 		platformName,
-		name,
-		url: `https://example.com/${id}/${name}`,
+		name: 'acema',
+		url: `https://example.com/${id}/acema`,
 		status,
-		paid: false
+		paid: false,
+		...overrides
 	});
 }
 
 function stubApi(body: string) {
 	return vi.fn((input: unknown) => {
-		if (String(input).includes('/check?name=')) {
+		if (String(input).includes('/v1/check?name=')) {
 			return Promise.resolve(new Response(body, { status: 200 }));
 		}
 		return Promise.resolve(new Response(null, { status: 404 }));
@@ -122,11 +144,38 @@ describe('visibleRows', () => {
 		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['Lemmy', 'PeerTube']);
 	});
 
-	it('treats an empty selection as every status', () => {
+	it('shows nothing when no status is selected', () => {
 		const lookup = new Lookup();
-		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available'), row('PeerTube', 'unknown')];
+		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available'), row('TikTok', 'unsupported')];
 		lookup.filter = [];
-		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['GitHub', 'Lemmy', 'PeerTube']);
+		expect(lookup.visibleRows).toEqual([]);
+	});
+
+	it('hides not-checked sources by default', () => {
+		const lookup = new Lookup();
+		lookup.rows = [row('GitHub', 'taken'), row('TikTok', 'unsupported')];
+		expect(lookup.filter).toEqual(DEFAULT_FILTER);
+		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['GitHub']);
+	});
+
+	it('keeps pending rows visible while a verdict is selected', () => {
+		const lookup = new Lookup();
+		lookup.rows = [row('GitHub', 'pending'), row('Lemmy', 'taken')];
+		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['GitHub', 'Lemmy']);
+	});
+
+	it('hides pending rows when only not-checked is selected', () => {
+		const lookup = new Lookup();
+		lookup.rows = [row('GitHub', 'pending'), row('TikTok', 'unsupported')];
+		lookup.filter = ['unsupported'];
+		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['TikTok']);
+	});
+
+	it('filters to not-checked sources', () => {
+		const lookup = new Lookup();
+		lookup.rows = [row('GitHub', 'taken'), row('TikTok', 'unsupported')];
+		lookup.filter = ['unsupported'];
+		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['TikTok']);
 	});
 
 	it('breaks platformName ties by URL, not arrival order', () => {
@@ -169,96 +218,33 @@ describe('visibleRows', () => {
 	});
 });
 
-describe('unsupported', () => {
-	it('builds catalogue rows for the current label with the substituted url', () => {
+describe('counts', () => {
+	it('counts verdicts and not-checked rows separately', () => {
 		const lookup = new Lookup();
-		expect(lookup.unsupportedRows).toEqual([]);
+		lookup.rows = [
+			row('GitHub', 'taken'),
+			row('Lemmy', 'available'),
+			row('PeerTube', 'unknown'),
+			row('TikTok', 'unsupported'),
+			row('npm', 'pending')
+		];
 
-		lookup.lastLabel = 'acema';
-
-		expect(lookup.unsupportedRows).toHaveLength(UNSUPPORTED.length);
-		expect(lookup.unsupportedRows.every((row) => row.status === 'unsupported')).toBe(true);
-		expect(lookup.unsupportedRows.every((row) => row.name === 'acema')).toBe(true);
-		expect(lookup.unsupportedRows.every((row) => row.detail === undefined)).toBe(true);
-		expect(lookup.unsupportedRows.map((row) => row.paid)).toEqual(
-			UNSUPPORTED.map((source) => source.paid)
-		);
-		expect(lookup.unsupportedRows.map((row) => row.url)).toEqual(
-			UNSUPPORTED.map((source) => source.url.replace('{name}', 'acema'))
-		);
-	});
-
-	it('keeps unsupported rows out of the available/taken/unknown counts', () => {
-		const lookup = new Lookup();
-		lookup.lastLabel = 'acema';
-		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available'), row('PeerTube', 'unknown')];
-
-		expect(lookup.counts).toEqual({
-			available: 1,
-			taken: 1,
-			unknown: 1,
-			unsupported: UNSUPPORTED.length
-		});
-	});
-
-	it('mixes unsupported rows into the paid and free lists like verdict rows', () => {
-		const lookup = new Lookup();
-		lookup.lastLabel = 'acema';
-		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available')];
-
-		expect(lookup.visibleRows).toHaveLength(2 + UNSUPPORTED.length);
-		expect(lookup.paidRows.map((r) => r.platformName)).toContain('Unstoppable Domains');
-		expect(lookup.paidRows.every((row) => row.paid)).toBe(true);
-		expect(lookup.freeRows.map((r) => r.platformName)).toContain('GitHub');
-		expect(lookup.freeRows.map((r) => r.platformName)).toContain('TikTok');
-		expect(lookup.freeRows.every((row) => !row.paid)).toBe(true);
-		// Ordered by display name, so unsupported and verdict rows interleave
-		// rather than forming a separate trailing group.
-		expect(lookup.freeRows.map((r) => r.platformName)).toEqual(
-			[...lookup.freeRows.map((r) => r.platformName)].toSorted()
-		);
-	});
-
-	it('shows only unsupported rows when the unsupported filter is selected', () => {
-		const lookup = new Lookup();
-		lookup.lastLabel = 'acema';
-		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available')];
-		lookup.filter = ['unsupported'];
-
-		expect(lookup.visibleRows).toHaveLength(UNSUPPORTED.length);
-		expect(lookup.visibleRows.every((row) => row.status === 'unsupported')).toBe(true);
-		expect(lookup.paidRows.length + lookup.freeRows.length).toBe(UNSUPPORTED.length);
-		expect(lookup.paidRows.every((row) => row.status === 'unsupported')).toBe(true);
-		expect(lookup.freeRows.every((row) => row.status === 'unsupported')).toBe(true);
-	});
-
-	it('unions unsupported with a verdict status', () => {
-		const lookup = new Lookup();
-		lookup.lastLabel = 'acema';
-		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available')];
-		lookup.filter = ['available', 'unsupported'];
-
-		const unsupported = lookup.visibleRows.filter((r) => r.status === 'unsupported');
-		expect(unsupported).toHaveLength(UNSUPPORTED.length);
-		expect(lookup.visibleRows.map((r) => r.platformName)).toContain('Lemmy');
-		expect(lookup.visibleRows.map((r) => r.platformName)).not.toContain('GitHub');
-	});
-
-	it('drops unsupported rows when there is no checked label', () => {
-		const lookup = new Lookup();
-		lookup.rows = [row('GitHub', 'taken')];
-		lookup.filter = ['unsupported'];
-
-		expect(lookup.unsupportedRows).toEqual([]);
-		expect(lookup.visibleRows).toEqual([]);
+		expect(lookup.counts).toEqual({ available: 1, taken: 1, unknown: 1, unsupported: 1 });
 	});
 });
 
 describe('announcement', () => {
-	it('summarises the counts when nothing is filtered', () => {
+	it('summarises the selected counts', () => {
 		const lookup = new Lookup();
 		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available'), row('PeerTube', 'unknown')];
-		expect(lookup.announcement).toBe('1 available, 1 unavailable, 1 unknown');
+		expect(lookup.announcement).toBe('3 shown. 1 available, 1 unavailable, 1 unknown');
+	});
+
+	it('reports when no status is selected', () => {
+		const lookup = new Lookup();
+		lookup.rows = [row('GitHub', 'taken')];
+		lookup.filter = [];
+		expect(lookup.announcement).toBe('No statuses selected.');
 	});
 
 	it('prefixes the shown count when a filter is active', () => {
@@ -269,118 +255,126 @@ describe('announcement', () => {
 	});
 });
 
-describe('stale', () => {
-	it('is false while results are still pending', () => {
-		const lookup = new Lookup();
-		lookup.input = 'lumen';
-		lookup.lastLabel = 'acema';
-		lookup.rows = [row('GitHub', 'pending')];
-		expect(lookup.stale).toBe(false);
-	});
-
-	it('is false with no rows', () => {
-		const lookup = new Lookup();
-		lookup.input = 'lumen';
-		lookup.lastLabel = 'acema';
-		expect(lookup.stale).toBe(false);
-	});
-
-	it('is true once a renamed input settles', () => {
-		const lookup = new Lookup();
-		lookup.input = 'lumen';
-		lookup.lastLabel = 'acema';
-		lookup.rows = [row('GitHub', 'taken')];
-		expect(lookup.stale).toBe(true);
-	});
-
-	it('is false when the input matches the last check', () => {
-		const lookup = new Lookup();
-		lookup.input = 'acema';
-		lookup.lastLabel = 'acema';
-		lookup.rows = [row('GitHub', 'taken')];
-		expect(lookup.stale).toBe(false);
-	});
-});
-
 describe('check', () => {
-	it('keeps the previous rows mounted and flags busy on a re-scan', async () => {
+	it('keeps the previous row slots pending until the manifest arrives', async () => {
 		vi.stubGlobal('fetch', stubApi(''));
 		const lookup = new Lookup();
 		lookup.input = 'lumen';
 		lookup.lastLabel = 'acema';
-		lookup.rows = [
-			providerRow('github', 'GitHub', 'taken'),
-			providerRow('lemmy', 'Lemmy', 'available')
-		];
+		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available'), row('TikTok', 'unsupported')];
 
 		lookup.check({ sync: false });
 
-		// The row slots stay on screen (height-stable, no scroll clamp) and the
-		// container is dimmed/aria-busy until the first fresh result arrives.
-		expect(lookup.rows.map((r) => r.id)).toEqual(['github', 'lemmy']);
-		expect(lookup.busy).toBe(true);
-		expect(lookup.searching).toBe(true);
+		expect(lookup.rows.map((r) => r.id)).toEqual(['github-acema', 'lemmy-acema', 'tiktok-acema']);
+		expect(lookup.rows[0].status).toBe('pending');
+		expect(lookup.rows[0].url).toBe('');
+		expect(lookup.rows[0].name).toBe('');
+		expect(lookup.rows[2].status).toBe('unsupported');
 
 		await vi.waitFor(() => expect(lookup.loading).toBe(false));
 	});
 
-	it('blanks every retained row to pending until its own result arrives', async () => {
-		vi.stubGlobal('fetch', stubApi(''));
-		const lookup = new Lookup();
-		lookup.input = 'lumen';
-		lookup.lastLabel = 'acema';
-		lookup.rows = [
-			providerRow('github', 'GitHub', 'taken'),
-			providerRow('lemmy', 'Lemmy', 'available')
-		];
-
-		lookup.check({ sync: false });
-
-		// The slots (id/platform) survive for height (P52), but the previous
-		// label's verdicts are cleared so old and new searches never mix (P76).
-		expect(lookup.rows.map((r) => r.id)).toEqual(['github', 'lemmy']);
-		expect(lookup.rows.map((r) => r.platformName)).toEqual(['GitHub', 'Lemmy']);
-		expect(lookup.rows.every((r) => r.status === 'pending')).toBe(true);
-		expect(lookup.rows.every((r) => r.url === '' && r.name === '')).toBe(true);
-		expect(lookup.rows.every((r) => r.detail === undefined)).toBe(true);
-
-		await vi.waitFor(() => expect(lookup.loading).toBe(false));
-	});
-
-	it('overwrites stale rows by id and clears busy once results arrive', async () => {
+	it('seeds every source from the manifest and fills results by id', async () => {
 		const body =
 			[
-				providerResult('github', 'GitHub', 'available'),
-				providerResult('lemmy', 'Lemmy', 'taken')
+				manifest([
+					{ id: 'npm', platformName: 'npm', url: 'https://npmjs.com/acema' },
+					{ id: 'lemmy', platformName: 'Lemmy', url: 'https://lemmy.world/u/acema' },
+					{ id: 'tiktok', platformName: 'TikTok', url: 'https://tiktok.com/@acema', checked: false }
+				]),
+				result('npm', 'npm', 'available'),
+				result('lemmy', 'Lemmy', 'taken'),
+				JSON.stringify({
+					type: 'done',
+					counts: { available: 1, taken: 1, unknown: 0, unsupported: 1 }
+				})
 			].join('\n') + '\n';
 		vi.stubGlobal('fetch', stubApi(body));
-		const lookup = new Lookup();
-		lookup.input = 'lumen';
-		lookup.lastLabel = 'acema';
-		lookup.rows = [
-			providerRow('github', 'GitHub', 'taken'),
-			providerRow('lemmy', 'Lemmy', 'available')
-		];
 
+		const lookup = new Lookup();
+		lookup.input = 'acema';
+		lookup.check({ sync: false });
+
+		await vi.waitFor(() => expect(lookup.loading).toBe(false));
+
+		expect(lookup.rows).toHaveLength(3);
+		expect(lookup.rows.map((r) => [r.id, r.status])).toEqual([
+			['npm', 'available'],
+			['lemmy', 'taken'],
+			['tiktok', 'unsupported']
+		]);
+		expect(lookup.rows.every((r) => r.name === 'acema')).toBe(true);
+		expect(lookup.rows[2].url).toBe('https://tiktok.com/@acema');
+		expect(lookup.counts).toEqual({ available: 1, taken: 1, unknown: 0, unsupported: 1 });
+	});
+
+	it('streams from an injected client, independent of HTTP', async () => {
+		const lines = [
+			manifest([{ id: 'npm', platformName: 'npm', url: 'https://npmjs.com/acema' }]),
+			result('npm', 'npm', 'available')
+		];
+		const client: CheckClient = {
+			async stream(_label, onEvent) {
+				for (const line of lines) {
+					const event = parseEvent(line);
+					if (event) onEvent(event);
+				}
+			}
+		};
+
+		const lookup = new Lookup(client);
+		lookup.input = 'acema';
 		lookup.check({ sync: false });
 		await vi.waitFor(() => expect(lookup.loading).toBe(false));
 
-		expect(lookup.rows.map((r) => r.id)).toEqual(['github', 'lemmy']);
-		expect(lookup.rows.map((r) => r.status)).toEqual(['available', 'taken']);
-		expect(lookup.busy).toBe(false);
-		expect(lookup.checked).toBe(2);
+		expect(lookup.rows).toHaveLength(1);
+		expect(lookup.rows[0].status).toBe('available');
+		expect(lookup.counts.available).toBe(1);
 	});
 
-	it('drops stale rows and surfaces the error when a re-scan fails', async () => {
+	it('uses the label from the manifest for row names', async () => {
+		vi.stubGlobal(
+			'fetch',
+			stubApi(
+				manifest([{ id: 'npm', platformName: 'npm', url: 'https://npmjs.com/acema' }], 'acema') +
+					'\n' +
+					result('npm', 'npm', 'available')
+			)
+		);
+
+		const lookup = new Lookup();
+		lookup.input = 'acema';
+		lookup.check({ sync: false });
+		await vi.waitFor(() => expect(lookup.loading).toBe(false));
+
+		expect(lookup.rows[0].name).toBe('acema');
+	});
+
+	it('marks unresolved rows unreachable when the stream ends early', async () => {
+		vi.stubGlobal(
+			'fetch',
+			stubApi(manifest([{ id: 'npm', platformName: 'npm', url: 'https://npmjs.com/acema' }]) + '\n')
+		);
+
+		const lookup = new Lookup();
+		lookup.input = 'acema';
+		lookup.check({ sync: false });
+		await vi.waitFor(() => expect(lookup.loading).toBe(false));
+
+		expect(lookup.rows[0].status).toBe('unknown');
+		expect(lookup.rows[0].detail).toBe('unreachable');
+	});
+
+	it('clears retained slots and surfaces the error when the stream fails before the manifest', async () => {
 		vi.stubGlobal(
 			'fetch',
 			vi.fn(() => Promise.reject(new TypeError('Failed to fetch')))
 		);
-		const lookup = new Lookup();
-		lookup.input = 'lumen';
-		lookup.lastLabel = 'acema';
-		lookup.rows = [providerRow('github', 'GitHub', 'taken')];
 
+		const lookup = new Lookup();
+		lookup.input = 'acema';
+		lookup.lastLabel = 'quartz';
+		lookup.rows = [row('GitHub', 'taken')];
 		lookup.check({ sync: false });
 		await vi.waitFor(() => expect(lookup.loading).toBe(false));
 
@@ -389,24 +383,24 @@ describe('check', () => {
 	});
 });
 
-describe('copyResults', () => {
-	it('copies rows ordered alphabetically by platformName', async () => {
-		const written: string[] = [];
-		vi.stubGlobal('navigator', {
-			clipboard: {
-				writeText: async (text: string) => {
-					written.push(text);
-				}
-			}
-		});
-
+describe('goHome', () => {
+	it('clears the report and returns to the landing state', () => {
 		const lookup = new Lookup();
+		lookup.input = 'acema';
 		lookup.lastLabel = 'acema';
-		lookup.rows = [row('PeerTube', 'available'), row('GitHub', 'taken'), row('Lemmy', 'taken')];
-		await lookup.copyResults();
+		lookup.rows = [row('GitHub', 'taken')];
+		lookup.error = 'unreachable';
+		lookup.filter = ['taken'];
+		lookup.loading = true;
 
-		expect(written[0]).toBe(
-			'acema\nGitHub\tacema\ttaken\nLemmy\tacema\ttaken\nPeerTube\tacema\tavailable'
-		);
+		lookup.goHome();
+
+		expect(lookup.input).toBe('');
+		expect(lookup.lastLabel).toBeNull();
+		expect(lookup.rows).toEqual([]);
+		expect(lookup.error).toBe('');
+		expect(lookup.filter).toEqual(DEFAULT_FILTER);
+		expect(lookup.loading).toBe(false);
+		expect(lookup.visibleRows).toEqual([]);
 	});
 });

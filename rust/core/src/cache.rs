@@ -8,7 +8,7 @@ use std::time::{Duration, Instant};
 use crate::provider::Status;
 
 /// Fresh is how long a cached verdict stays current.
-pub const FRESH: Duration = Duration::from_secs(60 * 60);
+const FRESH: Duration = Duration::from_secs(60 * 60);
 
 /// Entry is a cached verdict and when it was recorded.
 #[derive(Debug, Clone)]

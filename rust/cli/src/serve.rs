@@ -1,22 +1,34 @@
+use std::collections::HashSet;
 use std::error::Error;
-use std::io::{self, Read};
+use std::io::{self, Read, Write};
 use std::path::PathBuf;
 use std::sync::{mpsc, Arc};
 use std::thread;
 
 use namecheck_core::{Cache, Engine, Manifest, MemoryCache, Provider, ProviderResult};
+use serde::Serialize;
 use serde_json::json;
 use tiny_http::{Header, Method, Request, Response, Server, StatusCode};
 
 use crate::providers;
 
 const DEFAULT_ADDR: &str = "127.0.0.1:8080";
-const DEFAULT_ORIGIN: &str = "http://localhost:5173";
+const API_VERSION: u8 = 1;
+
+/// SourceEntry is one row of the manifest streamed before a scan. It comes from
+/// the registry, not the provider set, so deferred and keyed sources are listed
+/// too — the client renders them as "not checked" instead of guessing.
+struct SourceEntry {
+    id: String,
+    platform_name: String,
+    url_template: String,
+    paid: bool,
+    checked: bool,
+}
 
 pub fn run(args: &[String]) -> Result<(), Box<dyn Error>> {
     let mut addr = DEFAULT_ADDR.to_string();
-    let mut origin = DEFAULT_ORIGIN.to_string();
-    let mut manifest_path = PathBuf::from("fixtures/sources.json");
+    let mut manifest_path: Option<PathBuf> = None;
 
     let mut i = 0;
     while i < args.len() {
@@ -25,20 +37,30 @@ pub fn run(args: &[String]) -> Result<(), Box<dyn Error>> {
                 addr = args.get(i + 1).ok_or("--addr requires an address")?.clone();
                 i += 2;
             }
-            "--origin" => {
-                origin = args.get(i + 1).ok_or("--origin requires a URL")?.clone();
-                i += 2;
-            }
             "--manifest" => {
-                manifest_path = PathBuf::from(args.get(i + 1).ok_or("--manifest requires a path")?);
+                manifest_path = Some(PathBuf::from(
+                    args.get(i + 1).ok_or("--manifest requires a path")?,
+                ));
                 i += 2;
             }
             flag => return Err(format!("unknown flag {flag:?}").into()),
         }
     }
 
-    let manifest = Manifest::load(manifest_path)?;
+    let manifest = match &manifest_path {
+        Some(path) => Manifest::load(path)?,
+        None => Manifest::embedded()?,
+    };
+    manifest.validate()?;
+    eprintln!(
+        "registry: {}",
+        manifest_path
+            .as_ref()
+            .map(|path| path.display().to_string())
+            .unwrap_or_else(|| "embedded".to_string())
+    );
     let providers: Arc<Vec<Arc<dyn Provider>>> = Arc::new(providers::live(&manifest)?);
+    let entries: Arc<Vec<SourceEntry>> = Arc::new(source_entries(&manifest, &providers));
     let cache: Arc<dyn Cache> = Arc::new(MemoryCache::new());
     let server = Server::http(&addr)
         .map_err(|err| -> Box<dyn Error> { format!("listen on {addr}: {err}").into() })?;
@@ -46,30 +68,43 @@ pub fn run(args: &[String]) -> Result<(), Box<dyn Error>> {
 
     for request in server.incoming_requests() {
         let providers = Arc::clone(&providers);
+        let entries = Arc::clone(&entries);
         let cache = Arc::clone(&cache);
-        let origin = origin.clone();
-        thread::spawn(move || handle(request, providers.as_slice(), cache, &origin));
+        thread::spawn(move || handle(request, providers.as_slice(), &entries, cache));
     }
     Ok(())
 }
 
-fn handle(request: Request, providers: &[Arc<dyn Provider>], cache: Arc<dyn Cache>, origin: &str) {
-    let cors = allowed_origin(origin, &request);
-    if request.method() == &Method::Options {
-        let response = Response::new_empty(StatusCode(204))
-            .with_header(header("Access-Control-Allow-Origin", &cors))
-            .with_header(header("Access-Control-Allow-Methods", "GET, OPTIONS"))
-            .with_header(header("Access-Control-Allow-Headers", "Content-Type"))
-            .with_header(header("Vary", "Origin"));
-        respond(request, response);
-        return;
-    }
+/// source_entries joins the registry with the providers that were actually
+/// built. `checked` is derived, never stored, so it cannot drift.
+fn source_entries(manifest: &Manifest, providers: &[Arc<dyn Provider>]) -> Vec<SourceEntry> {
+    let checked: HashSet<&str> = providers.iter().map(|provider| provider.id()).collect();
+    manifest
+        .sources
+        .iter()
+        .map(|source| SourceEntry {
+            id: source.id.clone(),
+            platform_name: source.platform_name.clone(),
+            url_template: source.url_template.clone(),
+            paid: source.paid,
+            checked: checked.contains(source.id.as_str()),
+        })
+        .collect()
+}
+
+fn handle(
+    request: Request,
+    providers: &[Arc<dyn Provider>],
+    entries: &[SourceEntry],
+    cache: Arc<dyn Cache>,
+) {
     if request.method() != &Method::Get {
-        respond_error(request, 405, "method not allowed", &cors);
+        respond_error(request, 405, "method not allowed");
         return;
     }
-    if request.url().split('?').next() != Some("/check") {
-        respond_error(request, 404, "not found", &cors);
+
+    if request.url().split('?').next() != Some("/v1/check") {
+        respond_error(request, 404, "not found");
         return;
     }
 
@@ -77,34 +112,127 @@ fn handle(request: Request, providers: &[Arc<dyn Provider>], cache: Arc<dyn Cach
         .map(|value| value.trim().to_ascii_lowercase())
         .filter(|value| !value.is_empty());
     let Some(label) = label else {
-        respond_error(
-            request,
-            400,
-            "missing required query parameter \"name\"",
-            &cors,
-        );
+        respond_error(request, 400, "missing required query parameter \"name\"");
         return;
     };
     if !crate::valid_label(&label) {
-        respond_error(request, 400, "invalid query parameter \"name\"", &cors);
+        respond_error(request, 400, "invalid query parameter \"name\"");
         return;
     }
 
     let engine = Engine::new(providers.to_vec()).with_cache(cache);
     let receiver = engine.scan(&label);
-    let response = Response::new(
-        StatusCode(200),
-        vec![
-            header("Content-Type", "application/x-ndjson"),
-            header("Cache-Control", "no-store"),
-            header("Access-Control-Allow-Origin", &cors),
-            header("Vary", "Origin"),
-        ],
-        NdjsonStream::new(receiver),
-        None,
-        None,
-    );
-    respond(request, response);
+    stream_ndjson(request, entries, &label, receiver);
+}
+
+/// stream_ndjson writes the response itself instead of going through tiny_http's
+/// Response body. tiny_http sends chunked bodies through chunked_transfer's
+/// Encoder, which buffers 8 KiB before writing: with one short line per provider
+/// that meant the UI saw nothing until ~45 results had accumulated. Writing the
+/// chunks here lets every event flush as it resolves.
+fn stream_ndjson(
+    request: Request,
+    entries: &[SourceEntry],
+    label: &str,
+    receiver: mpsc::Receiver<ProviderResult>,
+) {
+    let mut writer = request.into_writer();
+    let head = "HTTP/1.1 200 OK\r\n\
+                Content-Type: application/x-ndjson\r\n\
+                Cache-Control: no-store\r\n\
+                Transfer-Encoding: chunked\r\n\
+                Connection: close\r\n\r\n";
+    if writer.write_all(head.as_bytes()).is_err() {
+        return;
+    }
+    if let Err(err) = write_events(&mut writer, entries, label, receiver) {
+        eprintln!("response failed: {err}");
+    }
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ManifestEvent<'a> {
+    #[serde(rename = "type")]
+    kind: &'static str,
+    version: u8,
+    label: &'a str,
+    sources: Vec<SourceEvent<'a>>,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+struct SourceEvent<'a> {
+    id: &'a str,
+    platform_name: &'a str,
+    url: String,
+    paid: bool,
+    checked: bool,
+}
+
+#[derive(Serialize)]
+struct ResultEvent<'a> {
+    #[serde(rename = "type")]
+    kind: &'static str,
+    #[serde(flatten)]
+    result: &'a ProviderResult,
+}
+
+#[derive(Serialize)]
+struct DoneEvent {
+    #[serde(rename = "type")]
+    kind: &'static str,
+}
+
+fn write_events<W: Write>(
+    writer: &mut W,
+    entries: &[SourceEntry],
+    label: &str,
+    receiver: mpsc::Receiver<ProviderResult>,
+) -> io::Result<()> {
+    let sources = entries
+        .iter()
+        .map(|entry| SourceEvent {
+            id: &entry.id,
+            platform_name: &entry.platform_name,
+            url: entry.url_template.replace("%s", label),
+            paid: entry.paid,
+            checked: entry.checked,
+        })
+        .collect();
+    write_event(
+        writer,
+        &ManifestEvent {
+            kind: "manifest",
+            version: API_VERSION,
+            label,
+            sources,
+        },
+    )?;
+
+    for result in receiver {
+        write_event(
+            writer,
+            &ResultEvent {
+                kind: "result",
+                result: &result,
+            },
+        )?;
+    }
+
+    write_event(writer, &DoneEvent { kind: "done" })?;
+    writer.write_all(b"0\r\n\r\n")?;
+    writer.flush()
+}
+
+/// write_event writes one NDJSON line as a single HTTP chunk and flushes it.
+fn write_event<W: Write, T: Serialize>(writer: &mut W, event: &T) -> io::Result<()> {
+    let mut line = serde_json::to_vec(event).map_err(io::Error::other)?;
+    line.push(b'\n');
+    write!(writer, "{:X}\r\n", line.len())?;
+    writer.write_all(&line)?;
+    writer.write_all(b"\r\n")?;
+    writer.flush()
 }
 
 fn query_param(url: &str, key: &str) -> Option<String> {
@@ -115,40 +243,11 @@ fn query_param(url: &str, key: &str) -> Option<String> {
         .map(|(_, value)| value.into_owned())
 }
 
-fn allowed_origin(configured: &str, request: &Request) -> String {
-    for header in request.headers() {
-        if header.field.equiv("Origin") {
-            let origin = header.value.as_str();
-            if is_loopback_origin(origin) {
-                return origin.to_string();
-            }
-        }
-    }
-    configured.to_string()
-}
-
-fn is_loopback_origin(origin: &str) -> bool {
-    let Ok(url) = url::Url::parse(origin) else {
-        return false;
-    };
-    if url.scheme() != "http" || url.port().is_none() {
-        return false;
-    }
-    match url.host() {
-        Some(url::Host::Domain("localhost")) => true,
-        Some(url::Host::Ipv4(ip)) => ip.is_loopback(),
-        Some(url::Host::Ipv6(ip)) => ip.is_loopback(),
-        _ => false,
-    }
-}
-
-fn respond_error(request: Request, status: u16, message: &str, origin: &str) {
+fn respond_error(request: Request, status: u16, message: &str) {
     let body = json!({ "error": message }).to_string();
     let response = Response::from_string(body)
         .with_status_code(StatusCode(status))
-        .with_header(header("Content-Type", "application/json"))
-        .with_header(header("Access-Control-Allow-Origin", origin))
-        .with_header(header("Vary", "Origin"));
+        .with_header(header("Content-Type", "application/json"));
     respond(request, response);
 }
 
@@ -162,76 +261,37 @@ fn header(name: &str, value: &str) -> Header {
     Header::from_bytes(name.as_bytes(), value.as_bytes()).expect("valid header")
 }
 
-/// NdjsonStream turns the engine receiver into a chunked response body.
-struct NdjsonStream {
-    receiver: mpsc::Receiver<ProviderResult>,
-    buffer: Vec<u8>,
-    offset: usize,
-}
-
-impl NdjsonStream {
-    fn new(receiver: mpsc::Receiver<ProviderResult>) -> Self {
-        Self {
-            receiver,
-            buffer: Vec::new(),
-            offset: 0,
-        }
-    }
-}
-
-impl Read for NdjsonStream {
-    fn read(&mut self, out: &mut [u8]) -> io::Result<usize> {
-        loop {
-            if self.offset < self.buffer.len() {
-                let available = &self.buffer[self.offset..];
-                let count = available.len().min(out.len());
-                out[..count].copy_from_slice(&available[..count]);
-                self.offset += count;
-                return Ok(count);
-            }
-            match self.receiver.recv() {
-                Ok(result) => {
-                    let mut line = serde_json::to_vec(&result).map_err(io::Error::other)?;
-                    line.push(b'\n');
-                    self.buffer = line;
-                    self.offset = 0;
-                }
-                Err(_) => return Ok(0),
-            }
-        }
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
     use namecheck_core::Status;
 
+    fn entry(id: &str, checked: bool) -> SourceEntry {
+        SourceEntry {
+            id: id.to_string(),
+            platform_name: id.to_string(),
+            url_template: format!("https://example.com/%s/{id}"),
+            paid: false,
+            checked,
+        }
+    }
+
     #[test]
     fn parses_query_parameter() {
         assert_eq!(
-            query_param("/check?name=acema", "name").as_deref(),
+            query_param("/v1/check?name=acema", "name").as_deref(),
             Some("acema")
         );
         assert_eq!(
-            query_param("/check?name=foo%20bar", "name").as_deref(),
+            query_param("/v1/check?name=foo%20bar", "name").as_deref(),
             Some("foo bar")
         );
-        assert_eq!(query_param("/check", "name"), None);
+        assert_eq!(query_param("/v1/check", "name"), None);
     }
 
     #[test]
-    fn recognizes_loopback_origins() {
-        assert!(is_loopback_origin("http://localhost:5173"));
-        assert!(is_loopback_origin("http://127.0.0.1:5174"));
-        assert!(is_loopback_origin("http://[::1]:5175"));
-        assert!(!is_loopback_origin("https://localhost:5173"));
-        assert!(!is_loopback_origin("http://localhost"));
-        assert!(!is_loopback_origin("https://example.com"));
-    }
-
-    #[test]
-    fn ndjson_stream_serializes_results() {
+    fn stream_starts_with_the_manifest_and_ends_with_done() {
+        let entries = vec![entry("npm", true), entry("tiktok", false)];
         let (tx, rx) = mpsc::channel();
         tx.send(ProviderResult {
             id: "npm".to_string(),
@@ -246,11 +306,17 @@ mod tests {
         .unwrap();
         drop(tx);
 
-        let mut stream = NdjsonStream::new(rx);
-        let mut body = String::new();
-        stream.read_to_string(&mut body).unwrap();
-        assert!(body.ends_with('\n'));
+        let mut body = Vec::new();
+        write_events(&mut body, &entries, "acema", rx).unwrap();
+        let body = String::from_utf8(body).unwrap();
+
+        assert!(body.contains("\"type\":\"manifest\""));
+        assert!(body.contains("\"sources\":[{"));
+        assert!(body.contains("\"url\":\"https://example.com/acema/npm\""));
+        assert!(body.contains("\"checked\":false"));
+        assert!(body.contains("\"type\":\"result\""));
         assert!(body.contains("\"status\":\"available\""));
-        assert!(body.contains("\"id\":\"npm\""));
+        assert!(body.contains("\"type\":\"done\""));
+        assert!(body.ends_with("0\r\n\r\n"));
     }
 }

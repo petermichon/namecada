@@ -1,7 +1,7 @@
 # Namecheck
 
 A name availability report. Enter a bare name (`acema`) and it checks that name
-across several independent sources at once, all through a Rust server. Dots
+across several independent sources at once, all through one Rust core. Dots
 aren't accepted — the sources are checked per label, so a dotted input
 (`acema.com`) is rejected with a prompt to drop the dot rather than silently
 reduced.
@@ -12,10 +12,18 @@ Each source runs independently and streams its verdict into the report as soon
 as it resolves, so one slow or failing source never blocks the others. Nothing
 waits for the whole set.
 
-The app is a thin client of the server: it streams results from
-`GET /check?name=<label>` over NDJSON. Every source lives in the server, which
-is where sources that need a proxy, a key, or no CORS belong. Anything that
-can't be reached is deferred (see below).
+The app is a static client of one server process: `GET /v1/check?name=<label>`
+streams NDJSON events — a `manifest`, one `result` per source, then `done`. The
+manifest lists every source (checked, keyed or deferred) with its URL, so the
+page renders the full report before checks finish and fills rows in place.
+
+Development uses Vite with `/v1` proxied to `serve`.
+
+`core` has no HTTP dependency. `serve` is a development/CLI harness only; the
+packaged app will be Tauri, calling the engine directly and feeding the same
+events through the `CheckClient` seam, with no localhost server. The source
+registry is compiled into the binary (`Manifest::embedded`); `--manifest`
+overrides it for development.
 
 ### Sources
 
@@ -107,7 +115,7 @@ not currently included.
 
 Domains run once per TLD (`.com`, `.org`, `.dev`, `.io`, `.ai`, `.app`), each a
 separate provider. Each TLD uses its registry's RDAP endpoint; the live IANA
-bootstrap lookup is not wired into the Rust server yet. Domains are **paid**
+bootstrap lookup is not wired into the core yet. Domains are **paid**
 sources: a registration costs money, and the amount varies (premium names cost
 more). ENS
 (`.eth`) is likewise paid — registering costs ETH. SNS (`.sol`) is paid too —
@@ -117,7 +125,7 @@ too — registering a `d/` name costs NMC. Heroku is also paid (its free
 tier ended in November 2022) but is still surfaced. Every handle, package and
 social source is **free** to register. The
 report renders a Paid card above a Free card, and each provider carries a `paid`
-flag the server streams on every `/check` result.
+flag carried by every source in the manifest stream.
 
 The free-subdomain sources (eu.org, DuckDNS, No-IP, dynv6, noted.lol,
 is-a-good.dev, Cloudflare Pages, Fly.io) have no wildcard DNS, so they resolve `{name}.{host}` and treat a
@@ -140,10 +148,10 @@ covers both.
 - Some platforms enforce a minimum name length (Chess.com 3, Lichess 2); shorter
   names are shown as **unavailable** (not registrable) rather than free.
 
-## Server
+## Rust core
 
-`rust/` is the server and engine. It is a Rust workspace assembled from a small
-core plus two commands:
+`rust/` is the engine plus a development/CLI harness. It is a Rust workspace
+assembled from a small core plus two commands:
 
 - `core/src/provider.rs` — the `Provider` and `Transport` contracts and the
   result/status types.
@@ -161,8 +169,8 @@ core plus two commands:
 
 Two commands drive it:
 
-- `npm run rust:serve` exposes `GET /check?name=<label>`, streaming one NDJSON
-  object per source as it resolves.
+- `npm run rust:serve` exposes `GET /v1/check?name=<label>`, streaming a
+  manifest, one result per source as it resolves, then a done event.
 - `check <label>` runs a one-shot scan. It replays the checked-in fixtures by
   default; add `--live` to use real HTTP and DNS.
 
@@ -198,16 +206,16 @@ unauthenticated requests (GitHub: 60/hour per IP).
 
 ## Layout
 
-- `rust/` — Rust server and engine (core + CLI); see `rust/README.md`.
+- `rust/` — Rust engine and the development/CLI harness; see `rust/README.md`.
 - `web/` — Svelte 5 + Vite + Tailwind + shadcn-svelte (maia) app.
   - `src/lib/platforms.ts` — the result types (`Status`, `ProviderResult`) and
     `toLabel`. The display name in `platformName` and the `paid` flag come from
-    the server; the report renders the URLs as a Paid card above a Free card,
+    the stream; the report renders the URLs as a Paid card above a Free card,
     each with its own heading and available count.
-  - `src/lib/api.ts` — the server client: `streamFromApi` consumes the `serve`
-    API (`GET /check?name=<label>`, NDJSON) and is the app's sole source. The
-    base URL defaults to `http://localhost:8080` and is overridable at build
-    time with `VITE_API_BASE`.
+  - `src/lib/api.ts` — the event contract and the `CheckClient` transport seam.
+    `streamFromApi` (the `httpCheckClient`) consumes the `serve` API
+    (`GET /v1/check?name=<label>`, NDJSON events); a native shell can inject its
+    own client without touching the UI or lookup state.
 - `fixtures/` — captured source inventory and raw HTTP snapshots; see
   [Fixtures](#fixtures).
 
@@ -219,8 +227,8 @@ shell or `source "$HOME/.cargo/env"`). The workspace pins stable Rust in
 
 ```sh
 npm install        # installs the web workspace + git hooks
-npm run dev        # Vite + the Rust server
-npm run build      # single-file production build
+npm run dev        # Vite + the development server
+npm run build      # single-file app build
 npm test           # vitest
 npm run check      # svelte-check + tsc
 npm run lint       # prettier --check + eslint
@@ -229,25 +237,26 @@ npm run verify     # web check/test/lint + Rust fmt/clippy/test
 npm run rust:test  # Rust tests
 npm run rust:clippy  # Rust lints
 npm run rust:build  # release build
-npm run rust:serve  # Rust NDJSON server on 127.0.0.1:8080
+npm run rust:serve  # development NDJSON server on 127.0.0.1:8080
 ```
 
 A husky `pre-commit` hook (installed by `npm install` via the `prepare`
 script) runs lint-staged, which formats and lints staged web files
 (prettier + eslint) and formats staged Rust files with `cargo fmt`.
 
-`npm run dev` starts the Vite app and the Rust server. The app streams every
-result from `serve`. The server's CORS origin defaults to the Vite dev origin
-(`http://localhost:5173`); any loopback origin (`http://localhost:<port>`,
-`http://127.0.0.1:<port>`) is also echoed back, so Vite can fall back to another
-port without restarting the server. Use `npm run dev:web` when the server is
-already running separately.
+`npm run dev` starts the Vite app and the development server. The app calls `/v1` on
+its own origin and Vite proxies that to `serve` on `:8080`, so no CORS setup is
+needed and Vite can fall back to another port. Use `npm run dev:web` when the
+server is already running separately.
 
 ## Adding a source
 
 1. Add the source metadata to `fixtures/sources.json`: `id`, `platform`,
    `platformName`, `nameTemplate`, `urlTemplate`, `paid`, `minLength`,
-   `maxLength`, and `keyed`.
+   `maxLength`, and `keyed`. A source with no provider is listed as
+   "not checked" automatically — `checked` is derived from the provider
+   registry, never stored. The registry is compiled into the binary, so rebuild
+   after editing.
 2. Implement the check in `rust/core`:
    - a status-only source goes in `rust/core/src/status.rs`;
    - a body-parsing, multi-request, POST/GraphQL, or RDAP source goes in
@@ -258,7 +267,7 @@ already running separately.
    exercised by `rust/core/tests/parity.rs`; DNS providers use a fake resolver.
 5. Run `npm run verify`.
 
-Sources live server-side, so CORS is not a constraint. Keyed sources are
+Checks run in the Rust core, so CORS is not a constraint. Keyed sources are
 deliberately omitted for now.
 
 Deferred: Packagist, Docker Hub, Go proxy (modules are paths, not single

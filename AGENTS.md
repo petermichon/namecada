@@ -7,8 +7,10 @@ conventions.
 ## Layout
 
 - `web/` — Svelte 5 + Vite + Tailwind + shadcn-svelte app. A thin client of the
-  server (streams `GET /check?name=<label>` over NDJSON).
-- `rust/` — the server and engine. `core/` holds the `Provider`/`Transport`
+  server (streams `GET /v1/check?name=<label>` NDJSON events:
+  `manifest` → `result`* → `done`). The UI depends on the `CheckClient` seam in
+  `src/lib/api.ts`; `httpCheckClient` is the development adapter.
+- `rust/` — the engine plus a development/CLI harness. `core/` holds the `Provider`/`Transport`
   contracts, the status/custom/DNS adapters, the engine, cache, HTTP transport,
   and fixture replay. `cli/` holds the `serve` and `check` commands.
 - `fixtures/` — captured source inventory plus raw HTTP snapshots. These are a
@@ -24,7 +26,7 @@ Root scripts (run from the repo root):
 
 | Command | Does |
 | --- | --- |
-| `npm run dev` | Vite dev server **and** the Rust server, concurrently |
+| `npm run dev` | Vite dev server **and** the Rust development server, concurrently |
 | `npm run dev:web` | Vite only |
 | `npm run build` / `npm run preview` | Production build / preview |
 | `npm test` | Vitest (web) |
@@ -35,17 +37,16 @@ Root scripts (run from the repo root):
 | `npm run rust:test` | `cargo test` for the Rust workspace |
 | `npm run rust:fmt:check` | Rust formatting check |
 | `npm run rust:clippy` | Rust lints |
-| `npm run rust:build` | release build of the Rust server |
+| `npm run rust:build` | release build of the Rust binary |
 | `npm run rust:serve` | run the Rust NDJSON server on `127.0.0.1:8080` |
 
 Rust scripts require `cargo` on `PATH` (rustup, then a new shell or
 `source "$HOME/.cargo/env"`); `rust-toolchain.toml` pins the stable toolchain.
 
-Run `npm run verify` (the canonical check) before finishing. The app expects the
-server on `:8080`; its CORS origin defaults to the Vite origin
-`http://localhost:5173`, and any loopback origin (`http://localhost:<port>`,
-`http://127.0.0.1:<port>`) is echoed back so Vite can fall back to another port
-without restarting the server.
+Run `npm run verify` (the canonical check) before finishing. The app calls
+`/v1` on its own origin; Vite proxies that to the development server on `:8080`. `serve` is
+a development/CLI harness; the packaged app is Tauri and calls `core` directly
+through the `CheckClient` seam.
 
 ## Conventions
 
@@ -74,7 +75,9 @@ without restarting the server.
 
 1. Add the metadata to `fixtures/sources.json`: `id`, `platform`,
    `platformName`, `nameTemplate`, `urlTemplate`, `paid`, `minLength`,
-   `maxLength`, `keyed`.
+   `maxLength`, `keyed`. A deferred/manual source stops here: with no provider
+   it is listed as "not checked" automatically (`checked` is derived, never
+   stored).
 2. Implement the check in `rust/core`:
    - status-only → `status.rs` spec table;
    - body/multi-request/POST/RDAP → `custom.rs` spec table;

@@ -3,14 +3,14 @@ import { describe, expect, it } from 'vitest';
 import ResultsList from './ResultsList.svelte';
 import type { Row } from '$lib/useLookup.svelte';
 
-function row(id: string, paid = true): Row {
+function row(id: string, paid = true, status: Row['status'] = 'available'): Row {
 	return {
 		id,
 		platform: 'github',
 		platformName: 'GitHub',
 		name: id,
 		url: `https://example.com/${id}`,
-		status: 'available',
+		status,
 		paid
 	};
 }
@@ -24,23 +24,22 @@ function liClasses(html: string): string[] {
 }
 
 describe('ResultsList', () => {
-	it('paints the grid with the row background so a trailing empty cell matches', () => {
+	it('renders flat section headings with the group count', () => {
 		const { body } = render(ResultsList, { props: { paidRows: [row('acema')] } });
-		const ul = firstUlClass(body);
 
-		expect(ul).toContain('bg-card');
-		expect(ul).not.toContain('bg-border');
-		expect(ul).not.toContain('gap-px');
+		expect(body).toContain('Paid platforms');
+		expect(body).toContain('1 of 1 available');
+		expect(body).not.toContain('Free platforms');
 	});
 
-	it('draws the 1px separators as borders on the rows', () => {
+	it('draws separators as borders on the rows, not a card', () => {
 		const { body } = render(ResultsList, { props: { paidRows: [row('a'), row('b')] } });
 
 		for (const li of liClasses(body)) {
 			expect(li).toContain('border-b');
 			expect(li).toContain('border-border');
-			expect(li).toContain('bg-card');
-			expect(li).toContain('lg:border-l');
+			expect(li).not.toContain('bg-card');
+			expect(li).not.toContain('lg:border-l');
 		}
 	});
 
@@ -52,5 +51,14 @@ describe('ResultsList', () => {
 
 		expect(ul).toContain('grid-cols-1');
 		expect(ul).toContain('lg:grid-cols-2');
+	});
+
+	it('excludes not-checked rows from the section count', () => {
+		const { body } = render(ResultsList, {
+			props: { paidRows: [row('a'), row('b', true, 'unsupported')] }
+		});
+
+		expect(body).toContain('1 of 1 available');
+		expect(liClasses(body)).toHaveLength(2);
 	});
 });

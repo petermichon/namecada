@@ -1,5 +1,4 @@
 <script lang="ts">
-	import * as Card from '$lib/components/ui/card/index.js';
 	import ResultRow from './ResultRow.svelte';
 	import type { Row } from '$lib/useLookup.svelte';
 
@@ -19,38 +18,29 @@
 		verdicts(rows).filter((row) => row.status === 'available').length;
 </script>
 
-{#if paidRows.length}
-	<Card.Root class="mt-3 gap-0 py-0">
-		<div class="flex flex-wrap items-baseline gap-x-2 px-3 py-2">
-			<h2 class="text-sm font-semibold tracking-tight">Paid</h2>
-			{#if verdicts(paidRows).length}
+{#snippet group(title: string, rows: Row[])}
+	<section class="mt-8 first:mt-6">
+		<div class="flex items-baseline gap-3">
+			<h2 class="text-sm font-semibold tracking-tight">{title}</h2>
+			{#if verdicts(rows).length}
 				<p class="text-xs text-muted-foreground">
-					{availableCount(paidRows)} of {verdicts(paidRows).length} available
+					{availableCount(rows)} of {verdicts(rows).length} available
 				</p>
 			{/if}
+			<span class="ml-1 h-px flex-1 self-center bg-border" aria-hidden="true"></span>
 		</div>
-		<ul class="-mb-px grid grid-cols-1 bg-card lg:-ml-px lg:grid-cols-2">
-			{#each paidRows as row (row.id)}
+		<ul class="mt-1 grid grid-cols-1 lg:grid-cols-2 lg:gap-x-10">
+			{#each rows as row (row.id)}
 				<ResultRow {row} />
 			{/each}
 		</ul>
-	</Card.Root>
+	</section>
+{/snippet}
+
+{#if paidRows.length}
+	{@render group('Paid platforms', paidRows)}
 {/if}
 
 {#if freeRows.length}
-	<Card.Root class="mt-3 gap-0 py-0">
-		<div class="flex flex-wrap items-baseline gap-x-2 px-3 py-2">
-			<h2 class="text-sm font-semibold tracking-tight">Free</h2>
-			{#if verdicts(freeRows).length}
-				<p class="text-xs text-muted-foreground">
-					{availableCount(freeRows)} of {verdicts(freeRows).length} available
-				</p>
-			{/if}
-		</div>
-		<ul class="-mb-px grid grid-cols-1 bg-card lg:-ml-px lg:grid-cols-2">
-			{#each freeRows as row (row.id)}
-				<ResultRow {row} />
-			{/each}
-		</ul>
-	</Card.Root>
+	{@render group('Free platforms', freeRows)}
 {/if}

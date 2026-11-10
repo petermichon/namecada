@@ -5,7 +5,7 @@ line.
 
 **Rule:** nothing gets added until its signal is verified **server-side** on both
 the taken and free response (see the README's "Adding a source"). CORS is no
-longer a constraint — checks run from the server — so the reachability notes
+longer a constraint — checks run in the Rust core — so the reachability notes
 below, written in the browser-direct era, must be re-checked before implementing.
 
 ## Providers

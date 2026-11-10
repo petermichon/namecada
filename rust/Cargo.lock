@@ -282,6 +282,7 @@ name = "namecheck"
 version = "0.1.0"
 dependencies = [
  "namecheck-core",
+ "serde",
  "serde_json",
  "tiny_http",
  "url",

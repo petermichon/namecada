@@ -1,50 +1,101 @@
 <script lang="ts">
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
-	import type { Filter } from '$lib/useLookup.svelte';
+	import CheckCircle2Icon from '@lucide/svelte/icons/check-circle-2';
+	import XCircleIcon from '@lucide/svelte/icons/x-circle';
+	import HelpCircleIcon from '@lucide/svelte/icons/help-circle';
+	import CircleMinusIcon from '@lucide/svelte/icons/circle-minus';
+	import type { Filter, FilterStatus } from '$lib/useLookup.svelte';
 
 	let {
 		filter = $bindable<Filter>([]),
 		counts,
-		disabled = false
+		total
 	}: {
 		filter: Filter;
 		counts: { available: number; taken: number; unknown: number; unsupported: number };
-		disabled?: boolean;
+		total: number;
 	} = $props();
+
+	const rows = $derived([
+		{
+			value: 'available' as const,
+			label: 'available',
+			count: counts.available,
+			Icon: CheckCircle2Icon,
+			color: 'text-success',
+			bar: 'bg-success',
+			active: 'aria-pressed:bg-success/10'
+		},
+		{
+			value: 'taken' as const,
+			label: 'unavailable',
+			count: counts.taken,
+			Icon: XCircleIcon,
+			color: 'text-destructive',
+			bar: 'bg-destructive',
+			active: 'aria-pressed:bg-destructive/10'
+		},
+		...(counts.unknown || filter.includes('unknown')
+			? [
+					{
+						value: 'unknown' as const,
+						label: 'unknown',
+						count: counts.unknown,
+						Icon: HelpCircleIcon,
+						color: 'text-warning',
+						bar: 'bg-warning',
+						active: 'aria-pressed:bg-warning/10'
+					}
+				]
+			: []),
+		...(counts.unsupported || filter.includes('unsupported')
+			? [
+					{
+						value: 'unsupported' as const,
+						label: 'not checked',
+						count: counts.unsupported,
+						Icon: CircleMinusIcon,
+						color: 'text-muted-foreground',
+						bar: null,
+						active: 'aria-pressed:bg-muted'
+					}
+				]
+			: [])
+	]);
+
+	function toggle(value: FilterStatus) {
+		filter = filter.includes(value)
+			? filter.filter((status) => status !== value)
+			: [...filter, value];
+	}
+
+	function share(count: number): string {
+		return total > 0 ? `${(count / total) * 100}%` : '0%';
+	}
 </script>
 
-<ToggleGroup.Root
-	type="multiple"
-	bind:value={filter}
-	variant="outline"
-	size="sm"
-	spacing={2}
-	{disabled}
-	class="text-xs"
->
-	<ToggleGroup.Item
-		value="available"
-		class="data-[state=on]:border-success/40 data-[state=on]:bg-success/15 data-[state=on]:text-success"
-	>
-		{counts.available} available
-	</ToggleGroup.Item>
-	<ToggleGroup.Item value="taken" class="data-[state=on]:text-foreground">
-		{counts.taken} unavailable
-	</ToggleGroup.Item>
-	{#if counts.unknown}
-		<ToggleGroup.Item
-			value="unknown"
-			class="data-[state=on]:border-warning/40 data-[state=on]:bg-warning/15 data-[state=on]:text-warning"
+<div class="space-y-0.5" role="group" aria-label="Filter results by status">
+	{#each rows as row (row.value)}
+		<button
+			type="button"
+			aria-pressed={filter.includes(row.value)}
+			onclick={() => toggle(row.value)}
+			class="grid w-full grid-cols-[auto_6.5rem_2rem_1fr] items-center gap-x-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring {row.active}"
 		>
-			{counts.unknown} unknown
-		</ToggleGroup.Item>
-	{/if}
-	{#if counts.unsupported}
-		<ToggleGroup.Item
-			value="unsupported"
-			class="data-[state=on]:border-border data-[state=on]:bg-muted data-[state=on]:text-muted-foreground"
-		>
-			{counts.unsupported} not checked
-		</ToggleGroup.Item>
-	{/if}
-</ToggleGroup.Root>
+			<row.Icon class="size-3.5 shrink-0 {row.color}" aria-hidden="true" />
+			<span class="truncate text-foreground">{row.label}</span>
+			<span class="text-right text-[13px] font-medium text-foreground tabular-nums"
+				>{row.count}</span
+			>
+			{#if row.bar}
+				<span class="h-[3px] w-full overflow-hidden rounded-full bg-border">
+					<span
+						class="block h-full rounded-full {row.bar} transition-[width] duration-300 motion-reduce:transition-none"
+						style:width={share(row.count)}
+					></span>
+				</span>
+			{:else}
+				<span aria-hidden="true"></span>
+			{/if}
+		</button>
+	{/each}
+</div>

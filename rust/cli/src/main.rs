@@ -12,8 +12,9 @@ const USAGE: &str = "usage: namecheck <command> [args]
 Commands:
   check <label> [--live] [--manifest PATH] [--fixtures DIR] [--json]
       check a label; --live uses real HTTP/DNS, otherwise replay fixtures
-  serve [--addr 127.0.0.1:8080] [--origin URL] [--manifest PATH]
-      serve GET /check?name=<label> as NDJSON
+  serve [--addr 127.0.0.1:8080] [--manifest PATH]
+      serve GET /v1/check?name=<label> as NDJSON for local development
+      (the registry is compiled in; --manifest overrides it)
   sources [--manifest PATH]
       list the source inventory
 ";
@@ -60,7 +61,7 @@ fn check(args: &[String]) -> Result<(), Box<dyn std::error::Error>> {
         return Err(format!("invalid label {label:?}").into());
     }
 
-    let mut manifest_path = PathBuf::from("fixtures/sources.json");
+    let mut manifest_path: Option<PathBuf> = None;
     let mut fixtures_dir = PathBuf::from("fixtures");
     let mut json = false;
     let mut live = false;
@@ -68,7 +69,9 @@ fn check(args: &[String]) -> Result<(), Box<dyn std::error::Error>> {
     while i < args.len() {
         match args[i].as_str() {
             "--manifest" => {
-                manifest_path = PathBuf::from(args.get(i + 1).ok_or("--manifest requires a path")?);
+                manifest_path = Some(PathBuf::from(
+                    args.get(i + 1).ok_or("--manifest requires a path")?,
+                ));
                 i += 2;
             }
             "--fixtures" => {
@@ -88,7 +91,11 @@ fn check(args: &[String]) -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    let manifest = Manifest::load(&manifest_path)?;
+    let manifest = match manifest_path {
+        Some(path) => Manifest::load(path)?,
+        None => Manifest::embedded()?,
+    };
+    manifest.validate()?;
     let providers: Vec<Arc<dyn Provider>> = if live {
         providers::live(&manifest)?
     } else {
@@ -121,19 +128,25 @@ fn check(args: &[String]) -> Result<(), Box<dyn std::error::Error>> {
 }
 
 fn sources(args: &[String]) -> Result<(), Box<dyn std::error::Error>> {
-    let mut manifest_path = PathBuf::from("fixtures/sources.json");
+    let mut manifest_path: Option<PathBuf> = None;
     let mut i = 0;
     while i < args.len() {
         match args[i].as_str() {
             "--manifest" => {
-                manifest_path = PathBuf::from(args.get(i + 1).ok_or("--manifest requires a path")?);
+                manifest_path = Some(PathBuf::from(
+                    args.get(i + 1).ok_or("--manifest requires a path")?,
+                ));
                 i += 2;
             }
             flag => return Err(format!("unknown flag {flag:?}").into()),
         }
     }
 
-    let manifest = Manifest::load(manifest_path)?;
+    let manifest = match manifest_path {
+        Some(path) => Manifest::load(path)?,
+        None => Manifest::embedded()?,
+    };
+    manifest.validate()?;
     let stdout = io::stdout();
     let mut out = io::BufWriter::new(stdout.lock());
     for source in &manifest.sources {

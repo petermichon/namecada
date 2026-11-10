@@ -1,148 +1,144 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { apiBase, createNdjsonReader, DEFAULT_API_BASE, parseResult, streamFromApi } from './api';
-import type { ProviderResult } from './platforms';
+import { CHECK_ENDPOINT, createNdjsonReader, parseEvent, streamFromApi } from './api';
+import type { CheckEvent } from './api';
 
-function line(result: Partial<ProviderResult> & { id: string }): string {
-	return JSON.stringify(result);
-}
-
-function stubApi(body: string, init?: ResponseInit) {
+function stubApi(body: string) {
 	return vi.fn((input: unknown) => {
-		if (String(input).includes('/check?name=')) {
-			return Promise.resolve(new Response(body, { status: 200, ...init }));
+		if (String(input).includes(`${CHECK_ENDPOINT}?name=`)) {
+			return Promise.resolve(new Response(body, { status: 200 }));
 		}
 		return Promise.resolve(new Response(null, { status: 404 }));
 	});
 }
 
+function result(overrides: Record<string, unknown> = {}): string {
+	return JSON.stringify({
+		type: 'result',
+		id: 'lemmy',
+		platform: 'lemmy',
+		platformName: 'Lemmy',
+		name: 'acema',
+		url: 'https://lemmy.world/u/acema',
+		status: 'taken',
+		...overrides
+	});
+}
+
+const manifest = JSON.stringify({
+	type: 'manifest',
+	version: 1,
+	label: 'acema',
+	sources: [
+		{ id: 'npm', platformName: 'npm', url: 'https://npmjs.com/acema', paid: false, checked: true },
+		{
+			id: 'tiktok',
+			platformName: 'TikTok',
+			url: 'https://tiktok.com/@acema',
+			paid: false,
+			checked: false
+		}
+	]
+});
+
 afterEach(() => {
 	vi.unstubAllGlobals();
-	vi.unstubAllEnvs();
 });
 
-describe('apiBase', () => {
-	it('defaults to the local backend', () => {
-		vi.stubEnv('VITE_API_BASE', '');
-		expect(apiBase()).toBe(DEFAULT_API_BASE);
+describe('parseEvent', () => {
+	it('parses the manifest', () => {
+		const event = parseEvent(manifest);
+		expect(event).toMatchObject({ type: 'manifest', version: 1, label: 'acema' });
+		expect(event?.type === 'manifest' && event.sources).toHaveLength(2);
+		expect(event?.type === 'manifest' && event.sources[1]).toMatchObject({
+			id: 'tiktok',
+			platformName: 'TikTok',
+			checked: false,
+			paid: false
+		});
 	});
 
-	it('honors VITE_API_BASE and strips trailing slashes', () => {
-		vi.stubEnv('VITE_API_BASE', 'https://api.example.com/');
-		expect(apiBase()).toBe('https://api.example.com');
-	});
-});
-
-describe('parseResult', () => {
-	it('parses a backend result line', () => {
-		expect(
-			parseResult(
-				line({
-					id: 'lemmy',
-					platform: 'lemmy',
-					platformName: 'Lemmy',
-					name: 'acema',
-					url: 'https://lemmy.world/u/acema',
-					status: 'taken'
-				})
-			)
-		).toMatchObject({ id: 'lemmy', platformName: 'Lemmy', status: 'taken' });
+	it('defaults missing manifest fields and drops malformed sources', () => {
+		const event = parseEvent(
+			JSON.stringify({
+				type: 'manifest',
+				sources: [{ id: 'x' }, { id: 'npm', url: 'u' }]
+			})
+		);
+		expect(event).toMatchObject({ type: 'manifest', version: 0, label: '' });
+		expect(event?.type === 'manifest' && event.sources).toEqual([
+			{ id: 'npm', platformName: 'npm', url: 'u', paid: false, checked: false }
+		]);
 	});
 
-	it('falls back to the platform id when platformName is missing', () => {
-		expect(
-			parseResult(
-				line({
-					id: 'lemmy',
-					platform: 'lemmy',
-					name: 'acema',
-					url: 'https://lemmy.world/u/acema',
-					status: 'taken'
-				})
-			)
-		).toMatchObject({ platformName: 'lemmy' });
+	it('parses a result event', () => {
+		expect(parseEvent(result())).toMatchObject({
+			type: 'result',
+			id: 'lemmy',
+			platformName: 'Lemmy',
+			status: 'taken'
+		});
 	});
 
-	it('drops an empty detail', () => {
-		expect(
-			parseResult(line({ id: 'x', name: 'n', url: 'u', status: 'available', detail: '' }))
-		).toMatchObject({ detail: undefined });
+	it('drops an empty detail and defaults paid', () => {
+		const event = parseEvent(result({ detail: '' }));
+		expect(event).toMatchObject({ detail: undefined, paid: false });
 	});
 
-	it('carries the paid flag', () => {
-		expect(
-			parseResult(
-				line({
-					id: 'domain.com',
-					platform: 'domains',
-					platformName: 'Domains',
-					name: 'acema.com',
-					url: 'https://acema.com',
-					status: 'taken',
-					paid: true
-				})
-			)
-		).toMatchObject({ paid: true });
+	it('parses the done event', () => {
+		expect(parseEvent(JSON.stringify({ type: 'done' }))).toEqual({ type: 'done' });
 	});
 
-	it('defaults paid to false when the line omits it', () => {
-		expect(
-			parseResult(line({ id: 'npm', name: 'n', url: 'u', status: 'available' }))
-		).toMatchObject({ paid: false });
-	});
-
-	it('rejects blank, malformed, and incomplete lines', () => {
-		expect(parseResult('')).toBeNull();
-		expect(parseResult('  ')).toBeNull();
-		expect(parseResult('not json')).toBeNull();
-		expect(
-			parseResult(line({ id: 'x', name: 'n', url: 'u', status: 'weird' as never }))
-		).toBeNull();
-		expect(parseResult(JSON.stringify({ id: 'x' }))).toBeNull();
+	it('rejects blank, malformed, unknown, and incomplete lines', () => {
+		expect(parseEvent('')).toBeNull();
+		expect(parseEvent('  ')).toBeNull();
+		expect(parseEvent('not json')).toBeNull();
+		expect(parseEvent(JSON.stringify({ type: 'nope' }))).toBeNull();
+		expect(parseEvent(JSON.stringify({ type: 'result', id: 'x' }))).toBeNull();
+		expect(parseEvent(result({ status: 'weird' }))).toBeNull();
 	});
 });
 
 describe('createNdjsonReader', () => {
 	it('parses complete lines and flushes a trailing partial one', () => {
-		const seen: ProviderResult[] = [];
-		const reader = createNdjsonReader((result) => seen.push(result));
-		reader.push(line({ id: 'a', name: 'n', url: 'u', status: 'taken' }) + '\n\n');
-		reader.push('{"id":"b"');
+		const seen: CheckEvent[] = [];
+		const reader = createNdjsonReader((event) => seen.push(event));
+		reader.push(manifest + '\n\n');
+		reader.push('{"type":"result","id":"b"');
 		reader.push(',"name":"n","url":"u","status":"unknown"}');
 		reader.flush();
-		expect(seen.map((result) => result.id)).toEqual(['a', 'b']);
+		expect(seen.map((event) => event.type)).toEqual(['manifest', 'result']);
 	});
 });
 
 describe('streamFromApi', () => {
-	it('streams one result per NDJSON line', async () => {
+	it('streams the manifest, results, and done in order', async () => {
 		const body =
 			[
-				line({
-					id: 'lemmy',
-					platform: 'lemmy',
-					platformName: 'Lemmy',
-					name: 'acema',
-					url: 'https://lemmy.world/u/acema',
-					status: 'taken'
-				}),
-				line({
-					id: 'peertube',
-					platform: 'peertube',
-					platformName: 'PeerTube',
-					name: 'acema',
-					url: 'https://framatube.org/a/acema',
-					status: 'available',
-					detail: ''
+				manifest,
+				result({ id: 'lemmy', status: 'taken' }),
+				result({ id: 'peertube', platformName: 'PeerTube', status: 'available' }),
+				JSON.stringify({
+					type: 'done',
+					counts: { available: 1, taken: 1, unknown: 0, unsupported: 1 }
 				})
 			].join('\n') + '\n';
 		vi.stubGlobal('fetch', stubApi(body));
 
-		const seen: ProviderResult[] = [];
-		await streamFromApi('acema', (result) => seen.push(result));
+		const seen: CheckEvent[] = [];
+		await streamFromApi('acema', (event) => seen.push(event));
 
-		expect(seen.map((result) => result.id)).toEqual(['lemmy', 'peertube']);
-		expect(seen[0].platformName).toBe('Lemmy');
-		expect(seen[1].detail).toBeUndefined();
+		expect(seen.map((event) => event.type)).toEqual(['manifest', 'result', 'result', 'done']);
+		expect(seen[1].type === 'result' && seen[1].platformName).toBe('Lemmy');
+	});
+
+	it('requests the versioned endpoint', async () => {
+		const fetchMock = stubApi(manifest + '\n');
+		vi.stubGlobal('fetch', fetchMock);
+		await streamFromApi('acema', () => {});
+		expect(fetchMock).toHaveBeenCalledWith(
+			`${CHECK_ENDPOINT}?name=acema`,
+			expect.objectContaining({ credentials: 'omit' })
+		);
 	});
 
 	it('rejects on an error response', async () => {

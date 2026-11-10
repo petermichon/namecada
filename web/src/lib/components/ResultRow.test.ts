@@ -36,13 +36,13 @@ describe('ResultRow', () => {
 		expect(statusSlot(row('unknown'))).toContain('unknown');
 	});
 
-	it('carries the grid separators as borders on the row', () => {
+	it('carries the section separators as a border on the row', () => {
 		const html = statusSlot(row('available'));
 		const li = html.match(/<li[^>]*class="([^"]*)"/)?.[1] ?? '';
 
-		expect(li).toContain('bg-card');
 		expect(li).toContain('border-b');
 		expect(li).toContain('border-border');
-		expect(li).toContain('lg:border-l');
+		expect(li).not.toContain('bg-card');
+		expect(li).not.toContain('lg:border-l');
 	});
 });

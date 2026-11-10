@@ -23,8 +23,11 @@ npm run server:export -- --label acema
 
 ## Format
 
-- `sources.json` — every source, including the credential-gated ones that a
-  zero-config scan omits. `keyed: true` marks a source that needs credentials.
+- `sources.json` — every source, including credential-gated and deferred ones
+  that a zero-config scan omits. `keyed: true` marks a source that needs
+  credentials; a source with no provider renders as "not checked". It is
+  compiled into the binary via `Manifest::embedded`; `--manifest` overrides it
+  during development.
 - `<label>/<source>.json` — `status`, `detail`, the provider's public URL, and
   a `requests` array. Each request carries its method, URL, headers, body, and
   the response status, selected headers, and body. A transport failure is

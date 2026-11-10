@@ -39,26 +39,27 @@ Manual replay:
 
 ```sh
 cd rust
-cargo run -p namecheck -- check acema \
-  --manifest ../fixtures/sources.json \
-  --fixtures ../fixtures
+cargo run -p namecheck -- check acema --fixtures ../fixtures
 ```
+
+The registry is compiled in (`Manifest::embedded`); `--manifest
+../fixtures/sources.json` overrides it.
 
 Live check with real HTTP and DNS:
 
 ```sh
-cargo run -p namecheck -- check acema \
-  --live --manifest ../fixtures/sources.json
+cargo run -p namecheck -- check acema --live
 ```
 
-Serve the NDJSON API (`GET /check?name=<label>`), from the repository root:
+Serve the NDJSON API (`GET /v1/check?name=<label>`), from the repository root:
 
 ```sh
 npm run rust:serve
 ```
 
-The Vite client defaults to `http://localhost:8080`. For a different port, set
-`VITE_API_BASE`.
+The Vite client calls `/v1` on its own origin; `npm run dev` proxies that to
+`:8080`. `serve` is a development/CLI harness; the Tauri app will call the
+engine in-process.
 
 `--json` emits the same result shape the web client consumes. The replay CLI
 covers the HTTP-backed providers; DNS providers are exercised by the core tests
@@ -74,5 +75,7 @@ request unconsumed fails the test.
 ## Next
 
 1. Keep the keyed sources omitted unless they become a requirement.
-2. Polish the Rust server and web integration.
-3. Add the Tauri desktop shell only if it is still wanted.
+2. Package the core in a Tauri desktop/mobile shell: call the engine directly
+   and feed the same events through `CheckClient`. `serve` stays a dev/CLI
+   harness.
+3. Add a disk cache behind the `Cache` trait so repeat checks survive restarts.

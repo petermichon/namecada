@@ -11,7 +11,7 @@ use crate::cache::Cache;
 use crate::provider::{Outcome, Provider, Status};
 
 /// DefaultConcurrency bounds how many provider checks run at once.
-pub const DEFAULT_CONCURRENCY: usize = 8;
+const DEFAULT_CONCURRENCY: usize = 8;
 
 /// ProviderResult is the public shape streamed to the UI and CLI.
 #[derive(Debug, Clone, Serialize, PartialEq, Eq)]
@@ -52,10 +52,6 @@ impl Engine {
     pub fn with_cache(mut self, cache: Arc<dyn Cache>) -> Self {
         self.cache = Some(cache);
         self
-    }
-
-    pub fn providers(&self) -> &[Arc<dyn Provider>] {
-        &self.providers
     }
 
     /// scan returns a receiver that emits each result as it resolves and closes

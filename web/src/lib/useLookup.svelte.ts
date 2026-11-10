@@ -1,9 +1,6 @@
 import { onMount } from 'svelte';
-import { isAbort, streamFromApi } from './api';
+import { httpCheckClient, isAbort, type CheckClient, type CheckEvent } from './api';
 import { toLabel, type Status } from './platforms';
-import { UNSUPPORTED } from './unsupported';
-
-const QUERY_KEY = 'namecheck:query';
 
 export interface Row {
 	id: string;
@@ -21,6 +18,9 @@ export type FilterStatus = Status | 'unsupported';
 // which shows every row (the default), so `available + not checked` unions
 // those two and hides the rest.
 export type Filter = FilterStatus[];
+
+// The default view is the verdicts; deferred/keyed sources are opt-in.
+export const DEFAULT_FILTER: Filter = ['available', 'taken', 'unknown'];
 
 // Order rows alphabetically by their display name, independent of status, so
 // the list stays stable as results stream in. Ties break on the provider URL so
@@ -46,15 +46,10 @@ function queryParam(): string {
 	return new URLSearchParams(location.search).get('q') ?? '';
 }
 
-function loadQuery(): string {
-	const fromUrl = queryParam();
-	if (fromUrl) return fromUrl;
-	if (typeof localStorage === 'undefined') return '';
-	try {
-		return localStorage.getItem(QUERY_KEY) ?? '';
-	} catch {
-		return '';
-	}
+function settlePending(rows: Row[]): Row[] {
+	return rows.map((row) =>
+		row.status === 'pending' ? { ...row, status: 'unknown' as const, detail: 'unreachable' } : row
+	);
 }
 
 function syncUrl(query: string) {
@@ -65,26 +60,24 @@ function syncUrl(query: string) {
 }
 
 // Lookup owns the form state, the abort/generation guards that keep a stale
-// stream from winning, and the query's URL plus localStorage persistence.
+// stream from winning, and the query's URL persistence.
 export class Lookup {
-	input = $state(loadQuery());
+	input = $state(queryParam());
 	rows = $state<Row[]>([]);
 	error = $state('');
 	loading = $state(false);
-	lastLabel = $state<string | null>(null);
-	filter = $state<Filter>([]);
-	copied = $state(false);
-	// busy marks a re-scan running over rows from the previous label. The stale
-	// rows stay mounted (so the document keeps its height and scroll cannot
-	// clamp, P49) and are dimmed + aria-busy until the first fresh result lands.
-	busy = $state(false);
-	// received counts results resolved for the current generation, so the
-	// summary reports progress against the in-flight scan rather than the
-	// stale rows still on screen.
-	received = $state(0);
+	// Seed from the URL so a shared ?q= link renders the results page straight
+	// away, without a flash of the landing page.
+	lastLabel = $state<string | null>(toLabel(queryParam()));
+	filter = $state<Filter>([...DEFAULT_FILTER]);
 
 	#controller: AbortController | null = null;
 	#generation = 0;
+	#client: CheckClient;
+
+	constructor(client: CheckClient = httpCheckClient) {
+		this.#client = client;
+	}
 
 	check = ({ sync = true }: { sync?: boolean } = {}): void => {
 		const label = toLabel(this.input);
@@ -93,14 +86,12 @@ export class Lookup {
 		this.#controller?.abort();
 		this.#controller = null;
 		this.error = '';
-		this.filter = [];
+		this.filter = [...DEFAULT_FILTER];
 
 		if (!label) {
 			this.rows = [];
 			this.lastLabel = null;
 			this.loading = false;
-			this.busy = false;
-			this.received = 0;
 			const raw = this.input.trim();
 			this.error = !raw
 				? 'Enter a name to check.'
@@ -110,158 +101,150 @@ export class Lookup {
 			return;
 		}
 
-		try {
-			localStorage.setItem(QUERY_KEY, this.input.trim());
-		} catch {
-			// storage unavailable: persistence is best-effort
-		}
 		if (sync) syncUrl(this.input.trim());
 
 		const ac = new AbortController();
 		this.#controller = ac;
 		this.lastLabel = label;
 		this.loading = true;
-		// Height-stable re-scan: keep the previous label's row slots mounted so
-		// the document never collapses below the viewport (a shrink would clamp
-		// scroll to 0, P49/P52). Their content is blanked to `pending` below,
-		// then overwritten by id — one result per provider, so the set is
-		// constant — and are flagged busy until the first fresh result arrives.
-		this.busy = this.rows.length > 0;
-		this.received = 0;
-		// Clear the retained rows up front: keep the slots (id/platform so the
-		// list height survives, P49/P52) but blank the stale content and mark
-		// each pending, so the previous label's verdicts never mix with the new
-		// search while providers re-resolve (P76). Rows fill in individually as
-		// their result arrives.
+		// The manifest arrives only after a round trip. Keep the previous row
+		// slots mounted as pending in the meantime so the document keeps its
+		// height and the browser cannot clamp the scroll position to the top.
+		// Deferred rows stay deferred and are hidden by the default filter.
 		if (this.rows.length) {
-			this.rows = this.rows.map((row) => ({
-				...row,
-				name: '',
-				url: '',
-				status: 'pending' as const,
-				detail: undefined
-			}));
+			this.rows = this.rows.map((row) =>
+				row.status === 'unsupported'
+					? row
+					: {
+							...row,
+							name: '',
+							url: '',
+							status: 'pending' as const,
+							detail: undefined
+						}
+			);
 		}
-		const fresh: string[] = [];
 
-		streamFromApi(
-			label,
-			(result) => {
-				if (gen !== this.#generation || ac.signal.aborted) return;
-				fresh.push(result.id);
-				this.received += 1;
-				this.busy = false;
-				const next: Row = {
-					id: result.id,
-					platform: result.platform,
-					platformName: result.platformName,
-					name: result.name,
-					url: result.url,
-					status: result.status,
-					detail: result.detail,
-					paid: result.paid
-				};
-				this.rows = this.rows.some((row) => row.id === result.id)
-					? this.rows.map((row) => (row.id === result.id ? next : row))
-					: [...this.rows, next];
-			},
-			ac.signal
-		)
+		let manifestReceived = false;
+
+		this.#client
+			.stream(
+				label,
+				(event: CheckEvent) => {
+					if (gen !== this.#generation || ac.signal.aborted) return;
+					if (event.type === 'manifest') {
+						manifestReceived = true;
+						this.rows = event.sources.map((source) => ({
+							id: source.id,
+							platform: source.id,
+							platformName: source.platformName,
+							name: event.label || label,
+							url: source.url,
+							status: source.checked ? ('pending' as const) : ('unsupported' as const),
+							paid: source.paid
+						}));
+					} else if (event.type === 'done') {
+						this.rows = settlePending(this.rows);
+					} else if (event.type === 'result') {
+						const next: Row = {
+							id: event.id,
+							platform: event.platform,
+							platformName: event.platformName,
+							name: event.name,
+							url: event.url,
+							status: event.status,
+							detail: event.detail,
+							paid: event.paid
+						};
+						this.rows = this.rows.some((row) => row.id === event.id)
+							? this.rows.map((row) => (row.id === event.id ? next : row))
+							: [...this.rows, next];
+					}
+				},
+				ac.signal
+			)
+			.then(() => {
+				if (ac.signal.aborted || gen !== this.#generation) return;
+				// A clean EOF before every result still must not leave rows pending.
+				this.rows = settlePending(this.rows);
+			})
 			.catch((e) => {
 				if (isAbort(e)) return;
 				if (ac.signal.aborted || gen !== this.#generation) return;
-				// Drop rows the failed scan never refreshed; a re-scan that
-				// cannot reach the backend must not keep showing the previous
-				// label's results.
-				this.rows = this.rows.filter((row) => fresh.includes(row.id));
-				this.rows = this.rows.map((row) =>
-					row.status === 'pending' ? { ...row, status: 'unknown', detail: 'unreachable' } : row
-				);
-				if (!this.rows.length) this.error = 'Could not reach the backend. Is `serve` running?';
+				if (!manifestReceived) {
+					// The retained slots belong to the previous scan; do not show
+					// them as unknown results for this one.
+					this.rows = [];
+					this.error = 'Could not reach the backend. Is `serve` running?';
+					return;
+				}
+				// A scan that fails after the manifest still knows every source;
+				// mark the ones that never resolved so they are not stuck pending.
+				this.rows = settlePending(this.rows);
 			})
 			.finally(() => {
-				if (gen === this.#generation) {
-					this.loading = false;
-					this.busy = false;
-				}
+				if (gen === this.#generation) this.loading = false;
 			});
 	};
 
-	copyResults = async (): Promise<void> => {
-		const lines = this.rows
-			.toSorted(byPlatformName)
-			.map((row) => `${row.platformName}\t${row.name}\t${row.status}`);
-		const text = `${this.lastLabel ?? ''}\n${lines.join('\n')}`;
-		try {
-			await navigator.clipboard.writeText(text);
-			this.copied = true;
-			setTimeout(() => (this.copied = false), 1500);
-		} catch {
-			// clipboard unavailable
+	// goHome returns to the landing state without a reload: it abandons any
+	// in-flight scan (so a late result cannot repopulate the page) and drops
+	// the results, while pushing "/" so Back still returns to the report.
+	goHome = (): void => {
+		this.#controller?.abort();
+		this.#controller = null;
+		this.#generation += 1;
+		this.input = '';
+		this.rows = [];
+		this.error = '';
+		this.loading = false;
+		this.filter = [...DEFAULT_FILTER];
+		this.lastLabel = null;
+		if (typeof location !== 'undefined' && location.search) {
+			history.pushState(null, '', location.pathname);
 		}
 	};
 
 	searching = $derived(this.loading || this.rows.some((row) => row.status === 'pending'));
-	checked = $derived(this.received);
 
-	stale = $derived(
-		!this.searching &&
-			this.rows.length > 0 &&
-			this.lastLabel !== null &&
-			toLabel(this.input) !== this.lastLabel
-	);
-
-	// Unsupported rows are derived from the static catalogue for the current
-	// label. They are not verdicts, so they never enter this.rows and never
-	// affect the available/taken/unknown counts; they render like any other row
-	// (a real link to the substituted url) with an empty status slot.
-	unsupportedRows = $derived.by<Row[]>(() => {
-		const label = this.lastLabel;
-		if (!label) return [];
-		return UNSUPPORTED.map((source) => ({
-			id: `unsupported:${source.id}`,
-			platform: source.id,
-			platformName: source.platformName,
-			name: label,
-			url: source.url.replace('{name}', label),
-			status: 'unsupported' as const,
-			paid: source.paid
-		}));
-	});
-
+	// Selection is what is shown. Pending rows stay visible while a verdict
+	// status is selected so the list does not empty and refill mid-scan.
 	visibleRows = $derived(
 		(this.filter.length === 0
-			? [...this.rows, ...this.unsupportedRows]
-			: [...this.rows, ...this.unsupportedRows].filter((row) =>
-					this.filter.includes(row.status as FilterStatus)
+			? []
+			: this.rows.filter(
+					(row) =>
+						this.filter.includes(row.status as FilterStatus) ||
+						(row.status === 'pending' && this.filter.some((status) => status !== 'unsupported'))
 				)
 		).toSorted(byPaidThenPlatformName)
 	);
 
-	// Unsupported rows are mixed into the Paid or Free list by their catalogue
-	// `paid` flag, exactly like verdict rows — the only difference is the empty
-	// status slot. They are not verdicts, so ResultsList derives the "N of M
-	// available" line from the rows that carry a verdict only.
 	paidRows = $derived(this.visibleRows.filter((row) => row.paid));
 	freeRows = $derived(this.visibleRows.filter((row) => !row.paid));
 
 	counts = $derived.by(() => {
-		const totals = { available: 0, taken: 0, unknown: 0, unsupported: this.unsupportedRows.length };
+		const totals = { available: 0, taken: 0, unknown: 0, unsupported: 0 };
 		for (const row of this.rows) {
-			if (row.status !== 'pending') totals[row.status]++;
+			if (row.status === 'available' || row.status === 'taken' || row.status === 'unknown') {
+				totals[row.status]++;
+			} else if (row.status === 'unsupported') {
+				totals.unsupported++;
+			}
 		}
 		return totals;
 	});
 
 	announcement = $derived.by(() => {
 		if (this.searching) return '';
+		if (this.filter.length === 0) return 'No statuses selected.';
 		const summary = `${this.counts.available} available, ${this.counts.taken} unavailable, ${this.counts.unknown} unknown`;
-		return this.filter.length === 0 ? summary : `${this.visibleRows.length} shown. ${summary}`;
+		return `${this.visibleRows.length} shown. ${summary}`;
 	});
 }
 
-export function useLookup(): Lookup {
-	const lookup = new Lookup();
+export function useLookup(client: CheckClient = httpCheckClient): Lookup {
+	const lookup = new Lookup(client);
 
 	onMount(() => {
 		if (toLabel(lookup.input)) lookup.check({ sync: false });
