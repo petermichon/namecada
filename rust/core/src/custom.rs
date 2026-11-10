@@ -26,6 +26,10 @@ fn taken() -> Outcome {
 }
 
 fn get(transport: &dyn Transport, url: &str, accept: &str) -> Result<HttpResponse, Error> {
+    Ok(get_follow(transport, url, accept)?.response)
+}
+
+fn get_once(transport: &dyn Transport, url: &str, accept: &str) -> Result<HttpResponse, Error> {
     let mut headers = BTreeMap::new();
     headers.insert("Accept".to_string(), accept.to_string());
     headers.insert("User-Agent".to_string(), USER_AGENT.to_string());
@@ -522,7 +526,7 @@ struct Fetched {
 fn get_follow(transport: &dyn Transport, url: &str, accept: &str) -> Result<Fetched, Error> {
     let mut current = url.to_string();
     for _ in 0..=10 {
-        let response = get(transport, &current, accept)?;
+        let response = get_once(transport, &current, accept)?;
         if matches!(response.status, 301 | 302 | 303 | 307 | 308) {
             if let Some(location) = response.headers.get("location") {
                 current = join_url(&current, location)?;

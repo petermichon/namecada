@@ -6,3 +6,5 @@ edition.workspace = true
 [dependencies]
 domain-browser-core = { path = "../core" }
 serde_json = "1"
+tiny_http = "0.12"
+url = "2"

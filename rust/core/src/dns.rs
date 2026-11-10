@@ -53,6 +53,7 @@ fn is_not_found(err: &io::Error) -> bool {
     message.contains("name or service not known")
         || message.contains("nodename nor servname provided")
         || message.contains("no such host")
+        || message.contains("no address associated with hostname")
         || message.contains("non-recoverable failure in name resolution")
 }
 
@@ -162,6 +163,7 @@ mod tests {
             "failed to lookup address information: Name or service not known",
             "nodename nor servname provided, or not known",
             "no such host",
+            "no address associated with hostname",
             "non-recoverable failure in name resolution",
         ] {
             let err = io::Error::other(message);

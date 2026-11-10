@@ -1,17 +1,19 @@
+mod providers;
+mod serve;
+
 use std::io::{self, Write};
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use domain_browser_core::{
-    build_custom_provider, build_status_provider, custom_specs, status_specs, Engine, Fixture,
-    Manifest, Provider, ReplayTransport,
-};
+use domain_browser_core::{Engine, Manifest, Provider};
 
 const USAGE: &str = "usage: domain-browser <command> [args]
 
 Commands:
-  check <label> [--manifest PATH] [--fixtures DIR] [--json]
-      replay every captured HTTP-backed provider for <label>
+  check <label> [--live] [--manifest PATH] [--fixtures DIR] [--json]
+      check a label; --live uses real HTTP/DNS, otherwise replay fixtures
+  serve [--addr 127.0.0.1:8080] [--origin URL] [--manifest PATH]
+      serve GET /check?name=<label> as NDJSON
   sources [--manifest PATH]
       list the source inventory
 ";
@@ -38,6 +40,7 @@ fn run(args: Vec<String>) -> Result<(), Box<dyn std::error::Error>> {
     };
     match command {
         "check" => check(&args[1..]),
+        "serve" => serve::run(&args[1..]),
         "sources" => sources(&args[1..]),
         "help" | "-h" | "--help" => {
             print!("{USAGE}");
@@ -60,6 +63,7 @@ fn check(args: &[String]) -> Result<(), Box<dyn std::error::Error>> {
     let mut manifest_path = PathBuf::from("fixtures/sources.json");
     let mut fixtures_dir = PathBuf::from("fixtures");
     let mut json = false;
+    let mut live = false;
     let mut i = 1;
     while i < args.len() {
         match args[i].as_str() {
@@ -76,38 +80,22 @@ fn check(args: &[String]) -> Result<(), Box<dyn std::error::Error>> {
                 json = true;
                 i += 1;
             }
+            "--live" => {
+                live = true;
+                i += 1;
+            }
             flag => return Err(format!("unknown flag {flag:?}").into()),
         }
     }
 
     let manifest = Manifest::load(&manifest_path)?;
-    let label_dir = fixtures_dir.join(&label);
-    let mut providers: Vec<Arc<dyn Provider>> = Vec::new();
-
-    for spec in status_specs() {
-        let path = label_dir.join(format!("{}.json", spec.id));
-        if !path.exists() {
-            continue;
-        }
-        let fixture = Fixture::load(&path)?;
-        let transport = Arc::new(ReplayTransport::new(&fixture));
-        providers.push(Arc::new(build_status_provider(
-            &manifest, spec.id, transport,
-        )?));
-    }
-    for spec in custom_specs() {
-        let path = label_dir.join(format!("{}.json", spec.id));
-        if !path.exists() {
-            continue;
-        }
-        let fixture = Fixture::load(&path)?;
-        let transport = Arc::new(ReplayTransport::new(&fixture));
-        providers.push(Arc::new(build_custom_provider(
-            &manifest, spec.id, transport,
-        )?));
-    }
+    let providers: Vec<Arc<dyn Provider>> = if live {
+        providers::live(&manifest)?
+    } else {
+        providers::replay(&manifest, &fixtures_dir.join(&label))?
+    };
     if providers.is_empty() {
-        return Err(format!("no fixtures under {}", label_dir.display()).into());
+        return Err(format!("no providers for {label}").into());
     }
 
     let results = Engine::new(providers).scan_all(&label);
@@ -160,7 +148,7 @@ fn sources(args: &[String]) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn valid_label(label: &str) -> bool {
+pub(crate) fn valid_label(label: &str) -> bool {
     !label.is_empty()
         && label.len() <= 63
         && label

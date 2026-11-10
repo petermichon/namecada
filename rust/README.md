@@ -9,8 +9,7 @@ oracle while providers move here.
   engine, fixture replay, **51 status-only providers**, **28 custom providers**
   (body parsing, multi-request, 6 RDAP domains), and **8 DNS providers** —
   **87 keyless sources**.
-- The check runs against the committed fixtures through a replay transport; the
-  production HTTP transport is not wired yet.
+- Production HTTP transport (`ureq`) and the NDJSON `serve` API are wired.
 - Remaining: the 4 keyed sources (Discogs, Twitch, Companies House,
   OpenCorporates).
 
@@ -39,6 +38,21 @@ cargo run -p domain-browser -- check acema \
   --fixtures ../fixtures
 ```
 
+Live check with real HTTP and DNS:
+
+```sh
+cargo run -p domain-browser -- check acema \
+  --live --manifest ../fixtures/sources.json
+```
+
+Serve the NDJSON API (`GET /check?name=<label>`):
+
+```sh
+cargo run -p domain-browser -- serve \
+  --addr 127.0.0.1:8080 \
+  --manifest ../fixtures/sources.json
+```
+
 `--json` emits the same result shape as the Go API. The replay CLI covers the
 HTTP-backed providers; DNS providers are exercised by the core tests because
 their fixtures have no HTTP transcript.
@@ -52,6 +66,6 @@ unconsumed fails the test.
 
 ## Next
 
-1. Add the production HTTP transport and a `serve` API.
+1. Point the web build at the Rust `serve` API and verify the UI.
 2. Port the 4 keyed sources behind local configuration.
-3. Add the Tauri desktop shell and switch the UI transport.
+3. Add the Tauri desktop shell.

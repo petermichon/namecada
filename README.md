@@ -243,6 +243,7 @@ npm run verify     # check + test + lint (web and server)
 npm run server:export -- --label acema  # write a fixture parity oracle
 npm run rust:test  # Rust core parity tests
 npm run rust:clippy  # Rust lints
+npm run rust:serve  # Rust NDJSON server on 127.0.0.1:8080
 npm run server:watch  # air: rebuild + restart the Go server on save
 ```
 

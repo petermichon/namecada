@@ -50,6 +50,7 @@ Server scripts (all shell out with `go -C server`):
 | `npm run rust:test` | `cargo test` for the Rust workspace |
 | `npm run rust:fmt:check` | Rust formatting check |
 | `npm run rust:clippy` | Rust lints |
+| `npm run rust:serve` | run the Rust NDJSON server on `127.0.0.1:8080` |
 
 Run `npm run verify` (this is the canonical check; it also runs `go vet` and
 `go test`) before finishing. The app expects the server on `:8080`; its CORS

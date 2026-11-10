@@ -31,6 +31,7 @@
 		"rust:fmt": "cargo fmt --manifest-path rust/Cargo.toml --all",
 		"rust:fmt:check": "cargo fmt --manifest-path rust/Cargo.toml --all -- --check",
 		"rust:clippy": "cargo clippy --manifest-path rust/Cargo.toml --workspace --all-targets -- -D warnings",
+		"rust:serve": "cargo run --manifest-path rust/Cargo.toml -p domain-browser -- serve --manifest fixtures/sources.json",
 		"verify": "npm run check && npm test && npm run lint && npm run server:lint && npm run server:test",
 		"prepare": "husky"
 	},
