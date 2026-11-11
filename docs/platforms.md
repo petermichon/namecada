@@ -298,3 +298,10 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] ViewBlock — 🔌 — ruled out: `viewblock.io/arweave/address/{address}` is
   keyed by a base58 wallet address, not a claimable name; the HackerNoon footer
   link is a wallet, not a username
+- [ ] Trustpilot — 🕸 — ruled out: profiles are business units keyed by domain
+  (`trustpilot.com/review/{domain}`), not a claimable name — a 200 means "a
+  profile exists for that domain" (including units with no reviews) and a 404
+  says nothing about availability, so neither maps to taken/free. The Business
+  Units API is keyed (401 without `apikey`), `robots.txt` is `User-agent: *` /
+  `Disallow: /`, and keyless requests get a Cloudflare challenge (403), so there
+  is no verifiable signal
