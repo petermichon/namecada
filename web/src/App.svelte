@@ -8,7 +8,7 @@
 	import { ModeWatcher, toggleMode } from 'mode-watcher';
 	import { onMount } from 'svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import FacetFilters from '$lib/components/FacetFilters.svelte';
+	import CostFilter from '$lib/components/CostFilter.svelte';
 	import LookupForm from '$lib/components/LookupForm.svelte';
 	import ResultsList from '$lib/components/ResultsList.svelte';
 	import StatusFilter from '$lib/components/StatusFilter.svelte';
@@ -203,13 +203,7 @@
 					total={lookup.statusTotal}
 				/>
 
-				<FacetFilters
-					bind:category={lookup.category}
-					bind:cost={lookup.cost}
-					categoryCounts={lookup.categoryCounts}
-					costCounts={lookup.costCounts}
-					total={lookup.categoryTotal}
-				/>
+				<CostFilter bind:cost={lookup.cost} costCounts={lookup.costCounts} />
 
 				<aside
 					class="flex items-start gap-2 rounded-lg border border-border/70 bg-muted/40 px-3 py-2.5 text-xs leading-5 text-pretty text-muted-foreground"

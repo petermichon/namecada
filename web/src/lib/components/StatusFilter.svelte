@@ -52,7 +52,7 @@
 						count: counts.unsupported,
 						Icon: CircleMinusIcon,
 						color: 'text-muted-foreground',
-						bar: 'bg-muted-foreground/40'
+						bar: ''
 					}
 				]
 			: [])
@@ -72,7 +72,7 @@
 <div class="space-y-3">
 	<div class="flex h-2 w-full gap-px overflow-hidden rounded-full bg-muted" aria-hidden="true">
 		{#each rows as row (row.value)}
-			{#if row.count > 0}
+			{#if row.count > 0 && row.bar}
 				<span
 					class="h-full transition-[width] duration-500 motion-reduce:transition-none {row.bar}"
 					style:width={share(row.count)}

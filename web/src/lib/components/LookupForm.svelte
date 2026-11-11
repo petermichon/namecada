@@ -1,6 +1,5 @@
 <script lang="ts">
 	import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
-	import LoaderCircleIcon from '@lucide/svelte/icons/loader-circle';
 	import SearchIcon from '@lucide/svelte/icons/search';
 	import XIcon from '@lucide/svelte/icons/x';
 	import * as InputGroup from '$lib/components/ui/input-group/index.js';
@@ -77,14 +76,9 @@
 				size="icon-sm"
 				class="size-9 rounded-lg"
 				type="submit"
-				disabled={loading}
-				aria-label="Check name"
+				aria-label={loading ? 'Check name again' : 'Check name'}
 			>
-				{#if loading}
-					<LoaderCircleIcon class="size-4 animate-spin motion-reduce:animate-none" />
-				{:else}
-					<ArrowRightIcon class="size-4" />
-				{/if}
+				<ArrowRightIcon class="size-4" />
 			</InputGroup.Button>
 		</InputGroup.Addon>
 	</InputGroup.Root>

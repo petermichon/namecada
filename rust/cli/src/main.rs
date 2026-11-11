@@ -12,9 +12,10 @@ const USAGE: &str = "usage: namecheck <command> [args]
 Commands:
   check <label> [--live] [--manifest PATH] [--fixtures DIR] [--json]
       check a label; --live uses real HTTP/DNS, otherwise replay fixtures
-  serve [--addr 127.0.0.1:8080] [--manifest PATH]
+  serve [--addr 127.0.0.1:8080] [--manifest PATH] [--budget-ms MILLIS]
       serve GET /v1/check?name=<label> as NDJSON for local development
-      (the registry is compiled in; --manifest overrides it)
+      (the registry is compiled in; --manifest overrides it; --budget-ms caps
+      the stream and leaves unfinished sources unchecked)
   sources [--manifest PATH]
       list the source inventory
 ";

@@ -11,8 +11,7 @@ function row(id: string, status: Row['status'] = 'available', paid = false): Row
 		name: id,
 		url: `https://example.com/${id}`,
 		status,
-		paid,
-		tags: ['social']
+		paid
 	};
 }
 

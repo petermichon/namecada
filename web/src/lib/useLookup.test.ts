@@ -1,6 +1,13 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { parseEvent, type CheckClient } from './api';
-import { ALL_STATUSES, byPlatformName, DEFAULT_FILTER, Lookup, type Row } from './useLookup.svelte';
+import {
+	ALL_STATUSES,
+	byPlatformName,
+	DEFAULT_COST,
+	DEFAULT_FILTER,
+	Lookup,
+	type Row
+} from './useLookup.svelte';
 import type { Status } from './platforms';
 
 function row(
@@ -8,8 +15,7 @@ function row(
 	status: Row['status'],
 	name = 'acema',
 	paid = false,
-	url = `https://example.com/${platformName.toLowerCase()}/${name}`,
-	tags: string[] = []
+	url = `https://example.com/${platformName.toLowerCase()}/${name}`
 ): Row {
 	return {
 		id: `${platformName.toLowerCase()}-${name}`,
@@ -18,20 +24,8 @@ function row(
 		name,
 		url,
 		status,
-		paid,
-		tags
+		paid
 	};
-}
-
-function tagged(platformName: string, status: Row['status'], tags: string[], paid = false): Row {
-	return row(
-		platformName,
-		status,
-		'acema',
-		paid,
-		`https://example.com/${platformName.toLowerCase()}/acema`,
-		tags
-	);
 }
 
 function manifest(
@@ -41,7 +35,6 @@ function manifest(
 		url: string;
 		paid?: boolean;
 		checked?: boolean;
-		tags?: string[];
 	}>,
 	label = 'acema'
 ): string {
@@ -52,7 +45,6 @@ function manifest(
 		sources: sources.map((source) => ({
 			paid: false,
 			checked: true,
-			tags: [],
 			...source
 		}))
 	});
@@ -185,17 +177,6 @@ describe('visibleRows', () => {
 		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['Domains', 'GitHub', 'npm']);
 	});
 
-	it('filters by category tag', () => {
-		const lookup = new Lookup();
-		lookup.rows = [
-			tagged('GitHub', 'taken', ['code', 'social']),
-			tagged('npm', 'taken', ['packages']),
-			tagged('Lemmy', 'available', ['social'])
-		];
-		lookup.category = 'social';
-		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['GitHub', 'Lemmy']);
-	});
-
 	it('filters by cost', () => {
 		const lookup = new Lookup();
 		lookup.rows = [
@@ -203,57 +184,61 @@ describe('visibleRows', () => {
 			row('GitHub', 'taken'),
 			row('Heroku', 'taken', 'acema', true)
 		];
-		lookup.cost = 'paid';
+		lookup.cost = ['paid'];
 		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['Domains', 'Heroku']);
 	});
 
-	it('combines status, category, and cost filters', () => {
+	it('selects both cost groups by default', () => {
+		const lookup = new Lookup();
+		lookup.rows = [row('Domains', 'taken', 'acema', true), row('GitHub', 'taken')];
+
+		expect(lookup.cost).toEqual(DEFAULT_COST);
+		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['Domains', 'GitHub']);
+
+		lookup.cost = [];
+		expect(lookup.visibleRows).toEqual([]);
+	});
+
+	it('combines status and cost filters', () => {
 		const lookup = new Lookup();
 		lookup.rows = [
-			tagged('GitHub', 'taken', ['social']),
-			tagged('Lemmy', 'available', ['social']),
-			tagged('npm', 'available', ['packages']),
-			tagged('Domains', 'taken', ['domains'], true)
+			row('GitHub', 'taken'),
+			row('Lemmy', 'available'),
+			row('npm', 'available'),
+			row('Domains', 'taken', 'acema', true)
 		];
 
 		lookup.filter = ['available'];
-		lookup.category = 'social';
-		lookup.cost = 'free';
-		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['Lemmy']);
+		lookup.cost = ['free'];
+		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['Lemmy', 'npm']);
 
 		lookup.filter = ['available', 'taken'];
-		lookup.category = 'all';
-		lookup.cost = 'paid';
+		lookup.cost = ['paid'];
 		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['Domains']);
 	});
 
-	it('counts categories and costs across every row', () => {
+	it('counts costs across every row', () => {
 		const lookup = new Lookup();
 		lookup.rows = [
-			tagged('GitHub', 'taken', ['code', 'social']),
-			tagged('npm', 'taken', ['packages']),
-			tagged('Domains', 'taken', ['domains'], true)
+			row('GitHub', 'taken'),
+			row('npm', 'taken'),
+			row('Domains', 'taken', 'acema', true)
 		];
 
-		expect(lookup.categoryCounts).toEqual({
-			code: 1,
-			social: 1,
-			packages: 1,
-			domains: 1
-		});
-		expect(lookup.costCounts).toEqual({ all: 3, free: 2, paid: 1 });
+		expect(lookup.costCounts).toEqual({ free: 2, paid: 1 });
 	});
 
 	it('counts only the rows that are visible', () => {
 		const lookup = new Lookup();
 		lookup.rows = [
-			tagged('GitHub', 'taken', ['social']),
-			tagged('Lemmy', 'available', ['social']),
-			tagged('npm', 'available', ['packages'])
+			row('GitHub', 'taken'),
+			row('Lemmy', 'available'),
+			row('npm', 'available'),
+			row('Domains', 'taken', 'acema', true)
 		];
-		lookup.category = 'social';
+		lookup.cost = ['paid'];
 		expect(lookup.visibleCounts).toEqual({
-			available: 1,
+			available: 0,
 			taken: 1,
 			unknown: 0,
 			unsupported: 0,
@@ -276,31 +261,29 @@ describe('counts', () => {
 		expect(lookup.counts).toEqual({ available: 1, taken: 1, unknown: 1, unsupported: 1 });
 	});
 
-	it('narrows status counts to the selected category and cost', () => {
+	it('narrows status counts to the selected cost', () => {
 		const lookup = new Lookup();
 		lookup.rows = [
-			tagged('Domains', 'taken', ['domains'], true),
-			tagged('GitHub', 'available', ['social']),
-			tagged('Lemmy', 'taken', ['social'])
+			row('Domains', 'taken', 'acema', true),
+			row('GitHub', 'available'),
+			row('Lemmy', 'taken')
 		];
-		lookup.category = 'social';
+		lookup.cost = ['paid'];
 
-		expect(lookup.counts).toEqual({ available: 1, taken: 1, unknown: 0, unsupported: 0 });
-		expect(lookup.statusTotal).toBe(2);
+		expect(lookup.counts).toEqual({ available: 0, taken: 1, unknown: 0, unsupported: 0 });
+		expect(lookup.statusTotal).toBe(1);
 	});
 
-	it('narrows category and cost counts to the other filters', () => {
+	it('narrows cost counts to the status filter', () => {
 		const lookup = new Lookup();
 		lookup.rows = [
-			tagged('Domains', 'taken', ['domains'], true),
-			tagged('GitHub', 'available', ['social']),
-			tagged('Lemmy', 'taken', ['social'])
+			row('Domains', 'taken', 'acema', true),
+			row('GitHub', 'available'),
+			row('Lemmy', 'taken')
 		];
 		lookup.filter = ['taken'];
 
-		expect(lookup.categoryCounts).toEqual({ domains: 1, social: 1 });
-		expect(lookup.categoryTotal).toBe(2);
-		expect(lookup.costCounts).toEqual({ all: 2, free: 1, paid: 1 });
+		expect(lookup.costCounts).toEqual({ free: 1, paid: 1 });
 	});
 });
 
@@ -325,15 +308,15 @@ describe('announcement', () => {
 		expect(lookup.announcement).toBe('2 shown. 1 available, 0 unavailable, 1 unknown');
 	});
 
-	it('summarises only the rows left by the facet filters', () => {
+	it('summarises only the rows left by the cost filter', () => {
 		const lookup = new Lookup();
 		lookup.rows = [
-			tagged('GitHub', 'taken', ['social']),
-			tagged('Lemmy', 'available', ['social']),
-			tagged('npm', 'available', ['packages'])
+			row('GitHub', 'taken'),
+			row('Lemmy', 'available'),
+			row('Domains', 'taken', 'acema', true)
 		];
-		lookup.category = 'social';
-		expect(lookup.announcement).toBe('2 shown. 1 available, 1 unavailable, 0 unknown');
+		lookup.cost = ['paid'];
+		expect(lookup.announcement).toBe('1 shown. 0 available, 1 unavailable, 0 unknown');
 	});
 
 	it('mentions visible not-checked sources', () => {
@@ -347,6 +330,32 @@ describe('announcement', () => {
 });
 
 describe('check', () => {
+	it('aborts the in-flight scan when a new check starts', () => {
+		const signals: AbortSignal[] = [];
+		const client: CheckClient = {
+			stream(_label, _onEvent, signal) {
+				return new Promise((_resolve, reject) => {
+					if (!signal) return;
+					signals.push(signal);
+					signal.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError')));
+				});
+			}
+		};
+
+		const lookup = new Lookup(client);
+		lookup.input = 'first';
+		lookup.check({ sync: false });
+		lookup.input = 'second';
+		lookup.check({ sync: false });
+
+		expect(signals).toHaveLength(2);
+		expect(signals[0].aborted).toBe(true);
+		expect(signals[1].aborted).toBe(false);
+
+		lookup.goHome();
+		expect(signals[1].aborted).toBe(true);
+	});
+
 	it('keeps the previous row slots pending until the manifest arrives', async () => {
 		vi.stubGlobal('fetch', stubApi(''));
 		const lookup = new Lookup();
@@ -369,19 +378,13 @@ describe('check', () => {
 		const body =
 			[
 				manifest([
-					{ id: 'npm', platformName: 'npm', url: 'https://npmjs.com/acema', tags: ['packages'] },
-					{
-						id: 'lemmy',
-						platformName: 'Lemmy',
-						url: 'https://lemmy.world/u/acema',
-						tags: ['social']
-					},
+					{ id: 'npm', platformName: 'npm', url: 'https://npmjs.com/acema' },
+					{ id: 'lemmy', platformName: 'Lemmy', url: 'https://lemmy.world/u/acema' },
 					{
 						id: 'tiktok',
 						platformName: 'TikTok',
 						url: 'https://tiktok.com/@acema',
-						checked: false,
-						tags: ['social']
+						checked: false
 					}
 				]),
 				result('npm', 'npm', 'available'),
@@ -407,8 +410,6 @@ describe('check', () => {
 		]);
 		expect(lookup.rows.every((r) => r.name === 'acema')).toBe(true);
 		expect(lookup.rows[2].url).toBe('https://tiktok.com/@acema');
-		expect(lookup.rows[0].tags).toEqual(['packages']);
-		expect(lookup.categoryCounts).toEqual({ packages: 1, social: 1 });
 		expect(lookup.counts).toEqual({ available: 1, taken: 1, unknown: 0, unsupported: 1 });
 	});
 
@@ -533,17 +534,15 @@ describe('invalid input', () => {
 });
 
 describe('showAll', () => {
-	it('clears every facet and includes deferred sources', () => {
+	it('clears the cost filter and includes deferred sources', () => {
 		const lookup = new Lookup();
 		lookup.filter = ['taken'];
-		lookup.category = 'social';
-		lookup.cost = 'paid';
+		lookup.cost = ['paid'];
 
 		lookup.showAll();
 
 		expect(lookup.filter).toEqual(ALL_STATUSES);
-		expect(lookup.category).toBe('all');
-		expect(lookup.cost).toBe('all');
+		expect(lookup.cost).toEqual(DEFAULT_COST);
 	});
 });
 
@@ -556,8 +555,7 @@ describe('goHome', () => {
 		lookup.error = 'unreachable';
 		lookup.suggestion = 'acema';
 		lookup.filter = ['taken'];
-		lookup.category = 'social';
-		lookup.cost = 'paid';
+		lookup.cost = ['paid'];
 		lookup.loading = true;
 
 		lookup.goHome();
@@ -568,8 +566,7 @@ describe('goHome', () => {
 		expect(lookup.error).toBe('');
 		expect(lookup.suggestion).toBeNull();
 		expect(lookup.filter).toEqual(DEFAULT_FILTER);
-		expect(lookup.category).toBe('all');
-		expect(lookup.cost).toBe('all');
+		expect(lookup.cost).toEqual(DEFAULT_COST);
 		expect(lookup.loading).toBe(false);
 		expect(lookup.visibleRows).toEqual([]);
 	});

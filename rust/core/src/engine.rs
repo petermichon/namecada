@@ -10,9 +10,6 @@ use serde::Serialize;
 use crate::cache::MemoryCache;
 use crate::provider::{Outcome, Provider, Status};
 
-/// DefaultConcurrency bounds how many provider checks run at once.
-const DEFAULT_CONCURRENCY: usize = 8;
-
 /// ProviderResult is the public shape streamed to the UI and CLI.
 #[derive(Debug, Clone, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
@@ -37,9 +34,10 @@ pub struct Engine {
 
 impl Engine {
     pub fn new(providers: Vec<Arc<dyn Provider>>) -> Self {
+        let concurrency = providers.len().max(1);
         Self {
             providers,
-            concurrency: DEFAULT_CONCURRENCY,
+            concurrency,
             cache: None,
         }
     }

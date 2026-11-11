@@ -4,6 +4,7 @@ use std::io::{self, Read, Write};
 use std::path::PathBuf;
 use std::sync::{mpsc, Arc};
 use std::thread;
+use std::time::{Duration, Instant};
 
 use namecheck_core::{Engine, Manifest, MemoryCache, Provider, ProviderResult};
 use serde::Serialize;
@@ -24,12 +25,12 @@ struct SourceEntry {
     url_template: String,
     paid: bool,
     checked: bool,
-    tags: Vec<String>,
 }
 
 pub fn run(args: &[String]) -> Result<(), Box<dyn Error>> {
     let mut addr = DEFAULT_ADDR.to_string();
     let mut manifest_path: Option<PathBuf> = None;
+    let mut budget: Option<Duration> = None;
 
     let mut i = 0;
     while i < args.len() {
@@ -42,6 +43,14 @@ pub fn run(args: &[String]) -> Result<(), Box<dyn Error>> {
                 manifest_path = Some(PathBuf::from(
                     args.get(i + 1).ok_or("--manifest requires a path")?,
                 ));
+                i += 2;
+            }
+            "--budget-ms" => {
+                let value = args.get(i + 1).ok_or("--budget-ms requires milliseconds")?;
+                let ms: u64 = value
+                    .parse()
+                    .map_err(|_| format!("invalid --budget-ms {value:?}"))?;
+                budget = Some(Duration::from_millis(ms));
                 i += 2;
             }
             flag => return Err(format!("unknown flag {flag:?}").into()),
@@ -70,7 +79,7 @@ pub fn run(args: &[String]) -> Result<(), Box<dyn Error>> {
     for request in server.incoming_requests() {
         let engine = Arc::clone(&engine);
         let entries = Arc::clone(&entries);
-        thread::spawn(move || handle(request, &engine, &entries));
+        thread::spawn(move || handle(request, &engine, &entries, budget));
     }
     Ok(())
 }
@@ -88,12 +97,11 @@ fn source_entries(manifest: &Manifest, providers: &[Arc<dyn Provider>]) -> Vec<S
             url_template: source.url_template.clone(),
             paid: source.paid,
             checked: checked.contains(source.id.as_str()),
-            tags: source.tags.clone(),
         })
         .collect()
 }
 
-fn handle(request: Request, engine: &Engine, entries: &[SourceEntry]) {
+fn handle(request: Request, engine: &Engine, entries: &[SourceEntry], budget: Option<Duration>) {
     if request.method() != &Method::Get {
         respond_error(request, 405, "method not allowed");
         return;
@@ -117,7 +125,7 @@ fn handle(request: Request, engine: &Engine, entries: &[SourceEntry]) {
     }
 
     let receiver = engine.scan(&label);
-    stream_ndjson(request, entries, &label, receiver);
+    stream_ndjson(request, entries, &label, receiver, budget);
 }
 
 /// stream_ndjson writes the response itself instead of going through tiny_http's
@@ -130,6 +138,7 @@ fn stream_ndjson(
     entries: &[SourceEntry],
     label: &str,
     receiver: mpsc::Receiver<ProviderResult>,
+    budget: Option<Duration>,
 ) {
     let mut writer = request.into_writer();
     let head = "HTTP/1.1 200 OK\r\n\
@@ -140,7 +149,7 @@ fn stream_ndjson(
     if writer.write_all(head.as_bytes()).is_err() {
         return;
     }
-    if let Err(err) = write_events(&mut writer, entries, label, receiver) {
+    if let Err(err) = write_events(&mut writer, entries, label, receiver, budget) {
         eprintln!("response failed: {err}");
     }
 }
@@ -163,7 +172,6 @@ struct SourceEvent<'a> {
     url: String,
     paid: bool,
     checked: bool,
-    tags: &'a [String],
 }
 
 #[derive(Serialize)]
@@ -185,6 +193,7 @@ fn write_events<W: Write>(
     entries: &[SourceEntry],
     label: &str,
     receiver: mpsc::Receiver<ProviderResult>,
+    budget: Option<Duration>,
 ) -> io::Result<()> {
     let sources = entries
         .iter()
@@ -194,7 +203,6 @@ fn write_events<W: Write>(
             url: entry.url_template.replace("%s", label),
             paid: entry.paid,
             checked: entry.checked,
-            tags: &entry.tags,
         })
         .collect();
     write_event(
@@ -207,14 +215,36 @@ fn write_events<W: Write>(
         },
     )?;
 
-    for result in receiver {
-        write_event(
-            writer,
-            &ResultEvent {
-                kind: "result",
-                result: &result,
-            },
-        )?;
+    if let Some(budget) = budget {
+        let deadline = Instant::now() + budget;
+        loop {
+            let remaining = deadline.saturating_duration_since(Instant::now());
+            if remaining.is_zero() {
+                break;
+            }
+            match receiver.recv_timeout(remaining) {
+                Ok(result) => write_event(
+                    writer,
+                    &ResultEvent {
+                        kind: "result",
+                        result: &result,
+                    },
+                )?,
+                Err(mpsc::RecvTimeoutError::Timeout | mpsc::RecvTimeoutError::Disconnected) => {
+                    break;
+                }
+            }
+        }
+    } else {
+        for result in receiver {
+            write_event(
+                writer,
+                &ResultEvent {
+                    kind: "result",
+                    result: &result,
+                },
+            )?;
+        }
     }
 
     write_event(writer, &DoneEvent { kind: "done" })?;
@@ -270,7 +300,6 @@ mod tests {
             url_template: format!("https://example.com/%s/{id}"),
             paid: false,
             checked,
-            tags: vec!["packages".to_string()],
         }
     }
 
@@ -305,14 +334,13 @@ mod tests {
         drop(tx);
 
         let mut body = Vec::new();
-        write_events(&mut body, &entries, "acema", rx).unwrap();
+        write_events(&mut body, &entries, "acema", rx, None).unwrap();
         let body = String::from_utf8(body).unwrap();
 
         assert!(body.contains("\"type\":\"manifest\""));
         assert!(body.contains("\"sources\":[{"));
         assert!(body.contains("\"url\":\"https://example.com/acema/npm\""));
         assert!(body.contains("\"checked\":false"));
-        assert!(body.contains("\"tags\":[\"packages\"]"));
         assert!(body.contains("\"type\":\"result\""));
         assert!(body.contains("\"status\":\"available\""));
         assert!(body.contains("\"type\":\"done\""));

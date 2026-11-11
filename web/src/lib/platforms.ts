@@ -1,23 +1,7 @@
 export type Status = 'available' | 'taken' | 'unknown';
 
-// Facet tags live with each source in fixtures/sources.json. The order here is
-// the order the report's category chips render in.
-export const CATEGORIES = [
-	{ id: 'domains', label: 'Domains' },
-	{ id: 'packages', label: 'Packages' },
-	{ id: 'social', label: 'Social' },
-	{ id: 'code', label: 'Code' },
-	{ id: 'creator', label: 'Creator' },
-	{ id: 'gaming', label: 'Gaming' },
-	{ id: 'hosting', label: 'Hosting' },
-	{ id: 'commerce', label: 'Commerce' },
-	{ id: 'company', label: 'Company' },
-	{ id: 'web3', label: 'Web3' }
-] as const;
-
-export type CategoryId = (typeof CATEGORIES)[number]['id'];
-export type CategoryFilter = 'all' | CategoryId;
-export type CostFilter = 'all' | 'free' | 'paid';
+export type CostGroup = 'free' | 'paid';
+export type CostFilter = CostGroup[];
 
 export interface ProviderResult {
 	id: string;

@@ -11,8 +11,7 @@ function row(status: Row['status'], url = 'https://example.com/acema', paid = fa
 		name: 'acema',
 		url,
 		status,
-		paid,
-		tags: ['social']
+		paid
 	};
 }
 
@@ -50,5 +49,14 @@ describe('ResultRow', () => {
 	it('marks only paid sources', () => {
 		expect(statusSlot(row('available'))).not.toContain('Paid');
 		expect(statusSlot(row('available', undefined, true))).toContain('Paid');
+	});
+
+	it('shows the known source and URL while checking', () => {
+		const html = statusSlot(row('pending'));
+
+		expect(html).toContain('GitHub');
+		expect(html).toContain('example.com/acema');
+		expect(html).toContain('checking');
+		expect(html).not.toContain('animate-pulse');
 	});
 });

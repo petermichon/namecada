@@ -1,12 +1,6 @@
 import { onMount } from 'svelte';
 import { httpCheckClient, isAbort, type CheckClient, type CheckEvent } from './api';
-import {
-	toLabel,
-	suggestLabel,
-	type CategoryFilter,
-	type CostFilter,
-	type Status
-} from './platforms';
+import { toLabel, suggestLabel, type CostFilter, type Status } from './platforms';
 
 export interface Row {
 	id: string;
@@ -17,7 +11,6 @@ export interface Row {
 	status: Status | 'pending' | 'unsupported';
 	detail?: string;
 	paid: boolean;
-	tags: string[];
 }
 
 export type FilterStatus = Status | 'unsupported';
@@ -29,6 +22,7 @@ export type Filter = FilterStatus[];
 // The default view is the verdicts; deferred/keyed sources are opt-in.
 export const DEFAULT_FILTER: Filter = ['available', 'taken', 'unknown'];
 export const ALL_STATUSES: Filter = [...DEFAULT_FILTER, 'unsupported'];
+export const DEFAULT_COST: CostFilter = ['free', 'paid'];
 
 // Order rows alphabetically by their display name, independent of status, so
 // the list stays stable as results stream in. Ties break on the provider URL so
@@ -55,12 +49,8 @@ function matchesStatus(row: Row, filter: Filter): boolean {
 	);
 }
 
-function matchesCategory(row: Row, category: CategoryFilter): boolean {
-	return category === 'all' || row.tags.includes(category);
-}
-
 function matchesCost(row: Row, cost: CostFilter): boolean {
-	return cost === 'all' || (cost === 'paid') === row.paid;
+	return cost.includes(row.paid ? 'paid' : 'free');
 }
 
 function settlePending(rows: Row[]): Row[] {
@@ -88,8 +78,7 @@ export class Lookup {
 	// away, without a flash of the landing page.
 	lastLabel = $state<string | null>(toLabel(queryParam()));
 	filter = $state<Filter>([...DEFAULT_FILTER]);
-	category = $state<CategoryFilter>('all');
-	cost = $state<CostFilter>('all');
+	cost = $state<CostFilter>([...DEFAULT_COST]);
 
 	#controller: AbortController | null = null;
 	#generation = 0;
@@ -108,8 +97,7 @@ export class Lookup {
 		this.error = '';
 		this.suggestion = null;
 		this.filter = [...DEFAULT_FILTER];
-		this.category = 'all';
-		this.cost = 'all';
+		this.cost = [...DEFAULT_COST];
 
 		if (!label) {
 			this.rows = [];
@@ -165,13 +153,11 @@ export class Lookup {
 							name: event.label || label,
 							url: source.url,
 							status: source.checked ? ('pending' as const) : ('unsupported' as const),
-							paid: source.paid,
-							tags: source.tags
+							paid: source.paid
 						}));
 					} else if (event.type === 'done') {
 						this.rows = settlePending(this.rows);
 					} else if (event.type === 'result') {
-						const previous = this.rows.find((row) => row.id === event.id);
 						const next: Row = {
 							id: event.id,
 							platform: event.platform,
@@ -180,10 +166,9 @@ export class Lookup {
 							url: event.url,
 							status: event.status,
 							detail: event.detail,
-							paid: event.paid,
-							tags: previous?.tags ?? []
+							paid: event.paid
 						};
-						this.rows = previous
+						this.rows = this.rows.some((row) => row.id === event.id)
 							? this.rows.map((row) => (row.id === event.id ? next : row))
 							: [...this.rows, next];
 					}
@@ -234,8 +219,7 @@ export class Lookup {
 	// deferred sources included.
 	showAll = (): void => {
 		this.filter = [...ALL_STATUSES];
-		this.category = 'all';
-		this.cost = 'all';
+		this.cost = [...DEFAULT_COST];
 	};
 
 	// goHome returns to the landing state without a reload: it abandons any
@@ -251,8 +235,7 @@ export class Lookup {
 		this.suggestion = null;
 		this.loading = false;
 		this.filter = [...DEFAULT_FILTER];
-		this.category = 'all';
-		this.cost = 'all';
+		this.cost = [...DEFAULT_COST];
 		this.lastLabel = null;
 		if (typeof location !== 'undefined' && location.search) {
 			history.pushState(null, '', location.pathname);
@@ -266,19 +249,14 @@ export class Lookup {
 	visibleRows = $derived(
 		(this.filter.length === 0
 			? []
-			: this.rows.filter(
-					(row) =>
-						matchesStatus(row, this.filter) &&
-						matchesCategory(row, this.category) &&
-						matchesCost(row, this.cost)
-				)
+			: this.rows.filter((row) => matchesStatus(row, this.filter) && matchesCost(row, this.cost))
 		).toSorted(byPlatformName)
 	);
 
 	counts = $derived.by(() => {
 		const totals = { available: 0, taken: 0, unknown: 0, unsupported: 0 };
 		for (const row of this.rows) {
-			if (!matchesCategory(row, this.category) || !matchesCost(row, this.cost)) continue;
+			if (!matchesCost(row, this.cost)) continue;
 			if (row.status === 'available' || row.status === 'taken' || row.status === 'unknown') {
 				totals[row.status]++;
 			} else if (row.status === 'unsupported') {
@@ -304,30 +282,17 @@ export class Lookup {
 		return totals;
 	});
 
-	// Each facet's counts honour the other facets, so a chip previews how many
-	// rows selecting it would show.
-	categoryCounts = $derived.by(() => {
-		const totals: Record<string, number> = {};
-		for (const row of this.rows) {
-			if (!matchesCost(row, this.cost) || !matchesStatus(row, this.filter)) continue;
-			for (const tag of row.tags) totals[tag] = (totals[tag] ?? 0) + 1;
-		}
-		return totals;
-	});
-
-	categoryTotal = $derived(
-		this.rows.filter((row) => matchesCost(row, this.cost) && matchesStatus(row, this.filter)).length
-	);
-
+	// The cost chips honour the status filter, so a chip previews how many rows
+	// selecting it would show.
 	costCounts = $derived.by(() => {
-		let total = 0;
+		let free = 0;
 		let paid = 0;
 		for (const row of this.rows) {
-			if (!matchesCategory(row, this.category) || !matchesStatus(row, this.filter)) continue;
-			total++;
+			if (!matchesStatus(row, this.filter)) continue;
 			if (row.paid) paid++;
+			else free++;
 		}
-		return { all: total, free: total - paid, paid };
+		return { free, paid };
 	});
 
 	announcement = $derived.by(() => {

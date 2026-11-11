@@ -76,9 +76,9 @@ through the `CheckClient` seam.
 
 1. Add the metadata to `fixtures/sources.json`: `id`, `platform`,
    `platformName`, `nameTemplate`, `urlTemplate`, `paid`, `minLength`,
-   `maxLength`, `keyed`, `tags`. A deferred/manual source stops here: with no
-   provider it is listed as "not checked" automatically (`checked` is derived,
-   never stored).
+   `maxLength`, `keyed`. A deferred/manual source stops here: with no provider
+   it is listed as "not checked" automatically (`checked` is derived, never
+   stored).
 2. Implement the check in `rust/core`:
    - status-only → `status.rs` spec table;
    - body/multi-request/POST/RDAP → `custom.rs` spec table;

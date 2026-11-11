@@ -170,7 +170,9 @@ assembled from a small core plus two commands:
 Two commands drive it:
 
 - `npm run rust:serve` exposes `GET /v1/check?name=<label>`, streaming a
-  manifest, one result per source as it resolves, then a done event.
+  manifest, one result per source as it resolves, then a done event. It streams
+  until every checked source resolves; `--budget-ms` caps the stream and leaves
+  unfinished sources unchecked. `check --live` is always unbounded.
 - `check <label>` runs a one-shot scan. It replays the checked-in fixtures by
   default; add `--live` to use real HTTP and DNS.
 
@@ -209,10 +211,9 @@ unauthenticated requests (GitHub: 60/hour per IP).
 - `rust/` — Rust engine and the development/CLI harness; see `rust/README.md`.
 - `web/` — Svelte 5 + Vite + Tailwind + shadcn-svelte (maia) app.
   - `src/lib/platforms.ts` — the result types (`Status`, `ProviderResult`),
-    `toLabel`, `suggestLabel`, and the tag list. The display name in
-    `platformName`, the `paid` flag, and the facet `tags` come from the manifest
-    stream; the report renders one alphabetical list with tag and cost filters,
-    and marks paid rows.
+    `toLabel`, and `suggestLabel`. The display name in `platformName` and the
+    `paid` flag come from the manifest stream; the report renders one
+    alphabetical list with a cost filter and marks paid rows.
   - `src/lib/api.ts` — the event contract and the `CheckClient` transport seam.
     `streamFromApi` (the `httpCheckClient`) consumes the `serve` API
     (`GET /v1/check?name=<label>`, NDJSON events); a native shell can inject its
@@ -260,8 +261,7 @@ server is already running separately.
 
 1. Add the source metadata to `fixtures/sources.json`: `id`, `platform`,
    `platformName`, `nameTemplate`, `urlTemplate`, `paid`, `minLength`,
-   `maxLength`, `keyed`, and `tags` (one or more tags such as `domains`,
-   `packages`, `social`). A source with no provider is listed as
+   `maxLength`, and `keyed`. A source with no provider is listed as
    "not checked" automatically — `checked` is derived from the provider
    registry, never stored. The registry is compiled into the binary, so rebuild
    after editing.
