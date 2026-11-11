@@ -1,8 +1,9 @@
 //! DNS providers: a free-subdomain namespace resolves only when claimed, so a
 //! successful lookup is taken and NXDOMAIN is available.
 
-use std::io;
 use std::sync::Arc;
+
+use dns_lookup::{LookupError, LookupErrorKind};
 
 use crate::manifest::{Manifest, Source};
 use crate::provider::{Error, Outcome, Provider, Status};
@@ -26,35 +27,35 @@ pub struct SystemResolver;
 
 impl Resolver for SystemResolver {
     fn lookup_host(&self, host: &str) -> Result<Vec<String>, DnsError> {
-        use std::net::ToSocketAddrs;
-
-        match (host, 0).to_socket_addrs() {
+        // dns-lookup exposes the getaddrinfo code instead of a message: the
+        // message from std is localized (GTK calls setlocale), which made a
+        // French desktop classify NXDOMAIN as a transient failure.
+        match dns_lookup::lookup_host(host) {
             Ok(addrs) => {
-                let addresses: Vec<String> = addrs.map(|addr| addr.ip().to_string()).collect();
+                let addresses: Vec<String> = addrs.map(|ip| ip.to_string()).collect();
                 if addresses.is_empty() {
                     Err(DnsError::NotFound)
                 } else {
                     Ok(addresses)
                 }
             }
-            Err(err) if is_not_found(&err) => Err(DnsError::NotFound),
-            Err(err) => Err(DnsError::Other(err.to_string())),
+            Err(err) => Err(classify(&err)),
         }
     }
 }
 
-fn is_not_found(err: &io::Error) -> bool {
-    if err.kind() == io::ErrorKind::NotFound {
-        return true;
+/// classify maps a getaddrinfo error to a verdict: only "no such name" means the
+/// name is free; everything else is transient and must not be cached.
+fn classify(err: &LookupError) -> DnsError {
+    if is_absent(err.kind()) {
+        DnsError::NotFound
+    } else {
+        DnsError::Other(err.to_string())
     }
-    // getaddrinfo reports NXDOMAIN as an uncategorized error on some platforms,
-    // so the stable messages are the only signal available.
-    let message = err.to_string().to_ascii_lowercase();
-    message.contains("name or service not known")
-        || message.contains("nodename nor servname provided")
-        || message.contains("no such host")
-        || message.contains("no address associated with hostname")
-        || message.contains("non-recoverable failure in name resolution")
+}
+
+fn is_absent(kind: LookupErrorKind) -> bool {
+    matches!(kind, LookupErrorKind::NoName | LookupErrorKind::NoData)
 }
 
 /// DnsProvider checks `{label}.{host}` for a namespace without wildcard DNS.
@@ -120,7 +121,11 @@ impl Provider for DnsProvider {
         match self.resolver.lookup_host(&host) {
             Ok(_) => Ok(Outcome::new(Status::Taken)),
             Err(DnsError::NotFound) => Ok(Outcome::new(Status::Available)),
-            Err(DnsError::Other(_)) => Ok(Outcome::new(Status::Unknown)),
+            Err(DnsError::Other(message)) => Ok(Outcome {
+                status: Status::Unknown,
+                detail: format!("dns: {message}"),
+                url: None,
+            }),
         }
     }
 }
@@ -165,19 +170,28 @@ fn render(template: &str, label: &str) -> String {
 mod tests {
     use super::*;
 
-    #[test]
-    fn classifies_not_found_messages() {
-        for message in [
-            "failed to lookup address information: Name or service not known",
-            "nodename nor servname provided, or not known",
-            "no such host",
-            "no address associated with hostname",
-            "non-recoverable failure in name resolution",
-        ] {
-            let err = io::Error::other(message);
-            assert!(is_not_found(&err), "{message}");
+    struct Failing;
+
+    impl Resolver for Failing {
+        fn lookup_host(&self, _: &str) -> Result<Vec<String>, DnsError> {
+            Err(DnsError::Other("temporary failure".to_string()))
         }
-        let transient = io::Error::other("Temporary failure in name resolution");
-        assert!(!is_not_found(&transient));
+    }
+
+    #[test]
+    fn reports_transient_dns_failures() {
+        let manifest = Manifest::embedded().expect("manifest");
+        let provider = build_dns_provider(&manifest, "duckdns", Arc::new(Failing)).unwrap();
+        let outcome = provider.check("abcdx").expect("check");
+        assert_eq!(outcome.status, Status::Unknown);
+        assert_eq!(outcome.detail, "dns: temporary failure");
+    }
+
+    #[test]
+    fn classifies_absent_names_as_not_found() {
+        assert!(is_absent(LookupErrorKind::NoName));
+        assert!(is_absent(LookupErrorKind::NoData));
+        assert!(!is_absent(LookupErrorKind::Again));
+        assert!(!is_absent(LookupErrorKind::Fail));
     }
 }

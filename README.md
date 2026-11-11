@@ -17,7 +17,9 @@ streams NDJSON events — a `manifest`, one `result` per source, then `done`. Th
 manifest lists every source (checked, keyed or deferred) with its URL, so the
 page renders the full report before checks finish and fills rows in place.
 
-Development uses Vite with `/v1` proxied to `serve`.
+Development uses Vite with `/v1` proxied to `serve`. Vite is pinned to port
+5221 with `--strictPort`, so the desktop shell always attaches to this project's
+dev server rather than whatever else is on a default port.
 
 `core` has no HTTP dependency. `serve` is a development/CLI harness only; the
 packaged app is Tauri (`src-tauri/`), calling the engine directly and feeding

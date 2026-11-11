@@ -7,7 +7,7 @@
 		"node": ">=20.19"
 	},
 	"scripts": {
-		"dev": "vite",
+		"dev": "vite --port 5221 --strictPort",
 		"dev:host": "vite --port 5220 --strictPort --host 127.0.0.1",
 		"build": "vite build",
 		"preview": "vite preview",
