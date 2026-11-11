@@ -80,6 +80,30 @@ static SPECS: &[StatusSpec] = &[
     spec("aur", "https://aur.archlinux.org/packages/%s"),
     spec("cocoapods", "https://cocoapods.org/pods/%s"),
     spec("cpan", "https://fastapi.metacpan.org/v1/module/%s"),
+    spec("lobsters", "https://lobste.rs/~%s"),
+    spec("blogger", "https://%s.blogspot.com/"),
+    spec("flickr", "https://www.flickr.com/people/%s/"),
+    spec_with(
+        "goodreads",
+        "https://www.goodreads.com/%s",
+        DEFAULT_CODES,
+        HTML_ACCEPT,
+    ),
+    spec_with(
+        "stackblitz",
+        "https://stackblitz.com/@%s",
+        DEFAULT_CODES,
+        HTML_ACCEPT,
+    ),
+    spec_with(
+        "slack",
+        "https://%s.slack.com/",
+        CodeMap {
+            available: &[404],
+            taken: &[200, 403],
+        },
+        DEFAULT_ACCEPT,
+    ),
     spec(
         "chef-supermarket",
         "https://supermarket.chef.io/api/v1/cookbooks/%s",

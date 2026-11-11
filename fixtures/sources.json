@@ -1,8 +1,8 @@
 {
   "generatedAt": "2026-11-10T14:12:31Z",
   "label": "google",
-  "sourceCount": 142,
-  "enabledCount": 96,
+  "sourceCount": 146,
+  "enabledCount": 100,
   "keyedCount": 4,
   "sources": [
     {
@@ -408,6 +408,84 @@
       "maxLength": 0,
       "keyed": false,
       "caseSensitive": true
+    },
+    {
+      "id": "lobsters",
+      "platform": "lobsters",
+      "platformName": "Lobsters",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://lobste.rs/~google",
+      "urlTemplate": "https://lobste.rs/~%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
+    },
+    {
+      "id": "blogger",
+      "platform": "blogger",
+      "platformName": "Blogger",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://google.blogspot.com/",
+      "urlTemplate": "https://%s.blogspot.com/",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
+    },
+    {
+      "id": "flickr",
+      "platform": "flickr",
+      "platformName": "Flickr",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://www.flickr.com/people/google/",
+      "urlTemplate": "https://www.flickr.com/people/%s/",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
+    },
+    {
+      "id": "goodreads",
+      "platform": "goodreads",
+      "platformName": "Goodreads",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://www.goodreads.com/google",
+      "urlTemplate": "https://www.goodreads.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
+    },
+    {
+      "id": "stackblitz",
+      "platform": "stackblitz",
+      "platformName": "StackBlitz",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://stackblitz.com/@google",
+      "urlTemplate": "https://stackblitz.com/@%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
+    },
+    {
+      "id": "slack",
+      "platform": "slack",
+      "platformName": "Slack",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://google.slack.com/",
+      "urlTemplate": "https://%s.slack.com/",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     },
     {
       "id": "firefox",
@@ -1723,19 +1801,6 @@
       "keyed": false
     },
     {
-      "id": "stackblitz",
-      "platform": "stackblitz",
-      "platformName": "StackBlitz",
-      "name": "google",
-      "nameTemplate": "%s",
-      "url": "https://stackblitz.com/@google",
-      "urlTemplate": "https://stackblitz.com/@%s",
-      "paid": false,
-      "minLength": 0,
-      "maxLength": 0,
-      "keyed": false
-    },
-    {
       "id": "observable",
       "platform": "observable",
       "platformName": "Observable",
@@ -1756,19 +1821,6 @@
       "nameTemplate": "%s",
       "url": "https://www.deviantart.com/google",
       "urlTemplate": "https://www.deviantart.com/%s",
-      "paid": false,
-      "minLength": 0,
-      "maxLength": 0,
-      "keyed": false
-    },
-    {
-      "id": "flickr",
-      "platform": "flickr",
-      "platformName": "Flickr",
-      "name": "google",
-      "nameTemplate": "%s",
-      "url": "https://www.flickr.com/people/google",
-      "urlTemplate": "https://www.flickr.com/people/%s",
       "paid": false,
       "minLength": 0,
       "maxLength": 0,

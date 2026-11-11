@@ -30,6 +30,12 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Chef Supermarket — ✅ — `supermarket.chef.io/api/v1/cookbooks/{name}` (200 taken / 404 free; the old "no CORS" note predated server-side checks)
 - [x] CocoaPods — ✅ — `cocoapods.org/pods/{name}` (200 taken / 404 free; the website route resolves pod names case-insensitively — `alamofire` renders Alamofire — so lowercased labels are safe here, unlike the exact-case trunk API)
 - [x] CPAN — ✅ — `fastapi.metacpan.org/v1/module/{name}` (200 taken / 404 free; module names are case-sensitive — DBI exists, dbi does not — so this row is the only one marked `caseSensitive`, which keeps the user's raw case while every other source folds to lowercase; `metacpan.org/pod/{name}` is the page, but it Cloudflare-challenges keyless requests)
+- [x] Lobsters — ✅ — `lobste.rs/~{name}` (200 taken / 404 free)
+- [x] Blogger — ✅ — `{name}.blogspot.com` (wildcard DNS; HTTP 200 taken / 404 free)
+- [x] Flickr — ✅ — `flickr.com/people/{name}/` (200 taken / 404 free)
+- [x] Goodreads — ✅ — `goodreads.com/{name}` (HTML Accept; a claimed name 301s to `/user/show/{id}-{slug}` and is followed to 200, a free one 404s; JSON Accept 406s the followed page)
+- [x] StackBlitz — ✅ — `stackblitz.com/@{name}` (200 taken / 404 free; needs an HTML Accept — JSON Accept 406s every name)
+- [x] Slack — ✅ — `{name}.slack.com` (an existing workspace answers 200/403, a free subdomain 404s; 403 is the login wall, not a challenge)
 - [x] SourceForge — ✅ — `sourceforge.net/projects/{name}/` (200 taken / 404 free; the 404 body is JSON, the 200 is HTML, so status alone is the signal)
 - [x] Hackage — ✅ — `hackage.haskell.org/package/{name}` (bare name resolves; status-only HTML)
 - [x] Clojars — ✅ — `clojars.org/api/artifacts/{name}` (single segment resolves)
@@ -117,7 +123,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] VS Code Marketplace — 🕸 — no simple API (use Open VSX)
 - [ ] JetBrains Marketplace — 🔌 — ruled out: `/api/searchPlugins?search=` is a fuzzy substring search, not an exact-name signal, and plugin ids are numeric
 - [ ] Figma Community — 🕸 — no public API
-- [ ] Shopify App Store — 🕸
+- [ ] Shopify App Store — 🕸 — re-checked server-side (2026-11): `apps.shopify.com/{slug}` 404s for both a known app and a fake slug on the probed shapes, so there is no confirmed signal
 - [ ] Nostr (NIP-05) — 🔌 — ruled out: names are per-domain (`https://{domain}/.well-known/nostr.json?name={name}`), not a global namespace, so no single-label source exists to probe
 - [ ] Fandom — 🕸 — re-checked server-side (2026-11): `{name}.fandom.com` is wildcard DNS and every host answers 403 (Cloudflare) for real and fake names alike, so there is no signal
 - [ ] Bilibili — 🕸 — API returns 412 (banned)
@@ -149,9 +155,9 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Patreon — 🕸 — bot-blocked: 403 for both real and fake names, so no signal
 - [ ] Kickstarter — 🕸 — bot-blocked: 403 for both real and fake names, so no signal
 - [ ] Indiegogo — 🕸
-- [ ] Etsy — 🕸
+- [ ] Etsy — 🕸 — re-checked server-side (2026-11): `etsy.com/shop/{name}` 403s (bot wall) for real and fake shops, so there is no signal
 - [ ] Amazon — 🕸
-- [ ] eBay — 🕸
+- [ ] eBay — 🕸 — re-checked server-side (2026-11): `ebay.com/usr/{name}` 403s ("Error Page") for real and fake users, so there is no signal
 - [ ] IMDb — 🕸
 - [ ] Azure Static Web Apps — 🔌 — `{name}.azurestaticapps.net` — the host is
   Azure-generated `{two-words}-{hash}.{region}.azurestaticapps.net`; Azure picks
@@ -196,11 +202,9 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Gmail — 🔌 — ruled out: the old keyless probe `mail.google.com/mail/gxlu?email={name}@gmail.com` now returns 204 with no `COMPASS` cookie for real and fake addresses alike (2026-11), and username availability only exists inside the bot-protected signup flow, which this repo won't scrape; dots and `+suffix` are normalized, so a literal local-part check would be wrong even if it worked
 - [ ] Proton Mail — 🕸 — deferred: no public availability API. `account.proton.me/api/core/v4/users/available?Name={name}` needs an `x-pm-appversion` header plus an anonymous session (`POST /api/auth/v4/sessions`); with one, every name — including long random ones — returns 409 "Username already used", so taken/free is unverified. The endpoint is undocumented and version-gated, and the namespace is `local@domain` (proton.me/protonmail.com/pm.me/protonmail.ch), not a bare label
 - [ ] Quora — 🕸
-- [ ] Lobste.rs — 🕸
 - [ ] Beehiiv — 🕸
 - [ ] Ghost — 🕸
 - [ ] WordPress.com — 🕸 — wildcard DNS
-- [ ] Blogger — 🕸
 - [ ] Tumblr — 🔑
 - [ ] Vimeo — 🕸 — bot-blocked: 403 for both real and fake names, so no signal
 - [ ] Odysee / LBRY — 🕸 — no usable API
@@ -212,8 +216,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Kakao — 🔑
 - [ ] Matrix — 🕸 — inconclusive: availability is a per-homeserver localpart, and the register/available endpoint only answers on open-registration servers (see plan/results/P2.md)
 - [ ] Revolt — 🕸 — the profile route 301s, so no status signal
-- [ ] Guilded — 🕸
-- [ ] Slack — 🕸
+- [ ] Guilded — 🕸 — re-checked server-side (2026-11): `guilded.gg/{name}` 200s for real and fake names, so there is no signal
 - [ ] DeviantArt — 🕸 — profile pages are an always-200 SPA (any name returns 200), so no signal
 - [ ] OpenNIC — 🔌 — ruled out: the DoH endpoints are dead
 - [ ] Ko-fi — 🕸 — redirects, no signal
@@ -221,28 +224,25 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Lemon Squeezy — 🕸 — bot-blocked: 403 for both real and fake names, so no signal
 - [ ] thanks.dev — 🕸 — Cloudflare-blocked (403)
 - [ ] PayPal.me — 🕸 — 301 redirect / always 200, no signal
-- [ ] Itch.io — 🕸
+- [ ] Itch.io — 🕸 — re-checked server-side (2026-11): Cloudflare challenge (403) for real and fake `{name}.itch.io` hosts
 - [ ] Spotify (artist) — 🔑
 - [ ] Apple Music — 🔑
 - [ ] Audiomack — 🕸 — redirects
-- [ ] Flickr — 🕸 — endpoints inconclusive
 - [ ] Last.fm — 🔑 — the keyless profile route now bot-challenges (`last.fm/user/{name}` returns Cloudflare "Client Challenge" with 200 for every name), so it would need the keyed API (`ws.audioscrobbler.com/2.0/?method=user.getinfo&user={name}&api_key={key}`); deferred
-- [ ] Letterboxd — 🕸
-- [ ] Goodreads — 🕸
+- [ ] Letterboxd — 🕸 — re-checked server-side (2026-11): Cloudflare challenge (403) for real and fake profiles
 - [ ] MyAnimeList — 🕸 — Jikan API unavailable
 - [ ] Trakt — 🔑
 - [ ] Genius — 🔑
 - [ ] Strava — 🔑
-- [ ] Duolingo — 🕸
+- [ ] Duolingo — 🕸 — re-checked server-side (2026-11): `duolingo.com/profile/{name}` 200s for real and fake users, so status has no signal
 - [ ] CodeSandbox — 🕸 — Cloudflare-blocked (403)
-- [ ] StackBlitz — 🕸
-- [ ] CodePen — 🕸
-- [ ] Observable — 🕸
-- [ ] Wellfound (AngelList) — 🕸
+- [ ] CodePen — 🕸 — re-checked server-side (2026-11): Cloudflare challenge (403) for real and fake profiles
+- [ ] Observable — 🕸 — re-checked server-side (2026-11): 429 Vercel Security Checkpoint for real and fake profiles, so there is no signal
+- [ ] Wellfound (AngelList) — 🕸 — re-checked server-side (2026-11): `wellfound.com/u/{name}` 404s for a real and a fake profile alike, so there is no usable shape
 - [ ] HelloWork — 🕸 — job board; no public username namespace/API
-- [ ] Fiverr — 🕸
+- [ ] Fiverr — 🕸 — re-checked server-side (2026-11): 403 ("It needs a human touch") for fake sellers, so there is no signal
 - [ ] Upwork — 🕸
-- [ ] Polywork — 🕸
+- [ ] Polywork — 🕸 — re-checked server-side (2026-11): the host no longer answers (connection failure), so it is not viable
 - [ ] freedns.afraid.org — 🔌 — ruled out: FreeDNS hostnames live under shared
   domains (`{name}.{shared-domain}`), not `{name}.freedns.afraid.org`, so a
   single-label probe never names a claimable host.

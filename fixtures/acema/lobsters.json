@@ -1,0 +1,29 @@
+{
+  "source": "lobsters",
+  "platform": "lobsters",
+  "platformName": "Lobsters",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://lobste.rs/~acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 0,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://lobste.rs/~acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "namecheck/1.0 (+https://github.com/petermichon/namecheck)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "text/html; charset=utf-8"
+        },
+        "body": "<!doctype html>\n<html lang=\"en\" >\n<head>\n  <meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">\n  <link rel=\"icon\" sizes=\"144x144\" type=\"image/png\" href=\"/touch-icon-144.png\">\n  <link rel=\"apple-touch-icon\" sizes=\"57x57\" href=\"/touch-icon.png\">\n  <link rel=\"apple-touch-icon\" sizes=\"114x114\" href=\"/touch-icon.png\">\n  <link rel=\"apple-touch-icon\" sizes=\"72x72\" href=\"/touch-icon-144.png\">\n  <link rel=\"apple-touch-icon\" sizes=\"144x144\" href=\"/touch-icon-144.png\">\n  <link rel=\"manifest\" href=\"/manifest.json\">\n  <link rel=\"search\" type=\"application/opensearchdescription+xml\" href=\"/opensearch.xml\" title=\"Lobsters\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <meta name=\"referrer\" content=\"always\">\n  <meta name=\"theme-color\" content=\"#AC130D\">\n  <meta name=\"story-flags\" content=\"{&quot;O&quot;:&quot;Off-topic&quot;,&quot;A&quot;:&quot;Already Posted&quot;,&quot;B&quot;:&quot;Broken Link&quot;,&quot;S&quot;:&quot;Spam&quot;,&quot;&quot;:&quot;Cancel&quot;}\">\n  <meta name=\"comment-flags\" content=\"{&quot;O&quot;:&quot;Off-topic&quot;,&quot;M&quot;:&quot;Me-too&quot;,&quot;T&quot;:&quot;Troll&quot;,&quot;U&quot;:&quot;Unkind&quot;,&quot;S&quot;:&quot;Spam&quot;,&quot;&quot;:&quot;Cancel&quot;}\">\n\n  <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n  <title>User not found | Lobsters</title>\n\n    <link rel=\"stylesheet\" href=\"/application.css\">\n    <link rel=\"stylesheet\" href=\"/system-system.css\">\n    <script src=\"/application.js\" type=\"module\"></script>\n\n  <meta name=\"csrf-param\" content=\"authenticity_token\">\n<meta name=\"csrf-token\" content=\"PZQ6wKgmbQc9Hj44tA5xX9EFigP_bAgkeTYVhpyjq4Wyd3HIBLAlxF05p_hNKr3X4Ow0CKGFSL9eCB5xF8EHMA\">\n  <meta name=\"robots\" content=\"noai, noimageai\">\n    <script type=\"speculationrules\" nonce=\"Dx9s0zi9cTVn2AqHROM6Pw==\">\n      {\n        \"prefetch\": [\n          {\n            \"where\": {\n              \"href_matches\": \"/*\"\n            },\n            \"eagerness\": \"moderate\"\n          }\n        ]\n      }\n    </script>\n</head>\n<body data-username=''>\n  <header id=\"header\">\n    <div id=\"header-top\">\n      <h1 style=\"background-color: #630000;\" id=\"logo\">\n        <a href=\"/\" title=\"Lobsters (Current traffic: 11%)\">\n          <b class=\"sr-only\" aria-hidden=\"true\">Lobsters</b>\n        </a>\n        \n      </h1>\n\n      <nav aria-label=\"Menu\">\n        <ul>\n          <li><a href=\"/active\">Active</a></li>\n          <li><a href=\"/recent\">Recent</a></li>\n          <li><a href=\"/comments\">Comments</a></li>\n\n\n          <li><a href=\"/search\">Search</a></li>\n\n\n            <li class=\"push-right\"><a href=\"/login\">Login</a></li>\n        </ul>\n      </nav>\n    </div>\n\n\n  </header>\n\n  <main id=\"inside\">\n\n\n    <div class=\"box wide\">\n  <p>\n    If this user used to exist, they changed their username.\n    Check the <a href=\"/moderations?moderator=%28Users%29&what%5Busers%5D=users\">moderation log</a>.\n  </p>\n</div>\n\n  </main>\n\n  <footer>\n    <span id=\"office-hours-live\">\n    </span>\n\n    <nav>\n      <a href=\"/about\">About</a>\n      <a href=\"/tags\">Tags</a>\n      <a href=\"/filters\">Filter</a>\n      <a href=\"/moderations\">Moderation Log</a>\n    </nav>\n  </footer>\n\n  <span id=\"iab-pcm-sdk\"></span><span id=\"iab-autofill-sdk\"></span>\n</body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -52,6 +52,12 @@ overrides it for development.
 | Chef Supermarket | `supermarket.chef.io/api/v1/cookbooks/{name}`               | 200 taken / 404 free      |
 | CocoaPods | `cocoapods.org/pods/{name}`                                   | 200 taken / 404 free      |
 | CPAN      | `fastapi.metacpan.org/v1/module/{name}` (case-sensitive)      | 200 taken / 404 free      |
+| Lobsters  | `lobste.rs/~{name}`                                           | 200 taken / 404 free      |
+| Blogger   | `{name}.blogspot.com`                                         | 200 taken / 404 free      |
+| Flickr    | `flickr.com/people/{name}/`                                   | 200 taken / 404 free      |
+| Goodreads | `goodreads.com/{name}` (301 to profile)                       | 301/200 taken / 404 free  |
+| StackBlitz | `stackblitz.com/@{name}` (HTML Accept)                       | 200 taken / 404 free      |
+| Slack     | `{name}.slack.com`                                            | 200/403 taken / 404 free  |
 | Firefox   | `addons.mozilla.org/api/v5/addons/addon/{name}/`               | 200/401 taken / 404 free  |
 | JSR       | `jsr.io/api/scopes/{name}`                                     | 200/400 taken / 404 free  |
 | WordPress | `api.wordpress.org/plugins/info/1.2/?request[slug]={name}`     | 200/closed taken / 404 free |
