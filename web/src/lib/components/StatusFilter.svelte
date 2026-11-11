@@ -82,13 +82,17 @@
 		{/each}
 	</div>
 
-	<div class="flex flex-wrap items-center gap-1" role="group" aria-label="Filter results by status">
+	<div
+		class="-mx-4 flex [scrollbar-width:none] items-center gap-1 overflow-x-auto px-4 pb-0.5 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden"
+		role="group"
+		aria-label="Filter results by status"
+	>
 		{#each rows as row (row.value)}
 			<button
 				type="button"
 				aria-pressed={filter.includes(row.value)}
 				onclick={() => toggle(row.value)}
-				class="inline-flex min-h-9 items-center gap-1.5 rounded-lg border border-transparent px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring aria-pressed:border-border aria-pressed:bg-card aria-pressed:text-foreground aria-pressed:shadow-xs"
+				class="inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-lg border border-transparent px-2.5 text-xs font-medium whitespace-nowrap text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring aria-pressed:border-border aria-pressed:bg-card aria-pressed:text-foreground aria-pressed:shadow-xs sm:min-h-9"
 			>
 				<row.Icon class="size-3.5 shrink-0 {row.color}" aria-hidden="true" />
 				<span>{row.label}</span>

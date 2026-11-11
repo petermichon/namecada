@@ -12,7 +12,7 @@
 	} = $props();
 
 	const CHIP =
-		'inline-flex min-h-9 shrink-0 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring';
+		'inline-flex min-h-10 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border px-2.5 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:min-h-9';
 
 	const costs = $derived([
 		{
@@ -38,7 +38,11 @@
 	}
 </script>
 
-<div class="flex flex-wrap gap-1" role="group" aria-label="Filter by cost">
+<div
+	class="-mx-4 flex [scrollbar-width:none] items-center gap-1 overflow-x-auto px-4 pb-0.5 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden"
+	role="group"
+	aria-label="Filter by cost"
+>
 	{#each costs as item (item.value)}
 		<button
 			type="button"

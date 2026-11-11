@@ -63,7 +63,7 @@
 				<InputGroup.Button
 					size="icon-sm"
 					type="button"
-					class="size-8 rounded-lg"
+					class="size-10 rounded-lg sm:size-8"
 					onmousedown={(e) => e.preventDefault()}
 					onclick={() => (value = '')}
 					aria-label="Clear name"
@@ -74,7 +74,7 @@
 			<InputGroup.Button
 				variant="default"
 				size="icon-sm"
-				class="size-9 rounded-lg"
+				class="size-10 rounded-lg sm:size-9"
 				type="submit"
 				aria-label={loading ? 'Check name again' : 'Check name'}
 			>

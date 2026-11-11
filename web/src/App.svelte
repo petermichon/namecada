@@ -62,7 +62,7 @@
 	<Button
 		variant="ghost"
 		size="icon"
-		class="size-9 rounded-lg text-muted-foreground hover:text-foreground"
+		class="size-10 rounded-lg text-muted-foreground hover:text-foreground sm:size-9"
 		onclick={toggleMode}
 		aria-label="Toggle theme"
 	>
