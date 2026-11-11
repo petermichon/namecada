@@ -83,7 +83,7 @@
 	</div>
 
 	<div
-		class="-mx-4 flex [scrollbar-width:none] items-center gap-1 overflow-x-auto px-4 pb-0.5 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden"
+		class="-mx-4 -my-1 flex [scrollbar-width:none] items-center gap-1 overflow-x-auto px-4 py-1 sm:mx-0 sm:my-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:py-0 [&::-webkit-scrollbar]:hidden"
 		role="group"
 		aria-label="Filter results by status"
 	>
