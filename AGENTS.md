@@ -28,7 +28,7 @@ Root scripts (run from the repo root):
 | --- | --- |
 | `npm run dev` | Vite dev server **and** the Rust development server, concurrently |
 | `npm run dev:web` | Vite only |
-| `npm run dev:android` | USB phone workflow: attach to a running dev server or pick a free port, then `adb reverse` |
+| `npm run dev:host` | Proxied mode: fixed web port `5220` for the local dev proxy and phone |
 | `npm run build` / `npm run preview` | Production build / preview |
 | `npm test` | Vitest (web) |
 | `npm run check` | svelte-check + tsc |

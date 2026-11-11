@@ -12,7 +12,6 @@
 	"scripts": {
 		"dev": "concurrently -k -n web,server -c blue,green \"npm:dev:web\" \"npm:rust:serve\"",
 		"dev:web": "npm run dev -w @namecheck/web",
-		"dev:android": "node tools/dev-android.mjs",
 		"dev:host": "concurrently -k -n web,server -c blue,green \"npm run dev:host -w @namecheck/web\" \"npm:rust:serve\"",
 		"build": "npm run build -w @namecheck/web",
 		"preview": "npm run preview -w @namecheck/web",

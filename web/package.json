@@ -8,6 +8,7 @@
 	},
 	"scripts": {
 		"dev": "vite",
+		"dev:host": "vite --port 5220 --strictPort --host 127.0.0.1",
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "vitest run",

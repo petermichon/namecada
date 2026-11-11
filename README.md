@@ -229,7 +229,7 @@ shell or `source "$HOME/.cargo/env"`). The workspace pins stable Rust in
 ```sh
 npm install        # installs the web workspace + git hooks
 npm run dev        # Vite + the development server
-npm run dev:android # USB phone workflow: attach or start, then adb reverse
+npm run dev:host # proxied mode: fixed port for the local dev proxy and phone
 npm run build      # single-file app build
 npm test           # vitest
 npm run check      # svelte-check + tsc
@@ -251,14 +251,10 @@ its own origin and Vite proxies that to `serve` on `:8080`, so no CORS setup is
 needed and Vite can fall back to another port. Use `npm run dev:web` when the
 server is already running separately.
 
-`npm run dev:android` is the phone workflow over USB. It validates the connected
-device, finds the first free web port from `5173`, or attaches to a Namecheck
-dev server that is already running, then points `adb reverse` at that exact
-port and prints `http://127.0.0.1:<port>`. The Rust `serve` on `:8080` is reused
-when it is already listening, otherwise it is started too. Set `PORT=5180` to
-pin the web port and `ANDROID_SERIAL=<serial>` to choose between several
-connected devices. Requires `adb` (Android platform-tools); USB debugging must
-be enabled and the host authorized.
+`npm run dev:host` is the proxied mode. It starts the same two processes but binds the web app to
+`127.0.0.1:5220`, the upstream the machine-level dev proxy (`~/git/devhost`) maps to
+`http://namecheck.localhost:7357`. The phone reaches the same URL through one
+`adb reverse tcp:7357`; the Rust `serve` on `:8080` stays Vite's proxy target as before.
 
 ## Adding a source
 
