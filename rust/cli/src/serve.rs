@@ -113,7 +113,7 @@ fn handle(request: Request, engine: &Engine, entries: &[SourceEntry], budget: Op
     }
 
     let label = query_param(request.url(), "name")
-        .map(|value| value.trim().to_ascii_lowercase())
+        .map(|value| value.trim().to_string())
         .filter(|value| !value.is_empty());
     let Some(label) = label else {
         respond_error(request, 400, "missing required query parameter \"name\"");

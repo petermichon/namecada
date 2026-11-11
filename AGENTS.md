@@ -76,7 +76,9 @@ through the `CheckClient` seam.
 
 1. Add the metadata to `fixtures/sources.json`: `id`, `platform`,
    `platformName`, `nameTemplate`, `urlTemplate`, `paid`, `minLength`,
-   `maxLength`, `keyed`. A deferred/manual source stops here: with no provider
+   `maxLength`, `keyed`. Mark `caseSensitive: true` only when the source's
+   namespace is case-sensitive (CPAN); everything else folds to lowercase. A
+   deferred/manual source stops here: with no provider
    it is listed as "not checked" automatically (`checked` is derived, never
    stored).
 2. Implement the check in `rust/core`:

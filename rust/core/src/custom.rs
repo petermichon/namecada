@@ -770,6 +770,14 @@ impl Provider for CustomProvider {
         self.source.paid
     }
 
+    fn normalize_label(&self, label: &str) -> String {
+        if self.source.case_sensitive {
+            label.to_string()
+        } else {
+            label.to_ascii_lowercase()
+        }
+    }
+
     fn min_length(&self) -> usize {
         self.source.min_length
     }

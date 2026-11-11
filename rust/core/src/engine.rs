@@ -100,13 +100,14 @@ impl Engine {
     }
 }
 
-fn check_one(provider: &dyn Provider, label: &str, cache: Option<&MemoryCache>) -> ProviderResult {
+fn check_one(provider: &dyn Provider, raw: &str, cache: Option<&MemoryCache>) -> ProviderResult {
+    let label = provider.normalize_label(raw);
     let mut result = ProviderResult {
         id: provider.id().to_string(),
         platform: provider.platform().to_string(),
         platform_name: provider.platform_name(),
-        name: provider.name(label),
-        url: provider.url(label),
+        name: provider.name(&label),
+        url: provider.url(&label),
         status: Status::Unknown,
         detail: String::new(),
         paid: provider.paid(),
@@ -125,7 +126,7 @@ fn check_one(provider: &dyn Provider, label: &str, cache: Option<&MemoryCache>) 
     }
 
     if let Some(cache) = cache {
-        if let Some(entry) = cache.get(provider.id(), label) {
+        if let Some(entry) = cache.get(provider.id(), &label) {
             result.status = entry.status;
             result.detail = entry.detail;
             if !entry.url.is_empty() {
@@ -135,7 +136,7 @@ fn check_one(provider: &dyn Provider, label: &str, cache: Option<&MemoryCache>) 
         }
     }
 
-    match provider.check(label) {
+    match provider.check(&label) {
         Ok(outcome) => apply(&mut result, outcome),
         Err(_) => {
             result.status = Status::Unknown;
@@ -147,7 +148,7 @@ fn check_one(provider: &dyn Provider, label: &str, cache: Option<&MemoryCache>) 
         if result.status != Status::Unknown {
             cache.set(
                 provider.id(),
-                label,
+                &label,
                 result.status,
                 &result.detail,
                 &result.url,

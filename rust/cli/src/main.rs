@@ -57,7 +57,7 @@ fn check(args: &[String]) -> Result<(), Box<dyn std::error::Error>> {
         .first()
         .filter(|arg| !arg.starts_with("--"))
         .ok_or("check requires a <label> argument")?
-        .to_ascii_lowercase();
+        .to_string();
     if !valid_label(&label) {
         return Err(format!("invalid label {label:?}").into());
     }
@@ -167,7 +167,7 @@ pub(crate) fn valid_label(label: &str) -> bool {
         && label.len() <= 63
         && label
             .chars()
-            .all(|ch| ch.is_ascii_lowercase() || ch.is_ascii_digit() || ch == '-')
+            .all(|ch| ch.is_ascii_alphanumeric() || ch == '-')
         && !label.starts_with('-')
         && !label.ends_with('-')
 }

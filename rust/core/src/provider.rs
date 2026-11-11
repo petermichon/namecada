@@ -89,6 +89,13 @@ pub trait Provider: Send + Sync {
     fn url(&self, label: &str) -> String;
     fn paid(&self) -> bool;
 
+    /// normalize_label maps the user's input to the form this source expects.
+    /// Case-insensitive sources fold to lowercase; a source whose namespace is
+    /// case-sensitive keeps the raw label.
+    fn normalize_label(&self, label: &str) -> String {
+        label.to_ascii_lowercase()
+    }
+
     fn min_length(&self) -> usize {
         0
     }

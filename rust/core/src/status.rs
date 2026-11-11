@@ -79,6 +79,7 @@ static SPECS: &[StatusSpec] = &[
     spec("chocolatey", "https://community.chocolatey.org/packages/%s"),
     spec("aur", "https://aur.archlinux.org/packages/%s"),
     spec("cocoapods", "https://cocoapods.org/pods/%s"),
+    spec("cpan", "https://fastapi.metacpan.org/v1/module/%s"),
     spec(
         "chef-supermarket",
         "https://supermarket.chef.io/api/v1/cookbooks/%s",
@@ -227,6 +228,14 @@ impl Provider for StatusProvider {
         self.source.paid
     }
 
+    fn normalize_label(&self, label: &str) -> String {
+        if self.source.case_sensitive {
+            label.to_string()
+        } else {
+            label.to_ascii_lowercase()
+        }
+    }
+
     fn min_length(&self) -> usize {
         self.source.min_length
     }
@@ -305,4 +314,59 @@ fn is_challenge(response: &HttpResponse) -> bool {
     }
     let body = String::from_utf8_lossy(&response.body).to_ascii_lowercase();
     body.contains("client challenge") || body.contains("just a moment")
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::fixture::{Fixture, ReplayTransport};
+
+    fn fixture(source: &str, url: &str, status: u16) -> Fixture {
+        serde_json::from_value(serde_json::json!({
+            "source": source,
+            "platform": source,
+            "label": "acema",
+            "name": "acema",
+            "url": "https://example.test/acema",
+            "requests": [{
+                "method": "GET",
+                "url": url,
+                "response": { "status": status }
+            }]
+        }))
+        .expect("fixture")
+    }
+
+    fn provider(id: &str, fixture: Fixture) -> StatusProvider {
+        let manifest = Manifest::embedded().expect("manifest");
+        build_status_provider(&manifest, id, Arc::new(ReplayTransport::new(&fixture)))
+            .expect("provider")
+    }
+
+    #[test]
+    fn case_sensitive_sources_keep_the_raw_label() {
+        // CPAN modules are case-sensitive: DBI exists, dbi does not.
+        let provider = provider(
+            "cpan",
+            fixture("cpan", "https://fastapi.metacpan.org/v1/module/DBI", 200),
+        );
+        assert_eq!(provider.normalize_label("DBI"), "DBI");
+        let outcome = provider
+            .check(&provider.normalize_label("DBI"))
+            .expect("check");
+        assert_eq!(outcome.status, Status::Taken);
+    }
+
+    #[test]
+    fn case_insensitive_sources_fold_the_label() {
+        let provider = provider(
+            "npm",
+            fixture("npm", "https://registry.npmjs.org/acema", 404),
+        );
+        assert_eq!(provider.normalize_label("AceMa"), "acema");
+        let outcome = provider
+            .check(&provider.normalize_label("AceMa"))
+            .expect("check");
+        assert_eq!(outcome.status, Status::Available);
+    }
 }

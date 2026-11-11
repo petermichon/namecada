@@ -1,8 +1,8 @@
 {
   "generatedAt": "2026-11-10T14:12:31Z",
   "label": "google",
-  "sourceCount": 141,
-  "enabledCount": 95,
+  "sourceCount": 142,
+  "enabledCount": 96,
   "keyedCount": 4,
   "sources": [
     {
@@ -394,6 +394,20 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "cpan",
+      "platform": "cpan",
+      "platformName": "CPAN",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://metacpan.org/pod/google",
+      "urlTemplate": "https://metacpan.org/pod/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false,
+      "caseSensitive": true
     },
     {
       "id": "firefox",

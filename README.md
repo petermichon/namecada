@@ -51,6 +51,7 @@ overrides it for development.
 | Snap Store | `api.snapcraft.io/v2/snaps/info/{name}` (`Snap-Device-Series: 16`) | 200 taken / 404 free  |
 | Chef Supermarket | `supermarket.chef.io/api/v1/cookbooks/{name}`               | 200 taken / 404 free      |
 | CocoaPods | `cocoapods.org/pods/{name}`                                   | 200 taken / 404 free      |
+| CPAN      | `fastapi.metacpan.org/v1/module/{name}` (case-sensitive)      | 200 taken / 404 free      |
 | Firefox   | `addons.mozilla.org/api/v5/addons/addon/{name}/`               | 200/401 taken / 404 free  |
 | JSR       | `jsr.io/api/scopes/{name}`                                     | 200/400 taken / 404 free  |
 | WordPress | `api.wordpress.org/plugins/info/1.2/?request[slug]={name}`     | 200/closed taken / 404 free |

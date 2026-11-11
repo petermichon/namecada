@@ -141,7 +141,7 @@ export class Lookup {
 
 		this.#client
 			.stream(
-				label,
+				this.input.trim(),
 				(event: CheckEvent) => {
 					if (gen !== this.#generation || ac.signal.aborted) return;
 					if (event.type === 'manifest') {

@@ -26,6 +26,9 @@ pub struct Source {
     pub min_length: usize,
     pub max_length: usize,
     pub keyed: bool,
+    /// case_sensitive keeps the label's original case for this source.
+    #[serde(default)]
+    pub case_sensitive: bool,
 }
 
 /// Manifest is the complete source set.

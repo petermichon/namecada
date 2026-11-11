@@ -1,0 +1,29 @@
+{
+  "source": "cpan",
+  "platform": "cpan",
+  "platformName": "CPAN",
+  "label": "google",
+  "name": "google",
+  "url": "https://metacpan.org/pod/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 0,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://fastapi.metacpan.org/v1/module/google",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "namecheck/1.0 (+https://github.com/petermichon/namecheck)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"code\":404,\"message\":\"Not found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

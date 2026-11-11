@@ -29,6 +29,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Snap Store — ✅ — `api.snapcraft.io/v2/snaps/info/{name}` with `Snap-Device-Series: 16` (200 taken / 404 free; without the header every request fails, so this is the one custom check that sets its own headers; snap names are 1–40 lowercase letters, digits and hyphens, hence `maxLength` 40; page `snapcraft.io/{name}`)
 - [x] Chef Supermarket — ✅ — `supermarket.chef.io/api/v1/cookbooks/{name}` (200 taken / 404 free; the old "no CORS" note predated server-side checks)
 - [x] CocoaPods — ✅ — `cocoapods.org/pods/{name}` (200 taken / 404 free; the website route resolves pod names case-insensitively — `alamofire` renders Alamofire — so lowercased labels are safe here, unlike the exact-case trunk API)
+- [x] CPAN — ✅ — `fastapi.metacpan.org/v1/module/{name}` (200 taken / 404 free; module names are case-sensitive — DBI exists, dbi does not — so this row is the only one marked `caseSensitive`, which keeps the user's raw case while every other source folds to lowercase; `metacpan.org/pod/{name}` is the page, but it Cloudflare-challenges keyless requests)
 - [x] SourceForge — ✅ — `sourceforge.net/projects/{name}/` (200 taken / 404 free; the 404 body is JSON, the 200 is HTML, so status alone is the signal)
 - [x] Hackage — ✅ — `hackage.haskell.org/package/{name}` (bare name resolves; status-only HTML)
 - [x] Clojars — ✅ — `clojars.org/api/artifacts/{name}` (single segment resolves)
@@ -111,7 +112,6 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Deno (`deno.land/x`) — 🕸 — `/x/{name}` 302-redirects and even taken names resolve 404, no signal
 - [ ] Docker Hub — 🕸 — composite `user/repo`, no single-label namespace
 - [ ] Flathub — 🔌 — ruled out: the app-id is reverse-DNS, not a single label, so a `{name}` probe never names a claimable app
-- [ ] CPAN — 🕸 — deferred: module names are case-sensitive, and the input pipeline lowercases the label (`platforms.ts:14-18`, `serve.rs`), so `metacpan.org`/`fastapi.metacpan.org/v1/module/{name}` would false-available on a mixed-case module; needs a raw-case path through the client and engine first
 - [ ] LuaRocks — 🕸 — composite `owner/name`, no single-label namespace
 - [ ] Terraform Registry — 🕸 — scoped `namespace/type` path, not a single label
 - [ ] VS Code Marketplace — 🕸 — no simple API (use Open VSX)
