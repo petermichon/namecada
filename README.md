@@ -20,10 +20,15 @@ page renders the full report before checks finish and fills rows in place.
 Development uses Vite with `/v1` proxied to `serve`.
 
 `core` has no HTTP dependency. `serve` is a development/CLI harness only; the
-packaged app will be Tauri, calling the engine directly and feeding the same
-events through the `CheckClient` seam, with no localhost server. The source
-registry is compiled into the binary (`Manifest::embedded`); `--manifest`
-overrides it for development.
+packaged app is Tauri (`src-tauri/`), calling the engine directly and feeding
+the same events through the `CheckClient` seam, with no localhost server. The
+web client picks its transport once at load: `invoke('check')` with an IPC
+channel inside the desktop shell, the NDJSON endpoint everywhere else. The
+source registry is compiled into the binary (`Manifest::embedded`);
+`--manifest` overrides it for development.
+
+Desktop app: `npm run tauri:dev` (Vite dev server plus the native window) and
+`npm run tauri:build` (bundles the single-file web build).
 
 ### Sources
 

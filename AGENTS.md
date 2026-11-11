@@ -12,7 +12,11 @@ conventions.
   `src/lib/api.ts`; `httpCheckClient` is the development adapter.
 - `rust/` — the engine plus a development/CLI harness. `core/` holds the `Provider`/`Transport`
   contracts, the status/custom/DNS adapters, the engine, cache, HTTP transport,
-  and fixture replay. `cli/` holds the `serve` and `check` commands.
+  shared stream events (`events.rs`), the live provider set (`providers.rs`), and
+  fixture replay. `cli/` holds the `serve` and `check` commands.
+- `src-tauri/` — the desktop shell. It builds the same registry via
+  `live_providers` and streams `events.rs` shapes over an IPC channel from the
+  `check` command; it has its own Cargo workspace (Tauri's `src-tauri` layout).
 - `fixtures/` — captured source inventory plus raw HTTP snapshots. These are a
   frozen parity oracle; the Rust-only tree has no exporter yet. See
   `fixtures/README.md`.
@@ -40,6 +44,8 @@ Root scripts (run from the repo root):
 | `npm run rust:clippy` | Rust lints |
 | `npm run rust:build` | release build of the Rust binary |
 | `npm run rust:serve` | run the Rust NDJSON server on `127.0.0.1:8080` |
+| `npm run tauri:dev` | Vite dev server plus the Tauri window (real IPC, no `serve`) |
+| `npm run tauri:build` | bundle the desktop app |
 
 Rust scripts require `cargo` on `PATH` (rustup, then a new shell or
 `source "$HOME/.cargo/env"`); `rust-toolchain.toml` pins the stable toolchain.

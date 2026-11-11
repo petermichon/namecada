@@ -1,5 +1,5 @@
 import { onMount } from 'svelte';
-import { httpCheckClient, isAbort, type CheckClient, type CheckEvent } from './api';
+import { appCheckClient, isAbort, type CheckClient, type CheckEvent } from './api';
 import { toLabel, suggestLabel, type CostFilter, type Status } from './platforms';
 
 export interface Row {
@@ -84,7 +84,7 @@ export class Lookup {
 	#generation = 0;
 	#client: CheckClient;
 
-	constructor(client: CheckClient = httpCheckClient) {
+	constructor(client: CheckClient = appCheckClient) {
 		this.#client = client;
 	}
 
@@ -306,7 +306,7 @@ export class Lookup {
 	});
 }
 
-export function useLookup(client: CheckClient = httpCheckClient): Lookup {
+export function useLookup(client: CheckClient = appCheckClient): Lookup {
 	const lookup = new Lookup(client);
 
 	onMount(() => {

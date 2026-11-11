@@ -6,7 +6,9 @@ use std::sync::{mpsc, Arc};
 use std::thread;
 use std::time::{Duration, Instant};
 
-use namecheck_core::{Engine, Manifest, MemoryCache, Provider, ProviderResult};
+use namecheck_core::{
+    events, DoneEvent, Engine, Manifest, ManifestEvent, MemoryCache, ProviderResult, ResultEvent,
+};
 use serde::Serialize;
 use serde_json::json;
 use tiny_http::{Header, Method, Request, Response, Server, StatusCode};
@@ -14,18 +16,6 @@ use tiny_http::{Header, Method, Request, Response, Server, StatusCode};
 use crate::providers;
 
 const DEFAULT_ADDR: &str = "127.0.0.1:8080";
-const API_VERSION: u8 = 1;
-
-/// SourceEntry is one row of the manifest streamed before a scan. It comes from
-/// the registry, not the provider set, so deferred and keyed sources are listed
-/// too — the client renders them as "not checked" instead of guessing.
-struct SourceEntry {
-    id: String,
-    platform_name: String,
-    url_template: String,
-    paid: bool,
-    checked: bool,
-}
 
 pub fn run(args: &[String]) -> Result<(), Box<dyn Error>> {
     let mut addr = DEFAULT_ADDR.to_string();
@@ -70,7 +60,13 @@ pub fn run(args: &[String]) -> Result<(), Box<dyn Error>> {
             .unwrap_or_else(|| "embedded".to_string())
     );
     let providers = providers::live(&manifest)?;
-    let entries: Arc<Vec<SourceEntry>> = Arc::new(source_entries(&manifest, &providers));
+    let checked: Arc<HashSet<String>> = Arc::new(
+        providers
+            .iter()
+            .map(|provider| provider.id().to_string())
+            .collect(),
+    );
+    let manifest = Arc::new(manifest);
     let engine = Arc::new(Engine::new(providers).with_cache(Arc::new(MemoryCache::new())));
     let server = Server::http(&addr)
         .map_err(|err| -> Box<dyn Error> { format!("listen on {addr}: {err}").into() })?;
@@ -78,30 +74,20 @@ pub fn run(args: &[String]) -> Result<(), Box<dyn Error>> {
 
     for request in server.incoming_requests() {
         let engine = Arc::clone(&engine);
-        let entries = Arc::clone(&entries);
-        thread::spawn(move || handle(request, &engine, &entries, budget));
+        let manifest = Arc::clone(&manifest);
+        let checked = Arc::clone(&checked);
+        thread::spawn(move || handle(request, &engine, &manifest, &checked, budget));
     }
     Ok(())
 }
 
-/// source_entries joins the registry with the providers that were actually
-/// built. `checked` is derived, never stored, so it cannot drift.
-fn source_entries(manifest: &Manifest, providers: &[Arc<dyn Provider>]) -> Vec<SourceEntry> {
-    let checked: HashSet<&str> = providers.iter().map(|provider| provider.id()).collect();
-    manifest
-        .sources
-        .iter()
-        .map(|source| SourceEntry {
-            id: source.id.clone(),
-            platform_name: source.platform_name.clone(),
-            url_template: source.url_template.clone(),
-            paid: source.paid,
-            checked: checked.contains(source.id.as_str()),
-        })
-        .collect()
-}
-
-fn handle(request: Request, engine: &Engine, entries: &[SourceEntry], budget: Option<Duration>) {
+fn handle(
+    request: Request,
+    engine: &Engine,
+    manifest: &Manifest,
+    checked: &HashSet<String>,
+    budget: Option<Duration>,
+) {
     if request.method() != &Method::Get {
         respond_error(request, 405, "method not allowed");
         return;
@@ -119,13 +105,13 @@ fn handle(request: Request, engine: &Engine, entries: &[SourceEntry], budget: Op
         respond_error(request, 400, "missing required query parameter \"name\"");
         return;
     };
-    if !crate::valid_label(&label) {
+    if !namecheck_core::valid_label(&label) {
         respond_error(request, 400, "invalid query parameter \"name\"");
         return;
     }
 
     let receiver = engine.scan(&label);
-    stream_ndjson(request, entries, &label, receiver, budget);
+    stream_ndjson(request, manifest, checked, &label, receiver, budget);
 }
 
 /// stream_ndjson writes the response itself instead of going through tiny_http's
@@ -135,7 +121,8 @@ fn handle(request: Request, engine: &Engine, entries: &[SourceEntry], budget: Op
 /// chunks here lets every event flush as it resolves.
 fn stream_ndjson(
     request: Request,
-    entries: &[SourceEntry],
+    manifest: &Manifest,
+    checked: &HashSet<String>,
     label: &str,
     receiver: mpsc::Receiver<ProviderResult>,
     budget: Option<Duration>,
@@ -149,70 +136,22 @@ fn stream_ndjson(
     if writer.write_all(head.as_bytes()).is_err() {
         return;
     }
-    if let Err(err) = write_events(&mut writer, entries, label, receiver, budget) {
+    if let Err(err) = write_events(&mut writer, manifest, checked, label, receiver, budget) {
         eprintln!("response failed: {err}");
     }
 }
 
-#[derive(Serialize)]
-#[serde(rename_all = "camelCase")]
-struct ManifestEvent<'a> {
-    #[serde(rename = "type")]
-    kind: &'static str,
-    version: u8,
-    label: &'a str,
-    sources: Vec<SourceEvent<'a>>,
-}
-
-#[derive(Serialize)]
-#[serde(rename_all = "camelCase")]
-struct SourceEvent<'a> {
-    id: &'a str,
-    platform_name: &'a str,
-    url: String,
-    paid: bool,
-    checked: bool,
-}
-
-#[derive(Serialize)]
-struct ResultEvent<'a> {
-    #[serde(rename = "type")]
-    kind: &'static str,
-    #[serde(flatten)]
-    result: &'a ProviderResult,
-}
-
-#[derive(Serialize)]
-struct DoneEvent {
-    #[serde(rename = "type")]
-    kind: &'static str,
-}
-
 fn write_events<W: Write>(
     writer: &mut W,
-    entries: &[SourceEntry],
+    manifest: &Manifest,
+    checked: &HashSet<String>,
     label: &str,
     receiver: mpsc::Receiver<ProviderResult>,
     budget: Option<Duration>,
 ) -> io::Result<()> {
-    let sources = entries
-        .iter()
-        .map(|entry| SourceEvent {
-            id: &entry.id,
-            platform_name: &entry.platform_name,
-            url: entry.url_template.replace("%s", label),
-            paid: entry.paid,
-            checked: entry.checked,
-        })
-        .collect();
     write_event(
         writer,
-        &ManifestEvent {
-            kind: "manifest",
-            version: API_VERSION,
-            label,
-            sources,
-        },
+        &ManifestEvent::new(label, events::source_events(manifest, checked, label)),
     )?;
 
     if let Some(budget) = budget {
@@ -223,13 +162,7 @@ fn write_events<W: Write>(
                 break;
             }
             match receiver.recv_timeout(remaining) {
-                Ok(result) => write_event(
-                    writer,
-                    &ResultEvent {
-                        kind: "result",
-                        result: &result,
-                    },
-                )?,
+                Ok(result) => write_event(writer, &ResultEvent::new(&result))?,
                 Err(mpsc::RecvTimeoutError::Timeout | mpsc::RecvTimeoutError::Disconnected) => {
                     break;
                 }
@@ -237,17 +170,11 @@ fn write_events<W: Write>(
         }
     } else {
         for result in receiver {
-            write_event(
-                writer,
-                &ResultEvent {
-                    kind: "result",
-                    result: &result,
-                },
-            )?;
+            write_event(writer, &ResultEvent::new(&result))?;
         }
     }
 
-    write_event(writer, &DoneEvent { kind: "done" })?;
+    write_event(writer, &DoneEvent::default())?;
     writer.write_all(b"0\r\n\r\n")?;
     writer.flush()
 }
@@ -293,14 +220,28 @@ mod tests {
     use super::*;
     use namecheck_core::Status;
 
-    fn entry(id: &str, checked: bool) -> SourceEntry {
-        SourceEntry {
-            id: id.to_string(),
-            platform_name: id.to_string(),
-            url_template: format!("https://example.com/%s/{id}"),
-            paid: false,
-            checked,
-        }
+    fn manifest() -> Manifest {
+        serde_json::from_value(serde_json::json!({
+            "generatedAt": "2026-11-11T00:00:00Z",
+            "label": "acema",
+            "sourceCount": 2,
+            "enabledCount": 1,
+            "keyedCount": 0,
+            "deferredCount": 1,
+            "sources": [
+                {"id": "npm", "platform": "npm", "platformName": "npm",
+                 "name": "acema", "nameTemplate": "%s",
+                 "url": "https://example.com/acema/npm",
+                 "urlTemplate": "https://example.com/%s/npm",
+                 "paid": false, "minLength": 0, "maxLength": 0, "keyed": false},
+                {"id": "tiktok", "platform": "tiktok", "platformName": "TikTok",
+                 "name": "acema", "nameTemplate": "%s",
+                 "url": "https://example.com/acema/tiktok",
+                 "urlTemplate": "https://example.com/%s/tiktok",
+                 "paid": false, "minLength": 0, "maxLength": 0, "keyed": false}
+            ]
+        }))
+        .unwrap()
     }
 
     #[test]
@@ -318,7 +259,8 @@ mod tests {
 
     #[test]
     fn stream_starts_with_the_manifest_and_ends_with_done() {
-        let entries = vec![entry("npm", true), entry("tiktok", false)];
+        let manifest = manifest();
+        let checked: HashSet<String> = ["npm".to_string()].into_iter().collect();
         let (tx, rx) = mpsc::channel();
         tx.send(ProviderResult {
             id: "npm".to_string(),
@@ -334,7 +276,7 @@ mod tests {
         drop(tx);
 
         let mut body = Vec::new();
-        write_events(&mut body, &entries, "acema", rx, None).unwrap();
+        write_events(&mut body, &manifest, &checked, "acema", rx, None).unwrap();
         let body = String::from_utf8(body).unwrap();
 
         assert!(body.contains("\"type\":\"manifest\""));

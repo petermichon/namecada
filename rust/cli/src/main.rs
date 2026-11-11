@@ -58,7 +58,7 @@ fn check(args: &[String]) -> Result<(), Box<dyn std::error::Error>> {
         .filter(|arg| !arg.starts_with("--"))
         .ok_or("check requires a <label> argument")?
         .to_string();
-    if !valid_label(&label) {
+    if !namecheck_core::valid_label(&label) {
         return Err(format!("invalid label {label:?}").into());
     }
 
@@ -160,14 +160,4 @@ fn sources(args: &[String]) -> Result<(), Box<dyn std::error::Error>> {
     }
     out.flush()?;
     Ok(())
-}
-
-pub(crate) fn valid_label(label: &str) -> bool {
-    !label.is_empty()
-        && label.len() <= 63
-        && label
-            .chars()
-            .all(|ch| ch.is_ascii_alphanumeric() || ch == '-')
-        && !label.starts_with('-')
-        && !label.ends_with('-')
 }

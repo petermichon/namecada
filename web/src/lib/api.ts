@@ -1,4 +1,5 @@
 import type { ProviderResult, Status } from './platforms';
+import { inTauri, tauriCheckClient } from './tauri';
 
 // The check stream is NDJSON with three event types, in order:
 //   manifest → result* → done
@@ -183,3 +184,7 @@ export async function streamFromApi(
 }
 
 export const httpCheckClient: CheckClient = { stream: streamFromApi };
+
+// appCheckClient picks the transport once at load: the desktop app calls the
+// engine over IPC, the browser build uses the NDJSON endpoint.
+export const appCheckClient: CheckClient = inTauri() ? tauriCheckClient : httpCheckClient;

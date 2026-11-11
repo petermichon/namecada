@@ -20,10 +20,12 @@
 		"lint": "npm run lint -w @namecheck/web",
 		"format": "npm run format -w @namecheck/web && npm run rust:fmt",
 		"rust:test": "cargo test --manifest-path rust/Cargo.toml --workspace",
-		"rust:fmt": "cargo fmt --manifest-path rust/Cargo.toml --all",
-		"rust:fmt:check": "cargo fmt --manifest-path rust/Cargo.toml --all -- --check",
-		"rust:clippy": "cargo clippy --manifest-path rust/Cargo.toml --workspace --all-targets -- -D warnings",
+		"rust:fmt": "cargo fmt --manifest-path rust/Cargo.toml --all && cargo fmt --manifest-path src-tauri/Cargo.toml",
+		"rust:fmt:check": "cargo fmt --manifest-path rust/Cargo.toml --all -- --check && cargo fmt --manifest-path src-tauri/Cargo.toml -- --check",
+		"rust:clippy": "cargo clippy --manifest-path rust/Cargo.toml --workspace --all-targets -- -D warnings && cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings",
 		"rust:build": "cargo build --release --manifest-path rust/Cargo.toml -p namecheck",
+		"tauri:dev": "tauri dev",
+		"tauri:build": "tauri build",
 		"rust:serve": "cargo run --manifest-path rust/Cargo.toml -p namecheck -- serve",
 		"verify": "npm run check && npm test && npm run lint && npm run rust:fmt:check && npm run rust:clippy && npm run rust:test",
 		"prepare": "husky"
@@ -34,9 +36,11 @@
 			"eslint --fix"
 		],
 		"web/**/*.{json,css,html,md}": "prettier --write",
-		"rust/**/*.rs": "rustfmt --edition 2021"
+		"rust/**/*.rs": "rustfmt --edition 2021",
+		"src-tauri/**/*.rs": "rustfmt --edition 2021"
 	},
 	"devDependencies": {
+		"@tauri-apps/cli": "^2.12.4",
 		"concurrently": "^10.0.6",
 		"husky": "^9.1.7",
 		"lint-staged": "^17.6.0"

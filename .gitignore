@@ -13,6 +13,8 @@ npm-debug.log*
 web/dist
 web/.svelte-check
 rust/target/
+src-tauri/target/
+src-tauri/gen/
 
 # todoworker queue
 plan/PLAN.md
