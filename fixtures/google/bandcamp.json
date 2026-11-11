@@ -1,0 +1,29 @@
+{
+  "source": "bandcamp",
+  "platform": "bandcamp",
+  "platformName": "Bandcamp",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.bandcamp.com",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 0,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://google.bandcamp.com",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "namecheck/1.0 (+https://github.com/petermichon/namecheck)"
+      },
+      "response": {
+        "status": 303,
+        "headers": {
+          "location": "https://google.bandcamp.com/album/ytfinetrackscrubbing"
+        },
+        "body": "You are being redirected, please follow <a href=\"https://google.bandcamp.com/album/ytfinetrackscrubbing\">this link to: https://google.bandcamp.com/album/ytfinetrackscrubbing</a>!",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

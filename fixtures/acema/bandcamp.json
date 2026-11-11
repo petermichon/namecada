@@ -1,0 +1,29 @@
+{
+  "source": "bandcamp",
+  "platform": "bandcamp",
+  "platformName": "Bandcamp",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://acema.bandcamp.com",
+  "paid": false,
+  "status": "available",
+  "durationMs": 0,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://acema.bandcamp.com",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "namecheck/1.0 (+https://github.com/petermichon/namecheck)"
+      },
+      "response": {
+        "status": 303,
+        "headers": {
+          "location": "https://bandcamp.com/signup?new_domain=acema"
+        },
+        "body": "You are being redirected, please follow <a href=\"https://bandcamp.com/signup?new_domain=acema\">this link to: https://bandcamp.com/signup?new_domain=acema</a>!",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

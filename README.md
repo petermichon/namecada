@@ -50,6 +50,7 @@ overrides it for development.
 | AUR       | `aur.archlinux.org/packages/{name}`                            | 200 taken / 404 free      |
 | Snap Store | `api.snapcraft.io/v2/snaps/info/{name}` (`Snap-Device-Series: 16`) | 200 taken / 404 free  |
 | Chef Supermarket | `supermarket.chef.io/api/v1/cookbooks/{name}`               | 200 taken / 404 free      |
+| CocoaPods | `cocoapods.org/pods/{name}`                                   | 200 taken / 404 free      |
 | Firefox   | `addons.mozilla.org/api/v5/addons/addon/{name}/`               | 200/401 taken / 404 free  |
 | JSR       | `jsr.io/api/scopes/{name}`                                     | 200/400 taken / 404 free  |
 | WordPress | `api.wordpress.org/plugins/info/1.2/?request[slug]={name}`     | 200/closed taken / 404 free |
@@ -69,6 +70,7 @@ overrides it for development.
 | Dailymotion | `api.dailymotion.com/user/{name}`                            | 200 taken / 404 free      |
 | Mixcloud  | `api.mixcloud.com/{name}/`                                     | 200 taken / 404 free      |
 | SoundCloud | `soundcloud.com/{name}` (profile)                             | 200 taken / 404 free      |
+| Bandcamp  | `{name}.bandcamp.com` (redirect target)                        | `/signup` redirect free / 200 or elsewhere taken |
 | AniList   | `graphql.anilist.co` `User(name:)` (POST)                      | non-null `User` taken / null free |
 | Roblox    | `users.roblox.com/v1/usernames/users` (POST)                   | non-empty `data` taken / empty free |
 | Minecraft | `api.mojang.com/users/profiles/minecraft/{name}`              | 200 taken / 404 free      |

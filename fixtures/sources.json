@@ -1,8 +1,8 @@
 {
   "generatedAt": "2026-11-10T14:12:31Z",
   "label": "google",
-  "sourceCount": 140,
-  "enabledCount": 93,
+  "sourceCount": 141,
+  "enabledCount": 95,
   "keyedCount": 4,
   "sources": [
     {
@@ -377,6 +377,19 @@
       "nameTemplate": "%s",
       "url": "https://supermarket.chef.io/cookbooks/google",
       "urlTemplate": "https://supermarket.chef.io/cookbooks/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
+    },
+    {
+      "id": "cocoapods",
+      "platform": "cocoapods",
+      "platformName": "CocoaPods",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://cocoapods.org/pods/google",
+      "urlTemplate": "https://cocoapods.org/pods/%s",
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
@@ -1826,5 +1839,5 @@
       "keyed": false
     }
   ],
-  "deferredCount": 43
+  "deferredCount": 42
 }

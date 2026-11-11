@@ -78,6 +78,7 @@ static SPECS: &[StatusSpec] = &[
     spec("clojars", "https://clojars.org/api/artifacts/%s"),
     spec("chocolatey", "https://community.chocolatey.org/packages/%s"),
     spec("aur", "https://aur.archlinux.org/packages/%s"),
+    spec("cocoapods", "https://cocoapods.org/pods/%s"),
     spec(
         "chef-supermarket",
         "https://supermarket.chef.io/api/v1/cookbooks/%s",

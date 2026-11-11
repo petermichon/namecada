@@ -28,6 +28,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] AUR (Arch) — ✅ — `aur.archlinux.org/packages/{name}` (status-only HTML; the RPC endpoint always answers 200)
 - [x] Snap Store — ✅ — `api.snapcraft.io/v2/snaps/info/{name}` with `Snap-Device-Series: 16` (200 taken / 404 free; without the header every request fails, so this is the one custom check that sets its own headers; snap names are 1–40 lowercase letters, digits and hyphens, hence `maxLength` 40; page `snapcraft.io/{name}`)
 - [x] Chef Supermarket — ✅ — `supermarket.chef.io/api/v1/cookbooks/{name}` (200 taken / 404 free; the old "no CORS" note predated server-side checks)
+- [x] CocoaPods — ✅ — `cocoapods.org/pods/{name}` (200 taken / 404 free; the website route resolves pod names case-insensitively — `alamofire` renders Alamofire — so lowercased labels are safe here, unlike the exact-case trunk API)
 - [x] SourceForge — ✅ — `sourceforge.net/projects/{name}/` (200 taken / 404 free; the 404 body is JSON, the 200 is HTML, so status alone is the signal)
 - [x] Hackage — ✅ — `hackage.haskell.org/package/{name}` (bare name resolves; status-only HTML)
 - [x] Clojars — ✅ — `clojars.org/api/artifacts/{name}` (single segment resolves)
@@ -61,6 +62,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] OpenCorporates — ✅ — `api.opencorporates.com/v0.4/companies/search?q={name}` (token; `X-API-TOKEN` header; exact company-name hit taken / else free)
 - [x] Firefox Add-ons — ✅ — `addons.mozilla.org/api/v5`
 - [x] SoundCloud — ✅ — `soundcloud.com/{name}` (keyless profile: 200 taken / 404 free)
+- [x] Bandcamp — ✅ — `{name}.bandcamp.com` (a free name 303s to `bandcamp.com/signup?new_domain=`, a claimed one to its own content, so the redirect target is the verdict and must not be followed; the fan path `bandcamp.com/{name}` is not the signal — it 404s for artist-only accounts)
 - [x] Gumroad — ✅ — `{name}.gumroad.com` (wildcard DNS; HTTP 404, no CORS; HTML Accept; user-chosen storefront names)
 - [x] Vercel — ✅ — `{name}.vercel.app` (wildcard DNS; HTTP 404, no CORS)
 - [x] Netlify — ✅ — `{name}.netlify.app` (wildcard DNS; HTTP 404, no CORS)
@@ -109,7 +111,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Deno (`deno.land/x`) — 🕸 — `/x/{name}` 302-redirects and even taken names resolve 404, no signal
 - [ ] Docker Hub — 🕸 — composite `user/repo`, no single-label namespace
 - [ ] Flathub — 🔌 — ruled out: the app-id is reverse-DNS, not a single label, so a `{name}` probe never names a claimable app
-- [ ] CPAN — 🕸 — case-sensitive CamelCase names; labels are lowercased (`platforms.ts:14-18`), so it would false-available
+- [ ] CPAN — 🕸 — deferred: module names are case-sensitive, and the input pipeline lowercases the label (`platforms.ts:14-18`, `serve.rs`), so `metacpan.org`/`fastapi.metacpan.org/v1/module/{name}` would false-available on a mixed-case module; needs a raw-case path through the client and engine first
 - [ ] LuaRocks — 🕸 — composite `owner/name`, no single-label namespace
 - [ ] Terraform Registry — 🕸 — scoped `namespace/type` path, not a single label
 - [ ] VS Code Marketplace — 🕸 — no simple API (use Open VSX)
@@ -145,7 +147,6 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Steam — ✅ — `steamcommunity.com/id/{name}?xml=1` (body signal: a taken custom id reports a `<steamID64>` element, a free one an `<error>` element; both are 200, so status alone has no signal)
 - [ ] Epic Games — 🕸
 - [ ] Patreon — 🕸 — bot-blocked: 403 for both real and fake names, so no signal
-- [ ] Bandcamp — 🕸 — distinguishes free only via a redirect to `/signup`; would need redirect-target inspection
 - [ ] Kickstarter — 🕸 — bot-blocked: 403 for both real and fake names, so no signal
 - [ ] Indiegogo — 🕸
 - [ ] Etsy — 🕸
@@ -172,7 +173,6 @@ below, written in the browser-direct era, must be re-checked before implementing
   account name, already covered by the GitHub provider; redundant.
 - [ ] GitLab Pages — 🔌 — `{name}.gitlab.io` — the subdomain *is* the GitLab
   account name, already covered by the GitLab provider; redundant.
-- [ ] CocoaPods — 🕸 — case-sensitive CamelCase names; labels are lowercased (`platforms.ts:14-18`), so it would false-available
 - [ ] Swift Package Index — 🕸 — 403
 - [ ] Gradle Plugin Portal — 🕸 — no usable API
 - [ ] Ansible Galaxy — 🕸 — scoped `namespace/name`, not a single label

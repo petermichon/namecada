@@ -421,6 +421,25 @@ fn check_snap(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outc
     Ok(check_status(&response, Status::Taken).map_or_else(unknown, Outcome::new))
 }
 
+/// Bandcamp sends a free artist subdomain to `/signup` and a claimed one into
+/// its own content, so the redirect target is the verdict and must not be
+/// followed.
+fn check_bandcamp(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outcome, Error> {
+    let url = format!("https://{label}.bandcamp.com");
+    let response = get_once(transport, &url, DEFAULT_ACCEPT)?;
+    match (response.status, response.headers.get("location")) {
+        (200, _) => Ok(taken()),
+        (301 | 302 | 303 | 307 | 308, Some(location)) => {
+            if location.to_ascii_lowercase().contains("/signup") {
+                Ok(available())
+            } else {
+                Ok(taken())
+            }
+        }
+        _ => Ok(unknown()),
+    }
+}
+
 fn check_steam(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outcome, Error> {
     let url = format!("https://steamcommunity.com/id/{label}?xml=1");
     let response = get(transport, &url, DEFAULT_ACCEPT)?;
@@ -658,6 +677,10 @@ static CUSTOM_SPECS: &[CustomSpec] = &[
     CustomSpec {
         id: "snap",
         check: check_snap,
+    },
+    CustomSpec {
+        id: "bandcamp",
+        check: check_bandcamp,
     },
     CustomSpec {
         id: "steam",
