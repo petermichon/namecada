@@ -38,21 +38,18 @@
 	}
 </script>
 
-<div class="space-y-1">
-	<p class="text-[11px] font-semibold tracking-[0.16em] text-muted-foreground uppercase">Cost</p>
-	<div class="flex flex-wrap gap-1" role="group" aria-label="Filter by cost">
-		{#each costs as item (item.value)}
-			<button
-				type="button"
-				class="{CHIP} {cost.includes(item.value)
-					? item.active
-					: 'border-transparent text-muted-foreground hover:bg-muted hover:text-foreground'}"
-				aria-pressed={cost.includes(item.value)}
-				onclick={() => toggle(item.value)}
-			>
-				<item.Icon class="size-3.5 shrink-0 {item.color}" aria-hidden="true" />
-				{item.label} <span class="font-semibold tabular-nums">{item.count}</span>
-			</button>
-		{/each}
-	</div>
+<div class="flex flex-wrap gap-1" role="group" aria-label="Filter by cost">
+	{#each costs as item (item.value)}
+		<button
+			type="button"
+			class="{CHIP} {cost.includes(item.value)
+				? item.active
+				: 'border-transparent text-muted-foreground hover:bg-muted hover:text-foreground'}"
+			aria-pressed={cost.includes(item.value)}
+			onclick={() => toggle(item.value)}
+		>
+			<item.Icon class="size-3.5 shrink-0 {item.color}" aria-hidden="true" />
+			{item.label} <span class="font-semibold tabular-nums">{item.count}</span>
+		</button>
+	{/each}
 </div>

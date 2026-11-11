@@ -197,6 +197,13 @@
 					</p>
 				</div>
 
+				<div
+					class="flex max-w-2xl items-start gap-1.5 text-xs leading-5 text-pretty text-muted-foreground"
+				>
+					<InfoIcon class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+					<p>Availability doesn’t guarantee you can register the name.</p>
+				</div>
+
 				<StatusFilter
 					bind:filter={lookup.filter}
 					counts={lookup.counts}
@@ -204,16 +211,6 @@
 				/>
 
 				<CostFilter bind:cost={lookup.cost} costCounts={lookup.costCounts} />
-
-				<aside
-					class="flex items-start gap-2 rounded-lg border border-border/70 bg-muted/40 px-3 py-2.5 text-xs leading-5 text-pretty text-muted-foreground"
-				>
-					<InfoIcon class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
-					<p>
-						Best-effort; available isn’t a guarantee you can register it. Private accounts and
-						organizations can appear available.
-					</p>
-				</aside>
 			</section>
 
 			<div class="mt-8" aria-busy={lookup.searching}>

@@ -21,16 +21,14 @@
 			label: 'available',
 			count: counts.available,
 			Icon: CheckCircle2Icon,
-			color: 'text-success',
-			bar: 'bg-success'
+			color: 'text-success'
 		},
 		{
 			value: 'taken' as const,
 			label: 'unavailable',
 			count: counts.taken,
 			Icon: XCircleIcon,
-			color: 'text-destructive',
-			bar: 'bg-destructive'
+			color: 'text-destructive'
 		},
 		...(counts.unknown || filter.includes('unknown')
 			? [
@@ -39,8 +37,7 @@
 						label: 'unknown',
 						count: counts.unknown,
 						Icon: HelpCircleIcon,
-						color: 'text-warning',
-						bar: 'bg-warning'
+						color: 'text-warning'
 					}
 				]
 			: []),
@@ -51,11 +48,17 @@
 						label: 'not checked',
 						count: counts.unsupported,
 						Icon: CircleMinusIcon,
-						color: 'text-muted-foreground',
-						bar: ''
+						color: 'text-muted-foreground'
 					}
 				]
 			: [])
+	]);
+
+	// Keep the segments mounted even at zero width so 0 → N transitions.
+	const segments = $derived([
+		{ value: 'available' as const, count: counts.available, bar: 'bg-success' },
+		{ value: 'taken' as const, count: counts.taken, bar: 'bg-destructive' },
+		{ value: 'unknown' as const, count: counts.unknown, bar: 'bg-warning' }
 	]);
 
 	function toggle(value: FilterStatus) {
@@ -71,13 +74,11 @@
 
 <div class="space-y-3">
 	<div class="flex h-2 w-full gap-px overflow-hidden rounded-full bg-muted" aria-hidden="true">
-		{#each rows as row (row.value)}
-			{#if row.count > 0 && row.bar}
-				<span
-					class="h-full transition-[width] duration-500 motion-reduce:transition-none {row.bar}"
-					style:width={share(row.count)}
-				></span>
-			{/if}
+		{#each segments as segment (segment.value)}
+			<span
+				class="h-full transition-[width] duration-500 motion-reduce:transition-none {segment.bar}"
+				style:width={share(segment.count)}
+			></span>
 		{/each}
 	</div>
 

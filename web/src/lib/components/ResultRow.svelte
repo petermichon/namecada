@@ -44,7 +44,7 @@
 	>
 		{#if pending}
 			<span
-				class="col-start-1 row-start-1 flex min-w-0 items-center gap-1.5 text-[11px] font-medium text-muted-foreground"
+				class="col-start-1 row-start-1 flex min-w-0 items-center gap-1.5 text-xs font-medium text-muted-foreground"
 			>
 				<span class="truncate">{row.platformName}</span>
 				{@render paidTag()}
@@ -67,7 +67,7 @@
 			</span>
 		{:else}
 			<span
-				class="col-start-1 row-start-1 flex min-w-0 items-center gap-1.5 text-[11px] font-medium text-muted-foreground"
+				class="col-start-1 row-start-1 flex min-w-0 items-center gap-1.5 text-xs font-medium text-muted-foreground"
 			>
 				<span class="truncate">{row.platformName}</span>
 				{@render paidTag()}
