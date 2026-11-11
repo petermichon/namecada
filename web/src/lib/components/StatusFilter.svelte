@@ -1,8 +1,8 @@
 <script lang="ts">
 	import CheckCircle2Icon from '@lucide/svelte/icons/check-circle-2';
-	import XCircleIcon from '@lucide/svelte/icons/x-circle';
-	import HelpCircleIcon from '@lucide/svelte/icons/help-circle';
 	import CircleMinusIcon from '@lucide/svelte/icons/circle-minus';
+	import HelpCircleIcon from '@lucide/svelte/icons/help-circle';
+	import XCircleIcon from '@lucide/svelte/icons/x-circle';
 	import type { Filter, FilterStatus } from '$lib/useLookup.svelte';
 
 	let {
@@ -22,8 +22,7 @@
 			count: counts.available,
 			Icon: CheckCircle2Icon,
 			color: 'text-success',
-			bar: 'bg-success',
-			active: 'aria-pressed:bg-success/10 aria-pressed:hover:bg-success/20'
+			bar: 'bg-success'
 		},
 		{
 			value: 'taken' as const,
@@ -31,8 +30,7 @@
 			count: counts.taken,
 			Icon: XCircleIcon,
 			color: 'text-destructive',
-			bar: 'bg-destructive',
-			active: 'aria-pressed:bg-destructive/10 aria-pressed:hover:bg-destructive/20'
+			bar: 'bg-destructive'
 		},
 		...(counts.unknown || filter.includes('unknown')
 			? [
@@ -42,8 +40,7 @@
 						count: counts.unknown,
 						Icon: HelpCircleIcon,
 						color: 'text-warning',
-						bar: 'bg-warning',
-						active: 'aria-pressed:bg-warning/10 aria-pressed:hover:bg-warning/20'
+						bar: 'bg-warning'
 					}
 				]
 			: []),
@@ -55,8 +52,7 @@
 						count: counts.unsupported,
 						Icon: CircleMinusIcon,
 						color: 'text-muted-foreground',
-						bar: 'bg-muted-foreground/40',
-						active: 'aria-pressed:bg-muted aria-pressed:hover:bg-foreground/[0.06]'
+						bar: 'bg-muted-foreground/40'
 					}
 				]
 			: [])
@@ -73,29 +69,30 @@
 	}
 </script>
 
-<div class="space-y-0.5" role="group" aria-label="Filter results by status">
-	{#each rows as row (row.value)}
-		<button
-			type="button"
-			aria-pressed={filter.includes(row.value)}
-			onclick={() => toggle(row.value)}
-			class="grid w-full grid-cols-[auto_6.5rem_2rem_1fr] items-center gap-x-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring {row.active}"
-		>
-			<row.Icon class="size-3.5 shrink-0 {row.color}" aria-hidden="true" />
-			<span class="truncate text-foreground">{row.label}</span>
-			<span class="text-right text-[13px] font-medium text-foreground tabular-nums"
-				>{row.count}</span
-			>
-			{#if row.bar}
-				<span class="h-[3px] w-full overflow-hidden rounded-full bg-border">
-					<span
-						class="block h-full rounded-full {row.bar} transition-[width] duration-300 motion-reduce:transition-none"
-						style:width={share(row.count)}
-					></span>
-				</span>
-			{:else}
-				<span aria-hidden="true"></span>
+<div class="space-y-3">
+	<div class="flex h-2 w-full gap-px overflow-hidden rounded-full bg-muted" aria-hidden="true">
+		{#each rows as row (row.value)}
+			{#if row.count > 0}
+				<span
+					class="h-full transition-[width] duration-500 motion-reduce:transition-none {row.bar}"
+					style:width={share(row.count)}
+				></span>
 			{/if}
-		</button>
-	{/each}
+		{/each}
+	</div>
+
+	<div class="flex flex-wrap items-center gap-1" role="group" aria-label="Filter results by status">
+		{#each rows as row (row.value)}
+			<button
+				type="button"
+				aria-pressed={filter.includes(row.value)}
+				onclick={() => toggle(row.value)}
+				class="inline-flex min-h-9 items-center gap-1.5 rounded-lg border border-transparent px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring aria-pressed:border-border aria-pressed:bg-card aria-pressed:text-foreground aria-pressed:shadow-xs"
+			>
+				<row.Icon class="size-3.5 shrink-0 {row.color}" aria-hidden="true" />
+				<span>{row.label}</span>
+				<span class="font-semibold tabular-nums">{row.count}</span>
+			</button>
+		{/each}
+	</div>
 </div>

@@ -16,7 +16,8 @@
       "paid": true,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["domains"]
     },
     {
       "id": "domain.org",
@@ -29,7 +30,8 @@
       "paid": true,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["domains"]
     },
     {
       "id": "domain.dev",
@@ -42,7 +44,8 @@
       "paid": true,
       "minLength": 2,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["domains"]
     },
     {
       "id": "domain.io",
@@ -55,7 +58,8 @@
       "paid": true,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["domains"]
     },
     {
       "id": "domain.ai",
@@ -68,7 +72,8 @@
       "paid": true,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["domains"]
     },
     {
       "id": "domain.app",
@@ -81,7 +86,8 @@
       "paid": true,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["domains"]
     },
     {
       "id": "ens",
@@ -94,7 +100,8 @@
       "paid": true,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["domains", "web3"]
     },
     {
       "id": "sns",
@@ -107,7 +114,8 @@
       "paid": true,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["domains", "web3"]
     },
     {
       "id": "hns",
@@ -120,7 +128,8 @@
       "paid": true,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["domains", "web3"]
     },
     {
       "id": "namecoin",
@@ -133,7 +142,8 @@
       "paid": true,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["domains", "web3"]
     },
     {
       "id": "lens",
@@ -146,7 +156,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social", "web3"]
     },
     {
       "id": "lemmy",
@@ -159,7 +170,8 @@
       "paid": false,
       "minLength": 3,
       "maxLength": 20,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "peertube",
@@ -172,7 +184,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "npm",
@@ -185,7 +198,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "pypi",
@@ -198,7 +212,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "crates",
@@ -211,7 +226,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "nuget",
@@ -224,7 +240,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "rubygems",
@@ -237,7 +254,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "hex",
@@ -250,7 +268,8 @@
       "paid": false,
       "minLength": 2,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "hex-user",
@@ -263,7 +282,8 @@
       "paid": false,
       "minLength": 3,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "pub",
@@ -276,7 +296,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "homebrew",
@@ -289,7 +310,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "hackage",
@@ -302,7 +324,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "clojars",
@@ -315,7 +338,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "chocolatey",
@@ -328,7 +352,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "aur",
@@ -341,7 +366,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "firefox",
@@ -354,7 +380,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "jsr",
@@ -367,7 +394,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "wordpress",
@@ -380,7 +408,8 @@
       "paid": false,
       "minLength": 5,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "openvsx",
@@ -393,7 +422,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "github",
@@ -406,7 +436,8 @@
       "paid": false,
       "minLength": 2,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["code", "social"]
     },
     {
       "id": "gitlab",
@@ -419,7 +450,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["code", "social"]
     },
     {
       "id": "bitbucket",
@@ -432,7 +464,8 @@
       "paid": false,
       "minLength": 4,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["code", "social"]
     },
     {
       "id": "codeberg",
@@ -445,7 +478,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["code", "social"]
     },
     {
       "id": "wikipedia",
@@ -458,7 +492,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "devto",
@@ -471,7 +506,8 @@
       "paid": false,
       "minLength": 2,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator", "social"]
     },
     {
       "id": "farcaster",
@@ -484,7 +520,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social", "web3"]
     },
     {
       "id": "minehut",
@@ -497,7 +534,8 @@
       "paid": false,
       "minLength": 4,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["gaming"]
     },
     {
       "id": "lichess",
@@ -510,7 +548,8 @@
       "paid": false,
       "minLength": 2,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["gaming"]
     },
     {
       "id": "chesscom",
@@ -523,7 +562,8 @@
       "paid": false,
       "minLength": 3,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["gaming"]
     },
     {
       "id": "huggingface",
@@ -536,7 +576,8 @@
       "paid": false,
       "minLength": 2,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["code"]
     },
     {
       "id": "dailymotion",
@@ -549,7 +590,8 @@
       "paid": false,
       "minLength": 3,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator", "social"]
     },
     {
       "id": "mixcloud",
@@ -562,7 +604,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator", "social"]
     },
     {
       "id": "soundcloud",
@@ -575,7 +618,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator", "social"]
     },
     {
       "id": "anilist",
@@ -588,7 +632,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "roblox",
@@ -601,7 +646,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["gaming"]
     },
     {
       "id": "bluesky",
@@ -614,7 +660,8 @@
       "paid": false,
       "minLength": 3,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "mastodon",
@@ -627,7 +674,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "youtube",
@@ -640,7 +688,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator", "social"]
     },
     {
       "id": "x",
@@ -653,7 +702,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "opensea",
@@ -666,7 +716,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["commerce", "web3"]
     },
     {
       "id": "kaggle",
@@ -679,7 +730,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["code", "social"]
     },
     {
       "id": "skills",
@@ -692,7 +744,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["code"]
     },
     {
       "id": "dribbble",
@@ -705,7 +758,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator"]
     },
     {
       "id": "behance",
@@ -718,7 +772,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator"]
     },
     {
       "id": "replicate",
@@ -731,7 +786,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["code"]
     },
     {
       "id": "hackernoon",
@@ -744,7 +800,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator"]
     },
     {
       "id": "spotify",
@@ -757,7 +814,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator"]
     },
     {
       "id": "paragraph",
@@ -770,7 +828,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator", "web3"]
     },
     {
       "id": "linktree",
@@ -783,7 +842,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator", "social"]
     },
     {
       "id": "steam",
@@ -796,7 +856,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["gaming"]
     },
     {
       "id": "instagram",
@@ -809,7 +870,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "hackernews",
@@ -822,7 +884,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "giphy",
@@ -835,7 +898,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator"]
     },
     {
       "id": "minds",
@@ -848,7 +912,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "opencollective",
@@ -861,7 +926,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["commerce"]
     },
     {
       "id": "vercel",
@@ -874,7 +940,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "netlify",
@@ -887,7 +954,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "surge",
@@ -900,7 +968,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "firebase",
@@ -913,7 +982,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "neocities",
@@ -926,7 +996,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "render",
@@ -939,7 +1010,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "railway",
@@ -952,7 +1024,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "heroku",
@@ -965,7 +1038,8 @@
       "paid": true,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "readthedocs",
@@ -978,7 +1052,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "gumroad",
@@ -991,7 +1066,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["commerce"]
     },
     {
       "id": "substack",
@@ -1004,7 +1080,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator"]
     },
     {
       "id": "shopify",
@@ -1017,7 +1094,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["commerce", "hosting"]
     },
     {
       "id": "weebly",
@@ -1030,7 +1108,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "euorg",
@@ -1043,7 +1122,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "duckdns",
@@ -1056,7 +1136,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "noip",
@@ -1069,7 +1150,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "dynv6",
@@ -1082,7 +1164,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "notedlol",
@@ -1095,7 +1178,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "isagooddev",
@@ -1108,7 +1192,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "pagesdev",
@@ -1121,7 +1206,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "fly",
@@ -1134,7 +1220,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["hosting"]
     },
     {
       "id": "discogs",
@@ -1147,7 +1234,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": true
+      "keyed": true,
+      "tags": ["commerce", "creator"]
     },
     {
       "id": "twitch",
@@ -1160,7 +1248,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": true
+      "keyed": true,
+      "tags": ["creator", "social"]
     },
     {
       "id": "companieshouse",
@@ -1173,7 +1262,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": true
+      "keyed": true,
+      "tags": ["company"]
     },
     {
       "id": "opencorporates",
@@ -1186,7 +1276,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": true
+      "keyed": true,
+      "tags": ["company"]
     },
     {
       "id": "unstoppable-domains",
@@ -1199,7 +1290,8 @@
       "paid": true,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["domains", "web3"]
     },
     {
       "id": "product-hunt",
@@ -1212,7 +1304,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "tumblr",
@@ -1225,7 +1318,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "vk",
@@ -1238,7 +1332,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "line",
@@ -1251,7 +1346,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "kakao",
@@ -1264,7 +1360,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "spotify-artist",
@@ -1277,7 +1374,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator"]
     },
     {
       "id": "apple-music",
@@ -1290,7 +1388,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator"]
     },
     {
       "id": "lastfm",
@@ -1303,7 +1402,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator", "social"]
     },
     {
       "id": "trakt",
@@ -1316,7 +1416,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "genius",
@@ -1329,7 +1430,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator"]
     },
     {
       "id": "strava",
@@ -1342,7 +1444,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "medium",
@@ -1355,7 +1458,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator", "social"]
     },
     {
       "id": "patreon",
@@ -1368,7 +1472,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["commerce", "creator"]
     },
     {
       "id": "kickstarter",
@@ -1381,7 +1486,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["commerce", "creator"]
     },
     {
       "id": "vimeo",
@@ -1394,7 +1500,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator", "social"]
     },
     {
       "id": "lemon-squeezy",
@@ -1407,7 +1514,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["commerce"]
     },
     {
       "id": "codesandbox",
@@ -1420,7 +1528,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["code"]
     },
     {
       "id": "npm-users",
@@ -1433,7 +1542,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "pypi-users",
@@ -1446,7 +1556,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "swift-package-index",
@@ -1459,7 +1570,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["packages"]
     },
     {
       "id": "discord",
@@ -1472,7 +1584,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "linkedin",
@@ -1485,7 +1598,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "figma",
@@ -1498,7 +1612,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator"]
     },
     {
       "id": "minecraft",
@@ -1511,7 +1626,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["gaming"]
     },
     {
       "id": "fandom",
@@ -1524,7 +1640,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "epic-games",
@@ -1537,7 +1654,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["gaming"]
     },
     {
       "id": "etsy",
@@ -1550,7 +1668,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["commerce"]
     },
     {
       "id": "amazon",
@@ -1563,7 +1682,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["commerce"]
     },
     {
       "id": "ebay",
@@ -1576,7 +1696,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["commerce"]
     },
     {
       "id": "imdb",
@@ -1589,7 +1710,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator"]
     },
     {
       "id": "bandcamp",
@@ -1602,7 +1724,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["commerce", "creator"]
     },
     {
       "id": "itchio",
@@ -1615,7 +1738,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["gaming"]
     },
     {
       "id": "codepen",
@@ -1628,7 +1752,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["code", "creator"]
     },
     {
       "id": "stackblitz",
@@ -1641,7 +1766,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["code"]
     },
     {
       "id": "observable",
@@ -1654,7 +1780,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["code", "creator"]
     },
     {
       "id": "deviantart",
@@ -1667,7 +1794,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator"]
     },
     {
       "id": "flickr",
@@ -1680,7 +1808,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["creator"]
     },
     {
       "id": "reddit",
@@ -1693,7 +1822,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "tiktok",
@@ -1706,7 +1836,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "threads",
@@ -1719,7 +1850,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "facebook",
@@ -1732,7 +1864,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "snapchat",
@@ -1745,7 +1878,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     },
     {
       "id": "pinterest",
@@ -1758,7 +1892,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "tags": ["social"]
     }
   ],
   "deferredCount": 44

@@ -29,13 +29,21 @@ const manifest = JSON.stringify({
 	version: 1,
 	label: 'acema',
 	sources: [
-		{ id: 'npm', platformName: 'npm', url: 'https://npmjs.com/acema', paid: false, checked: true },
+		{
+			id: 'npm',
+			platformName: 'npm',
+			url: 'https://npmjs.com/acema',
+			paid: false,
+			checked: true,
+			tags: ['packages']
+		},
 		{
 			id: 'tiktok',
 			platformName: 'TikTok',
 			url: 'https://tiktok.com/@acema',
 			paid: false,
-			checked: false
+			checked: false,
+			tags: ['social']
 		}
 	]
 });
@@ -53,7 +61,8 @@ describe('parseEvent', () => {
 			id: 'tiktok',
 			platformName: 'TikTok',
 			checked: false,
-			paid: false
+			paid: false,
+			tags: ['social']
 		});
 	});
 
@@ -66,7 +75,7 @@ describe('parseEvent', () => {
 		);
 		expect(event).toMatchObject({ type: 'manifest', version: 0, label: '' });
 		expect(event?.type === 'manifest' && event.sources).toEqual([
-			{ id: 'npm', platformName: 'npm', url: 'u', paid: false, checked: false }
+			{ id: 'npm', platformName: 'npm', url: 'u', paid: false, checked: false, tags: [] }
 		]);
 	});
 

@@ -123,9 +123,9 @@ registering costs SOL. HNS is paid as well — a new Handshake name is won in an
 auction, and an expired one is reclaimed the same way. Namecoin (`.bit`) is paid
 too — registering a `d/` name costs NMC. Heroku is also paid (its free
 tier ended in November 2022) but is still surfaced. Every handle, package and
-social source is **free** to register. The
-report renders a Paid card above a Free card, and each provider carries a `paid`
-flag carried by every source in the manifest stream.
+social source is **free** to register. Each source carries a `paid` flag; the
+report marks paid rows and offers a cost filter, but otherwise renders one
+alphabetical list.
 
 The free-subdomain sources (eu.org, DuckDNS, No-IP, dynv6, noted.lol,
 is-a-good.dev, Cloudflare Pages, Fly.io) have no wildcard DNS, so they resolve `{name}.{host}` and treat a
@@ -208,10 +208,11 @@ unauthenticated requests (GitHub: 60/hour per IP).
 
 - `rust/` — Rust engine and the development/CLI harness; see `rust/README.md`.
 - `web/` — Svelte 5 + Vite + Tailwind + shadcn-svelte (maia) app.
-  - `src/lib/platforms.ts` — the result types (`Status`, `ProviderResult`) and
-    `toLabel`. The display name in `platformName` and the `paid` flag come from
-    the stream; the report renders the URLs as a Paid card above a Free card,
-    each with its own heading and available count.
+  - `src/lib/platforms.ts` — the result types (`Status`, `ProviderResult`),
+    `toLabel`, `suggestLabel`, and the tag list. The display name in
+    `platformName`, the `paid` flag, and the facet `tags` come from the manifest
+    stream; the report renders one alphabetical list with tag and cost filters,
+    and marks paid rows.
   - `src/lib/api.ts` — the event contract and the `CheckClient` transport seam.
     `streamFromApi` (the `httpCheckClient`) consumes the `serve` API
     (`GET /v1/check?name=<label>`, NDJSON events); a native shell can inject its
@@ -228,6 +229,7 @@ shell or `source "$HOME/.cargo/env"`). The workspace pins stable Rust in
 ```sh
 npm install        # installs the web workspace + git hooks
 npm run dev        # Vite + the development server
+npm run dev:android # USB phone workflow: attach or start, then adb reverse
 npm run build      # single-file app build
 npm test           # vitest
 npm run check      # svelte-check + tsc
@@ -249,11 +251,21 @@ its own origin and Vite proxies that to `serve` on `:8080`, so no CORS setup is
 needed and Vite can fall back to another port. Use `npm run dev:web` when the
 server is already running separately.
 
+`npm run dev:android` is the phone workflow over USB. It validates the connected
+device, finds the first free web port from `5173`, or attaches to a Namecheck
+dev server that is already running, then points `adb reverse` at that exact
+port and prints `http://127.0.0.1:<port>`. The Rust `serve` on `:8080` is reused
+when it is already listening, otherwise it is started too. Set `PORT=5180` to
+pin the web port and `ANDROID_SERIAL=<serial>` to choose between several
+connected devices. Requires `adb` (Android platform-tools); USB debugging must
+be enabled and the host authorized.
+
 ## Adding a source
 
 1. Add the source metadata to `fixtures/sources.json`: `id`, `platform`,
    `platformName`, `nameTemplate`, `urlTemplate`, `paid`, `minLength`,
-   `maxLength`, and `keyed`. A source with no provider is listed as
+   `maxLength`, `keyed`, and `tags` (one or more tags such as `domains`,
+   `packages`, `social`). A source with no provider is listed as
    "not checked" automatically — `checked` is derived from the provider
    registry, never stored. The registry is compiled into the binary, so rebuild
    after editing.

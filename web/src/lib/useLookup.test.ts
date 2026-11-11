@@ -1,12 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { parseEvent, type CheckClient } from './api';
-import {
-	byPaidThenPlatformName,
-	byPlatformName,
-	DEFAULT_FILTER,
-	Lookup,
-	type Row
-} from './useLookup.svelte';
+import { ALL_STATUSES, byPlatformName, DEFAULT_FILTER, Lookup, type Row } from './useLookup.svelte';
 import type { Status } from './platforms';
 
 function row(
@@ -14,7 +8,8 @@ function row(
 	status: Row['status'],
 	name = 'acema',
 	paid = false,
-	url = `https://example.com/${platformName.toLowerCase()}/${name}`
+	url = `https://example.com/${platformName.toLowerCase()}/${name}`,
+	tags: string[] = []
 ): Row {
 	return {
 		id: `${platformName.toLowerCase()}-${name}`,
@@ -23,8 +18,20 @@ function row(
 		name,
 		url,
 		status,
-		paid
+		paid,
+		tags
 	};
+}
+
+function tagged(platformName: string, status: Row['status'], tags: string[], paid = false): Row {
+	return row(
+		platformName,
+		status,
+		'acema',
+		paid,
+		`https://example.com/${platformName.toLowerCase()}/acema`,
+		tags
+	);
 }
 
 function manifest(
@@ -34,6 +41,7 @@ function manifest(
 		url: string;
 		paid?: boolean;
 		checked?: boolean;
+		tags?: string[];
 	}>,
 	label = 'acema'
 ): string {
@@ -44,6 +52,7 @@ function manifest(
 		sources: sources.map((source) => ({
 			paid: false,
 			checked: true,
+			tags: [],
 			...source
 		}))
 	});
@@ -102,24 +111,6 @@ describe('byPlatformName', () => {
 			{ ...row('Hex', 'taken'), url: 'https://hex.pm/packages/acema' }
 		];
 		expect(hex.toSorted(byPlatformName)[0].url).toBe('https://hex.pm/packages/acema');
-	});
-});
-
-describe('byPaidThenPlatformName', () => {
-	it('puts paid rows before free ones', () => {
-		expect(
-			byPaidThenPlatformName(row('Domains', 'taken', 'acema', true), row('GitHub', 'taken'))
-		).toBeLessThan(0);
-		expect(
-			byPaidThenPlatformName(row('GitHub', 'taken'), row('Domains', 'taken', 'acema', true))
-		).toBeGreaterThan(0);
-	});
-
-	it('falls back to the display name within a group', () => {
-		expect(byPaidThenPlatformName(row('GitHub', 'taken'), row('Lemmy', 'taken'))).toBeLessThan(0);
-		expect(
-			byPaidThenPlatformName(row('Domains', 'taken', 'a', true), row('Domains', 'taken', 'b', true))
-		).toBeLessThan(0);
 	});
 });
 
@@ -184,7 +175,7 @@ describe('visibleRows', () => {
 		expect(lookup.visibleRows.map((r) => r.name)).toEqual(['a', 'b']);
 	});
 
-	it('puts paid rows before free rows', () => {
+	it('keeps alphabetical order across paid and free rows', () => {
 		const lookup = new Lookup();
 		lookup.rows = [
 			row('npm', 'taken'),
@@ -194,27 +185,80 @@ describe('visibleRows', () => {
 		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['Domains', 'GitHub', 'npm']);
 	});
 
-	it('groups rows into paid and free', () => {
+	it('filters by category tag', () => {
 		const lookup = new Lookup();
 		lookup.rows = [
-			row('npm', 'taken'),
-			row('Domains', 'taken', 'acema', true),
-			row('GitHub', 'taken')
+			tagged('GitHub', 'taken', ['code', 'social']),
+			tagged('npm', 'taken', ['packages']),
+			tagged('Lemmy', 'available', ['social'])
 		];
-		expect(lookup.paidRows.map((r) => r.platformName)).toEqual(['Domains']);
-		expect(lookup.freeRows.map((r) => r.platformName)).toEqual(['GitHub', 'npm']);
+		lookup.category = 'social';
+		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['GitHub', 'Lemmy']);
 	});
 
-	it('applies the status filter within the groups', () => {
+	it('filters by cost', () => {
 		const lookup = new Lookup();
 		lookup.rows = [
-			row('npm', 'available'),
 			row('Domains', 'taken', 'acema', true),
-			row('GitHub', 'taken')
+			row('GitHub', 'taken'),
+			row('Heroku', 'taken', 'acema', true)
 		];
-		lookup.filter = ['taken'];
-		expect(lookup.paidRows.map((r) => r.platformName)).toEqual(['Domains']);
-		expect(lookup.freeRows.map((r) => r.platformName)).toEqual(['GitHub']);
+		lookup.cost = 'paid';
+		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['Domains', 'Heroku']);
+	});
+
+	it('combines status, category, and cost filters', () => {
+		const lookup = new Lookup();
+		lookup.rows = [
+			tagged('GitHub', 'taken', ['social']),
+			tagged('Lemmy', 'available', ['social']),
+			tagged('npm', 'available', ['packages']),
+			tagged('Domains', 'taken', ['domains'], true)
+		];
+
+		lookup.filter = ['available'];
+		lookup.category = 'social';
+		lookup.cost = 'free';
+		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['Lemmy']);
+
+		lookup.filter = ['available', 'taken'];
+		lookup.category = 'all';
+		lookup.cost = 'paid';
+		expect(lookup.visibleRows.map((r) => r.platformName)).toEqual(['Domains']);
+	});
+
+	it('counts categories and costs across every row', () => {
+		const lookup = new Lookup();
+		lookup.rows = [
+			tagged('GitHub', 'taken', ['code', 'social']),
+			tagged('npm', 'taken', ['packages']),
+			tagged('Domains', 'taken', ['domains'], true)
+		];
+
+		expect(lookup.categoryCounts).toEqual({
+			code: 1,
+			social: 1,
+			packages: 1,
+			domains: 1
+		});
+		expect(lookup.costCounts).toEqual({ all: 3, free: 2, paid: 1 });
+	});
+
+	it('counts only the rows that are visible', () => {
+		const lookup = new Lookup();
+		lookup.rows = [
+			tagged('GitHub', 'taken', ['social']),
+			tagged('Lemmy', 'available', ['social']),
+			tagged('npm', 'available', ['packages'])
+		];
+		lookup.category = 'social';
+		expect(lookup.visibleCounts).toEqual({
+			available: 1,
+			taken: 1,
+			unknown: 0,
+			unsupported: 0,
+			pending: 0
+		});
 	});
 });
 
@@ -230,6 +274,33 @@ describe('counts', () => {
 		];
 
 		expect(lookup.counts).toEqual({ available: 1, taken: 1, unknown: 1, unsupported: 1 });
+	});
+
+	it('narrows status counts to the selected category and cost', () => {
+		const lookup = new Lookup();
+		lookup.rows = [
+			tagged('Domains', 'taken', ['domains'], true),
+			tagged('GitHub', 'available', ['social']),
+			tagged('Lemmy', 'taken', ['social'])
+		];
+		lookup.category = 'social';
+
+		expect(lookup.counts).toEqual({ available: 1, taken: 1, unknown: 0, unsupported: 0 });
+		expect(lookup.statusTotal).toBe(2);
+	});
+
+	it('narrows category and cost counts to the other filters', () => {
+		const lookup = new Lookup();
+		lookup.rows = [
+			tagged('Domains', 'taken', ['domains'], true),
+			tagged('GitHub', 'available', ['social']),
+			tagged('Lemmy', 'taken', ['social'])
+		];
+		lookup.filter = ['taken'];
+
+		expect(lookup.categoryCounts).toEqual({ domains: 1, social: 1 });
+		expect(lookup.categoryTotal).toBe(2);
+		expect(lookup.costCounts).toEqual({ all: 2, free: 1, paid: 1 });
 	});
 });
 
@@ -251,7 +322,27 @@ describe('announcement', () => {
 		const lookup = new Lookup();
 		lookup.rows = [row('GitHub', 'taken'), row('Lemmy', 'available'), row('PeerTube', 'unknown')];
 		lookup.filter = ['available', 'unknown'];
-		expect(lookup.announcement).toBe('2 shown. 1 available, 1 unavailable, 1 unknown');
+		expect(lookup.announcement).toBe('2 shown. 1 available, 0 unavailable, 1 unknown');
+	});
+
+	it('summarises only the rows left by the facet filters', () => {
+		const lookup = new Lookup();
+		lookup.rows = [
+			tagged('GitHub', 'taken', ['social']),
+			tagged('Lemmy', 'available', ['social']),
+			tagged('npm', 'available', ['packages'])
+		];
+		lookup.category = 'social';
+		expect(lookup.announcement).toBe('2 shown. 1 available, 1 unavailable, 0 unknown');
+	});
+
+	it('mentions visible not-checked sources', () => {
+		const lookup = new Lookup();
+		lookup.rows = [row('GitHub', 'taken'), row('TikTok', 'unsupported')];
+		lookup.filter = ['taken', 'unsupported'];
+		expect(lookup.announcement).toBe(
+			'2 shown. 0 available, 1 unavailable, 0 unknown, 1 not checked'
+		);
 	});
 });
 
@@ -278,9 +369,20 @@ describe('check', () => {
 		const body =
 			[
 				manifest([
-					{ id: 'npm', platformName: 'npm', url: 'https://npmjs.com/acema' },
-					{ id: 'lemmy', platformName: 'Lemmy', url: 'https://lemmy.world/u/acema' },
-					{ id: 'tiktok', platformName: 'TikTok', url: 'https://tiktok.com/@acema', checked: false }
+					{ id: 'npm', platformName: 'npm', url: 'https://npmjs.com/acema', tags: ['packages'] },
+					{
+						id: 'lemmy',
+						platformName: 'Lemmy',
+						url: 'https://lemmy.world/u/acema',
+						tags: ['social']
+					},
+					{
+						id: 'tiktok',
+						platformName: 'TikTok',
+						url: 'https://tiktok.com/@acema',
+						checked: false,
+						tags: ['social']
+					}
 				]),
 				result('npm', 'npm', 'available'),
 				result('lemmy', 'Lemmy', 'taken'),
@@ -305,6 +407,8 @@ describe('check', () => {
 		]);
 		expect(lookup.rows.every((r) => r.name === 'acema')).toBe(true);
 		expect(lookup.rows[2].url).toBe('https://tiktok.com/@acema');
+		expect(lookup.rows[0].tags).toEqual(['packages']);
+		expect(lookup.categoryCounts).toEqual({ packages: 1, social: 1 });
 		expect(lookup.counts).toEqual({ available: 1, taken: 1, unknown: 0, unsupported: 1 });
 	});
 
@@ -383,6 +487,66 @@ describe('check', () => {
 	});
 });
 
+describe('invalid input', () => {
+	it('suggests the bare label for a dotted input', () => {
+		const lookup = new Lookup();
+		lookup.input = 'Acema.com';
+		lookup.check({ sync: false });
+
+		expect(lookup.error).toContain('without the dot');
+		expect(lookup.suggestion).toBe('acema');
+	});
+
+	it('offers no suggestion when nothing safe can be extracted', () => {
+		const lookup = new Lookup();
+		lookup.input = 'a b';
+		lookup.check({ sync: false });
+
+		expect(lookup.error).toContain('letters, numbers and hyphens');
+		expect(lookup.suggestion).toBeNull();
+	});
+
+	it('clears the error and suggestion when the user edits', () => {
+		const lookup = new Lookup();
+		lookup.input = 'acema.com';
+		lookup.check({ sync: false });
+
+		lookup.clearError();
+
+		expect(lookup.error).toBe('');
+		expect(lookup.suggestion).toBeNull();
+	});
+
+	it('accepts the suggestion and starts the corrected scan', async () => {
+		vi.stubGlobal('fetch', stubApi(''));
+		const lookup = new Lookup();
+		lookup.input = 'acema.com';
+		lookup.check({ sync: false });
+
+		lookup.acceptSuggestion({ sync: false });
+
+		expect(lookup.input).toBe('acema');
+		expect(lookup.suggestion).toBeNull();
+		expect(lookup.lastLabel).toBe('acema');
+		await vi.waitFor(() => expect(lookup.loading).toBe(false));
+	});
+});
+
+describe('showAll', () => {
+	it('clears every facet and includes deferred sources', () => {
+		const lookup = new Lookup();
+		lookup.filter = ['taken'];
+		lookup.category = 'social';
+		lookup.cost = 'paid';
+
+		lookup.showAll();
+
+		expect(lookup.filter).toEqual(ALL_STATUSES);
+		expect(lookup.category).toBe('all');
+		expect(lookup.cost).toBe('all');
+	});
+});
+
 describe('goHome', () => {
 	it('clears the report and returns to the landing state', () => {
 		const lookup = new Lookup();
@@ -390,7 +554,10 @@ describe('goHome', () => {
 		lookup.lastLabel = 'acema';
 		lookup.rows = [row('GitHub', 'taken')];
 		lookup.error = 'unreachable';
+		lookup.suggestion = 'acema';
 		lookup.filter = ['taken'];
+		lookup.category = 'social';
+		lookup.cost = 'paid';
 		lookup.loading = true;
 
 		lookup.goHome();
@@ -399,7 +566,10 @@ describe('goHome', () => {
 		expect(lookup.lastLabel).toBeNull();
 		expect(lookup.rows).toEqual([]);
 		expect(lookup.error).toBe('');
+		expect(lookup.suggestion).toBeNull();
 		expect(lookup.filter).toEqual(DEFAULT_FILTER);
+		expect(lookup.category).toBe('all');
+		expect(lookup.cost).toBe('all');
 		expect(lookup.loading).toBe(false);
 		expect(lookup.visibleRows).toEqual([]);
 	});

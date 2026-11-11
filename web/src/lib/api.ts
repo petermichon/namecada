@@ -14,6 +14,7 @@ export interface ManifestSource {
 	url: string;
 	paid: boolean;
 	checked: boolean;
+	tags: string[];
 }
 
 export interface ManifestEvent {
@@ -55,12 +56,16 @@ function parseManifest(row: Record<string, unknown>): ManifestEvent | null {
 		if (!source || typeof source.id !== 'string' || !source.id) continue;
 		if (typeof source.url !== 'string') continue;
 		const platform = typeof source.platformName === 'string' ? source.platformName : source.id;
+		const tags = Array.isArray(source.tags)
+			? source.tags.filter((tag): tag is string => typeof tag === 'string' && tag.length > 0)
+			: [];
 		sources.push({
 			id: source.id,
 			platformName: platform || source.id,
 			url: source.url,
 			paid: source.paid === true,
-			checked: source.checked === true
+			checked: source.checked === true,
+			tags
 		});
 	}
 	return {

@@ -24,6 +24,7 @@ struct SourceEntry {
     url_template: String,
     paid: bool,
     checked: bool,
+    tags: Vec<String>,
 }
 
 pub fn run(args: &[String]) -> Result<(), Box<dyn Error>> {
@@ -88,6 +89,7 @@ fn source_entries(manifest: &Manifest, providers: &[Arc<dyn Provider>]) -> Vec<S
             url_template: source.url_template.clone(),
             paid: source.paid,
             checked: checked.contains(source.id.as_str()),
+            tags: source.tags.clone(),
         })
         .collect()
 }
@@ -168,6 +170,7 @@ struct SourceEvent<'a> {
     url: String,
     paid: bool,
     checked: bool,
+    tags: &'a [String],
 }
 
 #[derive(Serialize)]
@@ -198,6 +201,7 @@ fn write_events<W: Write>(
             url: entry.url_template.replace("%s", label),
             paid: entry.paid,
             checked: entry.checked,
+            tags: &entry.tags,
         })
         .collect();
     write_event(
@@ -273,6 +277,7 @@ mod tests {
             url_template: format!("https://example.com/%s/{id}"),
             paid: false,
             checked,
+            tags: vec!["packages".to_string()],
         }
     }
 
@@ -314,6 +319,7 @@ mod tests {
         assert!(body.contains("\"sources\":[{"));
         assert!(body.contains("\"url\":\"https://example.com/acema/npm\""));
         assert!(body.contains("\"checked\":false"));
+        assert!(body.contains("\"tags\":[\"packages\"]"));
         assert!(body.contains("\"type\":\"result\""));
         assert!(body.contains("\"status\":\"available\""));
         assert!(body.contains("\"type\":\"done\""));

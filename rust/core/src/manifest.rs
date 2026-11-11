@@ -26,6 +26,9 @@ pub struct Source {
     pub min_length: usize,
     pub max_length: usize,
     pub keyed: bool,
+    /// Facet tags (e.g. `domains`, `social`) used by the report filters.
+    #[serde(default)]
+    pub tags: Vec<String>,
 }
 
 /// Manifest is the complete source set.
@@ -109,5 +112,9 @@ mod tests {
         let manifest = Manifest::embedded().expect("embedded registry parses");
         manifest.validate().expect("embedded registry is valid");
         assert!(manifest.sources.len() >= 100);
+        assert!(manifest
+            .sources
+            .iter()
+            .all(|source| !source.tags.is_empty()));
     }
 }

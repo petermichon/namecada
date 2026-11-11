@@ -28,6 +28,7 @@ Root scripts (run from the repo root):
 | --- | --- |
 | `npm run dev` | Vite dev server **and** the Rust development server, concurrently |
 | `npm run dev:web` | Vite only |
+| `npm run dev:android` | USB phone workflow: attach to a running dev server or pick a free port, then `adb reverse` |
 | `npm run build` / `npm run preview` | Production build / preview |
 | `npm test` | Vitest (web) |
 | `npm run check` | svelte-check + tsc |
@@ -75,9 +76,9 @@ through the `CheckClient` seam.
 
 1. Add the metadata to `fixtures/sources.json`: `id`, `platform`,
    `platformName`, `nameTemplate`, `urlTemplate`, `paid`, `minLength`,
-   `maxLength`, `keyed`. A deferred/manual source stops here: with no provider
-   it is listed as "not checked" automatically (`checked` is derived, never
-   stored).
+   `maxLength`, `keyed`, `tags`. A deferred/manual source stops here: with no
+   provider it is listed as "not checked" automatically (`checked` is derived,
+   never stored).
 2. Implement the check in `rust/core`:
    - status-only → `status.rs` spec table;
    - body/multi-request/POST/RDAP → `custom.rs` spec table;

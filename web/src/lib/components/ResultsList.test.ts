@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import ResultsList from './ResultsList.svelte';
 import type { Row } from '$lib/useLookup.svelte';
 
-function row(id: string, paid = true, status: Row['status'] = 'available'): Row {
+function row(id: string, status: Row['status'] = 'available', paid = false): Row {
 	return {
 		id,
 		platform: 'github',
@@ -11,7 +11,8 @@ function row(id: string, paid = true, status: Row['status'] = 'available'): Row 
 		name: id,
 		url: `https://example.com/${id}`,
 		status,
-		paid
+		paid,
+		tags: ['social']
 	};
 }
 
@@ -24,40 +25,31 @@ function liCount(html: string): number {
 }
 
 describe('ResultsList', () => {
-	it('renders flat section headings with the group count', () => {
-		const { body } = render(ResultsList, { props: { paidRows: [row('acema')] } });
+	it('renders every row in one list without paid or free sections', () => {
+		const { body } = render(ResultsList, {
+			props: { rows: [row('a', 'available', true), row('b', 'taken'), row('c')] }
+		});
 
-		expect(body).toContain('Paid platforms');
-		expect(body).toContain('1 of 1 available');
+		expect(liCount(body)).toBe(3);
+		expect(body).not.toContain('Paid platforms');
 		expect(body).not.toContain('Free platforms');
 	});
 
-	it('styles rows like the status filters instead of a divided table', () => {
-		const { body } = render(ResultsList, { props: { paidRows: [row('a'), row('b')] } });
-		const ul = firstUlClass(body);
-
-		expect(ul).toContain('gap-y-0.5');
-		expect(body).toContain('rounded-md');
-		expect(body).not.toContain('border-b');
-		expect(liCount(body)).toBe(2);
-	});
-
-	it('keeps the responsive two-column layout', () => {
-		const { body } = render(ResultsList, {
-			props: { freeRows: [row('a', false), row('b', false)] }
-		});
+	it('keeps the responsive two-column layout and rounded rows', () => {
+		const { body } = render(ResultsList, { props: { rows: [row('a'), row('b')] } });
 		const ul = firstUlClass(body);
 
 		expect(ul).toContain('grid-cols-1');
 		expect(ul).toContain('lg:grid-cols-2');
+		expect(ul).toContain('gap-y-0.5');
+		expect(body).toContain('rounded-md');
+		expect(body).not.toContain('border-b');
 	});
 
-	it('excludes not-checked rows from the section count and labels the denominator', () => {
-		const { body } = render(ResultsList, {
-			props: { paidRows: [row('a'), row('b', true, 'unsupported')] }
-		});
+	it('renders an empty list when nothing matches', () => {
+		const { body } = render(ResultsList, { props: { rows: [] } });
 
-		expect(body).toContain('1 of 1 checked available');
-		expect(liCount(body)).toBe(2);
+		expect(liCount(body)).toBe(0);
+		expect(body).toContain('<ul');
 	});
 });

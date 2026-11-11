@@ -1,6 +1,12 @@
 import { onMount } from 'svelte';
 import { httpCheckClient, isAbort, type CheckClient, type CheckEvent } from './api';
-import { toLabel, type Status } from './platforms';
+import {
+	toLabel,
+	suggestLabel,
+	type CategoryFilter,
+	type CostFilter,
+	type Status
+} from './platforms';
 
 export interface Row {
 	id: string;
@@ -11,6 +17,7 @@ export interface Row {
 	status: Status | 'pending' | 'unsupported';
 	detail?: string;
 	paid: boolean;
+	tags: string[];
 }
 
 export type FilterStatus = Status | 'unsupported';
@@ -21,6 +28,7 @@ export type Filter = FilterStatus[];
 
 // The default view is the verdicts; deferred/keyed sources are opt-in.
 export const DEFAULT_FILTER: Filter = ['available', 'taken', 'unknown'];
+export const ALL_STATUSES: Filter = [...DEFAULT_FILTER, 'unsupported'];
 
 // Order rows alphabetically by their display name, independent of status, so
 // the list stays stable as results stream in. Ties break on the provider URL so
@@ -34,16 +42,25 @@ export function byPlatformName(a: Row, b: Row): number {
 	return 0;
 }
 
-// Order rows paid-first, then alphabetically by display name within each group,
-// so the report can split into a Paid section above a Free one.
-export function byPaidThenPlatformName(a: Row, b: Row): number {
-	if (a.paid !== b.paid) return a.paid ? -1 : 1;
-	return byPlatformName(a, b);
-}
-
 function queryParam(): string {
 	if (typeof location === 'undefined') return '';
 	return new URLSearchParams(location.search).get('q') ?? '';
+}
+
+function matchesStatus(row: Row, filter: Filter): boolean {
+	return (
+		filter.length > 0 &&
+		(filter.includes(row.status as FilterStatus) ||
+			(row.status === 'pending' && filter.some((status) => status !== 'unsupported')))
+	);
+}
+
+function matchesCategory(row: Row, category: CategoryFilter): boolean {
+	return category === 'all' || row.tags.includes(category);
+}
+
+function matchesCost(row: Row, cost: CostFilter): boolean {
+	return cost === 'all' || (cost === 'paid') === row.paid;
 }
 
 function settlePending(rows: Row[]): Row[] {
@@ -65,11 +82,14 @@ export class Lookup {
 	input = $state(queryParam());
 	rows = $state<Row[]>([]);
 	error = $state('');
+	suggestion = $state<string | null>(null);
 	loading = $state(false);
 	// Seed from the URL so a shared ?q= link renders the results page straight
 	// away, without a flash of the landing page.
 	lastLabel = $state<string | null>(toLabel(queryParam()));
 	filter = $state<Filter>([...DEFAULT_FILTER]);
+	category = $state<CategoryFilter>('all');
+	cost = $state<CostFilter>('all');
 
 	#controller: AbortController | null = null;
 	#generation = 0;
@@ -86,7 +106,10 @@ export class Lookup {
 		this.#controller?.abort();
 		this.#controller = null;
 		this.error = '';
+		this.suggestion = null;
 		this.filter = [...DEFAULT_FILTER];
+		this.category = 'all';
+		this.cost = 'all';
 
 		if (!label) {
 			this.rows = [];
@@ -96,8 +119,9 @@ export class Lookup {
 			this.error = !raw
 				? 'Enter a name to check.'
 				: raw.includes('.')
-					? 'Enter the name without the dot — e.g. “example”, not “example.com”.'
+					? 'Enter the name without the dot (e.g. “example”, not “example.com”).'
 					: 'Names can use letters, numbers and hyphens, e.g. acema.';
+			this.suggestion = suggestLabel(raw);
 			return;
 		}
 
@@ -141,11 +165,13 @@ export class Lookup {
 							name: event.label || label,
 							url: source.url,
 							status: source.checked ? ('pending' as const) : ('unsupported' as const),
-							paid: source.paid
+							paid: source.paid,
+							tags: source.tags
 						}));
 					} else if (event.type === 'done') {
 						this.rows = settlePending(this.rows);
 					} else if (event.type === 'result') {
+						const previous = this.rows.find((row) => row.id === event.id);
 						const next: Row = {
 							id: event.id,
 							platform: event.platform,
@@ -154,9 +180,10 @@ export class Lookup {
 							url: event.url,
 							status: event.status,
 							detail: event.detail,
-							paid: event.paid
+							paid: event.paid,
+							tags: previous?.tags ?? []
 						};
-						this.rows = this.rows.some((row) => row.id === event.id)
+						this.rows = previous
 							? this.rows.map((row) => (row.id === event.id ? next : row))
 							: [...this.rows, next];
 					}
@@ -187,6 +214,30 @@ export class Lookup {
 			});
 	};
 
+	// clearError drops validation feedback as soon as the user starts editing;
+	// the next submit re-validates.
+	clearError = (): void => {
+		this.error = '';
+		this.suggestion = null;
+	};
+
+	// acceptSuggestion applies the proposed bare label instead of silently
+	// rewriting the user's value.
+	acceptSuggestion = ({ sync = true }: { sync?: boolean } = {}): void => {
+		if (this.suggestion === null) return;
+		this.input = this.suggestion;
+		this.suggestion = null;
+		this.check({ sync });
+	};
+
+	// showAll clears every facet and restores the default verdict filter with
+	// deferred sources included.
+	showAll = (): void => {
+		this.filter = [...ALL_STATUSES];
+		this.category = 'all';
+		this.cost = 'all';
+	};
+
 	// goHome returns to the landing state without a reload: it abandons any
 	// in-flight scan (so a late result cannot repopulate the page) and drops
 	// the results, while pushing "/" so Back still returns to the report.
@@ -197,8 +248,11 @@ export class Lookup {
 		this.input = '';
 		this.rows = [];
 		this.error = '';
+		this.suggestion = null;
 		this.loading = false;
 		this.filter = [...DEFAULT_FILTER];
+		this.category = 'all';
+		this.cost = 'all';
 		this.lastLabel = null;
 		if (typeof location !== 'undefined' && location.search) {
 			history.pushState(null, '', location.pathname);
@@ -214,18 +268,17 @@ export class Lookup {
 			? []
 			: this.rows.filter(
 					(row) =>
-						this.filter.includes(row.status as FilterStatus) ||
-						(row.status === 'pending' && this.filter.some((status) => status !== 'unsupported'))
+						matchesStatus(row, this.filter) &&
+						matchesCategory(row, this.category) &&
+						matchesCost(row, this.cost)
 				)
-		).toSorted(byPaidThenPlatformName)
+		).toSorted(byPlatformName)
 	);
-
-	paidRows = $derived(this.visibleRows.filter((row) => row.paid));
-	freeRows = $derived(this.visibleRows.filter((row) => !row.paid));
 
 	counts = $derived.by(() => {
 		const totals = { available: 0, taken: 0, unknown: 0, unsupported: 0 };
 		for (const row of this.rows) {
+			if (!matchesCategory(row, this.category) || !matchesCost(row, this.cost)) continue;
 			if (row.status === 'available' || row.status === 'taken' || row.status === 'unknown') {
 				totals[row.status]++;
 			} else if (row.status === 'unsupported') {
@@ -235,11 +288,56 @@ export class Lookup {
 		return totals;
 	});
 
+	statusTotal = $derived(
+		this.counts.available + this.counts.taken + this.counts.unknown + this.counts.unsupported
+	);
+
+	visibleCounts = $derived.by(() => {
+		const totals = { available: 0, taken: 0, unknown: 0, unsupported: 0, pending: 0 };
+		for (const row of this.visibleRows) {
+			if (row.status === 'pending') {
+				totals.pending++;
+			} else {
+				totals[row.status]++;
+			}
+		}
+		return totals;
+	});
+
+	// Each facet's counts honour the other facets, so a chip previews how many
+	// rows selecting it would show.
+	categoryCounts = $derived.by(() => {
+		const totals: Record<string, number> = {};
+		for (const row of this.rows) {
+			if (!matchesCost(row, this.cost) || !matchesStatus(row, this.filter)) continue;
+			for (const tag of row.tags) totals[tag] = (totals[tag] ?? 0) + 1;
+		}
+		return totals;
+	});
+
+	categoryTotal = $derived(
+		this.rows.filter((row) => matchesCost(row, this.cost) && matchesStatus(row, this.filter)).length
+	);
+
+	costCounts = $derived.by(() => {
+		let total = 0;
+		let paid = 0;
+		for (const row of this.rows) {
+			if (!matchesCategory(row, this.category) || !matchesStatus(row, this.filter)) continue;
+			total++;
+			if (row.paid) paid++;
+		}
+		return { all: total, free: total - paid, paid };
+	});
+
 	announcement = $derived.by(() => {
 		if (this.searching) return '';
 		if (this.filter.length === 0) return 'No statuses selected.';
-		const summary = `${this.counts.available} available, ${this.counts.taken} unavailable, ${this.counts.unknown} unknown`;
-		return `${this.visibleRows.length} shown. ${summary}`;
+		const summary = `${this.visibleCounts.available} available, ${this.visibleCounts.taken} unavailable, ${this.visibleCounts.unknown} unknown`;
+		const notChecked = this.visibleCounts.unsupported
+			? `, ${this.visibleCounts.unsupported} not checked`
+			: '';
+		return `${this.visibleRows.length} shown. ${summary}${notChecked}`;
 	});
 }
 

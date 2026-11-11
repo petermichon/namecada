@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import ResultRow from './ResultRow.svelte';
 import type { Row } from '$lib/useLookup.svelte';
 
-function row(status: Row['status'], url = 'https://example.com/acema'): Row {
+function row(status: Row['status'], url = 'https://example.com/acema', paid = false): Row {
 	return {
 		id: `github-${status}`,
 		platform: 'github',
@@ -11,7 +11,8 @@ function row(status: Row['status'], url = 'https://example.com/acema'): Row {
 		name: 'acema',
 		url,
 		status,
-		paid: false
+		paid,
+		tags: ['social']
 	};
 }
 
@@ -44,5 +45,10 @@ describe('ResultRow', () => {
 		expect(anchor).toContain('px-2');
 		expect(anchor).toContain('hover:bg-');
 		expect(html).not.toContain('border-b');
+	});
+
+	it('marks only paid sources', () => {
+		expect(statusSlot(row('available'))).not.toContain('Paid');
+		expect(statusSlot(row('available', undefined, true))).toContain('Paid');
 	});
 });

@@ -1,10 +1,14 @@
 <script lang="ts">
+	import CheckIcon from '@lucide/svelte/icons/check';
 	import InfoIcon from '@lucide/svelte/icons/info';
-	import SunIcon from '@lucide/svelte/icons/sun';
+	import LoaderCircleIcon from '@lucide/svelte/icons/loader-circle';
 	import MoonIcon from '@lucide/svelte/icons/moon';
+	import SunIcon from '@lucide/svelte/icons/sun';
+	import TriangleAlertIcon from '@lucide/svelte/icons/triangle-alert';
 	import { ModeWatcher, toggleMode } from 'mode-watcher';
 	import { onMount } from 'svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
+	import FacetFilters from '$lib/components/FacetFilters.svelte';
 	import LookupForm from '$lib/components/LookupForm.svelte';
 	import ResultsList from '$lib/components/ResultsList.svelte';
 	import StatusFilter from '$lib/components/StatusFilter.svelte';
@@ -12,7 +16,10 @@
 
 	const lookup = useLookup();
 
-	const totalSources = $derived(lookup.rows.length);
+	const checkedSources = $derived(lookup.rows.filter((row) => row.status !== 'unsupported').length);
+	const visibleChecked = $derived(
+		lookup.visibleCounts.available + lookup.visibleCounts.taken + lookup.visibleCounts.unknown
+	);
 
 	function onHomeClick(e: MouseEvent) {
 		if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -36,11 +43,26 @@
 	});
 </script>
 
+{#snippet brand()}
+	<a
+		href="./"
+		onclick={onHomeClick}
+		class="group inline-flex items-center gap-2.5 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+	>
+		<span
+			class="grid size-6 place-items-center rounded-md bg-primary text-primary-foreground transition-colors group-hover:bg-primary/90"
+		>
+			<CheckIcon class="size-3.5" strokeWidth={3} aria-hidden="true" />
+		</span>
+		<span class="text-sm font-semibold tracking-tight">Namecheck</span>
+	</a>
+{/snippet}
+
 {#snippet themeButton()}
 	<Button
 		variant="ghost"
 		size="icon"
-		class="-mr-1.5 shrink-0"
+		class="size-9 rounded-lg text-muted-foreground hover:text-foreground"
 		onclick={toggleMode}
 		aria-label="Toggle theme"
 	>
@@ -50,11 +72,23 @@
 {/snippet}
 
 {#snippet feedback()}
+	<span class="sr-only" role="status" aria-live="polite"
+		>{lookup.error ? '' : lookup.announcement}</span
+	>
 	{#if lookup.error}
-		<p id="name-error" role="alert" class="mt-2 text-sm text-destructive">{lookup.error}</p>
+		<p id="name-error" role="alert" class="mt-2 flex items-start gap-1.5 text-sm text-destructive">
+			<TriangleAlertIcon class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+			<span>{lookup.error}</span>
+		</p>
 	{/if}
-	{#if !lookup.error}
-		<span class="sr-only" role="status" aria-live="polite">{lookup.announcement}</span>
+	{#if lookup.suggestion}
+		<button
+			type="button"
+			onclick={() => lookup.acceptSuggestion()}
+			class="mt-1 rounded-md text-sm font-medium text-primary underline decoration-primary/40 underline-offset-4 transition-colors hover:decoration-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+		>
+			Check “{lookup.suggestion}” instead
+		</button>
 	{/if}
 {/snippet}
 
@@ -68,85 +102,161 @@
 	>
 
 	{#if lookup.lastLabel === null}
-		<header class="flex justify-end px-4 py-3">
+		<header class="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
+			{@render brand()}
 			{@render themeButton()}
 		</header>
 
-		<main id="main" class="flex flex-1 flex-col items-center justify-center px-4 pb-28 sm:pb-36">
-			<div class="w-full max-w-xl">
-				<h1 class="text-center text-4xl font-semibold tracking-tight sm:text-5xl">Namecheck</h1>
-				<p class="mt-2 text-center text-sm text-muted-foreground">See where a name is available.</p>
+		<main
+			id="main"
+			class="mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-4 pb-24 sm:px-6 sm:pb-32"
+		>
+			<div class="mx-auto flex w-full max-w-2xl flex-col items-center text-center">
+				<h1 class="max-w-2xl text-4xl font-semibold tracking-[-0.035em] text-balance sm:text-6xl">
+					Check a name across the open web.
+				</h1>
+				<p class="mt-4 max-w-xl text-base leading-7 text-pretty text-muted-foreground">
+					Domains, package registries and usernames, checked in one pass.
+				</p>
 
-				<div class="mt-8">
+				<div class="mt-8 w-full max-w-xl">
 					<LookupForm
 						bind:value={lookup.input}
 						loading={lookup.searching}
 						invalid={!!lookup.error}
 						errorId="name-error"
+						hintId="name-hint"
 						onsubmit={lookup.check}
+						oninput={lookup.clearError}
 					/>
 				</div>
 
-				{@render feedback()}
+				<p id="name-hint" class="mt-3 text-xs leading-5 text-muted-foreground">
+					Letters, numbers and hyphens only. No dot.
+				</p>
+
+				<div class="w-full [&>p]:justify-center">{@render feedback()}</div>
 
 				{#if !lookup.error}
-					<p class="mt-3 text-center text-xs text-muted-foreground">
-						Checks domains, packages and usernames.
+					<p class="mt-4 max-w-md text-xs leading-5 text-muted-foreground">
+						Best-effort results. Availability isn’t a guarantee you can register the name.
 					</p>
 				{/if}
 			</div>
 		</main>
 	{:else}
-		<header class="sticky top-0 z-20 border-b border-border/60 bg-background/85 backdrop-blur">
-			<div class="mx-auto flex max-w-2xl items-center gap-3 px-4 py-2.5 lg:max-w-5xl xl:max-w-6xl">
-				<h1 class="shrink-0 text-base font-semibold tracking-tight">
-					<a
-						href="./"
-						onclick={onHomeClick}
-						class="rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-						>Namecheck</a
-					>
-				</h1>
-				<div class="flex min-w-0 flex-1 justify-center">
-					<div class="w-full max-w-xl">
+		<header class="sticky top-0 z-20 border-b border-border/70 bg-background/85 backdrop-blur">
+			<div
+				class="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-2.5 sm:flex-row sm:items-center sm:gap-3 sm:px-6"
+			>
+				<div class="flex items-center justify-between gap-3 sm:justify-start">
+					{@render brand()}
+					<div class="sm:hidden">{@render themeButton()}</div>
+				</div>
+				<div class="min-w-0 flex-1">
+					<div class="mx-auto w-full max-w-xl">
 						<LookupForm
 							bind:value={lookup.input}
 							loading={lookup.searching}
 							invalid={!!lookup.error}
 							errorId="name-error"
 							onsubmit={lookup.check}
+							oninput={lookup.clearError}
 						/>
 					</div>
 				</div>
-				{@render themeButton()}
+				<div class="hidden sm:block">{@render themeButton()}</div>
 			</div>
 		</header>
 
-		<main id="main" class="mx-auto w-full max-w-2xl flex-1 px-4 py-5 lg:max-w-5xl xl:max-w-6xl">
+		<main id="main" class="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6 sm:py-8">
 			{@render feedback()}
 
-			{#if lookup.rows.length}
-				<div class="mt-5 max-w-3xl">
-					<StatusFilter bind:filter={lookup.filter} counts={lookup.counts} total={totalSources} />
-					<div
-						class="mt-3 flex items-center gap-2 rounded-md border border-border/70 bg-muted/60 px-3 py-2 text-xs leading-5 text-pretty text-muted-foreground"
-					>
-						<InfoIcon class="size-3.5 shrink-0" aria-hidden="true" />
-						<p>
-							Best-effort; available isn’t a guarantee you can register it. Private accounts and
-							organizations can appear available.
-						</p>
+			<section class="mt-4 flex flex-col gap-4 sm:mt-2 sm:gap-5">
+				<div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+					<div class="min-w-0">
+						<h1 class="text-3xl font-semibold tracking-[-0.03em] break-all sm:text-4xl">
+							{lookup.lastLabel}
+						</h1>
 					</div>
+					<p class="text-sm text-muted-foreground">
+						{#if lookup.searching}
+							<span class="inline-flex items-center gap-2">
+								<LoaderCircleIcon
+									class="size-3.5 animate-spin motion-reduce:animate-none"
+									aria-hidden="true"
+								/>
+								Checking {checkedSources} sources
+							</span>
+						{:else}
+							<span class="font-medium text-foreground tabular-nums"
+								>{lookup.visibleCounts.available}</span
+							>
+							available of <span class="tabular-nums">{visibleChecked}</span> checked
+						{/if}
+					</p>
 				</div>
 
+				<StatusFilter
+					bind:filter={lookup.filter}
+					counts={lookup.counts}
+					total={lookup.statusTotal}
+				/>
+
+				<FacetFilters
+					bind:category={lookup.category}
+					bind:cost={lookup.cost}
+					categoryCounts={lookup.categoryCounts}
+					costCounts={lookup.costCounts}
+					total={lookup.categoryTotal}
+				/>
+
+				<aside
+					class="flex items-start gap-2 rounded-lg border border-border/70 bg-muted/40 px-3 py-2.5 text-xs leading-5 text-pretty text-muted-foreground"
+				>
+					<InfoIcon class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+					<p>
+						Best-effort; available isn’t a guarantee you can register it. Private accounts and
+						organizations can appear available.
+					</p>
+				</aside>
+			</section>
+
+			<div class="mt-8" aria-busy={lookup.searching}>
 				{#if lookup.filter.length === 0}
-					<p class="mt-8 text-sm text-muted-foreground">No statuses selected.</p>
-				{:else}
-					<div aria-busy={lookup.searching}>
-						<ResultsList paidRows={lookup.paidRows} freeRows={lookup.freeRows} />
+					<div class="rounded-lg border border-dashed border-border px-4 py-14 text-center">
+						<p class="text-sm font-medium">No statuses selected.</p>
+						<p class="mt-1 text-sm text-muted-foreground">
+							Choose a status above, or show everything.
+						</p>
+						<Button
+							variant="outline"
+							size="sm"
+							class="mt-4 rounded-lg"
+							onclick={() => lookup.showAll()}
+						>
+							Show all
+						</Button>
 					</div>
+				{:else if lookup.visibleRows.length === 0}
+					<div class="rounded-lg border border-dashed border-border px-4 py-14 text-center">
+						<p class="text-sm font-medium">No sources match these filters.</p>
+						<p class="mt-1 text-sm text-muted-foreground">
+							Clear a filter above, or show everything.
+						</p>
+						<Button
+							variant="outline"
+							size="sm"
+							class="mt-4 rounded-lg"
+							onclick={() => lookup.showAll()}
+						>
+							Show all
+						</Button>
+					</div>
+				{:else}
+					<ResultsList rows={lookup.visibleRows} />
 				{/if}
-			{/if}
+			</div>
 		</main>
 	{/if}
 </div>

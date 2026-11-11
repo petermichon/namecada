@@ -1,7 +1,7 @@
 <script lang="ts">
-	import SearchIcon from '@lucide/svelte/icons/search';
 	import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
 	import LoaderCircleIcon from '@lucide/svelte/icons/loader-circle';
+	import SearchIcon from '@lucide/svelte/icons/search';
 	import XIcon from '@lucide/svelte/icons/x';
 	import * as InputGroup from '$lib/components/ui/input-group/index.js';
 	import { autofocus } from '$lib/attachments';
@@ -11,14 +11,22 @@
 		loading = false,
 		invalid = false,
 		errorId,
-		onsubmit
+		hintId,
+		onsubmit,
+		oninput
 	}: {
 		value: string;
 		loading?: boolean;
 		invalid?: boolean;
 		errorId?: string;
+		hintId?: string;
 		onsubmit?: () => void;
+		oninput?: () => void;
 	} = $props();
+
+	const describedBy = $derived(
+		[hintId, invalid && errorId ? errorId : undefined].filter(Boolean).join(' ') || undefined
+	);
 </script>
 
 <form
@@ -28,17 +36,18 @@
 		onsubmit?.();
 	}}
 >
-	<InputGroup.Root class="h-11">
-		<InputGroup.Addon>
-			<SearchIcon />
+	<InputGroup.Root class="h-11 rounded-xl border-border bg-card shadow-xs">
+		<InputGroup.Addon class="pl-3">
+			<SearchIcon class="size-4" aria-hidden="true" />
 		</InputGroup.Addon>
 		<label for="domain" class="sr-only">Name</label>
 		<InputGroup.Input
 			id="domain"
 			name="domain"
 			bind:value
-			class="h-full"
+			class="h-full text-base md:text-sm"
 			{@attach autofocus}
+			oninput={() => oninput?.()}
 			onkeydown={(e) => {
 				if (e.key === 'Escape') value = '';
 			}}
@@ -47,13 +56,15 @@
 			autocapitalize="off"
 			spellcheck={false}
 			aria-invalid={invalid ? 'true' : undefined}
-			aria-describedby={invalid && errorId ? errorId : undefined}
+			aria-describedby={describedBy}
+			aria-keyshortcuts="/"
 		/>
 		<InputGroup.Addon align="inline-end">
 			{#if value}
 				<InputGroup.Button
 					size="icon-sm"
 					type="button"
+					class="size-8 rounded-lg"
 					onmousedown={(e) => e.preventDefault()}
 					onclick={() => (value = '')}
 					aria-label="Clear name"
@@ -62,8 +73,9 @@
 				</InputGroup.Button>
 			{/if}
 			<InputGroup.Button
+				variant="default"
 				size="icon-sm"
-				class="size-10 text-foreground"
+				class="size-9 rounded-lg"
 				type="submit"
 				disabled={loading}
 				aria-label="Check name"
