@@ -8,7 +8,7 @@
     {
       "id": "domain.com",
       "platform": "domains",
-      "platformName": "Domains",
+      "platformName": ".com",
       "name": "google.com",
       "nameTemplate": "%s.com",
       "url": "https://google.com",
@@ -21,7 +21,7 @@
     {
       "id": "domain.org",
       "platform": "domains",
-      "platformName": "Domains",
+      "platformName": ".org",
       "name": "google.org",
       "nameTemplate": "%s.org",
       "url": "https://google.org",
@@ -34,7 +34,7 @@
     {
       "id": "domain.dev",
       "platform": "domains",
-      "platformName": "Domains",
+      "platformName": ".dev",
       "name": "google.dev",
       "nameTemplate": "%s.dev",
       "url": "https://google.dev",
@@ -47,7 +47,7 @@
     {
       "id": "domain.io",
       "platform": "domains",
-      "platformName": "Domains",
+      "platformName": ".io",
       "name": "google.io",
       "nameTemplate": "%s.io",
       "url": "https://google.io",
@@ -60,7 +60,7 @@
     {
       "id": "domain.net",
       "platform": "domains",
-      "platformName": "Domains",
+      "platformName": ".net",
       "name": "google.net",
       "nameTemplate": "%s.net",
       "url": "https://google.net",
@@ -73,7 +73,7 @@
     {
       "id": "domain.ai",
       "platform": "domains",
-      "platformName": "Domains",
+      "platformName": ".ai",
       "name": "google.ai",
       "nameTemplate": "%s.ai",
       "url": "https://google.ai",
@@ -86,7 +86,7 @@
     {
       "id": "domain.app",
       "platform": "domains",
-      "platformName": "Domains",
+      "platformName": ".app",
       "name": "google.app",
       "nameTemplate": "%s.app",
       "url": "https://google.app",
