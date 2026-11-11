@@ -25,3 +25,13 @@ source to a `plan/PLAN.md` item when it reaches the front of the line.
    only when neither (1) nor (2) can answer and the source is high-value.
 4. Headless-browser scraping — avoid; slow, brittle, usually bot-blocked. Never
    scrape behind a login.
+
+## Mobile
+
+Wanted eventually, in this order:
+
+1. Responsive pass on the existing web UI at ~360 px: filter chips/header
+   wrapping, compact result rows, ≥44 px tap targets, no hover-only affordances.
+2. Then the Android shell: SDK + NDK, `rustup target add aarch64-linux-android`,
+   `cargo-ndk`, `npx tauri android init`, `npx tauri android dev` over USB.
+   Same IPC and engine; iOS needs macOS, so it is out of scope here.
