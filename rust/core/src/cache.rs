@@ -19,13 +19,7 @@ pub struct Entry {
     pub at: Instant,
 }
 
-/// Cache stores verdicts by provider:label.
-pub trait Cache: Send + Sync {
-    fn get(&self, provider: &str, label: &str) -> Option<Entry>;
-    fn set(&self, provider: &str, label: &str, status: Status, detail: &str, url: &str);
-}
-
-/// MemoryCache is a concurrency-safe in-memory cache.
+/// MemoryCache is a concurrency-safe in-memory verdict cache.
 pub struct MemoryCache {
     ttl: Duration,
     entries: Mutex<HashMap<String, Entry>>,
@@ -58,8 +52,8 @@ impl Default for MemoryCache {
     }
 }
 
-impl Cache for MemoryCache {
-    fn get(&self, provider: &str, label: &str) -> Option<Entry> {
+impl MemoryCache {
+    pub fn get(&self, provider: &str, label: &str) -> Option<Entry> {
         let key = format!("{provider}:{label}");
         let mut entries = self.entries.lock().expect("cache mutex poisoned");
         let entry = entries.get(&key)?.clone();
@@ -70,7 +64,7 @@ impl Cache for MemoryCache {
         Some(entry)
     }
 
-    fn set(&self, provider: &str, label: &str, status: Status, detail: &str, url: &str) {
+    pub fn set(&self, provider: &str, label: &str, status: Status, detail: &str, url: &str) {
         if status == Status::Unknown {
             return;
         }

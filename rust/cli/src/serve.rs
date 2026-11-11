@@ -5,7 +5,7 @@ use std::path::PathBuf;
 use std::sync::{mpsc, Arc};
 use std::thread;
 
-use namecheck_core::{Cache, Engine, Manifest, MemoryCache, Provider, ProviderResult};
+use namecheck_core::{Engine, Manifest, MemoryCache, Provider, ProviderResult};
 use serde::Serialize;
 use serde_json::json;
 use tiny_http::{Header, Method, Request, Response, Server, StatusCode};
@@ -60,18 +60,17 @@ pub fn run(args: &[String]) -> Result<(), Box<dyn Error>> {
             .map(|path| path.display().to_string())
             .unwrap_or_else(|| "embedded".to_string())
     );
-    let providers: Arc<Vec<Arc<dyn Provider>>> = Arc::new(providers::live(&manifest)?);
+    let providers = providers::live(&manifest)?;
     let entries: Arc<Vec<SourceEntry>> = Arc::new(source_entries(&manifest, &providers));
-    let cache: Arc<dyn Cache> = Arc::new(MemoryCache::new());
+    let engine = Arc::new(Engine::new(providers).with_cache(Arc::new(MemoryCache::new())));
     let server = Server::http(&addr)
         .map_err(|err| -> Box<dyn Error> { format!("listen on {addr}: {err}").into() })?;
     eprintln!("listening on http://{addr}");
 
     for request in server.incoming_requests() {
-        let providers = Arc::clone(&providers);
+        let engine = Arc::clone(&engine);
         let entries = Arc::clone(&entries);
-        let cache = Arc::clone(&cache);
-        thread::spawn(move || handle(request, providers.as_slice(), &entries, cache));
+        thread::spawn(move || handle(request, &engine, &entries));
     }
     Ok(())
 }
@@ -94,12 +93,7 @@ fn source_entries(manifest: &Manifest, providers: &[Arc<dyn Provider>]) -> Vec<S
         .collect()
 }
 
-fn handle(
-    request: Request,
-    providers: &[Arc<dyn Provider>],
-    entries: &[SourceEntry],
-    cache: Arc<dyn Cache>,
-) {
+fn handle(request: Request, engine: &Engine, entries: &[SourceEntry]) {
     if request.method() != &Method::Get {
         respond_error(request, 405, "method not allowed");
         return;
@@ -122,7 +116,6 @@ fn handle(
         return;
     }
 
-    let engine = Engine::new(providers.to_vec()).with_cache(cache);
     let receiver = engine.scan(&label);
     stream_ndjson(request, entries, &label, receiver);
 }

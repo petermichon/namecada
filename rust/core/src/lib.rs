@@ -13,7 +13,7 @@ pub mod manifest;
 pub mod provider;
 pub mod status;
 
-pub use cache::{Cache, MemoryCache};
+pub use cache::MemoryCache;
 pub use custom::{build_custom_provider, custom_specs};
 pub use dns::{build_dns_provider, dns_hosts, DnsError, Resolver, SystemResolver};
 pub use engine::{Engine, ProviderResult};

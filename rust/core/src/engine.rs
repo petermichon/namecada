@@ -7,7 +7,7 @@ use std::thread;
 
 use serde::Serialize;
 
-use crate::cache::Cache;
+use crate::cache::MemoryCache;
 use crate::provider::{Outcome, Provider, Status};
 
 /// DefaultConcurrency bounds how many provider checks run at once.
@@ -32,7 +32,7 @@ pub struct ProviderResult {
 pub struct Engine {
     providers: Vec<Arc<dyn Provider>>,
     concurrency: usize,
-    cache: Option<Arc<dyn Cache>>,
+    cache: Option<Arc<MemoryCache>>,
 }
 
 impl Engine {
@@ -49,7 +49,7 @@ impl Engine {
         self
     }
 
-    pub fn with_cache(mut self, cache: Arc<dyn Cache>) -> Self {
+    pub fn with_cache(mut self, cache: Arc<MemoryCache>) -> Self {
         self.cache = Some(cache);
         self
     }
@@ -102,7 +102,7 @@ impl Engine {
     }
 }
 
-fn check_one(provider: &dyn Provider, label: &str, cache: Option<&dyn Cache>) -> ProviderResult {
+fn check_one(provider: &dyn Provider, label: &str, cache: Option<&MemoryCache>) -> ProviderResult {
     let mut result = ProviderResult {
         id: provider.id().to_string(),
         platform: provider.platform().to_string(),
