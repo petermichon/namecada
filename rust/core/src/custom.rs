@@ -511,6 +511,7 @@ fn check_domain(source: &Source, transport: &dyn Transport, label: &str) -> Resu
 fn rdap_base(tld: &str) -> Option<&'static str> {
     match tld {
         "com" => Some("https://rdap.verisign.com/com/v1/"),
+        "net" => Some("https://rdap.verisign.com/net/v1/"),
         "org" => Some("https://rdap.publicinterestregistry.org/rdap/"),
         "dev" | "app" => Some("https://pubapi.registry.google/rdap/"),
         "io" | "ai" => Some("https://rdap.identitydigital.services/rdap/"),
@@ -667,6 +668,10 @@ static CUSTOM_SPECS: &[CustomSpec] = &[
     },
     CustomSpec {
         id: "domain.io",
+        check: check_domain,
+    },
+    CustomSpec {
+        id: "domain.net",
         check: check_domain,
     },
     CustomSpec {

@@ -113,7 +113,7 @@ overrides it for development.
 Credential-gated sources (Discogs, Twitch, Companies House, OpenCorporates) are
 not currently included.
 
-Domains run once per TLD (`.com`, `.org`, `.dev`, `.io`, `.ai`, `.app`), each a
+Domains run once per TLD (`.com`, `.net`, `.org`, `.dev`, `.io`, `.ai`, `.app`), each a
 separate provider. Each TLD uses its registry's RDAP endpoint; the live IANA
 bootstrap lookup is not wired into the core yet. Domains are **paid**
 sources: a registration costs money, and the amount varies (premium names cost

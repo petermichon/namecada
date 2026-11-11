@@ -1,8 +1,8 @@
 {
   "generatedAt": "2026-11-10T14:12:31Z",
   "label": "google",
-  "sourceCount": 135,
-  "enabledCount": 87,
+  "sourceCount": 136,
+  "enabledCount": 88,
   "keyedCount": 4,
   "sources": [
     {
@@ -52,6 +52,19 @@
       "nameTemplate": "%s.io",
       "url": "https://google.io",
       "urlTemplate": "https://%s.io",
+      "paid": true,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
+    },
+    {
+      "id": "domain.net",
+      "platform": "domains",
+      "platformName": "Domains",
+      "name": "google.net",
+      "nameTemplate": "%s.net",
+      "url": "https://google.net",
+      "urlTemplate": "https://%s.net",
       "paid": true,
       "minLength": 0,
       "maxLength": 0,
