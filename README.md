@@ -48,6 +48,7 @@ overrides it for development.
 | Clojars   | `clojars.org/api/artifacts/{name}`                             | 200 taken / 404 free      |
 | Chocolatey | `community.chocolatey.org/packages/{name}`                    | 200 taken / 404 free      |
 | AUR       | `aur.archlinux.org/packages/{name}`                            | 200 taken / 404 free      |
+| Snap Store | `api.snapcraft.io/v2/snaps/info/{name}` (`Snap-Device-Series: 16`) | 200 taken / 404 free  |
 | Firefox   | `addons.mozilla.org/api/v5/addons/addon/{name}/`               | 200/401 taken / 404 free  |
 | JSR       | `jsr.io/api/scopes/{name}`                                     | 200/400 taken / 404 free  |
 | WordPress | `api.wordpress.org/plugins/info/1.2/?request[slug]={name}`     | 200/closed taken / 404 free |

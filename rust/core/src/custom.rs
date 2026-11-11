@@ -404,6 +404,23 @@ fn check_minds(_: &Source, transport: &dyn Transport, label: &str) -> Result<Out
     }
 }
 
+/// The Snap Store answers 404 for an unclaimed name and 200 for a registered
+/// one, but only when the request names the device series, so this check sends
+/// its own headers instead of using `get`.
+fn check_snap(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outcome, Error> {
+    let mut headers = BTreeMap::new();
+    headers.insert("Accept".to_string(), DEFAULT_ACCEPT.to_string());
+    headers.insert("Snap-Device-Series".to_string(), "16".to_string());
+    headers.insert("User-Agent".to_string(), USER_AGENT.to_string());
+    let response = transport.execute(HttpRequest {
+        method: "GET".to_string(),
+        url: format!("https://api.snapcraft.io/v2/snaps/info/{label}"),
+        headers,
+        body: None,
+    })?;
+    Ok(check_status(&response, Status::Taken).map_or_else(unknown, Outcome::new))
+}
+
 fn check_steam(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outcome, Error> {
     let url = format!("https://steamcommunity.com/id/{label}?xml=1");
     let response = get(transport, &url, DEFAULT_ACCEPT)?;
@@ -639,6 +656,10 @@ static CUSTOM_SPECS: &[CustomSpec] = &[
         check: check_minds,
     },
     CustomSpec {
+        id: "snap",
+        check: check_snap,
+    },
+    CustomSpec {
         id: "steam",
         check: check_steam,
     },
@@ -755,4 +776,42 @@ pub fn build_custom_provider(
         .ok_or_else(|| Error::NotFound(format!("manifest source {id}")))?
         .clone();
     Ok(CustomProvider::new(source, spec.check, transport))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::fixture::{Fixture, ReplayTransport};
+
+    /// Both checked-in labels are unclaimed on the Snap Store, so the taken
+    /// branch is covered here instead of by a fixture.
+    fn snap_outcome(status: u16) -> Outcome {
+        let fixture: Fixture = serde_json::from_value(serde_json::json!({
+            "source": "snap",
+            "platform": "snap",
+            "label": "spotify",
+            "name": "spotify",
+            "url": "https://snapcraft.io/spotify",
+            "requests": [{
+                "method": "GET",
+                "url": "https://api.snapcraft.io/v2/snaps/info/spotify",
+                "response": { "status": status }
+            }]
+        }))
+        .expect("fixture");
+        let transport = ReplayTransport::new(&fixture);
+        let source = Manifest::embedded()
+            .expect("manifest")
+            .source("snap")
+            .expect("snap source")
+            .clone();
+        check_snap(&source, &transport, "spotify").expect("check")
+    }
+
+    #[test]
+    fn snap_maps_the_store_status() {
+        assert_eq!(snap_outcome(200).status, Status::Taken);
+        assert_eq!(snap_outcome(404).status, Status::Available);
+        assert_eq!(snap_outcome(500).status, Status::Unknown);
+    }
 }

@@ -1,8 +1,8 @@
 {
   "generatedAt": "2026-11-10T14:12:31Z",
   "label": "google",
-  "sourceCount": 136,
-  "enabledCount": 88,
+  "sourceCount": 137,
+  "enabledCount": 89,
   "keyedCount": 4,
   "sources": [
     {
@@ -354,6 +354,19 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
+      "keyed": false
+    },
+    {
+      "id": "snap",
+      "platform": "snap",
+      "platformName": "Snap Store",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://snapcraft.io/google",
+      "urlTemplate": "https://snapcraft.io/%s",
+      "paid": false,
+      "minLength": 1,
+      "maxLength": 40,
       "keyed": false
     },
     {

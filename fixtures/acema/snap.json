@@ -1,0 +1,30 @@
+{
+  "source": "snap",
+  "platform": "snap",
+  "platformName": "Snap Store",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://snapcraft.io/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 0,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.snapcraft.io/v2/snaps/info/acema",
+      "headers": {
+        "Accept": "application/json",
+        "Snap-Device-Series": "16",
+        "User-Agent": "namecheck/1.0 (+https://github.com/petermichon/namecheck)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"error-list\":[{\"code\":\"resource-not-found\",\"message\":\"No snap named 'acema' found in series '16'.\"}]}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

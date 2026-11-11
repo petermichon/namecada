@@ -26,6 +26,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Homebrew — ✅ — `formulae.brew.sh/api/formula/{name}.json`
 - [x] Chocolatey — ✅ — `community.chocolatey.org/packages/{name}` (status-only HTML; package ids are case-insensitive)
 - [x] AUR (Arch) — ✅ — `aur.archlinux.org/packages/{name}` (status-only HTML; the RPC endpoint always answers 200)
+- [x] Snap Store — ✅ — `api.snapcraft.io/v2/snaps/info/{name}` with `Snap-Device-Series: 16` (200 taken / 404 free; without the header every request fails, so this is the one custom check that sets its own headers; snap names are 1–40 lowercase letters, digits and hyphens, hence `maxLength` 40; page `snapcraft.io/{name}`)
 - [x] Hackage — ✅ — `hackage.haskell.org/package/{name}` (bare name resolves; status-only HTML)
 - [x] Clojars — ✅ — `clojars.org/api/artifacts/{name}` (single segment resolves)
 - [x] WordPress plugins/themes — ✅ — `api.wordpress.org/plugins/info/1.2`
@@ -103,7 +104,6 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Maven Central — 🕸 — composite `group:artifact`, no single-label namespace
 - [ ] Deno (`deno.land/x`) — 🕸 — `/x/{name}` 302-redirects and even taken names resolve 404, no signal
 - [ ] Docker Hub — 🕸 — composite `user/repo`, no single-label namespace
-- [ ] Snap Store — 🕸 — viable with the `Snap-Device-Series: 16` header; deferred until the `endpoint` helper supports a custom header
 - [ ] Flathub — 🔌 — ruled out: the app-id is reverse-DNS, not a single label, so a `{name}` probe never names a claimable app
 - [ ] CPAN — 🕸 — case-sensitive CamelCase names; labels are lowercased (`platforms.ts:14-18`), so it would false-available
 - [ ] LuaRocks — 🕸 — composite `owner/name`, no single-label namespace
