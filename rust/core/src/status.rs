@@ -78,6 +78,16 @@ static SPECS: &[StatusSpec] = &[
     spec("clojars", "https://clojars.org/api/artifacts/%s"),
     spec("chocolatey", "https://community.chocolatey.org/packages/%s"),
     spec("aur", "https://aur.archlinux.org/packages/%s"),
+    spec(
+        "chef-supermarket",
+        "https://supermarket.chef.io/api/v1/cookbooks/%s",
+    ),
+    spec("sourceforge", "https://sourceforge.net/projects/%s/"),
+    spec("liberapay", "https://liberapay.com/%s"),
+    spec(
+        "minecraft",
+        "https://api.mojang.com/users/profiles/minecraft/%s",
+    ),
     spec_with(
         "firefox",
         "https://addons.mozilla.org/api/v5/addons/addon/%s/",

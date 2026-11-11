@@ -1,0 +1,29 @@
+{
+  "source": "liberapay",
+  "platform": "liberapay",
+  "platformName": "Liberapay",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://liberapay.com/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 0,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://liberapay.com/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "namecheck/1.0 (+https://github.com/petermichon/namecheck)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        "body": "{\n    \"debugging_info\": \"URL: https://liberapay.com/acema\\nMethod: GET\\nReferer: None\\nUser-Agent: b'namecheck/1.0 (+https://github.com/petermichon/namecheck)'\\nCookies: none\\nIP address: 2a02:6ea0:c90f:6239::36 (FR)\\nTime: 2026-11-11 20:04:35.743729+00:00\\nResponse code: 404\\nResponse message: \\\"The requested page couldn't be found.\\\"\\nUser: <ANON>\\nLocale: en\\nWebsite version: 843\\nTraceback:\\n  state_chain.py:315 (loop)\\n  pando/state_chain.py:128 (render_response)\\n  aspen/http/resource.py:129 (render)\\n  aspen/simplates/simplate.py:140 (render_for_type)\\n  www/%username/index.html.spt:8 (<module>)\\n  liberapay/utils/__init__.py:78 (get_participant)\\n\",\n    \"error_code\": 404,\n    \"error_id\": null,\n    \"error_message_long\": \"The requested page couldn't be found.\",\n    \"error_message_short\": \"Not Found\",\n    \"html_template\": null\n}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -49,6 +49,7 @@ overrides it for development.
 | Chocolatey | `community.chocolatey.org/packages/{name}`                    | 200 taken / 404 free      |
 | AUR       | `aur.archlinux.org/packages/{name}`                            | 200 taken / 404 free      |
 | Snap Store | `api.snapcraft.io/v2/snaps/info/{name}` (`Snap-Device-Series: 16`) | 200 taken / 404 free  |
+| Chef Supermarket | `supermarket.chef.io/api/v1/cookbooks/{name}`               | 200 taken / 404 free      |
 | Firefox   | `addons.mozilla.org/api/v5/addons/addon/{name}/`               | 200/401 taken / 404 free  |
 | JSR       | `jsr.io/api/scopes/{name}`                                     | 200/400 taken / 404 free  |
 | WordPress | `api.wordpress.org/plugins/info/1.2/?request[slug]={name}`     | 200/closed taken / 404 free |
@@ -57,6 +58,7 @@ overrides it for development.
 | GitLab    | `gitlab.com/api/v4/users?username=` + `/groups/{name}`         | user or group = taken     |
 | Bitbucket | `api.bitbucket.org/2.0/workspaces/{name}`                      | 200/403 taken / 404 free  |
 | Codeberg  | `codeberg.org/api/v1/users/{name}`                             | 200 taken / 404 body      |
+| SourceForge | `sourceforge.net/projects/{name}/`                           | 200 taken / 404 free      |
 | Wikipedia | `meta.wikimedia.org/w/api.php` globaluserinfo               | `missing` = free          |
 | DEV       | `dev.to/api/users/by_username` + `/organizations/{name}`       | 200 taken / 404 free      |
 | Farcaster | `fnames.farcaster.xyz/transfers/current?name={name}`           | 200 taken / 404 free      |
@@ -69,7 +71,9 @@ overrides it for development.
 | SoundCloud | `soundcloud.com/{name}` (profile)                             | 200 taken / 404 free      |
 | AniList   | `graphql.anilist.co` `User(name:)` (POST)                      | non-null `User` taken / null free |
 | Roblox    | `users.roblox.com/v1/usernames/users` (POST)                   | non-empty `data` taken / empty free |
+| Minecraft | `api.mojang.com/users/profiles/minecraft/{name}`              | 200 taken / 404 free      |
 | Open Collective | `opencollective.com/{name}.json`                         | 200 taken / 404 free      |
+| Liberapay | `liberapay.com/{name}`                                        | 200 taken / 404 free      |
 | Bluesky   | `bsky.social/xrpc/com.atproto.temp.checkHandleAvailability` (`{name}.bsky.social`) | resultAvailable free / resultUnavailable taken |
 | Mastodon  | `mastodon.social/@{name}` (profile)                            | 200/410 taken / 404 free  |
 | YouTube   | `youtube.com/@{name}` (profile)                                | 200 taken / 404 free      |

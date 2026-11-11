@@ -1,0 +1,29 @@
+{
+  "source": "minecraft",
+  "platform": "minecraft",
+  "platformName": "Minecraft",
+  "label": "google",
+  "name": "google",
+  "url": "https://namemc.com/profile/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 0,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.mojang.com/users/profiles/minecraft/google",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "namecheck/1.0 (+https://github.com/petermichon/namecheck)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\n  \"id\" : \"c7a67c97c730413696db26ae09bc5a7f\",\n  \"name\" : \"Google\"\n}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

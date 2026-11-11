@@ -1,8 +1,8 @@
 {
   "generatedAt": "2026-11-10T14:12:31Z",
   "label": "google",
-  "sourceCount": 137,
-  "enabledCount": 89,
+  "sourceCount": 140,
+  "enabledCount": 93,
   "keyedCount": 4,
   "sources": [
     {
@@ -370,6 +370,19 @@
       "keyed": false
     },
     {
+      "id": "chef-supermarket",
+      "platform": "chef-supermarket",
+      "platformName": "Chef Supermarket",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://supermarket.chef.io/cookbooks/google",
+      "urlTemplate": "https://supermarket.chef.io/cookbooks/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
+    },
+    {
       "id": "firefox",
       "platform": "firefox",
       "platformName": "Firefox Add-ons",
@@ -457,6 +470,19 @@
       "urlTemplate": "https://bitbucket.org/%s/",
       "paid": false,
       "minLength": 4,
+      "maxLength": 0,
+      "keyed": false
+    },
+    {
+      "id": "sourceforge",
+      "platform": "sourceforge",
+      "platformName": "SourceForge",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://sourceforge.net/projects/google/",
+      "urlTemplate": "https://sourceforge.net/projects/%s/",
+      "paid": false,
+      "minLength": 0,
       "maxLength": 0,
       "keyed": false
     },
@@ -858,6 +884,19 @@
       "nameTemplate": "%s",
       "url": "https://giphy.com/google",
       "urlTemplate": "https://giphy.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
+    },
+    {
+      "id": "liberapay",
+      "platform": "liberapay",
+      "platformName": "Liberapay",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://liberapay.com/google",
+      "urlTemplate": "https://liberapay.com/%s",
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
@@ -1535,8 +1574,8 @@
       "url": "https://namemc.com/profile/google",
       "urlTemplate": "https://namemc.com/profile/%s",
       "paid": false,
-      "minLength": 0,
-      "maxLength": 0,
+      "minLength": 3,
+      "maxLength": 16,
       "keyed": false
     },
     {
@@ -1787,5 +1826,5 @@
       "keyed": false
     }
   ],
-  "deferredCount": 44
+  "deferredCount": 43
 }

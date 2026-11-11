@@ -27,6 +27,8 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Chocolatey — ✅ — `community.chocolatey.org/packages/{name}` (status-only HTML; package ids are case-insensitive)
 - [x] AUR (Arch) — ✅ — `aur.archlinux.org/packages/{name}` (status-only HTML; the RPC endpoint always answers 200)
 - [x] Snap Store — ✅ — `api.snapcraft.io/v2/snaps/info/{name}` with `Snap-Device-Series: 16` (200 taken / 404 free; without the header every request fails, so this is the one custom check that sets its own headers; snap names are 1–40 lowercase letters, digits and hyphens, hence `maxLength` 40; page `snapcraft.io/{name}`)
+- [x] Chef Supermarket — ✅ — `supermarket.chef.io/api/v1/cookbooks/{name}` (200 taken / 404 free; the old "no CORS" note predated server-side checks)
+- [x] SourceForge — ✅ — `sourceforge.net/projects/{name}/` (200 taken / 404 free; the 404 body is JSON, the 200 is HTML, so status alone is the signal)
 - [x] Hackage — ✅ — `hackage.haskell.org/package/{name}` (bare name resolves; status-only HTML)
 - [x] Clojars — ✅ — `clojars.org/api/artifacts/{name}` (single segment resolves)
 - [x] WordPress plugins/themes — ✅ — `api.wordpress.org/plugins/info/1.2`
@@ -47,6 +49,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Hacker News — ✅ — `news.ycombinator.com/user?id={name}` (body signal: `No such user.` = free, `karma` = taken; the firebase JSON API only exposes users with public activity, so `null` can't confirm free)
 - [x] HackerNoon — ✅ — `hackernoon.com/u/{name}` (keyless profile: 200 taken / 404 free)
 - [x] Open Collective — ✅ — `opencollective.com/{name}.json` (200 taken / 404 free). The CDN caches responses for 1h and can cache a transient 5xx per-`Origin`; the provider retries once with a cache-busting param to bypass a poisoned entry
+- [x] Liberapay — ✅ — `liberapay.com/{name}` (200 taken / 404 free; a mixed-case slug 302s to its canonical case, which the redirect follow resolves)
 - [x] Minehut — ✅ — `api.minehut.com/server/{name}?byName=true` (`server: null` = free)
 - [x] Lichess — ✅ — `lichess.org/api/user/{name}`
 - [x] Chess.com — ✅ — `api.chess.com/pub/player/{name}`
@@ -81,6 +84,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Discogs — ✅ — `api.discogs.com/users/{name}` (token; the keyless route 403s; 200 taken / 404 free)
 - [x] AniList — ✅ — `graphql.anilist.co` (keyless GraphQL: POST a `User(name:)` query; non-null `data.User` taken / null `data.User` + "Not Found." error free)
 - [x] Roblox — ✅ — `users.roblox.com/v1/usernames/users` (keyless: POST `{"usernames":["{name}"],"excludeBannedUsers":false}`; non-empty `data` array taken / empty free; page `www.roblox.com/users?username={name}`)
+- [x] Minecraft (Mojang) — ✅ — `api.mojang.com/users/profiles/minecraft/{name}` (200 taken / 404 free; case-insensitive, 3–16 characters; 429 rate limits degrade to unknown, uncached; page `namemc.com/profile/{name}`)
 - [x] Kaggle — ✅ — `kaggle.com/{name}` (keyless profile: 200 taken / 404 free)
 - [x] skills.sh — ✅ — `skills.sh/{name}` (keyless publisher profile: 200 taken / 404 free; a name appears only once it publishes skills, and the app routes such as `/docs` and `/packs` answer 200, which reads as taken. This probes the GitHub-owner namespace only; publishers who serve skills from their own website live under the separate `/site/{host}` namespace, which is keyed by a hostname — dots, so not a bare label — and is not checked here)
 - [x] eu.org — ✅ — `{name}.eu.org` (DNS, no wildcard: resolves = taken, NXDOMAIN = free; the label is sent to the resolver)
@@ -107,13 +111,13 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Flathub — 🔌 — ruled out: the app-id is reverse-DNS, not a single label, so a `{name}` probe never names a claimable app
 - [ ] CPAN — 🕸 — case-sensitive CamelCase names; labels are lowercased (`platforms.ts:14-18`), so it would false-available
 - [ ] LuaRocks — 🕸 — composite `owner/name`, no single-label namespace
-- [ ] Terraform Registry — 🕸 — scoped path + no CORS
+- [ ] Terraform Registry — 🕸 — scoped `namespace/type` path, not a single label
 - [ ] VS Code Marketplace — 🕸 — no simple API (use Open VSX)
 - [ ] JetBrains Marketplace — 🔌 — ruled out: `/api/searchPlugins?search=` is a fuzzy substring search, not an exact-name signal, and plugin ids are numeric
 - [ ] Figma Community — 🕸 — no public API
 - [ ] Shopify App Store — 🕸
 - [ ] Nostr (NIP-05) — 🔌 — ruled out: names are per-domain (`https://{domain}/.well-known/nostr.json?name={name}`), not a global namespace, so no single-label source exists to probe
-- [ ] Fandom — 🕸 — `{name}.fandom.com` has no CORS
+- [ ] Fandom — 🕸 — re-checked server-side (2026-11): `{name}.fandom.com` is wildcard DNS and every host answers 403 (Cloudflare) for real and fake names alike, so there is no signal
 - [ ] Bilibili — 🕸 — API returns 412 (banned)
 - [ ] Discord — 🕸 — usernames have no public API
 - [ ] Telegram — 🕸 — keyless pass: `t.me/{name}` returns 200 for every name (JS/SPA shell), so no status signal; needs a key or a scrape — deferred, not ported
@@ -127,9 +131,6 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Snapchat — 🕸 — keyless pass: the assumed URL shape 404s for both real and fake names, so no status signal; needs a key or a scrape — deferred, not ported
 - [ ] Pinterest — 🕸 — keyless pass: every name returns 200 (JS/SPA shell), so no status signal; needs a key or a scrape — deferred, not ported
 - [ ] Medium — 🕸 — keyless pass: 403 (bot-block) for both real and fake names, so no status signal; needs a key or a scrape — deferred, not ported
-- [ ] Minecraft (Mojang) — 🕸 — API has no CORS
-- [ ] Roblox — 🕸 — rate-limited / no CORS
-- [ ] SourceForge — 🕸 — 200 has CORS, 404 does not
 - [ ] XDA Forums — 🕸 — Cloudflare-blocked (403)
 - [ ] USPTO (trademarks) — 🕸 — class-based, fuzzy-similarity trademark search; not a single claimable label, so it cannot answer name availability
 - [ ] EUIPO (trademarks) — 🕸 — class-based trademark search (eSearch plus, OAuth); not a single claimable label, so it cannot answer name availability
@@ -174,10 +175,9 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] CocoaPods — 🕸 — case-sensitive CamelCase names; labels are lowercased (`platforms.ts:14-18`), so it would false-available
 - [ ] Swift Package Index — 🕸 — 403
 - [ ] Gradle Plugin Portal — 🕸 — no usable API
-- [ ] Ansible Galaxy — 🕸 — scoped / no CORS
+- [ ] Ansible Galaxy — 🕸 — scoped `namespace/name`, not a single label
 - [ ] Puppet Forge — 🕸 — requires owner-name slug
-- [ ] Chef Supermarket — 🕸 — no CORS
-- [ ] Elm packages — 🕸 — no CORS
+- [ ] Elm packages — 🕸 — `author/project`, not a single label
 - [ ] Quay (containers) — 🕸 — no public user endpoint
 - [ ] Meteor — 🕸 — no API
 - [ ] Nimble (Nim) — 🕸 — 502
@@ -217,10 +217,9 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] DeviantArt — 🕸 — profile pages are an always-200 SPA (any name returns 200), so no signal
 - [ ] OpenNIC — 🔌 — ruled out: the DoH endpoints are dead
 - [ ] Ko-fi — 🕸 — redirects, no signal
-- [ ] Buy Me a Coffee — 🕸 — no CORS
+- [ ] Buy Me a Coffee — 🕸 — re-checked server-side (2026-11): `buymeacoffee.com/{name}` 404s for real and fake names alike, so there is no signal
 - [ ] Lemon Squeezy — 🕸 — bot-blocked: 403 for both real and fake names, so no signal
 - [ ] thanks.dev — 🕸 — Cloudflare-blocked (403)
-- [ ] Liberapay — 🕸 — 404 lacks CORS
 - [ ] PayPal.me — 🕸 — 301 redirect / always 200, no signal
 - [ ] Itch.io — 🕸
 - [ ] Spotify (artist) — 🔑

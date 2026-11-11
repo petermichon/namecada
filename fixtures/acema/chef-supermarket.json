@@ -1,0 +1,29 @@
+{
+  "source": "chef-supermarket",
+  "platform": "chef-supermarket",
+  "platformName": "Chef Supermarket",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://supermarket.chef.io/cookbooks/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 0,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://supermarket.chef.io/api/v1/cookbooks/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "namecheck/1.0 (+https://github.com/petermichon/namecheck)"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": "{\"error_messages\":[\"Resource does not exist.\"],\"error_code\":\"NOT_FOUND\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

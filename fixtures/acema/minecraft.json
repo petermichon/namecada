@@ -1,0 +1,29 @@
+{
+  "source": "minecraft",
+  "platform": "minecraft",
+  "platformName": "Minecraft",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://namemc.com/profile/acema",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 0,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.mojang.com/users/profiles/minecraft/acema",
+      "headers": {
+        "Accept": "application/json",
+        "User-Agent": "namecheck/1.0 (+https://github.com/petermichon/namecheck)"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\n  \"id\" : \"fc3b554225a5446380486189e64709c1\",\n  \"name\" : \"Acema\"\n}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}
