@@ -1,9 +1,6 @@
 {
   "generatedAt": "2026-11-10T14:12:31Z",
   "label": "google",
-  "sourceCount": 147,
-  "enabledCount": 107,
-  "keyedCount": 3,
   "sources": [
     {
       "id": "domain.com",
@@ -1917,6 +1914,5 @@
       "maxLength": 0,
       "keyed": false
     }
-  ],
-  "deferredCount": 37
+  ]
 }

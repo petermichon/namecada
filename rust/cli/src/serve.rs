@@ -224,10 +224,6 @@ mod tests {
         serde_json::from_value(serde_json::json!({
             "generatedAt": "2026-11-11T00:00:00Z",
             "label": "acema",
-            "sourceCount": 2,
-            "enabledCount": 1,
-            "keyedCount": 0,
-            "deferredCount": 1,
             "sources": [
                 {"id": "npm", "platform": "npm", "platformName": "npm",
                  "name": "acema", "nameTemplate": "%s",

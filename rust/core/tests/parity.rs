@@ -21,12 +21,10 @@ const LABELS: &[&str] = &["acema", "google"];
 #[test]
 fn manifest_loads() {
     let manifest = Manifest::load(repo_path("fixtures/sources.json")).expect("manifest");
-    assert_eq!(manifest.source_count, manifest.sources.len());
-    assert_eq!(
-        manifest.source_count,
-        manifest.enabled_count + manifest.keyed_count + manifest.deferred_count
-    );
-    assert!(manifest.enabled_count > 50);
+    let stats = namecheck_core::registry_stats(&manifest);
+    assert_eq!(stats.sources, manifest.sources.len());
+    assert_eq!(stats.sources, stats.checked + stats.keyed + stats.deferred);
+    assert!(stats.checked > 100);
 }
 
 #[test]

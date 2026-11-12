@@ -37,10 +37,6 @@ pub struct Source {
 pub struct Manifest {
     pub generated_at: String,
     pub label: String,
-    pub source_count: usize,
-    pub enabled_count: usize,
-    pub keyed_count: usize,
-    pub deferred_count: usize,
     pub sources: Vec<Source>,
 }
 
@@ -82,18 +78,6 @@ impl Manifest {
                     source.id
                 )));
             }
-        }
-        if self.source_count != self.sources.len() {
-            return Err(Error::Invalid(format!(
-                "sourceCount {} does not match {} sources",
-                self.source_count,
-                self.sources.len()
-            )));
-        }
-        if self.source_count != self.enabled_count + self.keyed_count + self.deferred_count {
-            return Err(Error::Invalid(
-                "sourceCount does not equal enabledCount + keyedCount + deferredCount".to_string(),
-            ));
         }
         Ok(())
     }

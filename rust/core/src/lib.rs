@@ -26,5 +26,5 @@ pub use http::HttpTransport;
 pub use label::valid_label;
 pub use manifest::Manifest;
 pub use provider::{Error, Outcome, Provider, Status, Transport};
-pub use providers::live as live_providers;
+pub use providers::{live as live_providers, stats as registry_stats, RegistryStats};
 pub use status::{build_status_provider, status_specs};
