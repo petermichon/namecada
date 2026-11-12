@@ -105,6 +105,10 @@ pub trait Provider: Send + Sync {
         label.to_ascii_lowercase()
     }
 
+    fn chars(&self) -> crate::label::Chars {
+        crate::label::Chars::Ldh
+    }
+
     fn min_length(&self) -> usize {
         0
     }

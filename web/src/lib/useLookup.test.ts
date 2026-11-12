@@ -482,13 +482,14 @@ describe('check', () => {
 });
 
 describe('invalid input', () => {
-	it('suggests the bare label for a dotted input', () => {
+	it('accepts a dotted name', () => {
+		vi.stubGlobal('fetch', stubApi(''));
 		const lookup = new Lookup();
 		lookup.input = 'Acema.com';
 		lookup.check({ sync: false });
 
-		expect(lookup.error).toContain('without the dot');
-		expect(lookup.suggestion).toBe('acema');
+		expect(lookup.error).toBe('');
+		expect(lookup.lastLabel).toBe('acema.com');
 	});
 
 	it('offers no suggestion when nothing safe can be extracted', () => {
@@ -496,7 +497,7 @@ describe('invalid input', () => {
 		lookup.input = 'a b';
 		lookup.check({ sync: false });
 
-		expect(lookup.error).toContain('letters, numbers and hyphens');
+		expect(lookup.error).toContain('letters, numbers, dots, underscores and hyphens');
 		expect(lookup.suggestion).toBeNull();
 	});
 
@@ -514,7 +515,7 @@ describe('invalid input', () => {
 	it('accepts the suggestion and starts the corrected scan', async () => {
 		vi.stubGlobal('fetch', stubApi(''));
 		const lookup = new Lookup();
-		lookup.input = 'acema.com';
+		lookup.input = '@acema';
 		lookup.check({ sync: false });
 
 		lookup.acceptSuggestion({ sync: false });

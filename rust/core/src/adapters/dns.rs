@@ -108,6 +108,10 @@ impl Provider for DnsProvider {
         }
     }
 
+    fn chars(&self) -> crate::label::Chars {
+        self.source.chars
+    }
+
     fn min_length(&self) -> usize {
         self.source.min_length
     }

@@ -149,7 +149,7 @@
 				</div>
 
 				<p id="name-hint" class="mt-3 text-xs leading-5 text-muted-foreground">
-					Letters, numbers and hyphens only. No dot.
+					Letters, numbers, dots, underscores and hyphens.
 				</p>
 
 				<div class="w-full [&>p]:justify-center">{@render feedback()}</div>

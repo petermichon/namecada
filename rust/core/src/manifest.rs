@@ -5,6 +5,7 @@ use std::path::Path;
 
 use serde::Deserialize;
 
+use crate::label::Chars;
 use crate::provider::Error;
 
 /// Source is one row of `fixtures/sources.json`.
@@ -26,6 +27,9 @@ pub struct Source {
     pub min_length: usize,
     pub max_length: usize,
     pub keyed: bool,
+    /// The alphabet the source accepts; stricter sources reject others.
+    #[serde(default)]
+    pub chars: Chars,
     /// case_sensitive keeps the label's original case for this source.
     #[serde(default)]
     pub case_sensitive: bool,

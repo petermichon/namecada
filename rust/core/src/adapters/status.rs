@@ -280,6 +280,10 @@ impl Provider for StatusProvider {
         }
     }
 
+    fn chars(&self) -> crate::label::Chars {
+        self.source.chars
+    }
+
     fn min_length(&self) -> usize {
         self.source.min_length
     }

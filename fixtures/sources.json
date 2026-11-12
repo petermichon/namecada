@@ -168,7 +168,8 @@
       "paid": false,
       "minLength": 3,
       "maxLength": 20,
-      "keyed": false
+      "keyed": false,
+      "chars": "underscore"
     },
     {
       "id": "peertube",
@@ -194,7 +195,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "handle"
     },
     {
       "id": "pypi",
@@ -207,7 +209,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "handle"
     },
     {
       "id": "crates",
@@ -220,7 +223,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "underscore"
     },
     {
       "id": "nuget",
@@ -233,7 +237,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "handle"
     },
     {
       "id": "rubygems",
@@ -246,7 +251,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "handle"
     },
     {
       "id": "hex",
@@ -259,7 +265,8 @@
       "paid": false,
       "minLength": 2,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "underscore"
     },
     {
       "id": "hex-user",
@@ -285,7 +292,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "underscore"
     },
     {
       "id": "homebrew",
@@ -559,7 +567,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "handle"
     },
     {
       "id": "bitbucket",
@@ -598,7 +607,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "handle"
     },
     {
       "id": "wikipedia",
@@ -624,7 +634,8 @@
       "paid": false,
       "minLength": 2,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "underscore"
     },
     {
       "id": "farcaster",
@@ -780,7 +791,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "underscore"
     },
     {
       "id": "youtube",
@@ -793,7 +805,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "handle"
     },
     {
       "id": "x",
@@ -806,7 +819,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "underscore"
     },
     {
       "id": "opensea",
@@ -962,7 +976,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "handle"
     },
     {
       "id": "hackernews",
@@ -1326,7 +1341,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "underscore"
     },
     {
       "id": "companieshouse",
@@ -1820,7 +1836,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "underscore"
     },
     {
       "id": "tiktok",
@@ -1833,7 +1850,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "handle"
     },
     {
       "id": "threads",
@@ -1846,7 +1864,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "handle"
     },
     {
       "id": "telegram",
@@ -1859,7 +1878,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "underscore"
     },
     {
       "id": "duolingo",
@@ -1898,7 +1918,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "handle"
     },
     {
       "id": "pinterest",
@@ -1911,7 +1932,8 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": false
+      "keyed": false,
+      "chars": "underscore"
     }
   ]
 }

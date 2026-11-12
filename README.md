@@ -1,10 +1,10 @@
 # Namecada
 
-A name availability report. Enter a bare name (`acema`) and it checks that name
-across several independent sources at once, all through one Rust core. Dots
-aren't accepted — the sources are checked per label, so a dotted input
-(`acema.com`) is rejected with a prompt to drop the dot rather than silently
-reduced.
+A name availability report. Enter a name (`acema`, `example.com`) and it checks
+it across several independent sources at once, all through one Rust core. Names
+may contain letters, numbers, dots, underscores and hyphens; a source that
+cannot contain one of those characters reports the name as unavailable rather
+than checking a different name.
 
 ## How it works
 

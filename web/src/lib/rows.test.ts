@@ -7,9 +7,9 @@ describe('toLabel', () => {
 		expect(toLabel('a-1-b')).toBe('a-1-b');
 	});
 
-	it('rejects a dotted input rather than reducing it to a label', () => {
-		expect(toLabel('acema.com')).toBeNull();
-		expect(toLabel('www.bbc.co.uk')).toBeNull();
+	it('accepts dots and underscores inside a name', () => {
+		expect(toLabel('acema.com')).toBe('acema.com');
+		expect(toLabel('a_b.c-d')).toBe('a_b.c-d');
 	});
 
 	it('rejects empty and malformed input', () => {
@@ -18,20 +18,21 @@ describe('toLabel', () => {
 		expect(toLabel('a b')).toBeNull();
 		expect(toLabel('-abc')).toBeNull();
 		expect(toLabel('abc-')).toBeNull();
+		expect(toLabel('.abc')).toBeNull();
+		expect(toLabel('abc_')).toBeNull();
 	});
 });
 
 describe('suggestLabel', () => {
-	it('extracts the bare label from a domain, handle, or URL', () => {
-		expect(suggestLabel('acema.com')).toBe('acema');
-		expect(suggestLabel('Acema.COM')).toBe('acema');
+	it('extracts a name from a handle or URL', () => {
 		expect(suggestLabel('@acema')).toBe('acema');
-		expect(suggestLabel('www.acema.com')).toBe('acema');
-		expect(suggestLabel('https://acema.com/path')).toBe('acema');
+		expect(suggestLabel('https://acema.com/path')).toBe('acema.com');
+		expect(suggestLabel('www.acema.com')).toBe('acema.com');
 	});
 
 	it('returns nothing when the input is already a label or cannot be reduced safely', () => {
 		expect(suggestLabel('acema')).toBeNull();
+		expect(suggestLabel('acema.com')).toBeNull();
 		expect(suggestLabel('')).toBeNull();
 		expect(suggestLabel('.com')).toBeNull();
 		expect(suggestLabel('a b')).toBeNull();

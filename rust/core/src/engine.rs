@@ -198,6 +198,11 @@ fn check_one(provider: &dyn Provider, raw: &str, cache: Option<&MemoryCache>) ->
             return result;
         }
     }
+    if !provider.chars().allows(&label) {
+        result.status = Status::Taken;
+        result.detail = "invalid characters".to_string();
+        return result;
+    }
 
     if let Some(cache) = cache {
         if let Some(entry) = cache.get(provider.id(), &label) {
@@ -372,5 +377,19 @@ mod tests {
         let results = engine.scan_all("abcd");
         assert_eq!(results[0].status, Status::Available);
         assert_eq!(calls.load(Ordering::SeqCst), 1);
+    }
+
+    #[test]
+    fn out_of_alphabet_labels_skip_the_request() {
+        let calls = Arc::new(AtomicUsize::new(0));
+        let engine = Engine::new(vec![Arc::new(BoundedProvider {
+            calls: Arc::clone(&calls),
+        })]);
+
+        // The stub is LDH-only, so a dotted name cannot exist there.
+        let results = engine.scan_all("example.com");
+        assert_eq!(results[0].status, Status::Taken);
+        assert_eq!(results[0].detail, "invalid characters");
+        assert_eq!(calls.load(Ordering::SeqCst), 0);
     }
 }

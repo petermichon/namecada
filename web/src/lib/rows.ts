@@ -14,7 +14,7 @@ export interface ProviderResult {
 	paid: boolean;
 }
 
-const LABEL = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
+const LABEL = /^[a-z0-9](?:[a-z0-9._-]{0,61}[a-z0-9])?$/;
 
 export function toLabel(input: string): string | null {
 	const value = input.trim().toLowerCase();
@@ -31,7 +31,7 @@ export function suggestLabel(input: string): string | null {
 	let value = original.replace(/^https?:\/\//, '').replace(/^www\./, '');
 	if (value.startsWith('@')) value = value.slice(1);
 
-	const [first] = value.split(/[./?#]/);
+	const [first] = value.split(/[/?#]/);
 	const candidate = first.trim();
 	if (!candidate || candidate === original) return null;
 	return toLabel(candidate) ? candidate : null;
@@ -68,9 +68,7 @@ export function validate(input: string): {
 	if (label) return { label, error: '', suggestion: null };
 	const error = !raw
 		? 'Enter a name to check.'
-		: raw.includes('.')
-			? 'Enter the name without the dot (e.g. “example”, not “example.com”).'
-			: 'Names can use letters, numbers and hyphens, e.g. acema.';
+		: 'Names can use letters, numbers, dots, underscores and hyphens, e.g. acema.';
 	return { label: null, error, suggestion: suggestLabel(raw) };
 }
 

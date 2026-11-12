@@ -50,7 +50,7 @@
 			onkeydown={(e) => {
 				if (e.key === 'Escape') value = '';
 			}}
-			placeholder="Search a bare name…"
+			placeholder="Search a name…"
 			autocomplete="off"
 			autocapitalize="off"
 			spellcheck={false}
