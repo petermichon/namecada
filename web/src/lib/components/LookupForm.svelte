@@ -35,7 +35,9 @@
 		onsubmit?.();
 	}}
 >
-	<InputGroup.Root class="h-11 rounded-xl border-border bg-card shadow-xs">
+	<InputGroup.Root
+		class="h-11 rounded-xl border-border bg-card shadow-xs has-[[data-slot=input-group-control]:focus-visible]:border-foreground/25 has-[[data-slot=input-group-control]:focus-visible]:ring-0"
+	>
 		<InputGroup.Addon class="pl-3">
 			<SearchIcon class="size-4" aria-hidden="true" />
 		</InputGroup.Addon>

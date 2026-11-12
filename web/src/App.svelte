@@ -149,12 +149,6 @@
 				</p>
 
 				<div class="w-full [&>p]:justify-center">{@render feedback()}</div>
-
-				{#if !lookup.error}
-					<p class="mt-4 max-w-md text-xs leading-5 text-muted-foreground">
-						Best-effort results. Availability isn’t a guarantee you can register the name.
-					</p>
-				{/if}
 			</div>
 		</main>
 	{:else}
