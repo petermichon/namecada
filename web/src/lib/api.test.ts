@@ -53,7 +53,7 @@ afterEach(() => {
 describe('parseEvent', () => {
 	it('parses the manifest', () => {
 		const event = parseEvent(manifest);
-		expect(event).toMatchObject({ type: 'manifest', version: 1, label: 'acema' });
+		expect(event).toMatchObject({ type: 'manifest', label: 'acema' });
 		expect(event?.type === 'manifest' && event.sources).toHaveLength(2);
 		expect(event?.type === 'manifest' && event.sources[1]).toMatchObject({
 			id: 'tiktok',
@@ -70,7 +70,7 @@ describe('parseEvent', () => {
 				sources: [{ id: 'x' }, { id: 'npm', url: 'u' }]
 			})
 		);
-		expect(event).toMatchObject({ type: 'manifest', version: 0, label: '' });
+		expect(event).toMatchObject({ type: 'manifest', label: '' });
 		expect(event?.type === 'manifest' && event.sources).toEqual([
 			{ id: 'npm', platformName: 'npm', url: 'u', paid: false, checked: false }
 		]);

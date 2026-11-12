@@ -3,8 +3,7 @@ import { inTauri, tauriCheckClient } from './tauri';
 
 // The check stream is NDJSON with three event types, in order:
 //   manifest → result* → done
-// The manifest is sent before any provider runs, so the client can render every
-// row (checked or deferred) immediately and fill it in by id.
+// The manifest arrives before any provider runs, so every row renders at once.
 export const CHECK_ENDPOINT = '/v1/check';
 
 const STATUSES: Status[] = ['available', 'taken', 'unknown'];
@@ -19,7 +18,6 @@ export interface ManifestSource {
 
 export interface ManifestEvent {
 	type: 'manifest';
-	version: number;
 	label: string;
 	sources: ManifestSource[];
 }
@@ -44,55 +42,40 @@ export function isAbort(error: unknown): boolean {
 	return error instanceof DOMException && error.name === 'AbortError';
 }
 
-function object(value: unknown): Record<string, unknown> | null {
-	return typeof value === 'object' && value !== null ? (value as Record<string, unknown>) : null;
+function text(value: unknown): string {
+	return typeof value === 'string' ? value : '';
 }
 
-function parseManifest(row: Record<string, unknown>): ManifestEvent | null {
-	if (!Array.isArray(row.sources)) return null;
-	const sources: ManifestSource[] = [];
-	for (const raw of row.sources) {
-		const source = object(raw);
-		if (!source || typeof source.id !== 'string' || !source.id) continue;
-		if (typeof source.url !== 'string') continue;
-		const platform = typeof source.platformName === 'string' ? source.platformName : source.id;
-		sources.push({
-			id: source.id,
-			platformName: platform || source.id,
-			url: source.url,
-			paid: source.paid === true,
-			checked: source.checked === true
-		});
-	}
+function parseSource(raw: unknown): ManifestSource | null {
+	if (typeof raw !== 'object' || raw === null) return null;
+	const row = raw as Record<string, unknown>;
+	const id = text(row.id);
+	if (!id || typeof row.url !== 'string') return null;
 	return {
-		type: 'manifest',
-		version: typeof row.version === 'number' ? row.version : 0,
-		label: typeof row.label === 'string' ? row.label : '',
-		sources
+		id,
+		platformName: text(row.platformName) || id,
+		url: row.url,
+		paid: row.paid === true,
+		checked: row.checked === true
 	};
 }
 
-function parseResultEvent(row: Record<string, unknown>): ResultEvent | null {
-	if (typeof row.id !== 'string' || !row.id) return null;
-	if (typeof row.name !== 'string' || typeof row.url !== 'string') return null;
-	if (typeof row.status !== 'string' || !STATUSES.includes(row.status as Status)) return null;
-	const platform = typeof row.platform === 'string' ? row.platform : '';
+function parseResult(row: Record<string, unknown>): ResultEvent | null {
+	const id = text(row.id);
+	const platform = text(row.platform);
+	if (!id || !text(row.name) || typeof row.url !== 'string') return null;
+	if (!STATUSES.includes(row.status as Status)) return null;
 	return {
 		type: 'result',
-		id: row.id,
+		id,
 		platform,
-		platformName:
-			typeof row.platformName === 'string' && row.platformName ? row.platformName : platform,
-		name: row.name,
+		platformName: text(row.platformName) || platform,
+		name: text(row.name),
 		url: row.url,
 		status: row.status as Status,
-		detail: typeof row.detail === 'string' && row.detail ? row.detail : undefined,
+		detail: text(row.detail) || undefined,
 		paid: row.paid === true
 	};
-}
-
-function parseDone(row: Record<string, unknown>): DoneEvent | null {
-	return row.type === 'done' ? { type: 'done' } : null;
 }
 
 // parseEvent turns one NDJSON line into a check event, or null when the line is
@@ -101,21 +84,28 @@ function parseDone(row: Record<string, unknown>): DoneEvent | null {
 export function parseEvent(line: string): CheckEvent | null {
 	const trimmed = line.trim();
 	if (!trimmed) return null;
-	let data: unknown;
+
+	let row: Record<string, unknown> | null = null;
 	try {
-		data = JSON.parse(trimmed);
+		const value: unknown = JSON.parse(trimmed);
+		if (typeof value === 'object' && value !== null) row = value as Record<string, unknown>;
 	} catch {
 		return null;
 	}
-	const row = object(data);
 	if (!row) return null;
+
 	switch (row.type) {
 		case 'manifest':
-			return parseManifest(row);
+			if (!Array.isArray(row.sources)) return null;
+			return {
+				type: 'manifest',
+				label: text(row.label),
+				sources: row.sources.flatMap((source) => parseSource(source) ?? [])
+			};
 		case 'result':
-			return parseResultEvent(row);
+			return parseResult(row);
 		case 'done':
-			return parseDone(row);
+			return { type: 'done' };
 		default:
 			return null;
 	}
@@ -125,22 +115,26 @@ export function parseEvent(line: string): CheckEvent | null {
 // arrive and flush the trailing line at the end of the body.
 export function createNdjsonReader(onEvent: (event: CheckEvent) => void) {
 	let buffer = '';
-	return {
-		push(text: string) {
-			buffer += text;
-			let index: number;
-			while ((index = buffer.indexOf('\n')) !== -1) {
-				const line = buffer.slice(0, index);
-				buffer = buffer.slice(index + 1);
-				const event = parseEvent(line);
-				if (event) onEvent(event);
-			}
-		},
-		flush() {
+	const drain = (final: boolean) => {
+		let index: number;
+		while ((index = buffer.indexOf('\n')) !== -1) {
+			const line = buffer.slice(0, index);
+			buffer = buffer.slice(index + 1);
+			const event = parseEvent(line);
+			if (event) onEvent(event);
+		}
+		if (final) {
 			const event = parseEvent(buffer);
 			buffer = '';
 			if (event) onEvent(event);
 		}
+	};
+	return {
+		push: (text: string) => {
+			buffer += text;
+			drain(false);
+		},
+		flush: () => drain(true)
 	};
 }
 
@@ -162,8 +156,6 @@ async function consume(body: ReadableStream<Uint8Array>, onEvent: (e: CheckEvent
 	}
 }
 
-// streamFromApi consumes the backend event stream. It rejects when the backend
-// is unreachable or responds with an error.
 export async function streamFromApi(
 	label: string,
 	onEvent: (event: CheckEvent) => void,
@@ -183,8 +175,6 @@ export async function streamFromApi(
 	await consume(res.body, onEvent);
 }
 
-export const httpCheckClient: CheckClient = { stream: streamFromApi };
-
 // appCheckClient picks the transport once at load: the desktop app calls the
 // engine over IPC, the browser build uses the NDJSON endpoint.
-export const appCheckClient: CheckClient = inTauri() ? tauriCheckClient : httpCheckClient;
+export const appCheckClient: CheckClient = inTauri() ? tauriCheckClient : { stream: streamFromApi };
