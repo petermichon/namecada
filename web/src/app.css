@@ -47,6 +47,7 @@
 }
 
 @theme inline {
+	--font-sans: 'Figtree Variable', ui-sans-serif, system-ui, sans-serif;
 	--radius-sm: calc(var(--radius) - 4px);
 	--radius-md: calc(var(--radius) - 2px);
 	--radius-lg: var(--radius);
@@ -81,7 +82,6 @@
 	}
 	body {
 		@apply bg-background text-foreground antialiased;
-		font-feature-settings: 'ss01', 'cv01';
 	}
 	::selection {
 		background: color-mix(in oklch, var(--primary) 22%, transparent);
