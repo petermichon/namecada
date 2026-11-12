@@ -46,5 +46,6 @@
 		"concurrently": "^10.0.6",
 		"husky": "^9.1.7",
 		"lint-staged": "^17.6.0"
-	}
+	},
+	"license": "MIT OR Apache-2.0"
 }

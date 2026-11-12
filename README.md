@@ -309,3 +309,8 @@ deliberately omitted for now.
 Deferred: Packagist, Docker Hub, Go proxy (modules are paths, not single
 labels), and the remaining trademark / social / company registries that need a
 key.
+
+## License
+
+MIT OR Apache-2.0, at your option. See `LICENSE-MIT` and
+`LICENSE-APACHE`.
