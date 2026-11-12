@@ -1,4 +1,4 @@
-import type { CostFilter, Status } from './platforms';
+import { suggestLabel, toLabel, type CostFilter, type Status } from './platforms';
 
 export interface Row {
 	id: string;
@@ -19,6 +19,23 @@ export type FilterStatus = Status | 'unsupported';
 export type Filter = FilterStatus[];
 
 export type Counts = { available: number; taken: number; unknown: number; unsupported: number };
+
+// validate turns raw input into a label or the message explaining why not.
+export function validate(input: string): {
+	label: string | null;
+	error: string;
+	suggestion: string | null;
+} {
+	const raw = input.trim();
+	const label = toLabel(raw);
+	if (label) return { label, error: '', suggestion: null };
+	const error = !raw
+		? 'Enter a name to check.'
+		: raw.includes('.')
+			? 'Enter the name without the dot (e.g. “example”, not “example.com”).'
+			: 'Names can use letters, numbers and hyphens, e.g. acema.';
+	return { label: null, error, suggestion: suggestLabel(raw) };
+}
 
 // The default view is the verdicts; deferred/keyed sources are opt-in.
 export const DEFAULT_FILTER: Filter = ['available', 'taken', 'unknown'];

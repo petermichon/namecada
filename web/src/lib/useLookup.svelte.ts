@@ -1,6 +1,6 @@
 import { onMount } from 'svelte';
 import { appCheckClient, isAbort, type CheckClient, type CheckEvent } from './api';
-import { toLabel, suggestLabel, type CostFilter } from './platforms';
+import { toLabel, type CostFilter } from './platforms';
 import {
 	announce,
 	costTally,
@@ -10,6 +10,7 @@ import {
 	matchesCost,
 	settlePending,
 	tally,
+	validate,
 	visible,
 	type Filter,
 	type Row
@@ -73,7 +74,7 @@ export class Lookup {
 	}
 
 	check = ({ sync = true }: { sync?: boolean } = {}): void => {
-		const label = toLabel(this.input);
+		const { label, error, suggestion } = validate(this.input);
 		const gen = ++this.#generation;
 		this.#reset();
 
@@ -81,13 +82,8 @@ export class Lookup {
 			this.rows = [];
 			this.lastLabel = null;
 			this.loading = false;
-			const raw = this.input.trim();
-			this.error = !raw
-				? 'Enter a name to check.'
-				: raw.includes('.')
-					? 'Enter the name without the dot (e.g. “example”, not “example.com”).'
-					: 'Names can use letters, numbers and hyphens, e.g. acema.';
-			this.suggestion = suggestLabel(raw);
+			this.error = error;
+			this.suggestion = suggestion;
 			return;
 		}
 

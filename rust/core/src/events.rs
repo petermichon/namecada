@@ -11,14 +11,11 @@ use serde::Serialize;
 use crate::engine::ProviderResult;
 use crate::manifest::Manifest;
 
-pub const API_VERSION: u8 = 1;
-
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ManifestEvent<'a> {
     #[serde(rename = "type")]
     pub kind: &'static str,
-    pub version: u8,
     pub label: &'a str,
     pub sources: Vec<SourceEvent<'a>>,
 }
@@ -51,7 +48,6 @@ impl<'a> ManifestEvent<'a> {
     pub fn new(label: &'a str, sources: Vec<SourceEvent<'a>>) -> Self {
         Self {
             kind: "manifest",
-            version: API_VERSION,
             label,
             sources,
         }
