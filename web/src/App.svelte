@@ -71,7 +71,7 @@
 		>
 			<CheckIcon class="size-3.5" strokeWidth={3} aria-hidden="true" />
 		</span>
-		<span class="text-sm font-semibold tracking-tight">Namecheck</span>
+		<span class="text-sm font-semibold tracking-tight">Namecada</span>
 	</a>
 {/snippet}
 

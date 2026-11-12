@@ -4,7 +4,7 @@ use std::io::{self, Read, Write};
 use std::sync::{mpsc, Arc};
 use std::thread;
 
-use namecheck_core::{
+use namecada_core::{
     events, live_providers, DoneEvent, Engine, Manifest, ManifestEvent, MemoryCache,
     ProviderResult, ResultEvent,
 };
@@ -12,7 +12,7 @@ use serde::Serialize;
 use serde_json::json;
 use tiny_http::{Header, Method, Request, Response, Server, StatusCode};
 
-use namecheck::{load_manifest, run_or_exit, Flags};
+use namecada::{load_manifest, run_or_exit, Flags};
 
 const DEFAULT_ADDR: &str = "127.0.0.1:8080";
 
@@ -69,7 +69,7 @@ fn handle(request: Request, engine: &Engine, manifest: &Manifest, checked: &Hash
         respond_error(request, 400, "missing required query parameter \"name\"");
         return;
     };
-    if !namecheck_core::valid_label(&label) {
+    if !namecada_core::valid_label(&label) {
         respond_error(request, 400, "invalid query parameter \"name\"");
         return;
     }
@@ -183,7 +183,7 @@ fn header(name: &str, value: &str) -> Header {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use namecheck_core::Status;
+    use namecada_core::Status;
 
     fn manifest() -> Manifest {
         serde_json::from_value(serde_json::json!({

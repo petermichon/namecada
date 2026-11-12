@@ -14,7 +14,7 @@
       "url": "https://sourceforge.net/projects/acema/",
       "headers": {
         "Accept": "application/json",
-        "User-Agent": "namecheck/1.0 (+https://github.com/petermichon/namecheck)"
+        "User-Agent": "namecada/1.0 (+https://github.com/petermichon/namecada)"
       },
       "response": {
         "status": 404,

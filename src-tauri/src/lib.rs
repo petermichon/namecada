@@ -1,5 +1,5 @@
-use namecheck_core::events::{self, DoneEvent, ManifestEvent, ResultEvent};
-use namecheck_core::{Engine, Manifest, MemoryCache};
+use namecada_core::events::{self, DoneEvent, ManifestEvent, ResultEvent};
+use namecada_core::{Engine, Manifest, MemoryCache};
 use serde::Serialize;
 use serde_json::Value;
 use std::collections::HashSet;
@@ -25,7 +25,7 @@ async fn check(
     state: State<'_, AppState>,
 ) -> Result<(), String> {
     let label = label.trim().to_string();
-    if !namecheck_core::valid_label(&label) {
+    if !namecada_core::valid_label(&label) {
         return Err("invalid label".to_string());
     }
 
@@ -58,7 +58,7 @@ fn send<T: Serialize>(channel: &Channel<Value>, event: &T) -> Result<(), ()> {
 pub fn run() {
     let manifest = Manifest::embedded().expect("embedded registry");
     manifest.validate().expect("embedded registry is valid");
-    let providers = namecheck_core::live_providers(&manifest).expect("live providers");
+    let providers = namecada_core::live_providers(&manifest).expect("live providers");
     let checked = providers
         .iter()
         .map(|provider| provider.id().to_string())

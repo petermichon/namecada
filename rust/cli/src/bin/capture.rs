@@ -2,8 +2,8 @@ use std::error::Error;
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use namecheck::{load_manifest, run_or_exit, Flags};
-use namecheck_core::{
+use namecada::{load_manifest, run_or_exit, Flags};
+use namecada_core::{
     build_custom_provider, build_dns_provider, build_status_provider, custom_specs, dns_hosts,
     status_specs, Fixture, HttpTransport, Manifest, Provider, RecordingTransport, SystemResolver,
     Transport,

@@ -14,7 +14,7 @@
       "url": "https://www.goodreads.com/google",
       "headers": {
         "Accept": "text/html",
-        "User-Agent": "namecheck/1.0 (+https://github.com/petermichon/namecheck)"
+        "User-Agent": "namecada/1.0 (+https://github.com/petermichon/namecada)"
       },
       "response": {
         "status": 301,
@@ -31,7 +31,7 @@
       "url": "https://www.goodreads.com/user/show/1244555-google-office",
       "headers": {
         "Accept": "text/html",
-        "User-Agent": "namecheck/1.0 (+https://github.com/petermichon/namecheck)"
+        "User-Agent": "namecada/1.0 (+https://github.com/petermichon/namecada)"
       },
       "response": {
         "status": 200,

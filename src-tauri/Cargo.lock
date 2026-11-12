@@ -1865,10 +1865,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "namecheck-app"
+name = "namecada-app"
 version = "0.1.0"
 dependencies = [
- "namecheck-core",
+ "namecada-core",
  "serde",
  "serde_json",
  "tauri",
@@ -1876,7 +1876,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "namecheck-core"
+name = "namecada-core"
 version = "0.1.0"
 dependencies = [
  "base64 0.22.1",

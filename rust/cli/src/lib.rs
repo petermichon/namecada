@@ -4,7 +4,7 @@
 use std::error::Error;
 use std::io;
 
-use namecheck_core::{valid_label, Manifest};
+use namecada_core::{valid_label, Manifest};
 
 /// Flags is the whole argument grammar: `--name value`, `--switch`, and
 /// positionals. Each binary passes the flags it knows; anything else is an
@@ -89,7 +89,7 @@ pub fn run_or_exit(result: Result<(), Box<dyn Error>>) {
         {
             return;
         }
-        eprintln!("namecheck: {err}");
+        eprintln!("namecada: {err}");
         std::process::exit(1);
     }
 }

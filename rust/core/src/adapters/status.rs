@@ -9,7 +9,7 @@ use crate::provider::{Error, HttpRequest, HttpResponse, Outcome, Provider, Statu
 
 pub const DEFAULT_ACCEPT: &str = "application/json";
 pub const HTML_ACCEPT: &str = "text/html";
-pub const USER_AGENT: &str = "namecheck/1.0 (+https://github.com/petermichon/namecheck)";
+pub const USER_AGENT: &str = "namecada/1.0 (+https://github.com/petermichon/namecada)";
 
 /// CodeMap maps HTTP status codes to a verdict.
 #[derive(Debug, Clone, Copy)]

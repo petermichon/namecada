@@ -1,7 +1,7 @@
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
-use namecheck_core::{
+use namecada_core::{
     build_custom_provider, build_dns_provider, build_status_provider, custom_specs, dns_hosts,
     status_specs, DnsError, Engine, Fixture, Manifest, Provider, ReplayTransport, Resolver, Status,
 };
@@ -21,7 +21,7 @@ const LABELS: &[&str] = &["acema", "google"];
 #[test]
 fn manifest_loads() {
     let manifest = Manifest::load(repo_path("fixtures/sources.json")).expect("manifest");
-    let stats = namecheck_core::registry_stats(&manifest);
+    let stats = namecada_core::registry_stats(&manifest);
     assert_eq!(stats.sources, manifest.sources.len());
     assert_eq!(stats.sources, stats.checked + stats.keyed + stats.deferred);
     assert!(stats.checked > 100);
@@ -74,7 +74,7 @@ fn assert_fixture(
     label: &str,
     fixture: &Fixture,
     transport: Arc<ReplayTransport>,
-    check: impl FnOnce() -> Result<namecheck_core::Outcome, namecheck_core::Error>,
+    check: impl FnOnce() -> Result<namecada_core::Outcome, namecada_core::Error>,
 ) {
     if let Some(expected) = fixture.expected_status() {
         let outcome = check().unwrap_or_else(|err| panic!("{id} {label}: {err}"));

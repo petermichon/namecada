@@ -16,9 +16,9 @@ the parity oracle.
 
 ## Layout
 
-- `core/` — `namecheck-core`: `Provider`/`Transport` traits,
+- `core/` — `namecada-core`: `Provider`/`Transport` traits,
   status/custom/DNS adapters, manifest, engine, cache, HTTP transport, replay.
-- `cli/` — `namecheck`: `serve` and `check` commands.
+- `cli/` — `namecada`: `serve` and `check` commands.
 
 ## Commands
 
