@@ -26,9 +26,9 @@
 		"rust:build": "cargo build --release --manifest-path rust/Cargo.toml -p namecheck",
 		"tauri:dev": "tauri dev",
 		"tauri:build": "tauri build",
-		"rust:serve": "cargo run --manifest-path rust/Cargo.toml -p namecheck -- serve",
+		"rust:serve": "cargo run --manifest-path rust/Cargo.toml -p namecheck --bin serve",
 		"probe": "python3 scripts/probe-sources.py",
-		"capture": "cargo run --manifest-path rust/Cargo.toml -p namecheck -- capture",
+		"capture": "cargo run --manifest-path rust/Cargo.toml -p namecheck --bin capture",
 		"verify": "npm run check && npm test && npm run lint && npm run rust:fmt:check && npm run rust:clippy && npm run rust:test",
 		"prepare": "husky"
 	},

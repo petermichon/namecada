@@ -2,6 +2,15 @@
 name = "namecheck"
 version.workspace = true
 edition.workspace = true
+default-run = "serve"
+
+[[bin]]
+name = "serve"
+path = "src/bin/serve.rs"
+
+[[bin]]
+name = "capture"
+path = "src/bin/capture.rs"
 
 [dependencies]
 namecheck-core = { path = "../core" }

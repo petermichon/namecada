@@ -12,12 +12,19 @@ use serde::Serialize;
 use serde_json::json;
 use tiny_http::{Header, Method, Request, Response, Server, StatusCode};
 
+use namecheck::{load_manifest, run_or_exit, Flags};
+
 const DEFAULT_ADDR: &str = "127.0.0.1:8080";
 
-pub fn run(args: &[String]) -> Result<(), Box<dyn Error>> {
-    let flags = crate::Flags::parse(args, &[("addr", true), ("manifest", true)])?;
+fn main() {
+    run_or_exit(run());
+}
+
+fn run() -> Result<(), Box<dyn Error>> {
+    let args: Vec<String> = std::env::args().skip(1).collect();
+    let flags = Flags::parse(&args, &[("addr", true), ("manifest", true)])?;
     let addr = flags.value("addr").unwrap_or(DEFAULT_ADDR).to_string();
-    let manifest = crate::load_manifest(flags.value("manifest"))?;
+    let manifest = load_manifest(flags.value("manifest"))?;
     eprintln!(
         "registry: {}",
         flags.value("manifest").unwrap_or("embedded")

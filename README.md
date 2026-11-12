@@ -194,14 +194,16 @@ assembled from a small core plus two commands:
 - `core/src/http.rs` — production HTTP transport.
 - `cli/src/serve.rs` — the NDJSON HTTP server.
 
-Three commands drive it:
+Two development binaries drive it:
 
-- `npm run rust:serve` exposes `GET /v1/check?name=<label>`, streaming a
-  manifest, one result per source as it resolves, then a done event.
-- `check <label>` runs a one-shot live scan against real HTTP and DNS.
-- `capture <label> [--source id]` records fixtures from live providers.
+- `npm run rust:serve` runs the `serve` binary, exposing
+  `GET /v1/check?name=<label>`: a manifest, one result per source as it
+  resolves, then a done event.
+- `npm run capture` runs the `capture` binary, recording fixtures from live
+  providers (`--source id` limits it to one source).
 
-Fixtures replay in the test suite, not from the CLI.
+There is no one-shot CLI check; `curl 'localhost:8080/v1/check?name=acema'`
+against `serve` is the same thing. Fixtures replay in the test suite.
 
 The credential-gated sources (Discogs, Companies House, OpenCorporates)
 are intentionally omitted. They produce no row and make no
