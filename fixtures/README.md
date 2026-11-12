@@ -27,9 +27,10 @@ npm run server:export -- --label acema
   that a zero-config scan omits. `keyed: true` marks a source that needs
   credentials; a source with no provider renders as "not checked".
   `caseSensitive: true` keeps the user's raw label case for that source (the
-  engine lowercases for everyone else). It is
-  compiled into the binary via `Manifest::embedded`; `--manifest` overrides it
-  during development.
+  engine lowercases for everyone else). `minLength`/`maxLength` short-circuit
+  labels the source cannot own; each limit's provenance is recorded per source
+  in `docs/platforms.md`. The registry is compiled into the binary via
+  `Manifest::embedded`; `--manifest` overrides it during development.
 - `<label>/<source>.json` — `status`, `detail`, the provider's public URL, and
   a `requests` array. Each request carries its method, URL, headers, body, and
   the response status, selected headers, and body. A transport failure is

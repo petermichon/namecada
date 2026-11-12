@@ -216,4 +216,56 @@ mod tests {
         assert_eq!(first[0].status, Status::Available);
         assert_eq!(second[0].status, Status::Available);
     }
+
+    /// A label outside the source's own grammar cannot be claimed, so the
+    /// engine reports it taken without spending a request.
+    struct BoundedProvider {
+        calls: Arc<AtomicUsize>,
+    }
+
+    impl Provider for BoundedProvider {
+        fn id(&self) -> &str {
+            "bounded"
+        }
+        fn platform(&self) -> &str {
+            "bounded"
+        }
+        fn name(&self, label: &str) -> String {
+            label.to_string()
+        }
+        fn url(&self, label: &str) -> String {
+            format!("https://example.test/{label}")
+        }
+        fn paid(&self) -> bool {
+            false
+        }
+        fn min_length(&self) -> usize {
+            3
+        }
+        fn max_length(&self) -> Option<usize> {
+            Some(15)
+        }
+        fn check(&self, _: &str) -> Result<Outcome, Error> {
+            self.calls.fetch_add(1, Ordering::SeqCst);
+            Ok(Outcome::new(Status::Available))
+        }
+    }
+
+    #[test]
+    fn length_limits_skip_the_request() {
+        let calls = Arc::new(AtomicUsize::new(0));
+        let engine = Engine::new(vec![Arc::new(BoundedProvider {
+            calls: Arc::clone(&calls),
+        })]);
+
+        for label in ["ab", "abcdefghijklmnop"] {
+            let results = engine.scan_all(label);
+            assert_eq!(results[0].status, Status::Taken, "{label}");
+            assert_eq!(calls.load(Ordering::SeqCst), 0, "{label}");
+        }
+
+        let results = engine.scan_all("abcd");
+        assert_eq!(results[0].status, Status::Available);
+        assert_eq!(calls.load(Ordering::SeqCst), 1);
+    }
 }

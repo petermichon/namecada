@@ -86,9 +86,11 @@ flags the ones that now return a real signal. Promoting one is still manual.
 
 1. Add the metadata to `fixtures/sources.json`: `id`, `platform`,
    `platformName`, `nameTemplate`, `urlTemplate`, `paid`, `minLength`,
-   `maxLength`, `keyed`. Mark `caseSensitive: true` only when the source's
-   namespace is case-sensitive (CPAN); everything else folds to lowercase. A
-   deferred/manual source stops here: with no provider
+   `maxLength`, `keyed`. Record where `minLength`/`maxLength` come from in
+   `docs/platforms.md` (a documented rule with a link, or "determined
+   empirically") — never guess a limit. Mark `caseSensitive: true` only when
+   the source's namespace is case-sensitive (CPAN); everything else folds to
+   lowercase. A deferred/manual source stops here: with no provider
    it is listed as "not checked" automatically (`checked` is derived, never
    stored).
 2. Implement the check in `rust/core`:

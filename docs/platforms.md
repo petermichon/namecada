@@ -65,10 +65,10 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Dribbble — ✅ — `dribbble.com/{name}` (keyless profile: 200 taken / 404 free, but the route needs an HTML Accept — `application/json` 404s every name; a claimed profile that is not public also 404s, and its "isn't public yet" body marks it taken; the API v2 is publishing-only with no arbitrary-user endpoint, so the profile route is the signal)
 - [x] Behance — ✅ — `behance.net/{name}` (keyless profile: 200 taken / 404 free; the Adobe API needs a key but the profile route does not)
 - [x] Replicate — ✅ — `replicate.com/{name}` (keyless profile: 200 taken / 404 free; the API has no arbitrary-username lookup, so the profile page is the signal)
-- [x] DeviantArt — ✅ — `deviantart.com/{name}` (keyless profile: 200 taken / 404 free; a name with no profile 404s — the old "always-200 SPA" reading no longer holds)
-- [x] Snapchat — ✅ — `snapchat.com/add/{name}` (keyless profile: 200 taken / 404 free; the old note probed a URL shape that no longer exists)
-- [x] Strava — ✅ — `strava.com/athletes/{name}` (keyless public athlete page: 200 taken / 404 free; previously listed as keyed — the profile route needs no token)
-- [x] Swift Package Index — ✅ — `swiftpackageindex.com/{name}` (keyless publisher page: 200 taken / 404 free; the page lists packages, so an account that publishes none 404s and reads as free)
+- [x] DeviantArt — ✅ — `deviantart.com/{name}` (keyless profile: 200 taken / 404 free; a name with no profile 404s — the old "always-200 SPA" reading no longer holds; length 3–20 per DeviantArt's username guide — legacy 1–2 character names exist, so the row reports shorter labels unavailable instead of probing)
+- [x] Snapchat — ✅ — `snapchat.com/add/{name}` (keyless profile: 200 taken / 404 free; the old note probed a URL shape that no longer exists; length 3–15 per Snapchat Support's username rules)
+- [x] Strava — ✅ — `strava.com/athletes/{name}` (keyless public athlete page: 200 taken / 404 free; previously listed as keyed — the profile route needs no token; no documented length rule found, so the row stays unbounded rather than guessing)
+- [x] Swift Package Index — ✅ — `swiftpackageindex.com/{name}` (keyless publisher page: 200 taken / 404 free; the page lists packages, so an account that publishes none 404s and reads as free; length 1–39 because the publisher is a GitHub owner and GitHub caps usernames at 39 characters — https://docs.github.com/en/enterprise-cloud@latest/admin/managing-iam/iam-configuration-reference/username-considerations-for-external-authentication)
 - [x] Companies House UK — ✅ — `api.company-information.service.gov.uk/search/companies?q={name}` (key; Basic auth; exact company-name hit taken / else free)
 - [x] OpenCorporates — ✅ — `api.opencorporates.com/v0.4/companies/search?q={name}` (token; `X-API-TOKEN` header; exact company-name hit taken / else free)
 - [x] Firefox Add-ons — ✅ — `addons.mozilla.org/api/v5`
@@ -159,7 +159,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Kickstarter — 🕸 — bot-blocked: 403 for both real and fake names, so no signal
 - [ ] Indiegogo — 🕸
 - [ ] Etsy — 🕸 — re-checked server-side (2026-11): `etsy.com/shop/{name}` 403s (bot wall) for real and fake shops, so there is no signal
-- [ ] Amazon — 🕸
+- [ ] Amazon — 🔌 — ruled out: not a name namespace — `amazon.com/{name}` is a brand/search route (200 for `google`, 404 for `amazon`, `github` and fake names), and public profiles are addressed by an internal id, not a claimable label
 - [ ] eBay — 🕸 — re-checked server-side (2026-11): `ebay.com/usr/{name}` 403s ("Error Page") for real and fake users, so there is no signal
 - [ ] IMDb — 🕸
 - [ ] Azure Static Web Apps — 🔌 — `{name}.azurestaticapps.net` — the host is
@@ -210,7 +210,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Tumblr — 🔑
 - [ ] Vimeo — 🕸 — bot-blocked: 403 for both real and fake names, so no signal
 - [ ] Odysee / LBRY — 🕸 — no usable API
-- [ ] VK — 🔑
+- [ ] VK — 🔑 — keyless profile pages answer 200 for real and fake names alike (the same generic shell) and 404 only for some names, so status has no signal; the availability API needs a token — deferred, not ported
 - [ ] Weibo — 🕸
 - [ ] Zhihu — 🕸
 - [ ] Douyin — 🕸
@@ -222,7 +222,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] OpenNIC — 🔌 — ruled out: the DoH endpoints are dead
 - [ ] Ko-fi — 🕸 — redirects, no signal
 - [ ] Buy Me a Coffee — 🕸 — re-checked server-side (2026-11): `buymeacoffee.com/{name}` 404s for real and fake names alike, so there is no signal
-- [ ] Lemon Squeezy — 🕸 — bot-blocked: 403 for both real and fake names, so no signal
+- [ ] Lemon Squeezy — 🕸 — inconsistent: 200 for some stores, 403 (bot wall) for others, 404 for the rest, so there is no reliable status signal
 - [ ] thanks.dev — 🕸 — Cloudflare-blocked (403)
 - [ ] PayPal.me — 🕸 — 301 redirect / always 200, no signal
 - [ ] Itch.io — 🕸 — re-checked server-side (2026-11): Cloudflare challenge (403) for real and fake `{name}.itch.io` hosts

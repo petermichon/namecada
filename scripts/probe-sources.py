@@ -160,7 +160,8 @@ def main() -> int:
         return 1
 
     if not rows:
-        print("probe: nothing to check", file=sys.stderr)
+        scope = f" matching {', '.join(sorted(only))}" if only else ""
+        print(f"probe: no unchecked sources{scope}", file=sys.stderr)
         return 1
 
     with ThreadPoolExecutor(max_workers=max(1, args.jobs)) as pool:

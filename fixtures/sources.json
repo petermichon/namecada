@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-11-10T14:12:31Z",
   "label": "google",
-  "sourceCount": 146,
+  "sourceCount": 145,
   "enabledCount": 103,
   "keyedCount": 4,
   "sources": [
@@ -1627,8 +1627,8 @@
       "url": "https://swiftpackageindex.com/google",
       "urlTemplate": "https://swiftpackageindex.com/%s",
       "paid": false,
-      "minLength": 0,
-      "maxLength": 0,
+      "minLength": 1,
+      "maxLength": 39,
       "keyed": false
     },
     {
@@ -1723,19 +1723,6 @@
       "keyed": false
     },
     {
-      "id": "amazon",
-      "platform": "amazon",
-      "platformName": "Amazon",
-      "name": "google",
-      "nameTemplate": "%s",
-      "url": "https://www.amazon.com/google",
-      "urlTemplate": "https://www.amazon.com/%s",
-      "paid": false,
-      "minLength": 0,
-      "maxLength": 0,
-      "keyed": false
-    },
-    {
       "id": "ebay",
       "platform": "ebay",
       "platformName": "eBay",
@@ -1822,8 +1809,8 @@
       "url": "https://www.deviantart.com/google",
       "urlTemplate": "https://www.deviantart.com/%s",
       "paid": false,
-      "minLength": 0,
-      "maxLength": 0,
+      "minLength": 3,
+      "maxLength": 20,
       "keyed": false
     },
     {
@@ -1887,8 +1874,8 @@
       "url": "https://www.snapchat.com/add/google",
       "urlTemplate": "https://www.snapchat.com/add/%s",
       "paid": false,
-      "minLength": 0,
-      "maxLength": 0,
+      "minLength": 3,
+      "maxLength": 15,
       "keyed": false
     },
     {
@@ -1905,5 +1892,5 @@
       "keyed": false
     }
   ],
-  "deferredCount": 39
+  "deferredCount": 38
 }
