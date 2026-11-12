@@ -70,9 +70,9 @@ through the `CheckClient` seam.
 - **Provider HTTP** — adapters live under `rust/core/src/adapters/`, one module
   per shape: `status.rs` (request template plus a `CodeMap`), `api.rs`
   (JSON/XML/GraphQL), `page.rs` (server-rendered HTML), `domains.rs` (RDAP),
-  `dns.rs` (wildcard subdomains). Shared helpers and the spec tables live in
-  `adapters/mod.rs`. Use the shared `Transport` seam; never call the HTTP client
-  from a provider directly.
+  `dns.rs` (wildcard subdomains). Request helpers live in `adapters/shared.rs`
+  and the id → check table in `adapters/spec.rs`. Use the shared `Transport`
+  seam; never call the HTTP client from a provider directly.
 - **Status** — a `Check` maps a response to `available` / `taken` / `unknown`.
   `unknown` is never cached, so transient failures self-heal. Match the
   documented semantics in the README (domain rows report registry state, handle

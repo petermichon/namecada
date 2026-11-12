@@ -1,11 +1,13 @@
 //! Sources that expose a structured endpoint: JSON, XML or GraphQL.
 
+use std::collections::BTreeMap;
+
 use serde_json::{json, Value};
 
 use crate::manifest::Source;
-use crate::provider::{Error, Outcome, Status, Transport};
+use crate::provider::{Error, HttpRequest, Outcome, Status, Transport};
 
-use super::*;
+use super::shared::*;
 
 pub(crate) fn check_ens(
     _: &Source,
@@ -486,3 +488,95 @@ pub(crate) fn check_tiktok(
 /// hnsscan answers 502 for the ICANN special-use names (probed 2026-11).
 /// Nobody can register them, so they report unavailable rather than unknown.
 pub(crate) const HNS_RESERVED: &[&str] = &["example", "invalid", "local", "localhost", "test"];
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::fixture::{Fixture, ReplayTransport};
+    use crate::manifest::Manifest;
+    use crate::provider::Status;
+
+    /// Both checked-in labels are unclaimed on the Snap Store, so the taken
+    /// branch is covered here instead of by a fixture.
+    fn snap_outcome(status: u16) -> Outcome {
+        let fixture: Fixture = serde_json::from_value(serde_json::json!({
+            "source": "snap",
+            "platform": "snap",
+            "label": "spotify",
+            "name": "spotify",
+            "url": "https://snapcraft.io/spotify",
+            "requests": [{
+                "method": "GET",
+                "url": "https://api.snapcraft.io/v2/snaps/info/spotify",
+                "response": { "status": status }
+            }]
+        }))
+        .expect("fixture");
+        let transport = ReplayTransport::new(&fixture);
+        let source = Manifest::embedded()
+            .expect("manifest")
+            .source("snap")
+            .expect("snap source")
+            .clone();
+        check_snap(&source, &transport, "spotify").expect("check")
+    }
+
+    #[test]
+    fn snap_maps_the_store_status() {
+        assert_eq!(snap_outcome(200).status, Status::Taken);
+        assert_eq!(snap_outcome(404).status, Status::Available);
+        assert_eq!(snap_outcome(500).status, Status::Unknown);
+    }
+
+    #[test]
+    fn gitlab_says_when_it_is_rate_limited() {
+        let fixture: Fixture = serde_json::from_value(serde_json::json!({
+            "source": "gitlab",
+            "platform": "gitlab",
+            "label": "google",
+            "name": "google",
+            "url": "https://gitlab.com/google",
+            "requests": [{
+                "method": "GET",
+                "url": "https://gitlab.com/api/v4/users?username=google",
+                "response": { "status": 429, "body": "Rate limit exceeded" }
+            }]
+        }))
+        .expect("fixture");
+        let transport = ReplayTransport::new(&fixture);
+        let source = Manifest::embedded()
+            .expect("manifest")
+            .source("gitlab")
+            .expect("gitlab source")
+            .clone();
+        let outcome = check_gitlab(&source, &transport, "google").expect("check");
+        assert_eq!(outcome.status, Status::Unknown);
+        assert_eq!(outcome.detail, "rate limited");
+    }
+
+    /// hnsscan 502s on these, so they are answered without a request. An empty
+    /// replay queue would fail loudly if the check tried to reach the network.
+    #[test]
+    fn hns_reports_special_use_names_as_taken() {
+        let fixture: Fixture = serde_json::from_value(serde_json::json!({
+            "source": "hns",
+            "platform": "hns",
+            "label": "example",
+            "name": "example",
+            "url": "https://hnsscan.com/names/example",
+            "requests": []
+        }))
+        .expect("fixture");
+        let transport = ReplayTransport::new(&fixture);
+        let source = Manifest::embedded()
+            .expect("manifest")
+            .source("hns")
+            .expect("hns source")
+            .clone();
+
+        for label in ["example", "test", "invalid", "localhost", "local"] {
+            let outcome = check_hns(&source, &transport, label).expect("check");
+            assert_eq!(outcome.status, Status::Taken, "{label}");
+        }
+    }
+}

@@ -1,11 +1,11 @@
 //! Sources read from server-rendered HTML: titles, meta tags and redirects.
 
 use crate::manifest::Source;
-use crate::provider::{Error, Outcome, Transport};
+use crate::provider::{Error, HttpResponse, Outcome, Transport};
 
 const HTML_ANY_ACCEPT: &str = "text/html,*/*";
 
-use super::*;
+use super::shared::*;
 
 pub(crate) fn check_threads(
     _: &Source,
@@ -247,4 +247,57 @@ pub(crate) fn attribute(tag: &str, name: &str) -> Option<String> {
     }
     let value = &rest[1..];
     Some(value[..value.find(quote)?].to_string())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::fixture::{Fixture, ReplayTransport};
+    use crate::manifest::Manifest;
+    use crate::provider::Status;
+
+    /// A profile title names the handle whether or not the account has a
+    /// display name; the missing page is the login shell.
+    #[test]
+    fn threads_reads_the_handle_out_of_the_title() {
+        fn outcome(title: &str) -> Status {
+            let fixture: Fixture = serde_json::from_value(serde_json::json!({
+                "source": "threads",
+                "platform": "threads",
+                "label": "hardvoxel",
+                "name": "hardvoxel",
+                "url": "https://www.threads.net/@hardvoxel",
+                "requests": [{
+                    "method": "GET",
+                    "url": "https://www.threads.net/@hardvoxel",
+                    "response": {
+                        "status": 200,
+                        "body": format!("<html><head><title>{title}</title></head></html>")
+                    }
+                }]
+            }))
+            .expect("fixture");
+            let transport = ReplayTransport::new(&fixture);
+            let source = Manifest::embedded()
+                .expect("manifest")
+                .source("threads")
+                .expect("threads source")
+                .clone();
+            check_threads(&source, &transport, "hardvoxel")
+                .expect("check")
+                .status
+        }
+
+        assert_eq!(
+            outcome("Hardvoxel (&#064;hardvoxel) &#x2022; Threads, Say more"),
+            Status::Taken
+        );
+        // An account with no display name puts the handle first.
+        assert_eq!(
+            outcome("&#064;hardvoxel &#x2022; Threads, Say more"),
+            Status::Taken
+        );
+        assert_eq!(outcome("Threads &#x2022; Log in"), Status::Available);
+        assert_eq!(outcome("Threads"), Status::Unknown);
+    }
 }

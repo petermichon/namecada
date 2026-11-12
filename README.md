@@ -185,8 +185,8 @@ assembled from a small core plus two binaries:
   result/status types.
 - `core/src/adapters/` — one module per source shape: `status.rs` (verdict is
   the status code), `api.rs` (JSON/XML/GraphQL endpoints), `page.rs`
-  (server-rendered HTML), `domains.rs` (RDAP), `dns.rs` (wildcard subdomains);
-  `mod.rs` holds the shared request helpers and the spec tables.
+  (server-rendered HTML), `domains.rs` (RDAP), `dns.rs` (wildcard subdomains).
+  `shared.rs` holds the request helpers and `spec.rs` the id → check table.
 - `core/src/registry.rs` — the compiled registry: live providers and stats.
 - `core/src/engine.rs` — bounded-concurrency scan engine with its one-hour
   verdict cache; streams each result as it resolves.

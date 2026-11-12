@@ -3,7 +3,7 @@
 use crate::manifest::Source;
 use crate::provider::{Error, Outcome, Transport};
 
-use super::*;
+use super::shared::*;
 
 pub(crate) const RESERVED_LABELS: &[&str] = &["example", "test", "invalid", "localhost"];
 
