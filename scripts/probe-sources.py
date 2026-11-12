@@ -3,9 +3,11 @@
 
 Run it on demand when you want to know whether any of them has become
 checkable: it fetches each unchecked source with a real label and a control
-label, then sorts the results into differs / blocked / shell / dead. It never
-writes anything; promoting a source is still a manual change (spec table,
-fixture, docs).
+label, then sorts the results into differs / blocked / shell / dead.
+Promoting a source is still a manual change (spec table, fixture, docs).
+
+--save appends the run to .probe/<timestamp>.json and --diff prints what
+changed since the previous saved run, so drift is visible without a scheduler.
 
     npm run probe
     npm run probe -- --label acema
@@ -17,6 +19,7 @@ Exit status is 0 for a completed report, 1 when the registry cannot be read.
 from __future__ import annotations
 
 import argparse
+import datetime
 import http.cookiejar
 import json
 import re
@@ -27,6 +30,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+HISTORY = ROOT / ".probe"
 UA = (
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
@@ -150,6 +154,8 @@ def main() -> int:
     parser.add_argument("--jobs", type=int, default=4, help="parallel probes (default: 4)")
     parser.add_argument("--timeout", type=float, default=20.0, help="seconds per request (default: 20)")
     parser.add_argument("--json", action="store_true", help="print JSON instead of a table")
+    parser.add_argument("--save", action="store_true", help=f"write the run to {HISTORY.name}/<timestamp>.json")
+    parser.add_argument("--diff", action="store_true", help="show what changed since the previous saved run")
     args = parser.parse_args()
 
     only = {s.strip() for s in args.only.split(",")} if args.only else None
@@ -168,6 +174,13 @@ def main() -> int:
         results = list(
             pool.map(lambda row: probe(row, args.label, args.fake, args.timeout), rows)
         )
+
+    if args.diff:
+        print_changes(results, full=only is None)
+
+    if args.save:
+        saved = save_run(results, args.label, args.fake)
+        print(f"saved {saved}", file=sys.stderr)
 
     if args.json:
         print(json.dumps(results, indent=2))
@@ -192,6 +205,62 @@ def main() -> int:
         print("differs = candidate: confirm the mapping, then add a spec, a fixture and docs")
     return 0
 
+
+
+def latest_run() -> Path | None:
+    if not HISTORY.is_dir():
+        return None
+    runs = sorted(HISTORY.glob("*.json"))
+    return runs[-1] if runs else None
+
+
+def save_run(results: list[dict], label: str, fake: str) -> Path:
+    HISTORY.mkdir(exist_ok=True)
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H%M%SZ")
+    path = HISTORY / f"{stamp}.json"
+    payload = {
+        "timestamp": stamp,
+        "label": label,
+        "fake": fake,
+        "sources": [
+            {key: row[key] for key in ("id", "verdict", "real", "fake", "title")}
+            for row in results
+        ],
+    }
+    path.write_text(json.dumps(payload, indent=1) + "\n")
+    return path
+
+
+def print_changes(results: list[dict], full: bool) -> None:
+    previous_path = latest_run()
+    if previous_path is None:
+        print("no previous run saved; nothing to compare", file=sys.stderr)
+        return
+    try:
+        previous = json.loads(previous_path.read_text())
+    except (OSError, ValueError) as err:
+        print(f"probe: cannot read {previous_path}: {err}", file=sys.stderr)
+        return
+
+    before = {row["id"]: row for row in previous.get("sources", [])}
+    after = {row["id"]: row for row in results}
+    changes = []
+    for source_id, row in sorted(after.items()):
+        old = before.get(source_id)
+        if old is None:
+            changes.append(f"  {source_id:<21} new            {row['verdict']}")
+        elif old["verdict"] != row["verdict"]:
+            changes.append(f"  {source_id:<21} {old['verdict']:<14} -> {row['verdict']}")
+    if full:
+        for source_id, row in sorted(before.items()):
+            if source_id not in after:
+                changes.append(f"  {source_id:<21} {row['verdict']:<14} -> no longer unchecked")
+
+    if changes:
+        print(f"changed since {previous_path.name} ({previous.get('timestamp', '?')}):")
+        print("\n".join(changes))
+    else:
+        print(f"no changes since {previous_path.name}")
 
 if __name__ == "__main__":
     sys.exit(main())

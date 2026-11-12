@@ -44,7 +44,7 @@ Root scripts (run from the repo root):
 | `npm run rust:clippy` | Rust lints |
 | `npm run rust:build` | release build of the Rust binary |
 | `npm run rust:serve` | run the Rust NDJSON server on `127.0.0.1:8080` |
-| `npm run probe` | live-probe the sources that have no provider, sorted into differs / blocked / shell / dead (on demand; promotes nothing) |
+| `npm run probe` | live-probe the sources that have no provider, sorted into differs / blocked / shell / dead (on demand; `--save`/`--diff` keep a local history; promotes nothing) |
 | `npm run capture` | run providers live and write their fixtures (`npm run capture -- <label> --source <id>`) |
 | `npm run tauri:dev` | Vite dev server plus the Tauri window (real IPC, no `serve`) |
 | `npm run tauri:build` | bundle the desktop app |
