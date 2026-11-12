@@ -69,7 +69,7 @@ fn handle(request: Request, engine: &Engine, manifest: &Manifest, checked: &Hash
         respond_error(request, 400, "missing required query parameter \"name\"");
         return;
     };
-    if !namecada_core::valid_label(&label) {
+    if label.trim().is_empty() {
         respond_error(request, 400, "invalid query parameter \"name\"");
         return;
     }

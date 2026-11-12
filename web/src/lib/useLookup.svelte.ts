@@ -34,7 +34,6 @@ export class Lookup {
 	input = $state(queryParam());
 	rows = $state<Row[]>([]);
 	error = $state('');
-	suggestion = $state<string | null>(null);
 	loading = $state(false);
 	// Seed from the URL so a shared ?q= link renders the results page straight
 	// away, without a flash of the landing page.
@@ -55,7 +54,6 @@ export class Lookup {
 		this.#controller?.abort();
 		this.#controller = null;
 		this.error = '';
-		this.suggestion = null;
 		this.filter = [...DEFAULT_FILTER];
 		this.cost = [...DEFAULT_COST];
 	}
@@ -74,7 +72,7 @@ export class Lookup {
 	}
 
 	check = ({ sync = true }: { sync?: boolean } = {}): void => {
-		const { label, error, suggestion } = validate(this.input);
+		const { label, error } = validate(this.input);
 		const generation = ++this.#generation;
 		this.#reset();
 
@@ -83,7 +81,6 @@ export class Lookup {
 			this.lastLabel = null;
 			this.loading = false;
 			this.error = error;
-			this.suggestion = suggestion;
 			return;
 		}
 
@@ -173,16 +170,6 @@ export class Lookup {
 	// the next submit re-validates.
 	clearError = (): void => {
 		this.error = '';
-		this.suggestion = null;
-	};
-
-	// acceptSuggestion applies the proposed bare label instead of silently
-	// rewriting the user's value.
-	acceptSuggestion = ({ sync = true }: { sync?: boolean } = {}): void => {
-		if (this.suggestion === null) return;
-		this.input = this.suggestion;
-		this.suggestion = null;
-		this.check({ sync });
 	};
 
 	// showAll clears every facet and restores the default verdict filter with
@@ -216,7 +203,11 @@ export class Lookup {
 	counts = $derived(tally(this.rows.filter((row) => matchesCost(row, this.cost))));
 
 	statusTotal = $derived(
-		this.counts.available + this.counts.taken + this.counts.unknown + this.counts.unsupported
+		this.counts.available +
+			this.counts.taken +
+			this.counts.unknown +
+			this.counts.invalid +
+			this.counts.unsupported
 	);
 
 	visibleCounts = $derived(tally(this.visibleRows));
@@ -226,7 +217,9 @@ export class Lookup {
 		this.visibleCounts.available + this.visibleCounts.taken + this.visibleCounts.unknown
 	);
 
-	checkedCount = $derived(this.rows.filter((row) => row.status !== 'unsupported').length);
+	checkedCount = $derived(
+		this.rows.filter((row) => row.status !== 'unsupported' && row.status !== 'invalid').length
+	);
 
 	// The cost chips honour the status filter, so a chip previews how many rows
 	// selecting it would show.

@@ -235,6 +235,7 @@ describe('visibleRows', () => {
 			available: 0,
 			taken: 1,
 			unknown: 0,
+			invalid: 0,
 			unsupported: 0
 		});
 	});
@@ -251,7 +252,13 @@ describe('counts', () => {
 			row('npm', 'pending')
 		];
 
-		expect(lookup.counts).toEqual({ available: 1, taken: 1, unknown: 1, unsupported: 1 });
+		expect(lookup.counts).toEqual({
+			available: 1,
+			taken: 1,
+			unknown: 1,
+			invalid: 0,
+			unsupported: 1
+		});
 	});
 
 	it('narrows status counts to the selected cost', () => {
@@ -263,7 +270,13 @@ describe('counts', () => {
 		];
 		lookup.cost = ['paid'];
 
-		expect(lookup.counts).toEqual({ available: 0, taken: 1, unknown: 0, unsupported: 0 });
+		expect(lookup.counts).toEqual({
+			available: 0,
+			taken: 1,
+			unknown: 0,
+			invalid: 0,
+			unsupported: 0
+		});
 		expect(lookup.statusTotal).toBe(1);
 	});
 
@@ -403,7 +416,13 @@ describe('check', () => {
 		]);
 		expect(lookup.rows.every((r) => r.name === 'acema')).toBe(true);
 		expect(lookup.rows[2].url).toBe('https://tiktok.com/@acema');
-		expect(lookup.counts).toEqual({ available: 1, taken: 1, unknown: 0, unsupported: 1 });
+		expect(lookup.counts).toEqual({
+			available: 1,
+			taken: 1,
+			unknown: 0,
+			invalid: 0,
+			unsupported: 1
+		});
 	});
 
 	it('streams from an injected client, independent of HTTP', async () => {
@@ -492,38 +511,22 @@ describe('invalid input', () => {
 		expect(lookup.lastLabel).toBe('acema.com');
 	});
 
-	it('offers no suggestion when nothing safe can be extracted', () => {
+	it('shows an error for blank input only', () => {
 		const lookup = new Lookup();
-		lookup.input = 'a b';
+		lookup.input = '   ';
 		lookup.check({ sync: false });
 
-		expect(lookup.error).toContain('letters, numbers, dots, underscores and hyphens');
-		expect(lookup.suggestion).toBeNull();
+		expect(lookup.error).toBe('Enter a name to check.');
 	});
 
-	it('clears the error and suggestion when the user edits', () => {
+	it('clears the error when the user edits', () => {
 		const lookup = new Lookup();
-		lookup.input = 'acema.com';
+		lookup.input = '';
 		lookup.check({ sync: false });
 
 		lookup.clearError();
 
 		expect(lookup.error).toBe('');
-		expect(lookup.suggestion).toBeNull();
-	});
-
-	it('accepts the suggestion and starts the corrected scan', async () => {
-		vi.stubGlobal('fetch', stubApi(''));
-		const lookup = new Lookup();
-		lookup.input = '@acema';
-		lookup.check({ sync: false });
-
-		lookup.acceptSuggestion({ sync: false });
-
-		expect(lookup.input).toBe('acema');
-		expect(lookup.suggestion).toBeNull();
-		expect(lookup.lastLabel).toBe('acema');
-		await vi.waitFor(() => expect(lookup.loading).toBe(false));
 	});
 });
 
@@ -547,7 +550,6 @@ describe('goHome', () => {
 		lookup.lastLabel = 'acema';
 		lookup.rows = [row('GitHub', 'taken')];
 		lookup.error = 'unreachable';
-		lookup.suggestion = 'acema';
 		lookup.filter = ['taken'];
 		lookup.cost = ['paid'];
 		lookup.loading = true;
@@ -558,7 +560,6 @@ describe('goHome', () => {
 		expect(lookup.lastLabel).toBeNull();
 		expect(lookup.rows).toEqual([]);
 		expect(lookup.error).toBe('');
-		expect(lookup.suggestion).toBeNull();
 		expect(lookup.filter).toEqual(DEFAULT_FILTER);
 		expect(lookup.cost).toEqual(DEFAULT_COST);
 		expect(lookup.loading).toBe(false);

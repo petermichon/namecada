@@ -1,4 +1,5 @@
 <script lang="ts">
+	import BanIcon from '@lucide/svelte/icons/ban';
 	import CheckCircle2Icon from '@lucide/svelte/icons/check-circle-2';
 	import CircleMinusIcon from '@lucide/svelte/icons/circle-minus';
 	import DollarSignIcon from '@lucide/svelte/icons/dollar-sign';
@@ -14,6 +15,7 @@
 		available: { text: 'available', cls: 'text-success', Icon: CheckCircle2Icon },
 		taken: { text: 'unavailable', cls: 'text-destructive', Icon: XCircleIcon },
 		unknown: { text: 'unknown', cls: 'text-warning', Icon: HelpCircleIcon },
+		invalid: { text: 'invalid', cls: 'text-muted-foreground', Icon: BanIcon },
 		unsupported: { text: 'not checked', cls: 'text-muted-foreground', Icon: CircleMinusIcon },
 		pending: { text: 'checking', cls: 'text-muted-foreground' }
 	};

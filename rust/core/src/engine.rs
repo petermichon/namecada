@@ -189,17 +189,19 @@ fn check_one(provider: &dyn Provider, raw: &str, cache: Option<&MemoryCache>) ->
 
     let length = label.chars().count();
     if provider.min_length() > 0 && length < provider.min_length() {
-        result.status = Status::Taken;
+        result.status = Status::Invalid;
+        result.detail = "outside the length limit".to_string();
         return result;
     }
     if let Some(max) = provider.max_length() {
         if length > max {
-            result.status = Status::Taken;
+            result.status = Status::Invalid;
+            result.detail = "outside the length limit".to_string();
             return result;
         }
     }
     if !provider.chars().allows(&label) {
-        result.status = Status::Taken;
+        result.status = Status::Invalid;
         result.detail = "invalid characters".to_string();
         return result;
     }
@@ -370,7 +372,7 @@ mod tests {
 
         for label in ["ab", "abcdefghijklmnop"] {
             let results = engine.scan_all(label);
-            assert_eq!(results[0].status, Status::Taken, "{label}");
+            assert_eq!(results[0].status, Status::Invalid, "{label}");
             assert_eq!(calls.load(Ordering::SeqCst), 0, "{label}");
         }
 
@@ -388,7 +390,7 @@ mod tests {
 
         // The stub is LDH-only, so a dotted name cannot exist there.
         let results = engine.scan_all("example.com");
-        assert_eq!(results[0].status, Status::Taken);
+        assert_eq!(results[0].status, Status::Invalid);
         assert_eq!(results[0].detail, "invalid characters");
         assert_eq!(calls.load(Ordering::SeqCst), 0);
     }

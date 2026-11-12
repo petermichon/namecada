@@ -13,6 +13,8 @@ pub enum Status {
     Available,
     Taken,
     Unknown,
+    /// The name cannot exist on this source: wrong alphabet or length.
+    Invalid,
 }
 
 impl Status {
@@ -21,6 +23,7 @@ impl Status {
             Status::Available => "available",
             Status::Taken => "taken",
             Status::Unknown => "unknown",
+            Status::Invalid => "invalid",
         }
     }
 
@@ -29,6 +32,7 @@ impl Status {
             "available" => Some(Status::Available),
             "taken" => Some(Status::Taken),
             "unknown" => Some(Status::Unknown),
+            "invalid" => Some(Status::Invalid),
             _ => None,
         }
     }

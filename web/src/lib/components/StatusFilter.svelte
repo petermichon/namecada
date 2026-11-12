@@ -1,4 +1,5 @@
 <script lang="ts">
+	import BanIcon from '@lucide/svelte/icons/ban';
 	import CheckCircle2Icon from '@lucide/svelte/icons/check-circle-2';
 	import CircleMinusIcon from '@lucide/svelte/icons/circle-minus';
 	import HelpCircleIcon from '@lucide/svelte/icons/help-circle';
@@ -11,7 +12,13 @@
 		total
 	}: {
 		filter: Filter;
-		counts: { available: number; taken: number; unknown: number; unsupported: number };
+		counts: {
+			available: number;
+			taken: number;
+			unknown: number;
+			invalid: number;
+			unsupported: number;
+		};
 		total: number;
 	} = $props();
 
@@ -38,6 +45,13 @@
 			color: 'text-warning'
 		},
 		{
+			value: 'invalid' as const,
+			label: 'invalid',
+			count: counts.invalid,
+			Icon: BanIcon,
+			color: 'text-muted-foreground'
+		},
+		{
 			value: 'unsupported' as const,
 			label: 'not checked',
 			count: counts.unsupported,
@@ -50,7 +64,8 @@
 	const segments = $derived([
 		{ value: 'available' as const, count: counts.available, bar: 'bg-success' },
 		{ value: 'taken' as const, count: counts.taken, bar: 'bg-destructive' },
-		{ value: 'unknown' as const, count: counts.unknown, bar: 'bg-warning' }
+		{ value: 'unknown' as const, count: counts.unknown, bar: 'bg-warning' },
+		{ value: 'invalid' as const, count: counts.invalid, bar: 'bg-muted-foreground/40' }
 	]);
 
 	function toggle(value: FilterStatus) {

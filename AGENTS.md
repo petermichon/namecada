@@ -73,7 +73,8 @@ through the `CheckClient` seam.
   `dns.rs` (wildcard subdomains). Request helpers live in `adapters/shared.rs`
   and the id → check table in `adapters/spec.rs`. Use the shared `Transport`
   seam; never call the HTTP client from a provider directly.
-- **Status** — a `Check` maps a response to `available` / `taken` / `unknown`.
+- **Status** — a `Check` maps a response to `available` / `taken` / `unknown`;
+the engine adds `invalid` when the name cannot exist on a source.
   `unknown` is never cached, so transient failures self-heal. Match the
   documented semantics in the README (domain rows report registry state, handle
   rows mean "the name exists").

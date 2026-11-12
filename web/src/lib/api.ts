@@ -5,7 +5,7 @@ import type { ProviderResult, Status } from './rows';
 // The manifest arrives before any provider runs, so every row renders at once.
 export const CHECK_ENDPOINT = '/v1/check';
 
-const STATUSES: Status[] = ['available', 'taken', 'unknown'];
+const STATUSES: Status[] = ['available', 'taken', 'unknown', 'invalid'];
 
 export interface ManifestSource {
 	id: string;

@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import StatusFilter from './StatusFilter.svelte';
 import type { Filter } from '$lib/rows';
 
-const TOTALS = { available: 0, taken: 0, unknown: 0, unsupported: 0 };
+const TOTALS = { available: 0, taken: 0, unknown: 0, invalid: 0, unsupported: 0 };
 
 function chips(counts = TOTALS, filter: Filter = [], total = 0): string {
 	return render(StatusFilter, { props: { counts, filter, total } }).body;
@@ -23,7 +23,7 @@ describe('StatusFilter', () => {
 
 		expect(html).toContain('unknown');
 		expect(html).toContain('not checked');
-		expect(html.match(/aria-pressed="false"/g)).toHaveLength(3);
+		expect(html.match(/aria-pressed="false"/g)).toHaveLength(4);
 	});
 
 	it('reserves the count width so the chip does not resize', () => {
@@ -31,12 +31,12 @@ describe('StatusFilter', () => {
 	});
 
 	it('shows the counts', () => {
-		const html = chips({ available: 1, taken: 2, unknown: 3, unsupported: 4 });
+		const html = chips({ available: 1, taken: 2, unknown: 3, invalid: 4, unsupported: 5 });
 
 		for (const label of ['available', 'unavailable', 'unknown', 'not checked']) {
 			expect(html).toContain(label);
 		}
 		expect(html).toMatch(/available<\/span>\s*<span[^>]*>1</);
-		expect(html).toMatch(/not checked<\/span>\s*<span[^>]*>4</);
+		expect(html).toMatch(/not checked<\/span>\s*<span[^>]*>5</);
 	});
 });

@@ -25,7 +25,7 @@ async fn check(
     state: State<'_, AppState>,
 ) -> Result<(), String> {
     let label = label.trim().to_string();
-    if !namecada_core::valid_label(&label) {
+    if label.is_empty() {
         return Err("invalid label".to_string());
     }
 

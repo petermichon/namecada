@@ -90,6 +90,13 @@ describe('parseEvent', () => {
 		expect(event).toMatchObject({ detail: undefined, paid: false });
 	});
 
+	it('parses an invalid verdict', () => {
+		expect(parseEvent(result({ status: 'invalid' }))).toMatchObject({
+			type: 'result',
+			status: 'invalid'
+		});
+	});
+
 	it('parses the done event', () => {
 		expect(parseEvent(JSON.stringify({ type: 'done' }))).toEqual({ type: 'done' });
 	});

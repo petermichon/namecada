@@ -1,4 +1,4 @@
-export type Status = 'available' | 'taken' | 'unknown';
+export type Status = 'available' | 'taken' | 'unknown' | 'invalid';
 
 export type CostGroup = 'free' | 'paid';
 export type CostFilter = CostGroup[];
@@ -14,27 +14,11 @@ export interface ProviderResult {
 	paid: boolean;
 }
 
-const LABEL = /^[a-z0-9](?:[a-z0-9._-]{0,61}[a-z0-9])?$/;
-
+// toLabel normalises what the user typed. Whether a name can exist on a given
+// source is the engine's job; the input itself accepts anything.
 export function toLabel(input: string): string | null {
 	const value = input.trim().toLowerCase();
-	return LABEL.test(value) ? value : null;
-}
-
-// suggestLabel extracts a bare label from a rejected value so the UI can offer
-// a one-click correction. It only removes unambiguous wrappers (a protocol, a
-// leading www. or @, a domain suffix or path); anything else stays rejected.
-export function suggestLabel(input: string): string | null {
-	const original = input.trim().toLowerCase();
-	if (!original) return null;
-
-	let value = original.replace(/^https?:\/\//, '').replace(/^www\./, '');
-	if (value.startsWith('@')) value = value.slice(1);
-
-	const [first] = value.split(/[/?#]/);
-	const candidate = first.trim();
-	if (!candidate || candidate === original) return null;
-	return toLabel(candidate) ? candidate : null;
+	return value || null;
 }
 
 export interface Row {
@@ -55,26 +39,24 @@ export type FilterStatus = Status | 'unsupported';
 // those two and hides the rest.
 export type Filter = FilterStatus[];
 
-export type Counts = { available: number; taken: number; unknown: number; unsupported: number };
+export type Counts = {
+	available: number;
+	taken: number;
+	unknown: number;
+	invalid: number;
+	unsupported: number;
+};
 
-// validate turns raw input into a label or the message explaining why not.
-export function validate(input: string): {
-	label: string | null;
-	error: string;
-	suggestion: string | null;
-} {
-	const raw = input.trim();
-	const label = toLabel(raw);
-	if (label) return { label, error: '', suggestion: null };
-	const error = !raw
-		? 'Enter a name to check.'
-		: 'Names can use letters, numbers, dots, underscores and hyphens, e.g. acema.';
-	return { label: null, error, suggestion: suggestLabel(raw) };
+// validate turns raw input into a label. Any non-empty text is allowed: the
+// engine reports per-source invalidity in the results.
+export function validate(input: string): { label: string | null; error: string } {
+	const label = toLabel(input);
+	return { label, error: label ? '' : 'Enter a name to check.' };
 }
 
 // The default view is the verdicts; deferred/keyed sources are opt-in.
 export const DEFAULT_FILTER: Filter = ['available', 'taken', 'unknown'];
-export const ALL_STATUSES: Filter = [...DEFAULT_FILTER, 'unsupported'];
+export const ALL_STATUSES: Filter = [...DEFAULT_FILTER, 'invalid', 'unsupported'];
 export const DEFAULT_COST: CostFilter = ['free', 'paid'];
 
 // Order rows alphabetically by their display name, independent of status, so
@@ -103,7 +85,7 @@ export function matchesCost(row: Row, cost: CostFilter): boolean {
 
 // tally counts the verdicts; pending rows are not a verdict.
 export function tally(rows: Row[]): Counts {
-	const counts: Counts = { available: 0, taken: 0, unknown: 0, unsupported: 0 };
+	const counts: Counts = { available: 0, taken: 0, unknown: 0, invalid: 0, unsupported: 0 };
 	for (const row of rows) {
 		if (row.status !== 'pending') counts[row.status]++;
 	}
@@ -139,6 +121,7 @@ export function announce(visible: Row[], filter: Filter, searching: boolean): st
 	if (filter.length === 0) return 'No statuses selected.';
 	const counts = tally(visible);
 	const summary = `${counts.available} available, ${counts.taken} unavailable, ${counts.unknown} unknown`;
+	const invalid = counts.invalid ? `, ${counts.invalid} invalid` : '';
 	const notChecked = counts.unsupported ? `, ${counts.unsupported} not checked` : '';
-	return `${visible.length} shown. ${summary}${notChecked}`;
+	return `${visible.length} shown. ${summary}${invalid}${notChecked}`;
 }

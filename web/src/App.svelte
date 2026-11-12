@@ -94,15 +94,6 @@
 			<span>{lookup.error}</span>
 		</p>
 	{/if}
-	{#if lookup.suggestion}
-		<button
-			type="button"
-			onclick={() => lookup.acceptSuggestion()}
-			class="mt-1 rounded-md text-sm font-medium text-primary underline decoration-primary/40 underline-offset-4 transition-colors hover:decoration-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-		>
-			Check “{lookup.suggestion}” instead
-		</button>
-	{/if}
 {/snippet}
 
 <ModeWatcher />
@@ -129,7 +120,7 @@
 					Check a name across the open web.
 				</h1>
 				<p class="mt-4 max-w-xl text-base leading-7 text-pretty text-muted-foreground">
-					Domains, package registries and usernames, checked in one pass.
+					Domains, usernames and package registries, checked in one pass.
 				</p>
 
 				<div class="mt-8 w-full max-w-xl">
@@ -138,17 +129,14 @@
 						loading={lookup.searching}
 						invalid={!!lookup.error}
 						errorId="name-error"
-						hintId="name-hint"
 						onsubmit={lookup.check}
 						oninput={lookup.clearError}
 					/>
 				</div>
 
-				<p id="name-hint" class="mt-3 text-xs leading-5 text-muted-foreground">
-					Letters, numbers, dots, underscores and hyphens.
-				</p>
-
-				<div class="w-full [&>p]:justify-center">{@render feedback()}</div>
+				<div class="relative w-full [&>p]:justify-center">
+					<div class="absolute inset-x-0 top-0">{@render feedback()}</div>
+				</div>
 			</div>
 		</main>
 	{:else}

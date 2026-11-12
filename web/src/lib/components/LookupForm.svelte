@@ -10,7 +10,6 @@
 		loading = false,
 		invalid = false,
 		errorId,
-		hintId,
 		onsubmit,
 		oninput
 	}: {
@@ -18,14 +17,11 @@
 		loading?: boolean;
 		invalid?: boolean;
 		errorId?: string;
-		hintId?: string;
 		onsubmit?: () => void;
 		oninput?: () => void;
 	} = $props();
 
-	const describedBy = $derived(
-		[hintId, invalid && errorId ? errorId : undefined].filter(Boolean).join(' ') || undefined
-	);
+	const describedBy = $derived(invalid && errorId ? errorId : undefined);
 </script>
 
 <form
