@@ -9,17 +9,18 @@ taken), so both verdict branches are exercised.
 
 ## Regenerate
 
-The Rust-only tree does not have a fixture exporter yet, so these captures are
-frozen. If a source changes and a capture must be refreshed, recover the
-exporter from the Git history before the Go server was removed.
-
-With the old Go exporter it was:
+The Rust core records its own captures:
 
 ```sh
-npm run server:export -- --label acema
+npm run capture -- google --source duolingo --out fixtures
+npm run capture -- google                      # every provider
 ```
 
-`--label` was repeatable. With no label only `sources.json` was written.
+The recorder wraps the live transport, so the transcript is exactly what the
+provider sent and received: request headers and bodies, the response status,
+`content-type` and `location`, and the body capped at 256 KiB. `--source` takes
+a comma-separated list. A capture is still a snapshot, not live truth — refresh
+it when a source changes.
 
 ## Format
 

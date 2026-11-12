@@ -5,7 +5,11 @@ use std::io::{self, Write};
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use namecheck_core::{Engine, Manifest, Provider};
+use namecheck_core::{
+    build_custom_provider, build_dns_provider, build_status_provider, custom_specs, dns_hosts,
+    status_specs, valid_label, Engine, Fixture, HttpTransport, Manifest, Provider,
+    RecordingTransport, SystemResolver, Transport,
+};
 
 const USAGE: &str = "usage: namecheck <command> [args]
 
@@ -18,6 +22,8 @@ Commands:
       the stream and leaves unfinished sources unchecked)
   sources [--manifest PATH]
       list the source inventory
+  capture <label> [--source ID[,ID]] [--out DIR] [--manifest PATH]
+      run providers live and write their fixtures (default: every source)
 ";
 
 fn main() {
@@ -42,6 +48,7 @@ fn run(args: Vec<String>) -> Result<(), Box<dyn std::error::Error>> {
     };
     match command {
         "check" => check(&args[1..]),
+        "capture" => capture(&args[1..]),
         "serve" => serve::run(&args[1..]),
         "sources" => sources(&args[1..]),
         "help" | "-h" | "--help" => {
@@ -159,5 +166,119 @@ fn sources(args: &[String]) -> Result<(), Box<dyn std::error::Error>> {
         )?;
     }
     out.flush()?;
+    Ok(())
+}
+
+fn capture(args: &[String]) -> Result<(), Box<dyn std::error::Error>> {
+    let mut label = None;
+    let mut wanted: Vec<String> = Vec::new();
+    let mut out_dir = PathBuf::from("fixtures");
+    let mut manifest_path: Option<PathBuf> = None;
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--source" => {
+                let value = args.get(i + 1).ok_or("--source requires an id")?;
+                for id in value.split(',') {
+                    wanted.push(id.trim().to_string());
+                }
+                i += 2;
+            }
+            "--out" => {
+                out_dir = PathBuf::from(args.get(i + 1).ok_or("--out requires a directory")?);
+                i += 2;
+            }
+            "--manifest" => {
+                manifest_path = Some(PathBuf::from(
+                    args.get(i + 1).ok_or("--manifest requires a path")?,
+                ));
+                i += 2;
+            }
+            flag if flag.starts_with("--") => return Err(format!("unknown flag {flag:?}").into()),
+            value => {
+                if label.is_some() {
+                    return Err(format!("unexpected argument {value:?}").into());
+                }
+                label = Some(value.to_string());
+                i += 1;
+            }
+        }
+    }
+    let label = label.ok_or("capture requires a label")?;
+    if !valid_label(&label) {
+        return Err(format!("invalid label {label:?}").into());
+    }
+    let manifest = match manifest_path {
+        Some(path) => Manifest::load(path)?,
+        None => Manifest::embedded()?,
+    };
+    manifest.validate()?;
+
+    if wanted.is_empty() {
+        for spec in status_specs() {
+            wanted.push(spec.id.to_string());
+        }
+        for spec in custom_specs() {
+            wanted.push(spec.id.to_string());
+        }
+        for (id, _) in dns_hosts() {
+            wanted.push(id.to_string());
+        }
+    }
+
+    let dir = out_dir.join(&label);
+    std::fs::create_dir_all(&dir)?;
+    let http: Arc<dyn Transport> = Arc::new(HttpTransport::new());
+    let mut written = 0;
+
+    for id in &wanted {
+        let recorder = Arc::new(RecordingTransport::new(Arc::clone(&http)));
+        let provider: Arc<dyn Provider> = if status_specs().iter().any(|s| s.id == id) {
+            Arc::new(build_status_provider(&manifest, id, recorder.clone())?)
+        } else if custom_specs().iter().any(|s| s.id == id) {
+            Arc::new(build_custom_provider(&manifest, id, recorder.clone())?)
+        } else if dns_hosts().iter().any(|(known, _)| known == id) {
+            Arc::new(build_dns_provider(&manifest, id, Arc::new(SystemResolver))?)
+        } else {
+            return Err(format!("unknown source {id:?}").into());
+        };
+
+        let started = std::time::Instant::now();
+        let checked = provider.check(&label);
+        let duration_ms = started.elapsed().as_millis() as u64;
+
+        let (status, detail, error) = match &checked {
+            Ok(outcome) => (
+                Some(outcome.status.as_str().to_string()),
+                (!outcome.detail.is_empty()).then(|| outcome.detail.clone()),
+                None,
+            ),
+            Err(err) => (None, None, Some(err.to_string())),
+        };
+        let fixture = Fixture {
+            source: id.clone(),
+            platform: provider.platform().to_string(),
+            platform_name: provider.platform_name(),
+            label: label.clone(),
+            name: provider.name(&label),
+            url: checked
+                .as_ref()
+                .ok()
+                .and_then(|outcome| outcome.url.clone())
+                .unwrap_or_else(|| provider.url(&label)),
+            paid: provider.paid(),
+            status: status.clone(),
+            detail,
+            error,
+            duration_ms,
+            requests: recorder.take(),
+        };
+        let path = dir.join(format!("{id}.json"));
+        fixture.save(&path)?;
+        written += 1;
+        let status = status.unwrap_or_else(|| "error".to_string());
+        println!("{:<18} {:<10} {}", id, status, path.display());
+    }
+    println!("\n{written} fixture(s) written to {}", dir.display());
     Ok(())
 }
