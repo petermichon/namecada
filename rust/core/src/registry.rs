@@ -1,16 +1,16 @@
-//! Builds the live provider set from the compiled registry.
+//! The compiled registry: the live provider set and its inventory stats.
 //!
 //! Every transport (the dev server, the Tauri app) needs the same wiring, so it
 //! lives here instead of in a binary.
 
 use std::sync::Arc;
 
-use crate::custom::build_custom_provider;
-use crate::dns::{build_dns_provider, SystemResolver};
+use crate::adapters::build_custom_provider;
+use crate::adapters::dns::{build_dns_provider, SystemResolver};
+use crate::adapters::status::build_status_provider;
 use crate::http::HttpTransport;
 use crate::manifest::Manifest;
 use crate::provider::{Error, Provider, Transport};
-use crate::status::build_status_provider;
 
 /// RegistryStats classifies the inventory against the provider tables. Nothing
 /// is stored in `sources.json`, so the numbers cannot drift from the code.
@@ -25,11 +25,11 @@ pub struct RegistryStats {
 /// stats derives the inventory split: checked sources have a provider, keyed
 /// ones need credentials, and the rest are deferred.
 pub fn stats(manifest: &Manifest) -> RegistryStats {
-    let checked: std::collections::HashSet<&str> = crate::status::status_specs()
+    let checked: std::collections::HashSet<&str> = crate::adapters::status::status_specs()
         .iter()
         .map(|spec| spec.id)
-        .chain(crate::custom::custom_specs().iter().map(|spec| spec.id))
-        .chain(crate::dns::dns_hosts().iter().map(|(id, _)| *id))
+        .chain(crate::adapters::custom_specs().iter().map(|spec| spec.id))
+        .chain(crate::adapters::dns::dns_hosts().iter().map(|(id, _)| *id))
         .collect();
     let mut stats = RegistryStats {
         sources: manifest.sources.len(),
@@ -55,22 +55,22 @@ pub fn live(manifest: &Manifest) -> Result<Vec<Arc<dyn Provider>>, Error> {
     let transport: Arc<dyn Transport> = Arc::new(HttpTransport::new());
     let mut providers: Vec<Arc<dyn Provider>> = Vec::new();
 
-    for spec in crate::status::status_specs() {
+    for spec in crate::adapters::status::status_specs() {
         providers.push(Arc::new(build_status_provider(
             manifest,
             spec.id,
             Arc::clone(&transport),
         )?));
     }
-    for spec in crate::custom::custom_specs() {
+    for spec in crate::adapters::custom_specs() {
         providers.push(Arc::new(build_custom_provider(
             manifest,
             spec.id,
             Arc::clone(&transport),
         )?));
     }
-    let resolver: Arc<dyn crate::dns::Resolver> = Arc::new(SystemResolver);
-    for (id, _) in crate::dns::dns_hosts() {
+    let resolver: Arc<dyn crate::adapters::dns::Resolver> = Arc::new(SystemResolver);
+    for (id, _) in crate::adapters::dns::dns_hosts() {
         providers.push(Arc::new(build_dns_provider(
             manifest,
             id,

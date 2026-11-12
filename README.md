@@ -179,20 +179,19 @@ covers both.
 ## Rust core
 
 `rust/` is the engine plus a development/CLI harness. It is a Rust workspace
-assembled from a small core plus two commands:
+assembled from a small core plus two binaries:
 
 - `core/src/provider.rs` — the `Provider` and `Transport` contracts and the
   result/status types.
-- `core/src/status.rs` — status-only adapter; covers the sources whose verdict is
-  just an HTTP status code.
-- `core/src/custom.rs` — body-parsing, multi-request, POST/GraphQL, and RDAP
-  domain adapters.
-- `core/src/dns.rs` — DNS adapters for free-subdomain namespaces.
-- `core/src/engine.rs` — bounded-concurrency scan engine that streams each
-  result as it resolves.
-- `core/src/cache.rs` — in-memory verdict cache with a one-hour TTL.
+- `core/src/adapters/` — one module per source shape: `status.rs` (verdict is
+  the status code), `api.rs` (JSON/XML/GraphQL endpoints), `page.rs`
+  (server-rendered HTML), `domains.rs` (RDAP), `dns.rs` (wildcard subdomains);
+  `mod.rs` holds the shared request helpers and the spec tables.
+- `core/src/registry.rs` — the compiled registry: live providers and stats.
+- `core/src/engine.rs` — bounded-concurrency scan engine with its one-hour
+  verdict cache; streams each result as it resolves.
 - `core/src/http.rs` — production HTTP transport.
-- `cli/src/serve.rs` — the NDJSON HTTP server.
+- `cli/src/bin/serve.rs` — the NDJSON HTTP server; `capture.rs` records fixtures.
 
 Two development binaries drive it:
 
@@ -295,10 +294,10 @@ server is already running separately.
    registry, never stored. The registry is compiled into the binary, so rebuild
    after editing.
 2. Implement the check in `rust/core`:
-   - a status-only source goes in `rust/core/src/status.rs`;
-   - a body-parsing, multi-request, POST/GraphQL, or RDAP source goes in
-     `rust/core/src/custom.rs`;
-   - a DNS source goes in `rust/core/src/dns.rs`.
+   - a status-only source goes in `rust/core/src/adapters/status.rs`;
+   - a JSON/XML/GraphQL source goes in `adapters/api.rs`;
+   - a server-rendered HTML source goes in `adapters/page.rs`;
+   - an RDAP or DNS source goes in `adapters/domains.rs` / `adapters/dns.rs`.
 3. Register it in the corresponding spec table.
 4. Add a unit test or capture fixture. Status-only and custom sources are
    exercised by `rust/core/tests/parity.rs`; DNS providers use a fake resolver.

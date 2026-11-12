@@ -12,8 +12,8 @@ conventions.
   `src/lib/api.ts`; `httpCheckClient` is the development adapter.
 - `rust/` — the engine plus a development/CLI harness. `core/` holds the `Provider`/`Transport`
   contracts, the status/custom/DNS adapters, the engine, cache, HTTP transport,
-  shared stream events (`events.rs`), the live provider set (`providers.rs`), and
-  fixture replay. `cli/` holds the `serve` and `check` commands.
+  shared stream events (`events.rs`), the live registry (`registry.rs`), and
+  fixture replay. `cli/` holds the `serve` and `capture` binaries.
 - `src-tauri/` — the desktop shell. It builds the same registry via
   `live_providers` and streams `events.rs` shapes over an IPC channel from the
   `check` command; it has its own Cargo workspace (Tauri's `src-tauri` layout).
@@ -67,11 +67,12 @@ through the `CheckClient` seam.
   `web/prettier.config.js`; the Tailwind plugin sorts classes). Husky's
   `pre-commit` hook runs lint-staged, which prettifies + eslint-fixes staged web
   files and cargo-fmts Rust files.
-- **Provider HTTP** — status-only sources live in `rust/core/src/status.rs`: a
-  request template plus a `CodeMap`. Body-parsing, multi-request, POST/GraphQL,
-  and RDAP sources live in `rust/core/src/custom.rs`. DNS sources live in
-  `rust/core/src/dns.rs`. Use the shared `Transport` seam; never call the HTTP
-  client from a provider directly.
+- **Provider HTTP** — adapters live under `rust/core/src/adapters/`, one module
+  per shape: `status.rs` (request template plus a `CodeMap`), `api.rs`
+  (JSON/XML/GraphQL), `page.rs` (server-rendered HTML), `domains.rs` (RDAP),
+  `dns.rs` (wildcard subdomains). Shared helpers and the spec tables live in
+  `adapters/mod.rs`. Use the shared `Transport` seam; never call the HTTP client
+  from a provider directly.
 - **Status** — a `Check` maps a response to `available` / `taken` / `unknown`.
   `unknown` is never cached, so transient failures self-heal. Match the
   documented semantics in the README (domain rows report registry state, handle
@@ -95,9 +96,10 @@ flags the ones that now return a real signal. Promoting one is still manual.
    it is listed as "not checked" automatically (`checked` is derived, never
    stored).
 2. Implement the check in `rust/core`:
-   - status-only → `status.rs` spec table;
-   - body/multi-request/POST/RDAP → `custom.rs` spec table;
-   - DNS → `dns.rs` host table.
+   - status-only → `adapters/status.rs` spec table;
+   - JSON/XML/GraphQL → `adapters/api.rs`;
+   - server-rendered HTML → `adapters/page.rs`;
+   - RDAP → `adapters/domains.rs`; DNS → `adapters/dns.rs` host table.
 3. Map the response to `available` / `taken` / `unknown`. Return `unknown` on an
    ambiguous or unparseable body, never a transport error.
 4. Add a unit test or fixture. Status/custom providers are compared in
