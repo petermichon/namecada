@@ -136,11 +136,30 @@ fn write_event<W: Write, T: Serialize>(writer: &mut W, event: &T) -> io::Result<
 }
 
 fn query_param(url: &str, key: &str) -> Option<String> {
-    let parsed = url::Url::parse(&format!("http://localhost{url}")).ok()?;
-    parsed
-        .query_pairs()
-        .find(|(name, _)| name == key)
-        .map(|(_, value)| value.into_owned())
+    let query = url.split_once('?')?.1;
+    query
+        .split('&')
+        .filter_map(|pair| pair.split_once('='))
+        .find(|(name, _)| *name == key)
+        .map(|(_, value)| percent_decode(value))
+}
+
+fn percent_decode(value: &str) -> String {
+    let bytes = value.as_bytes();
+    let mut out = Vec::with_capacity(bytes.len());
+    let mut i = 0;
+    while i < bytes.len() {
+        if bytes[i] == b'%' && i + 2 < bytes.len() {
+            if let Ok(byte) = u8::from_str_radix(&value[i + 1..i + 3], 16) {
+                out.push(byte);
+                i += 3;
+                continue;
+            }
+        }
+        out.push(if bytes[i] == b'+' { b' ' } else { bytes[i] });
+        i += 1;
+    }
+    String::from_utf8_lossy(&out).into_owned()
 }
 
 fn respond_error(request: Request, status: u16, message: &str) {

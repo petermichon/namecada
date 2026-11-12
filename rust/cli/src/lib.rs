@@ -3,12 +3,8 @@
 
 use std::error::Error;
 use std::io;
-use std::sync::Arc;
 
-use namecheck_core::{
-    build_custom_provider, build_dns_provider, build_status_provider, custom_specs, dns_hosts,
-    status_specs, valid_label, Manifest, Provider, RecordingTransport, SystemResolver,
-};
+use namecheck_core::{valid_label, Manifest};
 
 /// Flags is the whole argument grammar: `--name value`, `--switch`, and
 /// positionals. Each binary passes the flags it knows; anything else is an
@@ -49,10 +45,6 @@ impl Flags {
         Ok(Self { pairs, positionals })
     }
 
-    pub fn switch(&self, name: &str) -> bool {
-        self.pairs.iter().any(|(known, _)| known == name)
-    }
-
     pub fn value(&self, name: &str) -> Option<&str> {
         self.values(name).into_iter().next_back()
     }
@@ -85,28 +77,6 @@ pub fn load_manifest(path: Option<&str>) -> Result<Manifest, Box<dyn Error>> {
     };
     manifest.validate()?;
     Ok(manifest)
-}
-
-/// build returns the provider for an id, wired to the recording transport when
-/// it makes HTTP requests.
-pub fn build(
-    manifest: &Manifest,
-    id: &str,
-    recorder: Arc<RecordingTransport>,
-) -> Result<Arc<dyn Provider>, Box<dyn Error>> {
-    if status_specs().iter().any(|spec| spec.id == id) {
-        Ok(Arc::new(build_status_provider(manifest, id, recorder)?))
-    } else if custom_specs().iter().any(|spec| spec.id == id) {
-        Ok(Arc::new(build_custom_provider(manifest, id, recorder)?))
-    } else if dns_hosts().iter().any(|(known, _)| *known == id) {
-        Ok(Arc::new(build_dns_provider(
-            manifest,
-            id,
-            Arc::new(SystemResolver),
-        )?))
-    } else {
-        Err(format!("unknown source {id:?}").into())
-    }
 }
 
 /// run_or_exit prints the error and exits, except for a closed pipe, which is

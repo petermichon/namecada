@@ -2,9 +2,11 @@ use std::error::Error;
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use namecheck::{build, load_manifest, run_or_exit, Flags};
+use namecheck::{load_manifest, run_or_exit, Flags};
 use namecheck_core::{
-    custom_specs, dns_hosts, status_specs, Fixture, HttpTransport, RecordingTransport, Transport,
+    build_custom_provider, build_dns_provider, build_status_provider, custom_specs, dns_hosts,
+    status_specs, Fixture, HttpTransport, Manifest, Provider, RecordingTransport, SystemResolver,
+    Transport,
 };
 
 fn main() {
@@ -55,4 +57,26 @@ fn run() -> Result<(), Box<dyn Error>> {
     }
     println!("\n{written} fixture(s) written to {}", dir.display());
     Ok(())
+}
+
+/// build returns the provider for an id, wired to the recording transport when
+/// it makes HTTP requests.
+fn build(
+    manifest: &Manifest,
+    id: &str,
+    recorder: Arc<RecordingTransport>,
+) -> Result<Arc<dyn Provider>, Box<dyn Error>> {
+    if status_specs().iter().any(|spec| spec.id == id) {
+        Ok(Arc::new(build_status_provider(manifest, id, recorder)?))
+    } else if custom_specs().iter().any(|spec| spec.id == id) {
+        Ok(Arc::new(build_custom_provider(manifest, id, recorder)?))
+    } else if dns_hosts().iter().any(|(known, _)| *known == id) {
+        Ok(Arc::new(build_dns_provider(
+            manifest,
+            id,
+            Arc::new(SystemResolver),
+        )?))
+    } else {
+        Err(format!("unknown source {id:?}").into())
+    }
 }
