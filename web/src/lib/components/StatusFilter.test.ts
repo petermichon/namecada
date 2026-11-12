@@ -26,6 +26,10 @@ describe('StatusFilter', () => {
 		expect(html.match(/aria-pressed="false"/g)).toHaveLength(3);
 	});
 
+	it('reserves the count width so the chip does not resize', () => {
+		expect(chips()).toContain('min-w-[3ch]');
+	});
+
 	it('shows the counts', () => {
 		const html = chips({ available: 1, taken: 2, unknown: 3, unsupported: 4 });
 

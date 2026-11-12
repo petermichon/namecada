@@ -88,7 +88,7 @@
 			>
 				<row.Icon class="size-3.5 shrink-0 {row.color}" aria-hidden="true" />
 				<span>{row.label}</span>
-				<span class="font-semibold tabular-nums">{row.count}</span>
+				<span class="min-w-[3ch] text-right font-semibold tabular-nums">{row.count}</span>
 			</button>
 		{/each}
 	</div>

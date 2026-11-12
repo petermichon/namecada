@@ -53,7 +53,8 @@
 			onclick={() => toggle(item.value)}
 		>
 			<item.Icon class="size-3.5 shrink-0 {item.color}" aria-hidden="true" />
-			{item.label} <span class="font-semibold tabular-nums">{item.count}</span>
+			{item.label}
+			<span class="min-w-[3ch] text-right font-semibold tabular-nums">{item.count}</span>
 		</button>
 	{/each}
 </div>
