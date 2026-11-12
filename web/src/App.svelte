@@ -16,6 +16,28 @@
 
 	const lookup = useLookup();
 
+	// Home is "no scan yet"; results is everything after.
+	const home = $derived(lookup.lastLabel === null);
+
+	// One empty block; only the copy changes with the cause.
+	function emptyState(statusCount: number, rowCount: number) {
+		if (statusCount === 0) {
+			return {
+				title: 'No statuses selected.',
+				body: 'Choose a status above, or show everything.'
+			};
+		}
+		if (rowCount === 0) {
+			return {
+				title: 'No sources match these filters.',
+				body: 'Clear a filter above, or show everything.'
+			};
+		}
+		return null;
+	}
+
+	const empty = $derived(emptyState(lookup.filter.length, lookup.visibleRows.length));
+
 	function onHomeClick(e: MouseEvent) {
 		if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
 		e.preventDefault();
@@ -96,7 +118,7 @@
 		>Skip to main content</a
 	>
 
-	{#if lookup.lastLabel === null}
+	{#if home}
 		<header class="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
 			{@render brand()}
 			{@render themeButton()}
@@ -209,27 +231,10 @@
 			</section>
 
 			<div class="mt-8" aria-busy={lookup.searching}>
-				{#if lookup.filter.length === 0}
+				{#if empty}
 					<div class="rounded-lg border border-dashed border-border px-4 py-14 text-center">
-						<p class="text-sm font-medium">No statuses selected.</p>
-						<p class="mt-1 text-sm text-muted-foreground">
-							Choose a status above, or show everything.
-						</p>
-						<Button
-							variant="outline"
-							size="sm"
-							class="mt-4 rounded-lg"
-							onclick={() => lookup.showAll()}
-						>
-							Show all
-						</Button>
-					</div>
-				{:else if lookup.visibleRows.length === 0}
-					<div class="rounded-lg border border-dashed border-border px-4 py-14 text-center">
-						<p class="text-sm font-medium">No sources match these filters.</p>
-						<p class="mt-1 text-sm text-muted-foreground">
-							Clear a filter above, or show everything.
-						</p>
+						<p class="text-sm font-medium">{empty.title}</p>
+						<p class="mt-1 text-sm text-muted-foreground">{empty.body}</p>
 						<Button
 							variant="outline"
 							size="sm"
