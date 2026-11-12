@@ -87,7 +87,6 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Lens Protocol — ✅ — `api.lens.xyz/graphql` (keyless GraphQL: POST an `account(username.localName:)` query; non-null `data.account` taken / null `data.account` free; page `hey.xyz/u/{name}`; undocumented keyless read access)
 - [x] Paragraph — ✅ — `paragraph.com/@{name}` (keyless profile: 200 taken / real 404 free; `paragraph.xyz` 301s here)
 - [x] Linktree — ✅ — `linktr.ee/{name}` (keyless profile: 200 taken / 404 free)
-- [x] OpenSea — ✅ — `opensea.io/{name}` (keyless profile: 200 taken / 404 free; usernames are free to set with a wallet; Cloudflare-protected, so 403/429 degrades to unknown/uncached)
 - [x] Spotify — ✅ — `open.spotify.com/user/{name}` (keyless profile: 200 taken / 404 free; the artist catalog still needs the keyed Web API)
 - [x] Mixcloud — ✅ — `api.mixcloud.com/{name}/`
 - [x] Discogs — ✅ — `api.discogs.com/users/{name}` (token; the keyless route 403s; 200 taken / 404 free)
@@ -139,6 +138,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Snapchat — 🕸 — keyless pass: the assumed URL shape 404s for both real and fake names, so no status signal; needs a key or a scrape — deferred, not ported
 - [ ] Pinterest — 🕸 — keyless pass: every name returns 200 (JS/SPA shell), so no status signal; needs a key or a scrape — deferred, not ported
 - [ ] Medium — 🕸 — keyless pass: 403 (bot-block) for both real and fake names, so no status signal; needs a key or a scrape — deferred, not ported
+- [ ] OpenSea — 🕸 — re-checked server-side (2026-11): the whole site now sits behind a Cloudflare interstitial, so `opensea.io/{name}` returns 403 "Just a moment…" for both real and fake names (curl with browser headers, a real browser, and an unrelated third-party proxy were all challenged), so there is no status signal; deferred, not ported
 - [ ] XDA Forums — 🕸 — Cloudflare-blocked (403)
 - [ ] USPTO (trademarks) — 🕸 — class-based, fuzzy-similarity trademark search; not a single claimable label, so it cannot answer name availability
 - [ ] EUIPO (trademarks) — 🕸 — class-based trademark search (eSearch plus, OAuth); not a single claimable label, so it cannot answer name availability

@@ -175,7 +175,6 @@ static SPECS: &[StatusSpec] = &[
     spec("behance", "https://www.behance.net/%s"),
     spec("replicate", "https://replicate.com/%s"),
     spec("x", "https://x.com/%s"),
-    spec("opensea", "https://opensea.io/%s"),
     spec("lemmy", "https://lemmy.world/api/v3/user?username=%s"),
     spec("vercel", "https://%s.vercel.app/"),
     spec("netlify", "https://%s.netlify.app/"),

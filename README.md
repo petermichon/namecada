@@ -103,7 +103,6 @@ Desktop app: `npm run tauri:dev` (Vite dev server plus the native window) and
 | Paragraph | `paragraph.com/@{name}` (profile)                              | 200 taken / 404 free      |
 | Linktree  | `linktr.ee/{name}` (profile)                                   | 200 taken / 404 free      |
 | Steam     | `steamcommunity.com/id/{name}?xml=1`                           | `<steamID64>` taken / `<error>` free |
-| OpenSea   | `opensea.io/{name}` (profile)                                 | 200 taken / 404 free      |
 | Instagram | `instagram.com/{name}/` (profile)                              | `"username":"{name}"` taken / generic shell free |
 | Hacker News | `news.ycombinator.com/user?id={name}`                        | `No such user.` free / `karma` taken |
 | Giphy     | `giphy.com/{name}` (profile)                                   | 200 canonical `/{name}` taken / 301 → `/explore/{name}` free |
@@ -176,7 +175,7 @@ assembled from a small core plus two commands:
 
 - `core/src/provider.rs` — the `Provider` and `Transport` contracts and the
   result/status types.
-- `core/src/status.rs` — status-only adapter; covers 51 sources whose verdict is
+- `core/src/status.rs` — status-only adapter; covers the sources whose verdict is
   just an HTTP status code.
 - `core/src/custom.rs` — body-parsing, multi-request, POST/GraphQL, and RDAP
   domain adapters.
