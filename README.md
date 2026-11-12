@@ -280,10 +280,10 @@ its own origin and Vite proxies that to `serve` on `:8080`, so no CORS setup is
 needed and Vite can fall back to another port. Use `npm run dev:web` when the
 server is already running separately.
 
-`npm run dev:host` is the proxied mode. It starts the same two processes but binds the web app to
-`127.0.0.1:5220`, the upstream the machine-level dev proxy (`~/git/devhost`) maps to
-`http://namecheck.localhost:7357`. The phone reaches the same URL through one
-`adb reverse tcp:7357`; the Rust `serve` on `:8080` stays Vite's proxy target as before.
+`npm run dev:host` is the proxied mode. It starts the same two processes but binds
+the web app to `127.0.0.1:5220` so a machine-level dev proxy can expose it on a
+local hostname; a phone reaches the same URL through one `adb reverse`. The Rust
+`serve` on `:8080` stays Vite's proxy target as before.
 
 ## Adding a source
 
