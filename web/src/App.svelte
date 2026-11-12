@@ -1,5 +1,4 @@
 <script lang="ts">
-	import CheckIcon from '@lucide/svelte/icons/check';
 	import InfoIcon from '@lucide/svelte/icons/info';
 	import LoaderCircleIcon from '@lucide/svelte/icons/loader-circle';
 	import MoonIcon from '@lucide/svelte/icons/moon';
@@ -9,6 +8,7 @@
 	import { onMount } from 'svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import CostFilter from '$lib/components/CostFilter.svelte';
+	import BrandMark from '$lib/components/BrandMark.svelte';
 	import LookupForm from '$lib/components/LookupForm.svelte';
 	import ResultRow from '$lib/components/ResultRow.svelte';
 	import StatusFilter from '$lib/components/StatusFilter.svelte';
@@ -64,14 +64,10 @@
 	<a
 		href="./"
 		onclick={onHomeClick}
-		class="group inline-flex items-center gap-2.5 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+		class="inline-flex items-center gap-2 rounded-lg transition-opacity hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
 	>
-		<span
-			class="grid size-6 place-items-center rounded-md bg-primary text-primary-foreground transition-colors group-hover:bg-primary/90"
-		>
-			<CheckIcon class="size-3.5" strokeWidth={3} aria-hidden="true" />
-		</span>
-		<span class="text-sm font-semibold tracking-tight">Namecada</span>
+		<BrandMark class="size-7 text-primary" />
+		<span class="text-lg font-semibold tracking-[-0.02em]">Namecada</span>
 	</a>
 {/snippet}
 

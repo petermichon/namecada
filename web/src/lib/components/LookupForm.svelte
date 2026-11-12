@@ -78,7 +78,7 @@
 				type="submit"
 				aria-label={loading ? 'Check name again' : 'Check name'}
 			>
-				<ArrowRightIcon class="size-4" />
+				<ArrowRightIcon class="size-4 text-white dark:text-primary-foreground" />
 			</InputGroup.Button>
 		</InputGroup.Addon>
 	</InputGroup.Root>
