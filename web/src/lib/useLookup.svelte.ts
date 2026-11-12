@@ -75,7 +75,7 @@ export class Lookup {
 
 	check = ({ sync = true }: { sync?: boolean } = {}): void => {
 		const { label, error, suggestion } = validate(this.input);
-		const gen = ++this.#generation;
+		const generation = ++this.#generation;
 		this.#reset();
 
 		if (!label) {
@@ -89,58 +89,38 @@ export class Lookup {
 
 		if (sync) syncUrl(this.input.trim());
 
-		const ac = new AbortController();
-		this.#controller = ac;
+		this.#controller = new AbortController();
 		this.lastLabel = label;
 		this.loading = true;
 		this.#holdRows();
+		this.#stream(label, generation);
+	};
 
+	// stream runs one scan. The generation guard stops a stale stream from
+	// writing rows once a newer check has started.
+	#stream(label: string, generation: number): void {
+		const ac = this.#controller;
+		if (!ac) return;
 		let manifestReceived = false;
 
 		this.#client
 			.stream(
 				this.input.trim(),
-				(event: CheckEvent) => {
-					if (gen !== this.#generation || ac.signal.aborted) return;
-					if (event.type === 'manifest') {
-						manifestReceived = true;
-						this.rows = event.sources.map((source) => ({
-							id: source.id,
-							platform: source.id,
-							platformName: source.platformName,
-							name: event.label || label,
-							url: source.url,
-							status: source.checked ? ('pending' as const) : ('unsupported' as const),
-							paid: source.paid
-						}));
-					} else if (event.type === 'done') {
-						this.rows = settlePending(this.rows);
-					} else if (event.type === 'result') {
-						const next: Row = {
-							id: event.id,
-							platform: event.platform,
-							platformName: event.platformName,
-							name: event.name,
-							url: event.url,
-							status: event.status,
-							detail: event.detail,
-							paid: event.paid
-						};
-						this.rows = this.rows.some((row) => row.id === event.id)
-							? this.rows.map((row) => (row.id === event.id ? next : row))
-							: [...this.rows, next];
-					}
+				(event) => {
+					if (generation !== this.#generation || ac.signal.aborted) return;
+					if (event.type === 'manifest') manifestReceived = true;
+					this.#apply(event, label);
 				},
 				ac.signal
 			)
 			.then(() => {
-				if (ac.signal.aborted || gen !== this.#generation) return;
+				if (ac.signal.aborted || generation !== this.#generation) return;
 				// A clean EOF before every result still must not leave rows pending.
 				this.rows = settlePending(this.rows);
 			})
 			.catch((e) => {
 				if (isAbort(e)) return;
-				if (ac.signal.aborted || gen !== this.#generation) return;
+				if (ac.signal.aborted || generation !== this.#generation) return;
 				if (!manifestReceived) {
 					// The retained slots belong to the previous scan; do not show
 					// them as unknown results for this one.
@@ -153,9 +133,41 @@ export class Lookup {
 				this.rows = settlePending(this.rows);
 			})
 			.finally(() => {
-				if (gen === this.#generation) this.loading = false;
+				if (generation === this.#generation) this.loading = false;
 			});
-	};
+	}
+
+	#apply(event: CheckEvent, label: string): void {
+		if (event.type === 'manifest') {
+			this.rows = event.sources.map((source) => ({
+				id: source.id,
+				platform: source.id,
+				platformName: source.platformName,
+				name: event.label || label,
+				url: source.url,
+				status: source.checked ? ('pending' as const) : ('unsupported' as const),
+				paid: source.paid
+			}));
+			return;
+		}
+		if (event.type === 'done') {
+			this.rows = settlePending(this.rows);
+			return;
+		}
+		const next: Row = {
+			id: event.id,
+			platform: event.platform,
+			platformName: event.platformName,
+			name: event.name,
+			url: event.url,
+			status: event.status,
+			detail: event.detail,
+			paid: event.paid
+		};
+		this.rows = this.rows.some((row) => row.id === event.id)
+			? this.rows.map((row) => (row.id === event.id ? next : row))
+			: [...this.rows, next];
+	}
 
 	// clearError drops validation feedback as soon as the user starts editing;
 	// the next submit re-validates.
