@@ -14,7 +14,8 @@ use crate::status::{DEFAULT_ACCEPT, USER_AGENT};
 const HTML_ANY_ACCEPT: &str = "text/html,*/*";
 
 fn unknown() -> Outcome {
-    Outcome::new(Status::Unknown)
+    // A 200 whose body did not match the expected shape.
+    Outcome::new(Status::Unknown).with_detail("unexpected response")
 }
 
 /// unknown_response explains a non-200 that left a source without a verdict.
@@ -132,7 +133,7 @@ fn check_ens(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outco
     let url = format!("https://api.ensideas.com/ens/resolve/{label}.eth");
     let response = get(transport, &url, DEFAULT_ACCEPT)?;
     if response.status != 200 {
-        return Ok(unknown());
+        return Ok(unknown_response(&response));
     }
     let Some(value) = json_body(&response) else {
         return Ok(unknown());
@@ -149,7 +150,7 @@ fn check_sns(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outco
     let url = format!("https://sdk-proxy.sns.id/resolve/{label}.sol");
     let response = get(transport, &url, DEFAULT_ACCEPT)?;
     if response.status != 200 {
-        return Ok(unknown());
+        return Ok(unknown_response(&response));
     }
     let Some(value) = json_body(&response) else {
         return Ok(unknown());
@@ -182,7 +183,7 @@ fn check_hns(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outco
     let url = format!("https://hnsscan.com/api/names/{label}/details");
     let response = get(transport, &url, DEFAULT_ACCEPT)?;
     if response.status != 200 {
-        return Ok(unknown());
+        return Ok(unknown_response(&response));
     }
     let Some(value) = json_body(&response) else {
         return Ok(unknown());
@@ -218,7 +219,7 @@ fn check_threads(_: &Source, transport: &dyn Transport, label: &str) -> Result<O
     let url = format!("https://www.threads.net/@{label}");
     let response = get(transport, &url, HTML_ANY_ACCEPT)?;
     if response.status != 200 {
-        return Ok(unknown());
+        return Ok(unknown_response(&response));
     }
     let Some(title) = html_title(&response) else {
         return Ok(unknown());
@@ -244,7 +245,7 @@ fn check_twitch(_: &Source, transport: &dyn Transport, label: &str) -> Result<Ou
     let url = format!("https://www.twitch.tv/{label}");
     let response = get(transport, &url, HTML_ANY_ACCEPT)?;
     if response.status != 200 {
-        return Ok(unknown());
+        return Ok(unknown_response(&response));
     }
     let Some(title) = html_title(&response) else {
         return Ok(unknown());
@@ -263,7 +264,7 @@ fn check_duolingo(_: &Source, transport: &dyn Transport, label: &str) -> Result<
     let url = format!("https://www.duolingo.com/profile/{label}");
     let response = get(transport, &url, HTML_ANY_ACCEPT)?;
     if response.status != 200 {
-        return Ok(unknown());
+        return Ok(unknown_response(&response));
     }
     // Only og:title carries the name; <title> is "Duolingo" for every profile.
     let Some(title) = og_title(&response) else {
@@ -283,7 +284,7 @@ fn check_telegram(_: &Source, transport: &dyn Transport, label: &str) -> Result<
     let url = format!("https://t.me/{label}");
     let response = get(transport, &url, HTML_ANY_ACCEPT)?;
     if response.status != 200 {
-        return Ok(unknown());
+        return Ok(unknown_response(&response));
     }
     let Some(title) = html_title(&response) else {
         return Ok(unknown());
@@ -306,7 +307,7 @@ fn check_namecoin(_: &Source, transport: &dyn Transport, label: &str) -> Result<
         return Ok(available());
     }
     if response.status != 200 {
-        return Ok(unknown());
+        return Ok(unknown_response(&response));
     }
     let Some(value) = json_body(&response) else {
         return Ok(unknown());
@@ -361,7 +362,7 @@ fn check_roblox(_: &Source, transport: &dyn Transport, label: &str) -> Result<Ou
         &body,
     )?;
     if response.status != 200 {
-        return Ok(unknown());
+        return Ok(unknown_response(&response));
     }
     let Some(value) = json_body(&response) else {
         return Ok(unknown());
@@ -401,7 +402,7 @@ fn check_wikipedia(_: &Source, transport: &dyn Transport, label: &str) -> Result
     );
     let response = get(transport, &url, DEFAULT_ACCEPT)?;
     if response.status != 200 {
-        return Ok(unknown());
+        return Ok(unknown_response(&response));
     }
     let Some(value) = json_body(&response) else {
         return Ok(unknown());
@@ -436,7 +437,7 @@ fn check_minehut(_: &Source, transport: &dyn Transport, label: &str) -> Result<O
     let url = format!("https://api.minehut.com/server/{label}?byName=true");
     let response = get(transport, &url, DEFAULT_ACCEPT)?;
     if response.status != 200 {
-        return Ok(unknown());
+        return Ok(unknown_response(&response));
     }
     let Some(value) = json_body(&response) else {
         return Ok(unknown());
@@ -454,7 +455,7 @@ fn check_bluesky(_: &Source, transport: &dyn Transport, label: &str) -> Result<O
     );
     let response = get(transport, &url, DEFAULT_ACCEPT)?;
     if response.status != 200 {
-        return Ok(unknown());
+        return Ok(unknown_response(&response));
     }
     let Some(value) = json_body(&response) else {
         return Ok(unknown());
@@ -480,7 +481,7 @@ fn check_instagram(_: &Source, transport: &dyn Transport, label: &str) -> Result
     let url = format!("https://www.instagram.com/{label}/");
     let response = get(transport, &url, DEFAULT_ACCEPT)?;
     if response.status != 200 {
-        return Ok(unknown());
+        return Ok(unknown_response(&response));
     }
     let text = text_body(&response);
     if text.contains(&format!("\"username\":\"{label}\"")) {
@@ -519,7 +520,7 @@ fn check_hackernews(_: &Source, transport: &dyn Transport, label: &str) -> Resul
     let url = format!("https://hacker-news.firebaseio.com/v0/user/{label}.json");
     let response = get(transport, &url, DEFAULT_ACCEPT)?;
     if response.status != 200 {
-        return Ok(unknown());
+        return Ok(unknown_response(&response));
     }
     let Some(value) = json_body(&response) else {
         return Ok(unknown());
@@ -561,7 +562,7 @@ fn check_minds(_: &Source, transport: &dyn Transport, label: &str) -> Result<Out
     let url = format!("https://www.minds.com/api/v1/channel/{label}");
     let response = get(transport, &url, DEFAULT_ACCEPT)?;
     if response.status != 200 {
-        return Ok(unknown());
+        return Ok(unknown_response(&response));
     }
     let Some(value) = json_body(&response) else {
         return Ok(unknown());
@@ -616,7 +617,7 @@ fn check_steam(_: &Source, transport: &dyn Transport, label: &str) -> Result<Out
     let url = format!("https://steamcommunity.com/id/{label}?xml=1");
     let response = get(transport, &url, DEFAULT_ACCEPT)?;
     if response.status != 200 {
-        return Ok(unknown());
+        return Ok(unknown_response(&response));
     }
     let text = text_body(&response);
     if text.contains("<steamID64>") {

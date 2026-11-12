@@ -222,7 +222,6 @@ mod tests {
 
     fn manifest() -> Manifest {
         serde_json::from_value(serde_json::json!({
-            "generatedAt": "2026-11-11T00:00:00Z",
             "label": "acema",
             "sources": [
                 {"id": "npm", "platform": "npm", "platformName": "npm",

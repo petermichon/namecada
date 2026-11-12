@@ -35,7 +35,6 @@ pub struct Source {
 #[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Manifest {
-    pub generated_at: String,
     pub label: String,
     pub sources: Vec<Source>,
 }
