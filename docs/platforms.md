@@ -94,7 +94,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Dailymotion — ✅ — `api.dailymotion.com/user/{name}`
 - [x] Lens Protocol — ✅ — `api.lens.xyz/graphql` (keyless GraphQL: POST an `account(username.localName:)` query; non-null `data.account` taken / null `data.account` free; page `hey.xyz/u/{name}`; undocumented keyless read access)
 - [x] Paragraph — ✅ — `paragraph.com/@{name}` (keyless profile: 200 taken / real 404 free; `paragraph.xyz` 301s here)
-- [x] Linktree — ✅ — `linktr.ee/{name}` (keyless profile: 200 taken / 404 free; the origin walls most non-browser requests with an empty 429, so many scans degrade to unknown, but a free name never answers 200 — only cached profiles do, which keeps the taken verdict sound)
+- [ ] Linktree — 🕸 — re-checked server-side (2026-11): every cold cache key answers 429 with an empty body — real and fake names alike (`mrbeast`, `gymshark`, `nike` too) — while only entries a browser fetched earlier come back 200, so the check would echo the CDN cache instead of the namespace; deferred, not ported
 - [x] Spotify — ✅ — `open.spotify.com/user/{name}` (keyless profile: 200 taken / 404 free; the artist catalog still needs the keyed Web API)
 - [x] Mixcloud — ✅ — `api.mixcloud.com/{name}/`
 - [x] Discogs — ✅ — `api.discogs.com/users/{name}` (token; the keyless route 403s; 200 taken / 404 free)

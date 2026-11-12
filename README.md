@@ -110,7 +110,6 @@ Desktop app: `npm run tauri:dev` (Vite dev server plus the native window) and
 | HackerNoon | `hackernoon.com/u/{name}` (profile)                           | 200 taken / 404 free      |
 | Spotify   | `open.spotify.com/user/{name}` (profile)                       | 200 taken / 404 free      |
 | Paragraph | `paragraph.com/@{name}` (profile)                              | 200 taken / 404 free      |
-| Linktree  | `linktr.ee/{name}` (profile)                                   | 200 taken / 404 free (429 → unknown) |
 | Steam     | `steamcommunity.com/id/{name}?xml=1`                           | `<steamID64>` taken / `<error>` free |
 | Instagram | `instagram.com/{name}/` (profile)                              | `"username":"{name}"` taken / generic shell free |
 | Hacker News | `hacker-news.firebaseio.com/v0/user/{name}.json`             | `null` free / object with `id` taken |

@@ -17,6 +17,17 @@ fn unknown() -> Outcome {
     Outcome::new(Status::Unknown)
 }
 
+/// unknown_response explains a non-200 that left a source without a verdict.
+fn unknown_response(response: &HttpResponse) -> Outcome {
+    let detail = match response.status {
+        429 => "rate limited",
+        401 | 403 | 999 => "blocked",
+        500..=599 => "server error",
+        _ => "unexpected response",
+    };
+    Outcome::new(Status::Unknown).with_detail(detail)
+}
+
 fn available() -> Outcome {
     Outcome::new(Status::Available)
 }
@@ -642,7 +653,7 @@ fn check_gitlab(_: &Source, transport: &dyn Transport, label: &str) -> Result<Ou
     let users_url = format!("https://gitlab.com/api/v4/users?username={label}");
     let users = get(transport, &users_url, DEFAULT_ACCEPT)?;
     if users.status != 200 {
-        return Ok(unknown());
+        return Ok(unknown_response(&users));
     }
     let Some(value) = json_body(&users) else {
         return Ok(unknown());
@@ -653,7 +664,8 @@ fn check_gitlab(_: &Source, transport: &dyn Transport, label: &str) -> Result<Ou
         Some(_) => {
             let group_url = format!("https://gitlab.com/api/v4/groups/{label}");
             let group = get(transport, &group_url, DEFAULT_ACCEPT)?;
-            Ok(check_status(&group, Status::Taken).map_or_else(unknown, Outcome::new))
+            Ok(check_status(&group, Status::Taken)
+                .map_or_else(|| unknown_response(&group), Outcome::new))
         }
     }
 }
@@ -1025,6 +1037,32 @@ mod tests {
         assert_eq!(snap_outcome(200).status, Status::Taken);
         assert_eq!(snap_outcome(404).status, Status::Available);
         assert_eq!(snap_outcome(500).status, Status::Unknown);
+    }
+
+    #[test]
+    fn gitlab_says_when_it_is_rate_limited() {
+        let fixture: Fixture = serde_json::from_value(serde_json::json!({
+            "source": "gitlab",
+            "platform": "gitlab",
+            "label": "google",
+            "name": "google",
+            "url": "https://gitlab.com/google",
+            "requests": [{
+                "method": "GET",
+                "url": "https://gitlab.com/api/v4/users?username=google",
+                "response": { "status": 429, "body": "Rate limit exceeded" }
+            }]
+        }))
+        .expect("fixture");
+        let transport = ReplayTransport::new(&fixture);
+        let source = Manifest::embedded()
+            .expect("manifest")
+            .source("gitlab")
+            .expect("gitlab source")
+            .clone();
+        let outcome = check_gitlab(&source, &transport, "google").expect("check");
+        assert_eq!(outcome.status, Status::Unknown);
+        assert_eq!(outcome.detail, "rate limited");
     }
 
     /// A profile title names the handle whether or not the account has a

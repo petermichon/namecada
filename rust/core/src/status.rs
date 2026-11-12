@@ -135,7 +135,6 @@ static SPECS: &[StatusSpec] = &[
     spec("openvsx", "https://open-vsx.org/api/%s"),
     spec("hackernoon", "https://hackernoon.com/u/%s"),
     spec("spotify", "https://open.spotify.com/user/%s"),
-    spec("linktree", "https://linktr.ee/%s"),
     spec("paragraph", "https://paragraph.com/@%s"),
     spec("github", "https://api.github.com/users/%s"),
     spec_with(
