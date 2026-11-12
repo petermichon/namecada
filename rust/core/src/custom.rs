@@ -62,6 +62,51 @@ fn text_body(response: &HttpResponse) -> String {
     String::from_utf8_lossy(&response.body).into_owned()
 }
 
+fn normalize_space(text: &str) -> String {
+    text.split_whitespace().collect::<Vec<_>>().join(" ")
+}
+
+/// html_title reads the document title, which profile pages set for link
+/// previews even when the body is a client-rendered shell.
+fn html_title(response: &HttpResponse) -> Option<String> {
+    let html = text_body(response);
+    let lower = html.to_ascii_lowercase();
+    let start = lower.find("<title")?;
+    let open_end = lower[start..].find('>')? + start;
+    let close = lower[open_end..].find("</title>")? + open_end;
+    Some(normalize_space(&html[open_end + 1..close]))
+}
+
+/// og_title reads the og:title meta tag, which some shells only render there.
+fn og_title(response: &HttpResponse) -> Option<String> {
+    let html = text_body(response);
+    let lower = html.to_ascii_lowercase();
+    let mut from = 0;
+    while let Some(rel) = lower[from..].find("og:title") {
+        let index = from + rel;
+        let tag_start = lower[..index].rfind("<meta").unwrap_or(index);
+        let tag_end = lower[index..].find('>')? + index;
+        if let Some(value) = attribute(&html[tag_start..tag_end], "content") {
+            return Some(normalize_space(&value));
+        }
+        from = index + "og:title".len();
+    }
+    None
+}
+
+fn attribute(tag: &str, name: &str) -> Option<String> {
+    let lower = tag.to_ascii_lowercase();
+    let key = format!("{name}=");
+    let start = lower.find(&key)? + key.len();
+    let rest = &tag[start..];
+    let quote = rest.chars().next()?;
+    if quote != '"' && quote != '\'' {
+        return None;
+    }
+    let value = &rest[1..];
+    Some(value[..value.find(quote)?].to_string())
+}
+
 fn check_status(response: &HttpResponse, taken: Status) -> Option<Status> {
     if response.status == 200 {
         Some(taken)
@@ -136,6 +181,111 @@ fn check_hns(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outco
         Some("AVAILABLE" | "UNKNOWN") => Ok(available()),
         _ => Ok(unknown()),
     }
+}
+
+fn check_tiktok(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outcome, Error> {
+    // The oEmbed endpoint is public and answers 400 for a name with no profile.
+    let url =
+        format!("https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40{label}");
+    let response = get(transport, &url, DEFAULT_ACCEPT)?;
+    match response.status {
+        200 => Ok(
+            match json_body(&response)
+                .as_ref()
+                .and_then(|v| v.get("author_url"))
+            {
+                Some(_) => taken(),
+                None => unknown(),
+            },
+        ),
+        400 | 404 => Ok(available()),
+        _ => Ok(unknown()),
+    }
+}
+
+fn check_threads(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outcome, Error> {
+    let url = format!("https://www.threads.net/@{label}");
+    let response = get(transport, &url, HTML_ANY_ACCEPT)?;
+    if response.status != 200 {
+        return Ok(unknown());
+    }
+    let Some(title) = html_title(&response) else {
+        return Ok(unknown());
+    };
+    // A profile title names the handle, either after a display name
+    // ("Sofyan Boudouni (@sofyan) • Threads") or on its own
+    // ("@hardvoxel • Threads"). The missing page is "Threads • Log in".
+    let title = title.to_ascii_lowercase();
+    let named = title.contains(&format!("(@{label})"))
+        || title.contains(&format!("(&#064;{label})"))
+        || title.starts_with(&format!("@{label} "))
+        || title.starts_with(&format!("&#064;{label} "));
+    if named {
+        return Ok(taken());
+    }
+    if title.contains("log in") {
+        return Ok(available());
+    }
+    Ok(unknown())
+}
+
+fn check_twitch(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outcome, Error> {
+    let url = format!("https://www.twitch.tv/{label}");
+    let response = get(transport, &url, HTML_ANY_ACCEPT)?;
+    if response.status != 200 {
+        return Ok(unknown());
+    }
+    let Some(title) = html_title(&response) else {
+        return Ok(unknown());
+    };
+    // A channel title is "{name} - Twitch"; a free name falls back to "Twitch".
+    if title.to_ascii_lowercase().ends_with(" - twitch") {
+        return Ok(taken());
+    }
+    if title.eq_ignore_ascii_case("twitch") {
+        return Ok(available());
+    }
+    Ok(unknown())
+}
+
+fn check_duolingo(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outcome, Error> {
+    let url = format!("https://www.duolingo.com/profile/{label}");
+    let response = get(transport, &url, HTML_ANY_ACCEPT)?;
+    if response.status != 200 {
+        return Ok(unknown());
+    }
+    // Only og:title carries the name; <title> is "Duolingo" for every profile.
+    let Some(title) = og_title(&response) else {
+        return Ok(unknown());
+    };
+    let title = title.to_ascii_lowercase();
+    if title.ends_with("on duolingo") {
+        return Ok(taken());
+    }
+    if title.contains("learn a language") {
+        return Ok(available());
+    }
+    Ok(unknown())
+}
+
+fn check_telegram(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outcome, Error> {
+    let url = format!("https://t.me/{label}");
+    let response = get(transport, &url, HTML_ANY_ACCEPT)?;
+    if response.status != 200 {
+        return Ok(unknown());
+    }
+    let Some(title) = html_title(&response) else {
+        return Ok(unknown());
+    };
+    let title = title.to_ascii_lowercase();
+    // "Telegram: View @name" is a real account; the contact card is the miss.
+    if title.starts_with("telegram: view @") {
+        return Ok(taken());
+    }
+    if title.starts_with("telegram: contact @") {
+        return Ok(available());
+    }
+    Ok(unknown())
 }
 
 fn check_namecoin(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outcome, Error> {
@@ -353,19 +503,23 @@ fn check_dribbble(_: &Source, transport: &dyn Transport, label: &str) -> Result<
 }
 
 fn check_hackernews(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outcome, Error> {
-    let url = format!("https://news.ycombinator.com/user?id={label}");
+    // The profile page answers 403 "Sorry." to non-browser clients, so read the
+    // official Firebase API: a free name is `null`, an account is an object.
+    let url = format!("https://hacker-news.firebaseio.com/v0/user/{label}.json");
     let response = get(transport, &url, DEFAULT_ACCEPT)?;
     if response.status != 200 {
         return Ok(unknown());
     }
-    let text = text_body(&response);
-    if text.contains("No such user.") {
+    let Some(value) = json_body(&response) else {
+        return Ok(unknown());
+    };
+    if value.is_null() {
         return Ok(available());
     }
-    if text.contains("karma") {
-        return Ok(taken());
+    match value.get("id").and_then(Value::as_str) {
+        Some(_) => Ok(taken()),
+        None => Ok(unknown()),
     }
-    Ok(unknown())
 }
 
 fn check_giphy(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outcome, Error> {
@@ -733,6 +887,26 @@ static CUSTOM_SPECS: &[CustomSpec] = &[
         id: "domain.app",
         check: check_domain,
     },
+    CustomSpec {
+        id: "tiktok",
+        check: check_tiktok,
+    },
+    CustomSpec {
+        id: "threads",
+        check: check_threads,
+    },
+    CustomSpec {
+        id: "twitch",
+        check: check_twitch,
+    },
+    CustomSpec {
+        id: "duolingo",
+        check: check_duolingo,
+    },
+    CustomSpec {
+        id: "telegram",
+        check: check_telegram,
+    },
 ];
 
 /// CustomProvider wraps a custom check function with manifest metadata.
@@ -851,6 +1025,51 @@ mod tests {
         assert_eq!(snap_outcome(200).status, Status::Taken);
         assert_eq!(snap_outcome(404).status, Status::Available);
         assert_eq!(snap_outcome(500).status, Status::Unknown);
+    }
+
+    /// A profile title names the handle whether or not the account has a
+    /// display name; the missing page is the login shell.
+    #[test]
+    fn threads_reads_the_handle_out_of_the_title() {
+        fn outcome(title: &str) -> Status {
+            let fixture: Fixture = serde_json::from_value(serde_json::json!({
+                "source": "threads",
+                "platform": "threads",
+                "label": "hardvoxel",
+                "name": "hardvoxel",
+                "url": "https://www.threads.net/@hardvoxel",
+                "requests": [{
+                    "method": "GET",
+                    "url": "https://www.threads.net/@hardvoxel",
+                    "response": {
+                        "status": 200,
+                        "body": format!("<html><head><title>{title}</title></head></html>")
+                    }
+                }]
+            }))
+            .expect("fixture");
+            let transport = ReplayTransport::new(&fixture);
+            let source = Manifest::embedded()
+                .expect("manifest")
+                .source("threads")
+                .expect("threads source")
+                .clone();
+            check_threads(&source, &transport, "hardvoxel")
+                .expect("check")
+                .status
+        }
+
+        assert_eq!(
+            outcome("Hardvoxel (&#064;hardvoxel) &#x2022; Threads, Say more"),
+            Status::Taken
+        );
+        // An account with no display name puts the handle first.
+        assert_eq!(
+            outcome("&#064;hardvoxel &#x2022; Threads, Say more"),
+            Status::Taken
+        );
+        assert_eq!(outcome("Threads &#x2022; Log in"), Status::Available);
+        assert_eq!(outcome("Threads"), Status::Unknown);
     }
 
     /// hnsscan 502s on these, so they are answered without a request. An empty

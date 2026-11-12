@@ -135,8 +135,8 @@ static SPECS: &[StatusSpec] = &[
     spec("openvsx", "https://open-vsx.org/api/%s"),
     spec("hackernoon", "https://hackernoon.com/u/%s"),
     spec("spotify", "https://open.spotify.com/user/%s"),
-    spec("paragraph", "https://paragraph.com/@%s"),
     spec("linktree", "https://linktr.ee/%s"),
+    spec("paragraph", "https://paragraph.com/@%s"),
     spec("github", "https://api.github.com/users/%s"),
     spec_with(
         "bitbucket",
@@ -225,18 +225,26 @@ impl StatusProvider {
         render(self.spec.request, label)
     }
 
-    fn classify(&self, response: &HttpResponse) -> Status {
+    fn classify(&self, response: &HttpResponse) -> Outcome {
         let status = response.status;
         if self.spec.codes.taken.contains(&status) {
             if is_challenge(response) {
-                return Status::Unknown;
+                return Outcome::new(Status::Unknown).with_detail("blocked");
             }
-            return Status::Taken;
+            return Outcome::new(Status::Taken);
         }
         if self.spec.codes.available.contains(&status) {
-            return Status::Available;
+            return Outcome::new(Status::Available);
         }
-        Status::Unknown
+        // Say why a source has no verdict, so the UI can tell a transient
+        // rate limit apart from a wall or a source that changed shape.
+        let detail = match status {
+            429 => "rate limited",
+            401 | 403 | 999 => "blocked",
+            500..=599 => "server error",
+            _ => "unexpected response",
+        };
+        Outcome::new(Status::Unknown).with_detail(detail)
     }
 }
 
@@ -305,7 +313,7 @@ impl Provider for StatusProvider {
         let Some(response) = response else {
             return Err(Error::Transport("request produced no response".to_string()));
         };
-        Ok(Outcome::new(self.classify(&response)))
+        Ok(self.classify(&response))
     }
 }
 
@@ -378,6 +386,24 @@ mod tests {
         let manifest = Manifest::embedded().expect("manifest");
         build_status_provider(&manifest, id, Arc::new(ReplayTransport::new(&fixture)))
             .expect("provider")
+    }
+
+    #[test]
+    fn unknown_verdicts_carry_a_reason() {
+        for (code, detail) in [
+            (429, "rate limited"),
+            (403, "blocked"),
+            (500, "server error"),
+            (418, "unexpected response"),
+        ] {
+            let provider = provider(
+                "npm",
+                fixture("npm", "https://registry.npmjs.org/acema", code),
+            );
+            let outcome = provider.check("acema").expect("check");
+            assert_eq!(outcome.status, Status::Unknown, "{code}");
+            assert_eq!(outcome.detail, detail, "{code}");
+        }
     }
 
     #[test]

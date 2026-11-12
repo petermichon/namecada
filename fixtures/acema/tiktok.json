@@ -1,0 +1,30 @@
+{
+ "durationMs": 358,
+ "label": "acema",
+ "name": "acema",
+ "paid": false,
+ "platform": "tiktok",
+ "platformName": "TikTok",
+ "requests": [
+  {
+   "headers": {
+    "Accept": "application/json",
+    "User-Agent": "namecheck/1.0 (+https://github.com/petermichon/namecheck)"
+   },
+   "method": "GET",
+   "response": {
+    "body": "{\"message\":\"Something went wrong\",\"code\":400}",
+    "bodyEncoding": "utf8",
+    "bodyTruncated": false,
+    "headers": {
+     "content-type": "application/json; charset=utf-8"
+    },
+    "status": 400
+   },
+   "url": "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40acema"
+  }
+ ],
+ "source": "tiktok",
+ "status": "available",
+ "url": "https://www.tiktok.com/@acema"
+}

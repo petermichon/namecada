@@ -52,9 +52,9 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Substack — ✅ — `{name}.substack.com` (wildcard DNS; HTTP 404, HTML Accept; user-chosen publication names)
 - [x] X / Twitter — ✅ — `x.com/{name}` (keyless profile; 200 taken / 404 free; twitter.com 301s to x.com)
 - [x] YouTube — ✅ — `youtube.com/@{name}` (profile redirects and resolves 200 taken / 404 free; keyless, no Data API key needed)
-- [x] Twitch — ✅ — `api.twitch.tv/helix/users?login={name}` (Client-Id + app access token via client-credentials grant; non-empty `data` taken / empty free)
+- [x] Twitch — ✅ — `twitch.tv/{name}` (keyless profile title: `{name} - Twitch` taken / plain `Twitch` free; the Helix API needs a Client-Id plus an app token, so it is not used)
 - [x] Instagram — ✅ — `instagram.com/{name}/` (body signal: a claimed profile embeds `"username":"{name}"` — or a `<title>` starting with the handle — while a free name returns the generic `<title>Instagram</title>` shell; every name is a 200, so status alone has no signal)
-- [x] Hacker News — ✅ — `news.ycombinator.com/user?id={name}` (body signal: `No such user.` = free, `karma` = taken; the firebase JSON API only exposes users with public activity, so `null` can't confirm free)
+- [x] Hacker News — ✅ — `hacker-news.firebaseio.com/v0/user/{name}.json` (keyless official API: `null` free / an object with `id` taken; the profile page answers 403 "Sorry." to non-browser clients, and `null` does cover dormant accounts — 37 accounts from 2010 comments, down to karma 1, all resolve)
 - [x] HackerNoon — ✅ — `hackernoon.com/u/{name}` (keyless profile: 200 taken / 404 free)
 - [x] Open Collective — ✅ — `opencollective.com/{name}.json` (200 taken / 404 free). The CDN caches responses for 1h and can cache a transient 5xx per-`Origin`; the provider retries once with a cache-busting param to bypass a poisoned entry
 - [x] Liberapay — ✅ — `liberapay.com/{name}` (200 taken / 404 free; a mixed-case slug 302s to its canonical case, which the redirect follow resolves)
@@ -65,10 +65,14 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Dribbble — ✅ — `dribbble.com/{name}` (keyless profile: 200 taken / 404 free, but the route needs an HTML Accept — `application/json` 404s every name; a claimed profile that is not public also 404s, and its "isn't public yet" body marks it taken; the API v2 is publishing-only with no arbitrary-user endpoint, so the profile route is the signal)
 - [x] Behance — ✅ — `behance.net/{name}` (keyless profile: 200 taken / 404 free; the Adobe API needs a key but the profile route does not)
 - [x] Replicate — ✅ — `replicate.com/{name}` (keyless profile: 200 taken / 404 free; the API has no arbitrary-username lookup, so the profile page is the signal)
-- [x] DeviantArt — ✅ — `deviantart.com/{name}` (keyless profile: 200 taken / 404 free; a name with no profile 404s — the old "always-200 SPA" reading no longer holds; length 3–20 per DeviantArt's username guide — legacy 1–2 character names exist, so the row reports shorter labels unavailable instead of probing)
-- [x] Snapchat — ✅ — `snapchat.com/add/{name}` (keyless profile: 200 taken / 404 free; the old note probed a URL shape that no longer exists; length 3–15 per Snapchat Support's username rules)
+- [x] DeviantArt — ✅ — `deviantart.com/{name}` (keyless profile: 200 taken / 404 free; a name with no profile 404s — the old "always-200 SPA" reading no longer holds)
+- [x] TikTok — ✅ — `www.tiktok.com/oembed?url=https://www.tiktok.com/@{name}` (keyless oEmbed: 200 JSON with `author_url` taken / 400 free; the profile page itself is an always-200 shell)
+- [x] Threads — ✅ — `threads.net/@{name}` (keyless: the server-rendered `<title>` names the profile, after a display name or alone — `Sofyan (@sofyan) • Threads` and `@hardvoxel • Threads` taken / `Threads • Log in` free)
+- [x] Duolingo — ✅ — `duolingo.com/profile/{name}` (keyless `og:title`: `Google on Duolingo` taken / `Learn a language for free` free; the page `<title>` is just `Duolingo`)
+- [x] Telegram — ✅ — `t.me/{name}` (keyless `<title>`: `Telegram: View @name` taken / `Telegram: Contact @name` free)
+- [x] Snapchat — ✅ — `snapchat.com/add/{name}` (keyless profile: 200 taken / 404 free; the old note probed a URL shape that no longer exists)
 - [x] Strava — ✅ — `strava.com/athletes/{name}` (keyless public athlete page: 200 taken / 404 free; previously listed as keyed — the profile route needs no token; no documented length rule found, so the row stays unbounded rather than guessing)
-- [x] Swift Package Index — ✅ — `swiftpackageindex.com/{name}` (keyless publisher page: 200 taken / 404 free; the page lists packages, so an account that publishes none 404s and reads as free; length 1–39 because the publisher is a GitHub owner and GitHub caps usernames at 39 characters — https://docs.github.com/en/enterprise-cloud@latest/admin/managing-iam/iam-configuration-reference/username-considerations-for-external-authentication)
+- [x] Swift Package Index — ✅ — `swiftpackageindex.com/{name}` (keyless publisher page: 200 taken / 404 free; the page lists packages, so an account that publishes none 404s and reads as free)
 - [x] Companies House UK — ✅ — `api.company-information.service.gov.uk/search/companies?q={name}` (key; Basic auth; exact company-name hit taken / else free)
 - [x] OpenCorporates — ✅ — `api.opencorporates.com/v0.4/companies/search?q={name}` (token; `X-API-TOKEN` header; exact company-name hit taken / else free)
 - [x] Firefox Add-ons — ✅ — `addons.mozilla.org/api/v5`
@@ -90,7 +94,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Dailymotion — ✅ — `api.dailymotion.com/user/{name}`
 - [x] Lens Protocol — ✅ — `api.lens.xyz/graphql` (keyless GraphQL: POST an `account(username.localName:)` query; non-null `data.account` taken / null `data.account` free; page `hey.xyz/u/{name}`; undocumented keyless read access)
 - [x] Paragraph — ✅ — `paragraph.com/@{name}` (keyless profile: 200 taken / real 404 free; `paragraph.xyz` 301s here)
-- [x] Linktree — ✅ — `linktr.ee/{name}` (keyless profile: 200 taken / 404 free)
+- [x] Linktree — ✅ — `linktr.ee/{name}` (keyless profile: 200 taken / 404 free; the origin walls most non-browser requests with an empty 429, so many scans degrade to unknown, but a free name never answers 200 — only cached profiles do, which keeps the taken verdict sound)
 - [x] Spotify — ✅ — `open.spotify.com/user/{name}` (keyless profile: 200 taken / 404 free; the artist catalog still needs the keyed Web API)
 - [x] Mixcloud — ✅ — `api.mixcloud.com/{name}/`
 - [x] Discogs — ✅ — `api.discogs.com/users/{name}` (token; the keyless route 403s; 200 taken / 404 free)
@@ -131,12 +135,12 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Fandom — 🕸 — re-checked server-side (2026-11): `{name}.fandom.com` is wildcard DNS and every host answers 403 (Cloudflare) for real and fake names alike, so there is no signal
 - [ ] Bilibili — 🕸 — API returns 412 (banned)
 - [ ] Discord — 🕸 — usernames have no public API
-- [ ] Telegram — 🕸 — keyless pass: `t.me/{name}` returns 200 for every name (JS/SPA shell), so no status signal; needs a key or a scrape — deferred, not ported
+
 - [ ] Hashnode — 🕸 — the GraphQL host 301s (reads now paid) and `hashnode.com/{name}` is an always-200 SPA, so no signal
 - [ ] Product Hunt — 🔑 — deferred: the GraphQL API is keyed
 - [ ] LinkedIn — 🕸 — no public vanity-availability API; profile pages are auth-walled (999/redirect for both real and fake), so it cannot answer "is this name free"
-- [ ] TikTok — 🕸 — keyless pass: every name returns 200 (JS/SPA shell), so no status signal; needs a key or a scrape — deferred, not ported
-- [ ] Threads — 🕸 — keyless pass: 301 → (followed) 200 for both real and fake names, so no status signal; needs a key or a scrape — deferred, not ported
+
+
 - [ ] Facebook — 🕸 — keyless pass: 200 (present) / 302 (missing) is a login redirect, not a name signal; needs a key or a scrape — deferred, not ported
 - [ ] Reddit — 🕸 — keyless pass: 301 → (followed) 200 for both real and fake names, so no status signal (supersedes the old "403 from server IPs"); needs a key or a scrape — deferred, not ported
 - [ ] Pinterest — 🕸 — keyless pass: every name returns 200 (JS/SPA shell), so no status signal; needs a key or a scrape — deferred, not ported
@@ -234,7 +238,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] MyAnimeList — 🕸 — Jikan API unavailable
 - [ ] Trakt — 🔑
 - [ ] Genius — 🔑
-- [ ] Duolingo — 🕸 — re-checked server-side (2026-11): `duolingo.com/profile/{name}` 200s for real and fake users, so status has no signal
+
 - [ ] CodeSandbox — 🕸 — Cloudflare-blocked (403)
 - [ ] CodePen — 🕸 — re-checked server-side (2026-11): Cloudflare challenge (403) for real and fake profiles
 - [ ] Observable — 🕸 — re-checked server-side (2026-11): 429 Vercel Security Checkpoint for real and fake profiles, so there is no signal

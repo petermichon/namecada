@@ -101,14 +101,19 @@ Desktop app: `npm run tauri:dev` (Vite dev server plus the native window) and
 | DeviantArt | `deviantart.com/{name}` (profile)                             | 200 taken / 404 free      |
 | Snapchat  | `snapchat.com/add/{name}` (profile)                            | 200 taken / 404 free      |
 | Strava    | `strava.com/athletes/{name}` (profile)                         | 200 taken / 404 free      |
-| Swift Package Index | `swiftpackageindex.com/{name}` (publisher)            | 200 taken / 404 free; publishing nothing also 404s; 1–39 chars |
+| Swift Package Index | `swiftpackageindex.com/{name}` (publisher)            | 200 taken / 404 free; publishing nothing also 404s |
+| TikTok | `tiktok.com/oembed?url=…/@{name}` | 200 `author_url` taken / 400 free |
+| Threads | `threads.net/@{name}` | `(@name)` in title taken / `Threads • Log in` free |
+| Twitch | `twitch.tv/{name}` | `{name} - Twitch` taken / `Twitch` free |
+| Duolingo | `duolingo.com/profile/{name}` | og:title `on Duolingo` taken / `Learn a language` free |
+| Telegram | `t.me/{name}` | `Telegram: View @` taken / `Contact @` free |
 | HackerNoon | `hackernoon.com/u/{name}` (profile)                           | 200 taken / 404 free      |
 | Spotify   | `open.spotify.com/user/{name}` (profile)                       | 200 taken / 404 free      |
 | Paragraph | `paragraph.com/@{name}` (profile)                              | 200 taken / 404 free      |
-| Linktree  | `linktr.ee/{name}` (profile)                                   | 200 taken / 404 free      |
+| Linktree  | `linktr.ee/{name}` (profile)                                   | 200 taken / 404 free (429 → unknown) |
 | Steam     | `steamcommunity.com/id/{name}?xml=1`                           | `<steamID64>` taken / `<error>` free |
 | Instagram | `instagram.com/{name}/` (profile)                              | `"username":"{name}"` taken / generic shell free |
-| Hacker News | `news.ycombinator.com/user?id={name}`                        | `No such user.` free / `karma` taken |
+| Hacker News | `hacker-news.firebaseio.com/v0/user/{name}.json`             | `null` free / object with `id` taken |
 | Giphy     | `giphy.com/{name}` (profile)                                   | 200 canonical `/{name}` taken / 301 → `/explore/{name}` free |
 | Minds     | `api/v1/channel/{name}` (profile `minds.com/{name}/`)           | `status:"success"` taken / `ChannelNotFoundException` free |
 | X / Twitter | `x.com/{name}` (profile)                                     | 200 taken / 404 free      |
@@ -134,8 +139,8 @@ Desktop app: `npm run tauri:dev` (Vite dev server plus the native window) and
 | Cloudflare Pages | `{name}.pages.dev` (DNS, no wildcard)                    | resolves taken / NXDOMAIN free |
 | Fly.io    | `{name}.fly.dev` (DNS, no wildcard)                            | resolves taken / NXDOMAIN free |
 
-Credential-gated sources (Discogs, Twitch, Companies House, OpenCorporates) are
-not currently included.
+Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
+currently included.
 
 Domains run once per TLD (`.com`, `.net`, `.org`, `.dev`, `.io`, `.ai`, `.app`), each a
 separate provider. Each TLD uses its registry's RDAP endpoint; the live IANA
@@ -200,8 +205,8 @@ Two commands drive it:
 - `check <label>` runs a one-shot scan. It replays the checked-in fixtures by
   default; add `--live` to use real HTTP and DNS.
 
-The credential-gated sources (Discogs, Twitch, Companies House,
-OpenCorporates) are intentionally omitted. They produce no row and make no
+The credential-gated sources (Discogs, Companies House, OpenCorporates)
+are intentionally omitted. They produce no row and make no
 request.
 
 The live source is always the source of truth. The cache is a record of what a

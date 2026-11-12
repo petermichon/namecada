@@ -36,6 +36,12 @@ describe('ResultRow', () => {
 		expect(statusSlot(row('unknown'))).toContain('unknown');
 	});
 
+	it('shows the detail that explains an unknown verdict', () => {
+		const html = statusSlot({ ...row('unknown'), detail: 'rate limited' });
+
+		expect(html).toContain('rate limited');
+	});
+
 	it('uses the same rounded row treatment as the status filters', () => {
 		const html = statusSlot(row('available'));
 		const anchor = html.match(/<a[^>]*class="([^"]*)"/)?.[1] ?? '';

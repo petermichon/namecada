@@ -52,6 +52,15 @@ impl Outcome {
             url: None,
         }
     }
+
+    /// with_detail explains a non-definitive verdict (for example why a check
+    /// ended in `unknown`), so the UI can say more than "unknown".
+    pub fn with_detail(self, detail: impl Into<String>) -> Self {
+        Self {
+            detail: detail.into(),
+            ..self
+        }
+    }
 }
 
 /// HttpRequest is one outbound request. The transport owns headers and body so

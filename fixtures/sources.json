@@ -1,9 +1,9 @@
 {
   "generatedAt": "2026-11-10T14:12:31Z",
   "label": "google",
-  "sourceCount": 145,
-  "enabledCount": 103,
-  "keyedCount": 4,
+  "sourceCount": 147,
+  "enabledCount": 108,
+  "keyedCount": 3,
   "sources": [
     {
       "id": "domain.com",
@@ -1330,7 +1330,7 @@
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
-      "keyed": true
+      "keyed": false
     },
     {
       "id": "companieshouse",
@@ -1627,8 +1627,8 @@
       "url": "https://swiftpackageindex.com/google",
       "urlTemplate": "https://swiftpackageindex.com/%s",
       "paid": false,
-      "minLength": 1,
-      "maxLength": 39,
+      "minLength": 0,
+      "maxLength": 0,
       "keyed": false
     },
     {
@@ -1809,8 +1809,8 @@
       "url": "https://www.deviantart.com/google",
       "urlTemplate": "https://www.deviantart.com/%s",
       "paid": false,
-      "minLength": 3,
-      "maxLength": 20,
+      "minLength": 0,
+      "maxLength": 0,
       "keyed": false
     },
     {
@@ -1853,6 +1853,32 @@
       "keyed": false
     },
     {
+      "id": "telegram",
+      "platform": "telegram",
+      "platformName": "Telegram",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://t.me/google",
+      "urlTemplate": "https://t.me/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
+    },
+    {
+      "id": "duolingo",
+      "platform": "duolingo",
+      "platformName": "Duolingo",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://www.duolingo.com/profile/google",
+      "urlTemplate": "https://www.duolingo.com/profile/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
+    },
+    {
       "id": "facebook",
       "platform": "facebook",
       "platformName": "Facebook",
@@ -1874,8 +1900,8 @@
       "url": "https://www.snapchat.com/add/google",
       "urlTemplate": "https://www.snapchat.com/add/%s",
       "paid": false,
-      "minLength": 3,
-      "maxLength": 15,
+      "minLength": 0,
+      "maxLength": 0,
       "keyed": false
     },
     {
@@ -1892,5 +1918,5 @@
       "keyed": false
     }
   ],
-  "deferredCount": 38
+  "deferredCount": 36
 }
