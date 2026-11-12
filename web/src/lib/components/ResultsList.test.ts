@@ -1,7 +1,7 @@
 import { render } from 'svelte/server';
 import { describe, expect, it } from 'vitest';
 import ResultsList from './ResultsList.svelte';
-import type { Row } from '$lib/useLookup.svelte';
+import type { Row } from '$lib/rows';
 
 function row(id: string, status: Row['status'] = 'available', paid = false): Row {
 	return {

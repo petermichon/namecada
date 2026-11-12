@@ -1,62 +1,23 @@
 import { onMount } from 'svelte';
 import { appCheckClient, isAbort, type CheckClient, type CheckEvent } from './api';
-import { toLabel, suggestLabel, type CostFilter, type Status } from './platforms';
-
-export interface Row {
-	id: string;
-	platform: string;
-	platformName: string;
-	name: string;
-	url: string;
-	status: Status | 'pending' | 'unsupported';
-	detail?: string;
-	paid: boolean;
-}
-
-export type FilterStatus = Status | 'unsupported';
-// A filter is the set of statuses to keep. An empty set means no selection,
-// which shows every row (the default), so `available + not checked` unions
-// those two and hides the rest.
-export type Filter = FilterStatus[];
-
-// The default view is the verdicts; deferred/keyed sources are opt-in.
-export const DEFAULT_FILTER: Filter = ['available', 'taken', 'unknown'];
-export const ALL_STATUSES: Filter = [...DEFAULT_FILTER, 'unsupported'];
-export const DEFAULT_COST: CostFilter = ['free', 'paid'];
-
-// Order rows alphabetically by their display name, independent of status, so
-// the list stays stable as results stream in. Ties break on the provider URL so
-// the order is deterministic regardless of arrival order — domains sort by TLD
-// (.ai .app .com .dev .io .org) and Hex sorts packages/ before users/.
-export function byPlatformName(a: Row, b: Row): number {
-	if (a.platformName < b.platformName) return -1;
-	if (a.platformName > b.platformName) return 1;
-	if (a.url < b.url) return -1;
-	if (a.url > b.url) return 1;
-	return 0;
-}
+import { toLabel, suggestLabel, type CostFilter } from './platforms';
+import {
+	announce,
+	costTally,
+	DEFAULT_COST,
+	DEFAULT_FILTER,
+	ALL_STATUSES,
+	matchesCost,
+	settlePending,
+	tally,
+	visible,
+	type Filter,
+	type Row
+} from './rows';
 
 function queryParam(): string {
 	if (typeof location === 'undefined') return '';
 	return new URLSearchParams(location.search).get('q') ?? '';
-}
-
-function matchesStatus(row: Row, filter: Filter): boolean {
-	return (
-		filter.length > 0 &&
-		(filter.includes(row.status as FilterStatus) ||
-			(row.status === 'pending' && filter.some((status) => status !== 'unsupported')))
-	);
-}
-
-function matchesCost(row: Row, cost: CostFilter): boolean {
-	return cost.includes(row.paid ? 'paid' : 'free');
-}
-
-function settlePending(rows: Row[]): Row[] {
-	return rows.map((row) =>
-		row.status === 'pending' ? { ...row, status: 'unknown' as const, detail: 'unreachable' } : row
-	);
 }
 
 function syncUrl(query: string) {
@@ -88,16 +49,33 @@ export class Lookup {
 		this.#client = client;
 	}
 
-	check = ({ sync = true }: { sync?: boolean } = {}): void => {
-		const label = toLabel(this.input);
-		const gen = ++this.#generation;
-
+	// reset abandons any in-flight scan and clears the per-scan feedback.
+	#reset(): void {
 		this.#controller?.abort();
 		this.#controller = null;
 		this.error = '';
 		this.suggestion = null;
 		this.filter = [...DEFAULT_FILTER];
 		this.cost = [...DEFAULT_COST];
+	}
+
+	// holdRows keeps the previous row slots mounted as pending until the
+	// manifest arrives, so the document keeps its height and the browser cannot
+	// clamp the scroll position to the top. Deferred rows stay deferred and are
+	// hidden by the default filter.
+	#holdRows(): void {
+		if (!this.rows.length) return;
+		this.rows = this.rows.map((row) =>
+			row.status === 'unsupported'
+				? row
+				: { ...row, name: '', url: '', status: 'pending' as const, detail: undefined }
+		);
+	}
+
+	check = ({ sync = true }: { sync?: boolean } = {}): void => {
+		const label = toLabel(this.input);
+		const gen = ++this.#generation;
+		this.#reset();
 
 		if (!label) {
 			this.rows = [];
@@ -119,23 +97,7 @@ export class Lookup {
 		this.#controller = ac;
 		this.lastLabel = label;
 		this.loading = true;
-		// The manifest arrives only after a round trip. Keep the previous row
-		// slots mounted as pending in the meantime so the document keeps its
-		// height and the browser cannot clamp the scroll position to the top.
-		// Deferred rows stay deferred and are hidden by the default filter.
-		if (this.rows.length) {
-			this.rows = this.rows.map((row) =>
-				row.status === 'unsupported'
-					? row
-					: {
-							...row,
-							name: '',
-							url: '',
-							status: 'pending' as const,
-							detail: undefined
-						}
-			);
-		}
+		this.#holdRows();
 
 		let manifestReceived = false;
 
@@ -226,16 +188,11 @@ export class Lookup {
 	// in-flight scan (so a late result cannot repopulate the page) and drops
 	// the results, while pushing "/" so Back still returns to the report.
 	goHome = (): void => {
-		this.#controller?.abort();
-		this.#controller = null;
+		this.#reset();
 		this.#generation += 1;
 		this.input = '';
 		this.rows = [];
-		this.error = '';
-		this.suggestion = null;
 		this.loading = false;
-		this.filter = [...DEFAULT_FILTER];
-		this.cost = [...DEFAULT_COST];
 		this.lastLabel = null;
 		if (typeof location !== 'undefined' && location.search) {
 			history.pushState(null, '', location.pathname);
@@ -246,64 +203,28 @@ export class Lookup {
 
 	// Selection is what is shown. Pending rows stay visible while a verdict
 	// status is selected so the list does not empty and refill mid-scan.
-	visibleRows = $derived(
-		(this.filter.length === 0
-			? []
-			: this.rows.filter((row) => matchesStatus(row, this.filter) && matchesCost(row, this.cost))
-		).toSorted(byPlatformName)
-	);
+	visibleRows = $derived(visible(this.rows, this.filter, this.cost));
 
-	counts = $derived.by(() => {
-		const totals = { available: 0, taken: 0, unknown: 0, unsupported: 0 };
-		for (const row of this.rows) {
-			if (!matchesCost(row, this.cost)) continue;
-			if (row.status === 'available' || row.status === 'taken' || row.status === 'unknown') {
-				totals[row.status]++;
-			} else if (row.status === 'unsupported') {
-				totals.unsupported++;
-			}
-		}
-		return totals;
-	});
+	counts = $derived(tally(this.rows.filter((row) => matchesCost(row, this.cost))));
 
 	statusTotal = $derived(
 		this.counts.available + this.counts.taken + this.counts.unknown + this.counts.unsupported
 	);
 
-	visibleCounts = $derived.by(() => {
-		const totals = { available: 0, taken: 0, unknown: 0, unsupported: 0, pending: 0 };
-		for (const row of this.visibleRows) {
-			if (row.status === 'pending') {
-				totals.pending++;
-			} else {
-				totals[row.status]++;
-			}
-		}
-		return totals;
-	});
+	visibleCounts = $derived(tally(this.visibleRows));
+
+	// Sources that were actually checked, on screen and overall.
+	visibleChecked = $derived(
+		this.visibleCounts.available + this.visibleCounts.taken + this.visibleCounts.unknown
+	);
+
+	checkedCount = $derived(this.rows.filter((row) => row.status !== 'unsupported').length);
 
 	// The cost chips honour the status filter, so a chip previews how many rows
 	// selecting it would show.
-	costCounts = $derived.by(() => {
-		let free = 0;
-		let paid = 0;
-		for (const row of this.rows) {
-			if (!matchesStatus(row, this.filter)) continue;
-			if (row.paid) paid++;
-			else free++;
-		}
-		return { free, paid };
-	});
+	costCounts = $derived(costTally(this.rows, this.filter));
 
-	announcement = $derived.by(() => {
-		if (this.searching) return '';
-		if (this.filter.length === 0) return 'No statuses selected.';
-		const summary = `${this.visibleCounts.available} available, ${this.visibleCounts.taken} unavailable, ${this.visibleCounts.unknown} unknown`;
-		const notChecked = this.visibleCounts.unsupported
-			? `, ${this.visibleCounts.unsupported} not checked`
-			: '';
-		return `${this.visibleRows.length} shown. ${summary}${notChecked}`;
-	});
+	announcement = $derived(announce(this.visibleRows, this.filter, this.searching));
 }
 
 export function useLookup(client: CheckClient = appCheckClient): Lookup {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ResultRow from './ResultRow.svelte';
-	import type { Row } from '$lib/useLookup.svelte';
+	import type { Row } from '$lib/rows';
 
 	let { rows = [] }: { rows?: Row[] } = $props();
 </script>

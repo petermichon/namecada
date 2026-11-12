@@ -1,7 +1,7 @@
 import { render } from 'svelte/server';
 import { describe, expect, it } from 'vitest';
 import ResultRow from './ResultRow.svelte';
-import type { Row } from '$lib/useLookup.svelte';
+import type { Row } from '$lib/rows';
 
 function row(status: Row['status'], url = 'https://example.com/acema', paid = false): Row {
 	return {

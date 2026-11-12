@@ -16,11 +16,6 @@
 
 	const lookup = useLookup();
 
-	const checkedSources = $derived(lookup.rows.filter((row) => row.status !== 'unsupported').length);
-	const visibleChecked = $derived(
-		lookup.visibleCounts.available + lookup.visibleCounts.taken + lookup.visibleCounts.unknown
-	);
-
 	function onHomeClick(e: MouseEvent) {
 		if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
 		e.preventDefault();
@@ -186,13 +181,13 @@
 									class="size-3.5 animate-spin motion-reduce:animate-none"
 									aria-hidden="true"
 								/>
-								Checking {checkedSources} sources
+								Checking {lookup.checkedCount} sources
 							</span>
 						{:else}
 							<span class="font-medium text-foreground tabular-nums"
 								>{lookup.visibleCounts.available}</span
 							>
-							available of <span class="tabular-nums">{visibleChecked}</span> checked
+							available of <span class="tabular-nums">{lookup.visibleChecked}</span> checked
 						{/if}
 					</p>
 				</div>

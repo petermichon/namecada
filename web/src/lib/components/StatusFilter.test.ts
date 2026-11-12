@@ -1,7 +1,7 @@
 import { render } from 'svelte/server';
 import { describe, expect, it } from 'vitest';
 import StatusFilter from './StatusFilter.svelte';
-import type { Filter } from '$lib/useLookup.svelte';
+import type { Filter } from '$lib/rows';
 
 const TOTALS = { available: 0, taken: 0, unknown: 0, unsupported: 0 };
 

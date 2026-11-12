@@ -3,7 +3,7 @@
 	import CircleMinusIcon from '@lucide/svelte/icons/circle-minus';
 	import HelpCircleIcon from '@lucide/svelte/icons/help-circle';
 	import XCircleIcon from '@lucide/svelte/icons/x-circle';
-	import type { Filter, FilterStatus } from '$lib/useLookup.svelte';
+	import type { Filter, FilterStatus } from '$lib/rows';
 
 	let {
 		filter = $bindable<Filter>([]),

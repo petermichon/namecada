@@ -5,7 +5,7 @@
 	import HelpCircleIcon from '@lucide/svelte/icons/help-circle';
 	import LoaderCircleIcon from '@lucide/svelte/icons/loader-circle';
 	import XCircleIcon from '@lucide/svelte/icons/x-circle';
-	import type { Row } from '$lib/useLookup.svelte';
+	import type { Row } from '$lib/rows';
 
 	const STATUS: Record<
 		Row['status'],

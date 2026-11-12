@@ -1,13 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { parseEvent, type CheckClient } from './api';
-import {
-	ALL_STATUSES,
-	byPlatformName,
-	DEFAULT_COST,
-	DEFAULT_FILTER,
-	Lookup,
-	type Row
-} from './useLookup.svelte';
+import { ALL_STATUSES, byPlatformName, DEFAULT_COST, DEFAULT_FILTER, type Row } from './rows';
+import { Lookup } from './useLookup.svelte';
 import type { Status } from './platforms';
 
 function row(
@@ -241,8 +235,7 @@ describe('visibleRows', () => {
 			available: 0,
 			taken: 1,
 			unknown: 0,
-			unsupported: 0,
-			pending: 0
+			unsupported: 0
 		});
 	});
 });
