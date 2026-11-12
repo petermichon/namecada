@@ -10,7 +10,7 @@
 	import { Button } from '$lib/components/ui/button/index.js';
 	import CostFilter from '$lib/components/CostFilter.svelte';
 	import LookupForm from '$lib/components/LookupForm.svelte';
-	import ResultsList from '$lib/components/ResultsList.svelte';
+	import ResultRow from '$lib/components/ResultRow.svelte';
 	import StatusFilter from '$lib/components/StatusFilter.svelte';
 	import { useLookup } from '$lib/useLookup.svelte';
 
@@ -245,7 +245,11 @@
 						</Button>
 					</div>
 				{:else}
-					<ResultsList rows={lookup.visibleRows} />
+					<ul class="mt-2 grid grid-cols-1 gap-y-0.5 lg:grid-cols-2 lg:gap-x-10">
+						{#each lookup.visibleRows as row (row.id)}
+							<ResultRow {row} />
+						{/each}
+					</ul>
 				{/if}
 			</div>
 		</main>

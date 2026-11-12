@@ -1,6 +1,6 @@
 <script lang="ts">
-	import DollarSignIcon from '@lucide/svelte/icons/dollar-sign';
-	import DollarOffIcon from '$lib/components/icons/DollarOff.svelte';
+	import BanknoteIcon from '@lucide/svelte/icons/banknote';
+	import BanknoteXIcon from '@lucide/svelte/icons/banknote-x';
 	import type { CostFilter, CostGroup } from '$lib/rows';
 
 	let {
@@ -19,7 +19,7 @@
 			value: 'free' as const,
 			label: 'Free',
 			count: costCounts.free,
-			Icon: DollarOffIcon,
+			Icon: BanknoteXIcon,
 			color: 'text-success',
 			active: 'border-success/40 bg-success/10 text-foreground shadow-xs hover:bg-success/15'
 		},
@@ -27,7 +27,7 @@
 			value: 'paid' as const,
 			label: 'Paid',
 			count: costCounts.paid,
-			Icon: DollarSignIcon,
+			Icon: BanknoteIcon,
 			color: 'text-warning',
 			active: 'border-warning/40 bg-warning/10 text-foreground shadow-xs hover:bg-warning/15'
 		}
