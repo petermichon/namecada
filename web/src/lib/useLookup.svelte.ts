@@ -1,6 +1,6 @@
 import { onMount } from 'svelte';
 import { appCheckClient, isAbort, type CheckClient, type CheckEvent } from './api';
-import { toLabel, type CostFilter } from './platforms';
+import { toLabel, type CostFilter } from './rows';
 import {
 	announce,
 	costTally,

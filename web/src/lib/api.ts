@@ -1,5 +1,4 @@
-import type { ProviderResult, Status } from './platforms';
-import { inTauri, tauriCheckClient } from './tauri';
+import type { ProviderResult, Status } from './rows';
 
 // The check stream is NDJSON with three event types, in order:
 //   manifest → result* → done
@@ -174,6 +173,24 @@ export async function streamFromApi(
 	if (!res.body) throw new Error('backend returned an empty response');
 	await consume(res.body, onEvent);
 }
+
+// In the desktop shell the engine answers over IPC with the same events.
+function inTauri(): boolean {
+	return typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window;
+}
+
+const tauriCheckClient: CheckClient = {
+	async stream(label, onEvent, signal) {
+		const { Channel, invoke } = await import('@tauri-apps/api/core');
+		if (signal?.aborted) return;
+
+		const channel = new Channel<CheckEvent>();
+		channel.onmessage = (event) => {
+			if (!signal?.aborted) onEvent(event);
+		};
+		await invoke('check', { label, onEvent: channel });
+	}
+};
 
 // appCheckClient picks the transport once at load: the desktop app calls the
 // engine over IPC, the browser build uses the NDJSON endpoint.

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import DollarSignIcon from '@lucide/svelte/icons/dollar-sign';
 	import DollarOffIcon from '$lib/components/icons/DollarOff.svelte';
-	import type { CostFilter, CostGroup } from '$lib/platforms';
+	import type { CostFilter, CostGroup } from '$lib/rows';
 
 	let {
 		cost = $bindable<CostFilter>(['free', 'paid']),

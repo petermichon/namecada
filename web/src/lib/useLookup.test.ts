@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { parseEvent, type CheckClient } from './api';
 import { ALL_STATUSES, byPlatformName, DEFAULT_COST, DEFAULT_FILTER, type Row } from './rows';
 import { Lookup } from './useLookup.svelte';
-import type { Status } from './platforms';
+import type { Status } from './rows';
 
 function row(
 	platformName: string,

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { suggestLabel, toLabel } from './platforms';
+import { suggestLabel, toLabel } from './rows';
 
 describe('toLabel', () => {
 	it('accepts a bare label', () => {

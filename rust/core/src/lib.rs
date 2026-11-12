@@ -3,7 +3,6 @@
 //! The captured fixtures are the oracle: every provider can replay them without
 //! touching the network.
 
-pub mod cache;
 pub mod custom;
 pub mod dns;
 pub mod engine;
@@ -16,10 +15,9 @@ pub mod provider;
 pub mod providers;
 pub mod status;
 
-pub use cache::MemoryCache;
 pub use custom::{build_custom_provider, custom_specs};
 pub use dns::{build_dns_provider, dns_hosts, DnsError, Resolver, SystemResolver};
-pub use engine::{Engine, ProviderResult};
+pub use engine::{Engine, MemoryCache, ProviderResult};
 pub use events::{DoneEvent, ManifestEvent, ResultEvent, SourceEvent};
 pub use fixture::{Fixture, RecordingTransport, ReplayTransport};
 pub use http::HttpTransport;
