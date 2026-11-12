@@ -35,21 +35,15 @@ npm run rust:clippy
 npm run rust:build
 ```
 
-Manual replay:
-
-```sh
-cd rust
-cargo run -p namecheck -- check acema --fixtures ../fixtures
-```
-
-The registry is compiled in (`Manifest::embedded`); `--manifest
-../fixtures/sources.json` overrides it.
-
 Live check with real HTTP and DNS:
 
 ```sh
-cargo run -p namecheck -- check acema --live
+cargo run -p namecheck -- check acema
 ```
+
+The registry is compiled in (`Manifest::embedded`); `--manifest
+../fixtures/sources.json` overrides it. Fixtures are replayed by the parity
+tests, not by the CLI.
 
 Serve the NDJSON API (`GET /v1/check?name=<label>`), from the repository root:
 

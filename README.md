@@ -193,16 +193,15 @@ assembled from a small core plus two commands:
 - `core/src/cache.rs` — in-memory verdict cache with a one-hour TTL.
 - `core/src/http.rs` — production HTTP transport.
 - `cli/src/serve.rs` — the NDJSON HTTP server.
-- `cli/src/providers.rs` — assembles the live or replay provider registry.
 
-Two commands drive it:
+Three commands drive it:
 
 - `npm run rust:serve` exposes `GET /v1/check?name=<label>`, streaming a
-  manifest, one result per source as it resolves, then a done event. It streams
-  until every checked source resolves; `--budget-ms` caps the stream and leaves
-  unfinished sources unchecked. `check --live` is always unbounded.
-- `check <label>` runs a one-shot scan. It replays the checked-in fixtures by
-  default; add `--live` to use real HTTP and DNS.
+  manifest, one result per source as it resolves, then a done event.
+- `check <label>` runs a one-shot live scan against real HTTP and DNS.
+- `capture <label> [--source id]` records fixtures from live providers.
+
+Fixtures replay in the test suite, not from the CLI.
 
 The credential-gated sources (Discogs, Companies House, OpenCorporates)
 are intentionally omitted. They produce no row and make no

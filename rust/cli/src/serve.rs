@@ -1,65 +1,28 @@
 use std::collections::HashSet;
 use std::error::Error;
 use std::io::{self, Read, Write};
-use std::path::PathBuf;
 use std::sync::{mpsc, Arc};
 use std::thread;
-use std::time::{Duration, Instant};
 
 use namecheck_core::{
-    events, DoneEvent, Engine, Manifest, ManifestEvent, MemoryCache, ProviderResult, ResultEvent,
+    events, live_providers, DoneEvent, Engine, Manifest, ManifestEvent, MemoryCache,
+    ProviderResult, ResultEvent,
 };
 use serde::Serialize;
 use serde_json::json;
 use tiny_http::{Header, Method, Request, Response, Server, StatusCode};
 
-use crate::providers;
-
 const DEFAULT_ADDR: &str = "127.0.0.1:8080";
 
 pub fn run(args: &[String]) -> Result<(), Box<dyn Error>> {
-    let mut addr = DEFAULT_ADDR.to_string();
-    let mut manifest_path: Option<PathBuf> = None;
-    let mut budget: Option<Duration> = None;
-
-    let mut i = 0;
-    while i < args.len() {
-        match args[i].as_str() {
-            "--addr" => {
-                addr = args.get(i + 1).ok_or("--addr requires an address")?.clone();
-                i += 2;
-            }
-            "--manifest" => {
-                manifest_path = Some(PathBuf::from(
-                    args.get(i + 1).ok_or("--manifest requires a path")?,
-                ));
-                i += 2;
-            }
-            "--budget-ms" => {
-                let value = args.get(i + 1).ok_or("--budget-ms requires milliseconds")?;
-                let ms: u64 = value
-                    .parse()
-                    .map_err(|_| format!("invalid --budget-ms {value:?}"))?;
-                budget = Some(Duration::from_millis(ms));
-                i += 2;
-            }
-            flag => return Err(format!("unknown flag {flag:?}").into()),
-        }
-    }
-
-    let manifest = match &manifest_path {
-        Some(path) => Manifest::load(path)?,
-        None => Manifest::embedded()?,
-    };
-    manifest.validate()?;
+    let flags = crate::Flags::parse(args, &[("addr", true), ("manifest", true)])?;
+    let addr = flags.value("addr").unwrap_or(DEFAULT_ADDR).to_string();
+    let manifest = crate::load_manifest(flags.value("manifest"))?;
     eprintln!(
         "registry: {}",
-        manifest_path
-            .as_ref()
-            .map(|path| path.display().to_string())
-            .unwrap_or_else(|| "embedded".to_string())
+        flags.value("manifest").unwrap_or("embedded")
     );
-    let providers = providers::live(&manifest)?;
+    let providers = live_providers(&manifest)?;
     let checked: Arc<HashSet<String>> = Arc::new(
         providers
             .iter()
@@ -76,18 +39,12 @@ pub fn run(args: &[String]) -> Result<(), Box<dyn Error>> {
         let engine = Arc::clone(&engine);
         let manifest = Arc::clone(&manifest);
         let checked = Arc::clone(&checked);
-        thread::spawn(move || handle(request, &engine, &manifest, &checked, budget));
+        thread::spawn(move || handle(request, &engine, &manifest, &checked));
     }
     Ok(())
 }
 
-fn handle(
-    request: Request,
-    engine: &Engine,
-    manifest: &Manifest,
-    checked: &HashSet<String>,
-    budget: Option<Duration>,
-) {
+fn handle(request: Request, engine: &Engine, manifest: &Manifest, checked: &HashSet<String>) {
     if request.method() != &Method::Get {
         respond_error(request, 405, "method not allowed");
         return;
@@ -111,7 +68,7 @@ fn handle(
     }
 
     let receiver = engine.scan(&label);
-    stream_ndjson(request, manifest, checked, &label, receiver, budget);
+    stream_ndjson(request, manifest, checked, &label, receiver);
 }
 
 /// stream_ndjson writes the response itself instead of going through tiny_http's
@@ -125,7 +82,6 @@ fn stream_ndjson(
     checked: &HashSet<String>,
     label: &str,
     receiver: mpsc::Receiver<ProviderResult>,
-    budget: Option<Duration>,
 ) {
     let mut writer = request.into_writer();
     let head = "HTTP/1.1 200 OK\r\n\
@@ -136,7 +92,7 @@ fn stream_ndjson(
     if writer.write_all(head.as_bytes()).is_err() {
         return;
     }
-    if let Err(err) = write_events(&mut writer, manifest, checked, label, receiver, budget) {
+    if let Err(err) = write_events(&mut writer, manifest, checked, label, receiver) {
         eprintln!("response failed: {err}");
     }
 }
@@ -147,31 +103,14 @@ fn write_events<W: Write>(
     checked: &HashSet<String>,
     label: &str,
     receiver: mpsc::Receiver<ProviderResult>,
-    budget: Option<Duration>,
 ) -> io::Result<()> {
     write_event(
         writer,
         &ManifestEvent::new(label, events::source_events(manifest, checked, label)),
     )?;
 
-    if let Some(budget) = budget {
-        let deadline = Instant::now() + budget;
-        loop {
-            let remaining = deadline.saturating_duration_since(Instant::now());
-            if remaining.is_zero() {
-                break;
-            }
-            match receiver.recv_timeout(remaining) {
-                Ok(result) => write_event(writer, &ResultEvent::new(&result))?,
-                Err(mpsc::RecvTimeoutError::Timeout | mpsc::RecvTimeoutError::Disconnected) => {
-                    break;
-                }
-            }
-        }
-    } else {
-        for result in receiver {
-            write_event(writer, &ResultEvent::new(&result))?;
-        }
+    for result in receiver {
+        write_event(writer, &ResultEvent::new(&result))?;
     }
 
     write_event(writer, &DoneEvent::default())?;
@@ -271,7 +210,7 @@ mod tests {
         drop(tx);
 
         let mut body = Vec::new();
-        write_events(&mut body, &manifest, &checked, "acema", rx, None).unwrap();
+        write_events(&mut body, &manifest, &checked, "acema", rx).unwrap();
         let body = String::from_utf8(body).unwrap();
 
         assert!(body.contains("\"type\":\"manifest\""));

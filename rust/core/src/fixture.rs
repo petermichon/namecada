@@ -53,6 +53,45 @@ impl Fixture {
         Ok(())
     }
 
+    /// record runs one provider against a recording transport and returns the
+    /// fixture for that run, so callers never assemble the format themselves.
+    pub fn record(
+        provider: &dyn crate::provider::Provider,
+        label: &str,
+        recorder: &RecordingTransport,
+    ) -> Self {
+        let started = std::time::Instant::now();
+        let checked = provider.check(label);
+        let duration_ms = started.elapsed().as_millis() as u64;
+
+        let (status, detail, error) = match &checked {
+            Ok(outcome) => (
+                Some(outcome.status.as_str().to_string()),
+                (!outcome.detail.is_empty()).then(|| outcome.detail.clone()),
+                None,
+            ),
+            Err(err) => (None, None, Some(err.to_string())),
+        };
+        Self {
+            source: provider.id().to_string(),
+            platform: provider.platform().to_string(),
+            platform_name: provider.platform_name(),
+            label: label.to_string(),
+            name: provider.name(label),
+            url: checked
+                .as_ref()
+                .ok()
+                .and_then(|outcome| outcome.url.clone())
+                .unwrap_or_else(|| provider.url(label)),
+            paid: provider.paid(),
+            status,
+            detail,
+            error,
+            duration_ms,
+            requests: recorder.take(),
+        }
+    }
+
     pub fn expected_status(&self) -> Option<Status> {
         self.status.as_deref().and_then(Status::parse)
     }
