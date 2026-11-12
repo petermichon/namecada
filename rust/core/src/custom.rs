@@ -115,7 +115,14 @@ fn check_sns(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outco
     }
 }
 
+/// hnsscan answers 502 for the ICANN special-use names (probed 2026-11).
+/// Nobody can register them, so they report unavailable rather than unknown.
+const HNS_RESERVED: &[&str] = &["example", "invalid", "local", "localhost", "test"];
+
 fn check_hns(_: &Source, transport: &dyn Transport, label: &str) -> Result<Outcome, Error> {
+    if HNS_RESERVED.contains(&label) {
+        return Ok(taken());
+    }
     let url = format!("https://hnsscan.com/api/names/{label}/details");
     let response = get(transport, &url, DEFAULT_ACCEPT)?;
     if response.status != 200 {
@@ -844,5 +851,31 @@ mod tests {
         assert_eq!(snap_outcome(200).status, Status::Taken);
         assert_eq!(snap_outcome(404).status, Status::Available);
         assert_eq!(snap_outcome(500).status, Status::Unknown);
+    }
+
+    /// hnsscan 502s on these, so they are answered without a request. An empty
+    /// replay queue would fail loudly if the check tried to reach the network.
+    #[test]
+    fn hns_reports_special_use_names_as_taken() {
+        let fixture: Fixture = serde_json::from_value(serde_json::json!({
+            "source": "hns",
+            "platform": "hns",
+            "label": "example",
+            "name": "example",
+            "url": "https://hnsscan.com/names/example",
+            "requests": []
+        }))
+        .expect("fixture");
+        let transport = ReplayTransport::new(&fixture);
+        let source = Manifest::embedded()
+            .expect("manifest")
+            .source("hns")
+            .expect("hns source")
+            .clone();
+
+        for label in ["example", "test", "invalid", "localhost", "local"] {
+            let outcome = check_hns(&source, &transport, label).expect("check");
+            assert_eq!(outcome.status, Status::Taken, "{label}");
+        }
     }
 }

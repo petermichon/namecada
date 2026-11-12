@@ -112,7 +112,7 @@ Desktop app: `npm run tauri:dev` (Vite dev server plus the native window) and
 | Giphy     | `giphy.com/{name}` (profile)                                   | 200 canonical `/{name}` taken / 301 → `/explore/{name}` free |
 | Minds     | `api/v1/channel/{name}` (profile `minds.com/{name}/`)           | `status:"success"` taken / `ChannelNotFoundException` free |
 | X / Twitter | `x.com/{name}` (profile)                                     | 200 taken / 404 free      |
-| Vercel    | `{name}.vercel.app` (subdomain)                                | 200 taken / 404 free      |
+| Vercel    | `{name}.vercel.app` (subdomain)                                | 200/401 (SSO) taken / 404 free |
 | Netlify   | `{name}.netlify.app` (subdomain)                               | 200 taken / 404 free      |
 | Surge     | `{name}.surge.sh` (subdomain)                                  | 200 taken / 404 free      |
 | Firebase Hosting | `{name}.web.app` (subdomain)                            | 200 taken / 404 free      |

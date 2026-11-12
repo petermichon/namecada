@@ -180,7 +180,17 @@ static SPECS: &[StatusSpec] = &[
     spec("strava", "https://www.strava.com/athletes/%s"),
     spec("swift-package-index", "https://swiftpackageindex.com/%s"),
     spec("lemmy", "https://lemmy.world/api/v3/user?username=%s"),
-    spec("vercel", "https://%s.vercel.app/"),
+    // A claimed deployment behind Vercel SSO answers 401 for a JSON request
+    // (302 to /sso-api for HTML); free names still 404, so both are taken.
+    spec_with(
+        "vercel",
+        "https://%s.vercel.app/",
+        CodeMap {
+            available: &[404],
+            taken: &[200, 401, 302],
+        },
+        DEFAULT_ACCEPT,
+    ),
     spec("netlify", "https://%s.netlify.app/"),
     spec("surge", "https://%s.surge.sh/"),
     spec("firebase", "https://%s.web.app/"),
@@ -368,6 +378,18 @@ mod tests {
         let manifest = Manifest::embedded().expect("manifest");
         build_status_provider(&manifest, id, Arc::new(ReplayTransport::new(&fixture)))
             .expect("provider")
+    }
+
+    #[test]
+    fn sso_protected_deployment_is_taken() {
+        // Vercel answers 401 for a JSON request to a deployment behind SSO
+        // (302 to /sso-api for HTML); free names 404.
+        let provider = provider(
+            "vercel",
+            fixture("vercel", "https://acema.vercel.app/", 401),
+        );
+        let outcome = provider.check("acema").expect("check");
+        assert_eq!(outcome.status, Status::Taken);
     }
 
     #[test]
