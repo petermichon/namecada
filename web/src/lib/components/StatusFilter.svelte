@@ -30,28 +30,20 @@
 			Icon: XCircleIcon,
 			color: 'text-destructive'
 		},
-		...(counts.unknown || filter.includes('unknown')
-			? [
-					{
-						value: 'unknown' as const,
-						label: 'unknown',
-						count: counts.unknown,
-						Icon: HelpCircleIcon,
-						color: 'text-warning'
-					}
-				]
-			: []),
-		...(counts.unsupported || filter.includes('unsupported')
-			? [
-					{
-						value: 'unsupported' as const,
-						label: 'not checked',
-						count: counts.unsupported,
-						Icon: CircleMinusIcon,
-						color: 'text-muted-foreground'
-					}
-				]
-			: [])
+		{
+			value: 'unknown' as const,
+			label: 'unknown',
+			count: counts.unknown,
+			Icon: HelpCircleIcon,
+			color: 'text-warning'
+		},
+		{
+			value: 'unsupported' as const,
+			label: 'not checked',
+			count: counts.unsupported,
+			Icon: CircleMinusIcon,
+			color: 'text-muted-foreground'
+		}
 	]);
 
 	// Keep the segments mounted even at zero width so 0 → N transitions.
