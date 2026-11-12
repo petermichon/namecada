@@ -98,6 +98,10 @@ Desktop app: `npm run tauri:dev` (Vite dev server plus the native window) and
 | Dribbble  | `dribbble.com/{name}` (profile)                                | 200 taken / 404 free; a non-public profile 404s an "isn't public yet" body and is taken |
 | Behance   | `behance.net/{name}` (profile)                                 | 200 taken / 404 free      |
 | Replicate | `replicate.com/{name}` (profile)                               | 200 taken / 404 free      |
+| DeviantArt | `deviantart.com/{name}` (profile)                             | 200 taken / 404 free      |
+| Snapchat  | `snapchat.com/add/{name}` (profile)                            | 200 taken / 404 free      |
+| Strava    | `strava.com/athletes/{name}` (profile)                         | 200 taken / 404 free      |
+| Swift Package Index | `swiftpackageindex.com/{name}` (publisher)            | 200 taken / 404 free; publishing nothing also 404s |
 | HackerNoon | `hackernoon.com/u/{name}` (profile)                           | 200 taken / 404 free      |
 | Spotify   | `open.spotify.com/user/{name}` (profile)                       | 200 taken / 404 free      |
 | Paragraph | `paragraph.com/@{name}` (profile)                              | 200 taken / 404 free      |

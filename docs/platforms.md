@@ -65,6 +65,10 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Dribbble — ✅ — `dribbble.com/{name}` (keyless profile: 200 taken / 404 free, but the route needs an HTML Accept — `application/json` 404s every name; a claimed profile that is not public also 404s, and its "isn't public yet" body marks it taken; the API v2 is publishing-only with no arbitrary-user endpoint, so the profile route is the signal)
 - [x] Behance — ✅ — `behance.net/{name}` (keyless profile: 200 taken / 404 free; the Adobe API needs a key but the profile route does not)
 - [x] Replicate — ✅ — `replicate.com/{name}` (keyless profile: 200 taken / 404 free; the API has no arbitrary-username lookup, so the profile page is the signal)
+- [x] DeviantArt — ✅ — `deviantart.com/{name}` (keyless profile: 200 taken / 404 free; a name with no profile 404s — the old "always-200 SPA" reading no longer holds)
+- [x] Snapchat — ✅ — `snapchat.com/add/{name}` (keyless profile: 200 taken / 404 free; the old note probed a URL shape that no longer exists)
+- [x] Strava — ✅ — `strava.com/athletes/{name}` (keyless public athlete page: 200 taken / 404 free; previously listed as keyed — the profile route needs no token)
+- [x] Swift Package Index — ✅ — `swiftpackageindex.com/{name}` (keyless publisher page: 200 taken / 404 free; the page lists packages, so an account that publishes none 404s and reads as free)
 - [x] Companies House UK — ✅ — `api.company-information.service.gov.uk/search/companies?q={name}` (key; Basic auth; exact company-name hit taken / else free)
 - [x] OpenCorporates — ✅ — `api.opencorporates.com/v0.4/companies/search?q={name}` (token; `X-API-TOKEN` header; exact company-name hit taken / else free)
 - [x] Firefox Add-ons — ✅ — `addons.mozilla.org/api/v5`
@@ -135,7 +139,6 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Threads — 🕸 — keyless pass: 301 → (followed) 200 for both real and fake names, so no status signal; needs a key or a scrape — deferred, not ported
 - [ ] Facebook — 🕸 — keyless pass: 200 (present) / 302 (missing) is a login redirect, not a name signal; needs a key or a scrape — deferred, not ported
 - [ ] Reddit — 🕸 — keyless pass: 301 → (followed) 200 for both real and fake names, so no status signal (supersedes the old "403 from server IPs"); needs a key or a scrape — deferred, not ported
-- [ ] Snapchat — 🕸 — keyless pass: the assumed URL shape 404s for both real and fake names, so no status signal; needs a key or a scrape — deferred, not ported
 - [ ] Pinterest — 🕸 — keyless pass: every name returns 200 (JS/SPA shell), so no status signal; needs a key or a scrape — deferred, not ported
 - [ ] Medium — 🕸 — keyless pass: 403 (bot-block) for both real and fake names, so no status signal; needs a key or a scrape — deferred, not ported
 - [ ] OpenSea — 🕸 — re-checked server-side (2026-11): the whole site now sits behind a Cloudflare interstitial, so `opensea.io/{name}` returns 403 "Just a moment…" for both real and fake names (curl with browser headers, a real browser, and an unrelated third-party proxy were all challenged), so there is no status signal; deferred, not ported
@@ -179,7 +182,6 @@ below, written in the browser-direct era, must be re-checked before implementing
   account name, already covered by the GitHub provider; redundant.
 - [ ] GitLab Pages — 🔌 — `{name}.gitlab.io` — the subdomain *is* the GitLab
   account name, already covered by the GitLab provider; redundant.
-- [ ] Swift Package Index — 🕸 — 403
 - [ ] Gradle Plugin Portal — 🕸 — no usable API
 - [ ] Ansible Galaxy — 🕸 — scoped `namespace/name`, not a single label
 - [ ] Puppet Forge — 🕸 — requires owner-name slug
@@ -217,7 +219,6 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Matrix — 🕸 — inconclusive: availability is a per-homeserver localpart, and the register/available endpoint only answers on open-registration servers (see plan/results/P2.md)
 - [ ] Revolt — 🕸 — the profile route 301s, so no status signal
 - [ ] Guilded — 🕸 — re-checked server-side (2026-11): `guilded.gg/{name}` 200s for real and fake names, so there is no signal
-- [ ] DeviantArt — 🕸 — profile pages are an always-200 SPA (any name returns 200), so no signal
 - [ ] OpenNIC — 🔌 — ruled out: the DoH endpoints are dead
 - [ ] Ko-fi — 🕸 — redirects, no signal
 - [ ] Buy Me a Coffee — 🕸 — re-checked server-side (2026-11): `buymeacoffee.com/{name}` 404s for real and fake names alike, so there is no signal
@@ -233,7 +234,6 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] MyAnimeList — 🕸 — Jikan API unavailable
 - [ ] Trakt — 🔑
 - [ ] Genius — 🔑
-- [ ] Strava — 🔑
 - [ ] Duolingo — 🕸 — re-checked server-side (2026-11): `duolingo.com/profile/{name}` 200s for real and fake users, so status has no signal
 - [ ] CodeSandbox — 🕸 — Cloudflare-blocked (403)
 - [ ] CodePen — 🕸 — re-checked server-side (2026-11): Cloudflare challenge (403) for real and fake profiles
