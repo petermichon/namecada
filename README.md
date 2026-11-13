@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="docs/banner.png" alt="Namecada — check a name across the open web" width="720" />
-</p>
-
 # Namecada
 
 A name availability report across domains, usernames and package registries,
@@ -13,11 +9,11 @@ as it lands. Input is taken as-is: a source that cannot hold the name reports
 
 ## Documentation
 
-- [Sources](docs/sources.md) — every source, the request it makes and the rule
+- [Sources](docs/sources.md): every source, the request it makes and the rule
   behind its verdict.
-- [Architecture](docs/architecture.md) — engine, adapters, caching, fixtures and
+- [Architecture](docs/architecture.md): engine, adapters, caching, fixtures and
   how to add a source.
-- [Platform backlog](docs/platforms.md) — candidates and per-source notes.
+- [Platform backlog](docs/platforms.md): candidates and per-source notes.
 
 ## Development
 
