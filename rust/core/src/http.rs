@@ -16,8 +16,13 @@ pub struct HttpTransport {
 
 impl HttpTransport {
     pub fn new() -> Self {
+        Self::with_timeout(DEFAULT_TIMEOUT)
+    }
+
+    /// with_timeout bounds one request, including reading the body.
+    pub fn with_timeout(timeout: Duration) -> Self {
         let config = ureq::Agent::config_builder()
-            .timeout_global(Some(DEFAULT_TIMEOUT))
+            .timeout_global(Some(timeout))
             .http_status_as_error(false)
             .max_redirects(0)
             .build();

@@ -33,7 +33,7 @@
 		"tauri:dev": "tauri dev",
 		"tauri:build": "tauri build",
 		"rust:serve": "cargo run --manifest-path rust/Cargo.toml -p namecada --bin serve",
-		"probe": "python3 scripts/probe-sources.py",
+		"probe": "cargo run --manifest-path rust/Cargo.toml -p namecada --bin probe --",
 		"capture": "cargo run --manifest-path rust/Cargo.toml -p namecada --bin capture",
 		"verify": "npm run check && npm test && npm run lint && npm run rust:fmt:check && npm run rust:clippy && npm run rust:test",
 		"verify:ci": "npm run check && npm test && npm run lint && npm run rust:fmt:check && npm run rust:clippy:core && npm run rust:test",
