@@ -5,6 +5,8 @@ it across several independent sources at once, all through one Rust core. The
 input accepts any text; a source that cannot contain it reports the name as
 `invalid` rather than checking a different name.
 
+![The report for "acema": every source listed with its verdict](docs/report.png)
+
 ## How it works
 
 Each source runs independently and streams its verdict into the report as soon
