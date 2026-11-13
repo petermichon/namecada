@@ -237,15 +237,6 @@ export class Lookup {
 
 	visibleCounts = $derived(tally(this.visibleRows));
 
-	// Sources that were actually checked, on screen and overall.
-	visibleChecked = $derived(
-		this.visibleCounts.available + this.visibleCounts.taken + this.visibleCounts.unknown
-	);
-
-	checkedCount = $derived(
-		this.rows.filter((row) => row.status !== 'unsupported' && row.status !== 'invalid').length
-	);
-
 	// The cost chips honour the status filter, so a chip previews how many rows
 	// selecting it would show.
 	costCounts = $derived(costTally(this.rows, this.filter));

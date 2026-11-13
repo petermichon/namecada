@@ -1,6 +1,5 @@
 <script lang="ts">
 	import InfoIcon from '@lucide/svelte/icons/info';
-	import LoaderCircleIcon from '@lucide/svelte/icons/loader-circle';
 	import MoonIcon from '@lucide/svelte/icons/moon';
 	import SunIcon from '@lucide/svelte/icons/sun';
 	import TriangleAlertIcon from '@lucide/svelte/icons/triangle-alert';
@@ -182,29 +181,13 @@
 								{lookup.lastLabel}
 							</h1>
 						</div>
-						<p class="text-sm text-muted-foreground">
-							{#if lookup.searching && lookup.checkedCount}
-								<span class="inline-flex items-center gap-2">
-									<LoaderCircleIcon
-										class="size-3.5 animate-spin motion-reduce:animate-none"
-										aria-hidden="true"
-									/>
-									Checking {lookup.checkedCount} sources
-								</span>
-							{:else if !lookup.searching}
-								<span class="font-medium text-foreground tabular-nums"
-									>{lookup.visibleCounts.available}</span
-								>
-								available of <span class="tabular-nums">{lookup.visibleChecked}</span> checked
-							{/if}
-						</p>
-					</div>
 
-					<div
-						class="flex max-w-2xl items-start gap-1.5 text-sm leading-5 text-pretty text-muted-foreground"
-					>
-						<InfoIcon class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
-						<p>Availability doesn’t guarantee you can register the name.</p>
+						<div
+							class="flex max-w-sm items-start gap-1.5 text-sm leading-5 text-pretty text-muted-foreground"
+						>
+							<InfoIcon class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+							<p>Availability doesn’t guarantee you can register the name.</p>
+						</div>
 					</div>
 
 					<StatusFilter
