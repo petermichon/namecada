@@ -26,3 +26,6 @@ plan/PLAN.md
 plan/DONE.md
 plan/results/
 plan/.run.lock
+
+# local agent tooling
+.todoworker.json

@@ -22,7 +22,7 @@ pub(crate) fn check_threads(
     };
     // A profile title names the handle, either after a display name
     // ("Sofyan Boudouni (@sofyan) • Threads") or on its own
-    // ("@hardvoxel • Threads"). The missing page is "Threads • Log in".
+    // ("@acema • Threads"). The missing page is "Threads • Log in".
     let title = title.to_ascii_lowercase();
     let named = title.contains(&format!("(@{label})"))
         || title.contains(&format!("(&#064;{label})"))
@@ -264,12 +264,12 @@ mod tests {
             let fixture: Fixture = serde_json::from_value(serde_json::json!({
                 "source": "threads",
                 "platform": "threads",
-                "label": "hardvoxel",
-                "name": "hardvoxel",
-                "url": "https://www.threads.net/@hardvoxel",
+                "label": "acema",
+                "name": "acema",
+                "url": "https://www.threads.net/@acema",
                 "requests": [{
                     "method": "GET",
-                    "url": "https://www.threads.net/@hardvoxel",
+                    "url": "https://www.threads.net/@acema",
                     "response": {
                         "status": 200,
                         "body": format!("<html><head><title>{title}</title></head></html>")
@@ -283,18 +283,18 @@ mod tests {
                 .source("threads")
                 .expect("threads source")
                 .clone();
-            check_threads(&source, &transport, "hardvoxel")
+            check_threads(&source, &transport, "acema")
                 .expect("check")
                 .status
         }
 
         assert_eq!(
-            outcome("Hardvoxel (&#064;hardvoxel) &#x2022; Threads, Say more"),
+            outcome("Acema (&#064;acema) &#x2022; Threads, Say more"),
             Status::Taken
         );
         // An account with no display name puts the handle first.
         assert_eq!(
-            outcome("&#064;hardvoxel &#x2022; Threads, Say more"),
+            outcome("&#064;acema &#x2022; Threads, Say more"),
             Status::Taken
         );
         assert_eq!(outcome("Threads &#x2022; Log in"), Status::Available);

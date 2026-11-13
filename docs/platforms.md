@@ -67,7 +67,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Replicate — ✅ — `replicate.com/{name}` (keyless profile: 200 taken / 404 free; the API has no arbitrary-username lookup, so the profile page is the signal)
 - [x] DeviantArt — ✅ — `deviantart.com/{name}` (keyless profile: 200 taken / 404 free; a name with no profile 404s — the old "always-200 SPA" reading no longer holds)
 - [x] TikTok — ✅ — `www.tiktok.com/oembed?url=https://www.tiktok.com/@{name}` (keyless oEmbed: 200 JSON with `author_url` taken / 400 free; the profile page itself is an always-200 shell)
-- [x] Threads — ✅ — `threads.net/@{name}` (keyless: the server-rendered `<title>` names the profile, after a display name or alone — `Sofyan (@sofyan) • Threads` and `@hardvoxel • Threads` taken / `Threads • Log in` free)
+- [x] Threads — ✅ — `threads.net/@{name}` (keyless: the server-rendered `<title>` names the profile, after a display name or alone — `Sofyan (@sofyan) • Threads` and `@acema • Threads` taken / `Threads • Log in` free)
 - [x] Duolingo — ✅ — `duolingo.com/profile/{name}` (keyless `og:title`: `Google on Duolingo` taken / `Learn a language for free` free; the page `<title>` is just `Duolingo`)
 - [x] Telegram — ✅ — `t.me/{name}` (keyless `<title>`: `Telegram: View @name` taken / `Telegram: Contact @name` free)
 - [x] Snapchat — ✅ — `snapchat.com/add/{name}` (keyless profile: 200 taken / 404 free; the old note probed a URL shape that no longer exists)

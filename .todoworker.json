@@ -1,4 +1,0 @@
-{
-	"check": "npm run verify",
-	"defaultRole": "implementer"
-}
