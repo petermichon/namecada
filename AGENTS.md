@@ -1,8 +1,8 @@
 # AGENTS.md
 
-Guidance for agents working in this repo. See `README.md` for architecture and
-`docs/platforms.md` for the source catalogue; this file covers commands and
-conventions.
+Guidance for agents working in this repo. See `docs/architecture.md` for
+architecture and `docs/sources.md` for the source catalogue; this file covers
+commands and conventions.
 
 ## Layout
 
@@ -20,6 +20,8 @@ conventions.
 - `fixtures/` — captured source inventory plus raw HTTP snapshots. These are a
   frozen parity oracle; the Rust-only tree has no exporter yet. See
   `fixtures/README.md`.
+- `docs/sources.md` — every checked source with its request and verdict rule.
+- `docs/architecture.md` — engine, adapters, caching, fixtures, adding a source.
 - `docs/platforms.md` — the full source catalogue and per-source notes.
 
 ## Commands
@@ -105,5 +107,5 @@ flags the ones that now return a real signal. Promoting one is still manual.
    ambiguous or unparseable body, never a transport error.
 4. Add a unit test or fixture. Status/custom providers are compared in
    `rust/core/tests/parity.rs`; DNS uses a fake resolver.
-5. Add the source row to `README.md` and `docs/platforms.md`, then run
+5. Add the source row to `docs/sources.md` and `docs/platforms.md`, then run
    `npm run verify` — the tree must stay green.
