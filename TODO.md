@@ -37,12 +37,46 @@ source to a `plan/PLAN.md` item when it reaches the front of the line.
   store routes), then probe the survivors for a 200/404 split; promote the clean
   ones into `docs/platforms.md` and decide then whether the raw file survives.
 
+## Before mobile
+
+The first three are wins on desktop too, so they come first regardless.
+
+- [ ] Cap engine concurrency — `Engine::new` opens one connection per provider,
+  ~130 at once. Settle on 16 in flight, as a constant in `core` so `serve`, the
+  desktop shell and Android agree; keep `with_concurrency` for experiments.
+- [ ] Add a scan deadline — at 16 workers and a 10 s request timeout a bad scan
+  still runs ~90 s. Whatever has not resolved by the deadline becomes `unknown`,
+  which is uncached and self-heals.
+- [ ] Give `HttpTransport` explicit connect/read timeouts alongside the 10 s
+  global bound, so one stalled host cannot hold a worker.
+- [ ] Persist the cache to `app_data_dir()` — it is process-only today, so every
+  Android relaunch is a cold scan.
+- [ ] Add recent-checks history; it falls out of the persisted cache, and it is
+  what makes a phone app worth opening.
+- [ ] `viewport-fit=cover` + `env(safe-area-inset-*)`, or the notch and gesture
+  bar clip the sticky header.
+- [ ] ≥44 px tap targets and no hover-only affordances in `ResultRow`.
+- [ ] Kill the WebView tap highlight and rubber-band overscroll.
+- [ ] Re-check the results header at 360 px: brand, search, theme, two filter
+  rows.
+- [ ] Capability targets `"windows": ["main"]`; confirm it applies to the mobile
+  webview.
+- [ ] Generate Android mipmaps with `npx tauri icon`.
+- [ ] Confirm `devUrl` (`localhost:5221`) survives `adb reverse` for
+  `tauri android dev`.
+- [ ] Decide the mobile source set — 130 sources is a desktop answer.
+- [ ] Decide signing and commit policy: commit `src-tauri/gen/android`, keep the
+  keystore out of the repo.
+- [ ] Test on the phone's actual WebView (Tailwind 4 needs Chrome/WebView 111+).
+
 ## Mobile
 
-Wanted eventually, in this order:
+Android only; iOS needs macOS, so it is out of scope here. Once the list above is
+green:
 
-1. Responsive pass on the existing web UI at ~360 px: filter chips/header
-   wrapping, compact result rows, ≥44 px tap targets, no hover-only affordances.
-2. Then the Android shell: SDK + NDK, `rustup target add aarch64-linux-android`,
-   `cargo-ndk`, `npx tauri android init`, `npx tauri android dev` over USB.
-   Same IPC and engine; iOS needs macOS, so it is out of scope here.
+1. Toolchain: SDK + NDK, `rustup target add aarch64-linux-android`, `cargo-ndk`,
+   then `npx tauri android init`.
+2. `npx tauri android dev` over USB, then `npx tauri android build` and
+   sideload.
+
+Same IPC and engine as the desktop shell.
