@@ -1,5 +1,10 @@
 {
 	"name": "namecada",
+	"description": "A name availability report across domains, usernames and package registries.",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/petermichon/namecada.git"
+	},
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
