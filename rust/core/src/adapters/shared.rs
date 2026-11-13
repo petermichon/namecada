@@ -6,7 +6,7 @@ use serde_json::Value;
 
 use crate::provider::{Error, HttpRequest, HttpResponse, Outcome, Status, Transport};
 
-pub(crate) use super::status::{DEFAULT_ACCEPT, USER_AGENT};
+pub(crate) use super::status::{ACCEPT_LANGUAGE, DEFAULT_ACCEPT, USER_AGENT};
 
 pub(crate) fn unknown() -> Outcome {
     // A 200 whose body did not match the expected shape.
@@ -47,6 +47,7 @@ pub(crate) fn get_once(
 ) -> Result<HttpResponse, Error> {
     let mut headers = BTreeMap::new();
     headers.insert("Accept".to_string(), accept.to_string());
+    headers.insert("Accept-Language".to_string(), ACCEPT_LANGUAGE.to_string());
     headers.insert("User-Agent".to_string(), USER_AGENT.to_string());
     transport.execute(HttpRequest {
         method: "GET".to_string(),
@@ -64,6 +65,7 @@ pub(crate) fn post_json(
     let mut headers = BTreeMap::new();
     headers.insert("Accept".to_string(), DEFAULT_ACCEPT.to_string());
     headers.insert("Content-Type".to_string(), "application/json".to_string());
+    headers.insert("Accept-Language".to_string(), ACCEPT_LANGUAGE.to_string());
     headers.insert("User-Agent".to_string(), USER_AGENT.to_string());
     transport.execute(HttpRequest {
         method: "POST".to_string(),

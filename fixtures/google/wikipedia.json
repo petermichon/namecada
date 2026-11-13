@@ -11,10 +11,11 @@
   "requests": [
     {
       "method": "GET",
-      "url": "https://meta.wikimedia.org/w/api.php?action=query\u0026format=json\u0026guiuser=google\u0026meta=globaluserinfo\u0026origin=%2A",
+      "url": "https://meta.wikimedia.org/w/api.php?action=query&format=json&guiuser=google&meta=globaluserinfo&origin=%2A",
       "headers": {
         "Accept": "application/json",
-        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
       },
       "response": {
         "status": 200,

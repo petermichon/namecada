@@ -1,30 +1,31 @@
 {
- "durationMs": 717,
- "label": "google",
- "name": "google",
- "paid": false,
- "platform": "tiktok",
- "platformName": "TikTok",
- "requests": [
-  {
-   "headers": {
-    "Accept": "application/json",
-    "User-Agent": "namecada/1.0 (+https://github.com/petermichon/namecada)"
-   },
-   "method": "GET",
-   "response": {
-    "body": "{\"version\":\"1.0\",\"type\":\"rich\",\"title\":\"Google's Creator Profile\",\"author_url\":\"https://www.tiktok.com/@google\",\"author_name\":\"Google\",\"width\":\"100%\",\"height\":\"100%\",\"html\":\"<blockquote class=\\\"tiktok-embed\\\" cite=\\\"https://www.tiktok.com/@google\\\" data-unique-id=\\\"google\\\" data-embed-from=\\\"oembed\\\" data-embed-type=\\\"creator\\\" style=\\\"max-width:780px; min-width:288px;\\\"> <section> <a target=\\\"_blank\\\" href=\\\"https://www.tiktok.com/@google?refer=creator_embed\\\">@google</a> </section> </blockquote> <script async src=\\\"https://www.tiktok.com/embed.js\\\"></script>\",\"provider_url\":\"https://www.tiktok.com\",\"provider_name\":\"TikTok\",\"embed_product_id\":\"google\",\"embed_type\":\"profile\"}",
-    "bodyEncoding": "utf8",
-    "bodyTruncated": false,
-    "headers": {
-     "content-type": "application/json; charset=utf-8"
-    },
-    "status": 200
-   },
-   "url": "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40google"
-  }
- ],
- "source": "tiktok",
- "status": "taken",
- "url": "https://www.tiktok.com/@google"
+  "durationMs": 717,
+  "label": "google",
+  "name": "google",
+  "paid": false,
+  "platform": "tiktok",
+  "platformName": "TikTok",
+  "requests": [
+    {
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "method": "GET",
+      "response": {
+        "body": "{\"version\":\"1.0\",\"type\":\"rich\",\"title\":\"Google's Creator Profile\",\"author_url\":\"https://www.tiktok.com/@google\",\"author_name\":\"Google\",\"width\":\"100%\",\"height\":\"100%\",\"html\":\"<blockquote class=\\\"tiktok-embed\\\" cite=\\\"https://www.tiktok.com/@google\\\" data-unique-id=\\\"google\\\" data-embed-from=\\\"oembed\\\" data-embed-type=\\\"creator\\\" style=\\\"max-width:780px; min-width:288px;\\\"> <section> <a target=\\\"_blank\\\" href=\\\"https://www.tiktok.com/@google?refer=creator_embed\\\">@google</a> </section> </blockquote> <script async src=\\\"https://www.tiktok.com/embed.js\\\"></script>\",\"provider_url\":\"https://www.tiktok.com\",\"provider_name\":\"TikTok\",\"embed_product_id\":\"google\",\"embed_type\":\"profile\"}",
+        "bodyEncoding": "utf8",
+        "bodyTruncated": false,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "status": 200
+      },
+      "url": "https://www.tiktok.com/oembed?url=https%3A%2F%2Fwww.tiktok.com%2F%40google"
+    }
+  ],
+  "source": "tiktok",
+  "status": "taken",
+  "url": "https://www.tiktok.com/@google"
 }

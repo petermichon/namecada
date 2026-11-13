@@ -14,14 +14,15 @@
       "url": "https://steamcommunity.com/id/google?xml=1",
       "headers": {
         "Accept": "application/json",
-        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
       },
       "response": {
         "status": 200,
         "headers": {
           "Content-Type": "text/xml; charset=utf-8"
         },
-        "body": "\u003c?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?\u003e\u003cprofile\u003e\n\t\u003csteamID64\u003e76561197989316135\u003c/steamID64\u003e\n\t\u003csteamID\u003e\u003c![CDATA[screwloose48]]\u003e\u003c/steamID\u003e\n\t\u003conlineState\u003eoffline\u003c/onlineState\u003e\n\t\u003cstateMessage\u003e\u003c![CDATA[Offline]]\u003e\u003c/stateMessage\u003e\n\t\u003cprivacyState\u003epublic\u003c/privacyState\u003e\n\t\u003cvisibilityState\u003e3\u003c/visibilityState\u003e\n\t\u003cavatarIcon\u003e\u003c![CDATA[https://avatars.fastly.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg]]\u003e\u003c/avatarIcon\u003e\n\t\u003cavatarMedium\u003e\u003c![CDATA[https://avatars.fastly.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg]]\u003e\u003c/avatarMedium\u003e\n\t\u003cavatarFull\u003e\u003c![CDATA[https://avatars.fastly.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg]]\u003e\u003c/avatarFull\u003e\n\t\u003cvacBanned\u003e0\u003c/vacBanned\u003e\n\t\u003ctradeBanState\u003eNone\u003c/tradeBanState\u003e\n\t\u003cisLimitedAccount\u003e0\u003c/isLimitedAccount\u003e\n\t\u003ccustomURL\u003e\u003c![CDATA[google]]\u003e\u003c/customURL\u003e\n\t\u003cmemberSince\u003eApril 13, 2007\u003c/memberSince\u003e\n\t\u003csteamRating\u003e\u003c/steamRating\u003e\n\t\u003choursPlayed2Wk\u003e0.0\u003c/hoursPlayed2Wk\u003e\n\t\u003cheadline\u003e\u003c![CDATA[]]\u003e\u003c/headline\u003e\n\t\u003clocation\u003e\u003c![CDATA[]]\u003e\u003c/location\u003e\n\t\u003crealname\u003e\u003c![CDATA[]]\u003e\u003c/realname\u003e\n\t\u003csummary\u003e\u003c![CDATA[]]\u003e\u003c/summary\u003e\n\n\n\u003c/profile\u003e\n",
+        "body": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><profile>\n\t<steamID64>76561197989316135</steamID64>\n\t<steamID><![CDATA[screwloose48]]></steamID>\n\t<onlineState>offline</onlineState>\n\t<stateMessage><![CDATA[Offline]]></stateMessage>\n\t<privacyState>public</privacyState>\n\t<visibilityState>3</visibilityState>\n\t<avatarIcon><![CDATA[https://avatars.fastly.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg]]></avatarIcon>\n\t<avatarMedium><![CDATA[https://avatars.fastly.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg]]></avatarMedium>\n\t<avatarFull><![CDATA[https://avatars.fastly.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg]]></avatarFull>\n\t<vacBanned>0</vacBanned>\n\t<tradeBanState>None</tradeBanState>\n\t<isLimitedAccount>0</isLimitedAccount>\n\t<customURL><![CDATA[google]]></customURL>\n\t<memberSince>April 13, 2007</memberSince>\n\t<steamRating></steamRating>\n\t<hoursPlayed2Wk>0.0</hoursPlayed2Wk>\n\t<headline><![CDATA[]]></headline>\n\t<location><![CDATA[]]></location>\n\t<realname><![CDATA[]]></realname>\n\t<summary><![CDATA[]]></summary>\n\n\n</profile>\n",
         "bodyEncoding": "utf8"
       }
     }

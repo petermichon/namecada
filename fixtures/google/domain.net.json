@@ -14,7 +14,8 @@
       "url": "https://rdap.verisign.com/net/v1/domain/google.net",
       "headers": {
         "Accept": "application/json",
-        "User-Agent": "namecada/1.0 (+https://github.com/petermichon/namecada)"
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
       },
       "response": {
         "status": 200,

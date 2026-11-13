@@ -354,6 +354,7 @@ pub(crate) fn check_snap(
     let mut headers = BTreeMap::new();
     headers.insert("Accept".to_string(), DEFAULT_ACCEPT.to_string());
     headers.insert("Snap-Device-Series".to_string(), "16".to_string());
+    headers.insert("Accept-Language".to_string(), ACCEPT_LANGUAGE.to_string());
     headers.insert("User-Agent".to_string(), USER_AGENT.to_string());
     let response = transport.execute(HttpRequest {
         method: "GET".to_string(),

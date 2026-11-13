@@ -9,7 +9,12 @@ use crate::provider::{Error, HttpRequest, HttpResponse, Outcome, Provider, Statu
 
 pub const DEFAULT_ACCEPT: &str = "application/json";
 pub const HTML_ACCEPT: &str = "text/html";
-pub const USER_AGENT: &str = "namecada/1.0 (+https://github.com/petermichon/namecada)";
+/// USER_AGENT identifies the tool politely but carries no repository link, so
+/// it cannot be correlated with the author. Browser-shaped strings are worse
+/// than useless here: sites fingerprint the TLS stack too, and a Chrome claim
+/// from a non-browser stack is blocked more often than an honest token.
+pub const USER_AGENT: &str = "namecada/1.0";
+pub const ACCEPT_LANGUAGE: &str = "en-US,en;q=0.9";
 
 /// CodeMap maps HTTP status codes to a verdict.
 #[derive(Debug, Clone, Copy)]
@@ -298,6 +303,7 @@ impl Provider for StatusProvider {
         for _ in 0..=10 {
             let mut headers = BTreeMap::new();
             headers.insert("Accept".to_string(), self.spec.accept.to_string());
+            headers.insert("Accept-Language".to_string(), ACCEPT_LANGUAGE.to_string());
             headers.insert("User-Agent".to_string(), USER_AGENT.to_string());
             let got = self.transport.execute(HttpRequest {
                 method: "GET".to_string(),

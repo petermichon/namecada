@@ -14,7 +14,8 @@
       "url": "https://framatube.org/api/v1/accounts/google",
       "headers": {
         "Accept": "application/json",
-        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
       },
       "response": {
         "status": 404,
@@ -30,7 +31,8 @@
       "url": "https://framatube.org/api/v1/video-channels/google",
       "headers": {
         "Accept": "application/json",
-        "User-Agent": "domain-browser/1.0 (+https://github.com/petermichon/domain-browser)"
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
       },
       "response": {
         "status": 404,
