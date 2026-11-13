@@ -100,7 +100,9 @@
 	>
 
 	{#if home}
-		<header class="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
+		<header
+			class="mx-auto flex w-full max-w-6xl items-center justify-between border-b border-transparent px-4 py-4 sm:h-[65px] sm:px-6 sm:py-0"
+		>
 			{@render brand()}
 			{@render themeButton()}
 		</header>
@@ -133,7 +135,7 @@
 	{:else}
 		<header class="sticky top-0 z-20 border-b border-border/70 bg-background">
 			<div
-				class="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-2.5 sm:flex-row sm:items-center sm:gap-3 sm:px-6"
+				class="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-2.5 sm:h-16 sm:flex-row sm:items-center sm:gap-3 sm:px-6"
 			>
 				<div class="flex items-center justify-between gap-3 sm:justify-start">
 					{@render brand()}
