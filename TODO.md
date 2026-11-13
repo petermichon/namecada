@@ -26,6 +26,17 @@ source to a `plan/PLAN.md` item when it reaches the front of the line.
 4. Headless-browser scraping — avoid; slow, brittle, usually bot-blocked. Never
    scrape behind a login.
 
+## Sources
+
+- Add 99designs — `99designs.com/profiles/{name}` answers 200 when taken and 404
+  when free, status-only with no JS, so it is a status row. Match the status
+  code, not the page title: the `.fr` locale redirect keeps the status, but the
+  title is generic for numeric-id profiles.
+- Review `docs/similar-sites.md` — 1,476 candidates, unreferenced and never
+  verified. Triage by namespace first (a bare handle beats `{id}`, address and
+  store routes), then probe the survivors for a 200/404 split; promote the clean
+  ones into `docs/platforms.md` and decide then whether the raw file survives.
+
 ## Mobile
 
 Wanted eventually, in this order:

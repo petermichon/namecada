@@ -130,6 +130,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] VS Code Marketplace — 🕸 — no simple API (use Open VSX)
 - [ ] JetBrains Marketplace — 🔌 — ruled out: `/api/searchPlugins?search=` is a fuzzy substring search, not an exact-name signal, and plugin ids are numeric
 - [ ] Figma Community — 🕸 — no public API
+- [ ] 99designs — ✅ — `99designs.com/profiles/{name}` (200 taken / 404 free; status-only, no JS; the `.fr` locale redirect keeps the status and the title is generic, so the status code is the whole signal — verified 2026-11)
 - [ ] Shopify App Store — 🕸 — re-checked server-side (2026-11): `apps.shopify.com/{slug}` 404s for both a known app and a fake slug on the probed shapes, so there is no confirmed signal
 - [ ] Nostr (NIP-05) — 🔌 — ruled out: names are per-domain (`https://{domain}/.well-known/nostr.json?name={name}`), not a global namespace, so no single-label source exists to probe
 - [ ] Fandom — 🕸 — re-checked server-side (2026-11): `{name}.fandom.com` is wildcard DNS and every host answers 403 (Cloudflare) for real and fake names alike, so there is no signal
