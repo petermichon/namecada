@@ -496,37 +496,29 @@ describe('check', () => {
 		await vi.waitFor(() => expect(lookup.loading).toBe(false));
 
 		expect(lookup.rows).toEqual([]);
-		expect(lookup.error).toContain('Could not reach the backend');
+		expect(lookup.failure).toContain('reach the backend');
 	});
 });
 
-describe('invalid input', () => {
+describe('blank input', () => {
 	it('accepts a dotted name', () => {
 		vi.stubGlobal('fetch', stubApi(''));
 		const lookup = new Lookup();
 		lookup.input = 'Acema.com';
 		lookup.check({ sync: false });
 
-		expect(lookup.error).toBe('');
+		expect(lookup.failure).toBe('');
 		expect(lookup.lastLabel).toBe('acema.com');
 	});
 
-	it('shows an error for blank input only', () => {
+	it('does nothing and reports nothing', () => {
 		const lookup = new Lookup();
 		lookup.input = '   ';
 		lookup.check({ sync: false });
 
-		expect(lookup.error).toBe('Enter a name to check.');
-	});
-
-	it('clears the error when the user edits', () => {
-		const lookup = new Lookup();
-		lookup.input = '';
-		lookup.check({ sync: false });
-
-		lookup.clearError();
-
-		expect(lookup.error).toBe('');
+		expect(lookup.failure).toBe('');
+		expect(lookup.rows).toEqual([]);
+		expect(lookup.lastLabel).toBeNull();
 	});
 });
 
@@ -549,7 +541,7 @@ describe('goHome', () => {
 		lookup.input = 'acema';
 		lookup.lastLabel = 'acema';
 		lookup.rows = [row('GitHub', 'taken')];
-		lookup.error = 'unreachable';
+		lookup.failure = 'unreachable';
 		lookup.filter = ['taken'];
 		lookup.cost = ['paid'];
 		lookup.loading = true;
@@ -559,7 +551,7 @@ describe('goHome', () => {
 		expect(lookup.input).toBe('');
 		expect(lookup.lastLabel).toBeNull();
 		expect(lookup.rows).toEqual([]);
-		expect(lookup.error).toBe('');
+		expect(lookup.failure).toBe('');
 		expect(lookup.filter).toEqual(DEFAULT_FILTER);
 		expect(lookup.cost).toEqual(DEFAULT_COST);
 		expect(lookup.loading).toBe(false);

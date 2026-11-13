@@ -86,14 +86,8 @@
 
 {#snippet feedback()}
 	<span class="sr-only" role="status" aria-live="polite"
-		>{lookup.error ? '' : lookup.announcement}</span
+		>{lookup.failure ? '' : lookup.announcement}</span
 	>
-	{#if lookup.error}
-		<p id="name-error" role="alert" class="mt-2 flex items-start gap-1.5 text-sm text-destructive">
-			<TriangleAlertIcon class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
-			<span>{lookup.error}</span>
-		</p>
-	{/if}
 {/snippet}
 
 <ModeWatcher />
@@ -127,10 +121,7 @@
 					<LookupForm
 						bind:value={lookup.input}
 						loading={lookup.searching}
-						invalid={!!lookup.error}
-						errorId="name-error"
 						onsubmit={lookup.check}
-						oninput={lookup.clearError}
 					/>
 				</div>
 
@@ -140,7 +131,7 @@
 			</div>
 		</main>
 	{:else}
-		<header class="sticky top-0 z-20 border-b border-border/70 bg-background/85 backdrop-blur">
+		<header class="sticky top-0 z-20 border-b border-border/70 bg-background">
 			<div
 				class="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-2.5 sm:flex-row sm:items-center sm:gap-3 sm:px-6"
 			>
@@ -153,10 +144,7 @@
 						<LookupForm
 							bind:value={lookup.input}
 							loading={lookup.searching}
-							invalid={!!lookup.error}
-							errorId="name-error"
 							onsubmit={lookup.check}
-							oninput={lookup.clearError}
 						/>
 					</div>
 				</div>
@@ -166,6 +154,16 @@
 
 		<main id="main" class="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6 sm:py-8">
 			{@render feedback()}
+
+			{#if lookup.failure}
+				<div
+					role="alert"
+					class="mt-2 flex items-start gap-2 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive"
+				>
+					<TriangleAlertIcon class="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+					<p>{lookup.failure}</p>
+				</div>
+			{/if}
 
 			<section class="mt-4 flex flex-col gap-4 sm:mt-2 sm:gap-5">
 				<div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
@@ -193,7 +191,7 @@
 				</div>
 
 				<div
-					class="flex max-w-2xl items-start gap-1.5 text-xs leading-5 text-pretty text-muted-foreground"
+					class="flex max-w-2xl items-start gap-1.5 text-sm leading-5 text-pretty text-muted-foreground"
 				>
 					<InfoIcon class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
 					<p>Availability doesn’t guarantee you can register the name.</p>

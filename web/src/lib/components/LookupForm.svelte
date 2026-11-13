@@ -8,20 +8,12 @@
 	let {
 		value = $bindable(''),
 		loading = false,
-		invalid = false,
-		errorId,
-		onsubmit,
-		oninput
+		onsubmit
 	}: {
 		value: string;
 		loading?: boolean;
-		invalid?: boolean;
-		errorId?: string;
 		onsubmit?: () => void;
-		oninput?: () => void;
 	} = $props();
-
-	const describedBy = $derived(invalid && errorId ? errorId : undefined);
 </script>
 
 <form
@@ -44,7 +36,6 @@
 			bind:value
 			class="h-full text-base md:text-sm"
 			{@attach autofocus}
-			oninput={() => oninput?.()}
 			onkeydown={(e) => {
 				if (e.key === 'Escape') value = '';
 			}}
@@ -52,8 +43,6 @@
 			autocomplete="off"
 			autocapitalize="off"
 			spellcheck={false}
-			aria-invalid={invalid ? 'true' : undefined}
-			aria-describedby={describedBy}
 			aria-keyshortcuts="/"
 		/>
 		<InputGroup.Addon align="inline-end">

@@ -175,7 +175,7 @@ export async function streamFromApi(
 }
 
 // In the desktop shell the engine answers over IPC with the same events.
-function inTauri(): boolean {
+export function inTauri(): boolean {
 	return typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window;
 }
 

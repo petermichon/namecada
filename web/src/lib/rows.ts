@@ -48,10 +48,10 @@ export type Counts = {
 };
 
 // validate turns raw input into a label. Any non-empty text is allowed: the
-// engine reports per-source invalidity in the results.
-export function validate(input: string): { label: string | null; error: string } {
-	const label = toLabel(input);
-	return { label, error: label ? '' : 'Enter a name to check.' };
+// engine reports per-source invalidity in the results. Blank input is simply
+// not a search, so there is nothing to report.
+export function validate(input: string): string | null {
+	return toLabel(input);
 }
 
 // The default view is the verdicts; deferred/keyed sources are opt-in.

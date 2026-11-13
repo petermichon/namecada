@@ -47,7 +47,7 @@
 		class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-0.5 rounded-md px-2 py-2 transition-colors hover:bg-muted/60 focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none focus-visible:ring-inset sm:grid-cols-[7.5rem_minmax(0,1fr)_auto]"
 	>
 		<span
-			class="col-start-1 row-start-1 flex min-w-0 items-center gap-1.5 text-xs font-medium text-muted-foreground"
+			class="col-start-1 row-start-1 flex min-w-0 items-center gap-1.5 text-sm font-medium text-muted-foreground"
 		>
 			<span class="truncate">{row.platformName}</span>
 			{@render paidTag()}
@@ -60,12 +60,12 @@
 				{text}
 			</span>
 			{#if row.detail}
-				<span class="hidden shrink-0 text-xs text-muted-foreground sm:inline">{row.detail}</span>
+				<span class="hidden shrink-0 text-sm text-muted-foreground sm:inline">{row.detail}</span>
 			{/if}
 		</div>
 
 		<span
-			class="col-start-2 row-span-2 row-start-1 flex items-center gap-1.5 justify-self-end text-xs sm:col-start-3 sm:row-span-1 {status.cls}"
+			class="col-start-2 row-span-2 row-start-1 flex items-center gap-1.5 justify-self-end text-sm sm:col-start-3 sm:row-span-1 {status.cls}"
 		>
 			{#if pending}
 				<LoaderCircleIcon

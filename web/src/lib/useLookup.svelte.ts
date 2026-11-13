@@ -1,5 +1,5 @@
 import { onMount } from 'svelte';
-import { appCheckClient, isAbort, type CheckClient, type CheckEvent } from './api';
+import { appCheckClient, inTauri, isAbort, type CheckClient, type CheckEvent } from './api';
 import { toLabel, type CostFilter } from './rows';
 import {
 	announce,
@@ -33,7 +33,9 @@ function syncUrl(query: string) {
 export class Lookup {
 	input = $state(queryParam());
 	rows = $state<Row[]>([]);
-	error = $state('');
+	// failure is a whole-scan problem (the engine never answered), not input
+	// feedback: it is rendered as a notice, never attached to the search field.
+	failure = $state('');
 	loading = $state(false);
 	// Seed from the URL so a shared ?q= link renders the results page straight
 	// away, without a flash of the landing page.
@@ -53,7 +55,7 @@ export class Lookup {
 	#reset(): void {
 		this.#controller?.abort();
 		this.#controller = null;
-		this.error = '';
+		this.failure = '';
 		this.filter = [...DEFAULT_FILTER];
 		this.cost = [...DEFAULT_COST];
 	}
@@ -72,7 +74,7 @@ export class Lookup {
 	}
 
 	check = ({ sync = true }: { sync?: boolean } = {}): void => {
-		const { label, error } = validate(this.input);
+		const label = validate(this.input);
 		const generation = ++this.#generation;
 		this.#reset();
 
@@ -80,7 +82,6 @@ export class Lookup {
 			this.rows = [];
 			this.lastLabel = null;
 			this.loading = false;
-			this.error = error;
 			return;
 		}
 
@@ -122,7 +123,9 @@ export class Lookup {
 					// The retained slots belong to the previous scan; do not show
 					// them as unknown results for this one.
 					this.rows = [];
-					this.error = 'Could not reach the backend. Is `serve` running?';
+					this.failure = inTauri()
+						? 'Couldn’t start the check. Try again.'
+						: 'Couldn’t reach the backend. Is `serve` running?';
 					return;
 				}
 				// A scan that fails after the manifest still knows every source;
@@ -165,12 +168,6 @@ export class Lookup {
 			? this.rows.map((row) => (row.id === event.id ? next : row))
 			: [...this.rows, next];
 	}
-
-	// clearError drops validation feedback as soon as the user starts editing;
-	// the next submit re-validates.
-	clearError = (): void => {
-		this.error = '';
-	};
 
 	// showAll clears every facet and restores the default verdict filter with
 	// deferred sources included.
