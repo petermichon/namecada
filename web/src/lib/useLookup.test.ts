@@ -496,7 +496,84 @@ describe('check', () => {
 		await vi.waitFor(() => expect(lookup.loading).toBe(false));
 
 		expect(lookup.rows).toEqual([]);
-		expect(lookup.failure).toContain('reach the backend');
+		expect(lookup.failure).toBe('Couldn’t run the check.');
+	});
+
+	it('retries once before surfacing a failure', async () => {
+		let calls = 0;
+		const body = [
+			manifest([{ id: 'a', platformName: 'A', url: 'https://a.example' }]),
+			result('a', 'A', 'taken'),
+			JSON.stringify({ type: 'done' })
+		].join('\n');
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) => {
+				if (!String(input).includes('/v1/check?name=')) {
+					return Promise.resolve(new Response(null, { status: 404 }));
+				}
+				calls += 1;
+				return calls === 1
+					? Promise.reject(new TypeError('Failed to fetch'))
+					: Promise.resolve(new Response(body, { status: 200 }));
+			})
+		);
+
+		const lookup = new Lookup();
+		lookup.input = 'acema';
+		lookup.check({ sync: false });
+		await vi.waitFor(() => expect(lookup.loading).toBe(false));
+
+		expect(calls).toBe(2);
+		expect(lookup.failure).toBe('');
+		expect(lookup.rows).toHaveLength(1);
+		expect(lookup.rows[0]).toMatchObject({ id: 'a', status: 'taken', name: 'acema' });
+	});
+
+	it('keeps loading through the retry gap', async () => {
+		let settle: ((value: Response) => void) | undefined;
+		let calls = 0;
+		vi.stubGlobal(
+			'fetch',
+			vi.fn((input: unknown) => {
+				if (!String(input).includes('/v1/check?name=')) {
+					return Promise.resolve(new Response(null, { status: 404 }));
+				}
+				calls += 1;
+				if (calls === 1) return Promise.reject(new TypeError('Failed to fetch'));
+				return new Promise<Response>((resolve) => {
+					settle = resolve;
+				});
+			})
+		);
+
+		const lookup = new Lookup();
+		lookup.input = 'acema';
+		lookup.check({ sync: false });
+		await vi.waitFor(() => expect(calls).toBe(2));
+
+		// The first attempt settling must not end the scan: the retry is in flight.
+		expect(lookup.loading).toBe(true);
+
+		settle?.(new Response('', { status: 200 }));
+		await vi.waitFor(() => expect(lookup.loading).toBe(false));
+	});
+
+	it('retries the failed label and clears the notice', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn(() => Promise.reject(new TypeError('Failed to fetch')))
+		);
+		const lookup = new Lookup();
+		lookup.input = 'acema';
+		lookup.check({ sync: false });
+		await vi.waitFor(() => expect(lookup.failure).not.toBe(''));
+
+		vi.stubGlobal('fetch', stubApi(''));
+		lookup.retry();
+
+		expect(lookup.failure).toBe('');
+		await vi.waitFor(() => expect(lookup.loading).toBe(false));
 	});
 });
 

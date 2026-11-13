@@ -161,73 +161,84 @@
 					class="mt-2 flex items-start gap-2 rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive"
 				>
 					<TriangleAlertIcon class="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-					<p>{lookup.failure}</p>
+					<p class="min-w-0 flex-1">
+						{lookup.failure}
+						<button
+							type="button"
+							class="ml-1 font-medium underline underline-offset-4 hover:no-underline focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-destructive"
+							onclick={() => lookup.retry()}>Try again</button
+						>
+					</p>
 				</div>
 			{/if}
 
-			<section class="mt-4 flex flex-col gap-4 sm:mt-2 sm:gap-5">
-				<div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
-					<div class="min-w-0">
-						<h1 class="text-3xl font-semibold tracking-[-0.03em] break-all sm:text-4xl">
-							{lookup.lastLabel}
-						</h1>
+			{#if lookup.rows.length}
+				<section class="mt-4 flex flex-col gap-4 sm:mt-2 sm:gap-5">
+					<div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+						<div class="min-w-0">
+							<h1 class="text-3xl font-semibold tracking-[-0.03em] break-all sm:text-4xl">
+								{lookup.lastLabel}
+							</h1>
+						</div>
+						<p class="text-sm text-muted-foreground">
+							{#if lookup.searching && lookup.checkedCount}
+								<span class="inline-flex items-center gap-2">
+									<LoaderCircleIcon
+										class="size-3.5 animate-spin motion-reduce:animate-none"
+										aria-hidden="true"
+									/>
+									Checking {lookup.checkedCount} sources
+								</span>
+							{:else if !lookup.searching}
+								<span class="font-medium text-foreground tabular-nums"
+									>{lookup.visibleCounts.available}</span
+								>
+								available of <span class="tabular-nums">{lookup.visibleChecked}</span> checked
+							{/if}
+						</p>
 					</div>
-					<p class="text-sm text-muted-foreground">
-						{#if lookup.searching}
-							<span class="inline-flex items-center gap-2">
-								<LoaderCircleIcon
-									class="size-3.5 animate-spin motion-reduce:animate-none"
-									aria-hidden="true"
-								/>
-								Checking {lookup.checkedCount} sources
-							</span>
-						{:else}
-							<span class="font-medium text-foreground tabular-nums"
-								>{lookup.visibleCounts.available}</span
+
+					<div
+						class="flex max-w-2xl items-start gap-1.5 text-sm leading-5 text-pretty text-muted-foreground"
+					>
+						<InfoIcon class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+						<p>Availability doesn’t guarantee you can register the name.</p>
+					</div>
+
+					<StatusFilter
+						bind:filter={lookup.filter}
+						counts={lookup.counts}
+						total={lookup.statusTotal}
+					/>
+
+					<CostFilter bind:cost={lookup.cost} costCounts={lookup.costCounts} />
+				</section>
+			{/if}
+
+			{#if !lookup.failure && (lookup.rows.length || !lookup.searching)}
+				<div class="mt-8" aria-busy={lookup.searching}>
+					{#if empty}
+						<div class="rounded-lg border border-dashed border-border px-4 py-14 text-center">
+							<p class="text-sm font-medium">{empty.title}</p>
+							<p class="mt-1 text-sm text-muted-foreground">{empty.body}</p>
+							<Button
+								variant="outline"
+								size="sm"
+								class="mt-4 rounded-lg"
+								onclick={() => lookup.showAll()}
 							>
-							available of <span class="tabular-nums">{lookup.visibleChecked}</span> checked
-						{/if}
-					</p>
+								Show all
+							</Button>
+						</div>
+					{:else}
+						<ul class="mt-2 grid grid-cols-1 gap-y-0.5 lg:grid-cols-2 lg:gap-x-10">
+							{#each lookup.visibleRows as row (row.id)}
+								<ResultRow {row} />
+							{/each}
+						</ul>
+					{/if}
 				</div>
-
-				<div
-					class="flex max-w-2xl items-start gap-1.5 text-sm leading-5 text-pretty text-muted-foreground"
-				>
-					<InfoIcon class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
-					<p>Availability doesn’t guarantee you can register the name.</p>
-				</div>
-
-				<StatusFilter
-					bind:filter={lookup.filter}
-					counts={lookup.counts}
-					total={lookup.statusTotal}
-				/>
-
-				<CostFilter bind:cost={lookup.cost} costCounts={lookup.costCounts} />
-			</section>
-
-			<div class="mt-8" aria-busy={lookup.searching}>
-				{#if empty}
-					<div class="rounded-lg border border-dashed border-border px-4 py-14 text-center">
-						<p class="text-sm font-medium">{empty.title}</p>
-						<p class="mt-1 text-sm text-muted-foreground">{empty.body}</p>
-						<Button
-							variant="outline"
-							size="sm"
-							class="mt-4 rounded-lg"
-							onclick={() => lookup.showAll()}
-						>
-							Show all
-						</Button>
-					</div>
-				{:else}
-					<ul class="mt-2 grid grid-cols-1 gap-y-0.5 lg:grid-cols-2 lg:gap-x-10">
-						{#each lookup.visibleRows as row (row.id)}
-							<ResultRow {row} />
-						{/each}
-					</ul>
-				{/if}
-			</div>
+			{/if}
 		</main>
 	{/if}
 </div>

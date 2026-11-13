@@ -1,5 +1,5 @@
 import { onMount } from 'svelte';
-import { appCheckClient, inTauri, isAbort, type CheckClient, type CheckEvent } from './api';
+import { appCheckClient, isAbort, type CheckClient, type CheckEvent } from './api';
 import { toLabel, type CostFilter } from './rows';
 import {
 	announce,
@@ -45,6 +45,10 @@ export class Lookup {
 
 	#controller: AbortController | null = null;
 	#generation = 0;
+	// attempts counts the automatic retries for the current check, so a
+	// transient failure costs one silent rescan instead of a scary banner.
+	#attempts = 0;
+	#inFlight = 0;
 	#client: CheckClient;
 
 	constructor(client: CheckClient = appCheckClient) {
@@ -55,6 +59,7 @@ export class Lookup {
 	#reset(): void {
 		this.#controller?.abort();
 		this.#controller = null;
+		this.#inFlight = 0;
 		this.failure = '';
 		this.filter = [...DEFAULT_FILTER];
 		this.cost = [...DEFAULT_COST];
@@ -87,6 +92,7 @@ export class Lookup {
 
 		if (sync) syncUrl(this.input.trim());
 
+		this.#attempts = 0;
 		this.#controller = new AbortController();
 		this.lastLabel = label;
 		this.loading = true;
@@ -100,6 +106,10 @@ export class Lookup {
 		const ac = this.#controller;
 		if (!ac) return;
 		let manifestReceived = false;
+		// inFlight counts attempts, including a retry started from the previous
+		// attempt's catch: loading must stay true until the last one settles, or
+		// the retry gap renders one frame of "finished, no rows, no failure".
+		this.#inFlight += 1;
 
 		this.#client
 			.stream(
@@ -120,12 +130,21 @@ export class Lookup {
 				if (isAbort(e)) return;
 				if (ac.signal.aborted || generation !== this.#generation) return;
 				if (!manifestReceived) {
+					// Nothing arrived, so this is a whole-scan failure. Retry once
+					// silently: most of these are a blip, and a banner that appears
+					// and disappears is worse than a slightly slower first row.
+					if (this.#attempts === 0) {
+						this.#attempts = 1;
+						this.#stream(label, generation);
+						return;
+					}
 					// The retained slots belong to the previous scan; do not show
 					// them as unknown results for this one.
 					this.rows = [];
-					this.failure = inTauri()
-						? 'Couldn’t start the check. Try again.'
-						: 'Couldn’t reach the backend. Is `serve` running?';
+					// Users get a plain message; the technical cause stays in the
+					// console for bug reports.
+					console.error('[namecada] scan failed before the manifest', e);
+					this.failure = 'Couldn’t run the check.';
 					return;
 				}
 				// A scan that fails after the manifest still knows every source;
@@ -133,7 +152,9 @@ export class Lookup {
 				this.rows = settlePending(this.rows);
 			})
 			.finally(() => {
-				if (generation === this.#generation) this.loading = false;
+				if (generation !== this.#generation) return;
+				this.#inFlight = Math.max(0, this.#inFlight - 1);
+				if (this.#inFlight === 0) this.loading = false;
 			});
 	}
 
@@ -168,6 +189,13 @@ export class Lookup {
 			? this.rows.map((row) => (row.id === event.id ? next : row))
 			: [...this.rows, next];
 	}
+
+	// retry re-runs the label that just failed, so a transient backend problem
+	// costs one click instead of retyping the name. The URL already points at
+	// this label, so there is nothing to sync first.
+	retry = (): void => {
+		this.check({ sync: false });
+	};
 
 	// showAll clears every facet and restores the default verdict filter with
 	// deferred sources included.
