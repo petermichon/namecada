@@ -15,9 +15,9 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version-file: .nvmrc
           cache: npm
@@ -28,5 +28,6 @@ jobs:
           workspaces: rust
 
       - run: npm ci
-      - run: npm run verify
+      # verify:ci skips the src-tauri clippy pass, which needs WebKitGTK.
+      - run: npm run verify:ci
       - run: npm run build
