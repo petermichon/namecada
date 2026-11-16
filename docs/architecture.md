@@ -41,7 +41,8 @@ assembled from a small core plus two binaries:
   `shared.rs` holds the request helpers and `spec.rs` the id → check table.
 - `core/src/registry.rs` — the compiled registry: live providers and stats.
 - `core/src/engine.rs` — bounded-concurrency scan engine with its one-hour
-  verdict cache; streams each result as it resolves.
+  verdict cache; streams each result as it resolves. `DEFAULT_CONCURRENCY`
+  caps a scan at 16 checks in flight.
 - `core/src/http.rs` — production HTTP transport.
 - `cli/src/bin/serve.rs` — the NDJSON HTTP server; `capture.rs` records fixtures.
 

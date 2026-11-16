@@ -13,6 +13,12 @@ use crate::provider::{Outcome, Provider, Status};
 /// Fresh is how long a cached verdict stays current.
 const FRESH: Duration = Duration::from_secs(60 * 60);
 
+/// DEFAULT_CONCURRENCY caps the checks in flight. Every transport (the dev
+/// server, the Tauri shell and Android) builds its engine here, so one scan
+/// opens this many sockets instead of one per provider; `with_concurrency`
+/// overrides it for experiments.
+pub const DEFAULT_CONCURRENCY: usize = 16;
+
 /// Entry is a cached verdict and when it was recorded.
 #[derive(Debug, Clone)]
 pub struct Entry {
@@ -108,7 +114,7 @@ pub struct Engine {
 
 impl Engine {
     pub fn new(providers: Vec<Arc<dyn Provider>>) -> Self {
-        let concurrency = providers.len().max(1);
+        let concurrency = DEFAULT_CONCURRENCY.min(providers.len()).max(1);
         Self {
             providers,
             concurrency,
@@ -393,5 +399,22 @@ mod tests {
         assert_eq!(results[0].status, Status::Invalid);
         assert_eq!(results[0].detail, "invalid characters");
         assert_eq!(calls.load(Ordering::SeqCst), 0);
+    }
+
+    #[test]
+    fn default_concurrency_is_capped() {
+        let calls = Arc::new(AtomicUsize::new(0));
+        let providers: Vec<Arc<dyn Provider>> = (0..DEFAULT_CONCURRENCY * 4)
+            .map(|_| {
+                Arc::new(BoundedProvider {
+                    calls: Arc::clone(&calls),
+                }) as Arc<dyn Provider>
+            })
+            .collect();
+        assert_eq!(Engine::new(providers).concurrency, DEFAULT_CONCURRENCY);
+        assert_eq!(Engine::new(Vec::new()).concurrency, 1);
+
+        let one = Engine::new(vec![Arc::new(BoundedProvider { calls })]);
+        assert_eq!(one.concurrency, 1);
     }
 }
