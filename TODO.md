@@ -46,8 +46,7 @@ Android only; iOS needs macOS, so it is out of scope here. The toolchain is in
 place (see `docs/android.md`); the app runs on the A015 and a full scan takes
 about three seconds.
 
-1. Dev: `source scripts/android-env.sh`, `adb reverse tcp:5221 tcp:5221`, then
-   `npx tauri android dev --host 127.0.0.1`.
+1. Dev: `npm run android:dev` (see `docs/android.md` for the SDK setup).
 2. Release: `npx tauri android build`, then sign and sideload.
 
 Same IPC and engine as the desktop shell.

@@ -66,23 +66,23 @@ sudo dnf install -y java-25-openjdk-devel
 
 ```sh
 npx tauri android init      # once, generates src-tauri/gen/android
-npx tauri android dev       # USB device with debugging enabled
 npx tauri android build     # release artifacts
+```
+
+For development with hot reload, use the wrapper — it sources the environment,
+refuses to start without an authorized device, and re-applies the reverse rule
+that a replug drops:
+
+```sh
+npm run android:dev          # extra args go to `tauri android dev`
 ```
 
 `devUrl` is `http://localhost:5221`. On a physical device the CLI picks the
 host's default-route address (a VPN interface on this machine), which the phone
-cannot reach, and it only wires `adb reverse` for emulators. Use loopback plus a
-reverse mapping instead:
-
-```sh
-source scripts/android-env.sh
-adb reverse tcp:5221 tcp:5221
-npx tauri android dev --host 127.0.0.1
-```
-
-`--host` replaces the `devUrl` host and exports `TAURI_DEV_HOST`, which
-`web/vite.config.ts` binds. Re-add the reverse rule after every replug.
+cannot reach, and it only wires `adb reverse` for emulators. The wrapper passes
+`--host 127.0.0.1`, which replaces the `devUrl` host and exports
+`TAURI_DEV_HOST`, which `web/vite.config.ts` binds; the phone then reaches Vite
+through the reverse mapping.
 
 A hostname proxy such as `devhost` (`*.localhost:7357`, one tunnel for every
 project) does not fit: the CLI rejects a name (`invalid IP address syntax` for

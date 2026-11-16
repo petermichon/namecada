@@ -32,6 +32,7 @@
 		"rust:build": "cargo build --release --manifest-path rust/Cargo.toml -p namecada",
 		"tauri": "tauri",
 		"tauri:dev": "tauri dev",
+		"android:dev": "bash scripts/android-dev.sh",
 		"tauri:build": "tauri build",
 		"rust:serve": "cargo run --manifest-path rust/Cargo.toml -p namecada --bin serve",
 		"probe": "cargo run --manifest-path rust/Cargo.toml -p namecada --bin probe --",
