@@ -29,3 +29,4 @@ plan/.run.lock
 
 # local agent tooling
 .todoworker.json
+src-tauri/icons/ios/

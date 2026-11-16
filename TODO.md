@@ -33,13 +33,6 @@ source to a `plan/PLAN.md` item when it reaches the front of the line.
   store routes), then probe the survivors for a 200/404 split; promote the clean
   ones into `docs/platforms.md` and decide then whether the raw file survives.
 
-## Before release
-
-- [ ] Generate Android mipmaps with `npx tauri icon`, from a 1024 px source
-  (the current `icons/icon.png` is 512).
-- [ ] Decide signing and commit policy: `src-tauri/gen/android` is generated and
-  gitignored today, so a release keystore has to live outside it.
-
 ## Mobile
 
 Android only; iOS needs macOS, so it is out of scope here. The toolchain is in
@@ -47,6 +40,6 @@ place (see `docs/android.md`); the app runs on the A015 and a full scan takes
 about three seconds.
 
 1. Dev: `npm run android:dev` (see `docs/android.md` for the SDK setup).
-2. Release: `npx tauri android build`, then sign and sideload.
+2. Release: `npx tauri android build --apk`, then `npm run android:sign`.
 
 Same IPC and engine as the desktop shell.

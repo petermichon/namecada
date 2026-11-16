@@ -116,8 +116,35 @@ A full scan — 107 checked sources at 16 in flight — reaches completion in ab
 three seconds on the A015 (Android 14, WebView 148), so the phone keeps the whole
 source set; the 30 s deadline only exists for stalled hosts.
 
-## Keystore
+## Icons
 
-Debug builds use an auto-generated debug keystore. A release keystore must stay
-out of the repo; `src-tauri/gen/android` is generated and its commit policy is
-still open in `TODO.md`.
+`src-tauri/icons/app-icon.svg` is the 1024 px source; regenerate every platform's
+icons (and the launcher mipmaps inside the generated Android project) with:
+
+```sh
+npx tauri icon src-tauri/icons/app-icon.svg
+```
+
+## Signing
+
+Release APKs are unsigned. Create a keystore once, outside the repository:
+
+```sh
+mkdir -p ~/.config/namecada
+keytool -genkeypair -keystore ~/.config/namecada/release.jks \
+  -alias namecada -keyalg RSA -keysize 4096 -validity 10000
+```
+
+Then build and sign:
+
+```sh
+npx tauri android build --apk
+npm run android:sign
+```
+
+`android:sign` finds the newest `*-unsigned.apk`, signs it with
+`$HOME/.config/namecada/release.jks`, writes `…-signed.apk` beside it and prints
+the certificate. Passwords come from `NAMECADA_KEYSTORE_PASS` / `NAMECADA_KEY_PASS`
+(or apksigner prompts); `NAMECADA_KEYSTORE` and `NAMECADA_KEY_ALIAS` override the
+paths. `gen/android` stays gitignored, so nothing about the keystore or the
+generated project is committed.
