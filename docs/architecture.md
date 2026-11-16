@@ -104,6 +104,9 @@ unauthenticated requests (GitHub: 60/hour per IP).
     `streamFromApi` (the `httpCheckClient`) consumes the `serve` API
     (`GET /v1/check?name=<label>`, NDJSON events); a native shell can inject its
     own client without touching the UI or lookup state.
+  - `src/lib/recent.ts` — the landing page's recent labels, kept in
+    `localStorage` (case-insensitively deduped, newest first) and separate from
+    the engine's verdict cache so a label outlives the one-hour ttl.
 - `fixtures/` — captured source inventory and raw HTTP snapshots; see
   [Fixtures](#fixtures).
 

@@ -55,8 +55,10 @@ The first three are wins on desktop too, so they come first regardless.
 - [x] Persist the cache to `app_data_dir()` — the shell loads `cache.json` at
   startup and rewrites it after each scan; the one-hour ttl still applies and
   expired entries are dropped on save.
-- [ ] Add recent-checks history; it falls out of the persisted cache, and it is
-  what makes a phone app worth opening.
+- [x] Add recent-checks history — the landing page lists the last six labels
+  from `localStorage` (`web/src/lib/recent.ts`), deduped case-insensitively, and
+  a chip re-runs the check. Kept out of the engine cache so a label outlives the
+  one-hour verdict ttl.
 - [ ] `viewport-fit=cover` + `env(safe-area-inset-*)`, or the notch and gesture
   bar clip the sticky header.
 - [ ] ≥44 px tap targets and no hover-only affordances in `ResultRow`.

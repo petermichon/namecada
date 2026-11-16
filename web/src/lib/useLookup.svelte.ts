@@ -1,5 +1,6 @@
 import { onMount } from 'svelte';
 import { appCheckClient, isAbort, type CheckClient, type CheckEvent } from './api';
+import { loadRecent, rememberLabel } from './recent';
 import { toLabel, type CostFilter } from './rows';
 import {
 	announce,
@@ -42,6 +43,8 @@ export class Lookup {
 	lastLabel = $state<string | null>(toLabel(queryParam()));
 	filter = $state<Filter>([...DEFAULT_FILTER]);
 	cost = $state<CostFilter>([...DEFAULT_COST]);
+	// recent is the landing page's list of previous searches, newest first.
+	recent = $state<string[]>(loadRecent());
 
 	#controller: AbortController | null = null;
 	#generation = 0;
@@ -91,6 +94,7 @@ export class Lookup {
 		}
 
 		if (sync) syncUrl(this.input.trim());
+		this.recent = rememberLabel(label);
 
 		this.#attempts = 0;
 		this.#controller = new AbortController();
