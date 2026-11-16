@@ -84,6 +84,10 @@ npx tauri android dev --host 127.0.0.1
 `--host` replaces the `devUrl` host and exports `TAURI_DEV_HOST`, which
 `web/vite.config.ts` binds. Re-add the reverse rule after every replug.
 
+A full scan — 107 checked sources at 16 in flight — reaches completion in about
+four seconds on the A015 (Android 14, WebView 148), so the phone keeps the whole
+source set; the 30 s deadline only exists for stalled hosts.
+
 ## Keystore
 
 Debug builds use an auto-generated debug keystore. A release keystore must stay

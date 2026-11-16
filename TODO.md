@@ -33,25 +33,21 @@ source to a `plan/PLAN.md` item when it reaches the front of the line.
   store routes), then probe the survivors for a 200/404 split; promote the clean
   ones into `docs/platforms.md` and decide then whether the raw file survives.
 
-## Before mobile
-
-Device and platform checks left before the Android build.
+## Before release
 
 - [ ] Generate Android mipmaps with `npx tauri icon`, from a 1024 px source
   (the current `icons/icon.png` is 512).
-- [ ] Decide signing and commit policy: commit `src-tauri/gen/android`, keep the
-  keystore out of the repo.
-- [ ] Test on the phone's actual WebView (Tailwind 4 needs Chrome/WebView 111+).
+- [ ] Decide signing and commit policy: `src-tauri/gen/android` is generated and
+  gitignored today, so a release keystore has to live outside it.
 
 ## Mobile
 
-Android only; iOS needs macOS, so it is out of scope here. Once the list above is
-green:
+Android only; iOS needs macOS, so it is out of scope here. The toolchain is in
+place (see `docs/android.md`); the app runs on the A015 and a full scan takes
+about four seconds.
 
-1. Toolchain — see `docs/android.md` for the SDK, NDK, Rust target and
-   `cargo-ndk`; `adb` and Java are already present and the JDK is the one open
-   risk. Then `npx tauri android init`.
-2. `npx tauri android dev` over USB, then `npx tauri android build` and
-   sideload.
+1. Dev: `source scripts/android-env.sh`, `adb reverse tcp:5221 tcp:5221`, then
+   `npx tauri android dev --host 127.0.0.1`.
+2. Release: `npx tauri android build`, then sign and sideload.
 
 Same IPC and engine as the desktop shell.
