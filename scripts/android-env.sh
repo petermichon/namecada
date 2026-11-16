@@ -10,5 +10,10 @@ if [ -n "$ndk" ]; then
 	export NDK_HOME="$ANDROID_HOME/ndk/$ndk"
 fi
 
-# Uncomment when AGP rejects the distro JDK.
-# export JAVA_HOME=/usr/lib/jvm/java-21-openjdk
+# Gradle needs a JDK with javac; Fedora's java-25-openjdk is runtime-only.
+for jdk in java-21-openjdk java-17-openjdk; do
+	if [ -x "/usr/lib/jvm/$jdk/bin/javac" ]; then
+		export JAVA_HOME="/usr/lib/jvm/$jdk"
+		break
+	fi
+done

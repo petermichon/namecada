@@ -44,10 +44,17 @@ rustup target list --installed | grep android
 adb devices
 ```
 
-`tauri info` does not probe Java. The template needs JDK 17+; this machine has
-25, which is untested with AGP 9.3.1. If Gradle rejects it:
-`sudo dnf install -y java-21-openjdk-devel` and export
-`JAVA_HOME=/usr/lib/jvm/java-21-openjdk`.
+`tauri info` does not probe Java. The template needs a **JDK** (with `javac`),
+not a JRE: Fedora's `java-25-openjdk` is runtime-only, so Gradle fails with
+`does not provide the required capabilities: [JAVA_COMPILER]`. Install JDK 21:
+
+```sh
+sudo dnf install -y java-21-openjdk-devel
+```
+
+`scripts/android-env.sh` picks `java-21-openjdk` (or 17) up automatically when
+present. After a JDK change, stop the old Gradle daemon
+(`src-tauri/gen/android/gradlew --stop`) so builds do not reuse it.
 
 ## Build and run
 
