@@ -5,6 +5,10 @@
 export ANDROID_HOME="${ANDROID_HOME:-$HOME/Android/Sdk}"
 export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
 
+# adb 37.0.1 aborts its server inside libadbmdns (Google issue 573133666);
+# fixed in platform-tools 37.0.2. Until that ships, keep mDNS off — USB only.
+export ADB_MDNS=0
+
 ndk="$(ls -1 "$ANDROID_HOME/ndk" 2>/dev/null | tail -1)"
 if [ -n "$ndk" ]; then
 	export NDK_HOME="$ANDROID_HOME/ndk/$ndk"

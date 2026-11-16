@@ -16,6 +16,10 @@ if [ -z "${ANDROID_HOME:-}" ] || [ ! -d "$ANDROID_HOME" ]; then
 	exit 1
 fi
 
+# Replace any server started without ADB_MDNS=0 (see android-env.sh).
+adb kill-server >/dev/null 2>&1 || true
+adb start-server >/dev/null 2>&1 || true
+
 if ! adb devices | awk 'NR > 1 && $2 == "device" { found = 1 } END { exit !found }'; then
 	echo "No authorized Android device: plug it in, enable USB debugging, accept the prompt." >&2
 	exit 1
