@@ -84,6 +84,11 @@ npx tauri android dev --host 127.0.0.1
 `--host` replaces the `devUrl` host and exports `TAURI_DEV_HOST`, which
 `web/vite.config.ts` binds. Re-add the reverse rule after every replug.
 
+A hostname proxy such as `devhost` (`*.localhost:7357`, one tunnel for every
+project) does not fit: the CLI rejects a name (`invalid IP address syntax` for
+`--host`) and always rewrites the `devUrl` host, so the phone cannot load
+`namecada.localhost:7357`. A bare `127.0.0.1` is the only host that works.
+
 A full scan — 107 checked sources at 16 in flight — reaches completion in about
 three seconds on the A015 (Android 14, WebView 148), so the phone keeps the whole
 source set; the 30 s deadline only exists for stalled hosts.
