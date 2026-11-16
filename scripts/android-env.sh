@@ -5,6 +5,10 @@
 export ANDROID_HOME="${ANDROID_HOME:-$HOME/Android/Sdk}"
 export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
 
+# adb 37's mDNS bridge aborts its server on this network stack (VPN interfaces),
+# which restarts it every few seconds; the CLI only needs USB transport.
+export ADB_MDNS=0
+
 ndk="$(ls -1 "$ANDROID_HOME/ndk" 2>/dev/null | tail -1)"
 if [ -n "$ndk" ]; then
 	export NDK_HOME="$ANDROID_HOME/ndk/$ndk"
