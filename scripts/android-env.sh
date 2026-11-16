@@ -10,8 +10,9 @@ if [ -n "$ndk" ]; then
 	export NDK_HOME="$ANDROID_HOME/ndk/$ndk"
 fi
 
-# Gradle needs a JDK with javac; Fedora's java-25-openjdk is runtime-only.
-for jdk in java-21-openjdk java-17-openjdk; do
+# Gradle needs a JDK with javac; Fedora's java-25-openjdk is runtime-only, so
+# install java-25-openjdk-devel (Fedora 44 ships no JDK 21 or 17).
+for jdk in java-25-openjdk java-21-openjdk java-17-openjdk; do
 	if [ -x "/usr/lib/jvm/$jdk/bin/javac" ]; then
 		export JAVA_HOME="/usr/lib/jvm/$jdk"
 		break

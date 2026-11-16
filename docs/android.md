@@ -46,14 +46,15 @@ adb devices
 
 `tauri info` does not probe Java. The template needs a **JDK** (with `javac`),
 not a JRE: Fedora's `java-25-openjdk` is runtime-only, so Gradle fails with
-`does not provide the required capabilities: [JAVA_COMPILER]`. Install JDK 21:
+`does not provide the required capabilities: [JAVA_COMPILER]`. Fedora 44 ships
+no JDK 21 or 17, so install the matching devel package:
 
 ```sh
-sudo dnf install -y java-21-openjdk-devel
+sudo dnf install -y java-25-openjdk-devel
 ```
 
-`scripts/android-env.sh` picks `java-21-openjdk` (or 17) up automatically when
-present. After a JDK change, stop the old Gradle daemon
+`scripts/android-env.sh` picks the first JDK under `/usr/lib/jvm` that has
+`javac` (25, then 21, then 17). After a JDK change, stop the old Gradle daemon
 (`src-tauri/gen/android/gradlew --stop`) so builds do not reuse it.
 
 ## Build and run
