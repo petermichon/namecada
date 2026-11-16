@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+	<defs>
+		<mask id="lens">
+			<rect width="1024" height="1024" fill="black" />
+			<g transform="translate(143.4 143.4) scale(0.72)"><g transform="scale(42.6667)">
+				<path
+					d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
+					fill="white"
+				/>
+				<g
+					transform="translate(6.5 6.5) scale(0.5)"
+					fill="none"
+					stroke="black"
+					stroke-width="2.8"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<circle cx="11" cy="11" r="8" />
+					<path d="m21 21-4.34-4.34" />
+				</g>
+			</g></g>
+		</mask>
+	</defs>
+	<rect width="1024" height="1024" fill="#ffffff" mask="url(#lens)" />
+</svg>

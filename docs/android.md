@@ -118,12 +118,17 @@ source set; the 30 s deadline only exists for stalled hosts.
 
 ## Icons
 
-`src-tauri/icons/app-icon.svg` is the 1024 px source; regenerate every platform's
-icons (and the launcher mipmaps inside the generated Android project) with:
+`src-tauri/icons/app-icon-manifest.json` is the source: `app-icon.svg` for the
+desktop/legacy icon, plus `android-bg.svg` and `android-fg.svg` so Android gets a
+real adaptive icon (solid background, check-only foreground inside the safe
+zone) instead of a masked rounded square. Regenerate everything with:
 
 ```sh
-npx tauri icon src-tauri/icons/app-icon.svg
+npx tauri icon src-tauri/icons/app-icon-manifest.json
 ```
+
+The Android launcher mipmaps are written into the generated project, so a fresh
+`android init` needs one `tauri icon` afterwards.
 
 ## Signing
 
