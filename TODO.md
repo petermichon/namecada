@@ -28,10 +28,11 @@ source to a `plan/PLAN.md` item when it reaches the front of the line.
 
 ## Sources
 
-- Add 99designs — `99designs.com/profiles/{name}` answers 200 when taken and 404
-  when free, status-only with no JS, so it is a status row. Match the status
-  code, not the page title: the `.fr` locale redirect keeps the status, but the
-  title is generic for numeric-id profiles.
+- 99designs — deferred: from a non-US egress `99designs.com/profiles/{name}`
+  GeoIP-redirects to `en.99designs.fr`, which 404s every name — including
+  `99designs` itself — so a status row would report everything free. Needs a
+  locale-pinned host or a probe from a US egress; the earlier 200/404
+  verification does not reproduce here.
 - Review `docs/similar-sites.md` — 1,476 candidates, unreferenced and never
   verified. Triage by namespace first (a bare handle beats `{id}`, address and
   store routes), then probe the survivors for a 200/404 split; promote the clean
@@ -41,9 +42,9 @@ source to a `plan/PLAN.md` item when it reaches the front of the line.
 
 The first three are wins on desktop too, so they come first regardless.
 
-- [ ] Cap engine concurrency — `Engine::new` opens one connection per provider,
-  ~130 at once. Settle on 16 in flight, as a constant in `core` so `serve`, the
-  desktop shell and Android agree; keep `with_concurrency` for experiments.
+- [x] Cap engine concurrency — `DEFAULT_CONCURRENCY` in `core` holds a scan to
+  16 checks in flight, down from one per provider (107 today); `with_concurrency`
+  still overrides it for experiments.
 - [ ] Add a scan deadline — at 16 workers and a 10 s request timeout a bad scan
   still runs ~90 s. Whatever has not resolved by the deadline becomes `unknown`,
   which is uncached and self-heals.
@@ -59,12 +60,13 @@ The first three are wins on desktop too, so they come first regardless.
 - [ ] Kill the WebView tap highlight and rubber-band overscroll.
 - [ ] Re-check the results header at 360 px: brand, search, theme, two filter
   rows.
-- [ ] Capability targets `"windows": ["main"]`; confirm it applies to the mobile
-  webview.
+- [ ] Confirm the existing `"windows": ["main"]` capability applies to the
+  mobile webview; the desktop config is already in place.
 - [ ] Generate Android mipmaps with `npx tauri icon`.
 - [ ] Confirm `devUrl` (`localhost:5221`) survives `adb reverse` for
   `tauri android dev`.
-- [ ] Decide the mobile source set — 130 sources is a desktop answer.
+- [ ] Decide the mobile source set — 143 rows, 107 of them checked, is a desktop
+  answer.
 - [ ] Decide signing and commit policy: commit `src-tauri/gen/android`, keep the
   keystore out of the repo.
 - [ ] Test on the phone's actual WebView (Tailwind 4 needs Chrome/WebView 111+).

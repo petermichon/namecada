@@ -143,7 +143,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [ ] VS Code Marketplace — 🕸 — no simple API (use Open VSX)
 - [ ] JetBrains Marketplace — 🔌 — ruled out: `/api/searchPlugins?search=` is a fuzzy substring search, not an exact-name signal, and plugin ids are numeric
 - [ ] Figma Community — 🕸 — no public API
-- [ ] 99designs — ✅ — `99designs.com/profiles/{name}` (200 taken / 404 free; status-only, no JS; the `.fr` locale redirect keeps the status and the title is generic, so the status code is the whole signal — verified 2026-11)
+- [ ] 99designs — 🕸 — re-checked server-side (2026-11): from a non-US egress `99designs.com/profiles/{name}` GeoIP-redirects to `en.99designs.fr`, which 404s every name including `99designs` itself, so status alone cannot separate taken from free; needs a locale-pinned host, deferred, not ported
 - [ ] Shopify App Store — 🕸 — re-checked server-side (2026-11): `apps.shopify.com/{slug}` 404s for both a known app and a fake slug on the probed shapes, so there is no confirmed signal
 - [ ] Nostr (NIP-05) — 🔌 — ruled out: names are per-domain (`https://{domain}/.well-known/nostr.json?name={name}`), not a global namespace, so no single-label source exists to probe
 - [ ] Fandom — 🕸 — re-checked server-side (2026-11): `{name}.fandom.com` is wildcard DNS and every host answers 403 (Cloudflare) for real and fake names alike, so there is no signal
