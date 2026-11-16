@@ -103,18 +103,18 @@ one project at a time — set `phone` to whichever is being tested.
 The CLI also forwards the dev port itself once it starts building; the wrapper
 applies the rule up front so the first page load cannot race it.
 
-### adb 37.0.1 crash loop
+### adb crash notifications
 
-Platform-tools 37.0.1 aborts its server inside libadbmdns (Google issue
-573133666), which surfaces as repeated "adb … a rencontré une erreur fatale"
-notifications while `android dev` polls. `scripts/android-env.sh` exports
-`ADB_MDNS=0` and the dev script restarts the server with it, so every adb
-process the session spawns inherits the workaround. When 37.0.2 reaches the
-public SDK repository, upgrade and drop it:
+Two adb bugs surface as fatal-error notifications while `android dev` polls the
+device:
 
-```sh
-sdkmanager "platform-tools"
-```
+- 37.0.1 aborts inside libadbmdns (Google issue 573133666, fixed in 37.0.2);
+  `scripts/android-env.sh` exports `ADB_MDNS=0` to avoid it.
+- Any version aborts a server that loses the 5037 bind race; `scripts/android-dev.sh`
+  sets `ulimit -c 0`, so a lost race cannot raise a desktop crash notification.
+
+Neither affects the device connection. Upgrade with `sdkmanager "platform-tools"`
+when 37.0.2 is public, then drop the mDNS workaround.
 
 A full scan — 107 checked sources at 16 in flight — reaches completion in about
 three seconds on the A015 (Android 14, WebView 148), so the phone keeps the whole
