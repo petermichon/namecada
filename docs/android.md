@@ -70,9 +70,19 @@ npx tauri android dev       # USB device with debugging enabled
 npx tauri android build     # release artifacts
 ```
 
-`devUrl` is `http://localhost:5221`, so `android dev` relies on `adb reverse`
-(pinned Vite port, `--strictPort`). `tauri android dev` sets that up; confirm
-the WebView reaches the dev server on first run.
+`devUrl` is `http://localhost:5221`. On a physical device the CLI picks the
+host's default-route address (a VPN interface on this machine), which the phone
+cannot reach, and it only wires `adb reverse` for emulators. Use loopback plus a
+reverse mapping instead:
+
+```sh
+source scripts/android-env.sh
+adb reverse tcp:5221 tcp:5221
+npx tauri android dev --host 127.0.0.1
+```
+
+`--host` replaces the `devUrl` host and exports `TAURI_DEV_HOST`, which
+`web/vite.config.ts` binds. Re-add the reverse rule after every replug.
 
 ## Keystore
 
