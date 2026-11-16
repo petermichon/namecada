@@ -44,7 +44,8 @@ assembled from a small core plus two binaries:
   verdict cache; streams each result as it resolves. `DEFAULT_CONCURRENCY`
   caps a scan at 16 checks in flight and `DEFAULT_DEADLINE` closes it at 30 s,
   reporting anything unresolved as `unknown`.
-- `core/src/http.rs` — production HTTP transport.
+- `core/src/http.rs` — production HTTP transport: a 10 s global bound with
+  4 s connect and 5 s read bounds so a stalled host frees its worker.
 - `cli/src/bin/serve.rs` — the NDJSON HTTP server; `capture.rs` records fixtures.
 
 Two development binaries drive it:

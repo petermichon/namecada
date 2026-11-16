@@ -48,8 +48,10 @@ The first three are wins on desktop too, so they come first regardless.
 - [x] Add a scan deadline — `DEFAULT_DEADLINE` closes a scan at 30 s; whatever
   has not resolved is reported `unknown` ("no verdict before the deadline"),
   which is never cached and self-heals.
-- [ ] Give `HttpTransport` explicit connect/read timeouts alongside the 10 s
-  global bound, so one stalled host cannot hold a worker.
+- [x] Give `HttpTransport` explicit connect/read timeouts alongside the 10 s
+  global bound, so one stalled host cannot hold a worker: 4 s for resolve and
+  connect, 5 s for the headers and the body (`with_timeouts` overrides all
+  three).
 - [ ] Persist the cache to `app_data_dir()` — it is process-only today, so every
   Android relaunch is a cold scan.
 - [ ] Add recent-checks history; it falls out of the persisted cache, and it is
