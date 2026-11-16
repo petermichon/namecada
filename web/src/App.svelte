@@ -150,7 +150,9 @@
 			</div>
 		</main>
 	{:else}
-		<header class="sticky top-0 z-20 border-b border-border/70 bg-background">
+		<header
+			class="sticky top-[env(safe-area-inset-top)] z-20 border-b border-border/70 bg-background"
+		>
 			<div
 				class="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-2.5 sm:h-16 sm:flex-row sm:items-center sm:gap-3 sm:px-6"
 			>

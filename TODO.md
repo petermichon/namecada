@@ -59,12 +59,14 @@ The first three are wins on desktop too, so they come first regardless.
   from `localStorage` (`web/src/lib/recent.ts`), deduped case-insensitively, and
   a chip re-runs the check. Kept out of the engine cache so a label outlives the
   one-hour verdict ttl.
-- [ ] `viewport-fit=cover` + `env(safe-area-inset-*)`, or the notch and gesture
-  bar clip the sticky header.
-- [ ] ≥44 px tap targets and no hover-only affordances in `ResultRow`.
-- [ ] Kill the WebView tap highlight and rubber-band overscroll.
-- [ ] Re-check the results header at 360 px: brand, search, theme, two filter
-  rows.
+- [x] `viewport-fit=cover` + `env(safe-area-inset-*)` — the body pads for the
+  notch and gesture bar, and the sticky header offsets its `top` by the inset.
+- [x] ≥44 px tap targets — rows measure 58 px and the filter chips 44 px at a
+  360 px viewport; hover is decorative only, never the sole affordance.
+- [x] Kill the WebView tap highlight and rubber-band overscroll —
+  `-webkit-tap-highlight-color: transparent` and `overscroll-behavior-y: none`.
+- [x] Re-check the results header at 360 px — 113 px tall with brand, search and
+  theme, no horizontal overflow, and the status chips scroll inside their row.
 - [ ] Confirm the existing `"windows": ["main"]` capability applies to the
   mobile webview; the desktop config is already in place.
 - [ ] Generate Android mipmaps with `npx tauri icon`.

@@ -75,13 +75,20 @@
 @layer base {
 	* {
 		@apply border-border outline-ring/50;
+		-webkit-tap-highlight-color: transparent;
 	}
 	html {
 		overflow-y: scroll;
 		scrollbar-gutter: stable;
+		overscroll-behavior-y: none;
 	}
 	body {
 		@apply bg-background text-foreground antialiased;
+		overscroll-behavior-y: none;
+		/* Keep content out from under the notch, the gesture bar and the
+		   rounded corners; each inset is 0 on a desktop browser. */
+		padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+			env(safe-area-inset-left);
 	}
 	::selection {
 		background: color-mix(in oklch, var(--primary) 22%, transparent);

@@ -99,7 +99,7 @@
 				type="button"
 				aria-pressed={filter.includes(row.value)}
 				onclick={() => toggle(row.value)}
-				class="inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-lg border border-transparent px-2.5 text-sm font-medium whitespace-nowrap text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring aria-pressed:border-border aria-pressed:bg-card aria-pressed:text-foreground aria-pressed:shadow-xs sm:min-h-9"
+				class="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-lg border border-transparent px-2.5 text-sm font-medium whitespace-nowrap text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring aria-pressed:border-border aria-pressed:bg-card aria-pressed:text-foreground aria-pressed:shadow-xs sm:min-h-9"
 			>
 				<row.Icon class="size-3.5 shrink-0 {row.color}" aria-hidden="true" />
 				<span>{row.label}</span>
