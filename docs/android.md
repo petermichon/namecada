@@ -37,8 +37,13 @@ That sets `ANDROID_HOME`, `NDK_HOME` (from the installed NDK) and the SDK
 
 ## Check the install
 
+Gradle may pull extra SDK pieces on first build (it installed platform 37 even
+though the setup pins 36); let it, and re-run `sdkmanager --list_installed` to
+see the final set.
+
 ```sh
-npx tauri info                # gains an "Android" section when the SDK is found
+npx tauri info                # sanity-check the desktop environment
+sdkmanager --list_installed   # the authoritative SDK/NDK set
 cargo ndk --version
 rustup target list --installed | grep android
 adb devices
