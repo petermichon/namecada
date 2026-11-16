@@ -1,6 +1,0 @@
-{
-  "build": {
-    "devUrl": "http://namecada.localhost:7357",
-    "beforeDevCommand": "npm run dev:host -w @namecada/web"
-  }
-}

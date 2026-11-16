@@ -74,34 +74,27 @@ refuses to start without an authorized device, and re-applies the reverse rule
 that a replug drops:
 
 ```sh
-npm run android:dev          # extra args go to `tauri android dev`
+npm run android:dev          # plain dev server on 5221
+npm run android:dev:host     # through devhost, optional
 ```
 
-`devUrl` is `http://localhost:5221` on desktop. On Android the CLI picks the
+Extra arguments go to `tauri android dev`, e.g.
+`npm run android:dev -- --config '{"build":{…}}'`.
+
+`devUrl` is `http://localhost:5221`. On a physical device the CLI picks the
 host's default-route address (a VPN interface on this machine), which the phone
-cannot reach, so the wrapper passes `--host 127.0.0.1`, which replaces the
-`devUrl` host and exports `TAURI_DEV_HOST`; `web/vite.config.ts` binds it.
+cannot reach, so the wrapper passes `--host 127.0.0.1` — that replaces the
+`devUrl` host and exports `TAURI_DEV_HOST`, which `web/vite.config.ts` binds —
+and reverses the port.
 
-### One tunnel for every project
+### Optional: one tunnel for every project
 
-`tauri android dev --host` only accepts an IP, so the phone cannot load a
-hostname. `devhost` therefore routes the bare-IP traffic it receives over the
-tunnel to the project named by its `phone` key, and
-`src-tauri/tauri.android.conf.json` points the Android `devUrl` at that proxy
-port and starts the web server only:
-
-```json
-{ "build": { "devUrl": "http://namecada.localhost:7357",
-             "beforeDevCommand": "npm run dev:host -w @namecada/web" } }
-```
-
-`npm run android:dev` then needs `dev-proxy` running (the script checks) and
-reverses `tcp:7357` instead of per-project ports. The desktop keeps
-`namecada.localhost:7357`; the phone sees `127.0.0.1:7357`, so devhost serves
-one project at a time — set `phone` to whichever is being tested.
-
-The CLI also forwards the dev port itself once it starts building; the wrapper
-applies the rule up front so the first page load cannot race it.
+Like `dev:host` on the desktop, `android:dev:host` routes the WebView through
+devhost instead of a per-project port: `tauri android dev --host` only accepts
+an IP, so the phone loads `127.0.0.1:7357` and devhost maps that bare-IP host to
+the project named by its `phone` key. It starts `npm run dev:host -w
+@namecada/web` and reverses `tcp:7357`, so the rule is shared across projects.
+The trade-off is that devhost serves one project at a time on the phone.
 
 ### adb crash notifications
 
