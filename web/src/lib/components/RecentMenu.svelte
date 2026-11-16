@@ -12,6 +12,9 @@
 	let open = $state(false);
 	let root = $state<HTMLDivElement | null>(null);
 	let trigger = $state<HTMLElement | null>(null);
+	// The header mounts actions twice (phone and desktop), so the panel id has
+	// to be unique per instance.
+	const menuId = $props.id();
 
 	function close(returnFocus = false) {
 		open = false;
@@ -41,7 +44,7 @@
 		bind:ref={trigger}
 		aria-label="Recent checks"
 		aria-expanded={open}
-		aria-controls="recent-menu"
+		aria-controls={menuId}
 		onclick={() => (open = !open)}
 	>
 		<HistoryIcon class="size-4" />
@@ -49,7 +52,7 @@
 
 	{#if open}
 		<div
-			id="recent-menu"
+			id={menuId}
 			class="absolute top-full right-0 z-30 mt-1 w-60 rounded-lg border border-border bg-card p-1 shadow-lg"
 		>
 			{#each labels as label (label)}

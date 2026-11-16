@@ -7,8 +7,8 @@
 	import { onMount } from 'svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import CostFilter from '$lib/components/CostFilter.svelte';
-	import BrandMark from '$lib/components/BrandMark.svelte';
 	import LookupForm from '$lib/components/LookupForm.svelte';
+	import SiteHeader from '$lib/components/SiteHeader.svelte';
 	import RecentMenu from '$lib/components/RecentMenu.svelte';
 	import ResultRow from '$lib/components/ResultRow.svelte';
 	import StatusFilter from '$lib/components/StatusFilter.svelte';
@@ -60,17 +60,6 @@
 	});
 </script>
 
-{#snippet brand()}
-	<a
-		href="./"
-		onclick={onHomeClick}
-		class="inline-flex items-center gap-2 rounded-lg transition-opacity hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
-	>
-		<BrandMark class="size-7 text-primary" />
-		<span class="text-lg font-semibold tracking-[-0.02em]">Namecada</span>
-	</a>
-{/snippet}
-
 {#snippet recentMenu()}
 	<RecentMenu
 		labels={lookup.recent}
@@ -111,12 +100,11 @@
 	>
 
 	{#if home}
-		<header
-			class="mx-auto flex w-full max-w-6xl items-center justify-between border-b border-transparent px-4 pt-[calc(1rem+env(safe-area-inset-top))] pb-4 sm:h-[65px] sm:px-6 sm:py-0"
-		>
-			{@render brand()}
-			{@render themeButton()}
-		</header>
+		<SiteHeader onhome={onHomeClick}>
+			{#snippet actions()}
+				{@render themeButton()}
+			{/snippet}
+		</SiteHeader>
 
 		<main
 			id="main"
@@ -144,32 +132,15 @@
 			</div>
 		</main>
 	{:else}
-		<header class="sticky top-0 z-20 border-b border-border/70 bg-background">
-			<div
-				class="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 pt-[calc(0.625rem+env(safe-area-inset-top))] pb-2.5 sm:h-16 sm:flex-row sm:items-center sm:gap-3 sm:px-6"
-			>
-				<div class="flex items-center justify-between gap-3 sm:justify-start">
-					{@render brand()}
-					<div class="flex items-center gap-1 sm:hidden">
-						{@render recentMenu()}
-						{@render themeButton()}
-					</div>
-				</div>
-				<div class="min-w-0 flex-1">
-					<div class="mx-auto w-full max-w-xl">
-						<LookupForm
-							bind:value={lookup.input}
-							loading={lookup.searching}
-							onsubmit={lookup.check}
-						/>
-					</div>
-				</div>
-				<div class="hidden items-center gap-1 sm:flex">
-					{@render recentMenu()}
-					{@render themeButton()}
-				</div>
-			</div>
-		</header>
+		<SiteHeader sticky onhome={onHomeClick}>
+			{#snippet search()}
+				<LookupForm bind:value={lookup.input} loading={lookup.searching} onsubmit={lookup.check} />
+			{/snippet}
+			{#snippet actions()}
+				{@render recentMenu()}
+				{@render themeButton()}
+			{/snippet}
+		</SiteHeader>
 
 		<main id="main" class="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6 sm:py-8">
 			{@render feedback()}
