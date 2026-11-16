@@ -16,11 +16,6 @@ if [ -z "${ANDROID_HOME:-}" ] || [ ! -d "$ANDROID_HOME" ]; then
 	exit 1
 fi
 
-# adb aborts a server that loses the 5037 bind race, and each abort becomes a
-# desktop crash notification. Keep the dev session from collecting them; adb
-# still works, it just no longer dumps core.
-ulimit -c 0 2>/dev/null || true
-
 if ! adb devices | awk 'NR > 1 && $2 == "device" { found = 1 } END { exit !found }'; then
 	echo "No authorized Android device: plug it in, enable USB debugging, accept the prompt." >&2
 	exit 1

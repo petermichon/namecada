@@ -105,16 +105,15 @@ applies the rule up front so the first page load cannot race it.
 
 ### adb crash notifications
 
-Two adb bugs surface as fatal-error notifications while `android dev` polls the
-device:
+`android dev` polls `adb shell pidof …` while it runs. When a client resolves
+`localhost` to `::1` it misses the IPv4 listener, starts a second server, and
+that one aborts when it loses the 5037 bind — which surfaces as a DrKonqi
+"fatal error" notification even with no core written. `scripts/android-env.sh`
+pins `ADB_SERVER_SOCKET=tcp:127.0.0.1:5037`, and the loop stops.
 
-- 37.0.1 aborts inside libadbmdns (Google issue 573133666, fixed in 37.0.2);
-  `scripts/android-env.sh` exports `ADB_MDNS=0` to avoid it.
-- Any version aborts a server that loses the 5037 bind race; `scripts/android-dev.sh`
-  sets `ulimit -c 0`, so a lost race cannot raise a desktop crash notification.
-
-Neither affects the device connection. Upgrade with `sdkmanager "platform-tools"`
-when 37.0.2 is public, then drop the mDNS workaround.
+Separately, platform-tools 37.0.1 aborts inside libadbmdns (Google issue
+573133666, fixed in 37.0.2); the same file exports `ADB_MDNS=0` for that. Drop
+it once `sdkmanager "platform-tools"` offers 37.0.2.
 
 A full scan — 107 checked sources at 16 in flight — reaches completion in about
 three seconds on the A015 (Android 14, WebView 148), so the phone keeps the whole
