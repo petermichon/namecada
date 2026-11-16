@@ -54,10 +54,9 @@ Device and platform checks left before the Android build.
 Android only; iOS needs macOS, so it is out of scope here. Once the list above is
 green:
 
-1. Toolchain — `adb` and Java are present, the rest is not: an Android SDK
-   (platform-tools, build-tools, a platform), the NDK, `cargo install cargo-ndk`,
-   and `rustup target add aarch64-linux-android`. The installed JDK is 25; use 17
-   or 21 if AGP rejects it. Then `npx tauri android init`.
+1. Toolchain — see `docs/android.md` for the SDK, NDK, Rust target and
+   `cargo-ndk`; `adb` and Java are already present and the JDK is the one open
+   risk. Then `npx tauri android init`.
 2. `npx tauri android dev` over USB, then `npx tauri android build` and
    sideload.
 

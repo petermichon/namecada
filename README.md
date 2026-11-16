@@ -14,6 +14,8 @@ as it lands. Input is taken as-is: a source that cannot hold the name reports
 - [Architecture](docs/architecture.md): engine, adapters, caching, fixtures and
   how to add a source.
 - [Platform backlog](docs/platforms.md): candidates and per-source notes.
+- [Android setup](docs/android.md): SDK, NDK and Rust target for the mobile
+  build.
 
 ## Development
 
