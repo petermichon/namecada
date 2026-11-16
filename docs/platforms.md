@@ -33,7 +33,6 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Lobsters — ✅ — `lobste.rs/~{name}` (200 taken / 404 free)
 - [x] Blogger — ✅ — `{name}.blogspot.com` (wildcard DNS; HTTP 200 taken / 404 free)
 - [x] Flickr — ✅ — `flickr.com/people/{name}/` (200 taken / 404 free)
-- [x] Goodreads — ✅ — `goodreads.com/{name}` (HTML Accept; a claimed name 301s to `/user/show/{id}-{slug}` and is followed to 200, a free one 404s; JSON Accept 406s the followed page)
 - [x] StackBlitz — ✅ — `stackblitz.com/@{name}` (200 taken / 404 free; needs an HTML Accept — JSON Accept 406s every name)
 - [x] Slack — ✅ — `{name}.slack.com` (an existing workspace answers 200/403, a free subdomain 404s; 403 is the login wall, not a challenge)
 - [x] SourceForge — ✅ — `sourceforge.net/projects/{name}/` (200 taken / 404 free; the 404 body is JSON, the 200 is HTML, so status alone is the signal)
@@ -95,7 +94,6 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [x] Lens Protocol — ✅ — `api.lens.xyz/graphql` (keyless GraphQL: POST an `account(username.localName:)` query; non-null `data.account` taken / null `data.account` free; page `hey.xyz/u/{name}`; undocumented keyless read access)
 - [x] Paragraph — ✅ — `paragraph.com/@{name}` (keyless profile: 200 taken / real 404 free; `paragraph.xyz` 301s here)
 - [ ] Linktree — 🕸 — re-checked server-side (2026-11): every cold cache key answers 429 with an empty body — real and fake names alike (`mrbeast`, `gymshark`, `nike` too) — while only entries a browser fetched earlier come back 200, so the check would echo the CDN cache instead of the namespace; deferred, not ported
-- [x] Spotify — ✅ — `open.spotify.com/user/{name}` (keyless profile: 200 taken / 404 free; the artist catalog still needs the keyed Web API)
 - [x] Mixcloud — ✅ — `api.mixcloud.com/{name}/`
 - [x] Discogs — ✅ — `api.discogs.com/users/{name}` (token; the keyless route 403s; 200 taken / 404 free)
 - [x] AniList — ✅ — `graphql.anilist.co` (keyless GraphQL: POST a `User(name:)` query; non-null `data.User` taken / null `data.User` + "Not Found." error free)
@@ -231,8 +229,6 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] thanks.dev — 🕸 — Cloudflare-blocked (403)
 - [ ] PayPal.me — 🕸 — 301 redirect / always 200, no signal
 - [ ] Itch.io — 🕸 — re-checked server-side (2026-11): Cloudflare challenge (403) for real and fake `{name}.itch.io` hosts
-- [ ] Spotify (artist) — 🔑
-- [ ] Apple Music — 🔑
 - [ ] Audiomack — 🕸 — redirects
 - [ ] Last.fm — 🔑 — the keyless profile route now bot-challenges (`last.fm/user/{name}` returns Cloudflare "Client Challenge" with 200 for every name), so it would need the keyed API (`ws.audioscrobbler.com/2.0/?method=user.getinfo&user={name}&api_key={key}`); deferred
 - [ ] Letterboxd — 🕸 — re-checked server-side (2026-11): Cloudflare challenge (403) for real and fake profiles
@@ -251,12 +247,14 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] freedns.afraid.org — 🔌 — ruled out: FreeDNS hostnames live under shared
   domains (`{name}.{shared-domain}`), not `{name}.freedns.afraid.org`, so a
   single-label probe never names a claimable host.
-- [ ] js.org — 🔌 — ruled out: wildcard DNS — every `{name}.js.org` resolves and
-  the host answers 200/302 for both real and fake names, so neither DNS nor HTTP
-  status isolates a claim.
-- [ ] is-a.dev — 🔌 — ruled out: wildcard DNS — every `{name}.is-a.dev` resolves
-  and the host answers 200/302 for both real and fake names, so neither DNS nor
-  HTTP status isolates a claim.
+- [ ] js.org — 🕸 — `{name}.js.org` subdomains are unique and claimed (a pull
+  request to the site repo), but the zone is wildcard DNS and every host answers
+  200/302 for both real and fake names, so neither DNS nor HTTP status isolates a
+  claim; deferred, not ported
+- [ ] is-a.dev — 🕸 — `{name}.is-a.dev` subdomains are unique and claimed (a pull
+  request to the site repo), but the zone is wildcard DNS and every host answers
+  200/302 for both real and fake names, so neither DNS nor HTTP status isolates a
+  claim; deferred, not ported
 - [ ] ngrok-free.app — 🔌 — ruled out: ephemeral / no stable namespace — tunnels
   get an agent-assigned host, not a user-chosen name, so there is nothing
   claimable to probe.

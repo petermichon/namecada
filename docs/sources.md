@@ -31,7 +31,6 @@ verdict.
 | Lobsters  | `lobste.rs/~{name}`                                           | 200 taken / 404 free      |
 | Blogger   | `{name}.blogspot.com`                                         | 200 taken / 404 free      |
 | Flickr    | `flickr.com/people/{name}/`                                   | 200 taken / 404 free      |
-| Goodreads | `goodreads.com/{name}` (301 to profile)                       | 301/200 taken / 404 free  |
 | StackBlitz | `stackblitz.com/@{name}` (HTML Accept)                       | 200 taken / 404 free      |
 | Slack     | `{name}.slack.com`                                            | 200/403 taken / 404 free  |
 | Firefox   | `addons.mozilla.org/api/v5/addons/addon/{name}/`               | 200/401 taken / 404 free  |
@@ -77,7 +76,6 @@ verdict.
 | Duolingo | `duolingo.com/profile/{name}` | og:title `on Duolingo` taken / `Learn a language` free |
 | Telegram | `t.me/{name}` | `Telegram: View @` taken / `Contact @` free |
 | HackerNoon | `hackernoon.com/u/{name}` (profile)                           | 200 taken / 404 free      |
-| Spotify   | `open.spotify.com/user/{name}` (profile)                       | 200 taken / 404 free      |
 | Paragraph | `paragraph.com/@{name}` (profile)                              | 200 taken / 404 free      |
 | Steam     | `steamcommunity.com/id/{name}?xml=1`                           | `<steamID64>` taken / `<error>` free |
 | Instagram | `instagram.com/{name}/` (profile)                              | `"username":"{name}"` taken / generic shell free |

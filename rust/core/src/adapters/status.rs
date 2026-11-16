@@ -89,12 +89,6 @@ static SPECS: &[StatusSpec] = &[
     spec("blogger", "https://%s.blogspot.com/"),
     spec("flickr", "https://www.flickr.com/people/%s/"),
     spec_with(
-        "goodreads",
-        "https://www.goodreads.com/%s",
-        DEFAULT_CODES,
-        HTML_ACCEPT,
-    ),
-    spec_with(
         "stackblitz",
         "https://stackblitz.com/@%s",
         DEFAULT_CODES,
@@ -139,7 +133,6 @@ static SPECS: &[StatusSpec] = &[
     ),
     spec("openvsx", "https://open-vsx.org/api/%s"),
     spec("hackernoon", "https://hackernoon.com/u/%s"),
-    spec("spotify", "https://open.spotify.com/user/%s"),
     spec("paragraph", "https://paragraph.com/@%s"),
     spec("github", "https://api.github.com/users/%s"),
     spec_with(
