@@ -8,6 +8,21 @@ the taken and free response (see the README's "Adding a source"). CORS is no
 longer a constraint — checks run in the Rust core — so the reachability notes
 below, written in the browser-direct era, must be re-checked before implementing.
 
+## Markers
+
+- `✅` — checked: a provider is implemented and shipped.
+- `🔑` — keyed: a unique claimable label, but the check needs credentials.
+- `🕸` — deferred: the platform has a unique claimable label, but no keyless
+  signal yet (challenge, bot wall, always-200 shell, dead third-party API).
+  Re-probe before promoting.
+- `🔌` — ruled out: there is no unique claimable label to probe — composite
+  (`owner/name`), ephemeral or generated hosts, auto-assigned ids, display
+  names, or a namespace another source already covers.
+
+The test is the **platform's namespace, not the fetch**: when the names are
+unique and claimable the entry belongs under 🔑/🕸 even if today's probe sees
+nothing, and a source that answers the same for every name is out either way.
+
 ## Providers
 
 - [x] Domains (RDAP TLDs) — ✅ — `.com .net .org .dev .io .ai .app` (`.io` via fallback) + any TLD in the IANA bootstrap
@@ -118,13 +133,13 @@ below, written in the browser-direct era, must be re-checked before implementing
 
 - [ ] ccTLDs / new gTLDs — 🔌 — ruled out: not a distinct source — the IANA RDAP bootstrap only covers some TLDs, and any TLD it lists is already checked by the Domains provider
 - [ ] Unstoppable Domains — 🔑 — deferred: the resolver API is keyed (401 unauthenticated)
-- [ ] Packagist — 🕸 — composite `vendor/name`, no single-label namespace
-- [ ] Maven Central — 🕸 — composite `group:artifact`, no single-label namespace
+- [ ] Packagist — 🔌 — composite `vendor/name`, no single-label namespace
+- [ ] Maven Central — 🔌 — composite `group:artifact`, no single-label namespace
 - [ ] Deno (`deno.land/x`) — 🕸 — `/x/{name}` 302-redirects and even taken names resolve 404, no signal
-- [ ] Docker Hub — 🕸 — composite `user/repo`, no single-label namespace
+- [ ] Docker Hub — 🔌 — composite `user/repo`, no single-label namespace
 - [ ] Flathub — 🔌 — ruled out: the app-id is reverse-DNS, not a single label, so a `{name}` probe never names a claimable app
-- [ ] LuaRocks — 🕸 — composite `owner/name`, no single-label namespace
-- [ ] Terraform Registry — 🕸 — scoped `namespace/type` path, not a single label
+- [ ] LuaRocks — 🔌 — composite `owner/name`, no single-label namespace
+- [ ] Terraform Registry — 🔌 — scoped `namespace/type` path, not a single label
 - [ ] VS Code Marketplace — 🕸 — no simple API (use Open VSX)
 - [ ] JetBrains Marketplace — 🔌 — ruled out: `/api/searchPlugins?search=` is a fuzzy substring search, not an exact-name signal, and plugin ids are numeric
 - [ ] Figma Community — 🕸 — no public API
@@ -146,14 +161,14 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Medium — 🕸 — keyless pass: 403 (bot-block) for both real and fake names, so no status signal; needs a key or a scrape — deferred, not ported
 - [ ] OpenSea — 🕸 — re-checked server-side (2026-11): the whole site now sits behind a Cloudflare interstitial, so `opensea.io/{name}` returns 403 "Just a moment…" for both real and fake names (curl with browser headers, a real browser, and an unrelated third-party proxy were all challenged), so there is no status signal; deferred, not ported
 - [ ] XDA Forums — 🕸 — Cloudflare-blocked (403)
-- [ ] USPTO (trademarks) — 🕸 — class-based, fuzzy-similarity trademark search; not a single claimable label, so it cannot answer name availability
-- [ ] EUIPO (trademarks) — 🕸 — class-based trademark search (eSearch plus, OAuth); not a single claimable label, so it cannot answer name availability
+- [ ] USPTO (trademarks) — 🔌 — class-based, fuzzy-similarity trademark search; not a single claimable label, so it cannot answer name availability
+- [ ] EUIPO (trademarks) — 🔌 — class-based trademark search (eSearch plus, OAuth); not a single claimable label, so it cannot answer name availability
 - [ ] WIPO Global Brand Database — 🕸
-- [ ] SEC EDGAR — 🕸 — keyless (descriptive User-Agent) but not a claimable namespace: it indexes issuer/filing names, which you cannot register
+- [ ] SEC EDGAR — 🔌 — keyless (descriptive User-Agent) but not a claimable namespace: it indexes issuer/filing names, which you cannot register
 - [ ] Crunchbase — 🕸
 - [ ] US state business registries — 🕸
-- [ ] Chrome Web Store — 🔌 — ruled out: every name returns 302, so status alone has no signal
-- [ ] Edge Add-ons — 🔌 — ruled out: every name returns 200, so status alone has no signal
+- [ ] Chrome Web Store — 🔌 — ruled out: extension names are display names and items are keyed by a 32-character id, so there is no claimable label; every name also answers 302
+- [ ] Edge Add-ons — 🔌 — ruled out: same shape as the Chrome Web Store — display names plus product ids, so there is no claimable label; every name also answers 200
 - [ ] Apple App Store — 🕸
 - [ ] Google Play — 🕸
 - [x] Steam — ✅ — `steamcommunity.com/id/{name}?xml=1` (body signal: a taken custom id reports a `<steamID64>` element, a free one an `<error>` element; both are 200, so status alone has no signal)
@@ -186,9 +201,9 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] GitLab Pages — 🔌 — `{name}.gitlab.io` — the subdomain *is* the GitLab
   account name, already covered by the GitLab provider; redundant.
 - [ ] Gradle Plugin Portal — 🕸 — no usable API
-- [ ] Ansible Galaxy — 🕸 — scoped `namespace/name`, not a single label
+- [ ] Ansible Galaxy — 🔌 — scoped `namespace/name`, not a single label
 - [ ] Puppet Forge — 🕸 — requires owner-name slug
-- [ ] Elm packages — 🕸 — `author/project`, not a single label
+- [ ] Elm packages — 🔌 — `author/project`, not a single label
 - [ ] Quay (containers) — 🕸 — no public user endpoint
 - [ ] Meteor — 🕸 — no API
 - [ ] Nimble (Nim) — 🕸 — 502
@@ -201,10 +216,10 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] PyPI users — 🕸 — `pypi.org/user/{name}/` is HTML behind a bot challenge
   (200, byte-identical "Client Challenge" page for real and fake users) and sends
   no CORS; Warehouse exposes no JSON user endpoint.
-- [ ] Stack Exchange — 🕸 — display names aren't unique (no availability)
-- [ ] Go modules — 🕸 — modules are paths, not single labels
-- [ ] WhatsApp — 🕸 — phone-based, no username
-- [ ] Gmail — 🔌 — ruled out: the old keyless probe `mail.google.com/mail/gxlu?email={name}@gmail.com` now returns 204 with no `COMPASS` cookie for real and fake addresses alike (2026-11), and username availability only exists inside the bot-protected signup flow, which this repo won't scrape; dots and `+suffix` are normalized, so a literal local-part check would be wrong even if it worked
+- [ ] Stack Exchange — 🔌 — display names aren't unique (no availability)
+- [ ] Go modules — 🔌 — modules are paths, not single labels
+- [ ] WhatsApp — 🔌 — phone-based, no username
+- [ ] Gmail — 🕸 — the local part of `{name}@gmail.com` is unique and claimable, but availability exists only inside the bot-protected signup flow, which this repo won't scrape; the old keyless probe `mail.google.com/mail/gxlu?email={name}@gmail.com` now returns 204 with no `COMPASS` cookie for real and fake addresses alike (2026-11); dots and `+suffix` are normalized, so a literal local-part check would be wrong even if it worked
 - [ ] Proton Mail — 🕸 — deferred: no public availability API. `account.proton.me/api/core/v4/users/available?Name={name}` needs an `x-pm-appversion` header plus an anonymous session (`POST /api/auth/v4/sessions`); with one, every name — including long random ones — returns 409 "Username already used", so taken/free is unverified. The endpoint is undocumented and version-gated, and the namespace is `local@domain` (proton.me/protonmail.com/pm.me/protonmail.ch), not a bare label
 - [ ] Quora — 🕸
 - [ ] Beehiiv — 🕸
@@ -222,7 +237,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] Matrix — 🕸 — inconclusive: availability is a per-homeserver localpart, and the register/available endpoint only answers on open-registration servers (see plan/results/P2.md)
 - [ ] Revolt — 🕸 — the profile route 301s, so no status signal
 - [ ] Guilded — 🕸 — re-checked server-side (2026-11): `guilded.gg/{name}` 200s for real and fake names, so there is no signal
-- [ ] OpenNIC — 🔌 — ruled out: the DoH endpoints are dead
+- [ ] OpenNIC — 🕸 — the peerage TLDs are a real namespace, but the public DoH endpoints are dead (2026-11), so there is no keyless resolver; re-check before promoting
 - [ ] Ko-fi — 🕸 — redirects, no signal
 - [ ] Buy Me a Coffee — 🕸 — re-checked server-side (2026-11): `buymeacoffee.com/{name}` 404s for real and fake names alike, so there is no signal
 - [ ] Lemon Squeezy — 🕸 — inconsistent: 200 for some stores, 403 (bot wall) for others, 404 for the rest, so there is no reliable status signal
@@ -240,7 +255,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] CodePen — 🕸 — re-checked server-side (2026-11): Cloudflare challenge (403) for real and fake profiles
 - [ ] Observable — 🕸 — re-checked server-side (2026-11): 429 Vercel Security Checkpoint for real and fake profiles, so there is no signal
 - [ ] Wellfound (AngelList) — 🕸 — re-checked server-side (2026-11): `wellfound.com/u/{name}` 404s for a real and a fake profile alike, so there is no usable shape
-- [ ] HelloWork — 🕸 — job board; no public username namespace/API
+- [ ] HelloWork — 🔌 — job board; no public username namespace/API
 - [ ] Fiverr — 🕸 — re-checked server-side (2026-11): 403 ("It needs a human touch") for fake sellers, so there is no signal
 - [ ] Upwork — 🕸
 - [ ] Polywork — 🕸 — re-checked server-side (2026-11): the host no longer answers (connection failure), so it is not viable
@@ -300,7 +315,7 @@ below, written in the browser-direct era, must be re-checked before implementing
 - [ ] ViewBlock — 🔌 — ruled out: `viewblock.io/arweave/address/{address}` is
   keyed by a base58 wallet address, not a claimable name; the HackerNoon footer
   link is a wallet, not a username
-- [ ] Trustpilot — 🕸 — ruled out: profiles are business units keyed by domain
+- [ ] Trustpilot — 🔌 — profiles are business units keyed by domain
   (`trustpilot.com/review/{domain}`), not a claimable name — a 200 means "a
   profile exists for that domain" (including units with no reviews) and a 404
   says nothing about availability, so neither maps to taken/free. The Business
