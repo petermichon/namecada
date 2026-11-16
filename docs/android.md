@@ -81,6 +81,11 @@ npm run android:dev:host     # through devhost, optional
 Extra arguments go to `tauri android dev`, e.g.
 `npm run android:dev -- --config '{"build":{…}}'`.
 
+The phone can hold both builds at once: `bundle.android.debugApplicationIdSuffix`
+in `tauri.conf.json` makes debug installs `sh.namecada.app.debug`, so `android dev`
+never collides with the signed release or its data. The release stays
+`sh.namecada.app`.
+
 `devUrl` is `http://localhost:5221`. On a physical device the CLI picks the
 host's default-route address (a VPN interface on this machine), which the phone
 cannot reach, so the wrapper passes `--host 127.0.0.1` — that replaces the
@@ -116,12 +121,17 @@ A full scan — 107 checked sources at 16 in flight — reaches completion in ab
 three seconds on the A015 (Android 14, WebView 148), so the phone keeps the whole
 source set; the 30 s deadline only exists for stalled hosts.
 
+The phone can hold both builds at once: `bundle.android.debugApplicationIdSuffix`
+in `tauri.conf.json` makes debug installs `sh.namecada.app.debug`, so
+`android dev` never collides with the signed release and its data. The release
+stays `sh.namecada.app`.
+
 ## Icons
 
 `src-tauri/icons/app-icon-manifest.json` is the source: `app-icon.svg` for the
 desktop/legacy icon, plus `android-bg.svg` and `android-fg.svg` so Android gets a
-real adaptive icon (solid background, check-only foreground inside the safe
-zone) instead of a masked rounded square. Regenerate everything with:
+real adaptive icon (solid background, seal-only foreground inside the safe zone)
+instead of a masked rounded square. Regenerate everything with:
 
 ```sh
 npx tauri icon src-tauri/icons/app-icon-manifest.json
