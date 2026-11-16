@@ -112,7 +112,7 @@
 
 	{#if home}
 		<header
-			class="mx-auto flex w-full max-w-6xl items-center justify-between border-b border-transparent px-4 py-4 sm:h-[65px] sm:px-6 sm:py-0"
+			class="mx-auto flex w-full max-w-6xl items-center justify-between border-b border-transparent px-4 pt-[calc(1rem+env(safe-area-inset-top))] pb-4 sm:h-[65px] sm:px-6 sm:py-0"
 		>
 			{@render brand()}
 			{@render themeButton()}
@@ -144,11 +144,9 @@
 			</div>
 		</main>
 	{:else}
-		<header
-			class="sticky top-[env(safe-area-inset-top)] z-20 border-b border-border/70 bg-background"
-		>
+		<header class="sticky top-0 z-20 border-b border-border/70 bg-background">
 			<div
-				class="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-2.5 sm:h-16 sm:flex-row sm:items-center sm:gap-3 sm:px-6"
+				class="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 pt-[calc(0.625rem+env(safe-area-inset-top))] pb-2.5 sm:h-16 sm:flex-row sm:items-center sm:gap-3 sm:px-6"
 			>
 				<div class="flex items-center justify-between gap-3 sm:justify-start">
 					{@render brand()}
