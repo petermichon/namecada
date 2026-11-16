@@ -6,7 +6,7 @@
 export const RECENT_LIMIT = 6;
 const KEY = 'namecada:recent';
 
-type Store = Pick<Storage, 'getItem' | 'setItem'>;
+type Store = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
 
 // storage returns localStorage, or null outside a browser (tests, SSR) and when
 // the store is blocked (private mode, a locked-down WebView).
@@ -55,4 +55,14 @@ export function rememberLabel(label: string, target: Store | null = storage()): 
 		// Keep the in-memory value; only persistence failed.
 	}
 	return next;
+}
+
+// clearRecent forgets every label, including on a store that refuses writes.
+export function clearRecent(target: Store | null = storage()): string[] {
+	try {
+		target?.removeItem(KEY);
+	} catch {
+		// Nothing else to clear; the caller drops the in-memory list.
+	}
+	return [];
 }

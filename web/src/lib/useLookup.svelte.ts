@@ -1,6 +1,6 @@
 import { onMount } from 'svelte';
 import { appCheckClient, isAbort, type CheckClient, type CheckEvent } from './api';
-import { loadRecent, rememberLabel } from './recent';
+import { loadRecent, rememberLabel, clearRecent as clearStoredRecent } from './recent';
 import { toLabel, type CostFilter } from './rows';
 import {
 	announce,
@@ -199,6 +199,12 @@ export class Lookup {
 	// this label, so there is nothing to sync first.
 	retry = (): void => {
 		this.check({ sync: false });
+	};
+
+	// clearRecent forgets the stored labels; the landing chips and the header
+	// menu both read this list.
+	clearRecent = (): void => {
+		this.recent = clearStoredRecent();
 	};
 
 	// showAll clears every facet and restores the default verdict filter with

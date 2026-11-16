@@ -55,10 +55,10 @@ The first three are wins on desktop too, so they come first regardless.
 - [x] Persist the cache to `app_data_dir()` — the shell loads `cache.json` at
   startup and rewrites it after each scan; the one-hour ttl still applies and
   expired entries are dropped on save.
-- [x] Add recent-checks history — the landing page lists the last six labels
-  from `localStorage` (`web/src/lib/recent.ts`), deduped case-insensitively, and
-  a chip re-runs the check. Kept out of the engine cache so a label outlives the
-  one-hour verdict ttl.
+- [x] Add recent-checks history — the last six labels live in `localStorage`
+  (`web/src/lib/recent.ts`), deduped case-insensitively: chips on the landing
+  page and a header menu on the report, with a clear action. Kept out of the
+  engine cache so a label outlives the one-hour verdict ttl.
 - [x] `viewport-fit=cover` + `env(safe-area-inset-*)` — the body pads for the
   notch and gesture bar, and the sticky header offsets its `top` by the inset.
 - [x] ≥44 px tap targets — rows measure 58 px and the filter chips 44 px at a

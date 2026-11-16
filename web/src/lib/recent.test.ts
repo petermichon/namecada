@@ -1,12 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { loadRecent, RECENT_LIMIT, rememberLabel } from './recent';
+import { clearRecent, loadRecent, RECENT_LIMIT, rememberLabel } from './recent';
 
 function memoryStore(initial?: string) {
 	const data = new Map<string, string>();
 	if (initial !== undefined) data.set('namecada:recent', initial);
 	return {
 		getItem: (key: string) => data.get(key) ?? null,
-		setItem: (key: string, value: string) => void data.set(key, value)
+		setItem: (key: string, value: string) => void data.set(key, value),
+		removeItem: (key: string) => void data.delete(key)
 	};
 }
 
@@ -69,8 +70,31 @@ describe('rememberLabel', () => {
 			getItem: () => null,
 			setItem: () => {
 				throw new Error('quota');
-			}
+			},
+			removeItem: () => {}
 		};
 		expect(rememberLabel('acema', store)).toEqual(['acema']);
+	});
+});
+
+describe('clearRecent', () => {
+	it('forgets every stored label', () => {
+		const store = memoryStore();
+		rememberLabel('acema', store);
+		rememberLabel('beta', store);
+
+		expect(clearRecent(store)).toEqual([]);
+		expect(loadRecent(store)).toEqual([]);
+	});
+
+	it('survives a store that refuses writes', () => {
+		const store = {
+			getItem: () => null,
+			setItem: () => {},
+			removeItem: () => {
+				throw new Error('blocked');
+			}
+		};
+		expect(clearRecent(store)).toEqual([]);
 	});
 });

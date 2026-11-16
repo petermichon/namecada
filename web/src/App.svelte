@@ -9,6 +9,7 @@
 	import CostFilter from '$lib/components/CostFilter.svelte';
 	import BrandMark from '$lib/components/BrandMark.svelte';
 	import LookupForm from '$lib/components/LookupForm.svelte';
+	import RecentMenu from '$lib/components/RecentMenu.svelte';
 	import ResultRow from '$lib/components/ResultRow.svelte';
 	import StatusFilter from '$lib/components/StatusFilter.svelte';
 	import { useLookup } from '$lib/useLookup.svelte';
@@ -68,6 +69,19 @@
 		<BrandMark class="size-7 text-primary" />
 		<span class="text-lg font-semibold tracking-[-0.02em]">Namecada</span>
 	</a>
+{/snippet}
+
+{#snippet recentMenu()}
+	{#if lookup.recent.length}
+		<RecentMenu
+			labels={lookup.recent}
+			onpick={(label) => {
+				lookup.input = label;
+				lookup.check();
+			}}
+			onclear={lookup.clearRecent}
+		/>
+	{/if}
 {/snippet}
 
 {#snippet themeButton()}
@@ -158,7 +172,10 @@
 			>
 				<div class="flex items-center justify-between gap-3 sm:justify-start">
 					{@render brand()}
-					<div class="sm:hidden">{@render themeButton()}</div>
+					<div class="flex items-center gap-1 sm:hidden">
+						{@render recentMenu()}
+						{@render themeButton()}
+					</div>
 				</div>
 				<div class="min-w-0 flex-1">
 					<div class="mx-auto w-full max-w-xl">
@@ -169,7 +186,10 @@
 						/>
 					</div>
 				</div>
-				<div class="hidden sm:block">{@render themeButton()}</div>
+				<div class="hidden items-center gap-1 sm:flex">
+					{@render recentMenu()}
+					{@render themeButton()}
+				</div>
 			</div>
 		</header>
 
