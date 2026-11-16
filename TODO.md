@@ -39,8 +39,6 @@ Device and platform checks left before the Android build.
 
 - [ ] Generate Android mipmaps with `npx tauri icon`, from a 1024 px source
   (the current `icons/icon.png` is 512).
-- [ ] Decide the mobile source set — 143 rows, 107 checked; measure a real scan
-  on the phone first, since the 30 s deadline already bounds the worst case.
 - [ ] Decide signing and commit policy: commit `src-tauri/gen/android`, keep the
   keystore out of the repo.
 - [ ] Test on the phone's actual WebView (Tailwind 4 needs Chrome/WebView 111+).
