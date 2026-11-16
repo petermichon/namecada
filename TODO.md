@@ -44,7 +44,7 @@ source to a `plan/PLAN.md` item when it reaches the front of the line.
 
 Android only; iOS needs macOS, so it is out of scope here. The toolchain is in
 place (see `docs/android.md`); the app runs on the A015 and a full scan takes
-about four seconds.
+about three seconds.
 
 1. Dev: `source scripts/android-env.sh`, `adb reverse tcp:5221 tcp:5221`, then
    `npx tauri android dev --host 127.0.0.1`.
