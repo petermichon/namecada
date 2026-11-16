@@ -28,11 +28,6 @@ source to a `plan/PLAN.md` item when it reaches the front of the line.
 
 ## Sources
 
-- 99designs — deferred: from a non-US egress `99designs.com/profiles/{name}`
-  GeoIP-redirects to `en.99designs.fr`, which 404s every name — including
-  `99designs` itself — so a status row would report everything free. Needs a
-  locale-pinned host or a probe from a US egress; the earlier 200/404
-  verification does not reproduce here.
 - Review `docs/similar-sites.md` — 1,476 candidates, unreferenced and never
   verified. Triage by namespace first (a bare handle beats `{id}`, address and
   store routes), then probe the survivors for a 200/404 split; promote the clean
