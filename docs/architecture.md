@@ -106,9 +106,8 @@ unauthenticated requests (GitHub: 60/hour per IP).
     own client without touching the UI or lookup state.
   - `src/lib/recent.ts` — the recent labels, kept in `localStorage`
     (case-insensitively deduped, newest first) and separate from the engine's
-    verdict cache so a label outlives the one-hour ttl. The landing page renders
-    them as chips and the results header offers the same list in a menu, with a
-    clear action.
+    verdict cache so a label outlives the one-hour ttl. The report header shows
+    them in a menu with a clear action.
 - `fixtures/` — captured source inventory and raw HTTP snapshots; see
   [Fixtures](#fixtures).
 

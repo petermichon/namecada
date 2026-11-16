@@ -138,24 +138,6 @@
 					/>
 				</div>
 
-				{#if lookup.recent.length}
-					<nav
-						class="mt-3 flex flex-wrap items-center justify-center gap-2"
-						aria-label="Recent checks"
-					>
-						{#each lookup.recent as label (label)}
-							<button
-								type="button"
-								class="h-11 rounded-full border border-border bg-card px-4 text-sm text-muted-foreground shadow-xs transition-colors hover:border-foreground/25 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:h-9 sm:px-3"
-								onclick={() => {
-									lookup.input = label;
-									lookup.check();
-								}}>{label}</button
-							>
-						{/each}
-					</nav>
-				{/if}
-
 				<div class="relative w-full [&>p]:justify-center">
 					<div class="absolute inset-x-0 top-0">{@render feedback()}</div>
 				</div>
