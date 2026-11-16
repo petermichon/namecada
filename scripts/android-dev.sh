@@ -37,7 +37,7 @@ if [ "$mode" = "host" ]; then
 	fi
 	config=(
 		--config
-		'{"build":{"devUrl":"http://namecada.localhost:7357","beforeDevCommand":"npm run dev:host -w @namecada/web"}}'
+		'{"build":{"devUrl":"http://namecada.localhost:7357","beforeDevCommand":"npm run dev:host"}}'
 	)
 fi
 

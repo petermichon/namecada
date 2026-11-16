@@ -92,9 +92,13 @@ and reverses the port.
 Like `dev:host` on the desktop, `android:dev:host` routes the WebView through
 devhost instead of a per-project port: `tauri android dev --host` only accepts
 an IP, so the phone loads `127.0.0.1:7357` and devhost maps that bare-IP host to
-the project named by its `phone` key. It starts `npm run dev:host -w
-@namecada/web` and reverses `tcp:7357`, so the rule is shared across projects.
-The trade-off is that devhost serves one project at a time on the phone.
+the project named by its `phone` key. Its hook runs the root `dev:host`, so the
+same command also gives you the browser at `namecada.localhost:7357` — Vite on
+5220 plus the Rust `serve` on 8080. It reverses `tcp:7357`, so the rule is
+shared across projects.
+
+The trade-off is that devhost serves one project at a time on the phone, and
+8080 must be free: stop any other `npm run dev`/`dev:host` first.
 
 ### adb crash notifications
 
