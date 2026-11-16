@@ -16,7 +16,7 @@ pub mod registry;
 pub use adapters::dns::{build_dns_provider, dns_hosts, DnsError, Resolver, SystemResolver};
 pub use adapters::status::{build_status_provider, status_specs};
 pub use adapters::{build_custom_provider, custom_specs};
-pub use engine::{Engine, MemoryCache, ProviderResult, DEFAULT_CONCURRENCY};
+pub use engine::{Engine, MemoryCache, ProviderResult, DEFAULT_CONCURRENCY, DEFAULT_DEADLINE};
 pub use events::{DoneEvent, ManifestEvent, ResultEvent, SourceEvent};
 pub use fixture::{Fixture, RecordingTransport, ReplayTransport};
 pub use http::HttpTransport;

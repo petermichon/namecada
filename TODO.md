@@ -45,9 +45,9 @@ The first three are wins on desktop too, so they come first regardless.
 - [x] Cap engine concurrency — `DEFAULT_CONCURRENCY` in `core` holds a scan to
   16 checks in flight, down from one per provider (107 today); `with_concurrency`
   still overrides it for experiments.
-- [ ] Add a scan deadline — at 16 workers and a 10 s request timeout a bad scan
-  still runs ~90 s. Whatever has not resolved by the deadline becomes `unknown`,
-  which is uncached and self-heals.
+- [x] Add a scan deadline — `DEFAULT_DEADLINE` closes a scan at 30 s; whatever
+  has not resolved is reported `unknown` ("no verdict before the deadline"),
+  which is never cached and self-heals.
 - [ ] Give `HttpTransport` explicit connect/read timeouts alongside the 10 s
   global bound, so one stalled host cannot hold a worker.
 - [ ] Persist the cache to `app_data_dir()` — it is process-only today, so every

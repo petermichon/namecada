@@ -19,6 +19,14 @@ const FRESH: Duration = Duration::from_secs(60 * 60);
 /// overrides it for experiments.
 pub const DEFAULT_CONCURRENCY: usize = 16;
 
+/// DEFAULT_DEADLINE bounds a whole scan. Whatever has not resolved by then is
+/// reported unknown — which is never cached, so a later scan retries it — and
+/// one stalled host cannot stretch the report to a minute.
+pub const DEFAULT_DEADLINE: Duration = Duration::from_secs(30);
+
+/// DeadlineDetail explains an unknown produced by the scan deadline.
+pub const DEADLINE_DETAIL: &str = "no verdict before the deadline";
+
 /// Entry is a cached verdict and when it was recorded.
 #[derive(Debug, Clone)]
 pub struct Entry {
@@ -109,6 +117,7 @@ pub struct ProviderResult {
 pub struct Engine {
     providers: Vec<Arc<dyn Provider>>,
     concurrency: usize,
+    deadline: Duration,
     cache: Option<Arc<MemoryCache>>,
 }
 
@@ -118,6 +127,7 @@ impl Engine {
         Self {
             providers,
             concurrency,
+            deadline: DEFAULT_DEADLINE,
             cache: None,
         }
     }
@@ -127,43 +137,84 @@ impl Engine {
         self
     }
 
+    pub fn with_deadline(mut self, deadline: Duration) -> Self {
+        self.deadline = deadline;
+        self
+    }
+
     pub fn with_cache(mut self, cache: Arc<MemoryCache>) -> Self {
         self.cache = Some(cache);
         self
     }
 
     /// scan returns a receiver that emits each result as it resolves and closes
-    /// when every worker has finished.
+    /// at the deadline, with any unresolved source reported unknown.
     pub fn scan(&self, label: &str) -> mpsc::Receiver<ProviderResult> {
         let (tx, rx) = mpsc::channel();
         if self.providers.is_empty() {
             return rx;
         }
 
+        let expires = Instant::now() + self.deadline;
         let providers = self.providers.clone();
         let label = label.to_string();
         let cache = self.cache.clone();
         let next = Arc::new(AtomicUsize::new(0));
-        let workers = self.concurrency.min(providers.len()).max(1);
+        let total = providers.len();
+        let workers = self.concurrency.min(total).max(1);
 
+        // Workers report to an internal channel so a supervisor can close the
+        // caller's stream at the deadline and pad the sources still pending.
+        let (inner_tx, inner_rx) = mpsc::channel();
         for _ in 0..workers {
             let providers = providers.clone();
-            let tx = tx.clone();
+            let inner_tx = inner_tx.clone();
             let label = label.clone();
             let cache = cache.clone();
             let next = Arc::clone(&next);
             thread::spawn(move || loop {
+                if Instant::now() >= expires {
+                    break;
+                }
                 let index = next.fetch_add(1, Ordering::Relaxed);
                 if index >= providers.len() {
                     break;
                 }
                 let result = check_one(providers[index].as_ref(), &label, cache.as_deref());
-                if tx.send(result).is_err() {
+                if inner_tx.send((index, result)).is_err() {
                     break;
                 }
             });
         }
-        drop(tx);
+        drop(inner_tx);
+
+        thread::spawn(move || {
+            let mut seen = vec![false; total];
+            let mut left = total;
+            while left > 0 {
+                let wait = expires.saturating_duration_since(Instant::now());
+                match inner_rx.recv_timeout(wait) {
+                    Ok((index, result)) => {
+                        if !seen[index] {
+                            seen[index] = true;
+                            left -= 1;
+                        }
+                        if tx.send(result).is_err() {
+                            return;
+                        }
+                    }
+                    Err(_) => break,
+                }
+            }
+            for (index, provider) in providers.iter().enumerate() {
+                if seen[index] {
+                    continue;
+                }
+                if tx.send(pending_result(provider.as_ref(), &label)).is_err() {
+                    return;
+                }
+            }
+        });
         rx
     }
 
@@ -180,18 +231,28 @@ impl Engine {
     }
 }
 
-fn check_one(provider: &dyn Provider, raw: &str, cache: Option<&MemoryCache>) -> ProviderResult {
+/// pending_result describes a source that has not answered by the deadline.
+fn pending_result(provider: &dyn Provider, raw: &str) -> ProviderResult {
+    base_result(provider, raw, DEADLINE_DETAIL)
+}
+
+fn base_result(provider: &dyn Provider, raw: &str, detail: &str) -> ProviderResult {
     let label = provider.normalize_label(raw);
-    let mut result = ProviderResult {
+    ProviderResult {
         id: provider.id().to_string(),
         platform: provider.platform().to_string(),
         platform_name: provider.platform_name(),
         name: provider.name(&label),
         url: provider.url(&label),
         status: Status::Unknown,
-        detail: String::new(),
+        detail: detail.to_string(),
         paid: provider.paid(),
-    };
+    }
+}
+
+fn check_one(provider: &dyn Provider, raw: &str, cache: Option<&MemoryCache>) -> ProviderResult {
+    let label = provider.normalize_label(raw);
+    let mut result = base_result(provider, raw, "");
 
     let length = label.chars().count();
     if provider.min_length() > 0 && length < provider.min_length() {
@@ -416,5 +477,55 @@ mod tests {
 
         let one = Engine::new(vec![Arc::new(BoundedProvider { calls })]);
         assert_eq!(one.concurrency, 1);
+    }
+
+    struct SlowProvider {
+        delay: Duration,
+    }
+
+    impl Provider for SlowProvider {
+        fn id(&self) -> &str {
+            "slow"
+        }
+        fn platform(&self) -> &str {
+            "slow"
+        }
+        fn name(&self, label: &str) -> String {
+            label.to_string()
+        }
+        fn url(&self, label: &str) -> String {
+            format!("https://slow.test/{label}")
+        }
+        fn paid(&self) -> bool {
+            false
+        }
+        fn check(&self, _: &str) -> Result<Outcome, Error> {
+            thread::sleep(self.delay);
+            Ok(Outcome::new(Status::Taken))
+        }
+    }
+
+    #[test]
+    fn deadline_reports_pending_sources_as_unknown() {
+        let engine = Engine::new(vec![
+            Arc::new(BoundedProvider {
+                calls: Arc::new(AtomicUsize::new(0)),
+            }),
+            Arc::new(SlowProvider {
+                delay: Duration::from_secs(2),
+            }),
+        ])
+        .with_deadline(Duration::from_millis(100));
+
+        let started = Instant::now();
+        let results = engine.scan_all("abcd");
+        assert!(started.elapsed() < Duration::from_secs(1));
+
+        assert_eq!(results.len(), 2);
+        assert_eq!(results[0].id, "bounded");
+        assert_eq!(results[0].status, Status::Available);
+        assert_eq!(results[1].id, "slow");
+        assert_eq!(results[1].status, Status::Unknown);
+        assert_eq!(results[1].detail, DEADLINE_DETAIL);
     }
 }
