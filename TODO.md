@@ -40,33 +40,8 @@ source to a `plan/PLAN.md` item when it reaches the front of the line.
 
 ## Before mobile
 
-The first three are wins on desktop too, so they come first regardless.
+Device and platform checks left before the Android build.
 
-- [x] Cap engine concurrency — `DEFAULT_CONCURRENCY` in `core` holds a scan to
-  16 checks in flight, down from one per provider (107 today); `with_concurrency`
-  still overrides it for experiments.
-- [x] Add a scan deadline — `DEFAULT_DEADLINE` closes a scan at 30 s; whatever
-  has not resolved is reported `unknown` ("no verdict before the deadline"),
-  which is never cached and self-heals.
-- [x] Give `HttpTransport` explicit connect/read timeouts alongside the 10 s
-  global bound, so one stalled host cannot hold a worker: 4 s for resolve and
-  connect, 5 s for the headers and the body (`with_timeouts` overrides all
-  three).
-- [x] Persist the cache to `app_data_dir()` — the shell loads `cache.json` at
-  startup and rewrites it after each scan; the one-hour ttl still applies and
-  expired entries are dropped on save.
-- [x] Add recent-checks history — the last six labels live in `localStorage`
-  (`web/src/lib/recent.ts`), deduped case-insensitively: chips on the landing
-  page and a header menu on the report, with a clear action. Kept out of the
-  engine cache so a label outlives the one-hour verdict ttl.
-- [x] `viewport-fit=cover` + `env(safe-area-inset-*)` — the body pads for the
-  notch and gesture bar, and the sticky header offsets its `top` by the inset.
-- [x] ≥44 px tap targets — rows measure 58 px and the filter chips 44 px at a
-  360 px viewport; hover is decorative only, never the sole affordance.
-- [x] Kill the WebView tap highlight and rubber-band overscroll —
-  `-webkit-tap-highlight-color: transparent` and `overscroll-behavior-y: none`.
-- [x] Re-check the results header at 360 px — 113 px tall with brand, search and
-  theme, no horizontal overflow, and the status chips scroll inside their row.
 - [ ] Confirm the existing `"windows": ["main"]` capability applies to the
   mobile webview; the desktop config is already in place.
 - [ ] Generate Android mipmaps with `npx tauri icon`.
