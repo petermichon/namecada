@@ -39,11 +39,12 @@ Device and platform checks left before the Android build.
 
 - [ ] Confirm the existing `"windows": ["main"]` capability applies to the
   mobile webview; the desktop config is already in place.
-- [ ] Generate Android mipmaps with `npx tauri icon`.
+- [ ] Generate Android mipmaps with `npx tauri icon`, from a 1024 px source
+  (the current `icons/icon.png` is 512).
 - [ ] Confirm `devUrl` (`localhost:5221`) survives `adb reverse` for
   `tauri android dev`.
-- [ ] Decide the mobile source set — 143 rows, 107 of them checked, is a desktop
-  answer.
+- [ ] Decide the mobile source set — 143 rows, 107 checked; measure a real scan
+  on the phone first, since the 30 s deadline already bounds the worst case.
 - [ ] Decide signing and commit policy: commit `src-tauri/gen/android`, keep the
   keystore out of the repo.
 - [ ] Test on the phone's actual WebView (Tailwind 4 needs Chrome/WebView 111+).
@@ -53,8 +54,10 @@ Device and platform checks left before the Android build.
 Android only; iOS needs macOS, so it is out of scope here. Once the list above is
 green:
 
-1. Toolchain: SDK + NDK, `rustup target add aarch64-linux-android`, `cargo-ndk`,
-   then `npx tauri android init`.
+1. Toolchain — `adb` and Java are present, the rest is not: an Android SDK
+   (platform-tools, build-tools, a platform), the NDK, `cargo install cargo-ndk`,
+   and `rustup target add aarch64-linux-android`. The installed JDK is 25; use 17
+   or 21 if AGP rejects it. Then `npx tauri android init`.
 2. `npx tauri android dev` over USB, then `npx tauri android build` and
    sideload.
 

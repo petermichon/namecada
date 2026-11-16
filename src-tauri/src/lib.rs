@@ -76,6 +76,8 @@ pub fn run() {
         .setup(move |app| {
             let cache_path = app.path().app_data_dir()?.join("cache.json");
             let cache = Arc::new(MemoryCache::load(&cache_path));
+            // Drop verdicts for sources that no longer ship.
+            cache.retain_providers(|id| checked.contains(id));
             let engine = Arc::new(Engine::new(providers).with_cache(Arc::clone(&cache)));
             app.manage(AppState {
                 manifest,

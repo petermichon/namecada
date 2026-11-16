@@ -167,6 +167,16 @@ impl MemoryCache {
         self.entries.lock().expect("cache mutex poisoned").len()
     }
 
+    /// retain_providers drops verdicts whose provider is gone from the
+    /// registry, so a removed source does not linger in the file until its ttl.
+    pub fn retain_providers(&self, keep: impl Fn(&str) -> bool) {
+        let mut entries = self.entries.lock().expect("cache mutex poisoned");
+        entries.retain(|key, _| match key.split_once(':') {
+            Some((provider, _)) => keep(provider),
+            None => false,
+        });
+    }
+
     pub fn is_empty(&self) -> bool {
         self.len() == 0
     }
@@ -702,5 +712,18 @@ mod tests {
         fs::write(&path, b"not json").expect("write");
         assert!(MemoryCache::load(&path).is_empty());
         let _ = fs::remove_file(&path);
+    }
+
+    #[test]
+    fn retain_providers_drops_retired_sources() {
+        let cache = MemoryCache::new();
+        cache.set("npm", "acema", Status::Available, "", "");
+        cache.set("goodreads", "acema", Status::Taken, "", "");
+
+        cache.retain_providers(|id| id == "npm");
+
+        assert_eq!(cache.len(), 1);
+        assert!(cache.get("npm", "acema").is_some());
+        assert!(cache.get("goodreads", "acema").is_none());
     }
 }
