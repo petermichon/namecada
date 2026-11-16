@@ -52,8 +52,9 @@ The first three are wins on desktop too, so they come first regardless.
   global bound, so one stalled host cannot hold a worker: 4 s for resolve and
   connect, 5 s for the headers and the body (`with_timeouts` overrides all
   three).
-- [ ] Persist the cache to `app_data_dir()` — it is process-only today, so every
-  Android relaunch is a cold scan.
+- [x] Persist the cache to `app_data_dir()` — the shell loads `cache.json` at
+  startup and rewrites it after each scan; the one-hour ttl still applies and
+  expired entries are dropped on save.
 - [ ] Add recent-checks history; it falls out of the persisted cache, and it is
   what makes a phone app worth opening.
 - [ ] `viewport-fit=cover` + `env(safe-area-inset-*)`, or the notch and gesture

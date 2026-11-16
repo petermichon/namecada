@@ -1,12 +1,15 @@
 //! Bounded-concurrency scan engine and its in-memory verdict cache.
 
 use std::collections::HashMap;
+use std::fs;
+use std::io;
+use std::path::Path;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{mpsc, Arc, Mutex};
 use std::thread;
-use std::time::{Duration, Instant};
+use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 use crate::provider::{Outcome, Provider, Status};
 
@@ -36,7 +39,31 @@ pub struct Entry {
     pub at: Instant,
 }
 
-/// MemoryCache is a concurrency-safe in-memory verdict cache.
+/// CACHE_VERSION is the on-disk shape version; a mismatch starts fresh.
+const CACHE_VERSION: u32 = 1;
+
+/// CacheFile is the persisted form: one record per verdict, keyed by
+/// `provider:label`.
+#[derive(Serialize, Deserialize)]
+struct CacheFile {
+    version: u32,
+    entries: Vec<CacheRecord>,
+}
+
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct CacheRecord {
+    key: String,
+    status: Status,
+    #[serde(default)]
+    detail: String,
+    #[serde(default)]
+    url: String,
+    recorded_ms: u64,
+}
+
+/// MemoryCache is a concurrency-safe verdict cache, optionally persisted so a
+/// relaunch starts with the previous scan's verdicts.
 pub struct MemoryCache {
     ttl: Duration,
     entries: Mutex<HashMap<String, Entry>>,
@@ -52,6 +79,88 @@ impl MemoryCache {
             ttl,
             entries: Mutex::new(HashMap::new()),
         }
+    }
+
+    /// load restores what `save` wrote. A missing, unreadable or older-format
+    /// file starts empty, and entries past the ttl are dropped.
+    pub fn load(path: impl AsRef<Path>) -> Self {
+        Self::load_with_ttl(path, FRESH)
+    }
+
+    pub fn load_with_ttl(path: impl AsRef<Path>, ttl: Duration) -> Self {
+        let cache = Self::with_ttl(ttl);
+        let Ok(text) = fs::read_to_string(path) else {
+            return cache;
+        };
+        let Ok(file) = serde_json::from_str::<CacheFile>(&text) else {
+            return cache;
+        };
+        if file.version != CACHE_VERSION {
+            return cache;
+        }
+
+        let now_ms = unix_millis();
+        {
+            let mut entries = cache.entries.lock().expect("cache mutex poisoned");
+            for record in file.entries {
+                let age = Duration::from_millis(now_ms.saturating_sub(record.recorded_ms));
+                if age >= ttl {
+                    continue;
+                }
+                entries.insert(
+                    record.key,
+                    Entry {
+                        status: record.status,
+                        detail: record.detail,
+                        url: record.url,
+                        // A monotonic clock shorter than the wall-clock age (a
+                        // fresh boot) cannot rewind, so the entry starts fresh.
+                        at: Instant::now().checked_sub(age).unwrap_or_else(Instant::now),
+                    },
+                );
+            }
+        }
+        cache
+    }
+
+    /// save writes the live entries to `path`, creating its directory and
+    /// replacing the file atomically. Expired entries are dropped on the way
+    /// out, so the file cannot grow past one ttl of scans.
+    pub fn save(&self, path: impl AsRef<Path>) -> io::Result<()> {
+        let path = path.as_ref();
+        let now_ms = unix_millis();
+        let mut records = Vec::new();
+        {
+            let entries = self.entries.lock().expect("cache mutex poisoned");
+            for (key, entry) in entries.iter() {
+                let age = entry.at.elapsed();
+                if age >= self.ttl {
+                    continue;
+                }
+                records.push(CacheRecord {
+                    key: key.clone(),
+                    status: entry.status,
+                    detail: entry.detail.clone(),
+                    url: entry.url.clone(),
+                    recorded_ms: now_ms.saturating_sub(age.as_millis() as u64),
+                });
+            }
+        }
+        records.sort_by(|a, b| a.key.cmp(&b.key));
+
+        let body = serde_json::to_vec(&CacheFile {
+            version: CACHE_VERSION,
+            entries: records,
+        })
+        .map_err(io::Error::other)?;
+        if let Some(parent) = path.parent() {
+            if !parent.as_os_str().is_empty() {
+                fs::create_dir_all(parent)?;
+            }
+        }
+        let tmp = path.with_extension("tmp");
+        fs::write(&tmp, body)?;
+        fs::rename(&tmp, path)
     }
 
     pub fn len(&self) -> usize {
@@ -316,6 +425,14 @@ fn apply(result: &mut ProviderResult, outcome: Outcome) {
     }
 }
 
+/// unix_millis is the wall clock in milliseconds, used by the persisted cache.
+fn unix_millis() -> u64 {
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|elapsed| elapsed.as_millis() as u64)
+        .unwrap_or(0)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -527,5 +644,63 @@ mod tests {
         assert_eq!(results[1].id, "slow");
         assert_eq!(results[1].status, Status::Unknown);
         assert_eq!(results[1].detail, DEADLINE_DETAIL);
+    }
+
+    fn temp_path(name: &str) -> std::path::PathBuf {
+        std::env::temp_dir().join(format!("namecada-{name}-{}.json", std::process::id()))
+    }
+
+    #[test]
+    fn cache_round_trips_through_disk() {
+        let path = temp_path("cache-round-trip");
+        let _ = fs::remove_file(&path);
+
+        let cache = MemoryCache::new();
+        cache.set(
+            "npm",
+            "acema",
+            Status::Available,
+            "free",
+            "https://example.test/npm",
+        );
+        cache.set("github", "acema", Status::Taken, "", "");
+        cache.set("pypi", "acema", Status::Unknown, "", "");
+        cache.save(&path).expect("save");
+
+        let restored = MemoryCache::load(&path);
+        assert_eq!(restored.len(), 2);
+        let entry = restored.get("npm", "acema").expect("npm verdict");
+        assert_eq!(entry.status, Status::Available);
+        assert_eq!(entry.detail, "free");
+        assert_eq!(entry.url, "https://example.test/npm");
+        assert_eq!(
+            restored.get("github", "acema").map(|entry| entry.status),
+            Some(Status::Taken)
+        );
+        assert!(restored.get("pypi", "acema").is_none());
+
+        let _ = fs::remove_file(&path);
+    }
+
+    #[test]
+    fn stale_entries_are_not_persisted() {
+        let path = temp_path("cache-stale");
+        let _ = fs::remove_file(&path);
+
+        let cache = MemoryCache::with_ttl(Duration::from_millis(1));
+        cache.set("npm", "acema", Status::Available, "", "");
+        thread::sleep(Duration::from_millis(5));
+        cache.save(&path).expect("save");
+
+        assert!(MemoryCache::load(&path).is_empty());
+        let _ = fs::remove_file(&path);
+    }
+
+    #[test]
+    fn a_corrupt_cache_starts_empty() {
+        let path = temp_path("cache-corrupt");
+        fs::write(&path, b"not json").expect("write");
+        assert!(MemoryCache::load(&path).is_empty());
+        let _ = fs::remove_file(&path);
     }
 }

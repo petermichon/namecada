@@ -3,16 +3,19 @@ use namecada_core::{Engine, Manifest, MemoryCache};
 use serde::Serialize;
 use serde_json::Value;
 use std::collections::HashSet;
+use std::path::PathBuf;
 use std::sync::Arc;
 use tauri::ipc::Channel;
-use tauri::State;
+use tauri::{Manager, State};
 
 /// AppState is built once at startup: the registry, which ids have a provider,
-/// and a shared engine with its cache.
+/// a shared engine with its cache, and where that cache is persisted.
 struct AppState {
     manifest: Manifest,
     checked: HashSet<String>,
     engine: Arc<Engine>,
+    cache: Arc<MemoryCache>,
+    cache_path: PathBuf,
 }
 
 /// check streams the same three events as the NDJSON server: the manifest, one
@@ -32,6 +35,8 @@ async fn check(
     let manifest = state.manifest.clone();
     let checked = state.checked.clone();
     let engine = Arc::clone(&state.engine);
+    let cache = Arc::clone(&state.cache);
+    let cache_path = state.cache_path.clone();
 
     tauri::async_runtime::spawn_blocking(move || {
         let sources = events::source_events(&manifest, &checked, &label);
@@ -43,6 +48,9 @@ async fn check(
                 return;
             }
         }
+        // Persist before the done event so a relaunch starts with these
+        // verdicts; a failed write leaves the in-memory cache intact.
+        let _ = cache.save(&cache_path);
         let _ = send(&on_event, &DoneEvent::default());
     })
     .await
@@ -59,17 +67,24 @@ pub fn run() {
     let manifest = Manifest::embedded().expect("embedded registry");
     manifest.validate().expect("embedded registry is valid");
     let providers = namecada_core::live_providers(&manifest).expect("live providers");
-    let checked = providers
+    let checked: HashSet<String> = providers
         .iter()
         .map(|provider| provider.id().to_string())
         .collect();
-    let engine = Arc::new(Engine::new(providers).with_cache(Arc::new(MemoryCache::new())));
 
     tauri::Builder::default()
-        .manage(AppState {
-            manifest,
-            checked,
-            engine,
+        .setup(move |app| {
+            let cache_path = app.path().app_data_dir()?.join("cache.json");
+            let cache = Arc::new(MemoryCache::load(&cache_path));
+            let engine = Arc::new(Engine::new(providers).with_cache(Arc::clone(&cache)));
+            app.manage(AppState {
+                manifest,
+                checked,
+                engine,
+                cache,
+                cache_path,
+            });
+            Ok(())
         })
         .invoke_handler(tauri::generate_handler![check])
         .run(tauri::generate_context!())

@@ -26,7 +26,10 @@ source registry is compiled into the binary (`Manifest::embedded`);
 `--manifest` overrides it for development.
 
 Desktop app: `npm run tauri:dev` (Vite dev server plus the native window) and
-`npm run tauri:build` (bundles the single-file web build).
+`npm run tauri:build` (bundles the single-file web build). The shell keeps its
+verdict cache in `cache.json` under `app_data_dir()`: it loads that file at
+startup and rewrites it after each scan, so a relaunch within the ttl reuses the
+previous verdicts instead of rescanning.
 
 ## Rust core
 
