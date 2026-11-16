@@ -77,17 +77,31 @@ that a replug drops:
 npm run android:dev          # extra args go to `tauri android dev`
 ```
 
-`devUrl` is `http://localhost:5221`. On a physical device the CLI picks the
+`devUrl` is `http://localhost:5221` on desktop. On Android the CLI picks the
 host's default-route address (a VPN interface on this machine), which the phone
-cannot reach, and it only wires `adb reverse` for emulators. The wrapper passes
-`--host 127.0.0.1`, which replaces the `devUrl` host and exports
-`TAURI_DEV_HOST`, which `web/vite.config.ts` binds; the phone then reaches Vite
-through the reverse mapping.
+cannot reach, so the wrapper passes `--host 127.0.0.1`, which replaces the
+`devUrl` host and exports `TAURI_DEV_HOST`; `web/vite.config.ts` binds it.
 
-A hostname proxy such as `devhost` (`*.localhost:7357`, one tunnel for every
-project) does not fit: the CLI rejects a name (`invalid IP address syntax` for
-`--host`) and always rewrites the `devUrl` host, so the phone cannot load
-`namecada.localhost:7357`. A bare `127.0.0.1` is the only host that works.
+### One tunnel for every project
+
+`tauri android dev --host` only accepts an IP, so the phone cannot load a
+hostname. `devhost` therefore routes the bare-IP traffic it receives over the
+tunnel to the project named by its `phone` key, and
+`src-tauri/tauri.android.conf.json` points the Android `devUrl` at that proxy
+port and starts the web server only:
+
+```json
+{ "build": { "devUrl": "http://namecada.localhost:7357",
+             "beforeDevCommand": "npm run dev:host -w @namecada/web" } }
+```
+
+`npm run android:dev` then needs `dev-proxy` running (the script checks) and
+reverses `tcp:7357` instead of per-project ports. The desktop keeps
+`namecada.localhost:7357`; the phone sees `127.0.0.1:7357`, so devhost serves
+one project at a time — set `phone` to whichever is being tested.
+
+The CLI also forwards the dev port itself once it starts building; the wrapper
+applies the rule up front so the first page load cannot race it.
 
 A full scan — 107 checked sources at 16 in flight — reaches completion in about
 three seconds on the A015 (Android 14, WebView 148), so the phone keeps the whole

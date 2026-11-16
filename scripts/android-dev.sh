@@ -22,8 +22,13 @@ if ! adb devices | awk 'NR > 1 && $2 == "device" { found = 1 } END { exit !found
 fi
 
 # The physical-device CLI never sets this up itself, and the mapping is lost on
-# every replug.
-adb reverse tcp:5221 tcp:5221 >/dev/null
+# every replug. One tunnel serves every app: devhost routes the bare-IP host it
+# sees to the project in its "phone" field.
+if ! (exec 3<>/dev/tcp/127.0.0.1/7357) 2>/dev/null; then
+	echo "devhost is not listening on 7357: start it with \`dev-proxy\`." >&2
+	exit 1
+fi
+adb reverse tcp:7357 tcp:7357 >/dev/null
 
 cd "$(dirname "$here")"
 exec npx tauri android dev --host 127.0.0.1 "$@"
