@@ -27,6 +27,21 @@ if ! adb devices | awk 'NR > 1 && $2 == "device" { found = 1 } END { exit !found
 	exit 1
 fi
 
+# The debug install sits next to the signed release, so give it its own launcher
+# label. `android init` regenerates the Gradle project, hence writing it here
+# rather than editing generated files by hand.
+root="$(dirname "$here")"
+debug_res="$root/src-tauri/gen/android/app/src/debug/res/values"
+if [ -d "$root/src-tauri/gen/android/app/src" ]; then
+	mkdir -p "$debug_res"
+	cat >"$debug_res/strings.xml" <<'XML'
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Namecada Dev</string>
+</resources>
+XML
+fi
+
 port=5221
 config=()
 if [ "$mode" = "host" ]; then

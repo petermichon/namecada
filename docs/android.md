@@ -82,9 +82,10 @@ Extra arguments go to `tauri android dev`, e.g.
 `npm run android:dev -- --config '{"build":{…}}'`.
 
 The phone can hold both builds at once: `bundle.android.debugApplicationIdSuffix`
-in `tauri.conf.json` makes debug installs `sh.namecada.app.debug`, so `android dev`
-never collides with the signed release or its data. The release stays
-`sh.namecada.app`.
+in `tauri.conf.json` makes debug installs `sh.namecada.app.debug`, and the dev
+wrapper writes a debug-only `app_name` resource so the launcher shows
+**Namecada Dev** while the release stays plain **Namecada** / `sh.namecada.app`.
+Neither build touches the other's data.
 
 `devUrl` is `http://localhost:5221`. On a physical device the CLI picks the
 host's default-route address (a VPN interface on this machine), which the phone
