@@ -72,16 +72,14 @@
 {/snippet}
 
 {#snippet recentMenu()}
-	{#if lookup.recent.length}
-		<RecentMenu
-			labels={lookup.recent}
-			onpick={(label) => {
-				lookup.input = label;
-				lookup.check();
-			}}
-			onclear={lookup.clearRecent}
-		/>
-	{/if}
+	<RecentMenu
+		labels={lookup.recent}
+		onpick={(label) => {
+			lookup.input = label;
+			lookup.check();
+		}}
+		onclear={lookup.clearRecent}
+	/>
 {/snippet}
 
 {#snippet themeButton()}
