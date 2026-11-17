@@ -50,7 +50,7 @@ jobs:
             . -> target
             apps/desktop/src-tauri -> target
 
-      - uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@v4
 
       - name: Install the SDK pieces the template asks for
         run: |
