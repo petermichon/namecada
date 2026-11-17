@@ -20,8 +20,10 @@ commands and conventions.
   `check` command; it has its own Cargo workspace (Tauri's `src-tauri` layout)
   and is driven by `apps/desktop/package.json`.
 - `apps/site/` — the static download page served at `namecada.com`: plain
-  HTML/CSS, its nginx image and the compose file for the host stack. No backend:
-  the product is the app, and checks run on the device.
+  HTML/CSS bundled by Vite, its nginx image and the compose file for the host
+  stack. Its own package with its own lockfile (`npm --prefix apps/site
+  install`), deliberately outside the root workspace so the image build stays
+  small. No backend: the product is the app, and checks run on the device.
 - `fixtures/` — captured source inventory plus raw HTTP snapshots. These are a
   frozen parity oracle; `npm run capture` records new ones. See
   `fixtures/README.md`.
@@ -55,6 +57,9 @@ Root scripts (run from the repo root):
 | `npm run capture` | run providers live and write their fixtures (`npm run capture -- <label> --source <id>`) |
 | `npm run tauri:dev` | Vite dev server plus the Tauri window (real IPC, no `serve`) |
 | `npm run tauri:build` | bundle the desktop app |
+| `npm run site:dev` | site dev server with hot reload on port `5222` |
+| `npm run site:dev:host` | proxied site mode: loopback `5222` for the dev proxy |
+| `npm run site:build` | build `apps/site/dist` (the image's only input) |
 
 Rust scripts require `cargo` on `PATH` (rustup, then a new shell or
 `source "$HOME/.cargo/env"`); `rust-toolchain.toml` pins the stable toolchain.

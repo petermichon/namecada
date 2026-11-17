@@ -118,9 +118,12 @@ unauthenticated requests (GitHub: 60/hour per IP).
     (case-insensitively deduped, newest first) and separate from the engine's
     verdict cache so a label outlives the one-hour ttl. The report header shows
     them in a menu with a clear action.
-- `apps/site/` — the static download page for `namecada.com`: HTML/CSS, an
-  nginx image and the compose file for the host stack. It has no backend; the
-  product is the desktop and Android app.
+- `apps/site/` — the static download page for `namecada.com`: plain HTML/CSS
+  bundled by Vite into `dist/`, an nginx image and the compose file for the
+  host stack. It has no backend; the product is the desktop and Android app.
+  It is its own package (`apps/site/package.json`, its own lockfile, not a root
+  workspace), so the image build installs Vite and nothing from `apps/web` or
+  Tauri.
 - `fixtures/` — captured source inventory and raw HTTP snapshots; see
   [Fixtures](#fixtures).
 
@@ -159,6 +162,16 @@ server is already running separately.
 the web app to `127.0.0.1:5220` so a machine-level dev proxy can expose it on a
 local hostname; a phone reaches the same URL through one `adb reverse`. The Rust
 `serve` on `:8080` stays Vite's proxy target as before.
+
+The site is a separate, smaller project: `npm --prefix apps/site install` once,
+then `npm run site:dev` (hot reload on `:5222`) or `npm run site:dev:host`
+(loopback, so a dev proxy can route a hostname to it). `npm run site:build`
+writes `apps/site/dist`, which is the only thing the nginx image copies; the
+HTML and CSS stay framework-free. With the machine-level dev proxy used here
+(devhost, `~/.config/dev`), the two surfaces are
+`http://namecada.localhost:7357` (app, upstream `5220`) and
+`http://site.namecada.localhost:7357` (site, upstream `5222`) — one hostname and
+one `adb reverse` per surface, so the phone opens the same URLs.
 
 ## Adding a source
 

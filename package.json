@@ -19,6 +19,9 @@
 		"dev": "concurrently -k -n web,server -c blue,green \"npm:dev:web\" \"npm:rust:serve\"",
 		"dev:web": "npm run dev -w @namecada/web",
 		"dev:host": "concurrently -k -n web,server -c blue,green \"npm run dev:host -w @namecada/web\" \"npm:rust:serve\"",
+		"site:dev": "npm --prefix apps/site run dev",
+		"site:dev:host": "npm --prefix apps/site run dev:host",
+		"site:build": "npm --prefix apps/site run build",
 		"build": "npm run build -w @namecada/web",
 		"preview": "npm run preview -w @namecada/web",
 		"test": "npm run test -w @namecada/web",
@@ -50,6 +53,7 @@
 			"eslint --fix"
 		],
 		"apps/web/**/*.{json,css,html,md}": "prettier --write",
+		"apps/site/**/*.{js,ts,css,html,md,json}": "prettier --write",
 		"packages/**/*.rs": "rustfmt --edition 2021",
 		"apps/cli/**/*.rs": "rustfmt --edition 2021",
 		"apps/desktop/src-tauri/**/*.rs": "rustfmt --edition 2021"
