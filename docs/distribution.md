@@ -90,6 +90,8 @@ the repository:
 ```yaml
 Categories:
   - Internet
+# F-Droid wants one SPDX identifier; the code is dual MIT OR Apache-2.0, so the
+# recipe names the permissive half a recipient would pick anyway.
 License: MIT
 SourceCode: https://github.com/petermichon/namecada
 IssueTracker: https://github.com/petermichon/namecada/issues
