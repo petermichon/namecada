@@ -2,9 +2,12 @@
 #
 # Deployed on the edge host as its own stack (see ~/git/edge, "Adding an app"):
 #   git clone https://github.com/petermichon/namecada.git /srv/namecada
-#   cd /srv/namecada/apps/site && docker compose up -d
+#   cd /srv/namecada/apps/site && docker compose --profile deploy up -d
 #
 # The service name is what Caddy proxies to, so it must stay `namecada`.
+# Images are immutable: CI publishes ghcr.io/petermichon/namecada-site, and the
+# `deploy` profile runs freshdock, which pulls a new image and recreates the
+# service once its healthcheck passes — no inbound access, no SSH credentials.
 name: namecada
 
 services:
@@ -18,6 +21,21 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
+    labels:
+      - 'freshdock.enable=true'
+      - 'freshdock.mode=live'
+
+  # Pull-based auto-updater (opt-in). Needs a writable Docker socket, which is
+  # why it lives behind the profile rather than in the default stack.
+  freshdock:
+    image: ghcr.io/turbootzz/freshdock:latest
+    profiles: ['deploy']
+    command: ['run']
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - 'freshdock.mode=off'
+    restart: unless-stopped
 
 networks:
   edge:

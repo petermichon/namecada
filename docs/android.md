@@ -179,3 +179,9 @@ Obtainium. Stores build from the same source: the Fastlane listing lives in
 F-Droid recipe — are in [Distribution](distribution.md). The download page at `namecada.com`
 lives in `apps/site/`: static files, an nginx image and a compose file for the
 edge host.
+
+That compose file follows the host's convention: CI publishes
+`ghcr.io/petermichon/namecada-site`, and the opt-in `deploy` profile runs
+freshdock, which pulls a new image and recreates the service once its
+healthcheck passes. A page change ships by pushing to `main`, with no SSH and
+no manual pull.
