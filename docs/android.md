@@ -69,9 +69,13 @@ Run the Tauri CLI from `apps/desktop`, which is the shell's project root (its
 
 ```sh
 cd apps/desktop
-npx tauri android init      # once, generates src-tauri/gen/android
 npx tauri android build     # release artifacts
 ```
+
+The Android project at `src-tauri/gen/android` is committed, so a build works
+from a fresh clone without `android init`. Run `npx tauri android init` only to
+regenerate it after a Tauri CLI upgrade, and commit the diff: that is where
+`compileSdk`, the manifest and the Gradle plugins are visible for review.
 
 For development with hot reload, use the wrapper — it sources the environment,
 refuses to start without an authorized device, and re-applies the reverse rule
@@ -142,8 +146,8 @@ instead of a masked rounded square. Regenerate everything with:
 npx tauri icon apps/desktop/src-tauri/icons/app-icon-manifest.json
 ```
 
-The Android launcher mipmaps are written into the generated project, so a fresh
-`android init` needs one `tauri icon` afterwards.
+The Android launcher mipmaps live in the committed project, so run `tauri icon`
+whenever the manifest changes and commit the regenerated `res/` files.
 
 ## Signing
 
@@ -167,8 +171,8 @@ npm run android:sign
 `$HOME/.config/namecada/release.jks`, writes `…-signed.apk` beside it and prints
 the certificate. Passwords come from `NAMECADA_KEYSTORE_PASS` / `NAMECADA_KEY_PASS`
 (or apksigner prompts); `NAMECADA_KEYSTORE` and `NAMECADA_KEY_ALIAS` override the
-paths. `gen/android` stays gitignored, so nothing about the keystore or the
-generated project is committed.
+paths. The generated project is committed, but the keystore is not: it stays
+outside the repository and its passwords live only in CI secrets.
 
 ## Distribution
 

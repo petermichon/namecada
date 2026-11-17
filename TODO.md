@@ -70,8 +70,6 @@ always carries the APK; a desktop release would need that link revisited.
 
 - `fixtures/README.md`: record what the 8.7 MB of captured bodies are, when they
   were taken, and that they exist only as a test oracle.
-- Decide whether `gen/android` is committed or regenerated: the APK is built
-  from files the repository does not contain. The pinned Tauri CLI covers the
-  acute risk.
-- Second Fastlane screenshot: only when filing IzzyOnDroid or F-Droid.
+- Second Fastlane screenshot: only when filing IzzyOnDroid or F-Droid, and the
+  phone is plugged in.
 

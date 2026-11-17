@@ -36,9 +36,9 @@ Repository secrets for `.github/workflows/android.yml`:
 ## GitHub releases → Obtainium
 
 `.github/workflows/android.yml` runs on a `v*` tag, builds the frontend, runs
-`tauri android init` (the generated project is gitignored), builds a universal
-APK plus one APK per ABI, signs each with the keystore, and attaches them to the
-release with SHA-256 sums.
+the build against the committed `apps/desktop/src-tauri/gen/android` project,
+builds a universal APK plus one APK per ABI, signs each with the keystore, and
+attaches them to the release with SHA-256 sums.
 
 Obtainium then needs nothing from us: point it at
 `https://github.com/petermichon/namecada` and it reads the release assets on
