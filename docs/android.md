@@ -82,9 +82,9 @@ Extra arguments go to `tauri android dev`, e.g.
 `npm run android:dev -- --config '{"build":{…}}'`.
 
 The phone can hold both builds at once: `bundle.android.debugApplicationIdSuffix`
-in `tauri.conf.json` makes debug installs `sh.namecada.app.debug`, and the dev
+in `tauri.conf.json` makes debug installs `com.namecada.app.debug`, and the dev
 wrapper writes a debug-only `app_name` resource so the launcher shows
-**Namecada Dev** while the release stays plain **Namecada** / `sh.namecada.app`.
+**Namecada Dev** while the release stays plain **Namecada** / `com.namecada.app`.
 Neither build touches the other's data.
 
 `devUrl` is `http://localhost:5221`. On a physical device the CLI picks the
@@ -123,9 +123,9 @@ three seconds on the A015 (Android 14, WebView 148), so the phone keeps the whol
 source set; the 30 s deadline only exists for stalled hosts.
 
 The phone can hold both builds at once: `bundle.android.debugApplicationIdSuffix`
-in `tauri.conf.json` makes debug installs `sh.namecada.app.debug`, so
+in `tauri.conf.json` makes debug installs `com.namecada.app.debug`, so
 `android dev` never collides with the signed release and its data. The release
-stays `sh.namecada.app`.
+stays `com.namecada.app`.
 
 ## Icons
 
@@ -164,3 +164,11 @@ the certificate. Passwords come from `NAMECADA_KEYSTORE_PASS` / `NAMECADA_KEY_PA
 (or apksigner prompts); `NAMECADA_KEYSTORE` and `NAMECADA_KEY_ALIAS` override the
 paths. `gen/android` stays gitignored, so nothing about the keystore or the
 generated project is committed.
+
+## Distribution
+
+Tagged releases are built and signed by `.github/workflows/android.yml`, which
+attaches a universal APK and one APK per ABI to the GitHub release for
+Obtainium. Stores build from the same source: the Fastlane listing lives in
+`fastlane/metadata/android/en-US/`. The tag, key and submission rules — and the
+F-Droid recipe — are in [Distribution](distribution.md).

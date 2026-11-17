@@ -41,5 +41,8 @@ about three seconds.
 
 1. Dev: `npm run android:dev` (see `docs/android.md` for the SDK setup).
 2. Release: `npx tauri android build --apk`, then `npm run android:sign`.
+3. Distribute: tag `v<version>` and the workflow attaches signed APKs for
+   Obtainium; the Fastlane listing and the F-Droid recipe are in
+   `docs/distribution.md`.
 
 Same IPC and engine as the desktop shell.

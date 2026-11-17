@@ -1,0 +1,23 @@
+Namecada answers one question: is this name free?
+
+Type a label and it checks it across domains, social usernames and package
+registries in one pass — around a hundred and forty sources, from .com and .dev
+through npm, PyPI and crates.io to GitHub, Mastodon and Bluesky. Each verdict
+lands in the list as soon as it resolves, so one slow source never holds up the
+report.
+
+The name is taken as-is. A source that cannot hold the name — too short, too
+long, or letters it never allows — says so instead of quietly checking something
+else.
+
+Every check runs on the device. There is no Namecada server, no account and no
+analytics: the app talks to the sources directly, exactly as your browser would,
+and keeps the recent labels and verdicts only in local storage.
+
+Verdicts are a snapshot, not a promise. Availability does not mean you can
+register the name, and a domain row reports registry state rather than whether
+the name is registrable, so re-check at the source before you commit to
+anything.
+
+Open source (MIT OR Apache-2.0). The full source list, with the request each
+source receives and the rule behind its verdict, is in the repository.

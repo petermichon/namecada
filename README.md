@@ -16,6 +16,8 @@ as it lands. Input is taken as-is: a source that cannot hold the name reports
 - [Platform backlog](docs/platforms.md): candidates and per-source notes.
 - [Android setup](docs/android.md): SDK, NDK and Rust target for the mobile
   build.
+- [Distribution](docs/distribution.md): tagged releases, the signing key and the
+  store listings.
 
 ## Development
 
