@@ -1,23 +1,29 @@
+/* Palette and type mirror apps/web/src/app.css so the page and the app read as
+   one product: same warm neutrals, same teal, same Figtree. Change a token in
+   both places together. */
+@import '@fontsource-variable/figtree';
+
 :root {
-	--bg: #faf9f7;
-	--fg: #1f1c19;
-	--muted: #6b6560;
-	--primary: #176f68;
-	--on-primary: #ffffff;
-	--line: #e3ded8;
-	--card: #ffffff;
+	--bg: oklch(0.985 0.003 85);
+	--fg: oklch(0.21 0.012 75);
+	--muted: oklch(0.48 0.012 80);
+	--primary: oklch(0.62 0.09 180);
+	--on-primary: oklch(0.17 0.02 180);
+	--line: oklch(0.91 0.006 85);
+	--card: oklch(1 0 0);
+	--font-sans: 'Figtree Variable', ui-sans-serif, system-ui, sans-serif;
 	color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--bg: #14110f;
-		--fg: #f4f1ee;
-		--muted: #a49d96;
-		--primary: #5fc7bb;
-		--on-primary: #14110f;
-		--line: #2b2622;
-		--card: #1c1815;
+		--bg: oklch(0.165 0.008 75);
+		--fg: oklch(0.96 0.004 85);
+		--muted: oklch(0.72 0.01 85);
+		--primary: oklch(0.8 0.09 180);
+		--on-primary: oklch(0.17 0.02 180);
+		--line: oklch(1 0 0 / 10%);
+		--card: oklch(0.205 0.008 75);
 		color-scheme: dark;
 	}
 }
@@ -30,11 +36,7 @@ body {
 	margin: 0;
 	background: var(--bg);
 	color: var(--fg);
-	font-family:
-		system-ui,
-		-apple-system,
-		'Segoe UI',
-		sans-serif;
+	font-family: var(--font-sans);
 	line-height: 1.6;
 	-webkit-font-smoothing: antialiased;
 }
