@@ -6,19 +6,24 @@ commands and conventions.
 
 ## Layout
 
-- `web/` — Svelte 5 + Vite + Tailwind + shadcn-svelte app. A thin client of the
+- `apps/web/` — Svelte 5 + Vite + Tailwind + shadcn-svelte app. A thin client of the
   server (streams `GET /v1/check?name=<label>` NDJSON events:
   `manifest` → `result`* → `done`). The UI depends on the `CheckClient` seam in
   `src/lib/api.ts`; `httpCheckClient` is the development adapter.
-- `rust/` — the engine plus a development/CLI harness. `core/` holds the `Provider`/`Transport`
-  contracts, the status/custom/DNS adapters, the engine, cache, HTTP transport,
-  shared stream events (`events.rs`), the live registry (`registry.rs`), and
-  fixture replay. `cli/` holds the `serve` and `capture` binaries.
-- `src-tauri/` — the desktop shell. It builds the same registry via
+- `packages/core/` — the engine: the `Provider`/`Transport` contracts, the
+  status/custom/DNS adapters, the engine, cache, HTTP transport, shared stream
+  events (`events.rs`), the live registry (`registry.rs`), and fixture replay.
+- `apps/cli/` — the `namecada` crate: the `serve`, `capture` and `probe`
+  binaries. It and `packages/core` form the root Cargo workspace.
+- `apps/desktop/src-tauri/` — the desktop shell. It builds the same registry via
   `live_providers` and streams `events.rs` shapes over an IPC channel from the
-  `check` command; it has its own Cargo workspace (Tauri's `src-tauri` layout).
+  `check` command; it has its own Cargo workspace (Tauri's `src-tauri` layout)
+  and is driven by `apps/desktop/package.json`.
+- `apps/site/` — the static download page served at `namecada.com`: plain
+  HTML/CSS, its nginx image and the compose file for the host stack. No backend:
+  the product is the app, and checks run on the device.
 - `fixtures/` — captured source inventory plus raw HTTP snapshots. These are a
-  frozen parity oracle; the Rust-only tree has no exporter yet. See
+  frozen parity oracle; `npm run capture` records new ones. See
   `fixtures/README.md`.
 - `docs/sources.md` — every checked source with its request and verdict rule.
 - `docs/architecture.md` — engine, adapters, caching, fixtures, adding a source.
@@ -66,10 +71,10 @@ through the `CheckClient` seam.
 - **Formatting** — Rust uses `cargo fmt`, run via `npm run format` or
   `npm run rust:fmt`. The web workspace uses **prettier** (configured with
   `useTabs: true`, single quotes, no trailing comma, printWidth 100 in
-  `web/prettier.config.js`; the Tailwind plugin sorts classes). Husky's
+  `apps/web/prettier.config.js`; the Tailwind plugin sorts classes). Husky's
   `pre-commit` hook runs lint-staged, which prettifies + eslint-fixes staged web
   files and cargo-fmts Rust files.
-- **Provider HTTP** — adapters live under `rust/core/src/adapters/`, one module
+- **Provider HTTP** — adapters live under `packages/core/src/adapters/`, one module
   per shape: `status.rs` (request template plus a `CodeMap`), `api.rs`
   (JSON/XML/GraphQL), `page.rs` (server-rendered HTML), `domains.rs` (RDAP),
   `dns.rs` (wildcard subdomains). Request helpers live in `adapters/shared.rs`
@@ -98,7 +103,7 @@ flags the ones that now return a real signal. Promoting one is still manual.
    lowercase. A deferred/manual source stops here: with no provider
    it is listed as "not checked" automatically (`checked` is derived, never
    stored).
-2. Implement the check in `rust/core`:
+2. Implement the check in `packages/core`:
    - status-only → `adapters/status.rs` spec table;
    - JSON/XML/GraphQL → `adapters/api.rs`;
    - server-rendered HTML → `adapters/page.rs`;
@@ -106,6 +111,6 @@ flags the ones that now return a real signal. Promoting one is still manual.
 3. Map the response to `available` / `taken` / `unknown`. Return `unknown` on an
    ambiguous or unparseable body, never a transport error.
 4. Add a unit test or fixture. Status/custom providers are compared in
-   `rust/core/tests/parity.rs`; DNS uses a fake resolver.
+   `packages/core/tests/parity.rs`; DNS uses a fake resolver.
 5. Add the source row to `docs/sources.md` and `docs/platforms.md`, then run
    `npm run verify` — the tree must stay green.

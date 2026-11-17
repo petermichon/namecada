@@ -25,9 +25,11 @@ jobs:
       # rust-toolchain.toml pins the channel and the fmt/clippy components.
       - uses: Swatinem/rust-cache@v2
         with:
-          workspaces: rust
+          workspaces: |
+            . -> target
+            apps/desktop/src-tauri -> target
 
       - run: npm ci
-      # verify:ci skips the src-tauri clippy pass, which needs WebKitGTK.
+      # verify:ci skips the desktop clippy pass, which needs WebKitGTK.
       - run: npm run verify:ci
       - run: npm run build

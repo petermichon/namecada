@@ -1,0 +1,12 @@
+{
+	"name": "@namecada/desktop",
+	"private": true,
+	"type": "module",
+	"//": "Tauri needs src-tauri beside a package.json, so the shell is its own workspace member. The scripts run the CLI from this directory; the frontend lives in ../web.",
+	"scripts": {
+		"tauri": "tauri",
+		"dev": "tauri dev",
+		"build": "tauri build",
+		"android:dev": "tauri android dev"
+	}
+}

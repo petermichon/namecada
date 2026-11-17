@@ -18,7 +18,7 @@ Development uses Vite with `/v1` proxied to `serve`. Vite is pinned to port
 dev server rather than whatever else is on a default port.
 
 `core` has no HTTP dependency. `serve` is a development/CLI harness only; the
-packaged app is Tauri (`src-tauri/`), calling the engine directly and feeding
+packaged app is Tauri (`apps/desktop/src-tauri/`), calling the engine directly and feeding
 the same events through the `CheckClient` seam, with no localhost server. The
 web client picks its transport once at load: `invoke('check')` with an IPC
 channel inside the desktop shell, the NDJSON endpoint everywhere else. The
@@ -33,23 +33,27 @@ previous verdicts instead of rescanning.
 
 ## Rust core
 
-`rust/` is the engine plus a development/CLI harness. It is a Rust workspace
-assembled from a small core plus two binaries:
+`packages/core` is the engine; `apps/cli` is a development harness around it.
+The root Cargo workspace holds both:
 
-- `core/src/provider.rs` — the `Provider` and `Transport` contracts and the
-  result/status types.
-- `core/src/adapters/` — one module per source shape: `status.rs` (verdict is
-  the status code), `api.rs` (JSON/XML/GraphQL endpoints), `page.rs`
+- `packages/core/src/provider.rs` — the `Provider` and `Transport` contracts and
+  the result/status types.
+- `packages/core/src/adapters/` — one module per source shape: `status.rs`
+  (verdict is the status code), `api.rs` (JSON/XML/GraphQL endpoints), `page.rs`
   (server-rendered HTML), `domains.rs` (RDAP), `dns.rs` (wildcard subdomains).
   `shared.rs` holds the request helpers and `spec.rs` the id → check table.
-- `core/src/registry.rs` — the compiled registry: live providers and stats.
-- `core/src/engine.rs` — bounded-concurrency scan engine with its one-hour
+- `packages/core/src/registry.rs` — the compiled registry: live providers and stats.
+- `packages/core/src/engine.rs` — bounded-concurrency scan engine with its one-hour
   verdict cache; streams each result as it resolves. `DEFAULT_CONCURRENCY`
   caps a scan at 16 checks in flight and `DEFAULT_DEADLINE` closes it at 30 s,
   reporting anything unresolved as `unknown`.
-- `core/src/http.rs` — production HTTP transport: a 10 s global bound with
-  4 s connect and 5 s read bounds so a stalled host frees its worker.
-- `cli/src/bin/serve.rs` — the NDJSON HTTP server; `capture.rs` records fixtures.
+- `packages/core/src/http.rs` — production HTTP transport: a 10 s global bound with
+  4 s connect and 5 s read bounds so a stalled host frees its worker. It connects
+  over IPv4 first and retries with every address family when nothing connected,
+  because a resolver that returns AAAA first lets a broken IPv6 route eat the
+  connect budget.
+- `apps/cli/src/bin/serve.rs` — the NDJSON HTTP server; `capture.rs` records
+  fixtures; `probe.rs` checks the sources that have no provider yet.
 
 Two development binaries drive it:
 
@@ -95,8 +99,13 @@ unauthenticated requests (GitHub: 60/hour per IP).
 
 ## Layout
 
-- `rust/` — Rust engine and the development/CLI harness; see `rust/README.md`.
-- `web/` — Svelte 5 + Vite + Tailwind + shadcn-svelte (maia) app.
+- `packages/core/` — the engine: `Provider`/`Transport` contracts, adapters,
+  registry, engine, cache, HTTP transport, events and fixture replay.
+- `apps/cli/` — the `serve`, `capture` and `probe` binaries. It and
+  `packages/core` make up the root Cargo workspace; see `packages/README.md`.
+- `apps/desktop/src-tauri/` — the Tauri shell, its own Cargo workspace, driven
+  by `apps/desktop/package.json`.
+- `apps/web/` — Svelte 5 + Vite + Tailwind + shadcn-svelte (maia) app.
   - `src/lib/platforms.ts` — the result types (`Status`, `ProviderResult`),
     `toLabel`, and `suggestLabel`. The display name in `platformName` and the
     `paid` flag come from the manifest stream; the report renders one
@@ -109,6 +118,9 @@ unauthenticated requests (GitHub: 60/hour per IP).
     (case-insensitively deduped, newest first) and separate from the engine's
     verdict cache so a label outlives the one-hour ttl. The report header shows
     them in a menu with a clear action.
+- `apps/site/` — the static download page for `namecada.com`: HTML/CSS, an
+  nginx image and the compose file for the host stack. It has no backend; the
+  product is the desktop and Android app.
 - `fixtures/` — captured source inventory and raw HTTP snapshots; see
   [Fixtures](#fixtures).
 
@@ -156,14 +168,14 @@ local hostname; a phone reaches the same URL through one `adb reverse`. The Rust
    "not checked" automatically — `checked` is derived from the provider
    registry, never stored. The registry is compiled into the binary, so rebuild
    after editing.
-2. Implement the check in `rust/core`:
-   - a status-only source goes in `rust/core/src/adapters/status.rs`;
+2. Implement the check in `packages/core`:
+   - a status-only source goes in `packages/core/src/adapters/status.rs`;
    - a JSON/XML/GraphQL source goes in `adapters/api.rs`;
    - a server-rendered HTML source goes in `adapters/page.rs`;
    - an RDAP or DNS source goes in `adapters/domains.rs` / `adapters/dns.rs`.
 3. Register it in the corresponding spec table.
 4. Add a unit test or capture fixture. Status-only and custom sources are
-   exercised by `rust/core/tests/parity.rs`; DNS providers use a fake resolver.
+   exercised by `packages/core/tests/parity.rs`; DNS providers use a fake resolver.
 5. Run `npm run verify`.
 
 Checks run in the Rust core, so CORS is not a constraint. Keyed sources are

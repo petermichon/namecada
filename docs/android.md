@@ -60,11 +60,15 @@ sudo dnf install -y java-25-openjdk-devel
 
 `scripts/android-env.sh` picks the first JDK under `/usr/lib/jvm` that has
 `javac` (25, then 21, then 17). After a JDK change, stop the old Gradle daemon
-(`src-tauri/gen/android/gradlew --stop`) so builds do not reuse it.
+(`apps/desktop/src-tauri/gen/android/gradlew --stop`) so builds do not reuse it.
 
 ## Build and run
 
+Run the Tauri CLI from `apps/desktop`, which is the shell's project root (its
+`src-tauri/` sits beside its `package.json`):
+
 ```sh
+cd apps/desktop
 npx tauri android init      # once, generates src-tauri/gen/android
 npx tauri android build     # release artifacts
 ```
@@ -129,13 +133,13 @@ stays `com.namecada.app`.
 
 ## Icons
 
-`src-tauri/icons/app-icon-manifest.json` is the source: `app-icon.svg` for the
+`apps/desktop/src-tauri/icons/app-icon-manifest.json` is the source: `app-icon.svg` for the
 desktop/legacy icon, plus `android-bg.svg` and `android-fg.svg` so Android gets a
 real adaptive icon (solid background, seal-only foreground inside the safe zone)
 instead of a masked rounded square. Regenerate everything with:
 
 ```sh
-npx tauri icon src-tauri/icons/app-icon-manifest.json
+npx tauri icon apps/desktop/src-tauri/icons/app-icon-manifest.json
 ```
 
 The Android launcher mipmaps are written into the generated project, so a fresh
@@ -154,11 +158,12 @@ keytool -genkeypair -keystore ~/.config/namecada/release.jks \
 Then build and sign:
 
 ```sh
-npx tauri android build --apk
+(cd apps/desktop && npx tauri android build --apk)
 npm run android:sign
 ```
 
-`android:sign` finds the newest `*-unsigned.apk`, signs it with
+`android:sign` finds the newest `*-unsigned.apk` under
+`apps/desktop/src-tauri/gen/android/`, signs it with
 `$HOME/.config/namecada/release.jks`, writes `…-signed.apk` beside it and prints
 the certificate. Passwords come from `NAMECADA_KEYSTORE_PASS` / `NAMECADA_KEY_PASS`
 (or apksigner prompts); `NAMECADA_KEYSTORE` and `NAMECADA_KEY_ALIAS` override the
@@ -171,4 +176,6 @@ Tagged releases are built and signed by `.github/workflows/android.yml`, which
 attaches a universal APK and one APK per ABI to the GitHub release for
 Obtainium. Stores build from the same source: the Fastlane listing lives in
 `fastlane/metadata/android/en-US/`. The tag, key and submission rules — and the
-F-Droid recipe — are in [Distribution](distribution.md).
+F-Droid recipe — are in [Distribution](distribution.md). The download page at `namecada.com`
+lives in `apps/site/`: static files, an nginx image and a compose file for the
+edge host.

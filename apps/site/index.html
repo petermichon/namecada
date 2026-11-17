@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="referrer" content="no-referrer" />
+		<meta
+			description="Namecada checks one name against domains, package registries and handles across the open web. Runs on your device: no account, no server, no tracking."
+		/>
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="Namecada | Check one name across the open web" />
+		<meta
+			property="og:description"
+			content="Domains, package registries and handles, checked in one pass on your own device."
+		/>
+		<meta name="twitter:card" content="summary" />
+		<title>Namecada | Check one name across the open web</title>
+		<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<header class="site-header">
+			<a class="brand" href="/">
+				<svg viewBox="0 0 24 24" class="mark" aria-hidden="true">
+					<defs>
+						<mask id="lens">
+							<rect width="24" height="24" fill="black" />
+							<path
+								d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
+								fill="white"
+							/>
+							<g
+								transform="translate(6.5 6.5) scale(0.5)"
+								fill="none"
+								stroke="black"
+								stroke-width="2.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
+								<circle cx="11" cy="11" r="8" />
+								<path d="m21 21-4.34-4.34" />
+							</g>
+						</mask>
+					</defs>
+					<rect width="24" height="24" fill="currentColor" mask="url(#lens)" />
+				</svg>
+				<span>Namecada</span>
+			</a>
+		</header>
+
+		<main>
+			<h1>Check a name across the open web.</h1>
+			<p class="lede">
+				Domains, package registries and handles, checked in one pass. Around 140 sources, each
+				verdict landing as it resolves.
+			</p>
+
+			<div class="actions">
+				<a
+					class="button"
+					href="https://github.com/petermichon/namecada/releases/latest"
+					>Download for Android</a
+				>
+				<a
+					class="button secondary"
+					href="https://github.com/petermichon/namecada/releases"
+					>All releases</a
+				>
+			</div>
+
+			<p class="note">
+				Signed APK. Desktop builds for Linux, Windows and macOS are published on the same
+				releases page.
+			</p>
+
+			<ul class="points">
+				<li>
+					<strong>On your device.</strong> Every check runs locally, so there is no server to
+					log your searches.
+				</li>
+				<li>
+					<strong>No account, no tracking.</strong> Recent names and verdicts stay in local
+					storage on your machine.
+				</li>
+				<li>
+					<strong>Open source.</strong> MIT OR Apache-2.0. Every source, its request and the
+					rule behind its verdict are documented in the repository.
+				</li>
+			</ul>
+
+			<p class="note">
+				A verdict is a snapshot, not a promise: availability does not mean you can register the
+				name, and a domain row reports registry state. Re-check at the source before committing
+				to anything.
+			</p>
+		</main>
+
+		<footer>
+			<a href="https://github.com/petermichon/namecada">Source</a>
+			<a href="https://github.com/petermichon/namecada#readme">Documentation</a>
+			<a href="https://github.com/petermichon/namecada/issues">Issues</a>
+		</footer>
+	</body>
+</html>

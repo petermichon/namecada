@@ -1,0 +1,182 @@
+:root {
+	--bg: #faf9f7;
+	--fg: #1f1c19;
+	--muted: #6b6560;
+	--primary: #176f68;
+	--on-primary: #ffffff;
+	--line: #e3ded8;
+	--card: #ffffff;
+	color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #14110f;
+		--fg: #f4f1ee;
+		--muted: #a49d96;
+		--primary: #5fc7bb;
+		--on-primary: #14110f;
+		--line: #2b2622;
+		--card: #1c1815;
+		color-scheme: dark;
+	}
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--fg);
+	font-family:
+		system-ui,
+		-apple-system,
+		'Segoe UI',
+		sans-serif;
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+}
+
+.site-header {
+	max-width: 40rem;
+	margin: 0 auto;
+	padding: 2rem 1.25rem 0;
+}
+
+.brand {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: inherit;
+	text-decoration: none;
+	font-weight: 600;
+	font-size: 1.125rem;
+	letter-spacing: -0.02em;
+}
+
+.mark {
+	width: 1.75rem;
+	height: 1.75rem;
+	color: var(--primary);
+}
+
+main {
+	max-width: 40rem;
+	margin: 0 auto;
+	padding: 3rem 1.25rem 4rem;
+}
+
+h1 {
+	margin: 0;
+	font-size: clamp(2rem, 6vw, 3rem);
+	line-height: 1.1;
+	letter-spacing: -0.035em;
+	font-weight: 600;
+	text-wrap: balance;
+}
+
+.lede {
+	margin: 1rem 0 0;
+	font-size: 1.0625rem;
+	color: var(--muted);
+	text-wrap: pretty;
+}
+
+.actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	margin: 2rem 0 0;
+}
+
+.button {
+	display: inline-block;
+	padding: 0.7rem 1.15rem;
+	border-radius: 0.6rem;
+	border: 1px solid transparent;
+	background: var(--primary);
+	color: var(--on-primary);
+	font-weight: 600;
+	text-decoration: none;
+	transition:
+		transform 120ms ease,
+		opacity 120ms ease;
+}
+
+.button:hover {
+	opacity: 0.9;
+}
+
+.button:active {
+	transform: translateY(1px);
+}
+
+.button.secondary {
+	background: transparent;
+	color: var(--fg);
+	border-color: var(--line);
+}
+
+.button:focus-visible {
+	outline: 2px solid var(--primary);
+	outline-offset: 3px;
+}
+
+.note {
+	margin: 0.9rem 0 0;
+	font-size: 0.875rem;
+	color: var(--muted);
+}
+
+.points {
+	list-style: none;
+	margin: 2.5rem 0 0;
+	padding: 0;
+	display: grid;
+	gap: 1rem;
+}
+
+.points li {
+	padding: 1rem 1.15rem;
+	border: 1px solid var(--line);
+	border-radius: 0.75rem;
+	background: var(--card);
+	font-size: 0.9375rem;
+}
+
+.points strong {
+	display: block;
+	margin-bottom: 0.15rem;
+	font-weight: 600;
+}
+
+footer {
+	max-width: 40rem;
+	margin: 0 auto;
+	padding: 0 1.25rem 3rem;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.25rem;
+	border-top: 1px solid var(--line);
+	padding-top: 1.5rem;
+	font-size: 0.875rem;
+}
+
+footer a {
+	color: var(--muted);
+	text-decoration: none;
+}
+
+footer a:hover {
+	color: var(--fg);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.button {
+		transition: none;
+	}
+}

@@ -8,7 +8,7 @@ here is Play-specific; the on-device engine means there is no server to operate.
 ## Versioning and versionCode
 
 `tauri.android.versionCode` is derived from `version` in
-`src-tauri/tauri.conf.json` as `major * 1000000 + minor * 1000 + patch`, so
+`apps/desktop/src-tauri/tauri.conf.json` as `major * 1000000 + minor * 1000 + patch`, so
 `0.1.0` becomes `1000`. Every release needs a higher `version` and therefore a
 higher `versionCode`; Android refuses a downgrade and Obtainium will not offer
 one. The release workflow fails if the pushed tag does not match the version.
@@ -115,13 +115,13 @@ Builds:
       - npm ci
       - npm run build
       - export ANDROID_HOME=$$SDK$$ NDK_HOME=$$NDK$$
-      - npx tauri android init --ci
-      - npx tauri icon src-tauri/icons/app-icon-manifest.json
+      - (cd apps/desktop && npx tauri android init --ci)
+      - (cd apps/desktop && npx tauri icon src-tauri/icons/app-icon-manifest.json)
     build:
       - export ANDROID_HOME=$$SDK$$ NDK_HOME=$$NDK$$
       - npm run build
-      - npx tauri android build --apk
-    output: src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release-unsigned.apk
+      - (cd apps/desktop && npx tauri android build --apk)
+    output: apps/desktop/src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release-unsigned.apk
     ndk: 27.0.12077973
 ```
 

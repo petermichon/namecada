@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - id: version
-        run: echo "value=$(node -p "require('./src-tauri/tauri.conf.json').version")" >> "$GITHUB_OUTPUT"
+        run: echo "value=$(node -p "require('./apps/desktop/src-tauri/tauri.conf.json').version")" >> "$GITHUB_OUTPUT"
 
       # A tag that disagrees with the app version would publish an APK whose
       # versionCode does not match the release it is attached to.
@@ -47,8 +47,8 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: |
-            rust
-            src-tauri
+            . -> target
+            apps/desktop/src-tauri -> target
 
       - uses: android-actions/setup-android@v3
 
@@ -69,6 +69,7 @@ jobs:
         run: |
           export NDK_HOME="$ANDROID_HOME/ndk/30.0.16248370"
           export ANDROID_NDK_HOME="$NDK_HOME"
+          cd apps/desktop
           npx tauri android init --ci
           npx tauri icon src-tauri/icons/app-icon-manifest.json
 
@@ -76,6 +77,7 @@ jobs:
         run: |
           export NDK_HOME="$ANDROID_HOME/ndk/30.0.16248370"
           export ANDROID_NDK_HOME="$NDK_HOME"
+          cd apps/desktop
           npx tauri android build --apk
 
       # A store may cap downloads (IzzyOnDroid asks for 30 MB), and the
@@ -84,6 +86,7 @@ jobs:
         run: |
           export NDK_HOME="$ANDROID_HOME/ndk/30.0.16248370"
           export ANDROID_NDK_HOME="$NDK_HOME"
+          cd apps/desktop
           npx tauri android build --apk --split-per-abi
 
       - name: Sign every APK
@@ -104,7 +107,7 @@ jobs:
           out="$RUNNER_TEMP/apk"
           mkdir -p "$out"
           shopt -s nullglob
-          for apk in src-tauri/gen/android/app/build/outputs/apk/*/*/*-unsigned.apk; do
+          for apk in apps/desktop/src-tauri/gen/android/app/build/outputs/apk/*/*/*-unsigned.apk; do
             name="$(basename "$apk")"
             abi="${name#app-}"
             abi="${abi%-release-unsigned.apk}"

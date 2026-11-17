@@ -22,7 +22,7 @@ keystore="${NAMECADA_KEYSTORE:-$HOME/.config/namecada/release.jks}"
 key_alias="${NAMECADA_KEY_ALIAS:-namecada}"
 apk="${1:-}"
 if [ -z "$apk" ]; then
-	apk="$(ls -t src-tauri/gen/android/app/build/outputs/apk/*/*/*-unsigned.apk 2>/dev/null | head -1 || true)"
+	apk="$(ls -t apps/desktop/src-tauri/gen/android/app/build/outputs/apk/*/*/*-unsigned.apk 2>/dev/null | head -1 || true)"
 fi
 if [ -z "$apk" ] || [ ! -f "$apk" ]; then
 	echo "usage: npm run android:sign [path/to/app-release-unsigned.apk]" >&2

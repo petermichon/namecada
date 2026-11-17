@@ -1,0 +1,25 @@
+# namecada.com — static download page.
+#
+# Deployed on the edge host as its own stack (see ~/git/edge, "Adding an app"):
+#   git clone https://github.com/petermichon/namecada.git /srv/namecada
+#   cd /srv/namecada/apps/site && docker compose up -d
+#
+# The service name is what Caddy proxies to, so it must stay `namecada`.
+name: namecada
+
+services:
+  namecada:
+    image: ghcr.io/petermichon/namecada-site:latest
+    restart: unless-stopped
+    networks:
+      - edge
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -qO- http://127.0.0.1/ > /dev/null || exit 1']
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+networks:
+  edge:
+    external: true
+    name: edge

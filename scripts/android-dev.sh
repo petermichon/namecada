@@ -31,8 +31,8 @@ fi
 # label. `android init` regenerates the Gradle project, hence writing it here
 # rather than editing generated files by hand.
 root="$(dirname "$here")"
-debug_res="$root/src-tauri/gen/android/app/src/debug/res/values"
-if [ -d "$root/src-tauri/gen/android/app/src" ]; then
+debug_res="$root/apps/desktop/src-tauri/gen/android/app/src/debug/res/values"
+if [ -d "$root/apps/desktop/src-tauri/gen/android/app/src" ]; then
 	mkdir -p "$debug_res"
 	cat >"$debug_res/strings.xml" <<'XML'
 <?xml version="1.0" encoding="utf-8"?>
@@ -52,7 +52,7 @@ if [ "$mode" = "host" ]; then
 	fi
 	config=(
 		--config
-		'{"build":{"devUrl":"http://namecada.localhost:7357","beforeDevCommand":"npm run dev:host"}}'
+		'{"build":{"devUrl":"http://namecada.localhost:7357","beforeDevCommand":"npm --prefix ../.. run dev:host"}}'
 	)
 fi
 
@@ -60,5 +60,5 @@ fi
 # on every replug, so pin loopback and apply the rule up front.
 adb reverse "tcp:$port" "tcp:$port" >/dev/null
 
-cd "$(dirname "$here")"
+cd "$(dirname "$here")/apps/desktop"
 exec npx tauri android dev --host 127.0.0.1 "${config[@]}" "$@"

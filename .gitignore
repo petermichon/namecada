@@ -15,11 +15,11 @@ __pycache__/
 .idea
 
 # Build artifacts
-web/dist
-web/.svelte-check
-rust/target/
-src-tauri/target/
-src-tauri/gen/
+apps/web/dist
+apps/web/.svelte-check
+/target/
+apps/desktop/src-tauri/target/
+apps/desktop/src-tauri/gen/
 
 # todoworker queue
 plan/PLAN.md
@@ -29,4 +29,4 @@ plan/.run.lock
 
 # local agent tooling
 .todoworker.json
-src-tauri/icons/ios/
+apps/desktop/src-tauri/icons/ios/

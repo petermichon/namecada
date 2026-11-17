@@ -12,7 +12,8 @@
 		"node": ">=20.19"
 	},
 	"workspaces": [
-		"web"
+		"apps/web",
+		"apps/desktop"
 	],
 	"scripts": {
 		"dev": "concurrently -k -n web,server -c blue,green \"npm:dev:web\" \"npm:rust:serve\"",
@@ -24,33 +25,34 @@
 		"check": "npm run check -w @namecada/web",
 		"lint": "npm run lint -w @namecada/web",
 		"format": "npm run format -w @namecada/web && npm run rust:fmt",
-		"rust:test": "cargo test --manifest-path rust/Cargo.toml --workspace",
-		"rust:fmt": "cargo fmt --manifest-path rust/Cargo.toml --all && cargo fmt --manifest-path src-tauri/Cargo.toml",
-		"rust:fmt:check": "cargo fmt --manifest-path rust/Cargo.toml --all -- --check && cargo fmt --manifest-path src-tauri/Cargo.toml -- --check",
-		"rust:clippy": "cargo clippy --manifest-path rust/Cargo.toml --workspace --all-targets -- -D warnings && cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings",
-		"rust:clippy:core": "cargo clippy --manifest-path rust/Cargo.toml --workspace --all-targets -- -D warnings",
-		"rust:build": "cargo build --release --manifest-path rust/Cargo.toml -p namecada",
-		"tauri": "tauri",
-		"tauri:dev": "tauri dev",
+		"rust:test": "cargo test --workspace",
+		"rust:fmt": "cargo fmt --all && cargo fmt --manifest-path apps/desktop/src-tauri/Cargo.toml",
+		"rust:fmt:check": "cargo fmt --all -- --check && cargo fmt --manifest-path apps/desktop/src-tauri/Cargo.toml -- --check",
+		"rust:clippy": "cargo clippy --workspace --all-targets -- -D warnings && cargo clippy --manifest-path apps/desktop/src-tauri/Cargo.toml --all-targets -- -D warnings",
+		"rust:clippy:core": "cargo clippy --workspace --all-targets -- -D warnings",
+		"rust:build": "cargo build --release -p namecada",
+		"tauri": "npm run tauri --workspace @namecada/desktop --",
+		"tauri:dev": "npm run dev --workspace @namecada/desktop",
+		"tauri:build": "npm run build --workspace @namecada/desktop",
 		"android:dev": "bash scripts/android-dev.sh",
 		"android:dev:host": "bash scripts/android-dev.sh --host",
 		"android:sign": "bash scripts/android-sign.sh",
-		"tauri:build": "tauri build",
-		"rust:serve": "cargo run --manifest-path rust/Cargo.toml -p namecada --bin serve",
-		"probe": "cargo run --manifest-path rust/Cargo.toml -p namecada --bin probe --",
-		"capture": "cargo run --manifest-path rust/Cargo.toml -p namecada --bin capture",
+		"rust:serve": "cargo run -p namecada --bin serve",
+		"probe": "cargo run -p namecada --bin probe --",
+		"capture": "cargo run -p namecada --bin capture",
 		"verify": "npm run check && npm test && npm run lint && npm run rust:fmt:check && npm run rust:clippy && npm run rust:test",
 		"verify:ci": "npm run check && npm test && npm run lint && npm run rust:fmt:check && npm run rust:clippy:core && npm run rust:test",
 		"prepare": "husky"
 	},
 	"lint-staged": {
-		"web/**/*.{js,cjs,mjs,ts,svelte}": [
+		"apps/web/**/*.{js,cjs,mjs,ts,svelte}": [
 			"prettier --write",
 			"eslint --fix"
 		],
-		"web/**/*.{json,css,html,md}": "prettier --write",
-		"rust/**/*.rs": "rustfmt --edition 2021",
-		"src-tauri/**/*.rs": "rustfmt --edition 2021"
+		"apps/web/**/*.{json,css,html,md}": "prettier --write",
+		"packages/**/*.rs": "rustfmt --edition 2021",
+		"apps/cli/**/*.rs": "rustfmt --edition 2021",
+		"apps/desktop/src-tauri/**/*.rs": "rustfmt --edition 2021"
 	},
 	"devDependencies": {
 		"@tauri-apps/cli": "^2.12.5",
