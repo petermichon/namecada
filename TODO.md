@@ -61,13 +61,10 @@ config.
 ## Site
 
 `apps/site` is the page at `namecada.com`: plain HTML/CSS built by Vite, behind
-nginx on the edge host. Parked:
-
-- link "Add to Obtainium" from the download block — it is the install path this
-  project actually uses, and the page does not offer it;
-- stop "Download for Android" pointing at `releases/latest`: one desktop-only
-  tag makes the button lie;
-- `og:image` from `docs/banner.png`, and the report screenshot in the page.
+nginx on the edge host. It links the release and Obtainium, and the social card
+comes from `docs/banner.png` (`public/banner.png` at the root of the page).
+Android is the only workflow that publishes a release, so `releases/latest`
+always carries the APK; a desktop release would need that link revisited.
 
 ## Maintenance
 

@@ -132,6 +132,21 @@ h1 {
 	color: var(--muted);
 }
 
+.note a {
+	color: inherit;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.note a:hover {
+	color: var(--fg);
+}
+
+code {
+	font-family: ui-monospace, SFMono-Regular, 'Cascadia Code', Menlo, monospace;
+	font-size: 0.9em;
+}
+
 .points {
 	list-style: none;
 	margin: 2.5rem 0 0;

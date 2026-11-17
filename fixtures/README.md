@@ -7,6 +7,14 @@ captured result plus the raw HTTP request(s) and response(s) it made.
 The checked-in captures are `acema` (mostly available) and `google` (mostly
 taken), so both verdict branches are exercised.
 
+## Provenance
+
+They were recorded with `npm run capture` between 10 and 16 November 2026,
+against the live sources. Each file is one label's responses as a third party
+returned them, kept so the adapters can be tested without the network: they are
+not a redistribution of those services' content, and nothing reads them at
+runtime.
+
 ## Regenerate
 
 The Rust core records its own captures:
