@@ -15,6 +15,13 @@ one. The release workflow fails if the pushed tag does not match the version.
 
 Tag releases as `v<version>` (`v0.1.0`), never a bare build number.
 
+Cutting one:
+
+1. Bump `version` in `tauri.conf.json`, commit.
+2. `git tag v<version> -m "Namecada <version>"` and push the tag.
+3. The workflow builds, signs and publishes the APKs; it refuses a tag whose
+   value disagrees with `version`.
+
 ## Signing key
 
 The same key must sign every release forever. Regenerating it means every user
@@ -42,7 +49,9 @@ attaches them to the release with SHA-256 sums.
 
 Obtainium then needs nothing from us: point it at
 `https://github.com/petermichon/namecada` and it reads the release assets on
-every check. The universal APK is the safe default; the per-ABI files exist
+every check. Add Obtainium's own repository
+(`https://github.com/ImranR98/Obtainium`) the same way so the updater updates
+itself. The universal APK is the safe default; the per-ABI files exist
 because a store may cap the download size — a universal build is about 47 MB,
 arm64 alone about 12 MB.
 
@@ -51,6 +60,10 @@ it (`universal`, `arm64-v8a`, `armeabi-v7a`, `x86`, `x86_64`) plus a `.sha256`
 next to each and an `.idsig` for incremental installs. Tauri's splits are called
 `arm`/`arm64`; the signing step maps them. An Obtainium filter of `arm64-v8a`
 is therefore enough to pin the right asset.
+
+`namecada.com` links its download button at `releases/latest`, which stays
+correct only while every release is an Android one; a desktop release workflow
+would make that link point at a page with no APK.
 
 ## Repository metadata (Fastlane)
 

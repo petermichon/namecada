@@ -131,6 +131,19 @@ looking the name up directly.
 GitHub users and organizations share a single namespace, so one `/users` lookup
 covers both.
 
+## Choosing a source
+
+Ordered by preference when adding one:
+
+1. Official keyless API — the default. Verify each on the taken/free response.
+2. Body-parse a server-rendered page — fallback when there is no API: match a
+   stable marker (e.g. `og:title`/`"username"`), never localized "not found"
+   text; return `unknown` on ambiguity.
+3. Keyed API — **currently omitted**: no row, request, or cache entry. Add one
+   only when neither (1) nor (2) can answer and the source is high-value.
+4. Headless-browser scraping — avoid; slow, brittle, usually bot-blocked. Never
+   scrape behind a login.
+
 ## Semantics
 
 - Domain rows report **registry state**, not registrability: a name may be
