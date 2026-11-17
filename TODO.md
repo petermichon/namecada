@@ -51,7 +51,9 @@ Same IPC and engine as the desktop shell.
 
 `v0.1.0` shipped from a tag: the workflow builds, signs and attaches
 `namecada-<version>-<abi>.apk` plus SHA-256 sums, and Obtainium follows the
-repository. Next release: bump `version` in
+repository. One-time phone setup: add the repository URL with an `arm64-v8a`
+APK filter, and add Obtainium's own repository so it updates itself. Next
+release: bump `version` in
 `apps/desktop/src-tauri/tauri.conf.json` (versionCode derives from it), commit,
 tag `v<version>`, push. The workflow rejects a tag that disagrees with the
 config.
