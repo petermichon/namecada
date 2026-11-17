@@ -55,7 +55,7 @@ jobs:
       - name: Install the SDK pieces the template asks for
         run: |
           yes | sdkmanager --licenses > /dev/null
-          sdkmanager "platforms;android-37" "build-tools;36.0.0" "ndk;30.0.16248370"
+          sdkmanager "platforms;android-37.0" "build-tools;36.0.0" "ndk;30.0.16248370"
 
       - run: rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
 
