@@ -46,6 +46,12 @@ every check. The universal APK is the safe default; the per-ABI files exist
 because a store may cap the download size — a universal build is about 47 MB,
 arm64 alone about 12 MB.
 
+Assets are named `namecada-<version>-<abi>.apk`, with the ABI as Android spells
+it (`universal`, `arm64-v8a`, `armeabi-v7a`, `x86`, `x86_64`) plus a `.sha256`
+next to each and an `.idsig` for incremental installs. Tauri's splits are called
+`arm`/`arm64`; the signing step maps them. An Obtainium filter of `arm64-v8a`
+is therefore enough to pin the right asset.
+
 ## Repository metadata (Fastlane)
 
 F-Droid and IzzyOnDroid both read `fastlane/metadata/android/en-US/` from the

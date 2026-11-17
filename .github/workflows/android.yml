@@ -111,7 +111,13 @@ jobs:
             name="$(basename "$apk")"
             abi="${name#app-}"
             abi="${abi%-release-unsigned.apk}"
-            target="$out/Namecada-$VERSION-$abi.apk"
+            # Tauri names its splits arm/arm64; the APK and anything that filters
+            # on ABI use Android's identifiers.
+            case "$abi" in
+              arm) abi=armeabi-v7a ;;
+              arm64) abi=arm64-v8a ;;
+            esac
+            target="$out/namecada-$VERSION-$abi.apk"
             "$apksigner" sign --ks "$keystore" --ks-key-alias namecada \
               --ks-pass "env:STORE_PASS" --key-pass "env:KEY_PASS" \
               --out "$target" "$apk"
