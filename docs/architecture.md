@@ -78,9 +78,10 @@ registrability, so re-check the source rather than trusting the cache.
 raw HTTP request/response it made. The checked-in labels are `acema` (mostly
 available) and `google` (mostly taken), so both verdict branches are exercised.
 
-Fixtures are a **capture**, not live truth: responses change. They were produced
-by the pre-Rust exporter; the Rust-only tree has no exporter yet, so treat them
-as a frozen oracle and regenerate from git history if a source changes.
+Fixtures are a **capture**, not live truth: responses change. `npm run capture`
+records them from the Rust core (see `fixtures/README.md` for the flags and the
+format), so refresh a fixture that has gone stale rather than treating an old
+response as current.
 
 ## Caching
 

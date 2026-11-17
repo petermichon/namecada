@@ -87,8 +87,8 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Snapchat — ✅ — `snapchat.com/add/{name}` (keyless profile: 200 taken / 404 free; the old note probed a URL shape that no longer exists)
 - [x] Strava — ✅ — `strava.com/athletes/{name}` (keyless public athlete page: 200 taken / 404 free; previously listed as keyed — the profile route needs no token; no documented length rule found, so the row stays unbounded rather than guessing)
 - [x] Swift Package Index — ✅ — `swiftpackageindex.com/{name}` (keyless publisher page: 200 taken / 404 free; the page lists packages, so an account that publishes none 404s and reads as free)
-- [x] Companies House UK — ✅ — `api.company-information.service.gov.uk/search/companies?q={name}` (key; Basic auth; exact company-name hit taken / else free)
-- [x] OpenCorporates — ✅ — `api.opencorporates.com/v0.4/companies/search?q={name}` (token; `X-API-TOKEN` header; exact company-name hit taken / else free)
+- [ ] Companies House UK — 🔑 — `api.company-information.service.gov.uk/search/companies?q={name}` (key; Basic auth; exact company-name hit taken / else free) — deferred, not ported: no keyless signal
+- [ ] OpenCorporates — 🔑 — `api.opencorporates.com/v0.4/companies/search?q={name}` (token; `X-API-TOKEN` header; exact company-name hit taken / else free) — deferred, not ported: no keyless signal
 - [x] Firefox Add-ons — ✅ — `addons.mozilla.org/api/v5`
 - [x] SoundCloud — ✅ — `soundcloud.com/{name}` (keyless profile: 200 taken / 404 free)
 - [x] Bandcamp — ✅ — `{name}.bandcamp.com` (a free name 303s to `bandcamp.com/signup?new_domain=`, a claimed one to its own content, so the redirect target is the verdict and must not be followed; the fan path `bandcamp.com/{name}` is not the signal — it 404s for artist-only accounts)
@@ -108,9 +108,9 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Dailymotion — ✅ — `api.dailymotion.com/user/{name}`
 - [x] Lens Protocol — ✅ — `api.lens.xyz/graphql` (keyless GraphQL: POST an `account(username.localName:)` query; non-null `data.account` taken / null `data.account` free; page `hey.xyz/u/{name}`; undocumented keyless read access)
 - [x] Paragraph — ✅ — `paragraph.com/@{name}` (keyless profile: 200 taken / real 404 free; `paragraph.xyz` 301s here)
-- [ ] Linktree — 🕸 — re-checked server-side (2026-11): every cold cache key answers 429 with an empty body — real and fake names alike (`mrbeast`, `gymshark`, `nike` too) — while only entries a browser fetched earlier come back 200, so the check would echo the CDN cache instead of the namespace; deferred, not ported
+- [ ] Linktree — 🕸 — `linktr.ee/{name}`: a claimed name answers 200 with a `<title>` naming the profile (`Google | Linktree`, `github Official: … | Linktree`), a free one 404s. Re-probed 2026-11-17 on three label pairs and the split held, which contradicts the earlier 2026-11 reading (every cold key 429 with an empty body, so the check would echo the CDN cache); deferred pending a capture, but the current signal looks real
 - [x] Mixcloud — ✅ — `api.mixcloud.com/{name}/`
-- [x] Discogs — ✅ — `api.discogs.com/users/{name}` (token; the keyless route 403s; 200 taken / 404 free)
+- [ ] Discogs — 🔑 — `api.discogs.com/users/{name}` (token; the keyless route 403s; 200 taken / 404 free) — deferred, not ported: keyed only
 - [x] AniList — ✅ — `graphql.anilist.co` (keyless GraphQL: POST a `User(name:)` query; non-null `data.User` taken / null `data.User` + "Not Found." error free)
 - [x] Roblox — ✅ — `users.roblox.com/v1/usernames/users` (keyless: POST `{"usernames":["{name}"],"excludeBannedUsers":false}`; non-empty `data` array taken / empty free; page `www.roblox.com/users?username={name}`)
 - [x] Minecraft (Mojang) — ✅ — `api.mojang.com/users/profiles/minecraft/{name}` (200 taken / 404 free; case-insensitive, 3–16 characters; 429 rate limits degrade to unknown, uncached; page `namemc.com/profile/{name}`)
