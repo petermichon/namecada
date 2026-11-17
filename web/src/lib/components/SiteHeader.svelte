@@ -47,7 +47,7 @@
 		{/if}
 
 		{#if actions}
-			<div class="hidden items-center gap-1 sm:flex">{@render actions()}</div>
+			<div class="hidden items-center gap-1 sm:ml-auto sm:flex">{@render actions()}</div>
 		{/if}
 	</div>
 </header>
