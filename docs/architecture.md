@@ -169,9 +169,10 @@ then `npm run site:dev` (hot reload on `:5222`) or `npm run site:dev:host`
 writes `apps/site/dist`, which is the only thing the nginx image copies; the
 HTML and CSS stay framework-free. With the machine-level dev proxy used here
 (devhost, `~/.config/dev`), the two surfaces are
-`http://namecada.localhost:7357` (app, upstream `5220`) and
-`http://site.namecada.localhost:7357` (site, upstream `5222`) — one hostname and
-one `adb reverse` per surface, so the phone opens the same URLs.
+`http://app.namecada.localhost:7357` (app, upstream `5220`) and
+`http://namecada.localhost:7357` (site, upstream `5222`): the bare name is the
+page a visitor would see, as in production — one hostname and one `adb reverse`
+per surface, so the phone opens the same URLs.
 
 ## Adding a source
 
