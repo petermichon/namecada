@@ -14,9 +14,7 @@ __pycache__/
 .DS_Store
 .idea
 
-# Build artifacts
-apps/web/dist
-apps/web/.svelte-check
+# Build artifacts (the web workspace ignores its own dist/ and .svelte-check)
 /target/
 apps/desktop/src-tauri/target/
 apps/desktop/src-tauri/gen/
