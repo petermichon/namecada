@@ -46,3 +46,33 @@ about three seconds.
    `docs/distribution.md`.
 
 Same IPC and engine as the desktop shell.
+
+## Release
+
+`v0.1.0` shipped from a tag: the workflow builds, signs and attaches
+`namecada-<version>-<abi>.apk` plus SHA-256 sums, and Obtainium follows the
+repository. Next release: bump `version` in
+`apps/desktop/src-tauri/tauri.conf.json` (versionCode derives from it), commit,
+tag `v<version>`, push. The workflow rejects a tag that disagrees with the
+config.
+
+## Site
+
+`apps/site` is the page at `namecada.com`: plain HTML/CSS built by Vite, behind
+nginx on the edge host. Parked:
+
+- link "Add to Obtainium" from the download block — it is the install path this
+  project actually uses, and the page does not offer it;
+- stop "Download for Android" pointing at `releases/latest`: one desktop-only
+  tag makes the button lie;
+- `og:image` from `docs/banner.png`, and the report screenshot in the page.
+
+## Maintenance
+
+- `fixtures/README.md`: record what the 8.7 MB of captured bodies are, when they
+  were taken, and that they exist only as a test oracle.
+- Decide whether `gen/android` is committed or regenerated: the APK is built
+  from files the repository does not contain. The pinned Tauri CLI covers the
+  acute risk.
+- Second Fastlane screenshot: only when filing IzzyOnDroid or F-Droid.
+
