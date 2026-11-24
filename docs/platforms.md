@@ -137,6 +137,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Gravatar — ✅ — `gravatar.com/{name}` (keyless profile: 200 taken / 404 free; status-only)
 - [x] Launchpad — ✅ — `launchpad.net/~{name}` (keyless profile: 200 taken / 404 free; status-only)
 - [x] Lichess Team — ✅ — `lichess.org/team/{name}` (keyless team page: 200 taken / 404 free; status-only)
+- [x] AngelList — ✅ — `angel.co/company/{name}` (keyless company page: 200 taken / 404 free; status-only, `angel.co` 301s to `wellfound.com` and the redirect is followed)
 
 ## Candidates
 
@@ -156,7 +157,6 @@ The split was measured once, so re-probe before writing a spec.
 
 - [ ] Amazon Author — 🧪 — `amazon.com/author/%s` (probe 2026-11-24: 200 taken / 404 free; the author page may be generated rather than claimed — confirm before porting)
 - [ ] Android Stack Exchange — 🧪 — `android.stackexchange.com/users/%s` (probe 2026-11-24: 200 taken / 404 free)
-- [ ] AngelList — 🧪 — `angel.co/company/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] AppSumo — 🧪 — `appsumo.com/products/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Built In — 🧪 — `builtin.com/company/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Buttondown — 🧪 — `buttondown.com/%s` (probe 2026-11-24: 200 taken / 404 free)

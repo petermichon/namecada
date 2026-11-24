@@ -111,6 +111,7 @@ verdict.
 | Gravatar  | `gravatar.com/{name}` (profile)                                | 200 taken / 404 free      |
 | Launchpad | `launchpad.net/~{name}` (profile)                              | 200 taken / 404 free      |
 | Lichess Team | `lichess.org/team/{name}` (team)                            | 200 taken / 404 free      |
+| AngelList | `angel.co/company/{name}` (company)                            | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.

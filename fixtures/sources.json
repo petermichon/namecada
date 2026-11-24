@@ -1973,6 +1973,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "angellist",
+      "platform": "angellist",
+      "platformName": "AngelList",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://angel.co/company/google",
+      "urlTemplate": "https://angel.co/company/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
