@@ -201,7 +201,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 
 The split was measured once, so re-probe before writing a spec.
 
-- [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
 - [ ] Tildes — 🧪 — `tildes.net/user/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Tipeee — 🧪 — `tipeee.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Uneed — 🧪 — `uneed.best/tool/%s` (probe 2026-11-24: 200 taken / 404 free)
@@ -226,6 +225,9 @@ The split was measured once, so re-probe before writing a spec.
 Status alone was a false signal on these four, so they are deferred rather than
 portable:
 
+- [ ] Canva — 🕸 — `canva.com/{name}`: creator profiles exist, but every keyless
+  request, for a real and a fake label alike, comes back 403, so there is no
+  signal to read; re-probe before porting
 - [ ] AppSumo — 🕸 — `appsumo.com/products/{name}`: a missing product 301s to the
   homepage and answers 200 with a generic title, while a real product stays on
   its product page, so the redirect target is the signal and the status is not
