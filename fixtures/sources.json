@@ -2142,6 +2142,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "house-mixes",
+      "platform": "house-mixes",
+      "platformName": "House-Mixes",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://house-mixes.com/profile/google",
+      "urlTemplate": "https://house-mixes.com/profile/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
