@@ -169,6 +169,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Naver Blog — ✅ — `blog.naver.com/{name}` (keyless blog: 200 taken / 404 free; status-only, HTML Accept; `acema` is itself a claimed blog, so the free branch was proven with `zzqxnvc`)
 - [x] NuGet profiles — ✅ — `nuget.org/profiles/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept; `nuget.org` 301s to `www.nuget.org`, followed; separate namespace from the package id check at `nuget.org/packages/{name}`)
 - [x] Open Library — ✅ — `openlibrary.org/people/{name}` (keyless reader profile: 200 taken / 404 free; status-only, HTML Accept; a profile's display name can differ from its username, so the page title is not the label)
+- [x] Owler — ✅ — `owler.com/company/{name}` (keyless company profile: 200 taken / 404 free; status-only, HTML Accept; `owler.com` 301s to `www.owler.com`, followed; `acema` is itself a claimed company, so the free branch was proven with `zzqxnvc`; a bot wall answers 403, which reads as unknown)
 
 ## Candidates
 
@@ -187,7 +188,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 The split was measured once, so re-probe before writing a spec.
 
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
-- [ ] Owler — 🧪 — `owler.com/company/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Pillowfort — 🧪 — `pillowfort.social/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Pixelfed — 🧪 — `pixelfed.social/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] PlayCode — 🧪 — `playcode.io/%s` (probe 2026-11-24: 200 taken / 404 free)

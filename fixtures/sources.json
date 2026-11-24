@@ -2389,6 +2389,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "owler",
+      "platform": "owler",
+      "platformName": "Owler",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://owler.com/company/google",
+      "urlTemplate": "https://owler.com/company/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
