@@ -146,6 +146,7 @@ verdict.
 | Owler | `owler.com/company/{name}` (company)                     | 200 taken / 404 free      |
 | Pillowfort | `pillowfort.social/{name}` (profile)                    | 200 taken / 404 free      |
 | Pixelfed | `pixelfed.social/{name}` (profile)                        | 200 taken / 404 free      |
+| PlayCode | `playcode.io/{name}` (playground project)                 | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.

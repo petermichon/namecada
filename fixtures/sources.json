@@ -2428,6 +2428,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "playcode",
+      "platform": "playcode",
+      "platformName": "PlayCode",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://playcode.io/google",
+      "urlTemplate": "https://playcode.io/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
