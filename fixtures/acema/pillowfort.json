@@ -1,0 +1,48 @@
+{
+  "source": "pillowfort",
+  "platform": "pillowfort",
+  "platformName": "Pillowfort",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://pillowfort.social/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 760,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://pillowfort.social/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 301,
+        "headers": {
+          "content-type": "text/html",
+          "location": "https://www.pillowfort.social/acema"
+        },
+        "body": "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body>\r\n<center><h1>301 Moved Permanently</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
+        "bodyEncoding": "utf8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://www.pillowfort.social/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n\t<title>(404)</title>\n\t<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n    <style>\n        body {\n          background-color: #28384e;\n          font-family: 'Nunito';\n          text-align: center;\n          line-height: 10px;\n          font-size: 16px;\n        }\n    \n        .main {\n          background-color: white;\n          padding: 10px;\n          /* border-radius: 10px; */\n          width: 700px;\n          margin: 10% auto auto auto;\n        }\n    \n        h1 {\n          font-family: sans-serif;\n        }\n    \n        p {\n          font-family: sans-serif;\n        }\n    \n        a {\n          background: #58b6dd;\n          color: white;\n          margin-top: 10px;\n          width: 100px;\n          /* height: 38px; */\n          font-size: 16px;\n          text-transform: uppercase;\n          margin: auto;\n          display: inline-block;\n          text-decoration: none;\n          border-radius: 5px;\n          padding: 19px 0px;\n        }\n    \n        small-margin {\n          margin-top: 30px;\n        }\n    \n        @media only screen and (max-width: 420px) {\n          .main {\n            width: 100%;\n            margin: 0;\n            padding: 1px;\n          }\n    \n          body {\n            line-height: 1.2;\n            font-size: 14px;\n          }\n    \n          a {\n            margin: 5px;\n            width: 100px;\n            font-size: 16px;\n            display: inline-block;\n            padding: 11px 0px;\n          }\n    \n          small-margin {\n            margin-top: 10px;\n          }\n        }\n      </style>\n</head>\n\n<body>\n<div class=\"main\">\n\t<div>\n\t\t<h1> 404</h1>\n\t\t<p>That page does not exist, or you do not have the proper permissions to view it.</p>\n\t</div>\n</div>\n</body>\n\n</html>\n\n\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

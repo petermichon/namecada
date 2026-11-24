@@ -2402,6 +2402,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "pillowfort",
+      "platform": "pillowfort",
+      "platformName": "Pillowfort",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://pillowfort.social/google",
+      "urlTemplate": "https://pillowfort.social/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

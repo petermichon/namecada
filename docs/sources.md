@@ -144,6 +144,7 @@ verdict.
 | NuGet profiles | `nuget.org/profiles/{name}` (profile)                  | 200 taken / 404 free      |
 | Open Library | `openlibrary.org/people/{name}` (reader profile)         | 200 taken / 404 free      |
 | Owler | `owler.com/company/{name}` (company)                     | 200 taken / 404 free      |
+| Pillowfort | `pillowfort.social/{name}` (profile)                    | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.
