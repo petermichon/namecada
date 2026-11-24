@@ -158,11 +158,7 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 
 The split was measured once, so re-probe before writing a spec.
 
-- [ ] Android Stack Exchange — 🧪 — `android.stackexchange.com/users/%s` (probe 2026-11-24: 200 taken / 404 free)
-- [ ] AppSumo — 🧪 — `appsumo.com/products/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
-- [ ] Chess.com Club — 🧪 — `chess.com/club/%s` (probe 2026-11-24: 200 taken / 404 free)
-- [ ] CSS Deck — 🧪 — `cssdeck.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Donorbox — 🧪 — `donorbox.org/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Douyu — 🧪 — `douyu.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Drupal.org Modules — 🧪 — `drupal.org/project/%s` (probe 2026-11-24: 200 taken / 404 free)
@@ -229,6 +225,23 @@ The split was measured once, so re-probe before writing a spec.
 - [ ] hopto.org — 🧪 — `%s.hopto.org` (DNS probe 2026-11-24: `google.hopto.org` resolves, `zzqxnvc.hopto.org` is NXDOMAIN; registration needs an account, the check does not)
 - [ ] myftp.org — 🧪 — `%s.myftp.org` (DNS probe 2026-11-24: `google.myftp.org` resolves, `zzqxnvc.myftp.org` is NXDOMAIN; registration needs an account, the check does not)
 - [ ] zapto.org — 🧪 — `%s.zapto.org` (DNS probe 2026-11-24: `google.zapto.org` resolves, `zzqxnvc.zapto.org` is NXDOMAIN; registration needs an account, the check does not)
+
+Status alone was a false signal on these four, so they are deferred rather than
+portable:
+
+- [ ] AppSumo — 🕸 — `appsumo.com/products/{name}`: a missing product 301s to the
+  homepage and answers 200 with a generic title, while a real product stays on
+  its product page, so the redirect target is the signal and the status is not
+- [ ] Chess.com Club — 🕸 — `chess.com/club/{name}`: a missing club 301s to
+  `/clubs/home` (200, generic landing) while a real club stays on
+  `/club/{slug}`; the redirect target is the signal, not the status
+- [ ] CSS Deck — 🕸 — `cssdeck.com/user/{name}`: WordPress fuzzy redirection —
+  unknown labels 301 to unrelated blog posts (`google` lands on a Google
+  Analytics post, `tim` on a CSS timetable), so this is not a profile namespace
+- [ ] Android Stack Exchange — 🕸 — `android.stackexchange.com/users/{name}`: the
+  slug is user-settable (`/users/username-settings/`) and a real vanity profile
+  did split 200/404 once, but every later request, probe and curl alike, is 429
+  behind a Cloudflare challenge, so no fixture can be captured
 
 - [ ] ccTLDs / new gTLDs — 🔌 — ruled out: not a distinct source — the IANA RDAP bootstrap only covers some TLDs, and any TLD it lists is already checked by the Domains provider
 - [ ] Unstoppable Domains — 🔑 — deferred: the resolver API is keyed (401 unauthenticated)
