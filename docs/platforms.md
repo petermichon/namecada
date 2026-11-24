@@ -188,6 +188,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Tipeee — ✅ — `tipeee.com/{name}` (keyless creator page: 200 taken / 404 free; status-only, HTML Accept; `tipeee.com` 301s to `www.tipeee.com`, which 302s to the locale host `en.tipeee.com`, both followed)
 - [x] V2EX — ✅ — `v2ex.com/member/{name}` (keyless member profile: 200 taken / 404 free; status-only, HTML Accept)
 - [x] Visual Studio Marketplace — ✅ — `marketplace.visualstudio.com/publishers/{name}` (keyless publisher page: 200 taken / 404 free; status-only, HTML Accept; separate namespace from the extension ids, which stay out of scope)
+- [x] Wattpad — ✅ — `wattpad.com/user/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept; `wattpad.com` 301s to `www.wattpad.com`, followed)
 
 ## Candidates
 
@@ -207,7 +208,6 @@ The split was measured once, so re-probe before writing a spec.
 
 - [ ] Uneed — 🧪 — `uneed.best/tool/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Vidyard — 🧪 — `vidyard.com/%s` (probe 2026-11-24: 200 taken / 404 free)
-- [ ] Wattpad — 🧪 — `wattpad.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] webhook.site — 🧪 — `webhook.site/%s` (probe 2026-11-24: 200 taken / 404 free; confirm the segment is a vanity label, not a request token)
 - [ ] Wellfound — 🧪 — `wellfound.com/company/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Whatnot — 🧪 — `whatnot.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)
