@@ -2454,6 +2454,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "racket-packages",
+      "platform": "racket-packages",
+      "platformName": "Racket Packages",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://pkgs.racket-lang.org/package/google",
+      "urlTemplate": "https://pkgs.racket-lang.org/package/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
