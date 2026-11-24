@@ -129,3 +129,11 @@ jobs:
         with:
           files: ${{ runner.temp }}/apk/*
           generate_release_notes: true
+          # The generated notes are the commit log; this says what the assets
+          # are, which the commit log never will.
+          body: |
+            Every check runs on the device: nothing is sent to a server and no
+            verdict leaves the phone.
+
+            Pick `arm64-v8a` for almost every phone made since 2017, or
+            `universal` if you are unsure. A `.sha256` sits next to each APK.
