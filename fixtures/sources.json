@@ -1908,6 +1908,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "clubhouse",
+      "platform": "clubhouse",
+      "platformName": "Clubhouse",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://clubhouse.com/@google",
+      "urlTemplate": "https://clubhouse.com/@%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

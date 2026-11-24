@@ -132,6 +132,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Minds — ✅ — `minds.com/api/v1/channel/{name}` (keyless JSON: `{"status":"success","channel":…}` taken / `{"status":"error","type":"ChannelNotFoundException"}` free; the HTML profile route at `minds.com/{name}/` is flaky — it sometimes serves the SPA shell for a claimed channel — so the API is the signal; page `minds.com/{name}/`)
 - [x] 9GAG — ✅ — `9gag.com/u/{name}` (keyless profile: 200 taken / 404 free; status-only)
 - [x] About.me — ✅ — `about.me/{name}` (keyless profile: 200 taken / 404 free; status-only)
+- [x] Clubhouse — ✅ — `clubhouse.com/@{name}` (keyless profile: 200 taken / 404 free; `clubhouse.com` 301s to `www.clubhouse.com`, followed; status-only)
 
 ## Candidates
 
@@ -157,7 +158,6 @@ The split was measured once, so re-probe before writing a spec.
 - [ ] Buttondown — 🧪 — `buttondown.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
 - [ ] Chess.com Club — 🧪 — `chess.com/club/%s` (probe 2026-11-24: 200 taken / 404 free)
-- [ ] Clubhouse — 🧪 — `clubhouse.com/@%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Codewars — 🧪 — `codewars.com/users/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] CSS Deck — 🧪 — `cssdeck.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Disqus — 🧪 — `disqus.com/by/%s` (probe 2026-11-24: 200 taken / 404 free)

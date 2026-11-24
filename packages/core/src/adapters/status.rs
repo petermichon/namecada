@@ -202,6 +202,7 @@ static SPECS: &[StatusSpec] = &[
     spec("weebly", "https://%s.weebly.com/"),
     spec("9gag", "https://9gag.com/u/%s"),
     spec("about-me", "https://about.me/%s"),
+    spec("clubhouse", "https://clubhouse.com/@%s"),
 ];
 
 /// StatusProvider checks a source by requesting one URL and mapping its status.

@@ -106,6 +106,7 @@ verdict.
 | Fly.io    | `{name}.fly.dev` (DNS, no wildcard)                            | resolves taken / NXDOMAIN free |
 | 9GAG      | `9gag.com/u/{name}` (profile)                                  | 200 taken / 404 free      |
 | About.me  | `about.me/{name}` (profile)                                    | 200 taken / 404 free      |
+| Clubhouse | `clubhouse.com/@{name}` (profile)                              | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.
