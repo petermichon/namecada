@@ -2285,6 +2285,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "mixlr",
+      "platform": "mixlr",
+      "platformName": "Mixlr",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://mixlr.com/google",
+      "urlTemplate": "https://mixlr.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

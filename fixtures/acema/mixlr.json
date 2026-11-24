@@ -1,0 +1,30 @@
+{
+  "source": "mixlr",
+  "platform": "mixlr",
+  "platformName": "Mixlr",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://mixlr.com/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 81,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://mixlr.com/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=UTF-8"
+        },
+        "body": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>Page not found!</title>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <link rel=\"stylesheet\" href=\"//fast.fonts.net/cssapi/1504809e-1e5b-4eaf-b2c3-c7552c09008b.css\" type=\"text/css\">\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"/error_pages/errors.css\" media=\"screen, handheld\" />\n    <script type=\"text/javascript\" src=\"/error_pages/errors.js\"></script>\n  </head>\n  <body class=\"error\">\n    <section class=\"error__wrapper\">\n      <header class=\"error__header\">\n        <a href=\"/\">\n          <img src=\"/error_pages/mixlr-logo-horizontal.svg\" alt=\"Mixlr\" class=\"error__logo\">\n        </a>\n      </header>\n      <div class=\"error__content\">\n        <strong>404</strong>\n        <h1>Page not found!</h1>\n        <p>We've looked everywhere and we still can't find this page.</p>\n        <p>It's possible the link no longer exists.</p>\n        <p class=\"error__return\"><a href=\"/\" class=\"error__button\">Return to homepage</a></p>\n      </div>\n      <footer class=\"error__footer\">\n        <ul>\n          <li>\n            <a href=\"http://www.twitter.com/mixlrstatus\">@mixlrstatus</a>\n          </li>\n          <li>\n            <a href=\"http://help.mixlr.com/\">Support</a>\n          </li>\n          <li>\n            &copy; Mixlr Ltd 2021\n          </li>\n        </ul>\n      </footer>\n    </section>\n  </body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}
