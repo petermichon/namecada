@@ -136,6 +136,7 @@ verdict.
 | LyricsTranslate | `lyricstranslate.com/en/translator/{name}` (translator) | 200 taken / 404 free      |
 | Metacritic | `metacritic.com/user/{name}` (profile)                    | 200 taken / 404 free      |
 | Mixlr | `mixlr.com/{name}` (broadcaster)                             | 200 taken / 404 free |
+| Moj | `mojapp.in/@{name}` (profile)                                  | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.

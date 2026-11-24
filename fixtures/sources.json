@@ -2298,6 +2298,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "moj",
+      "platform": "moj",
+      "platformName": "Moj",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://mojapp.in/@google",
+      "urlTemplate": "https://mojapp.in/@%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
