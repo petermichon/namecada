@@ -136,6 +136,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Codewars — ✅ — `codewars.com/users/{name}` (keyless profile: 200 taken / 404 free; status-only, but the page needs an HTML Accept — a JSON Accept makes a free name answer 200)
 - [x] Gravatar — ✅ — `gravatar.com/{name}` (keyless profile: 200 taken / 404 free; status-only)
 - [x] Launchpad — ✅ — `launchpad.net/~{name}` (keyless profile: 200 taken / 404 free; status-only)
+- [x] Lichess Team — ✅ — `lichess.org/team/{name}` (keyless team page: 200 taken / 404 free; status-only)
 
 ## Candidates
 
@@ -180,7 +181,6 @@ The split was measured once, so re-probe before writing a spec.
 - [ ] Komoot — 🧪 — `komoot.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Kongregate — 🧪 — `kongregate.com/accounts/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Libib — 🧪 — `libib.com/u/%s` (probe 2026-11-24: 200 taken / 404 free)
-- [ ] Lichess Team — 🧪 — `lichess.org/team/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] LinkedIn Company — 🧪 — `linkedin.com/company/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Loops — 🧪 — `loops.video/@%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] LyricsTranslate — 🧪 — `lyricstranslate.com/en/translator/%s` (probe 2026-11-24: 200 taken / 404 free)

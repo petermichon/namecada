@@ -1960,6 +1960,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "lichess-team",
+      "platform": "lichess-team",
+      "platformName": "Lichess Team",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://lichess.org/team/google",
+      "urlTemplate": "https://lichess.org/team/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
