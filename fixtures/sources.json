@@ -2545,6 +2545,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "steemit",
+      "platform": "steemit",
+      "platformName": "Steemit",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://steemit.com/@google",
+      "urlTemplate": "https://steemit.com/@%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
