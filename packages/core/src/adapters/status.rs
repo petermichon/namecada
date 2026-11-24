@@ -220,6 +220,10 @@ static SPECS: &[StatusSpec] = &[
     spec("douyu", "https://douyu.com/%s"),
     // Modules and themes share one drupal.org/project/{name} namespace.
     spec("drupal-org-modules", "https://drupal.org/project/%s"),
+    spec(
+        "experts-exchange",
+        "https://experts-exchange.com/members/%s",
+    ),
 ];
 
 /// StatusProvider checks a source by requesting one URL and mapping its status.

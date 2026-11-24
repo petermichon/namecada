@@ -2064,6 +2064,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "experts-exchange",
+      "platform": "experts-exchange",
+      "platformName": "Experts Exchange",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://experts-exchange.com/members/google",
+      "urlTemplate": "https://experts-exchange.com/members/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
