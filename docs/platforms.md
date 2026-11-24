@@ -149,6 +149,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Gitea — ✅ — `gitea.com/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept)
 - [x] Gitee — ✅ — `gitee.com/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept — a JSON Accept answers 404 even for a claimed profile)
 - [x] GOG — ✅ — `gog.com/u/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept; `gog.com/u/{name}` 301s to `www.gog.com`, followed, and a free name ends on `/404`)
+- [x] Goodreads — ✅ — `goodreads.com/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept — a JSON Accept is answered 406 even for a claimed profile; the route 301s to `www.goodreads.com`, followed)
 
 ## Candidates
 
@@ -167,7 +168,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 The split was measured once, so re-probe before writing a spec.
 
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
-- [ ] Goodreads — 🧪 — `goodreads.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Home Assistant Integrations — 🧪 — `home-assistant.io/integrations/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] House-Mixes — 🧪 — `house-mixes.com/profile/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Hype Machine — 🧪 — `hypem.com/%s` (probe 2026-11-24: 200 taken / 404 free)

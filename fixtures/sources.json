@@ -2129,6 +2129,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "goodreads",
+      "platform": "goodreads",
+      "platformName": "Goodreads",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://goodreads.com/google",
+      "urlTemplate": "https://goodreads.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

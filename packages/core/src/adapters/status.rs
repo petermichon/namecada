@@ -229,6 +229,13 @@ static SPECS: &[StatusSpec] = &[
     // A JSON Accept answers 404 even for a claimed profile.
     spec_with("gitee", "https://gitee.com/%s", DEFAULT_CODES, HTML_ACCEPT),
     spec_with("gog", "https://gog.com/u/%s", DEFAULT_CODES, HTML_ACCEPT),
+    // A JSON Accept is answered 406 even for a claimed profile.
+    spec_with(
+        "goodreads",
+        "https://goodreads.com/%s",
+        DEFAULT_CODES,
+        HTML_ACCEPT,
+    ),
 ];
 
 /// StatusProvider checks a source by requesting one URL and mapping its status.
