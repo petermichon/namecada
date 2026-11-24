@@ -151,6 +151,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] GOG — ✅ — `gog.com/u/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept; `gog.com/u/{name}` 301s to `www.gog.com`, followed, and a free name ends on `/404`)
 - [x] Goodreads — ✅ — `goodreads.com/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept — a JSON Accept is answered 406 even for a claimed profile; the route 301s to `www.goodreads.com`, followed)
 - [x] House-Mixes — ✅ — `house-mixes.com/profile/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept; `/profile/{name}` 308s to the bare `house-mixes.com/{name}` profile, followed)
+- [x] Hype Machine — ✅ — `hypem.com/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept)
 
 ## Candidates
 
@@ -170,7 +171,6 @@ The split was measured once, so re-probe before writing a spec.
 
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
 - [ ] Home Assistant Integrations — 🧪 — `home-assistant.io/integrations/%s` (probe 2026-11-24: 200 taken / 404 free)
-- [ ] Hype Machine — 🧪 — `hypem.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Indie Hackers — 🧪 — `indiehackers.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Kick — 🧪 — `kick.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Komoot — 🧪 — `komoot.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)

@@ -2155,6 +2155,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "hype-machine",
+      "platform": "hype-machine",
+      "platformName": "Hype Machine",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://hypem.com/google",
+      "urlTemplate": "https://hypem.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

@@ -125,6 +125,7 @@ verdict.
 | GOG | `gog.com/u/{name}` (profile)                                    | 200 taken / 404 free      |
 | Goodreads | `goodreads.com/{name}` (profile)                            | 200 taken / 404 free      |
 | House-Mixes | `house-mixes.com/profile/{name}` (DJ profile)               | 200 taken / 404 free      |
+| Hype Machine | `hypem.com/{name}` (profile)                              | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.
