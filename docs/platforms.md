@@ -176,7 +176,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 The split was measured once, so re-probe before writing a spec.
 
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
-- [ ] Home Assistant Integrations — 🧪 — `home-assistant.io/integrations/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Loops — 🧪 — `loops.video/@%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] LyricsTranslate — 🧪 — `lyricstranslate.com/en/translator/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Metacritic — 🧪 — `metacritic.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)
@@ -277,6 +276,7 @@ portable:
 - [ ] EUIPO (trademarks) — 🔌 — class-based trademark search (eSearch plus, OAuth); not a single claimable label, so it cannot answer name availability
 - [ ] WIPO Global Brand Database — 🕸
 - [ ] SEC EDGAR — 🔌 — keyless (descriptive User-Agent) but not a claimable namespace: it indexes issuer/filing names, which you cannot register
+- [ ] Home Assistant Integrations — 🔌 — ruled out: `home-assistant.io/integrations/{name}` is the documentation page for a component id that already exists in Home Assistant's source tree (`/integrations/hue/`), not a label anyone claims; a 200 only means the integration ships, so there is nothing to register and the 200/404 split is a docs index
 - [ ] Crunchbase — 🕸
 - [ ] US state business registries — 🕸
 - [ ] Chrome Web Store — 🔌 — ruled out: extension names are display names and items are keyed by a 32-character id, so there is no claimable label; every name also answers 302
