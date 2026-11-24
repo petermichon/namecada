@@ -427,6 +427,12 @@ static SPECS: &[StatusSpec] = &[
         DEFAULT_CODES,
         HTML_ACCEPT,
     ),
+    spec_with(
+        "tipeee",
+        "https://tipeee.com/%s",
+        DEFAULT_CODES,
+        HTML_ACCEPT,
+    ),
 ];
 
 /// StatusProvider checks a source by requesting one URL and mapping its status.

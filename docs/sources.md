@@ -159,6 +159,7 @@ verdict.
 | Streamlabs | `streamlabs.com/{name}` (tip page)                        | 200 taken / 404 free      |
 | SuperRare | `superrare.com/{name}` (artist profile)                   | 200 taken / 404 free      |
 | Tildes | `tildes.net/user/{name}` (user profile)                       | 200 taken / 404 free      |
+| Tipeee | `tipeee.com/{name}` (creator page)                            | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.

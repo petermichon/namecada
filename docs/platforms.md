@@ -185,6 +185,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Streamlabs — ✅ — `streamlabs.com/{name}` (keyless tip page: 200 taken / 404 free; status-only, HTML Accept; a claimed name 302s to `streamlabs.com/{name}/tip`, followed; `acema` is itself a claimed page, so the free branch was proven with `zzqxnvc`)
 - [x] SuperRare — ✅ — `superrare.com/{name}` (keyless artist profile: 200 taken / 404 free; status-only, HTML Accept; a missing name still renders the app shell, but answers 404)
 - [x] Tildes — ✅ — `tildes.net/user/{name}` (keyless user profile: 200 taken / 404 free; status-only, HTML Accept)
+- [x] Tipeee — ✅ — `tipeee.com/{name}` (keyless creator page: 200 taken / 404 free; status-only, HTML Accept; `tipeee.com` 301s to `www.tipeee.com`, which 302s to the locale host `en.tipeee.com`, both followed)
 
 ## Candidates
 
@@ -202,7 +203,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 
 The split was measured once, so re-probe before writing a spec.
 
-- [ ] Tipeee — 🧪 — `tipeee.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Uneed — 🧪 — `uneed.best/tool/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] V2EX — 🧪 — `v2ex.com/member/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Vidyard — 🧪 — `vidyard.com/%s` (probe 2026-11-24: 200 taken / 404 free)

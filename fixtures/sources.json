@@ -2597,6 +2597,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "tipeee",
+      "platform": "tipeee",
+      "platformName": "Tipeee",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://tipeee.com/google",
+      "urlTemplate": "https://tipeee.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

@@ -1,0 +1,66 @@
+{
+  "source": "tipeee",
+  "platform": "tipeee",
+  "platformName": "Tipeee",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://tipeee.com/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 445,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://tipeee.com/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 301,
+        "headers": {
+          "content-type": "text/html; charset=UTF-8",
+          "location": "https://www.tipeee.com/acema"
+        },
+        "body": "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body>\r\n<center><h1>301 Moved Permanently</h1></center>\r\n<hr><center>cloudflare</center>\r\n</body>\r\n</html>\r\n",
+        "bodyEncoding": "utf8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://www.tipeee.com/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 302,
+        "headers": {
+          "content-type": "text/html",
+          "location": "https://en.tipeee.com/acema"
+        },
+        "body": "<html>\r\n<head><title>302 Found</title></head>\r\n<body>\r\n<center><h1>302 Found</h1></center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n",
+        "bodyEncoding": "utf8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://en.tipeee.com/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html;charset=UTF-8"
+        },
+        "body": "<!DOCTYPE html>\n<html lang=\"en\">\r\n    <head>\r\n        <meta data-n-head=\"1\" charset=\"utf-8\"><meta data-n-head=\"1\" name=\"viewport\" content=\"width=device-width,initial-scale=1\"><meta data-n-head=\"1\" data-hid=\"og:site_name\" property=\"og:site_name\" content=\"Tipeee\"><link data-n-head=\"1\" data-hid=\"favicon-ico\" rel=\"icon\" sizes=\"48x48\" href=\"/_static/favicon.ico?v=2\"><link data-n-head=\"1\" data-hid=\"favicon-svg\" rel=\"icon\" sizes=\"any\" type=\"image/svg+xml\" href=\"/img/favicons/favicon.svg?v=2\"><link data-n-head=\"1\" rel=\"manifest\" href=\"/manifest.json?v=2\"><link data-n-head=\"1\" rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/img/favicons/apple-touch-icon.png?v=2\"><link data-n-head=\"1\" data-hid=\"css-v1\" rel=\"stylesheet\" href=\"/_static/css/all.css\"><link data-n-head=\"1\" rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..900;1,9..40,100..900&amp;family=Oswald:wght@200..700&amp;family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap\"><link data-n-head=\"1\" rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Anton&amp;display=block\"><link data-n-head=\"1\" rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link data-n-head=\"1\" rel=\"preconnect\" href=\"https://fonts.gstatic.com\"><link rel=\"preload\" href=\"/_nuxt/37afce6.js\" as=\"script\"><link rel=\"preload\" href=\"/_nuxt/20261124155244.33.js\" as=\"script\"><link rel=\"preload\" href=\"/_nuxt/20261124155244.157.js\" as=\"script\"><link rel=\"preload\" href=\"/_nuxt/20261124155244.32.js\" as=\"script\">\r\n\r\n        <style>#pagePlaceholder{position:absolute;top:0;left:0;width:100vw;height:100%;opacity:1;display:flex;align-items:center;justify-content:center;background-color:#fbfbfc}.removePlaceholder{animation:fade-placeholder .2s linear}#pagePlaceholder img{width:70px}@keyframes fade-placeholder{100%{opacity:0;display:none}}</style>\r\n    <meta property=\"og:image\" name=\"og:image\" content=\"/img/tipeee-og-image.jpg\"><meta property=\"og:title\" name=\"og:title\" content=\"\"><meta property=\"twitter:image\" name=\"twitter:image\" content=\"/img/tipeee-og-image.jpg\"><meta property=\"twitter:card\" name=\"twitter:card\" content=\"summary_large_image\"><meta property=\"twitter:site\" name=\"twitter:site\" content=\"@Tipeee_Officiel\"><meta property=\"twitter:title\" name=\"twitter:title\" content=\"\"><meta property=\"errorCode\" name=\"errorCode\" content=\"404\"><meta property=\"errorMessage\" name=\"errorMessage\" content=\"Not found\"><meta property=\"errorParams\" name=\"errorParams\" content=\"[]\"></head>\r\n    <body>\r\n        <div id=\"__nuxt\"></div><script type=\"d2c054b9f811fc89876fdbba-text/javascript\">window.__NUXT__={config:{_app:{basePath:\"/\",assetsPath:\"/_nuxt/\",cdnURL:null}}}</script>\r\n        <div id=\"pagePlaceholder\" :style=\"height:100px;\">\r\n            <img src=\"/_static/img/loading_eee.gif\">\r\n        </div>\r\n        <script type=\"d2c054b9f811fc89876fdbba-text/javascript\">if(window.location.pathname.startsWith(\"/widgets/\")){let e=document.querySelector(\"#pagePlaceholder\"),t=(e&&e.remove(),document.querySelector(\"body\"));t&&(t.style.background=\"transparent\")}</script>\r\n    <script src=\"/_nuxt/37afce6.js\" type=\"d2c054b9f811fc89876fdbba-text/javascript\"></script><script src=\"/_nuxt/20261124155244.33.js\" type=\"d2c054b9f811fc89876fdbba-text/javascript\"></script><script src=\"/_nuxt/20261124155244.157.js\" type=\"d2c054b9f811fc89876fdbba-text/javascript\"></script><script src=\"/_nuxt/20261124155244.32.js\" type=\"d2c054b9f811fc89876fdbba-text/javascript\"></script><script src=\"/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js\" data-cf-settings=\"d2c054b9f811fc89876fdbba-|49\" defer></script></body>\r\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}
