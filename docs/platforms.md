@@ -147,6 +147,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Experts Exchange — ✅ — `experts-exchange.com/members/{name}` (keyless profile: 200 taken / 404 free; status-only, the route 301s to the trailing-slash form and then to `www.experts-exchange.com/members/{name}.html`, followed)
 - [x] Gab — ✅ — `gab.com/{name}` (keyless profile: 200 taken / 404 free; status-only)
 - [x] Gitea — ✅ — `gitea.com/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept)
+- [x] Gitee — ✅ — `gitee.com/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept — a JSON Accept answers 404 even for a claimed profile)
 
 ## Candidates
 
@@ -165,7 +166,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 The split was measured once, so re-probe before writing a spec.
 
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
-- [ ] Gitee — 🧪 — `gitee.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] GOG — 🧪 — `gog.com/u/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Goodreads — 🧪 — `goodreads.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Home Assistant Integrations — 🧪 — `home-assistant.io/integrations/%s` (probe 2026-11-24: 200 taken / 404 free)

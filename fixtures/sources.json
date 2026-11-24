@@ -2103,6 +2103,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "gitee",
+      "platform": "gitee",
+      "platformName": "Gitee",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://gitee.com/google",
+      "urlTemplate": "https://gitee.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

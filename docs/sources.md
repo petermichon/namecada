@@ -121,6 +121,7 @@ verdict.
 | Experts Exchange | `experts-exchange.com/members/{name}`                   | 200 taken / 404 free      |
 | Gab | `gab.com/{name}` (profile)                                      | 200 taken / 404 free      |
 | Gitea | `gitea.com/{name}` (profile)                                  | 200 taken / 404 free      |
+| Gitee | `gitee.com/{name}` (profile)                                  | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.
