@@ -1895,6 +1895,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "about-me",
+      "platform": "about-me",
+      "platformName": "About.me",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://about.me/google",
+      "urlTemplate": "https://about.me/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
