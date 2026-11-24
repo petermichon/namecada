@@ -154,6 +154,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Hype Machine — ✅ — `hypem.com/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept)
 - [x] Indie Hackers — ✅ — `indiehackers.com/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept; `indiehackers.com` 301s to `www.indiehackers.com`, followed)
 - [x] Kick — ✅ — `kick.com/{name}` (keyless channel page: 200 taken / 404 free; status-only, HTML Accept; `acema` is itself a claimed channel, so the free branch was proven with `zzqxnvc`, which 404s with `Channel Not Found`)
+- [x] Komoot — ✅ — `komoot.com/user/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept; `komoot.com` 301s to `www.komoot.com`, followed)
 
 ## Candidates
 
@@ -173,7 +174,6 @@ The split was measured once, so re-probe before writing a spec.
 
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
 - [ ] Home Assistant Integrations — 🧪 — `home-assistant.io/integrations/%s` (probe 2026-11-24: 200 taken / 404 free)
-- [ ] Komoot — 🧪 — `komoot.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Kongregate — 🧪 — `kongregate.com/accounts/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Libib — 🧪 — `libib.com/u/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] LinkedIn Company — 🧪 — `linkedin.com/company/%s` (probe 2026-11-24: 200 taken / 404 free)

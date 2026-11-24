@@ -2194,6 +2194,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "komoot",
+      "platform": "komoot",
+      "platformName": "Komoot",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://komoot.com/user/google",
+      "urlTemplate": "https://komoot.com/user/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

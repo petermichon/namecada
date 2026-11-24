@@ -128,6 +128,7 @@ verdict.
 | Hype Machine | `hypem.com/{name}` (profile)                              | 200 taken / 404 free      |
 | Indie Hackers | `indiehackers.com/{name}` (profile)                        | 200 taken / 404 free      |
 | Kick | `kick.com/{name}` (channel)                                     | 200 taken / 404 free      |
+| Komoot | `komoot.com/user/{name}` (profile)                            | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.

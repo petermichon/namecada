@@ -255,6 +255,12 @@ static SPECS: &[StatusSpec] = &[
         HTML_ACCEPT,
     ),
     spec_with("kick", "https://kick.com/%s", DEFAULT_CODES, HTML_ACCEPT),
+    spec_with(
+        "komoot",
+        "https://komoot.com/user/%s",
+        DEFAULT_CODES,
+        HTML_ACCEPT,
+    ),
 ];
 
 /// StatusProvider checks a source by requesting one URL and mapping its status.
