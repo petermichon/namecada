@@ -2441,6 +2441,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "poshmark",
+      "platform": "poshmark",
+      "platformName": "Poshmark",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://poshmark.com/closet/google",
+      "urlTemplate": "https://poshmark.com/closet/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
