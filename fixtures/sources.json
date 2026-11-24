@@ -2233,6 +2233,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "linkedin-company",
+      "platform": "linkedin-company",
+      "platformName": "LinkedIn Company",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://linkedin.com/company/google",
+      "urlTemplate": "https://linkedin.com/company/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

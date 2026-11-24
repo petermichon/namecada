@@ -157,6 +157,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Komoot — ✅ — `komoot.com/user/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept; `komoot.com` 301s to `www.komoot.com`, followed)
 - [x] Kongregate — ✅ — `kongregate.com/accounts/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept; the route 301s twice, to `www.kongregate.com/en/accounts/{name}`, followed)
 - [x] Libib — ✅ — `libib.com/u/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept; `libib.com` 301s to `www.libib.com`, followed)
+- [x] LinkedIn Company — ✅ — `linkedin.com/company/{name}` (keyless company page: 200 taken / 404 free; status-only, HTML Accept; the route 301s to `www.linkedin.com`, followed; `acema` is itself a claimed company, so the free branch was proven with `zzqxnvc`; a bot wall answers 999, which reads as unknown)
 
 ## Candidates
 
@@ -176,7 +177,6 @@ The split was measured once, so re-probe before writing a spec.
 
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
 - [ ] Home Assistant Integrations — 🧪 — `home-assistant.io/integrations/%s` (probe 2026-11-24: 200 taken / 404 free)
-- [ ] LinkedIn Company — 🧪 — `linkedin.com/company/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Loops — 🧪 — `loops.video/@%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] LyricsTranslate — 🧪 — `lyricstranslate.com/en/translator/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Metacritic — 🧪 — `metacritic.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)
