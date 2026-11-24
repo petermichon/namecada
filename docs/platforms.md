@@ -210,7 +210,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 
 The split was measured once, so re-probe before writing a spec.
 
-- [ ] webhook.site — 🧪 — `webhook.site/%s` (probe 2026-11-24: 200 taken / 404 free; confirm the segment is a vanity label, not a request token)
 - [ ] Workana — 🧪 — `workana.com/freelancer/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Zeerk — 🧪 — `zeerk.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 
@@ -276,6 +275,7 @@ portable:
 - [ ] SEC EDGAR — 🔌 — keyless (descriptive User-Agent) but not a claimable namespace: it indexes issuer/filing names, which you cannot register
 - [ ] Uneed — 🔌 — ruled out: `uneed.best/tool/{name}` is a product-directory slug submitted by makers, not a user namespace; `google` is only a queued listing ("Launching Soon", no launch date), so a 200 records that some product once took the slug and not that anyone holds the label
 - [ ] Vidyard — 🔌 — ruled out: `vidyard.com/{name}` is the WordPress marketing site, and `google` only 301s to an uploaded media file (`/wp-content/uploads/google.svg`, 200 `image/svg+xml`) while an arbitrary label 301s to `www.vidyard.com/{name}`, which 404s — the split is a static-asset artifact, and public Vidyard pages are addressed by opaque ids, not a claimable handle
+- [ ] webhook.site — 🔌 — ruled out: `webhook.site/{name}` is a per-request webhook token, not a vanity namespace. `webhook.site/google` 200s with a 145-byte default response ("This URL has no default content configured. View in Webhook.site", pointing at token `ded31719-…`) while a missing token 404s ("The URL was deleted, or expired automatically") — a 200 only records that a live capture URL currently exists at that path, and free URLs expire after a week, so taken/free is not a stable identity claim
 - [ ] Home Assistant Integrations — 🔌 — ruled out: `home-assistant.io/integrations/{name}` is the documentation page for a component id that already exists in Home Assistant's source tree (`/integrations/hue/`), not a label anyone claims; a 200 only means the integration ships, so there is nothing to register and the 200/404 split is a docs index
 - [ ] Crunchbase — 🕸
 - [ ] US state business registries — 🕸
