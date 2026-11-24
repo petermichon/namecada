@@ -120,6 +120,7 @@ verdict.
 | Drupal.org Projects | `drupal.org/project/{name}` (module or theme)       | 200 taken / 404 free      |
 | Experts Exchange | `experts-exchange.com/members/{name}`                   | 200 taken / 404 free      |
 | Gab | `gab.com/{name}` (profile)                                      | 200 taken / 404 free      |
+| Gitea | `gitea.com/{name}` (profile)                                  | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.

@@ -2090,6 +2090,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "gitea",
+      "platform": "gitea",
+      "platformName": "Gitea",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://gitea.com/google",
+      "urlTemplate": "https://gitea.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

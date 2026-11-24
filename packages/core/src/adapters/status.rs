@@ -225,6 +225,7 @@ static SPECS: &[StatusSpec] = &[
         "https://experts-exchange.com/members/%s",
     ),
     spec("gab", "https://gab.com/%s"),
+    spec_with("gitea", "https://gitea.com/%s", DEFAULT_CODES, HTML_ACCEPT),
 ];
 
 /// StatusProvider checks a source by requesting one URL and mapping its status.
