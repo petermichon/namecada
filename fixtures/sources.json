@@ -2467,6 +2467,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "reverbnation",
+      "platform": "reverbnation",
+      "platformName": "ReverbNation",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://reverbnation.com/google",
+      "urlTemplate": "https://reverbnation.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

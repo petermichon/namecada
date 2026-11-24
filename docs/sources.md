@@ -149,6 +149,7 @@ verdict.
 | PlayCode | `playcode.io/{name}` (playground project)                 | 200 taken / 404 free      |
 | Poshmark | `poshmark.com/closet/{name}` (closet)                    | 200 taken / 404 free      |
 | Racket Packages | `pkgs.racket-lang.org/package/{name}` (package)    | 200 taken / 404 free      |
+| ReverbNation | `reverbnation.com/{name}` (artist profile)             | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.
