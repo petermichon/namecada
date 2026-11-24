@@ -185,10 +185,8 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 The split was measured once, so re-probe before writing a spec.
 
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
-- [ ] Mojang — 🧪 — `api.mojang.com/users/profiles/minecraft/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] NuGet profiles — 🧪 — `nuget.org/profiles/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Open Library — 🧪 — `openlibrary.org/people/%s` (probe 2026-11-24: 200 taken / 404 free)
-- [ ] Open Source Collective — 🧪 — `opencollective.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Owler — 🧪 — `owler.com/company/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Pillowfort — 🧪 — `pillowfort.social/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Pixelfed — 🧪 — `pixelfed.social/%s` (probe 2026-11-24: 200 taken / 404 free)
