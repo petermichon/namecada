@@ -158,7 +158,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 
 The split was measured once, so re-probe before writing a spec.
 
-- [ ] Amazon Author — 🧪 — `amazon.com/author/%s` (probe 2026-11-24: 200 taken / 404 free; the author page may be generated rather than claimed — confirm before porting)
 - [ ] Android Stack Exchange — 🧪 — `android.stackexchange.com/users/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] AppSumo — 🧪 — `appsumo.com/products/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
