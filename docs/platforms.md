@@ -178,6 +178,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] ReverbNation — ✅ — `reverbnation.com/{name}` (keyless artist profile: 200 taken / 404 free; status-only, HTML Accept; a claimed profile 301s to `legacy.reverbnation.com` and a free name to `www.reverbnation.com`, both followed)
 - [x] RubyGems profiles — ✅ — `rubygems.org/profiles/{name}` (keyless account profile: 200 taken / 404 free; status-only, HTML Accept; separate namespace from the gem check at `rubygems.org/gems/{name}`)
 - [x] Skool — ✅ — `skool.com/{name}` (keyless community: 200 taken / 404 free; status-only, HTML Accept; `skool.com` 301s to `www.skool.com/{name}/about`, followed)
+- [x] Slashdot — ✅ — `slashdot.org/~{name}` (keyless user journal: 200 taken / 404 free; status-only, HTML Accept; a missing user's 404 page carries the same shell as a real one, only with "user you requested does not exist")
 
 ## Candidates
 
@@ -196,7 +197,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 The split was measured once, so re-probe before writing a spec.
 
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
-- [ ] Slashdot — 🧪 — `slashdot.org/~%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Spotify — 🧪 — `open.spotify.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] stats.fm — 🧪 — `stats.fm/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Steemit — 🧪 — `steemit.com/@%s` (probe 2026-11-24: 200 taken / 404 free)

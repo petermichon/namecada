@@ -2506,6 +2506,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "slashdot",
+      "platform": "slashdot",
+      "platformName": "Slashdot",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://slashdot.org/~google",
+      "urlTemplate": "https://slashdot.org/~%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
