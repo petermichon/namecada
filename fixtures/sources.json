@@ -2181,6 +2181,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "kick",
+      "platform": "kick",
+      "platformName": "Kick",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://kick.com/google",
+      "urlTemplate": "https://kick.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
