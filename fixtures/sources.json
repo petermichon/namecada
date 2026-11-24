@@ -2025,6 +2025,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "donorbox",
+      "platform": "donorbox",
+      "platformName": "Donorbox",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://donorbox.org/google",
+      "urlTemplate": "https://donorbox.org/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

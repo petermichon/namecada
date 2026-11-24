@@ -216,6 +216,7 @@ static SPECS: &[StatusSpec] = &[
     spec("buttondown", "https://buttondown.com/%s"),
     spec("built-in", "https://builtin.com/company/%s"),
     spec("disqus", "https://disqus.com/by/%s"),
+    spec("donorbox", "https://donorbox.org/%s"),
 ];
 
 /// StatusProvider checks a source by requesting one URL and mapping its status.
