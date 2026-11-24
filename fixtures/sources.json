@@ -2168,6 +2168,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "indie-hackers",
+      "platform": "indie-hackers",
+      "platformName": "Indie Hackers",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://indiehackers.com/google",
+      "urlTemplate": "https://indiehackers.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
