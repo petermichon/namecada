@@ -30,6 +30,16 @@ provider sent and received: request headers and bodies, the response status,
 a comma-separated list. A capture is still a snapshot, not live truth — refresh
 it when a source changes.
 
+## Redaction
+
+A capture is the body as the source sent it, with one exception: a page can
+carry its own credential-shaped strings — a public Mapbox or Firebase key in its
+inline config, a pasted AWS id — and those are not ours to publish in a
+repository. The recorder replaces such a run with `REDACTED` (see `redact` in
+`packages/core/src/fixture.rs`), which also keeps GitHub's push protection from
+rejecting the branch. Status, title and the body markers the adapters read are
+untouched.
+
 ## Format
 
 - `sources.json` — every source, including credential-gated and deferred ones

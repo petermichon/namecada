@@ -266,6 +266,11 @@ fn record(response: &HttpResponse) -> RecordedResponse {
     let truncated = response.body.len() > BODY_CAP;
     let body = &response.body[..response.body.len().min(BODY_CAP)];
     let (text, encoding) = encode_body(body);
+    let text = if encoding == "utf8" {
+        redact(&text)
+    } else {
+        text
+    };
     RecordedResponse {
         status: response.status,
         headers: Some(headers),
@@ -281,6 +286,57 @@ fn encode_body(body: &[u8]) -> (String, &'static str) {
         Ok(text) => (text.to_string(), "utf8"),
         Err(_) => (BASE64.encode(body), "base64"),
     }
+}
+
+/// TOKEN_PREFIXES start the credential-shaped strings a page carries in its own
+/// markup: a site's public Mapbox or Firebase key, a pasted AWS id. The fixtures
+/// are committed to a public repository, and a captured token both trips push
+/// protection and leaks something that is not ours to publish, so the recorder
+/// keeps the body and replaces the value.
+const TOKEN_PREFIXES: &[&str] = &[
+    "pk.eyJ", // Mapbox public token
+    "AIza",   // Google API key
+    "AKIA",   // AWS access key id
+    "ghp_",   // GitHub tokens
+    "gho_", "ghs_", "ghu_", "ghr_", "xoxb-", // Slack tokens
+    "xoxp-", "xoxa-", "xoxr-", "xoxs-", "sk_live_", // Stripe secret keys
+    "sk_test_",
+];
+
+const REDACTED: &str = "REDACTED";
+
+fn is_token_char(byte: u8) -> bool {
+    byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b'-')
+}
+
+/// redact replaces credential-shaped runs with `REDACTED`, leaving the rest of
+/// the body byte-for-byte so a provider's body signal still has what it reads.
+fn redact(text: &str) -> String {
+    let bytes = text.as_bytes();
+    let mut out = String::with_capacity(text.len());
+    let mut at = 0;
+    while at < bytes.len() {
+        let rest = &text[at..];
+        let Some(prefix) = TOKEN_PREFIXES.iter().find(|p| rest.starts_with(**p)) else {
+            let ch = rest.chars().next().expect("a non-empty remainder");
+            out.push(ch);
+            at += ch.len_utf8();
+            continue;
+        };
+        let mut end = at + prefix.len();
+        while end < bytes.len() && is_token_char(bytes[end]) {
+            end += 1;
+        }
+        out.push_str(prefix);
+        // A bare prefix is not a credential; keep short matches verbatim.
+        if end - at > prefix.len() + 8 {
+            out.push_str(REDACTED);
+        } else {
+            out.push_str(&text[at + prefix.len()..end]);
+        }
+        at = end;
+    }
+    out
 }
 
 fn is_false(value: &bool) -> bool {
@@ -303,6 +359,24 @@ mod tests {
     use super::*;
 
     struct Stub;
+
+    #[test]
+    fn redact_hides_tokens_and_keeps_the_body() {
+        let body = concat!(
+            r#"{"MAPBOX_ACCESS_TOKEN":"pk.eyJ1IjoibXVzaWNicmFpbnoiLCJhIjoiY203cSJ9","#,
+            r#""key":"AIzaSyD-1234567890abcdefghijklmnopqrstu","#,
+            r#""name":"keep me","note":"pk.eyJ short"}"#
+        );
+        let out = redact(body);
+        assert!(!out.contains("pk.eyJ1Ijoi"), "mapbox token survived");
+        assert!(!out.contains("AIzaSyD-1234"), "google key survived");
+        assert!(out.contains(r#""name":"keep me""#), "body was mangled");
+        assert!(
+            out.contains("pk.eyJ short"),
+            "a short look-alike was redacted"
+        );
+        assert_eq!(out.matches(REDACTED).count(), 2);
+    }
 
     impl Transport for Stub {
         fn execute(&self, request: HttpRequest) -> Result<HttpResponse, Error> {
