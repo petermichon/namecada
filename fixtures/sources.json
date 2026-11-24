@@ -2493,6 +2493,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "skool",
+      "platform": "skool",
+      "platformName": "Skool",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://skool.com/google",
+      "urlTemplate": "https://skool.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
