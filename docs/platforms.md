@@ -18,8 +18,6 @@ below, written in the browser-direct era, must be re-checked before implementing
 - `🔌` — ruled out: there is no unique claimable label to probe — composite
   (`owner/name`), ephemeral or generated hosts, auto-assigned ids, display
   names, or a namespace another source already covers.
-- `🧪` — verified, not ported: the probe saw a taken/free split on that route,
-  so a spec can be written from it, but no provider ships it yet.
 
 The test is the **platform's namespace, not the fetch**: when the names are
 unique and claimable the entry belongs under 🔑/🕸 even if today's probe sees
@@ -201,22 +199,19 @@ nothing, and a source that answers the same for every name is out either way.
 
 ## Candidates
 
-### Verified signals, not ported
+### The 2026-11-24 scout triage
 
-Triaged 2026-11-24, in place of the `similar-sites.md` scout list (1,476 rows,
-never verified): 163 were keyed, 287 had no claimable route (search boxes,
-opaque ids), and 1,026 had a handle or subdomain shape. 173 of those already
-appear in this file or in the registry, leaving 853 to probe — 692 handle
-routes over HTTP and 161 subdomains over DNS. Of the handle routes 123 split on
-`google` against `zzqxnvc`; after dropping soft-404s, bot walls, redirect-only
-diffs and 13 routes that are another source's namespace, 77 are below. The
-remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
-243 that answer 404 for every label.
-
-The split was measured once, so re-probe before writing a spec.
-
-Status alone was a false signal on these four, so they are deferred rather than
-portable:
+This replaced the `similar-sites.md` scout list (1,476 rows, never verified).
+163 were keyed, 287 had no claimable route (search boxes, opaque ids) and 1,026
+had a handle or subdomain shape; 173 of those already appeared here or in the
+registry, leaving 853 to probe — 692 handle routes over HTTP and 161 subdomains
+over DNS. Of the handle routes 123 split on `google` against `zzqxnvc`; after
+dropping soft-404s, bot walls, redirect-only diffs and 13 routes another source
+owns, 82 rows survived (77 handles + 5 subdomain hosts) and became providers
+the same day. Everything below is what did not survive a second look: five
+deferred, seven ruled out, two dropped as already covered. The remainder of the
+853 never had a signal at all — 155 shells, 102 challenges, 22 blocked, 34 dead
+and 243 that answer 404 for every label.
 
 - [ ] Canva — 🕸 — `canva.com/{name}`: creator profiles exist, but every keyless
   request, for a real and a fake label alike, comes back 403, so there is no
