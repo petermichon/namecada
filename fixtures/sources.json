@@ -2259,6 +2259,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "lyricstranslate",
+      "platform": "lyricstranslate",
+      "platformName": "LyricsTranslate",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://lyricstranslate.com/en/translator/google",
+      "urlTemplate": "https://lyricstranslate.com/en/translator/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
