@@ -464,6 +464,12 @@ static SPECS: &[StatusSpec] = &[
         HTML_ACCEPT,
     ),
     spec_with("whop", "https://whop.com/%s", DEFAULT_CODES, HTML_ACCEPT),
+    spec_with(
+        "write-as",
+        "https://write.as/%s",
+        DEFAULT_CODES,
+        HTML_ACCEPT,
+    ),
 ];
 
 /// StatusProvider checks a source by requesting one URL and mapping its status.

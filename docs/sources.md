@@ -166,6 +166,7 @@ verdict.
 | Wellfound | `wellfound.com/company/{name}` (company page)               | 200 taken / 404 free      |
 | Whatnot | `whatnot.com/user/{name}` (user profile)                      | 200 taken / 404 free      |
 | Whop | `whop.com/{name}` (community page)                                | 200 taken / 404 free      |
+| Write.as | `write.as/{name}` (blog)                                       | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.

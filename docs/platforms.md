@@ -192,6 +192,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Wellfound — ✅ — `wellfound.com/company/{name}` (keyless company profile: 200 taken / 404 free; status-only, HTML Accept; separate namespace from the `/u/{name}` people route)
 - [x] Whatnot — ✅ — `whatnot.com/user/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept; `whatnot.com` 301s to `www.whatnot.com`, followed; `acema` is itself a claimed profile, so the free branch was proven with `zzqxnvc`)
 - [x] Whop — ✅ — `whop.com/{name}` (keyless community page: 200 taken / 404 free; status-only, HTML Accept; `whop.com/{name}` 308s to the trailing-slash form, followed)
+- [x] Write.as — ✅ — `write.as/{name}` (keyless blog: 200 taken / 404 free; status-only, HTML Accept; a claimed blog 301s to the trailing-slash form, followed)
 
 ## Candidates
 
@@ -211,7 +212,6 @@ The split was measured once, so re-probe before writing a spec.
 
 - [ ] webhook.site — 🧪 — `webhook.site/%s` (probe 2026-11-24: 200 taken / 404 free; confirm the segment is a vanity label, not a request token)
 - [ ] Workana — 🧪 — `workana.com/freelancer/%s` (probe 2026-11-24: 200 taken / 404 free)
-- [ ] Write.as — 🧪 — `write.as/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Zeerk — 🧪 — `zeerk.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 
 - [ ] ddns.net — 🧪 — `%s.ddns.net` (DNS probe 2026-11-24: `google.ddns.net` resolves, `zzqxnvc.ddns.net` is NXDOMAIN; registration needs an account, the check does not)

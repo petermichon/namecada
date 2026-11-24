@@ -2688,6 +2688,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "write-as",
+      "platform": "write-as",
+      "platformName": "Write.as",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://write.as/google",
+      "urlTemplate": "https://write.as/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
