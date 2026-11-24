@@ -2324,6 +2324,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "musixmatch",
+      "platform": "musixmatch",
+      "platformName": "Musixmatch",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://musixmatch.com/artist/google",
+      "urlTemplate": "https://musixmatch.com/artist/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
