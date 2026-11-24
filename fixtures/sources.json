@@ -2571,6 +2571,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "superrare",
+      "platform": "superrare",
+      "platformName": "SuperRare",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://superrare.com/google",
+      "urlTemplate": "https://superrare.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
