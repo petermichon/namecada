@@ -2207,6 +2207,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "kongregate",
+      "platform": "kongregate",
+      "platformName": "Kongregate",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://kongregate.com/accounts/google",
+      "urlTemplate": "https://kongregate.com/accounts/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
