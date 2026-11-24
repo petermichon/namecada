@@ -2376,6 +2376,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "open-library",
+      "platform": "open-library",
+      "platformName": "Open Library",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://openlibrary.org/people/google",
+      "urlTemplate": "https://openlibrary.org/people/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
