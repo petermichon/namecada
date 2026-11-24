@@ -1,0 +1,12 @@
+{
+  "source": "zapto",
+  "platform": "zapto",
+  "platformName": "zapto.org",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.zapto.org/",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 12,
+  "requests": []
+}

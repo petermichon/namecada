@@ -2753,6 +2753,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "zapto",
+      "platform": "zapto",
+      "platformName": "zapto.org",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://google.zapto.org/",
+      "urlTemplate": "https://%s.zapto.org/",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

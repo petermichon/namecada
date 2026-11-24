@@ -1,0 +1,12 @@
+{
+  "source": "zapto",
+  "platform": "zapto",
+  "platformName": "zapto.org",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://acema.zapto.org/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 12,
+  "requests": []
+}

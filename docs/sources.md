@@ -108,6 +108,7 @@ verdict.
 | ddnsgeek.com | `{name}.ddnsgeek.com` (DNS, no wildcard)                    | resolves taken / NXDOMAIN free |
 | hopto.org | `{name}.hopto.org` (DNS, no wildcard)                          | resolves taken / NXDOMAIN free |
 | myftp.org | `{name}.myftp.org` (DNS, no wildcard)                          | resolves taken / NXDOMAIN free |
+| zapto.org | `{name}.zapto.org` (DNS, no wildcard)                          | resolves taken / NXDOMAIN free |
 | 9GAG      | `9gag.com/u/{name}` (profile)                                  | 200 taken / 404 free      |
 | About.me  | `about.me/{name}` (profile)                                    | 200 taken / 404 free      |
 | Clubhouse | `clubhouse.com/@{name}` (profile)                              | 200 taken / 404 free      |
@@ -190,7 +191,8 @@ report marks paid rows and offers a cost filter, but otherwise renders one
 alphabetical list.
 
 The free-subdomain sources (eu.org, DuckDNS, No-IP, dynv6, noted.lol,
-is-a-good.dev, Cloudflare Pages, Fly.io, ddns.net, ddnsgeek.com, hopto.org, myftp.org) have no wildcard DNS, so they resolve `{name}.{host}` and treat a
+is-a-good.dev, Cloudflare Pages, Fly.io, ddns.net, ddnsgeek.com, hopto.org, myftp.org,
+zapto.org) have no wildcard DNS, so they resolve `{name}.{host}` and treat a
 successful answer as taken and an NXDOMAIN as free. Because that is a DNS
 lookup, the label is sent to the resolver — the same privacy exposure as
 looking the name up directly.

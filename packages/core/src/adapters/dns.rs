@@ -149,6 +149,7 @@ pub fn dns_hosts() -> &'static [(&'static str, &'static str)] {
         ("ddnsgeek", "ddnsgeek.com"),
         ("hopto", "hopto.org"),
         ("myftp", "myftp.org"),
+        ("zapto", "zapto.org"),
     ]
 }
 
