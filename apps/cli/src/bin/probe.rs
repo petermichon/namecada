@@ -5,6 +5,8 @@
 //!
 //! `--save` keeps a local history under `.probe/` and `--diff` prints what
 //! changed since the previous run, so drift is visible without a scheduler.
+//! `--manifest` swaps the registry for a scratch inventory, which is how a
+//! candidate list gets probed without adding rows the app would show.
 //!
 //! Run it with `npm run probe`.
 
@@ -14,6 +16,7 @@ use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
+use namecada::load_manifest;
 use namecada_core::adapters::status::{ACCEPT_LANGUAGE, USER_AGENT};
 use namecada_core::provider::HttpRequest;
 use namecada_core::{live_providers, HttpTransport, Manifest, Transport};
@@ -71,6 +74,7 @@ struct Args {
     label: String,
     fake: String,
     only: Option<Vec<String>>,
+    manifest: Option<String>,
     jobs: usize,
     timeout: Duration,
     json: bool,
@@ -87,10 +91,10 @@ fn main() {
         }
     };
 
-    let manifest = match Manifest::embedded() {
+    let manifest = match load_manifest(args.manifest.as_deref()) {
         Ok(manifest) => manifest,
         Err(err) => {
-            eprintln!("probe: cannot read the registry: {err}");
+            eprintln!("probe: cannot read the manifest: {err}");
             std::process::exit(1);
         }
     };
@@ -171,6 +175,7 @@ fn parse_args() -> Result<Args, String> {
         label: "google".to_string(),
         fake: "zzqxnvc".to_string(),
         only: None,
+        manifest: None,
         jobs: 4,
         timeout: Duration::from_secs(20),
         json: false,
@@ -183,6 +188,7 @@ fn parse_args() -> Result<Args, String> {
         match flag.as_str() {
             "--label" => args.label = value()?,
             "--fake" => args.fake = value()?,
+            "--manifest" => args.manifest = Some(value()?),
             "--only" => {
                 args.only = Some(
                     value()?
@@ -494,6 +500,7 @@ Usage: probe [options]
 
   --label <name>     label that should exist (default: google)
   --fake <name>      control label that should not exist (default: zzqxnvc)
+  --manifest <path>  probe the sources in <path> instead of the registry
   --only <ids>       comma-separated source ids
   --jobs <n>         parallel probes (default: 4)
   --timeout <secs>   seconds per request (default: 20)
