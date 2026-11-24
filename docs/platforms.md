@@ -189,6 +189,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] V2EX — ✅ — `v2ex.com/member/{name}` (keyless member profile: 200 taken / 404 free; status-only, HTML Accept)
 - [x] Visual Studio Marketplace — ✅ — `marketplace.visualstudio.com/publishers/{name}` (keyless publisher page: 200 taken / 404 free; status-only, HTML Accept; separate namespace from the extension ids, which stay out of scope)
 - [x] Wattpad — ✅ — `wattpad.com/user/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept; `wattpad.com` 301s to `www.wattpad.com`, followed)
+- [x] Wellfound — ✅ — `wellfound.com/company/{name}` (keyless company profile: 200 taken / 404 free; status-only, HTML Accept; separate namespace from the `/u/{name}` people route)
 
 ## Candidates
 
@@ -207,7 +208,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 The split was measured once, so re-probe before writing a spec.
 
 - [ ] webhook.site — 🧪 — `webhook.site/%s` (probe 2026-11-24: 200 taken / 404 free; confirm the segment is a vanity label, not a request token)
-- [ ] Wellfound — 🧪 — `wellfound.com/company/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Whatnot — 🧪 — `whatnot.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Whop — 🧪 — `whop.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Workana — 🧪 — `workana.com/freelancer/%s` (probe 2026-11-24: 200 taken / 404 free)

@@ -2649,6 +2649,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "wellfound",
+      "platform": "wellfound",
+      "platformName": "Wellfound",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://wellfound.com/company/google",
+      "urlTemplate": "https://wellfound.com/company/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

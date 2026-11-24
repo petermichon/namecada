@@ -163,6 +163,7 @@ verdict.
 | V2EX | `v2ex.com/member/{name}` (member profile)                     | 200 taken / 404 free      |
 | Visual Studio Marketplace | `marketplace.visualstudio.com/publishers/{name}` (publisher) | 200 taken / 404 free |
 | Wattpad | `wattpad.com/user/{name}` (user profile)                      | 200 taken / 404 free      |
+| Wellfound | `wellfound.com/company/{name}` (company page)               | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.
