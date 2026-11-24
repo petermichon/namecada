@@ -2610,6 +2610,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "v2ex",
+      "platform": "v2ex",
+      "platformName": "V2EX",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://v2ex.com/member/google",
+      "urlTemplate": "https://v2ex.com/member/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

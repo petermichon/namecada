@@ -1,0 +1,30 @@
+{
+  "source": "v2ex",
+  "platform": "v2ex",
+  "platformName": "V2EX",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://v2ex.com/member/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 225,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://v2ex.com/member/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=UTF-8"
+        },
+        "body": "",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}
