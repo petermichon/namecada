@@ -2337,6 +2337,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "mydramalist",
+      "platform": "mydramalist",
+      "platformName": "MyDramaList",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://mydramalist.com/profile/google",
+      "urlTemplate": "https://mydramalist.com/profile/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

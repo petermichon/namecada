@@ -165,6 +165,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Moj — ✅ — `mojapp.in/@{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept; a free name redirects to `/404`, followed)
 - [x] MusicBrainz — ✅ — `musicbrainz.org/user/{name}` (keyless editor profile: 200 taken / 404 free; status-only, HTML Accept)
 - [x] Musixmatch — ✅ — `musixmatch.com/artist/{name}` (keyless artist page: 200 taken / 404 free; status-only, HTML Accept; `musixmatch.com` 301s to `www.musixmatch.com`, followed)
+- [x] MyDramaList — ✅ — `mydramalist.com/profile/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept)
 
 ## Candidates
 
@@ -184,7 +185,6 @@ The split was measured once, so re-probe before writing a spec.
 
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
 - [ ] Mojang — 🧪 — `api.mojang.com/users/profiles/minecraft/%s` (probe 2026-11-24: 200 taken / 404 free)
-- [ ] MyDramaList — 🧪 — `mydramalist.com/profile/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Naver Blog — 🧪 — `blog.naver.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] NuGet profiles — 🧪 — `nuget.org/profiles/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Open Library — 🧪 — `openlibrary.org/people/%s` (probe 2026-11-24: 200 taken / 404 free)
