@@ -1999,6 +1999,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "built-in",
+      "platform": "built-in",
+      "platformName": "Built In",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://builtin.com/company/google",
+      "urlTemplate": "https://builtin.com/company/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

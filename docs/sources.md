@@ -113,6 +113,7 @@ verdict.
 | Lichess Team | `lichess.org/team/{name}` (team)                            | 200 taken / 404 free      |
 | AngelList | `angel.co/company/{name}` (company)                            | 200 taken / 404 free      |
 | Buttondown | `buttondown.com/{name}` (newsletter)                          | 200 taken / 404 free      |
+| Built In | `builtin.com/company/{name}` (company)                        | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.
