@@ -2116,6 +2116,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "gog",
+      "platform": "gog",
+      "platformName": "GOG",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://gog.com/u/google",
+      "urlTemplate": "https://gog.com/u/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
