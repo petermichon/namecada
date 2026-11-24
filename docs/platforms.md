@@ -142,6 +142,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Built In — ✅ — `builtin.com/company/{name}` (keyless company page: 200 taken / 404 free; status-only)
 - [x] Disqus — ✅ — `disqus.com/by/{name}` (keyless profile: 200 taken / 404 free; status-only, `/by/{name}` 301s to the trailing-slash form, followed)
 - [x] Donorbox — ✅ — `donorbox.org/{name}` (keyless campaign page: 200 taken / 404 free; status-only)
+- [x] Douyu — ✅ — `douyu.com/{name}` (keyless streamer page: 200 taken / 404 free; status-only, `douyu.com/{name}` 301s to `www.douyu.com/{name}`, which 302s to the numeric room, both followed)
 
 ## Candidates
 
@@ -160,7 +161,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 The split was measured once, so re-probe before writing a spec.
 
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
-- [ ] Douyu — 🧪 — `douyu.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Drupal.org Modules — 🧪 — `drupal.org/project/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Experts Exchange — 🧪 — `experts-exchange.com/members/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Gab — 🧪 — `gab.com/%s` (probe 2026-11-24: 200 taken / 404 free)

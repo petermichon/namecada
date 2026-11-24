@@ -1,0 +1,48 @@
+{
+  "source": "douyu",
+  "platform": "douyu",
+  "platformName": "Douyu",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://douyu.com/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 1049,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://douyu.com/acema",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 301,
+        "headers": {
+          "content-type": "text/html",
+          "location": "https://www.douyu.com/acema"
+        },
+        "body": "<html>\r\n<head><title>301 Moved Permanently</title></head>\r\n<body>\r\n<center><h1>301 Moved Permanently</h1></center>\r\n<hr><center>openresty</center>\r\n<p><em>Powered by <a href=\"https://www.douyu.com/\">DOUYU</a>.</em></p></body>\r\n</html>\r\n",
+        "bodyEncoding": "utf8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://www.douyu.com/acema",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=UTF-8"
+        },
+        "body": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\r\n<head>\r\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n\r\n    <title>提示信息 -斗鱼</title>\r\n    <link href=\"https://staticlive.douyucdn.cn/common/douyu/style/common.css?v=20190108\" rel=\"stylesheet\" type=\"text/css\" />\r\n    <link href=\"https://staticlive.douyucdn.cn/common/douyu/style/404error.css?v=20190108\" rel=\"stylesheet\" type=\"text/css\" />\r\n    <style>\r\n        .mod_404 {\r\n            min-height: 850px;\r\n        }\r\n\r\n        .main_word > p > a {\r\n            height: 22px;\r\n        }\r\n\r\n        .main_404 {\r\n            display: none;\r\n        }\r\n\r\n    </style>\r\n    <script type=\"text/javascript\" src=\"https://staticlive.douyucdn.cn/common/js/jquery.js\"></script>\r\n    <script type=\"text/javascript\">\r\n        var addDyHtml = function() {\r\n            var dyHtml = [\r\n                '<div class=\"foot_global\">',\r\n                '<ul class=\"about\">',\r\n                '<li><a href=\"/cms/about/about_us.html\">关于我们</a><span>|</span></li>',\r\n                '<li><a href=\"https://kefu.douyu.com\" target=\"_blank\">帮助与反馈</a><span>|</span></li>',\r\n                '<li><a href=\"https://zhaopin.douyu.com\">招聘信息</a><span>|</span></li>',\r\n                '<li><a href=\"/cms/about/cooperate.html\">友情链接</a><span>|</span></li>',\r\n                '<li><a href=\"/cms/zhibo/list_16.shtml\" target=\"_blank\">我要直播</a><span>|</span></li>',\r\n                '<li><a href=\"/feedback/copyright\"  target=\"_blank\" onclick=\"try{ feedback_copyright(); return false; } catch(e){}\">版权投诉</a></li>',\r\n                '</ul>',\r\n                '<p>武汉斗鱼网络科技有限公司 版权所有 ©www.douyu.com</p>',\r\n                '</div>'\r\n            ].join('')\r\n            var div = document.createElement('div');\r\n            div.innerHTML = dyHtml;\r\n            document.body.appendChild(div);\r\n        }\r\n\r\n        var bindDyEvent = function() {\r\n            $('.children_list li > a').each(function () {\r\n                $(this).on('click', function() {\r\n                    addDyHtml();\r\n                    bindDyEvent();\r\n                })\r\n            });\r\n        }\r\n\r\n        window.onload = function() {\r\n            addDyHtml();\r\n            $('.children_list li > a').each(function () {\r\n                $(this).on('click', function() {\r\n                    addDyHtml();\r\n                    bindDyEvent();\r\n                })\r\n            });\r\n        }\r\n    </script>\r\n</head>\r\n\r\n<body>\r\n<!-- 头部开始 -->\r\n\r\n<!-- 头部结束 -->\r\n   <div id=\"main\" class=\"main_404\">\r\n       <div class=\"main_word\">\r\n           <h3>你想要的还不存在！</h3>\r\n           <span>你可以通过以下方式继续访问... ...</span>\r\n           <p>\r\n                <a href=\"/\" class=\"home\">返回首页</a>\r\n                <a href=\"javascript:history.go(-1)\" class=\"back \">后退一步</a>\r\n          </p>\r\n       </div>\r\n   </div>\r\n<!--    <iframe style=\"width: 100%; height: 850px\" src=\"--><!--\" frameborder=\"0\"></iframe>-->\r\n\r\n<!--    <div class=\"foot_global\">-->\r\n<!--           <ul class=\"about\">-->\r\n<!--            <li><a href=\"/cms/about/about_us.html\">关于我们</a><span>|</span></li>-->\r\n<!--            <li><a href=\"https://kefu.douyu.com\" target=\"_blank\">联系客服</a><span>|</span></li>-->\r\n<!--            <li><a href=\"https://zhaopin.douyu.com\">招聘信息</a><span>|</span></li>-->\r\n<!--            <li><a href=\"/cms/about/cooperate.html\">友情链接</a><span>|</span></li>-->\r\n<!--            <li><a href=\"/cms/zhibo/list_16.shtml\" target=\"_blank\">我要直播</a><span>|</span></li>-->\r\n<!--            <li><a href=\"/member/message/release\" onclick=\"try{ check_message(); return false; } catch(e){}\">意见反馈</a><span>|</span></li>-->\r\n<!--            <li><a href=\"/feedback/copyright\"  target=\"_blank\" onclick=\"try{ feedback_copyright(); return false; } catch(e){}\">版权投诉</a></li>-->\r\n<!--          </ul>-->\r\n<!--          <p>武汉斗鱼网络科技有限公司 版权所有 ©--><!-- 公司地址：湖北省武汉市东湖开发区光谷软件园F4栋8楼</p>-->\r\n<!--    </div>-->\r\n\r\n</body>\r\n<script type=\"text/javascript\" src=\"//mat1.gtimg.com/pingjs/ext2020/test2017/search_children3.js\" homePageUrl=\"/\" homePageName=\"返回斗鱼首页\" charset=\"utf-8\"> </script>\r\n<script type=\"text/javascript\">\r\n    var oSecs = 7;\r\n    var intervalCD;\r\n    function time(){\r\n        oSecs --;\r\n        if (oSecs < 0){\r\n            clearInterval(intervalCD);\r\n            return;\r\n        }\r\n\r\n        if (oSecs == 0){\r\n            clearInterval(intervalCD);\r\n            window.location.href = '/';\r\n        }\r\n        document.getElementById('J_countdown').innerHTML = oSecs;\r\n    }\r\n\r\n    var intervalDomID = setInterval(function () {\r\n        if (document.getElementById('J_countdown')) {\r\n            clearInterval(intervalDomID);\r\n            intervalCD = setInterval(time, 1000);\r\n        }\r\n    }, 100);\r\n    $(function() {\r\n        $(window).on('error', function(error) {\r\n            $('.main_404').show();\r\n        })\r\n    })\r\n</script>\r\n</html>\r\n\r\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -2038,6 +2038,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "douyu",
+      "platform": "douyu",
+      "platformName": "Douyu",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://douyu.com/google",
+      "urlTemplate": "https://douyu.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
