@@ -2623,6 +2623,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "visual-studio-marketplace",
+      "platform": "visual-studio-marketplace",
+      "platformName": "Visual Studio Marketplace",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://marketplace.visualstudio.com/publishers/google",
+      "urlTemplate": "https://marketplace.visualstudio.com/publishers/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
