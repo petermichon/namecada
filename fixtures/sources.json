@@ -2584,6 +2584,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "tildes",
+      "platform": "tildes",
+      "platformName": "Tildes",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://tildes.net/user/google",
+      "urlTemplate": "https://tildes.net/user/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

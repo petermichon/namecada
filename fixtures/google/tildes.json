@@ -1,0 +1,30 @@
+{
+  "source": "tildes",
+  "platform": "tildes",
+  "platformName": "Tildes",
+  "label": "google",
+  "name": "google",
+  "url": "https://tildes.net/user/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 359,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://tildes.net/user/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=UTF-8"
+        },
+        "body": "\n\n\n\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <meta name=\"intercoolerjs:use-data-prefix\" content=\"true\">\n  <meta name=\"csrftoken\" content=\"6fc87ef9863d39250f30163a13b0b66ae8db0c3006c3965fa96be9ce6be81283\">\n\n  <meta property=\"og:image\" content=\"https://tildes.net/images/tildes-logo-144x144.png\">\n  <meta property=\"og:site_name\" content=\"Tildes\">\n  <meta property=\"og:type\" content=\"website\">\n  <meta property=\"og:title\" content=\"User: Google\">\n  <meta property=\"og:description\" content=\"Tildes: a non-profit community site\">\n\n\n  <link rel=\"stylesheet\" href=\"/css/tildes.css?43f99342\">\n  <link rel=\"stylesheet\" href=\"/css/site-icons.css?0e7fecb5\">\n\n  <link rel=\"icon\" type=\"image/png\" href=\"/favicon-16x16.png\" sizes=\"16x16\">\n  <link rel=\"icon\" type=\"image/png\" href=\"/favicon-32x32.png\" sizes=\"32x32\">\n  <link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/apple-touch-icon.png\">\n  <link rel=\"manifest\" href=\"/manifest.json\">\n  <link rel=\"mask-icon\" href=\"/safari-pinned-tab.svg\" color=\"#002b36\">\n  <meta name=\"apple-mobile-web-app-title\" content=\"Tildes\">\n  <meta name=\"application-name\" content=\"Tildes\">\n  <meta name=\"msapplication-TileColor\" content=\"#002b36\">\n\n\n  <title>User: Google - Tildes</title>\n\n</head>\n\n  <body class=\"theme-white\">\n\n<header id=\"site-header\" data-js-hide-sidebar-if-open>\n  <a class=\"site-header-logo\" href=\"/\">Tildes</a>\n  <button\n    class=\"btn btn-sm btn-link site-header-sidebar-button\n    \"\n    data-js-sidebar-toggle\n  >Sidebar</button>\n\n  <div class=\"site-header-context\"><a href=\"/user/Google\">Google</a>\n</div>\n\n    <div class=\"logged-in-user-info\">\n      <a class=\"text-small link-no-visited-color\"\n          href=\"/login?from_url=%2Fuser%2Fgoogle\"\n      >Log in</a>\n  </div>\n\n</header>\n\n<main class=\"\" data-js-hide-sidebar-if-open>\n\n\n  <h1 class=\"heading-main\">    Google's recent activity\n</h1>\n\n\n\n    <div class=\"empty\">\n      <h2 class=\"empty-title\">\nThis user hasn't made any posts      </h2>\n    </div>\n\n</main>\n\n<aside id=\"sidebar\">\n  <div class=\"sidebar-controls\">\n      <div class=\"logged-in-user-info\">\n      <a class=\"text-small link-no-visited-color\"\n          href=\"/login?from_url=%2Fuser%2Fgoogle\"\n      >Log in</a>\n  </div>\n\n\n    <button class=\"btn btn-sm btn-link\" data-js-sidebar-toggle>Close sidebar</button>\n  </div>\n\n<h2>User info</h2>\n<dl>\n  <dt>Registered</dt>\n  <dd>August 4, 2023</dd>\n\n</dl>\n\n\n\n</aside>\n\n<footer id=\"site-footer\" data-js-hide-sidebar-if-open>\n  <div class=\"site-footer-theme-selection\">\n    <label for=\"theme\">Theme:</label>\n    <select class=\"form-select\" name=\"theme\" id=\"theme\" data-js-theme-selector>\n\n      <option value=\"white\"\n        selected\n      >\n        White\n      </option>\n\n      <option value=\"solarized-light\"\n        \n      >\n        Solarized Light\n      </option>\n\n      <option value=\"solarized-dark\"\n        \n      >\n        Solarized Dark\n      </option>\n\n      <option value=\"dracula\"\n        \n      >\n        Dracula\n      </option>\n\n      <option value=\"atom-one-dark\"\n        \n      >\n        Atom One Dark\n      </option>\n\n      <option value=\"black\"\n        \n      >\n        Black\n      </option>\n\n      <option value=\"zenburn\"\n        \n      >\n        Zenburn\n      </option>\n\n      <option value=\"gruvbox-light\"\n        \n      >\n        Gruvbox Light\n      </option>\n\n      <option value=\"gruvbox-dark\"\n        \n      >\n        Gruvbox Dark\n      </option>\n\n      <option value=\"love-dark\"\n        \n      >\n        Love Dark\n      </option>\n\n      <option value=\"love-light\"\n        \n      >\n        Love Light\n      </option>\n\n      <option value=\"nord-dark\"\n        \n      >\n        Nord Dark\n      </option>\n\n      <option value=\"nord-light\"\n        \n      >\n        Nord Light\n      </option>\n    </select>\n  </div>\n\n  <ul class=\"site-footer-links\">\n    <li class=\"site-footer-link\"><a href=\"https://docs.tildes.net\">Docs</a></li>\n    <li class=\"site-footer-link\"><a href=\"https://blog.tildes.net\">Blog</a></li>\n    <li class=\"site-footer-link\"><a href=\"https://docs.tildes.net/contact\">Contact</a></li>\n    <li class=\"site-footer-link\"><a href=\"https://gitlab.com/tildes/tildes\">Source code</a></li>\n    <li class=\"site-footer-link\"><a href=\"https://gitlab.com/tildes/tildes/issues?label_name%5B%5D=Feature+Request&amp;label_name%5B%5D=Stage%3A%3AAccepted&amp;scope=all&amp;sort=priority&amp;state=opened\">Planned features</a> / <a href=\"https://gitlab.com/tildes/tildes/issues\">All issues</a></li>\n    <li class=\"site-footer-link\"><a href=\"https://docs.tildes.net/policies/privacy-policy\">Privacy policy</a></li>\n    <li class=\"site-footer-link\"><a href=\"https://docs.tildes.net/policies/terms-of-use\">Terms of use</a></li>\n  </ul>\n</footer>\n\n<script type=\"text/javascript\" src=\"/js/third_party.js?03b43099\"></script>\n\n<script type=\"text/javascript\" src=\"/js/tildes.js?65c561e6\"></script>\n\n</body>\n</html>",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}
