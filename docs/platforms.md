@@ -210,8 +210,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 
 The split was measured once, so re-probe before writing a spec.
 
-- [ ] Zeerk — 🧪 — `zeerk.com/%s` (probe 2026-11-24: 200 taken / 404 free)
-
 - [ ] ddns.net — 🧪 — `%s.ddns.net` (DNS probe 2026-11-24: `google.ddns.net` resolves, `zzqxnvc.ddns.net` is NXDOMAIN; registration needs an account, the check does not)
 - [ ] ddnsgeek.com — 🧪 — `%s.ddnsgeek.com` (DNS probe 2026-11-24: `google.ddnsgeek.com` resolves, `zzqxnvc.ddnsgeek.com` is NXDOMAIN; registration needs an account, the check does not)
 - [ ] hopto.org — 🧪 — `%s.hopto.org` (DNS probe 2026-11-24: `google.hopto.org` resolves, `zzqxnvc.hopto.org` is NXDOMAIN; registration needs an account, the check does not)
@@ -276,6 +274,7 @@ portable:
 - [ ] Vidyard — 🔌 — ruled out: `vidyard.com/{name}` is the WordPress marketing site, and `google` only 301s to an uploaded media file (`/wp-content/uploads/google.svg`, 200 `image/svg+xml`) while an arbitrary label 301s to `www.vidyard.com/{name}`, which 404s — the split is a static-asset artifact, and public Vidyard pages are addressed by opaque ids, not a claimable handle
 - [ ] webhook.site — 🔌 — ruled out: `webhook.site/{name}` is a per-request webhook token, not a vanity namespace. `webhook.site/google` 200s with a 145-byte default response ("This URL has no default content configured. View in Webhook.site", pointing at token `ded31719-…`) while a missing token 404s ("The URL was deleted, or expired automatically") — a 200 only records that a live capture URL currently exists at that path, and free URLs expire after a week, so taken/free is not a stable identity claim
 - [ ] Workana — 🔌 — ruled out: `workana.com/freelancer/{name}` is a display-name lookup, not the profile key — `google` 302s twice to `www.workana.com/freelancer/8ccdac2706be99d451443c62eb99619d`, an opaque id, while an unclaimed name 404s. The verdict would hinge on the redirect target, and the label itself is neither unique nor claimable
+- [ ] Zeerk — 🔌 — ruled out: `zeerk.com/{name}` is a keyword search, not a username namespace — `google` 301s to a matching gig page (`/job/lead-generation/google-ads-adwords-ppc-campaign-setup-from-scratch-for-more-leads-sales/`, whose title is about Google Ads), while `microsoft`, `acme` and a fake label 404. A 200 means some service listing matched the query, not that anyone holds the label
 - [ ] Home Assistant Integrations — 🔌 — ruled out: `home-assistant.io/integrations/{name}` is the documentation page for a component id that already exists in Home Assistant's source tree (`/integrations/hue/`), not a label anyone claims; a 200 only means the integration ships, so there is nothing to register and the 200/404 split is a docs index
 - [ ] Crunchbase — 🕸
 - [ ] US state business registries — 🕸
