@@ -2220,6 +2220,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "libib",
+      "platform": "libib",
+      "platformName": "Libib",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://libib.com/u/google",
+      "urlTemplate": "https://libib.com/u/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

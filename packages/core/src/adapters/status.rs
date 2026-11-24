@@ -267,6 +267,12 @@ static SPECS: &[StatusSpec] = &[
         DEFAULT_CODES,
         HTML_ACCEPT,
     ),
+    spec_with(
+        "libib",
+        "https://libib.com/u/%s",
+        DEFAULT_CODES,
+        HTML_ACCEPT,
+    ),
 ];
 
 /// StatusProvider checks a source by requesting one URL and mapping its status.

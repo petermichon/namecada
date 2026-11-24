@@ -130,6 +130,7 @@ verdict.
 | Kick | `kick.com/{name}` (channel)                                     | 200 taken / 404 free      |
 | Komoot | `komoot.com/user/{name}` (profile)                            | 200 taken / 404 free      |
 | Kongregate | `kongregate.com/accounts/{name}` (profile)                  | 200 taken / 404 free      |
+| Libib | `libib.com/u/{name}` (profile)                                   | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.

@@ -1,0 +1,48 @@
+{
+  "source": "libib",
+  "platform": "libib",
+  "platformName": "Libib",
+  "label": "google",
+  "name": "google",
+  "url": "https://libib.com/u/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 1936,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://libib.com/u/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 301,
+        "headers": {
+          "content-type": "text/html; charset=iso-8859-1",
+          "location": "https://www.libib.com/u/google"
+        },
+        "body": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n<html><head>\n<title>301 Moved Permanently</title>\n</head><body>\n<h1>Moved Permanently</h1>\n<p>The document has moved <a href=\"https://www.libib.com/u/google\">here</a>.</p>\n</body></html>\n",
+        "bodyEncoding": "utf8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://www.libib.com/u/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=UTF-8"
+        },
+        "body": "<!doctype html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"utf-8\">\n    <title>Libib | google</title>\n    <meta name=\"apple-mobile-web-app-title\" content=\"Libib | google\">\n    <meta name=\"robots\" content=\"noindex, nofollow\" />\n\n    <!-- OPEN GRAPH TAGS -->\n    <meta property=\"og:title\" content=\"Libib | google\" />\n    <meta property=\"og:type\" content=\"website\" />\n        <meta property=\"og:url\" content=\"https://www.libib.com/u/google\" />\n    \n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\n    <meta name=\"google\" content=\"notranslate\" />\n    <link rel=\"shortcut icon\" href=\"/img/favicon.png\" />\n    <link rel=\"icon\" type=\"image/vnd.microsoft.icon\" href=\"/img/favicon.png\">\n    <link rel=\"icon\" type=\"image/x-icon\" href=\"/img/favicon.png\">\n    <link rel=\"icon\" href=\"/img/favicon.png\" />\n    <link rel=\"apple-touch-icon\" href=\"/img/libib-published-webapp-icon.png\"/>\n\n    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js\"></script>\n    <script defer data-domain=\"libib.com\" src=\"https://d2owygzutcldbs.cloudfront.net/js/script.js\"></script>\n\n    <!-- CSS VARS -->\n    <style>\n      :root {\n        --primary-color: #4BC1D2;\n      }\n    </style>\n\n    <link href=\"/css/fonts.css?v=67\" rel=\"preload stylesheet\" as=\"style\">\n\n    <!-- Foundation -->\n    <link rel=\"stylesheet\" href=\"/css/foundation.css?v=67\">\n    <link rel=\"stylesheet\" href=\"/css/notification.css?v=67\">\n    <link rel=\"stylesheet\" href=\"/css/public/style.css?v=67\">\n    <link rel=\"stylesheet\" href=\"/css/library/style.css?v=67\">\n    <link rel=\"stylesheet\" href=\"/css/u/style.css?v=67\">\n    <link rel=\"stylesheet\" href=\"/css/chosen.min.css?v=67\">\n\n</head>\n\n<!-- u-light & u-dark classes for user hex selection that are very light or very dark -->\n<body class=\"u-tpl  \">\n\n    <!-- grid-frame -->\n    <div class=\"grid-x grid-padding-x small-padding-collapse\">\n              <div class=\"cell small-12 text-center padding-30\">\n          <h2>\n            This account has not shared any collections.          </h2>\n        </div>\n          </div>\n    <!-- end grid-frame -->\n\n    <input type=\"hidden\" value=\"Patron Login\" id=\"patron-login-text\">\n    <input type=\"hidden\" value=\"Login\" id=\"login-button-text\">\n    <input type=\"hidden\" value=\"Need Password?\" id=\"forgot-password-text\">\n    <input type=\"hidden\" value=\"/u/google\" id=\"url\">\n    <input type=\"hidden\" value=\"www.libib.com/u/google\" id=\"full-url\">\n    <input type=\"hidden\" value=\"Select your copy\" id=\"copy-select\">\n    <input type=\"hidden\" value=\"Select\" id=\"copy-select-button\">\n\n    <!-- LOAD SCRIPTS -->\n    <script src=\"/js/what-input.js?v=67\"></script>\n    <script src=\"/js/foundation.min.js?v=67\"></script>\n    <script src=\"/js/notification.js?v=67\"></script>\n    <script src=\"/js/postform.js?v=67\"></script>\n    <script src=\"/js/u/script.js?v=67\"></script>\n    <script src=\"/js/u/search.js?v=67\"></script>\n    <script src=\"/js/u/filter.js?v=67\"></script>\n    <script src=\"/js/chosen.jquery.min.js?v=67\"></script>\n    <script src=\"/js/u/basket.js?v=67\"></script>\n  </body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "source": "libib",
+  "platform": "libib",
+  "platformName": "Libib",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://libib.com/u/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 867,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://libib.com/u/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 301,
+        "headers": {
+          "content-type": "text/html; charset=iso-8859-1",
+          "location": "https://www.libib.com/u/acema"
+        },
+        "body": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n<html><head>\n<title>301 Moved Permanently</title>\n</head><body>\n<h1>Moved Permanently</h1>\n<p>The document has moved <a href=\"https://www.libib.com/u/acema\">here</a>.</p>\n</body></html>\n",
+        "bodyEncoding": "utf8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://www.libib.com/u/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=UTF-8"
+        },
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n<title>Libib | Not Found</title>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\n<link rel=\"icon\" type=\"image/png\" href=\"/img/favicon.png\" />\n\n<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js\"></script>\n\n<link href=\"/css/fonts.css?v=67\" rel=\"preload stylesheet\" as=\"style\">\n\n<!-- Foundation -->\n<link rel=\"stylesheet\" href=\"/css/foundation.css\">\n<link rel=\"stylesheet\" href=\"/css/public/style.css\">\n</head>\n\n<body class=\"four-o-four find_page\">\n\t<div class=\"navbar-spacer\"></div>\n\t<div id=\"navbar\">\n\t<div class=\"grid-container\">\n\t\t<div class=\"grid-x\">\n\t\t<div class=\"cell small-4 medium-4 large-2\"><a id=\"logo\" class=\"text-left\" href=\"/\">libib</a></div>\n\t\t<div class=\"cell small-8 medium-8 large-10\">\n\t\t\t<a href=\"#\" id=\"mobile-menu\" class=\"hide-for-large hide-text\">Menu</a>\n\t\t\t<ul class=\"menu align-right\">\n\t\t\t<li><a href=\"/pricing\" class=\"nav-item\">Pricing</a></li>\n\t\t\t<li><a href=\"https://support.libib.com\" target=\"_blank\" class=\"nav-item\">Support</a></li>\n\t\t\t<li><a href=\"/contact\" class=\"nav-item\">Contact Us</a></li>\n\t\t\t<li>\n\t\t\t\t\t\t\t\t<a href=\"/login\" class=\"nav-item button dark big-br margin-left\">Login</a>\n\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t<li>\n\t\t\t\t<a href=\"/register\" class=\"nav-item button dark big-br margin-left-large\">Get Started</a>\n\t\t\t</li>\n\t\t\t\t\t\t</ul>\n\t\t</div>\n\t\t</div>\n\t</div>\n\t</div>\n\n\t<div class=\"four-o-four-image\">\n\t\t<img src=\"/img/404/find_page.svg\" />\n\t</div>\n\n    <script src=\"/js/foundation.min.js\"></script>\n    <script src=\"/js/public/script.js\"></script>\n</body>\n\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}
