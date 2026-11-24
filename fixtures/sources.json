@@ -2415,6 +2415,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "pixelfed",
+      "platform": "pixelfed",
+      "platformName": "Pixelfed",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://pixelfed.social/google",
+      "urlTemplate": "https://pixelfed.social/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
