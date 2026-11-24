@@ -30,6 +30,73 @@ jobs:
             apps/desktop/src-tauri -> target
 
       - run: npm ci
-      # verify:ci skips the desktop clippy pass, which needs WebKitGTK.
+      # verify:ci skips the desktop clippy pass, which needs WebKitGTK. That
+      # pass lives in the `desktop` job below, so the two jobs together cover
+      # everything `npm run verify` does locally.
       - run: npm run verify:ci
       - run: npm run build
+
+  # The desktop shell is its own Cargo workspace and is where a release-only
+  # build break would otherwise hide: nothing else compiles it until a tag.
+  desktop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: apps/desktop/src-tauri -> target
+
+      # Tauri's Linux prerequisites; the shell links GTK and WebKitGTK.
+      - name: Install the GTK and WebKit headers Tauri links against
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev \
+            librsvg2-dev libxdo-dev libssl-dev patchelf
+
+      - run: npm ci
+      # `generate_context!` embeds the built frontend, so dist/ has to exist
+      # before the shell compiles.
+      - run: npm run build
+
+      - run: cargo fmt --manifest-path apps/desktop/src-tauri/Cargo.toml -- --check
+      - run: cargo clippy --manifest-path apps/desktop/src-tauri/Cargo.toml --all-targets -- -D warnings
+
+  # Dependabot only opens the PRs; this is what fails when an advisory lands in
+  # a lockfile, and it runs on every push so a plain `npm update` cannot walk
+  # into one either. Both Cargo workspaces carry their own lockfile.
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      # Prebuilt binary; `cargo install cargo-audit` would dominate the job.
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-audit
+
+      - run: npm ci
+
+      - name: Rust advisories
+        run: |
+          cargo audit
+          cargo audit --file apps/desktop/src-tauri/Cargo.lock
+
+      # Shipped dependencies only: advisories in the dev server and lint stack
+      # are Dependabot's job, and gating on them would turn every tooling bump
+      # into a red build. Unmaintained-crate warnings do not fail the run.
+      - name: npm advisories
+        run: |
+          npm audit --omit=dev
+          npm --prefix apps/site audit --omit=dev

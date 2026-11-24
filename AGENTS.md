@@ -69,6 +69,14 @@ Run `npm run verify` (the canonical check) before finishing. The app calls
 a development/CLI harness; the packaged app is Tauri and calls `core` directly
 through the `CheckClient` seam.
 
+CI splits that into three jobs in `.github/workflows/ci.yml`: `verify`
+(`verify:ci`, which skips the desktop crate), `desktop` (fmt and clippy for
+`apps/desktop/src-tauri`, with the GTK/WebKitGTK headers installed) and `audit`
+(`cargo audit` over both lockfiles, `npm audit --omit=dev` for the root and the
+site). Dependabot owns the version bumps — `.github/dependabot.yml` covers both
+npm trees, both Cargo workspaces and the workflow actions — so do not hand-bump
+a dependency that a grouped PR already carries.
+
 ## Conventions
 
 - **Commits** — Conventional Commits: `type(scope): summary`. Scopes are `web`,
