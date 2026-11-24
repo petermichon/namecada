@@ -191,6 +191,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Wattpad — ✅ — `wattpad.com/user/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept; `wattpad.com` 301s to `www.wattpad.com`, followed)
 - [x] Wellfound — ✅ — `wellfound.com/company/{name}` (keyless company profile: 200 taken / 404 free; status-only, HTML Accept; separate namespace from the `/u/{name}` people route)
 - [x] Whatnot — ✅ — `whatnot.com/user/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept; `whatnot.com` 301s to `www.whatnot.com`, followed; `acema` is itself a claimed profile, so the free branch was proven with `zzqxnvc`)
+- [x] Whop — ✅ — `whop.com/{name}` (keyless community page: 200 taken / 404 free; status-only, HTML Accept; `whop.com/{name}` 308s to the trailing-slash form, followed)
 
 ## Candidates
 
@@ -209,7 +210,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 The split was measured once, so re-probe before writing a spec.
 
 - [ ] webhook.site — 🧪 — `webhook.site/%s` (probe 2026-11-24: 200 taken / 404 free; confirm the segment is a vanity label, not a request token)
-- [ ] Whop — 🧪 — `whop.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Workana — 🧪 — `workana.com/freelancer/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Write.as — 🧪 — `write.as/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Zeerk — 🧪 — `zeerk.com/%s` (probe 2026-11-24: 200 taken / 404 free)

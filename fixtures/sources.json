@@ -2675,6 +2675,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "whop",
+      "platform": "whop",
+      "platformName": "Whop",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://whop.com/google",
+      "urlTemplate": "https://whop.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
