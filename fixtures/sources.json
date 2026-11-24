@@ -2246,6 +2246,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "loops",
+      "platform": "loops",
+      "platformName": "Loops",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://loops.video/@google",
+      "urlTemplate": "https://loops.video/@%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

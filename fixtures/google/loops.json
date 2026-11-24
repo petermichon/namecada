@@ -1,0 +1,30 @@
+{
+  "source": "loops",
+  "platform": "loops",
+  "platformName": "Loops",
+  "label": "google",
+  "name": "google",
+  "url": "https://loops.video/@google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 136,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://loops.video/@google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\" />\n    <title>google (@google) | Loops.video</title>\n    <link rel=\"icon\" href=\"https://loops.video/favicon.ico\" sizes=\"32x32\">\n    <link rel=\"icon\" href=\"https://loops.video/favicon.svg\" type=\"image/svg+xml\">\n    <link rel=\"apple-touch-icon\" href=\"https://loops.video/apple-touch-icon.png\">\n    <meta name=\"app-version\" content=\"38a110bf599b212ecad70ce399b752b1\">\n    <link rel=\"preload\" href=\"https://loops.video/build/assets/boxicons-CeGEncwm.woff2\" as=\"font\" type=\"font/woff2\" crossorigin>\n    <meta property=\"profile:username\" content=\"google\" />\n    <link rel=\"preload\" fetchpriority=\"high\" as=\"image\" href=\"https://pxscdn.com/cache/avatars/default.jpg\" type=\"image/jpeg\">\n    <meta name=\"description\" content=\"0 videos · 0 followers · 0 likes\">\n    <meta property=\"og:title\" content=\"google (@google) | Loops.video\" />\n    <meta property=\"og:description\" content=\"0 videos · 0 followers · 0 likes\" />\n    <meta property=\"og:type\" content=\"profile\" />\n    <meta property=\"og:locale\" content=\"en_US\" />\n    <meta property=\"og:logo\" content=\"https://loops.video/nav-logo.png\" />\n    <meta property=\"og:url\" content=\"https://loops.video/@google\" />\n    <meta property=\"og:image\" content=\"https://pxscdn.com/cache/avatars/default.jpg\" />\n    <meta name=\"twitter:card\" content=\"summary\" />\n    <meta name=\"twitter:title\" content=\"google (@google) | Loops.video\" />\n    <meta name=\"twitter:description\" content=\"0 videos · 0 followers · 0 likes\" />\n    <meta name=\"twitter:image\" content=\"https://pxscdn.com/cache/avatars/default.jpg\" />\n\n    <link rel=\"preload\" as=\"style\" href=\"https://loops.video/build/assets/app-CPB8f6Hv.css\" /><link rel=\"preload\" as=\"style\" href=\"https://loops.video/build/assets/fonts-MRt9TmZ4.css\" /><link rel=\"preload\" as=\"style\" href=\"https://loops.video/build/assets/next-CEGoibn7.css\" /><link rel=\"modulepreload\" as=\"script\" href=\"https://loops.video/build/assets/app-DsEa2xnY.js\" /><link rel=\"modulepreload\" as=\"script\" href=\"https://loops.video/build/assets/vendor-core-CAO_nRob.js\" /><link rel=\"stylesheet\" href=\"https://loops.video/build/assets/app-CPB8f6Hv.css\" /><link rel=\"stylesheet\" href=\"https://loops.video/build/assets/fonts-MRt9TmZ4.css\" /><link rel=\"stylesheet\" href=\"https://loops.video/build/assets/next-CEGoibn7.css\" /><script type=\"module\" src=\"https://loops.video/build/assets/app-DsEa2xnY.js\"></script>    \n\n    <script type=\"text/javascript\">\n    window.appConfig = {\"app\":{\"name\":\"Loops.video\",\"url\":\"https:\\/\\/loops.video\",\"description\":\"The flagship Loops server, a new creative community for sharing videos and going viral.\"},\"branding\":{\"logo\":\"\",\"favicon\":\"\",\"customCSS\":\"\"},\"media\":{\"max_video_size\":40,\"max_video_duration\":180,\"allowed_video_formats\":[\"mp4\",\"mov\",\"m4v\"]},\"fyf\":true,\"registration\":true,\"registration_mode\":\"open\",\"federation\":true,\"pushNotifications\":false,\"starterKits\":true,\"atomFeeds\":true,\"app_version\":\"1.0.0-beta.15\",\"hasKlipy\":true};\n    window._navi = [];\n    window.appCaptcha = {\"enabled\":true,\"provider\":\"turnstile\",\"siteKey\":\"0x4AAAAAAAyXkOaGvV986IOc\"};\n    </script>\n</head>\n\n<body class=\"bg-white dark:bg-slate-950\">\n    <main id=\"app\">\n        <router-view></router-view>\n    </main>\n</body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}
