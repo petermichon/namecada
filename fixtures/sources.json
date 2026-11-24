@@ -2519,6 +2519,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "spotify",
+      "platform": "spotify",
+      "platformName": "Spotify",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://open.spotify.com/user/google",
+      "urlTemplate": "https://open.spotify.com/user/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

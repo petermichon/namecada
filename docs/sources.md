@@ -153,6 +153,7 @@ verdict.
 | RubyGems profiles | `rubygems.org/profiles/{name}` (profile)          | 200 taken / 404 free      |
 | Skool | `skool.com/{name}` (community)                                 | 200 taken / 404 free      |
 | Slashdot | `slashdot.org/~{name}` (user journal)                       | 200 taken / 404 free      |
+| Spotify | `open.spotify.com/user/{name}` (user profile)               | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.
