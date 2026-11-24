@@ -1,0 +1,30 @@
+{
+  "source": "gab",
+  "platform": "gab",
+  "platformName": "Gab",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://gab.com/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 153,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://gab.com/acema",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n<meta charset=\"utf-8\">\n<title>The page you are looking for isn't here. - Gab Social</title>\n<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n<meta name=\"robots\" content=\"noindex, nofollow\">\n</head>\n<body style=\"background-color: #f0f2f5;\">\n<div style=\"padding: 60px; max-width: 660px;\">\n<a href=\"/\" aria-label=\"Gab home\"><b style=\"font-size: 40px; color: #4361EE; text-decoration: none;\">gab</b></a>\n<div style=\"margin-top: 20px; margin-bottom: 35px; line-height: 2rem; font-family: system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;\">\n<h1>The page you are looking for isn't here.</h1>\n<h3>For support, please email <a style=\"color:#000;\" href=\"/cdn-cgi/l/email-protection#3c4f494c4c534e487c5b5d5e125f5351\"><span class=\"__cf_email__\" data-cfemail=\"8cfff9fcfce3fef8ccebedeea2efe3e1\">[email&#160;protected]</span></a></h3>\n</div>\n<a href=\"/home\" style=\"display:inline;margin-top:30px;width:150px;padding:10px 30px;text-decoration:none;cursor:pointer;font-family:system-ui, -apple-system, BlinkMacSystemFont, Roboto, Ubuntu;font-weight:600;border-radius:9999px;background-color:transparent;color:#4361EE;border:2px solid #4361EE;text-align:center;\">Go Home</a>\n<a href=\"/auth/sign_out\" style=\"display:inline;margin-top:30px;width:150px;padding:10px 30px;text-decoration:none;cursor:pointer;font-family:system-ui, -apple-system, BlinkMacSystemFont, Roboto, Ubuntu;font-weight:600;border-radius:9999px;background-color:transparent;color:#4361EE;border:2px solid #4361EE;text-align:center;\" rel=\"nofollow\">Log Out</a>\n</div>\n<script data-cfasync=\"false\" src=\"/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js\"></script><script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML=\"window.__CF$cv$params={r:'a5fb2c37a9a4c395',t:'MTc5NTU1MjIzOQ=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5fb2c37a9a4c395',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);\";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>\n</html>",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

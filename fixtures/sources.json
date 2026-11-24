@@ -2077,6 +2077,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "gab",
+      "platform": "gab",
+      "platformName": "Gab",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://gab.com/google",
+      "urlTemplate": "https://gab.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

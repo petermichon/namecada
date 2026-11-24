@@ -224,6 +224,7 @@ static SPECS: &[StatusSpec] = &[
         "experts-exchange",
         "https://experts-exchange.com/members/%s",
     ),
+    spec("gab", "https://gab.com/%s"),
 ];
 
 /// StatusProvider checks a source by requesting one URL and mapping its status.
