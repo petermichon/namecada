@@ -1934,6 +1934,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "gravatar",
+      "platform": "gravatar",
+      "platformName": "Gravatar",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://gravatar.com/google",
+      "urlTemplate": "https://gravatar.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

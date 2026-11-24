@@ -134,6 +134,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] About.me — ✅ — `about.me/{name}` (keyless profile: 200 taken / 404 free; status-only)
 - [x] Clubhouse — ✅ — `clubhouse.com/@{name}` (keyless profile: 200 taken / 404 free; `clubhouse.com` 301s to `www.clubhouse.com`, followed; status-only)
 - [x] Codewars — ✅ — `codewars.com/users/{name}` (keyless profile: 200 taken / 404 free; status-only, but the page needs an HTML Accept — a JSON Accept makes a free name answer 200)
+- [x] Gravatar — ✅ — `gravatar.com/{name}` (keyless profile: 200 taken / 404 free; status-only)
 
 ## Candidates
 
@@ -170,7 +171,6 @@ The split was measured once, so re-probe before writing a spec.
 - [ ] Gitee — 🧪 — `gitee.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] GOG — 🧪 — `gog.com/u/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Goodreads — 🧪 — `goodreads.com/%s` (probe 2026-11-24: 200 taken / 404 free)
-- [ ] Gravatar — 🧪 — `gravatar.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Home Assistant Integrations — 🧪 — `home-assistant.io/integrations/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] House-Mixes — 🧪 — `house-mixes.com/profile/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Hype Machine — 🧪 — `hypem.com/%s` (probe 2026-11-24: 200 taken / 404 free)
