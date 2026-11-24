@@ -378,6 +378,12 @@ static SPECS: &[StatusSpec] = &[
         DEFAULT_CODES,
         HTML_ACCEPT,
     ),
+    spec_with(
+        "rubygems-profiles",
+        "https://rubygems.org/profiles/%s",
+        DEFAULT_CODES,
+        HTML_ACCEPT,
+    ),
 ];
 
 /// StatusProvider checks a source by requesting one URL and mapping its status.

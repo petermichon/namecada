@@ -1,0 +1,30 @@
+{
+  "source": "rubygems-profiles",
+  "platform": "rubygems-profiles",
+  "platformName": "RubyGems profiles",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://rubygems.org/profiles/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 609,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://rubygems.org/profiles/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\" type=\"image/x-icon\">\n    <link href=\"/stylesheets/static.css\" rel='stylesheet' type='text/css'>\n    <title>Page not found | RubyGems.org</title>\n  </head>\n  <body>\n    <div class=\"wrapper\">\n      <div class=\"image__wrapper\">\n        <img class=\"error__illustration__bubble\" alt=\"Gem missing from treasure chest\" src=\"/images/cross.png\">\n        <img height=\"530\" alt=\"404 error\" src=\"/images/sea_floor.svg\">\n      </div>\n      <div class=\"content\">\n        <h1>Page not found.</h1>\n        <p>It will be mine. Oh yes. It will be mine.</p>\n        <a href=\"/\">Back to RubyGems.org →</a>\n      </div>\n    </div>\n  </body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

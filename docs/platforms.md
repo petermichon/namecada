@@ -176,6 +176,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Poshmark — ✅ — `poshmark.com/closet/{name}` (keyless closet: 200 taken / 404 free; status-only, HTML Accept; `acema` is itself a claimed closet, so the free branch was proven with `zzqxnvc`)
 - [x] Racket Packages — ✅ — `pkgs.racket-lang.org/package/{name}` (keyless package page: 200 taken / 404 free; status-only, HTML Accept)
 - [x] ReverbNation — ✅ — `reverbnation.com/{name}` (keyless artist profile: 200 taken / 404 free; status-only, HTML Accept; a claimed profile 301s to `legacy.reverbnation.com` and a free name to `www.reverbnation.com`, both followed)
+- [x] RubyGems profiles — ✅ — `rubygems.org/profiles/{name}` (keyless account profile: 200 taken / 404 free; status-only, HTML Accept; separate namespace from the gem check at `rubygems.org/gems/{name}`)
 
 ## Candidates
 
@@ -194,7 +195,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 The split was measured once, so re-probe before writing a spec.
 
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
-- [ ] RubyGems profiles — 🧪 — `rubygems.org/profiles/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Skool — 🧪 — `skool.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Slashdot — 🧪 — `slashdot.org/~%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Spotify — 🧪 — `open.spotify.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)

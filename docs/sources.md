@@ -150,6 +150,7 @@ verdict.
 | Poshmark | `poshmark.com/closet/{name}` (closet)                    | 200 taken / 404 free      |
 | Racket Packages | `pkgs.racket-lang.org/package/{name}` (package)    | 200 taken / 404 free      |
 | ReverbNation | `reverbnation.com/{name}` (artist profile)             | 200 taken / 404 free      |
+| RubyGems profiles | `rubygems.org/profiles/{name}` (profile)          | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.

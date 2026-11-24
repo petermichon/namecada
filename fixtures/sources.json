@@ -2480,6 +2480,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "rubygems-profiles",
+      "platform": "rubygems-profiles",
+      "platformName": "RubyGems profiles",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://rubygems.org/profiles/google",
+      "urlTemplate": "https://rubygems.org/profiles/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
