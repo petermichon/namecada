@@ -2051,6 +2051,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "drupal-org-modules",
+      "platform": "drupal-org-modules",
+      "platformName": "Drupal.org Projects",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://drupal.org/project/google",
+      "urlTemplate": "https://drupal.org/project/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

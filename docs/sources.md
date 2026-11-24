@@ -117,6 +117,7 @@ verdict.
 | Disqus | `disqus.com/by/{name}` (profile)                               | 200 taken / 404 free      |
 | Donorbox | `donorbox.org/{name}` (campaign)                             | 200 taken / 404 free      |
 | Douyu | `douyu.com/{name}` (streamer)                                 | 200 taken / 404 free      |
+| Drupal.org Projects | `drupal.org/project/{name}` (module or theme)       | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.
