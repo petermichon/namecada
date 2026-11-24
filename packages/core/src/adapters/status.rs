@@ -300,6 +300,12 @@ static SPECS: &[StatusSpec] = &[
     // A JSON Accept is answered 406 even for a claimed profile.
     spec_with("mixlr", "https://mixlr.com/%s", DEFAULT_CODES, HTML_ACCEPT),
     spec_with("moj", "https://mojapp.in/@%s", DEFAULT_CODES, HTML_ACCEPT),
+    spec_with(
+        "musicbrainz",
+        "https://musicbrainz.org/user/%s",
+        DEFAULT_CODES,
+        HTML_ACCEPT,
+    ),
 ];
 
 /// StatusProvider checks a source by requesting one URL and mapping its status.

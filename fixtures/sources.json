@@ -2311,6 +2311,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "musicbrainz",
+      "platform": "musicbrainz",
+      "platformName": "MusicBrainz",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://musicbrainz.org/user/google",
+      "urlTemplate": "https://musicbrainz.org/user/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

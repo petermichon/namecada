@@ -137,6 +137,7 @@ verdict.
 | Metacritic | `metacritic.com/user/{name}` (profile)                    | 200 taken / 404 free      |
 | Mixlr | `mixlr.com/{name}` (broadcaster)                             | 200 taken / 404 free |
 | Moj | `mojapp.in/@{name}` (profile)                                  | 200 taken / 404 free      |
+| MusicBrainz | `musicbrainz.org/user/{name}` (editor)                    | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.
