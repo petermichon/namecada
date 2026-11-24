@@ -140,6 +140,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] AngelList — ✅ — `angel.co/company/{name}` (keyless company page: 200 taken / 404 free; status-only, `angel.co` 301s to `wellfound.com` and the redirect is followed)
 - [x] Buttondown — ✅ — `buttondown.com/{name}` (keyless newsletter: 200 taken / 404 free; status-only)
 - [x] Built In — ✅ — `builtin.com/company/{name}` (keyless company page: 200 taken / 404 free; status-only)
+- [x] Disqus — ✅ — `disqus.com/by/{name}` (keyless profile: 200 taken / 404 free; status-only, `/by/{name}` 301s to the trailing-slash form, followed)
 
 ## Candidates
 
@@ -163,7 +164,6 @@ The split was measured once, so re-probe before writing a spec.
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
 - [ ] Chess.com Club — 🧪 — `chess.com/club/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] CSS Deck — 🧪 — `cssdeck.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)
-- [ ] Disqus — 🧪 — `disqus.com/by/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Donorbox — 🧪 — `donorbox.org/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Douyu — 🧪 — `douyu.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Drupal.org Modules — 🧪 — `drupal.org/project/%s` (probe 2026-11-24: 200 taken / 404 free)

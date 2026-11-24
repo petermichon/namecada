@@ -2012,6 +2012,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "disqus",
+      "platform": "disqus",
+      "platformName": "Disqus",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://disqus.com/by/google",
+      "urlTemplate": "https://disqus.com/by/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
