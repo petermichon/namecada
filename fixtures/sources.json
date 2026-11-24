@@ -1921,6 +1921,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "codewars",
+      "platform": "codewars",
+      "platformName": "Codewars",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://codewars.com/users/google",
+      "urlTemplate": "https://codewars.com/users/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

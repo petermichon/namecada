@@ -203,6 +203,12 @@ static SPECS: &[StatusSpec] = &[
     spec("9gag", "https://9gag.com/u/%s"),
     spec("about-me", "https://about.me/%s"),
     spec("clubhouse", "https://clubhouse.com/@%s"),
+    spec_with(
+        "codewars",
+        "https://codewars.com/users/%s",
+        DEFAULT_CODES,
+        HTML_ACCEPT,
+    ),
 ];
 
 /// StatusProvider checks a source by requesting one URL and mapping its status.

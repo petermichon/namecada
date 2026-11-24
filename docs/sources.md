@@ -107,6 +107,7 @@ verdict.
 | 9GAG      | `9gag.com/u/{name}` (profile)                                  | 200 taken / 404 free      |
 | About.me  | `about.me/{name}` (profile)                                    | 200 taken / 404 free      |
 | Clubhouse | `clubhouse.com/@{name}` (profile)                              | 200 taken / 404 free      |
+| Codewars  | `codewars.com/users/{name}` (profile, HTML Accept)             | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.
