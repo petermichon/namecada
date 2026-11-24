@@ -213,6 +213,7 @@ static SPECS: &[StatusSpec] = &[
     spec("launchpad", "https://launchpad.net/~%s"),
     spec("lichess-team", "https://lichess.org/team/%s"),
     spec("angellist", "https://angel.co/company/%s"),
+    spec("buttondown", "https://buttondown.com/%s"),
 ];
 
 /// StatusProvider checks a source by requesting one URL and mapping its status.

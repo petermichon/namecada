@@ -1,0 +1,30 @@
+{
+  "source": "buttondown",
+  "platform": "buttondown",
+  "platformName": "Buttondown",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://buttondown.com/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 250,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://buttondown.com/acema",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "\n<html lang=\"en\" class=\"supports-dark-mode\">\n    <head>\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n        \n        <link  rel=\"stylesheet\" href=\"https://static-assets.buttondown.com/miscellany-C0T-r6HD.css\" />\n<script type=\"module\" crossorigin=\"\" src=\"https://static-assets.buttondown.com/miscellany-CHQyVmeV.js\"></script>\n<link href=\"https://static-assets.buttondown.com/modulepreload-polyfill-ww9zjRdt.js\" type=\"text/javascript\" crossorigin=\"anonymous\" rel=\"modulepreload\" as=\"script\" />\n    </head>\n    <body>\n        \n    <div class=\"error-container\">\n        <img src=\"https://static-assets.buttondown.com/icons/icon.svg\"\n             alt=\"Buttondown logo\"\n             height=\"96\"\n             width=\"96\" />\n        <h2>Not found</h2>\n        <p>Looks like you discovered a page that doesn’t exist or you don’t have access to.</p>\n        <a href=\"/\" class=\"archive__button archive__button--primary\">Go back home</a>\n    </div>\n\n    </body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

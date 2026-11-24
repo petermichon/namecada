@@ -1986,6 +1986,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "buttondown",
+      "platform": "buttondown",
+      "platformName": "Buttondown",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://buttondown.com/google",
+      "urlTemplate": "https://buttondown.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
