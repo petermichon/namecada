@@ -1,0 +1,12 @@
+{
+  "source": "ddnsnet",
+  "platform": "ddnsnet",
+  "platformName": "ddns.net",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://acema.ddns.net/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 1,
+  "requests": []
+}

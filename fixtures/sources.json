@@ -2701,6 +2701,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "ddnsnet",
+      "platform": "ddnsnet",
+      "platformName": "ddns.net",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://google.ddns.net/",
+      "urlTemplate": "https://%s.ddns.net/",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

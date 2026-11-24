@@ -1,0 +1,12 @@
+{
+  "source": "ddnsnet",
+  "platform": "ddnsnet",
+  "platformName": "ddns.net",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.ddns.net/",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 1,
+  "requests": []
+}

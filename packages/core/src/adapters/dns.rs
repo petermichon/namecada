@@ -145,6 +145,7 @@ pub fn dns_hosts() -> &'static [(&'static str, &'static str)] {
         ("isagooddev", "is-a-good.dev"),
         ("pagesdev", "pages.dev"),
         ("fly", "fly.dev"),
+        ("ddnsnet", "ddns.net"),
     ]
 }
 
