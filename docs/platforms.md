@@ -167,6 +167,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Musixmatch — ✅ — `musixmatch.com/artist/{name}` (keyless artist page: 200 taken / 404 free; status-only, HTML Accept; `musixmatch.com` 301s to `www.musixmatch.com`, followed)
 - [x] MyDramaList — ✅ — `mydramalist.com/profile/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept)
 - [x] Naver Blog — ✅ — `blog.naver.com/{name}` (keyless blog: 200 taken / 404 free; status-only, HTML Accept; `acema` is itself a claimed blog, so the free branch was proven with `zzqxnvc`)
+- [x] NuGet profiles — ✅ — `nuget.org/profiles/{name}` (keyless profile: 200 taken / 404 free; status-only, HTML Accept; `nuget.org` 301s to `www.nuget.org`, followed; separate namespace from the package id check at `nuget.org/packages/{name}`)
 
 ## Candidates
 
@@ -185,7 +186,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 The split was measured once, so re-probe before writing a spec.
 
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
-- [ ] NuGet profiles — 🧪 — `nuget.org/profiles/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Open Library — 🧪 — `openlibrary.org/people/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Owler — 🧪 — `owler.com/company/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Pillowfort — 🧪 — `pillowfort.social/%s` (probe 2026-11-24: 200 taken / 404 free)
