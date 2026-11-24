@@ -18,6 +18,8 @@ below, written in the browser-direct era, must be re-checked before implementing
 - `🔌` — ruled out: there is no unique claimable label to probe — composite
   (`owner/name`), ephemeral or generated hosts, auto-assigned ids, display
   names, or a namespace another source already covers.
+- `🧪` — verified, not ported: the probe saw a taken/free split on that route,
+  so a spec can be written from it, but no provider ships it yet.
 
 The test is the **platform's namespace, not the fetch**: when the names are
 unique and claimable the entry belongs under 🔑/🕸 even if today's probe sees
@@ -130,6 +132,104 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Minds — ✅ — `minds.com/api/v1/channel/{name}` (keyless JSON: `{"status":"success","channel":…}` taken / `{"status":"error","type":"ChannelNotFoundException"}` free; the HTML profile route at `minds.com/{name}/` is flaky — it sometimes serves the SPA shell for a claimed channel — so the API is the signal; page `minds.com/{name}/`)
 
 ## Candidates
+
+### Verified signals, not ported
+
+Triaged 2026-11-24, in place of the `similar-sites.md` scout list (1,476 rows,
+never verified): 163 were keyed, 287 had no claimable route (search boxes,
+opaque ids), and 1,026 had a handle or subdomain shape. 173 of those already
+appear in this file or in the registry, leaving 853 to probe — 692 handle
+routes over HTTP and 161 subdomains over DNS. Of the handle routes 123 split on
+`google` against `zzqxnvc`; after dropping soft-404s, bot walls, redirect-only
+diffs and 13 routes that are another source's namespace, 77 are below. The
+remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
+243 that answer 404 for every label.
+
+The split was measured once, so re-probe before writing a spec.
+
+- [ ] 9GAG — 🧪 — `9gag.com/u/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] About.me — 🧪 — `about.me/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Amazon Author — 🧪 — `amazon.com/author/%s` (probe 2026-11-24: 200 taken / 404 free; the author page may be generated rather than claimed — confirm before porting)
+- [ ] Android Stack Exchange — 🧪 — `android.stackexchange.com/users/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] AngelList — 🧪 — `angel.co/company/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] AppSumo — 🧪 — `appsumo.com/products/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Built In — 🧪 — `builtin.com/company/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Buttondown — 🧪 — `buttondown.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
+- [ ] Chess.com Club — 🧪 — `chess.com/club/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Clubhouse — 🧪 — `clubhouse.com/@%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Codewars — 🧪 — `codewars.com/users/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] CSS Deck — 🧪 — `cssdeck.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Disqus — 🧪 — `disqus.com/by/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Donorbox — 🧪 — `donorbox.org/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Douyu — 🧪 — `douyu.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Drupal.org Modules — 🧪 — `drupal.org/project/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Experts Exchange — 🧪 — `experts-exchange.com/members/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Gab — 🧪 — `gab.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Gitea — 🧪 — `gitea.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Gitee — 🧪 — `gitee.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] GOG — 🧪 — `gog.com/u/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Goodreads — 🧪 — `goodreads.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Gravatar — 🧪 — `gravatar.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Home Assistant Integrations — 🧪 — `home-assistant.io/integrations/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] House-Mixes — 🧪 — `house-mixes.com/profile/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Hype Machine — 🧪 — `hypem.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Indie Hackers — 🧪 — `indiehackers.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Kick — 🧪 — `kick.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Komoot — 🧪 — `komoot.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Kongregate — 🧪 — `kongregate.com/accounts/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Launchpad — 🧪 — `launchpad.net/~%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Libib — 🧪 — `libib.com/u/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Lichess Team — 🧪 — `lichess.org/team/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] LinkedIn Company — 🧪 — `linkedin.com/company/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Loops — 🧪 — `loops.video/@%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] LyricsTranslate — 🧪 — `lyricstranslate.com/en/translator/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Metacritic — 🧪 — `metacritic.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Mixlr — 🧪 — `mixlr.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Moj — 🧪 — `mojapp.in/@%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Mojang — 🧪 — `api.mojang.com/users/profiles/minecraft/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] MusicBrainz — 🧪 — `musicbrainz.org/user/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Musixmatch — 🧪 — `musixmatch.com/artist/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] MyDramaList — 🧪 — `mydramalist.com/profile/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Naver Blog — 🧪 — `blog.naver.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] NuGet profiles — 🧪 — `nuget.org/profiles/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Open Library — 🧪 — `openlibrary.org/people/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Open Source Collective — 🧪 — `opencollective.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Owler — 🧪 — `owler.com/company/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Pillowfort — 🧪 — `pillowfort.social/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Pixelfed — 🧪 — `pixelfed.social/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] PlayCode — 🧪 — `playcode.io/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Poshmark — 🧪 — `poshmark.com/closet/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Racket Packages — 🧪 — `pkgs.racket-lang.org/package/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] ReverbNation — 🧪 — `reverbnation.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] RubyGems profiles — 🧪 — `rubygems.org/profiles/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Skool — 🧪 — `skool.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Slashdot — 🧪 — `slashdot.org/~%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Spotify — 🧪 — `open.spotify.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] stats.fm — 🧪 — `stats.fm/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Steemit — 🧪 — `steemit.com/@%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Streamlabs — 🧪 — `streamlabs.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] SuperRare — 🧪 — `superrare.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Tildes — 🧪 — `tildes.net/user/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Tipeee — 🧪 — `tipeee.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Uneed — 🧪 — `uneed.best/tool/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] V2EX — 🧪 — `v2ex.com/member/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Vidyard — 🧪 — `vidyard.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Visual Studio Marketplace — 🧪 — `marketplace.visualstudio.com/publishers/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Wattpad — 🧪 — `wattpad.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] webhook.site — 🧪 — `webhook.site/%s` (probe 2026-11-24: 200 taken / 404 free; confirm the segment is a vanity label, not a request token)
+- [ ] Wellfound — 🧪 — `wellfound.com/company/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Whatnot — 🧪 — `whatnot.com/user/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Whop — 🧪 — `whop.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Workana — 🧪 — `workana.com/freelancer/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Write.as — 🧪 — `write.as/%s` (probe 2026-11-24: 200 taken / 404 free)
+- [ ] Zeerk — 🧪 — `zeerk.com/%s` (probe 2026-11-24: 200 taken / 404 free)
+
+- [ ] ddns.net — 🧪 — `%s.ddns.net` (DNS probe 2026-11-24: `google.ddns.net` resolves, `zzqxnvc.ddns.net` is NXDOMAIN; registration needs an account, the check does not)
+- [ ] ddnsgeek.com — 🧪 — `%s.ddnsgeek.com` (DNS probe 2026-11-24: `google.ddnsgeek.com` resolves, `zzqxnvc.ddnsgeek.com` is NXDOMAIN; registration needs an account, the check does not)
+- [ ] hopto.org — 🧪 — `%s.hopto.org` (DNS probe 2026-11-24: `google.hopto.org` resolves, `zzqxnvc.hopto.org` is NXDOMAIN; registration needs an account, the check does not)
+- [ ] myftp.org — 🧪 — `%s.myftp.org` (DNS probe 2026-11-24: `google.myftp.org` resolves, `zzqxnvc.myftp.org` is NXDOMAIN; registration needs an account, the check does not)
+- [ ] zapto.org — 🧪 — `%s.zapto.org` (DNS probe 2026-11-24: `google.zapto.org` resolves, `zzqxnvc.zapto.org` is NXDOMAIN; registration needs an account, the check does not)
 
 - [ ] ccTLDs / new gTLDs — 🔌 — ruled out: not a distinct source — the IANA RDAP bootstrap only covers some TLDs, and any TLD it lists is already checked by the Domains provider
 - [ ] Unstoppable Domains — 🔑 — deferred: the resolver API is keyed (401 unauthenticated)

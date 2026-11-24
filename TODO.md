@@ -6,10 +6,7 @@ engine, adapters, sources, releases and the site work is in `README.md` and
 
 ## Open
 
-- Triage `docs/similar-sites.md` — 1,476 candidates, unreferenced and never
-  verified. Triage by namespace first (a bare handle beats `{id}`, address and
-  store routes), then `npm run probe` the survivors for a 200/404 split; promote
-  the clean ones into `docs/platforms.md` and decide then whether the raw file
-  survives. *(parked)*
-- Second Fastlane screenshot — only when filing with IzzyOnDroid or F-Droid, and
-  the phone is plugged in.
+- Port the verified sources: `docs/platforms.md` lists 77 routes marked `🧪`
+  plus five dynamic-DNS hosts (probed 2026-11-24, the taken/free split holds,
+  no provider yet). Re-probe, then add each as a spec row, a fixture and docs —
+  one commit per source.
