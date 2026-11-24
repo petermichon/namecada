@@ -2272,6 +2272,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "metacritic",
+      "platform": "metacritic",
+      "platformName": "Metacritic",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://metacritic.com/user/google",
+      "urlTemplate": "https://metacritic.com/user/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

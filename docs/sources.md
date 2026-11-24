@@ -134,6 +134,7 @@ verdict.
 | LinkedIn Company | `linkedin.com/company/{name}` (company)                 | 200 taken / 404 free      |
 | Loops | `loops.video/@{name}` (profile)                                | 200 taken / 404 free      |
 | LyricsTranslate | `lyricstranslate.com/en/translator/{name}` (translator) | 200 taken / 404 free      |
+| Metacritic | `metacritic.com/user/{name}` (profile)                    | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.
