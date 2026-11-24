@@ -59,10 +59,10 @@
 		"apps/desktop/src-tauri/**/*.rs": "rustfmt --edition 2021"
 	},
 	"devDependencies": {
-		"@tauri-apps/cli": "2.12.5",
-		"concurrently": "^10.0.6",
+		"@tauri-apps/cli": "2.12.6",
+		"concurrently": "^10.0.7",
 		"husky": "^9.1.7",
-		"lint-staged": "^17.6.0"
+		"lint-staged": "^17.6.1"
 	},
 	"license": "MIT OR Apache-2.0"
 }
