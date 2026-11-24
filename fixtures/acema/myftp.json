@@ -1,0 +1,12 @@
+{
+  "source": "myftp",
+  "platform": "myftp",
+  "platformName": "myftp.org",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://acema.myftp.org/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 16,
+  "requests": []
+}

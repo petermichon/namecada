@@ -2740,6 +2740,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "myftp",
+      "platform": "myftp",
+      "platformName": "myftp.org",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://google.myftp.org/",
+      "urlTemplate": "https://%s.myftp.org/",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

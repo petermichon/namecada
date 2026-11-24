@@ -1,0 +1,12 @@
+{
+  "source": "myftp",
+  "platform": "myftp",
+  "platformName": "myftp.org",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.myftp.org/",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 23,
+  "requests": []
+}
