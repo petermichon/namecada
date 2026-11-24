@@ -182,6 +182,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Spotify — ✅ — `open.spotify.com/user/{name}` (keyless listener profile: 200 taken / 404 free; status-only, HTML Accept; the web player serves a login shell for a claimed profile, but a missing user is a genuine 404; `acema` is itself a claimed profile, so the free branch was proven with `zzqxnvc`)
 - [x] stats.fm — ✅ — `stats.fm/{name}` (keyless listening profile: 200 taken / 404 free; status-only, HTML Accept; a profile's display name can differ from its username, so the page title is not the label; `acema` is itself a claimed profile, so the free branch was proven with `zzqxnvc`)
 - [x] Steemit — ✅ — `steemit.com/@{name}` (keyless blog: 200 taken / 404 free; status-only, HTML Accept)
+- [x] Streamlabs — ✅ — `streamlabs.com/{name}` (keyless tip page: 200 taken / 404 free; status-only, HTML Accept; a claimed name 302s to `streamlabs.com/{name}/tip`, followed; `acema` is itself a claimed page, so the free branch was proven with `zzqxnvc`)
 
 ## Candidates
 
@@ -200,7 +201,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 The split was measured once, so re-probe before writing a spec.
 
 - [ ] Canva — 🧪 — `canva.com/%s` (probe 2026-11-24: 403 taken / 404 free)
-- [ ] Streamlabs — 🧪 — `streamlabs.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] SuperRare — 🧪 — `superrare.com/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Tildes — 🧪 — `tildes.net/user/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Tipeee — 🧪 — `tipeee.com/%s` (probe 2026-11-24: 200 taken / 404 free)

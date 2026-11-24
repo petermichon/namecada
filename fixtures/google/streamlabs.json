@@ -1,0 +1,48 @@
+{
+  "source": "streamlabs",
+  "platform": "streamlabs",
+  "platformName": "Streamlabs",
+  "label": "google",
+  "name": "google",
+  "url": "https://streamlabs.com/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 277,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://streamlabs.com/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 302,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "location": "https://streamlabs.com/google/tip"
+        },
+        "body": "<!DOCTYPE html>\n<html>\n    <head>\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"refresh\" content=\"0;url='https://streamlabs.com/google/tip'\" />\n\n        <title>Redirecting to https://streamlabs.com/google/tip</title>\n    </head>\n    <body>\n        Redirecting to <a href=\"https://streamlabs.com/google/tip\">https://streamlabs.com/google/tip</a>.\n    </body>\n</html>",
+        "bodyEncoding": "utf8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://streamlabs.com/google/tip",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!DOCTYPE html>\n<html lang=\"en\">\n\n\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0\" />\n    <meta name=\"description\" content=\"google&#039;s official website powered by Streamlabs\">\n    <meta name=\"keywords\" content=\"google, Twitch, Tip, Donation, Livestream, Official\">\n            <meta name=\"sl-token\" content=\"true\">\n    \n            <link rel=\"icon\" type=\"image/png\" href=\"https://yt3.ggpht.com/-4rsUOVV5QAA/AAAAAAAAAAI/AAAAAAAAAAA/2i2YnPuhL6w/s88-c-k-no-mo-rj-c0xffffff/photo.jpg\">\n        <meta property=\"og:image\" content=\"https://yt3.ggpht.com/-4rsUOVV5QAA/AAAAAAAAAAI/AAAAAAAAAAA/2i2YnPuhL6w/s88-c-k-no-mo-rj-c0xffffff/photo.jpg\">\n    \n            <meta property=\"og:description\" content=\"google&#039;s official website powered by Streamlabs\">\n        <meta name=\"twitter:description\" content=\"google&#039;s official website powered by Streamlabs\">\n    \n            <title>google / Streamlabs</title>\n        <meta name=\"twitter:title\" content=\"google / Streamlabs\">\n        <meta property=\"og:title\" content=\"google / Streamlabs\">\n    \n            <meta property=\"og:url\" content=\"https://www.streamlabs.com/google/home\">\n    \n    <meta name=\"twitter:card\" content=\"summary_large_image\">\n\n    <!-- OneTrust Cookies Consent Notice start for streamlabs.com -->\n\n<script src=\"https://cdn.cookielaw.org/consent/7665fa03-a0ea-4c87-a34f-c8d13d663b42/otSDKStub.js\"  type=\"text/javascript\" charset=\"UTF-8\" data-domain-script=\"7665fa03-a0ea-4c87-a34f-c8d13d663b42\" ></script>\n<script type=\"text/javascript\">\nfunction OptanonWrapper() { }\n</script>\n<!-- OneTrust Cookies Consent Notice end for streamlabs.com -->\n  <script>\n      window.__BOOTSTRAP__ = {\n          username: \"google\",\n          csrf: \"RRi4fWCPhaPra22KkJmJ48llm9pY4nAHwKejZ4vJ\",\n      };\n        </script>\n\n\n</head>\n\n<body>\n\n            <body>\n    <div id=\"app\" class=\"main\"></div>\n    <script src=\"https://payments.openalerts.com/js/oapayment.js?v=1.2\"></script>\n\n            \n                                    <link rel=\"stylesheet\" href=\"https://sp.streamlabs.com/js/v3/asset.Bob8TXbq.css\">\n                            <script defer src=\"https://sp.streamlabs.com/js/v3/app.CrHCwTYn.js\"></script>\n    </body>\n    \n    <script src=\"https://kit.fontawesome.com/b10c6226ba.js\" async></script>\n\n<!-- fonts -->\n<link href=\"https://cdn.streamlabs.com/icons/style.css\" rel=\"stylesheet\" />\n\n<script src=\"https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js\"></script>\n\n<!-- css hover for button animations -->\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css\">\n\n<script>\n  WebFont.load({\n    google: {\n      families: ['Muli:900', 'Nunito:200,600', 'Roboto:400,500,700']\n    }\n  });\n</script>\n    <script async src=\"https://www.googletagmanager.com/gtag/js?id=UA-103165798-2\"></script>\n<script type=\"text/plain\" class=\"optanon-category-C0004\">\n    window.dataLayer = window.dataLayer || [];\n    function gtag(){dataLayer.push(arguments);}\n    gtag('js', new Date());\n    gtag('config', 'UA-103165798-2');\n</script>\n    <script async src=\"https://www.googletagmanager.com/gtag/js?id=G-BW2TDM1Z3W\"></script>\n<script>\n  window.dataLayer = window.dataLayer || [];\n  function gtag(){dataLayer.push(arguments);}\n  gtag('js', new Date());\n  gtag('config', 'G-BW2TDM1Z3W');\n</script>\n<script async src=\"https://www.googletagmanager.com/gtag/js?id=AW-710034596\"></script>\n<script>\n  window.dataLayer = window.dataLayer || [];\n  function gtag(){dataLayer.push(arguments);}\n  gtag('js', new Date());\n  gtag('config', 'AW-710034596');\n</script>\n<script async src=\"https://www.googletagmanager.com/gtag/js?id=G-4DEHTHR8TC\"></script>\n<script>\n  window.dataLayer = window.dataLayer || [];\n  function gtag(){dataLayer.push(arguments);}\n  gtag('js', new Date());\n\n  gtag('config', 'G-4DEHTHR8TC');\n</script>\n</body>\n\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

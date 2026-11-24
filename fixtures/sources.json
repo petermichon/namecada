@@ -2558,6 +2558,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "streamlabs",
+      "platform": "streamlabs",
+      "platformName": "Streamlabs",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://streamlabs.com/google",
+      "urlTemplate": "https://streamlabs.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
