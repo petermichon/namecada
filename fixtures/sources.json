@@ -2714,6 +2714,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "ddnsgeek",
+      "platform": "ddnsgeek",
+      "platformName": "ddnsgeek.com",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://google.ddnsgeek.com/",
+      "urlTemplate": "https://%s.ddnsgeek.com/",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

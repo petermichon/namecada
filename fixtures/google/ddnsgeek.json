@@ -1,0 +1,12 @@
+{
+  "source": "ddnsgeek",
+  "platform": "ddnsgeek",
+  "platformName": "ddnsgeek.com",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.ddnsgeek.com/",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 1,
+  "requests": []
+}

@@ -194,6 +194,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] Whop — ✅ — `whop.com/{name}` (keyless community page: 200 taken / 404 free; status-only, HTML Accept; `whop.com/{name}` 308s to the trailing-slash form, followed)
 - [x] Write.as — ✅ — `write.as/{name}` (keyless blog: 200 taken / 404 free; status-only, HTML Accept; a claimed blog 301s to the trailing-slash form, followed)
 - [x] ddns.net — ✅ — `{name}.ddns.net` (wildcard-free DNS: resolves taken / NXDOMAIN free; registering one needs a provider account, the check is keyless)
+- [x] ddnsgeek.com — ✅ — `{name}.ddnsgeek.com` (wildcard-free DNS: resolves taken / NXDOMAIN free; registering one needs a provider account, the check is keyless)
 
 ## Candidates
 
@@ -211,7 +212,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 
 The split was measured once, so re-probe before writing a spec.
 
-- [ ] ddnsgeek.com — 🧪 — `%s.ddnsgeek.com` (DNS probe 2026-11-24: `google.ddnsgeek.com` resolves, `zzqxnvc.ddnsgeek.com` is NXDOMAIN; registration needs an account, the check does not)
 - [ ] hopto.org — 🧪 — `%s.hopto.org` (DNS probe 2026-11-24: `google.hopto.org` resolves, `zzqxnvc.hopto.org` is NXDOMAIN; registration needs an account, the check does not)
 - [ ] myftp.org — 🧪 — `%s.myftp.org` (DNS probe 2026-11-24: `google.myftp.org` resolves, `zzqxnvc.myftp.org` is NXDOMAIN; registration needs an account, the check does not)
 - [ ] zapto.org — 🧪 — `%s.zapto.org` (DNS probe 2026-11-24: `google.zapto.org` resolves, `zzqxnvc.zapto.org` is NXDOMAIN; registration needs an account, the check does not)
