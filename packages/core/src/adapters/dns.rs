@@ -147,6 +147,7 @@ pub fn dns_hosts() -> &'static [(&'static str, &'static str)] {
         ("fly", "fly.dev"),
         ("ddnsnet", "ddns.net"),
         ("ddnsgeek", "ddnsgeek.com"),
+        ("hopto", "hopto.org"),
     ]
 }
 

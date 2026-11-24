@@ -2727,6 +2727,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "hopto",
+      "platform": "hopto",
+      "platformName": "hopto.org",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://google.hopto.org/",
+      "urlTemplate": "https://%s.hopto.org/",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

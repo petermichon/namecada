@@ -1,0 +1,12 @@
+{
+  "source": "hopto",
+  "platform": "hopto",
+  "platformName": "hopto.org",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.hopto.org/",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 16,
+  "requests": []
+}

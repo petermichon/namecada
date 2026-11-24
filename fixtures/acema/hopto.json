@@ -1,0 +1,12 @@
+{
+  "source": "hopto",
+  "platform": "hopto",
+  "platformName": "hopto.org",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://acema.hopto.org/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 14,
+  "requests": []
+}
