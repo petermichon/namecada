@@ -140,6 +140,7 @@ verdict.
 | MusicBrainz | `musicbrainz.org/user/{name}` (editor)                    | 200 taken / 404 free      |
 | Musixmatch | `musixmatch.com/artist/{name}` (artist)                    | 200 taken / 404 free      |
 | MyDramaList | `mydramalist.com/profile/{name}` (profile)                 | 200 taken / 404 free      |
+| Naver Blog | `blog.naver.com/{name}` (blog)                             | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.

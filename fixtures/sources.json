@@ -2350,6 +2350,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "naver-blog",
+      "platform": "naver-blog",
+      "platformName": "Naver Blog",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://blog.naver.com/google",
+      "urlTemplate": "https://blog.naver.com/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
