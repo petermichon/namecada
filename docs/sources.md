@@ -104,6 +104,7 @@ verdict.
 | is-a-good.dev | `{name}.is-a-good.dev` (DNS, no wildcard)                  | resolves taken / NXDOMAIN free |
 | Cloudflare Pages | `{name}.pages.dev` (DNS, no wildcard)                    | resolves taken / NXDOMAIN free |
 | Fly.io    | `{name}.fly.dev` (DNS, no wildcard)                            | resolves taken / NXDOMAIN free |
+| 9GAG      | `9gag.com/u/{name}` (profile)                                  | 200 taken / 404 free      |
 
 Credential-gated sources (Discogs, Companies House, OpenCorporates) are not
 currently included.

@@ -1882,6 +1882,19 @@
       "maxLength": 0,
       "keyed": false,
       "chars": "underscore"
+    },
+    {
+      "id": "9gag",
+      "platform": "9gag",
+      "platformName": "9GAG",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://9gag.com/u/google",
+      "urlTemplate": "https://9gag.com/u/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }

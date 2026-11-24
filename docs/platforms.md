@@ -130,6 +130,7 @@ nothing, and a source that answers the same for every name is out either way.
 - [x] PeerTube — ✅ — `framatube.org/api/v1/accounts/{name}` and `/api/v1/video-channels/{name}` (accounts and channels share one actor namespace; either 200 = taken, both 404 = free)
 - [x] Giphy — ✅ — `giphy.com/{name}` (keyless channel: 200 on the canonical `/{name}` taken / 301 to `/explore/{name}` free; status alone has no signal, so the redirect target or the `{Name} GIFs on GIPHY` title is the signal)
 - [x] Minds — ✅ — `minds.com/api/v1/channel/{name}` (keyless JSON: `{"status":"success","channel":…}` taken / `{"status":"error","type":"ChannelNotFoundException"}` free; the HTML profile route at `minds.com/{name}/` is flaky — it sometimes serves the SPA shell for a claimed channel — so the API is the signal; page `minds.com/{name}/`)
+- [x] 9GAG — ✅ — `9gag.com/u/{name}` (keyless profile: 200 taken / 404 free; status-only)
 
 ## Candidates
 
@@ -147,7 +148,6 @@ remainder had no signal: 155 shells, 102 challenges, 22 blocked, 34 dead and
 
 The split was measured once, so re-probe before writing a spec.
 
-- [ ] 9GAG — 🧪 — `9gag.com/u/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] About.me — 🧪 — `about.me/%s` (probe 2026-11-24: 200 taken / 404 free)
 - [ ] Amazon Author — 🧪 — `amazon.com/author/%s` (probe 2026-11-24: 200 taken / 404 free; the author page may be generated rather than claimed — confirm before porting)
 - [ ] Android Stack Exchange — 🧪 — `android.stackexchange.com/users/%s` (probe 2026-11-24: 200 taken / 404 free)
