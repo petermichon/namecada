@@ -2662,6 +2662,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "whatnot",
+      "platform": "whatnot",
+      "platformName": "Whatnot",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://whatnot.com/user/google",
+      "urlTemplate": "https://whatnot.com/user/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
