@@ -2532,6 +2532,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "stats-fm",
+      "platform": "stats-fm",
+      "platformName": "stats.fm",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://stats.fm/google",
+      "urlTemplate": "https://stats.fm/%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
