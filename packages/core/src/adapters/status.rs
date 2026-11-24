@@ -210,6 +210,7 @@ static SPECS: &[StatusSpec] = &[
         HTML_ACCEPT,
     ),
     spec("gravatar", "https://gravatar.com/%s"),
+    spec("launchpad", "https://launchpad.net/~%s"),
 ];
 
 /// StatusProvider checks a source by requesting one URL and mapping its status.

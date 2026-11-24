@@ -1947,6 +1947,19 @@
       "minLength": 0,
       "maxLength": 0,
       "keyed": false
+    },
+    {
+      "id": "launchpad",
+      "platform": "launchpad",
+      "platformName": "Launchpad",
+      "name": "google",
+      "nameTemplate": "%s",
+      "url": "https://launchpad.net/~google",
+      "urlTemplate": "https://launchpad.net/~%s",
+      "paid": false,
+      "minLength": 0,
+      "maxLength": 0,
+      "keyed": false
     }
   ]
 }
