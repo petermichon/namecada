@@ -5,7 +5,11 @@ import type { ProviderResult, Status } from './rows';
 // The manifest arrives before any provider runs, so every row renders at once.
 export const CHECK_ENDPOINT = '/v1/check';
 
-const STATUSES: Status[] = ['available', 'taken', 'unknown', 'invalid'];
+// pending means the engine ran out of scan budget before this source answered;
+// the client asks again instead of rendering a verdict.
+export type WireStatus = Status | 'pending';
+
+const STATUSES: WireStatus[] = ['available', 'taken', 'unknown', 'invalid', 'pending'];
 
 export interface ManifestSource {
 	id: string;
@@ -21,20 +25,39 @@ export interface ManifestEvent {
 	sources: ManifestSource[];
 }
 
-export interface ResultEvent extends ProviderResult {
+export interface ResultEvent extends Omit<ProviderResult, 'status'> {
 	type: 'result';
+	status: WireStatus;
 }
 
 export interface DoneEvent {
 	type: 'done';
 }
 
-export type CheckEvent = ManifestEvent | ResultEvent | DoneEvent;
+// pending closes one page of a scan that is still running; the client asks for
+// the next page from `cursor` instead of treating the rest as unknown.
+export interface PendingEvent {
+	type: 'pending';
+	scan: string;
+	cursor: number;
+}
+
+export type CheckEvent = ManifestEvent | ResultEvent | DoneEvent | PendingEvent;
+
+export interface StreamOptions {
+	scan?: string;
+	cursor?: number;
+}
 
 // CheckClient is the transport seam: the app shell (HTTP today, native IPC
 // later) provides the events; the UI and the lookup state do not care which.
 export interface CheckClient {
-	stream(label: string, onEvent: (event: CheckEvent) => void, signal?: AbortSignal): Promise<void>;
+	stream(
+		label: string,
+		onEvent: (event: CheckEvent) => void,
+		signal?: AbortSignal,
+		options?: StreamOptions
+	): Promise<void>;
 }
 
 export function isAbort(error: unknown): boolean {
@@ -63,7 +86,7 @@ function parseResult(row: Record<string, unknown>): ResultEvent | null {
 	const id = text(row.id);
 	const platform = text(row.platform);
 	if (!id || !text(row.name) || typeof row.url !== 'string') return null;
-	if (!STATUSES.includes(row.status as Status)) return null;
+	if (!STATUSES.includes(row.status as WireStatus)) return null;
 	return {
 		type: 'result',
 		id,
@@ -105,6 +128,11 @@ export function parseEvent(line: string): CheckEvent | null {
 			return parseResult(row);
 		case 'done':
 			return { type: 'done' };
+		case 'pending': {
+			const scan = text(row.scan);
+			if (!scan || typeof row.cursor !== 'number') return null;
+			return { type: 'pending', scan, cursor: row.cursor };
+		}
 		default:
 			return null;
 	}
@@ -158,9 +186,13 @@ async function consume(body: ReadableStream<Uint8Array>, onEvent: (e: CheckEvent
 export async function streamFromApi(
 	label: string,
 	onEvent: (event: CheckEvent) => void,
-	signal?: AbortSignal
+	signal?: AbortSignal,
+	options?: StreamOptions
 ): Promise<void> {
-	const res = await fetch(`${CHECK_ENDPOINT}?name=${encodeURIComponent(label)}`, {
+	const params = new URLSearchParams({ name: label });
+	if (options?.scan) params.set('scan', options.scan);
+	if (options?.cursor !== undefined) params.set('cursor', String(options.cursor));
+	const res = await fetch(`${CHECK_ENDPOINT}?${params}`, {
 		signal,
 		headers: { Accept: 'application/x-ndjson' },
 		referrerPolicy: 'no-referrer',
@@ -180,7 +212,7 @@ function inTauri(): boolean {
 }
 
 const tauriCheckClient: CheckClient = {
-	async stream(label, onEvent, signal) {
+	async stream(label, onEvent, signal, options) {
 		const { Channel, invoke } = await import('@tauri-apps/api/core');
 		if (signal?.aborted) return;
 
@@ -188,7 +220,12 @@ const tauriCheckClient: CheckClient = {
 		channel.onmessage = (event) => {
 			if (!signal?.aborted) onEvent(event);
 		};
-		await invoke('check', { label, onEvent: channel });
+		await invoke('check', {
+			label,
+			scan: options?.scan ?? null,
+			cursor: options?.cursor ?? 0,
+			onEvent: channel
+		});
 	}
 };
 

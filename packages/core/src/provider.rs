@@ -13,6 +13,8 @@ pub enum Status {
     Available,
     Taken,
     Unknown,
+    /// Not attempted before the scan deadline; the client should ask again.
+    Pending,
     /// The name cannot exist on this source: wrong alphabet or length.
     Invalid,
 }
@@ -23,6 +25,7 @@ impl Status {
             Status::Available => "available",
             Status::Taken => "taken",
             Status::Unknown => "unknown",
+            Status::Pending => "pending",
             Status::Invalid => "invalid",
         }
     }
@@ -32,6 +35,7 @@ impl Status {
             "available" => Some(Status::Available),
             "taken" => Some(Status::Taken),
             "unknown" => Some(Status::Unknown),
+            "pending" => Some(Status::Pending),
             "invalid" => Some(Status::Invalid),
             _ => None,
         }

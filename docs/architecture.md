@@ -9,9 +9,18 @@ as it resolves, so one slow or failing source never blocks the others. Nothing
 waits for the whole set.
 
 The app is a static client of one server process: `GET /v1/check?name=<label>`
-streams NDJSON events — a `manifest`, one `result` per source, then `done`. The
-manifest lists every source (checked, keyed or deferred) with its URL, so the
-page renders the full report before checks finish and fills rows in place.
+streams NDJSON events — a `manifest`, one `result` per source, then `done` or
+`pending`. The manifest lists every source (checked, keyed or deferred) with its
+URL, so the page renders the full report before checks finish and fills rows in
+place.
+
+A scan is a **resumable job**, not a request. The job runs the whole source list
+in the background and keeps every verdict it resolves; a request streams what
+the job already has for a few seconds, then closes with
+`{"type":"pending","scan":…,"cursor":…}` and the client asks for the next page.
+A 30-second scan budget therefore no longer decides what is knowable: sources the
+request did not reach stay `pending` and are collected on the following page.
+`unknown` is reserved for a source that answered and could not be interpreted.
 
 Development uses Vite with `/v1` proxied to `serve`. Vite is pinned to port
 5221 with `--strictPort`, so the desktop shell always attaches to this project's
@@ -45,8 +54,10 @@ The root Cargo workspace holds both:
 - `packages/core/src/registry.rs` — the compiled registry: live providers and stats.
 - `packages/core/src/engine.rs` — bounded-concurrency scan engine with its one-hour
   verdict cache; streams each result as it resolves. `DEFAULT_CONCURRENCY`
-  caps a scan at 16 checks in flight and `DEFAULT_DEADLINE` closes it at 30 s,
-  reporting anything unresolved as `unknown`.
+  caps a scan at 16 checks in flight and `DEFAULT_DEADLINE` closes one pass at
+  30 s, reporting anything unresolved as `pending`.
+- `packages/core/src/jobs.rs` — resumable `ScanJob`s: one scan per label that
+  outlives a response, plus the `Jobs` registry the transports keep.
 - `packages/core/src/http.rs` — production HTTP transport: a 10 s global bound with
   4 s connect and 5 s read bounds so a stalled host frees its worker. It connects
   over IPv4 first and retries with every address family when nothing connected,
@@ -90,9 +101,10 @@ response as current.
 ## Caching
 
 `serve` caches results per provider, keyed `provider:label` (e.g. `lemy:acema`),
-with a 1-hour TTL. Only definitive verdicts are cached — `unknown` is never
-stored, so transient rate-limit or network errors self-heal. A fresh entry is
-served without touching the network.
+with a 1-hour TTL. Only definitive verdicts are cached — `unknown` and `pending`
+are never stored, so transient rate-limit or network errors self-heal and a
+deadline cut is retried on the next page. A fresh entry is served without
+touching the network.
 
 This matters most for sources like GitHub and npm, which rate-limit
 unauthenticated requests (GitHub: 60/hour per IP).

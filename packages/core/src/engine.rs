@@ -267,14 +267,24 @@ impl Engine {
     }
 
     /// scan returns a receiver that emits each result as it resolves and closes
-    /// at the deadline, with any unresolved source reported unknown.
+    /// at the engine's deadline, with unresolved sources reported pending.
     pub fn scan(&self, label: &str) -> mpsc::Receiver<ProviderResult> {
+        self.scan_with_deadline(label, self.deadline)
+    }
+
+    /// scan_with_deadline is scan with an explicit budget. A resumable job
+    /// passes a much larger one: it is allowed to outlive any single response.
+    pub fn scan_with_deadline(
+        &self,
+        label: &str,
+        deadline: Duration,
+    ) -> mpsc::Receiver<ProviderResult> {
         let (tx, rx) = mpsc::channel();
         if self.providers.is_empty() {
             return rx;
         }
 
-        let expires = Instant::now() + self.deadline;
+        let expires = Instant::now() + deadline;
         let providers = self.providers.clone();
         let label = label.to_string();
         let cache = self.cache.clone();
@@ -352,7 +362,9 @@ impl Engine {
 
 /// pending_result describes a source that has not answered by the deadline.
 fn pending_result(provider: &dyn Provider, raw: &str) -> ProviderResult {
-    base_result(provider, raw, DEADLINE_DETAIL)
+    let mut result = base_result(provider, raw, DEADLINE_DETAIL);
+    result.status = Status::Pending;
+    result
 }
 
 fn base_result(provider: &dyn Provider, raw: &str, detail: &str) -> ProviderResult {
@@ -412,7 +424,10 @@ fn check_one(provider: &dyn Provider, raw: &str, cache: Option<&MemoryCache>) ->
     }
 
     if let Some(cache) = cache {
-        if result.status != Status::Unknown {
+        if matches!(
+            result.status,
+            Status::Available | Status::Taken | Status::Invalid
+        ) {
             cache.set(
                 provider.id(),
                 &label,
@@ -633,7 +648,7 @@ mod tests {
     }
 
     #[test]
-    fn deadline_reports_pending_sources_as_unknown() {
+    fn deadline_reports_pending_sources_as_pending() {
         let engine = Engine::new(vec![
             Arc::new(BoundedProvider {
                 calls: Arc::new(AtomicUsize::new(0)),
@@ -652,7 +667,7 @@ mod tests {
         assert_eq!(results[0].id, "bounded");
         assert_eq!(results[0].status, Status::Available);
         assert_eq!(results[1].id, "slow");
-        assert_eq!(results[1].status, Status::Unknown);
+        assert_eq!(results[1].status, Status::Pending);
         assert_eq!(results[1].detail, DEADLINE_DETAIL);
     }
 

@@ -1,5 +1,11 @@
 import { onMount } from 'svelte';
-import { appCheckClient, isAbort, type CheckClient, type CheckEvent } from './api';
+import {
+	appCheckClient,
+	isAbort,
+	type CheckClient,
+	type CheckEvent,
+	type StreamOptions
+} from './api';
 import { loadRecent, rememberLabel, clearRecent as clearStoredRecent } from './recent';
 import { toLabel, type CostFilter } from './rows';
 import {
@@ -16,6 +22,10 @@ import {
 	type Filter,
 	type Row
 } from './rows';
+
+// POLL_MS spaces continuation requests. The scan is a server-side job, so the
+// client is collecting pages, not waiting for work it could have done itself.
+const POLL_MS = 120;
 
 function queryParam(): string {
 	if (typeof location === 'undefined') return '';
@@ -51,6 +61,10 @@ export class Lookup {
 	// attempts counts the automatic retries for the current check, so a
 	// transient failure costs one silent rescan instead of a scary banner.
 	#attempts = 0;
+	// next is the page the server handed back: when set, the check is still
+	// running and the client asks for the remainder instead of settling.
+	#next: StreamOptions | null = null;
+	#timer: ReturnType<typeof setTimeout> | null = null;
 	#inFlight = 0;
 	#client: CheckClient;
 
@@ -60,6 +74,7 @@ export class Lookup {
 
 	// reset abandons any in-flight scan and clears the per-scan feedback.
 	#reset(): void {
+		this.#clearTimer();
 		this.#controller?.abort();
 		this.#controller = null;
 		this.#inFlight = 0;
@@ -97,6 +112,8 @@ export class Lookup {
 		this.recent = rememberLabel(label);
 
 		this.#attempts = 0;
+		this.#next = null;
+		this.#clearTimer();
 		this.#controller = new AbortController();
 		this.lastLabel = label;
 		this.loading = true;
@@ -106,7 +123,14 @@ export class Lookup {
 
 	// stream runs one scan. The generation guard stops a stale stream from
 	// writing rows once a newer check has started.
-	#stream(label: string, generation: number): void {
+	#clearTimer(): void {
+		if (this.#timer !== null) {
+			clearTimeout(this.#timer);
+			this.#timer = null;
+		}
+	}
+
+	#stream(label: string, generation: number, continuing = false, options?: StreamOptions): void {
 		const ac = this.#controller;
 		if (!ac) return;
 		let manifestReceived = false;
@@ -120,15 +144,20 @@ export class Lookup {
 				this.input.trim(),
 				(event) => {
 					if (generation !== this.#generation || ac.signal.aborted) return;
-					if (event.type === 'manifest') manifestReceived = true;
+					if (event.type === 'manifest') {
+						manifestReceived = true;
+						// A continuation re-sends the same manifest; keep the rows
+						// and the verdicts they already carry.
+						if (continuing) return;
+					}
 					this.#apply(event, label);
 				},
-				ac.signal
+				ac.signal,
+				options
 			)
 			.then(() => {
 				if (ac.signal.aborted || generation !== this.#generation) return;
-				// A clean EOF before every result still must not leave rows pending.
-				this.rows = settlePending(this.rows);
+				this.#finish(label, generation);
 			})
 			.catch((e) => {
 				if (isAbort(e)) return;
@@ -158,8 +187,27 @@ export class Lookup {
 			.finally(() => {
 				if (generation !== this.#generation) return;
 				this.#inFlight = Math.max(0, this.#inFlight - 1);
-				if (this.#inFlight === 0) this.loading = false;
+				// A scheduled continuation keeps the check loading across the
+				// gap between pages.
+				if (this.#inFlight === 0 && this.#timer === null) this.loading = false;
 			});
+	}
+
+	// finish closes one page. A pending page means the scan is still running
+	// server-side: collect the rest. Only a scan that has no page left settles,
+	// and only then can a row that never answered become unknown.
+	#finish(label: string, generation: number): void {
+		if (generation !== this.#generation) return;
+		const next = this.#next;
+		this.#next = null;
+		if (next) {
+			this.#timer = setTimeout(() => {
+				this.#timer = null;
+				this.#stream(label, generation, true, next);
+			}, POLL_MS);
+			return;
+		}
+		this.rows = settlePending(this.rows);
 	}
 
 	#apply(event: CheckEvent, label: string): void {
@@ -176,7 +224,11 @@ export class Lookup {
 			return;
 		}
 		if (event.type === 'done') {
-			this.rows = settlePending(this.rows);
+			// The page is complete; #finish runs once the stream closes.
+			return;
+		}
+		if (event.type === 'pending') {
+			this.#next = { scan: event.scan, cursor: event.cursor };
 			return;
 		}
 		const next: Row = {

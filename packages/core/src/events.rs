@@ -38,6 +38,28 @@ pub struct ResultEvent<'a> {
     pub result: &'a ProviderResult,
 }
 
+/// PendingEvent closes a response while the scan is still running: the caller
+/// re-requests the same scan from `cursor`. The scan itself is a job and keeps
+/// going whether or not anyone is listening.
+#[derive(Debug, Clone, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PendingEvent {
+    #[serde(rename = "type")]
+    pub kind: &'static str,
+    pub scan: String,
+    pub cursor: usize,
+}
+
+impl PendingEvent {
+    pub fn new(scan: impl Into<String>, cursor: usize) -> Self {
+        Self {
+            kind: "pending",
+            scan: scan.into(),
+            cursor,
+        }
+    }
+}
+
 #[derive(Debug, Clone, Serialize)]
 pub struct DoneEvent {
     #[serde(rename = "type")]

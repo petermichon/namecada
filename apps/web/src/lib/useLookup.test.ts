@@ -44,7 +44,12 @@ function manifest(
 	});
 }
 
-function result(id: string, platformName: string, status: Status, overrides = {}): string {
+function result(
+	id: string,
+	platformName: string,
+	status: Status | 'pending',
+	overrides = {}
+): string {
 	return JSON.stringify({
 		type: 'result',
 		id,
@@ -447,6 +452,41 @@ describe('check', () => {
 		expect(lookup.rows).toHaveLength(1);
 		expect(lookup.rows[0].status).toBe('available');
 		expect(lookup.counts.available).toBe(1);
+	});
+
+	it('collects later pages while the scan is still running', async () => {
+		const scans: Array<string | undefined> = [];
+		const client: CheckClient = {
+			async stream(label, onEvent, _signal, options) {
+				scans.push(options?.scan);
+				const events = options?.scan
+					? [result('pypi', 'PyPI', 'taken'), JSON.stringify({ type: 'done' })]
+					: [
+							manifest(
+								[
+									{ id: 'npm', platformName: 'npm', url: 'https://npmjs.com/' + label },
+									{ id: 'pypi', platformName: 'PyPI', url: 'https://pypi.org/' + label }
+								],
+								label
+							),
+							result('npm', 'npm', 'available'),
+							result('pypi', 'PyPI', 'pending'),
+							JSON.stringify({ type: 'pending', scan: 'job-1', cursor: 1 })
+						];
+				for (const line of events) {
+					const event = parseEvent(line);
+					if (event) onEvent(event);
+				}
+			}
+		};
+
+		const lookup = new Lookup(client);
+		lookup.input = 'acema';
+		lookup.check({ sync: false });
+		await vi.waitFor(() => expect(lookup.loading).toBe(false), { timeout: 2000 });
+
+		expect(scans).toEqual([undefined, 'job-1']);
+		expect(lookup.rows.map((r) => r.status)).toEqual(['available', 'taken']);
 	});
 
 	it('uses the label from the manifest for row names', async () => {

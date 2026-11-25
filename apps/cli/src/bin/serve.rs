@@ -1,12 +1,12 @@
 use std::collections::HashSet;
 use std::error::Error;
 use std::io::{self, Read, Write};
-use std::sync::{mpsc, Arc};
+use std::sync::Arc;
 use std::thread;
 
 use namecada_core::{
-    events, live_providers, DoneEvent, Engine, Manifest, ManifestEvent, MemoryCache,
-    ProviderResult, ResultEvent,
+    events, live_providers, DoneEvent, Engine, Jobs, Manifest, ManifestEvent, MemoryCache,
+    PendingEvent, ResultEvent, ScanJob,
 };
 use serde::Serialize;
 use serde_json::json;
@@ -38,6 +38,7 @@ fn run() -> Result<(), Box<dyn Error>> {
     );
     let manifest = Arc::new(manifest);
     let engine = Arc::new(Engine::new(providers).with_cache(Arc::new(MemoryCache::new())));
+    let jobs: Arc<Jobs> = Arc::new(Jobs::new());
     let server = Server::http(&addr)
         .map_err(|err| -> Box<dyn Error> { format!("listen on {addr}: {err}").into() })?;
     eprintln!("listening on http://{addr}");
@@ -46,12 +47,19 @@ fn run() -> Result<(), Box<dyn Error>> {
         let engine = Arc::clone(&engine);
         let manifest = Arc::clone(&manifest);
         let checked = Arc::clone(&checked);
-        thread::spawn(move || handle(request, &engine, &manifest, &checked));
+        let jobs = Arc::clone(&jobs);
+        thread::spawn(move || handle(request, &engine, &jobs, &manifest, &checked));
     }
     Ok(())
 }
 
-fn handle(request: Request, engine: &Engine, manifest: &Manifest, checked: &HashSet<String>) {
+fn handle(
+    request: Request,
+    engine: &Arc<Engine>,
+    jobs: &Jobs,
+    manifest: &Manifest,
+    checked: &HashSet<String>,
+) {
     if request.method() != &Method::Get {
         respond_error(request, 405, "method not allowed");
         return;
@@ -74,8 +82,19 @@ fn handle(request: Request, engine: &Engine, manifest: &Manifest, checked: &Hash
         return;
     }
 
-    let receiver = engine.scan(&label);
-    stream_ndjson(request, manifest, checked, &label, receiver);
+    // A request either starts a scan or collects the next page of one. The job
+    // itself is not tied to this connection: it keeps running after the
+    // response closes.
+    let scan = query_param(request.url(), "scan").filter(|value| !value.is_empty());
+    let cursor = query_param(request.url(), "cursor")
+        .and_then(|value| value.parse::<usize>().ok())
+        .unwrap_or(0);
+    jobs.reap();
+    let job = scan
+        .and_then(|id| jobs.get(&id))
+        .filter(|job| job.label() == label)
+        .unwrap_or_else(|| jobs.start(Arc::clone(engine), &label));
+    stream_ndjson(request, manifest, checked, &label, &job, cursor);
 }
 
 /// stream_ndjson writes the response itself instead of going through tiny_http's
@@ -88,7 +107,8 @@ fn stream_ndjson(
     manifest: &Manifest,
     checked: &HashSet<String>,
     label: &str,
-    receiver: mpsc::Receiver<ProviderResult>,
+    job: &ScanJob,
+    cursor: usize,
 ) {
     let mut writer = request.into_writer();
     let head = "HTTP/1.1 200 OK\r\n\
@@ -99,7 +119,7 @@ fn stream_ndjson(
     if writer.write_all(head.as_bytes()).is_err() {
         return;
     }
-    if let Err(err) = write_events(&mut writer, manifest, checked, label, receiver) {
+    if let Err(err) = write_events(&mut writer, manifest, checked, label, job, cursor) {
         eprintln!("response failed: {err}");
     }
 }
@@ -109,18 +129,38 @@ fn write_events<W: Write>(
     manifest: &Manifest,
     checked: &HashSet<String>,
     label: &str,
-    receiver: mpsc::Receiver<ProviderResult>,
+    job: &ScanJob,
+    cursor: usize,
 ) -> io::Result<()> {
     write_event(
         writer,
         &ManifestEvent::new(label, events::source_events(manifest, checked, label)),
     )?;
 
-    for result in receiver {
-        write_event(writer, &ResultEvent::new(&result))?;
+    // Stream what the job already has, then keep the connection open for a
+    // short budget so a small scan still finishes in one response. Once the
+    // budget is spent the response ends with a cursor and the client asks for
+    // the next page; the scan itself never stops.
+    let started = std::time::Instant::now();
+    let budget = std::time::Duration::from_secs(5);
+    let mut next = cursor;
+    loop {
+        let results = job.results_from(next);
+        for result in &results {
+            write_event(writer, &ResultEvent::new(result))?;
+        }
+        next += results.len();
+        if job.is_done() || started.elapsed() >= budget {
+            break;
+        }
+        std::thread::sleep(std::time::Duration::from_millis(25));
     }
 
-    write_event(writer, &DoneEvent::default())?;
+    if job.is_done() {
+        write_event(writer, &DoneEvent::default())?;
+    } else {
+        write_event(writer, &PendingEvent::new(job.id(), next))?;
+    }
     writer.write_all(b"0\r\n\r\n")?;
     writer.flush()
 }
@@ -183,7 +223,8 @@ fn header(name: &str, value: &str) -> Header {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use namecada_core::Status;
+    use namecada_core::provider::{HttpRequest, HttpResponse};
+    use namecada_core::{build_status_provider, Error as CoreError, Transport};
 
     fn manifest() -> Manifest {
         serde_json::from_value(serde_json::json!({
@@ -217,26 +258,31 @@ mod tests {
         assert_eq!(query_param("/v1/check", "name"), None);
     }
 
+    struct Ok200;
+
+    impl Transport for Ok200 {
+        fn execute(&self, _request: HttpRequest) -> Result<HttpResponse, CoreError> {
+            Ok(HttpResponse {
+                status: 200,
+                headers: Default::default(),
+                body: Vec::new(),
+            })
+        }
+    }
+
     #[test]
     fn stream_starts_with_the_manifest_and_ends_with_done() {
         let manifest = manifest();
         let checked: HashSet<String> = ["npm".to_string()].into_iter().collect();
-        let (tx, rx) = mpsc::channel();
-        tx.send(ProviderResult {
-            id: "npm".to_string(),
-            platform: "npm".to_string(),
-            platform_name: "npm".to_string(),
-            name: "acema".to_string(),
-            url: "https://www.npmjs.com/package/acema".to_string(),
-            status: Status::Available,
-            detail: String::new(),
-            paid: false,
-        })
-        .unwrap();
-        drop(tx);
+        let provider = build_status_provider(&manifest, "npm", Arc::new(Ok200)).unwrap();
+        let engine = Arc::new(Engine::new(vec![Arc::new(provider)]));
+        let job = ScanJob::start(engine, "acema".to_string());
+        while !job.is_done() {
+            thread::sleep(std::time::Duration::from_millis(5));
+        }
 
         let mut body = Vec::new();
-        write_events(&mut body, &manifest, &checked, "acema", rx).unwrap();
+        write_events(&mut body, &manifest, &checked, "acema", &job, 0).unwrap();
         let body = String::from_utf8(body).unwrap();
 
         assert!(body.contains("\"type\":\"manifest\""));
@@ -244,7 +290,7 @@ mod tests {
         assert!(body.contains("\"url\":\"https://example.com/acema/npm\""));
         assert!(body.contains("\"checked\":false"));
         assert!(body.contains("\"type\":\"result\""));
-        assert!(body.contains("\"status\":\"available\""));
+        assert!(body.contains("\"status\":\"taken\""));
         assert!(body.contains("\"type\":\"done\""));
         assert!(body.ends_with("0\r\n\r\n"));
     }

@@ -203,6 +203,8 @@ impl Resolver for FixtureResolver {
             Status::Available => Err(DnsError::NotFound),
             Status::Taken => Ok(vec!["192.0.2.1".to_string()]),
             Status::Unknown => Err(DnsError::Other("timeout".to_string())),
+            // A pending source never reaches the resolver: the deadline cut it.
+            Status::Pending => Err(DnsError::Other("pending".to_string())),
             // DNS providers have no alphabet rules, so no fixture is invalid.
             Status::Invalid => Err(DnsError::Other("invalid".to_string())),
         }
