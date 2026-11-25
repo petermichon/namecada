@@ -202,7 +202,6 @@ Each was measured server-side on a taken and a free label with the shipped
 fixture labels.
 
 - [x] Docker Hub — ✅ — `hub.docker.com/u/{name}` (keyless user namespace: 200 taken / 404 free; status-only, JSON Accept; user names are 4–30 lowercase characters. Separate from the `user/repo` repository path, which is composite and stays ruled out)
-- [x] GitHub orgs — ✅ — `api.github.com/orgs/{name}` (200 taken / 404 free; a different claimable namespace from the `users/{name}` row; org names are 1–39 characters)
 - [x] npm orgs — ✅ — `registry.npmjs.org/-/org/{name}/user` (200 taken / 404 free; org names follow the package grammar, 214 characters max)
 - [x] PyPI orgs — ✅ — `pypi.org/org/{name}/` (200 taken / 404 free; separate from the project namespace)
 - [x] ArtStation — ✅ — `artstation.com/api/v2/user_profiles/{name}.json` (200 taken / 404 free; profile usernames allow `_`)

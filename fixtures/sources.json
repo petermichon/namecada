@@ -5370,19 +5370,6 @@
       "keyed": false
     },
     {
-      "id": "github-orgs",
-      "platform": "github-orgs",
-      "platformName": "GitHub Orgs",
-      "name": "google",
-      "nameTemplate": "%s",
-      "url": "https://github.com/google",
-      "urlTemplate": "https://github.com/%s",
-      "paid": false,
-      "minLength": 1,
-      "maxLength": 39,
-      "keyed": false
-    },
-    {
       "id": "hackerrank",
       "platform": "hackerrank",
       "platformName": "HackerRank",

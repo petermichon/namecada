@@ -88,7 +88,7 @@ networks left in the corpora fail that test.
 | Source        | Endpoint                               | Probed                      | Signal | Effort   | Grade |
 | ------------- | -------------------------------------- | --------------------------- | ------ | -------- | ----- |
 | Docker Hub    | `hub.docker.com/u/{name}`              | 200 / 404                   | 4      | S        | **A** |
-| GitHub orgs   | `api.github.com/orgs/{name}`           | 200 / 404                   | 5      | S        | **A** |
+| ~~GitHub orgs~~ | `api.github.com/orgs/{name}` — redundant: `users/{name}` already answers for orgs, and `orgs/{name}` 404s for personal accounts, so it reports taken names as free | 200 / 404 | — | — | **D** |
 | GitLab groups | `gitlab.com/api/v4/groups/{name}`      | 200 / 404                   | 5      | S        | **A** |
 | npm orgs      | `registry.npmjs.org/-/org/{name}/user` | 200 / 404                   | 5      | S        | **A** |
 | PyPI orgs     | `pypi.org/org/{name}/`                 | 200 / 404                   | 4      | S        | **A** |

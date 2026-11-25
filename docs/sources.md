@@ -177,7 +177,6 @@ verdict.
 | Crowdin | `crowdin.com/profile/{name}` (profile)                          | 200 taken / 404 free      |
 | Docker Hub | `hub.docker.com/u/{name}` (user)                              | 200 taken / 404 free      |
 | Freesound | `freesound.org/people/{name}/` (profile)                      | 200 taken / 404 free      |
-| GitHub orgs | `api.github.com/orgs/{name}` (organisation)                  | 200 taken / 404 free      |
 | HackerRank | `hackerrank.com/rest/contests/master/hackers/{name}/profile` | 200 taken / 404 free      |
 | Itch.io | `itch.io/profile/{name}` (profile)                              | 200 taken / 404 free      |
 | Linktree | `linktr.ee/{name}` (profile)                                   | 200 taken / 404 free; needs an HTML Accept |

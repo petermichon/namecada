@@ -466,7 +466,6 @@ static SPECS: &[StatusSpec] = &[
     // Namespaces that sit next to a source we already check: the handle is the
     // same string but a different claimable name, so it gets its own row.
     spec("docker-hub", "https://hub.docker.com/u/%s"),
-    spec("github-orgs", "https://api.github.com/orgs/%s"),
     spec("npm-orgs", "https://registry.npmjs.org/-/org/%s/user"),
     spec("pypi-orgs", "https://pypi.org/org/%s/"),
     // Profiles added in the 2026-11-25 candidate pass.
