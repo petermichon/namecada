@@ -1,0 +1,30 @@
+{
+  "source": "geeksforgeeks",
+  "platform": "geeksforgeeks",
+  "platformName": "GeeksforGeeks",
+  "label": "google",
+  "name": "google",
+  "url": "https://authapi.geeksforgeeks.org/api-get/user-profile-info/?handle=google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 1158,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://authapi.geeksforgeeks.org/api-get/user-profile-info/?handle=google",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"message\":\"data retrieved successfully\",\"data\":{\"name\":null,\"profile_image_url\":\"https://media.geeksforgeeks.org/img-practice/user_web-1598433228.svg\",\"is_campus_ambassador\":false,\"created_date\":\"2016-07-23 19:30:27\",\"practice_course_visibility\":true,\"institute_name\":null,\"organization_name\":null,\"institute_slug\":null,\"organization_slug\":null,\"campus_ambassador\":null,\"school\":null,\"designation\":null,\"score\":0,\"monthly_score\":0,\"total_problems_solved\":0,\"institute_rank\":\"\",\"pod_solved_longest_streak\":0,\"pod_solved_global_longest_streak\":1941,\"pod_solved_current_streak\":0,\"pod_correct_submissions_count\":0,\"pod_solved_current_streak_incl_timemachine\":0,\"total_articles_published\":0}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

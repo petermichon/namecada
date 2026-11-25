@@ -1,0 +1,30 @@
+{
+  "source": "game-jolt",
+  "platform": "game-jolt",
+  "platformName": "Game Jolt",
+  "label": "google",
+  "name": "google",
+  "url": "https://gamejolt.com/site-api/web/profile/@google/",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 183,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://gamejolt.com/site-api/web/profile/@google/",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"payload\":{\"user\":{\"id\":104349,\"type\":\"User\",\"username\":\"Google\",\"name\":\"\",\"display_name\":\"Google\",\"web_site\":\"\",\"url\":\"\\/@Google\",\"slug\":\"google\",\"img_avatar\":\"https:\\/\\/secure.gravatar.com\\/avatar\\/fe364a6a46b69bf1d9442499f9a03c9d?s=200&r=pg&d=https%3A%2F%2Fs.gjcdn.net%2Fimg%2Fno-avatar-3.png\",\"shouts_enabled\":true,\"friend_requests_enabled\":true,\"is_spawnday\":false,\"status\":1,\"permission_level\":0,\"created_on\":1379165468000,\"theme\":null,\"follower_count\":29,\"following_count\":0,\"avatar_frame\":null,\"bio_content\":\"{\\\"version\\\":\\\"3\\\",\\\"createdOn\\\":1560975523000,\\\"context\\\":\\\"user-bio\\\",\\\"content\\\":[],\\\"hydration\\\":[]}\",\"header_media_item\":null,\"avatar_media_item\":null,\"disable_gravatar\":null,\"like_count\":null,\"liked_posts_enabled\":true,\"dogtag\":\"GMR\",\"dogtags\":[{\"text\":\"GMR\",\"ids\":[1]}],\"comment_count\":7},\"placeholderCommunitiesCount\":5,\"communitiesCount\":0,\"trophyCount\":2,\"previewTrophies\":[{\"id\":5427025,\"user_id\":104349,\"site_trophy_id\":6,\"logged_on\":1619077742312,\"viewed_on\":null,\"site_trophy\":{\"id\":6,\"difficulty\":1,\"title\":\"10 Profile Followers\",\"description\":\"There are 10 people following you now.\",\"secret\":false,\"experience\":5,\"img_thumbnail\":\"https:\\/\\/m.gjcdn.net\\/site-trophy-thumbnail\\/100\\/6-pazdspgx-v4.jpg\",\"has_thumbnail\":true,\"is_owner\":false,\"artist\":{\"id\":78378,\"type\":\"Developer\",\"username\":\"YLivay\",\"name\":\"Fernando\",\"display_name\":\"Fernando\",\"web_site\":\"https:\\/\\/gamejolt.com\",\"url\":\"\\/@YLivay\",\"slug\":\"fernando\",\"img_avatar\":\"https:\\/\\/m.gjcdn.net\\/user-avatar\\/200\\/78378-6wvjgyaa-v4.webp\",\"shouts_enabled\":true,\"friend_requests_enabled\":true,\"is_spawnday\":false,\"status\":1,\"permission_level\":4,\"created_on\":1373398709000,\"theme\":null,\"follower_count\":4784,\"following_count\":391,\"avatar_frame\":null,\"is_verified\":true}},\"user\":{\"id\":104349,\"type\":\"User\",\"username\":\"Google\",\"name\":\"\",\"display_name\":\"Google\",\"web_site\":\"\",\"url\":\"\\/@Google\",\"slug\":\"google\",\"img_avatar\":\"https:\\/\\/secure.gravatar.com\\/avatar\\/fe364a6a46b69bf1d9442499f9a03c9d?s=200&r=pg&d=https%3A%2F%2Fs.gjcdn.net%2Fimg%2Fno-avatar-3.png\",\"shouts_enabled\":true,\"friend_requests_enabled\":true,\"is_spawnday\":false,\"status\":1,\"permission_level\":0,\"created_on\":1379165468000,\"theme\":null,\"follower_count\":29,\"following_count\":0,\"avatar_frame\":null}},{\"id\":2696479,\"user_id\":104349,\"site_trophy_id\":26,\"logged_on\":1379165468238,\"viewed_on\":null,\"site_trophy\":{\"id\":26,\"difficulty\":1,\"title\":\"First Steps\",\"description\":\"Join Game Jolt, and then...oh that's it?\",\"secret\":false,\"experience\":5,\"img_thumbnail\":\"https:\\/\\/m.gjcdn.net\\/site-trophy-thumbnail\\/100\\/26-yy7wrzvv-v4.jpg\",\"has_thumbnail\":true,\"is_owner\":false,\"artist\":{\"id\":187,\"type\":\"Developer\",\"username\":\"KniteBlargh\",\"name\":\"KniteBlargh\",\"display_name\":\"KniteBlargh\",\"web_site\":\"https:\\/\\/bio.link\\/knitetgantt\",\"url\":\"\\/@KniteBlargh\",\"slug\":\"kniteblargh\",\"img_avatar\":\"https:\\/\\/m.gjcdn.net\\/user-avatar\\/200\\/187-ksheznj4-v4.webp\",\"shouts_enabled\":true,\"friend_requests_enabled\":true,\"is_spawnday\":false,\"status\":1,\"permission_level\":0,\"created_on\":1241960564000,\"theme\":{\"id\":45926,\"custom\":\"F0EE7A\"},\"follower_count\":21744,\"following_count\":836,\"avatar_frame\":{\"id\":712,\"image_url\":\"https:\\/\\/i.gjcdn.net\\/public-data\\/media\\/avatar-frame\\/0\\/212\\/712\\/electric-blue-frame-ghssurrv.png\"},\"is_verified\":true,\"is_creator\":true}},\"user\":{\"id\":104349,\"type\":\"User\",\"username\":\"Google\",\"name\":\"\",\"display_name\":\"Google\",\"web_site\":\"\",\"url\":\"\\/@Google\",\"slug\":\"google\",\"img_avatar\":\"https:\\/\\/secure.gravatar.com\\/avatar\\/fe364a6a46b69bf1d9442499f9a03c9d?s=200&r=pg&d=https%3A%2F%2Fs.gjcdn.net%2Fimg%2Fno-avatar-3.png\",\"shouts_enabled\":true,\"friend_requests_enabled\":true,\"is_spawnday\":false,\"status\":1,\"permission_level\":0,\"created_on\":1379165468000,\"theme\":null,\"follower_count\":29,\"following_count\":0,\"avatar_frame\":null}}]},\"ver\":\"786\",\"user\":null,\"c\":{\"eea\":true,\"ads\":false},\"t\":[]}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

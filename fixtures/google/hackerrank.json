@@ -1,0 +1,30 @@
+{
+  "source": "hackerrank",
+  "platform": "hackerrank",
+  "platformName": "HackerRank",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.hackerrank.com/profile/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 307,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.hackerrank.com/rest/contests/master/hackers/google/profile",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"model\":{\"id\":38684,\"username\":\"google\",\"country\":\"\",\"school\":\"\",\"languages\":[],\"created_at\":\"2013-01-05T00:29:24.000Z\",\"level\":5,\"deleted\":false,\"is_admin\":false,\"support_admin\":false,\"avatar\":\"https://d1ce3iv5vajdy.cloudfront.net/hackerrank/assets/gravatar.jpg\",\"website\":\"\",\"short_bio\":\"\",\"username_change_count\":\"\",\"name\":\"\",\"personal_first_name\":\"\",\"personal_last_name\":\"\",\"company\":\"\",\"local_language\":\"\",\"has_avatar_url\":false,\"hide_account_checklist\":\"\",\"spam_user\":\"\",\"job_title\":\"\",\"jobs_headline\":\"\",\"linkedin_url\":\"\",\"github_url\":\"\",\"self\":false,\"title\":\"O(2\\u003csup\\u003eN\\u003c/sup\\u003e)\",\"event_count\":0,\"online\":false,\"show_profile_personal_info\":null,\"show_profile_resume\":null,\"resume_data_extracted\":null,\"extension_onboarding_done\":null,\"extension_onboarding_resume_uploaded\":null,\"system_design_mock_interview_tour_done\":null,\"mock_interview_communication_mode\":null,\"prepkit_onboarding_done\":null,\"ade_onboarding_done\":null,\"hackerresume_count\":0,\"subscription_plan\":null,\"subscription_plan_credits\":{\"mock_interviews\":{\"credits\":0,\"credit_type\":\"purchased\",\"round\":{\"coding\":0,\"recruiter\":0,\"behavioral\":0,\"ai-fluency\":0,\"react\":0,\"system-design\":0,\"node\":0}},\"mock_tests\":{\"credits\":0,\"credit_type\":\"default\"}},\"orchestrate_medals_summary\":{\"participated\":false,\"has_medals\":false,\"tiers\":[{\"tier\":\"gold\",\"count\":0,\"count_label\":\"0x\",\"label\":\"Gold medalist\"},{\"tier\":\"silver\",\"count\":0,\"count_label\":\"0x\",\"label\":\"Silver medalist\"},{\"tier\":\"bronze\",\"count\":0,\"count_label\":\"0x\",\"label\":\"Bronze medalist\"}]},\"is_following\":false,\"is_followed\":false,\"followers_count\":8}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

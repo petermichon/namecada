@@ -1,0 +1,30 @@
+{
+  "source": "etoro",
+  "platform": "etoro",
+  "platformName": "Etoro",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.etoro.com/people/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 81,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.etoro.com/api/logininfo/v1.1/users/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"gcid\":2001969,\"realCID\":23303,\"demoCID\":0,\"username\":\"google\",\"firstName\":null,\"middleName\":null,\"lastName\":null,\"language\":1,\"languageIsoCode\":\"en-GB\",\"country\":97,\"allowDisplayFullName\":false,\"aboutMe\":null,\"aboutMeShort\":null,\"userBio\":{\"gcid\":2001969,\"aboutMe\":null,\"aboutMeShort\":null,\"languageCode\":null,\"strategyID\":null},\"whiteLabel\":0,\"optOut\":true,\"homepage\":null,\"playerStatus\":null,\"piLevel\":0,\"isPi\":false,\"isProInvestor\":false,\"avatars\":[{\"url\":\"https://etoro-cdn.etorostatic.com/images/avatoros/35x35/id.png\",\"width\":35,\"height\":35,\"type\":\"Resized\"},{\"url\":\"https://etoro-cdn.etorostatic.com/images/avatoros/50x50/id.png\",\"width\":50,\"height\":50,\"type\":\"Resized\"},{\"url\":\"https://etoro-cdn.etorostatic.com/images/avatoros/150x150/id.png\",\"width\":150,\"height\":150,\"type\":\"Resized\"}],\"masterAccountCid\":null,\"accountType\":1,\"fundType\":null,\"isVerified\":false,\"verificationLevel\":1,\"accountStatus\":1,\"gdprInfo\":null,\"userFlowSignature\":\"c0eba6d81865cbb29bcc5e367de6f8a9c4ace37300be7afc575f89af493f39b1\",\"CustomerRestrictions\":[{\"CID\":23303,\"RestrictionTypeID\":2,\"ReasonID\":4,\"Occured\":\"2017-08-08T08:00:12.37Z\"},{\"CID\":23303,\"RestrictionTypeID\":3,\"ReasonID\":4,\"Occured\":\"2017-08-08T08:00:12.37Z\"}]}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

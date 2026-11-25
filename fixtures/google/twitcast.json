@@ -1,0 +1,30 @@
+{
+  "source": "twitcast",
+  "platform": "twitcast",
+  "platformName": "Twitcast",
+  "label": "google",
+  "name": "google",
+  "url": "https://frontendapi.twitcasting.tv/users/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 1036,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://frontendapi.twitcasting.tv/users/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"error\":{\"code\":4000,\"message\":\"User Not Found\"}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

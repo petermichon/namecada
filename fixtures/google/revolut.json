@@ -1,0 +1,30 @@
+{
+  "source": "revolut",
+  "platform": "revolut",
+  "platformName": "Revolut",
+  "label": "google",
+  "name": "google",
+  "url": "https://revolut.me/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 70,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://revolut.me/api/web-profile/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"message\":\"User not found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

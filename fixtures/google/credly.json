@@ -1,0 +1,30 @@
+{
+  "source": "credly",
+  "platform": "credly",
+  "platformName": "Credly",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.credly.com/users/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 622,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.credly.com/users/google",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"data\":{\"id\":\"google\",\"first_name\":\"googleアカウント\",\"middle_name\":null,\"last_name\":\"会社\",\"vanity_slug\":\"google\",\"photo\":null,\"photo_url\":null,\"synthetic_id\":\"193229d7-b66a-4c8c-95ee-90d93798be3b\",\"bio\":null,\"current_position_name\":null,\"current_organization_name\":null,\"messaging_enabled\":false,\"website_url\":null,\"city\":null,\"state\":null,\"profile_is_public\":true,\"show_skills\":null,\"show_work_history\":null,\"vanity_url\":\"https://www.credly.com/users/google\",\"social_profiles\":[]},\"metadata\":{}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

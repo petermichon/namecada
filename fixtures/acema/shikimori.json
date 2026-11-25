@@ -1,0 +1,30 @@
+{
+  "source": "shikimori",
+  "platform": "shikimori",
+  "platformName": "Shikimori",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://shikimori.io/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 88,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://shikimori.io/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!DOCTYPE html>\n<html lang=\"ru\">\n<head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>404 · Страница не найдена</title><link rel=\"stylesheet\" href=\"/static/css/errors.css?v=a91bfc881a\"></head>\n<body class=\"ui-error\">\n<main class=\"dialog\"><div class=\"code\" aria-hidden=\"true\">404</div><h1>Страница не найдена</h1><p>Скорее всего, ты тут из-за очепятки в адресе страницы.</p><nav class=\"actions\"><a href=\"/\">На главную</a></nav></main>\n</body></html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

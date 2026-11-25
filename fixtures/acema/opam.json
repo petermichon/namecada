@@ -1,0 +1,28 @@
+{
+  "source": "opam",
+  "platform": "opam",
+  "platformName": "opam",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://opam.ocaml.org/packages/acema/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 98,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://opam.ocaml.org/packages/acema/",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {},
+        "body": "",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

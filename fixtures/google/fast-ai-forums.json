@@ -1,0 +1,30 @@
+{
+  "source": "fast-ai-forums",
+  "platform": "fast-ai-forums",
+  "platformName": "fast.ai Forums",
+  "label": "google",
+  "name": "google",
+  "url": "https://forums.fast.ai/u/google.json",
+  "paid": false,
+  "status": "available",
+  "durationMs": 504,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://forums.fast.ai/u/google.json",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"errors\":[\"The requested URL or resource could not be found.\"],\"error_type\":\"not_found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

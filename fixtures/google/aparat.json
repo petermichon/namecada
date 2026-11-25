@@ -1,0 +1,30 @@
+{
+  "source": "aparat",
+  "platform": "aparat",
+  "platformName": "Aparat",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.aparat.com/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 283,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.aparat.com/api/fa/v1/user/user/information/username/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":{\"type\":\"Profile\",\"id\":\"14745193\",\"attributes\":{\"id\":\"14745193\",\"hash_user_id\":\"lDzds3Ohyec06-mLJxkueYQfeRMXyPNW5MaSq7UcKqdroi63\",\"afcn\":null,\"provider\":\"0\",\"username\":\"google\",\"name\":\"google\",\"pic_s\":\"https:\\/\\/www.aparat.com\\/public\\/public\\/aparat\\/img\\/global\\/avatar-is-channel.png\",\"pic_m\":\"https:\\/\\/www.aparat.com\\/public\\/public\\/aparat\\/img\\/global\\/avatar-is-channel.png\",\"pic_b\":\"https:\\/\\/www.aparat.com\\/public\\/public\\/aparat\\/img\\/global\\/avatar-is-channel.png\",\"follower_cnt\":\"2 \",\"follower_cnt_num\":2,\"follow_cnt\":\"1\",\"official\":null,\"url\":\"\",\"video_cnt\":\"0\",\"cover_src\":\"\",\"video_visit\":\"0 \",\"priority\":null,\"brand_priority\":\"0\",\"description\":\"\",\"start_date\":\"2022-08-23\",\"start_date_jalali\":\"01\\/06\\/01\",\"show_kids_friendly\":null,\"banned\":\"no\"},\"relationships\":{\"more\":{\"data\":{\"type\":\"ProfileMore\",\"id\":\"14745193\"}},\"follow\":{\"data\":{\"type\":\"Follow\",\"id\":14745193}}}},\"included\":[{\"type\":\"ProfileMore\",\"id\":\"14745193\",\"attributes\":{\"has_two_factor\":false}},{\"type\":\"Follow\",\"id\":14745193,\"attributes\":{\"link\":\"https:\\/\\/www.aparat.com\\/api\\/fa\\/v1\\/login?afterlogin=follow&userid=14745193\",\"link_toggle_push_follow\":null,\"push_follow_status\":null,\"status\":\"login\",\"userid\":14745193,\"follower_cnt\":\"0 \"}}]}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "source": "imood",
+  "platform": "imood",
+  "platformName": "imood",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://www.imood.com/users/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 356,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.imood.com/users/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1\" />\n<title>User not found | imood.com</title>\n<link rel=\"stylesheet\" media=\"screen\" href=\"/styles/purple.css\" />\n<link rel=\"stylesheet\" media=\"screen\" href=\"/assets/application-15f46998cc1f2983314f54e0940ed5309821ca09f64733383b389ec55b034b8c.css\" />\n<script type=\"text/javascript\">\n\n  var _gaq = _gaq || [];\n  _gaq.push(['_setAccount', 'UA-2529168-2']);\n  _gaq.push(['_trackPageview']);\n\n  (function() {\n    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;\n    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';\n    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);\n  })();\n\n</script>\n\n\n  <meta name=\"twitter:card\" content=\"summary\" />\n  <meta property=\"og:type\" content=\"profile\" />\n\n  \n\n\n\n  <link rel=\"alternate\" type=\"application/atom+xml\" title=\"ATOM\" href=\"https://www.imood.com/users/acema.atom\" />\n\n\n</head>\n\n<body class=\"imood \">\n\n<div class=\"header flexbox justify-space-between wrap\">\n  <div class=\"logo\">\n    <a href=\"https://www.imood.com/\"><img border=\"0\" height=\"50\" width=\"200\" alt=\"imood.com\" src=\"/assets/imood-logo-c8bfec427cecac0adbbf6692eaf6090ab30255d75d8ad9b8b6cec1eb30be926f.gif\" /></a>\n  </div>\n\n  <div class=\"nav\">\n    <ul>\n        <li><a href=\"/about/intro\">an introduction to imood</a></li>\n        <li><a href=\"/users/new\">create a free account</a></li>\n\n    </ul>\n  </div>\n\n  <div class=\"user\">\n        <a href=\"/login\">log in to imood</a>\n  </div>\n</div>\n\n\n\n\n\n<div class=\"profile sidebar-4 flexbox\">\n  <div class=\"content main\">\n      <p>\n  <b>acema</b> does not have an imood.com account.\n</p>\n\n<p>\n  Can't find your friend on imood.com? Check out our <a href=\"/finder\">friend finder</a>.\n</p>\n\n\n\n  </div>\n\n  <div class=\"content sidebar\">\n      <p><b>Want to let everyone see how you're feeling?</b></p>\n      <p><b><a href=\"/users/new\">Come get an imood account right now!</a></b></p>\n  </div>\n</div>\n\n\n\n<div class=\"footer\">\n  <div class=\"nav\">\n      <a href=\"/imood\">internet&#39;s mood</a>\n      &#183;\n      <a href=\"/news\">news</a>\n      &#183;\n      <a href=\"/about\">help</a>\n      &#183;\n      <a href=\"/about/contact\">contact us</a>\n      &#183;\n      &copy; 1999 - 2026 imood.com\n\n      <div class=\"social\">\n        <a target=\"_blank\" href=\"https://twitter.com/imood\"><img src=\"/assets/twitter-16x16-34e45e2275d9771ed35ce6d2d9071203a7391879963f0a0fed9d7671a969a00e.png\" /></a>\n        <a target=\"_blank\" href=\"https://www.facebook.com/pages/Imood/129575340405867\"><img src=\"/assets/facebook-16x16-f8698c512bdebc0685e4f4b1686497cdf75a45723750b6eb90b151950453d8b4.png\" /></a>\n      </div>\n  </div>\n\n</div>\n\n<script src=\"/assets/application-06419e02f15102864b22264633b078a41124fd34f132fb42486e2f9beda4c5b3.js\"></script>\n\n<script type=\"text/javascript\">\n  var Imood = {};\n  Imood.base_url = 'https://www.imood.com/';\n\n  $(document).ready(function() {\n      $('.select2').select2({ theme: 'classic' });\n  });\n</script>\n\n\n\n\n</body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "source": "freecodecamp",
+  "platform": "freecodecamp",
+  "platformName": "FreeCodeCamp",
+  "label": "google",
+  "name": "google",
+  "url": "https://api.freecodecamp.org/users/get-public-profile?username=google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 346,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.freecodecamp.org/users/get-public-profile?username=google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"entities\":{\"user\":{\"google\":{\"about\":\"\",\"calendar\":{},\"completedChallenges\":[],\"completedExams\":[],\"experience\":[],\"is2018DataVisCert\":false,\"is2018FullStackCert\":false,\"isA2EnglishCert\":false,\"isB1EnglishCert\":false,\"isApisMicroservicesCert\":false,\"isBackEndCert\":false,\"isBackEndDevApisCertV9\":false,\"isCheater\":false,\"isCollegeAlgebraPyCertV8\":false,\"isDataAnalysisPyCertV7\":false,\"isDataVisCert\":false,\"isDonating\":null,\"isFoundationalCSharpCertV8\":false,\"isFrontEndCert\":false,\"isFrontEndLibsCert\":false,\"isFrontEndLibsCertV9\":false,\"isFullStackCert\":false,\"isJavascriptCertV9\":false,\"isHonest\":false,\"isInfosecCertV7\":false,\"isInfosecQaCert\":false,\"isJsAlgoDataStructCert\":false,\"isJsAlgoDataStructCertV8\":false,\"isMachineLearningPyCertV7\":false,\"isPythonCertV9\":false,\"isQaCertV7\":false,\"isRelationalDatabaseCertV8\":false,\"isRelationalDatabaseCertV9\":false,\"isRespWebDesignCert\":false,\"isRespWebDesignCertV9\":false,\"isSciCompPyCertV7\":false,\"location\":\"\",\"name\":\"\",\"picture\":\"https://itc.ua/wp-content/uploads/2017/10/google-logo-1200x630-1.jpg\",\"points\":null,\"portfolio\":[],\"profileUI\":{\"isLocked\":false,\"showAbout\":false,\"showCerts\":false,\"showDonation\":false,\"showHeatMap\":false,\"showLocation\":false,\"showName\":false,\"showPoints\":false,\"showPortfolio\":false,\"showTimeLine\":false,\"showExperience\":false},\"yearsTopContributor\":[],\"joinDate\":\"\",\"username\":\"google\",\"usernameDisplay\":\"google\"}}},\"result\":\"google\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "source": "tapas",
+  "platform": "tapas",
+  "platformName": "Tapas",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://tapas.io/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 489,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://tapas.io/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html;charset=UTF-8"
+        },
+        "body": "\n\n\n\n<!DOCTYPE html>\n<html>\n<head>\n    <title>Tapas: Stories You Crave</title>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" />\n    <meta name=\"robots\" content=\"noindex\">\n    <meta name=\"keywords\" content=\"webcomics, onilne comics, visual stories, graphic novels, webcomic, online comic, novels, webnovels, diverse webcomics, bite-sized stories, tapastic\" />\n    <meta name=\"author\" content=\"Tapas\" />\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n    <link href=\"/favicon.ico\" rel=\"shortcut icon\" type=\"image/x-icon\" />\n    \n    <link rel=\"stylesheet\" type=\"text/css\" href=\"/resources/css/error.css??t=1795614027\" media=\"screen\" />\n    \n        <link rel=\"stylesheet\" type=\"text/css\" href=\"https://us-a.tapas.io/resources/css/panda.sprite-error.min.47e0a69d33.css\" media=\"screen\" />\n        <link rel=\"stylesheet\" type=\"text/css\" href=\"https://us-a.tapas.io/resources/css/panda.sprite.min.47e0a69d33.css\" media=\"screen\" />\n    \n    \n</head>\n<body>\n<div class=\"container\">\n    \n        <div class=\"error-bg-404\">\n        </div>\n        <div class=\"section error\">\n            <p class=\"bold\">We couldn't find the page you're looking for.</p>\n            <p>The link you followed may be broken, or the page may have been removed.</p>\n            <p><a href=\"javascript:history.back()\">Go back to the previous page</a>, return to the <a href=\"/\">homepage</a>, or <a href=\"https://help.tapas.io\" target=\"_blank\">get help</a>.</p>\n        </div>\n    \n    \n    \n</div>\n<footer>\n    <div class=\"section\">\n        <div class=\"footer-icon-mascot\">\n            <a href=\"/\"><i class=\"ico sp-aw-footer\"></i></a>\n        </div>\n        <ul class=\"social-menu\">\n            <li>\n                <a href=\"https://instagram.com/tapas_app\" target=\"_blank\"><i class=\"ico sp-ico-social-ig\"></i></a>\n            </li>\n            <li>\n                <a href=\"https://twitter.com/tapas_app\" target=\"_blank\"><i class=\"ico sp-ico-social-tw\"></i></a>\n            </li>\n            <li>\n                <a href=\"https://www.youtube.com/tapasmedia\" target=\"_blank\"><i class=\"ico sp-ico-social-yt\"></i></a>\n            </li>\n            <li>\n                <a href=\"https://www.facebook.com/tapas.io\" target=\"_blank\"><i class=\"ico sp-ico-social-fb\"></i></a>\n            </li>\n            <li>\n                <a href=\"https://www.tiktok.com/@tapasmedia\" target=\"_blank\"><i class=\"ico sp-ico-social-tt\"></i></a>\n            </li>\n        </ul>\n        <ul class=\"tapas-footer-menu\">\n            <li><a href=\"/about\">about</a></li>\n            <li><a href=\"https://help.tapas.io\" target=\"_blank\">Help</a></li>\n            <li><a href=\"https://forums.tapas.io/\" target=\"_blank\">forums</a></li>\n            <li><a href=\"mailto:feedback@tapas.io\">contact</a></li>\n            <li><a href=\"https://www.creators.tapas.io/\" target=\"_blank\">publish</a></li>\n            <li><a href=\"/newsfeed\">Newsfeed</a></li>\n        </ul>\n        <div class=\"company\">\n            <p>&copy; 2026 Tapas Media.</p>\n            <p><a href=\"/privacy\">Privacy</a>&nbsp;&bullet;&nbsp;<a href=\"/terms\">Terms</a></p>\n        </div>\n    </div>\n</footer>\n</body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

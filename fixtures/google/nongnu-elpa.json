@@ -1,0 +1,30 @@
+{
+  "source": "nongnu-elpa",
+  "platform": "nongnu-elpa",
+  "platformName": "NonGNU ELPA",
+  "label": "google",
+  "name": "google",
+  "url": "https://elpa.nongnu.org/nongnu/google.html",
+  "paid": false,
+  "status": "available",
+  "durationMs": 258,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://elpa.nongnu.org/nongnu/google.html",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=iso-8859-1"
+        },
+        "body": "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n<html><head>\n<title>404 Not Found</title>\n</head><body>\n<h1>Not Found</h1>\n<p>The requested URL was not found on this server.</p>\n</body></html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "source": "kompasiana",
+  "platform": "kompasiana",
+  "platformName": "Kompasiana",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.kompasiana.com/google",
+  "paid": false,
+  "status": "unknown",
+  "detail": "unexpected response",
+  "durationMs": 96,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.kompasiana.com/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 202,
+        "headers": {
+          "content-type": "text/html; charset=UTF-8"
+        },
+        "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <title></title>\n    <style>\n        body {\n            font-family: \"Arial\";\n        }\n    </style>\n    <script type=\"text/javascript\">\n    window.awsWafCookieDomainList = [];\n    window.gokuProps = {\n\"key\":\"AQIDAHjcYu/GjX+QlghicBgQ/7bFaQZ+m5FKCMDnO+vTbNg96AGODJwdZtDZyU6B0uAPijm/AAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMFN37DkzGQ2DLjSurAgEQgDsfsWJ+FWOo/F2hDfY6umS4adGtUlyu6TxPiWzKJeF0pWjJzxdhP0dQG5GEnDTjWgfh252LtPBZmlKfyQ==\",\n          \"iv\":\"D54szwAnHQAAAjhX\",\n          \"context\":\"JsIJC28ikm00DyObIDRXQyhquN42fteD9sSOzRhC91o4kpwjgoCvtS6FvJJ1d/xVaxt6IEV6FUTcDQtAhTPGjUJZubHCsiFDfDdRhUi6uzVUZh48HmAt/HaLyReQ6vM5Hyk/qh/hT1YHTREg0HRjnUcQF3jibH+nBeGfl+FX2r96LWetd60DBiHUCylEnKhAK8xDlwf2o6VVYab8RKSsPoIqiPh0yic+TW/OTsXdy703/FEaAbvR56xXk9ibysl6SXMg6AfVN+AobVpQFID6ElLX8U+sPNSU2T5g4JUH5w7UBsibpo6H2ahC9JXfwpAagx9zbOG6agCm0PZ8c53T7LttcZZc9b2vtO3y9DEXXBs2UcR2xTYgtl613PZPrsg+quSmU06O1FtWOLmo5ymOazxpdmnskN6gUN3Yla5+YQustZZ2ZpWhJg3OKIaY+3dpVdBIbCz9NYE7HddBJm9T72jOtuWqLjBw9mtb4zp4D194F/C9MeDcDIki36gMlo4Hhn630mnR/WSXRsD4U9J8z9HcUnHApy69U+2i5tLZK/auR1iFiQKfecBw3TaBY2TSMUqZgQHLLIH59EWYIivV1aKqybz0artIK0SE/Ru/LJOZWDvy46v0GXIxVOvXrm+JFND15LFweJENRzNtS/dzrtNNxiaSR3NUkF+0tHjvvnuF5gnijrbPGhbS7IV8skIavN+dGhEUuYMN5n8zcUwN/ZsnwrH20ZTNiMq5nYWIQI/7YTZkRo9OBOsnC+pQJcYVpyccdzhDBpDV\"\n};\n    </script>\n    <script src=\"https://de9a8bd6784a.e25effee.eu-west-1.token.awswaf.com/de9a8bd6784a/9a6b9c57996c/ba2edba22908/challenge.js\"></script>\n</head>\n<body>\n    <div id=\"challenge-container\"></div>\n    <script type=\"text/javascript\">\n        AwsWafIntegration.saveReferrer();\n        AwsWafIntegration.checkForceRefresh().then((forceRefresh) => {\n            if (forceRefresh) {\n                AwsWafIntegration.forceRefreshToken().then(() => {\n                    window.location.reload(true);\n                });\n            } else {\n                AwsWafIntegration.getToken().then(() => {\n                    window.location.reload(true);\n                });\n            }\n        });\n    </script>\n    <noscript>\n        <h1>JavaScript is disabled</h1>\n        In order to continue, we need to verify that you're not a robot.\n        This requires JavaScript. Enable JavaScript and then reload the page.\n    </noscript>\n</body>\n</html>",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

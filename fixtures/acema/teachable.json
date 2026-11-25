@@ -1,0 +1,30 @@
+{
+  "source": "teachable",
+  "platform": "teachable",
+  "platformName": "Teachable",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://acema.teachable.com",
+  "paid": false,
+  "status": "available",
+  "durationMs": 271,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://acema.teachable.com",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html"
+        },
+        "body": "<!DOCTYPE html>\n<html>\n  <head>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n    <title>404 Error - Teachable</title>\n    <link\n      href=\"https://fonts.googleapis.com/css?family=Raleway:400,400i,500,500i,600,600i,700,700i\"\n      rel=\"stylesheet\"\n    />\n    <style type=\"text/css\">\n      html {\n        height: 100%;\n      }\n      body {\n        background: url('https://assets.teachablecdn.com/images/teachable-brand-bg.png')\n          #09a59a no-repeat;\n        height: 100%;\n        width: 100%;\n        display: block;\n        background-size: cover;\n        font-family: 'Raleway';\n        -webkit-font-feature-settings: 'ss01' 1, 'lnum';\n        -moz-font-feature-settings: 'ss01' 1, 'lnum';\n        font-feature-settings: 'ss01' 1, 'lnum';\n        font-variant-numeric: lining-nums;\n        line-height: 18px;\n        font-size: 17px;\n        margin: 0;\n      }\n      .section {\n        color: #222222;\n        position: absolute;\n        top: 50%;\n        transform: translate(-50%, -50%);\n        width: 600px;\n        left: 50%;\n      }\n      .section h1 {\n        font-size: 26px;\n        font-weight: 600 !important;\n        margin-top: 0px;\n        background-color: #475b5c;\n        padding: 18px 22px 18px 22px;\n        margin: 0;\n        overflow: hidden;\n      }\n      .article {\n        padding: 24px 18px 18px 18px;\n        font-size: 17px;\n      }\n      p {\n        text-align: center;\n        color: #fff;\n        margin: auto;\n        margin-top: 5%;\n      }\n\n      p.large {\n        font-weight: 600;\n        font-size: 34px;\n        line-height: 48px;\n      }\n\n      a {\n        color: #fff;\n        font-weight: 100;\n      }\n\n      .bottom {\n        position: fixed;\n        bottom: 0;\n        width: 100%;\n      }\n\n      .error-number {\n        font-size: 17px !important;\n        margin-top: 50px;\n        font-weight: 200;\n        opacity: 0.7;\n      }\n\n      .muted {\n        margin-top: 50px;\n        font-weight: 200;\n        opacity: 0.5;\n        font-size: 14px;\n      }\n\n      .powered-by {\n        font-size: 13px;\n        text-decoration: none;\n        line-height: 20px;\n        font-weight: 600;\n      }\n\n      .logo {\n        vertical-align: -1px;\n        width: 73px;\n      }\n\n      @media screen and (max-width: 600px) {\n        .section {\n          width: 100%;\n        }\n      }\n    </style>\n    <script>\n      function goBack() {\n        window.history.back()\n      }\n    </script>\n  </head>\n  <body>\n    <div class=\"section\">\n      <div class=\"article\">\n        <p class=\"large\">This page does not exist. Sorry :(</p>\n        <p class=\"error-number\">Error 404</p>\n      </div>\n    </div>\n    <h1 class=\"bottom\">\n      <center>\n        <a href=\"https://teachable.com/?src=error_pages\" class=\"powered-by\"\n          >Create Online Courses with\n          <img\n            src=\"https://assets.teachablecdn.com/teachable-branding-2025/logos/teachable-logomark-white.svg\"\n            alt=\"Teachable\"\n            width=\"100\"\n            class=\"logo\"\n        /></a>\n      </center>\n    </h1>\n  </body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

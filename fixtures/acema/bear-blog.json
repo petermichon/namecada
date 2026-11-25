@@ -1,0 +1,30 @@
+{
+  "source": "bear-blog",
+  "platform": "bear-blog",
+  "platformName": "Bear Blog",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://acema.bearblog.dev",
+  "paid": false,
+  "status": "available",
+  "durationMs": 490,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://acema.bearblog.dev",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n  \n  \n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=5\">\n  <script>\n    (function() {\n      'use strict';\n      document.cookie = `timezone=${Intl.DateTimeFormat().resolvedOptions().timeZone};path=/`;\n    })();\n  </script>\n  \n\n  <title>404</title>\n  \n  \n    \n  \n  \n  <link rel=\"icon\" type=\"image/svg+xml\" href=\"/static/favicon.svg\">\n  <link rel=\"icon\" type=\"image/png\" href=\"/static/favicon.png\">\n  <link rel=\"apple-touch-icon\" href=\"/static/favicon.png\">\n  \n\n  <style data-name=\"default\">\n      \n      :root {\n    --width: 800px;\n    --font-main: Verdana, sans-serif;\n    --font-secondary: Verdana, sans-serif;\n    --font-scale: 1em;\n    --background-color: #fff;\n    --heading-color: #222;\n    --text-color: #444;\n    --link-color: #3273dc;\n    --visited-color:  #8b6fcb;\n    --code-background-color: #f2f2f2;\n    --code-color: #222;\n    --blockquote-color: #222;\n}\n\n@media (prefers-color-scheme: dark) {\n    :root {\n        --background-color: #01242e;\n        --heading-color: #eee;\n        --text-color: #ddd;\n        --link-color: #8cc2dd;\n        --visited-color:  #a58fe0;\n        --code-background-color: #000;\n        --code-color: #ddd;\n        --blockquote-color: #ccc;\n    }\n}\n\nbody {\n    font-family: var(--font-secondary);\n    font-size: var(--font-scale);\n    margin: auto;\n    padding: 20px;\n    max-width: var(--width);\n    text-align: left;\n    background-color: var(--background-color);\n    word-wrap: break-word;\n    overflow-wrap: break-word;\n    line-height: 1.5;\n    color: var(--text-color);\n}\n\nh1, h2, h3, h4, h5, h6 {\n    font-family: var(--font-main);\n    color: var(--heading-color);\n}\n\na {\n    color: var(--link-color);\n    cursor: pointer;\n    text-decoration: none;\n}\n\na:hover {\n    text-decoration: underline;\n    text-underline-offset: 2px;\n}\n\nnav a {\n    margin-right: 8px;\n}\n\nstrong, b {\n    color: var(--heading-color);\n}\n\nbutton {\n    margin: 0;\n    cursor: pointer;\n}\n\nmain {\n    line-height: 1.6;\n}\n\ntable {\n    width: 100%;\n}\n\nhr {\n    border: 0;\n    border-top: 1px dashed;\n}\n\nimg {\n    max-width: 100%;\n}\n\ncode {\n    font-family: monospace;\n    padding: 2px 4px;\n    background-color: var(--code-background-color);\n    color: var(--code-color);\n}\n\nblockquote {\n    border-left: 1px solid #999;\n    border-left-color: color-mix(in srgb, var(--blockquote-color) 50%, transparent);\n    color: var(--blockquote-color);\n    padding-left: 20px;\n    font-style: italic;\n}\n\nfooter {\n    padding: 25px 0;\n    text-align: center;\n}\n\n.title:hover {\n    text-decoration: none;\n}\n\n.title h1 {\n    font-size: 1.5em;\n}\n\n.highlight {\n    background-color: var(--code-background-color);\n    color: var(--code-color);\n    border-radius: 3px;\n    margin-block-start: 1em;\n    margin-block-end: 1em;\n    overflow-x: auto;\n}\n\n/* blog post list */\nul.blog-posts {\n    list-style-type: none;\n    padding: unset;\n}\n\nul.blog-posts li {\n    display: flex;\n}\n\nul.blog-posts li span {\n    flex: 0 0 130px;\n}\n\nul.blog-posts li a:visited {\n    color: var(--visited-color);\n}\n\n\n      \n  </style>\n</head>\n\n<body class=\"not-found\">\n  \n  <header>\n    <a class=\"title\" href=\"/\">\n      <h1>\n        \n      </h1>\n    </a>\n    <nav>\n      \n    </nav>\n  </header>\n  <main>\n    \n<div style=\"text-align: center; display: flex; flex-flow: column; justify-content: center; height: calc(100vh - 70px);\">\n    <h1>404</h1>\n    <h2>ʕノ•ᴥ•ʔノ ︵ ┻━┻</h2>\n    <p>\n        \n    It looks like this page doesn't exist.\n    <br>\n    Let's get you\n    <a href=\"/\">back home</a>.\n\n    </p>\n</div>\n\n  </main>\n  <footer>\n    \n  </footer>\n\n  \n</body>\n<!-- ID:  -->\n<!-- 🌱 -->\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

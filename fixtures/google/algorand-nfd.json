@@ -1,0 +1,30 @@
+{
+  "source": "algorand-nfd",
+  "platform": "algorand-nfd",
+  "platformName": "Algorand NFD",
+  "label": "google",
+  "name": "google",
+  "url": "https://api.nf.domains/nfd/google.algo",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 136,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.nf.domains/nfd/google.algo",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"appID\":765876450,\"asaID\":765876456,\"state\":\"owned\",\"expired\":false,\"nfdAccount\":\"ZU4A2CTAGEJGOEL4A3LLYXBI2V6L4WJ6FLONQHYS5KWF6CKOBIM3EEYHCA\",\"name\":\"google.algo\",\"owner\":\"3DT7Y4SEBCVWKSNS3WKW33HA3SDLOOII34LDEMRYEHSZ237GVTJ7DIPA6U\",\"metaTags\":[\"6_letters\",\"pristine\"],\"category\":\"common\",\"saleType\":\"buyItNow\",\"depositAccount\":\"3DT7Y4SEBCVWKSNS3WKW33HA3SDLOOII34LDEMRYEHSZ237GVTJ7DIPA6U\",\"properties\":{\"internal\":{\"ver\":\"2.11\"}}}\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

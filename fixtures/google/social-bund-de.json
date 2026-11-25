@@ -1,0 +1,30 @@
+{
+  "source": "social-bund-de",
+  "platform": "social-bund-de",
+  "platformName": "Social.Bund.De",
+  "label": "google",
+  "name": "google",
+  "url": "https://social.bund.de/@google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 87,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://social.bund.de/@google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!DOCTYPE html>\n<html data-color-scheme=\"auto\" data-contrast=\"auto\" lang=\"en\">\n<head>\n<meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\">\n<meta charset=\"utf-8\">\n<title>The page you are looking for isn&#39;t here.\n - Mastodon</title>\n<meta content=\"width=device-width,initial-scale=1\" name=\"viewport\">\n\n\n<script src=\"/packs/polyfills-BO_K2Jdc.js\" crossorigin=\"anonymous\" type=\"module\" integrity=\"sha384-KFdV2FIRPcxONohRLwdq+DaF8GxdtwDWS828pWw1RSGNySyESlFPlDdSpy6en/JF\"></script>\n<script src=\"/packs/theme-selection-rMaWO8qm.js\" crossorigin=\"anonymous\" integrity=\"sha384-Os8ATwBofcB4haZxQF/x3vF1g+laavc/zibh4pDMzF+Y88Kr/qncAQoqKv0EYHKu\" type=\"module\" blocking=\"render\"></script>\n<link rel=\"stylesheet\" crossorigin=\"anonymous\" href=\"/packs/assets/themes/default-DkDM-a1D.css\" integrity=\"sha384-Hzt6Xm6zoQR9K5r7UXfotraKs8IHCvlMDjJGp9e1eFbxGNy3ISyJByolDPcr7vh0\" media=\"all\" />\n<script src=\"/packs/error-BVgPTIG-.js\" crossorigin=\"anonymous\" integrity=\"sha384-rZH143yE//bTLW26hWgnUGP1vLOs3pNcph0Wtir8L54pqj4YiVYsOxoT4buyHTia\" type=\"module\"></script><link rel=\"modulepreload\" href=\"/packs/ready-B3bZnx13.js\" as=\"script\" crossorigin=\"anonymous\" integrity=\"sha384-nTEv3TKyDyKr3e4qK2oN+eC8U/HypVFL2mkgEIOeCkg0JKQpaxDFc3Y4nX46gXb8\">\n</head>\n<body class=\"error\">\n<main class=\"dialog\">\n<div class=\"dialog__illustration\">\n<img alt=\"Mastodon\" src=\"/oops.png\">\n</div>\n<div class=\"dialog__message\">\n<h1>The page you are looking for isn&#39;t here.\n</h1>\n<a class=\"button button-secondary\" href=\"/\">Go home</a>\n</div>\n</main>\n</body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

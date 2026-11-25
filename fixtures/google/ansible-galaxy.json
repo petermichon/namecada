@@ -1,0 +1,30 @@
+{
+  "source": "ansible-galaxy",
+  "platform": "ansible-galaxy",
+  "platformName": "Ansible Galaxy",
+  "label": "google",
+  "name": "google",
+  "url": "https://galaxy.ansible.com/api/v3/namespaces/google/",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 172,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://galaxy.ansible.com/api/v3/namespaces/google/",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"pulp_href\":\"/api/pulp/api/v3/pulp_ansible/namespaces/32/\",\"id\":32,\"name\":\"google\",\"company\":\"\",\"email\":\"\",\"avatar_url\":\"\",\"description\":\"\",\"links\":[],\"groups\":[],\"users\":[{\"id\":19799,\"name\":\"SirGitsalot\",\"object_roles\":[\"galaxy.collection_publisher_namespace\",\"galaxy.collection_namespace_owner_namespace\"]},{\"id\":15798,\"name\":\"rambleraptor\",\"object_roles\":[\"galaxy.collection_namespace_owner_namespace\"]}],\"resources\":\"\",\"related_fields\":{},\"metadata_sha256\":\"79ade1b1a37683ba9180fc15dafba45fea8c99ee41f37759ceceb20af70596ec\",\"avatar_sha256\":null}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

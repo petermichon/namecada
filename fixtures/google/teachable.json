@@ -1,0 +1,23 @@
+{
+  "source": "teachable",
+  "platform": "teachable",
+  "platformName": "Teachable",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.teachable.com",
+  "paid": false,
+  "error": "transport: io: failed to lookup address information: No address associated with hostname",
+  "durationMs": 18,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://google.teachable.com",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "error": "transport: io: failed to lookup address information: No address associated with hostname"
+    }
+  ]
+}

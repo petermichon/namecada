@@ -1,0 +1,30 @@
+{
+  "source": "gettr",
+  "platform": "gettr",
+  "platformName": "Gettr",
+  "label": "google",
+  "name": "google",
+  "url": "https://gettr.com/user/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 784,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://gettr.com/api/s/uinf/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"_t\":\"xresp\",\"rc\":\"OK\",\"result\":{\"data\":{\"udate\":1721814524659,\"_t\":\"uinf\",\"_id\":\"google\",\"nickname\":\"google\",\"username\":\"google\",\"ousername\":\"google\",\"status\":\"s\",\"cdate\":1650316184859,\"lang\":\"en\",\"flw\":1,\"flg\":0,\"xversion\":\"271210908\",\"vrf\":\"UNVERIFIED\",\"premium\":{}},\"aux\":null,\"serial\":\"uinf\"}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

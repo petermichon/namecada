@@ -1,0 +1,30 @@
+{
+  "source": "codeforces",
+  "platform": "codeforces",
+  "platformName": "Codeforces",
+  "label": "google",
+  "name": "google",
+  "url": "https://codeforces.com/profile/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 158,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://codeforces.com/api/user.info?handles=google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json;charset=UTF-8"
+        },
+        "body": "{\"status\":\"OK\",\"result\":[{\"lastName\":\"Nechita\",\"country\":\"Romania\",\"lastOnlineTimeSeconds\":1555431946,\"city\":\"Cluj-Napoca\",\"rating\":2078,\"friendOfCount\":44,\"titlePhoto\":\"https://userpic.codeforces.org/no-title.jpg\",\"handle\":\"sebinechita\",\"avatar\":\"https://userpic.codeforces.org/no-avatar.jpg\",\"firstName\":\"Sebastian\",\"contribution\":0,\"organization\":\"UBB Cluj\",\"rank\":\"candidate master\",\"maxRating\":2078,\"registrationTimeSeconds\":1380899919,\"maxRank\":\"candidate master\"}]}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

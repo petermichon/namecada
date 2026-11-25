@@ -1,0 +1,30 @@
+{
+  "source": "swapd",
+  "platform": "swapd",
+  "platformName": "SWAPD",
+  "label": "google",
+  "name": "google",
+  "url": "https://swapd.co/u/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 220,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://swapd.co/u/google",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"user_badges\":[],\"user\":{\"id\":24104,\"username\":\"Google\",\"name\":\"Lydia Balashova\",\"avatar_template\":\"/letter_avatar/google/{size}/6_449c533f586939b6e5f246632a46421f.png\",\"last_posted_at\":null,\"last_seen_at\":\"2021-03-25T20:28:47.393Z\",\"created_at\":\"2021-03-23T19:41:28.449Z\",\"ignored\":false,\"muted\":false,\"can_ignore_user\":false,\"can_mute_user\":false,\"can_send_private_messages\":false,\"can_send_private_message_to_user\":false,\"trust_level\":0,\"moderator\":false,\"admin\":false,\"title\":null,\"suspend_reason\":\"Duplicate account.\",\"suspended_till\":\"3021-03-26T06:00:00.000Z\",\"badge_count\":0,\"custom_fields\":{},\"time_read\":216,\"recent_time_read\":0,\"primary_group_id\":null,\"primary_group_name\":null,\"flair_group_id\":null,\"flair_name\":null,\"flair_url\":null,\"flair_bg_color\":null,\"flair_color\":null,\"timezone\":\"America/Chicago\",\"can_edit\":false,\"can_edit_username\":false,\"can_edit_email\":false,\"can_edit_name\":false,\"uploaded_avatar_id\":null,\"pending_count\":0,\"profile_view_count\":1854,\"can_upload_profile_header\":false,\"can_upload_user_card_background\":false,\"can_chat_user\":false,\"reminders_frequency\":[{\"name\":\"discourse_assign.reminders_frequency.never\",\"value\":0},{\"name\":\"discourse_assign.reminders_frequency.daily\",\"value\":1440},{\"name\":\"discourse_assign.reminders_frequency.weekly\",\"value\":10080},{\"name\":\"discourse_assign.reminders_frequency.monthly\",\"value\":43200},{\"name\":\"discourse_assign.reminders_frequency.quarterly\",\"value\":129600}],\"can_see_following\":true,\"can_see_followers\":true,\"can_see_network_tab\":true,\"can_follow\":false,\"is_followed\":false,\"total_followers\":0,\"total_following\":0,\"notify_me_when_followed\":true,\"notify_followed_user_when_followed\":true,\"notify_me_when_followed_replies\":false,\"notify_me_when_followed_creates_topic\":true,\"allow_people_to_follow_me\":true,\"user_location\":{\"registered\":\"United States\",\"current\":\"United States\"},\"response_time_seconds\":0,\"swapd_invited_by\":null,\"seller_success_ratio\":0.0,\"seller_success_transactions\":0,\"seller_success_recent_transactions\":0,\"seller_success_recent_successful_transactions\":0,\"swapd_rank_can_see\":true,\"swapd_rank\":{\"sales\":null,\"purchases\":null,\"can_edit_privacy\":false,\"is_public\":true,\"sales_rank\":null,\"purchases_rank\":null,\"sales_count\":0,\"purchases_count\":0,\"last_updated\":1795608610},\"trustap_id\":null,\"trustap_full_user\":false,\"feedback_topic_id\":1160386,\"ratings_count\":0,\"average_rating\":0,\"feedback_limited\":true,\"featured_user_badge_ids\":[],\"invited_by\":null,\"groups\":[]}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

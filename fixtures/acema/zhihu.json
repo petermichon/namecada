@@ -1,0 +1,30 @@
+{
+  "source": "zhihu",
+  "platform": "zhihu",
+  "platformName": "Zhihu",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://api.zhihu.com/books/people/acema/publications?offset=0&limit=5",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 368,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.zhihu.com/books/people/acema/publications?offset=0&limit=5",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"paging\": {\"is_end\": true, \"totals\": 0, \"previous\": \"http://api.zhihu.com/books/people/acema/publications?limit=5&offset=0\", \"is_start\": true, \"next\": \"http://api.zhihu.com/books/people/acema/publications?limit=5&offset=5\"}, \"data\": []}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

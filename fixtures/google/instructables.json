@@ -1,0 +1,30 @@
+{
+  "source": "instructables",
+  "platform": "instructables",
+  "platformName": "Instructables",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.instructables.com/json-api/showAuthorExists?screenName=google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 227,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.instructables.com/json-api/showAuthorExists?screenName=google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json;charset=UTF-8"
+        },
+        "body": "{\"exists\": true}\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

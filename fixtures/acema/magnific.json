@@ -1,0 +1,30 @@
+{
+  "source": "magnific",
+  "platform": "magnific",
+  "platformName": "Magnific",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://www.magnific.com/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 99,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.magnific.com/app/api/community/creator-info-by-name?creator_name=acema&lang=en_US",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"message\":\"Creator not found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "source": "arduino-forum",
+  "platform": "arduino-forum",
+  "platformName": "Arduino (Forum)",
+  "label": "google",
+  "name": "google",
+  "url": "https://forum.arduino.cc/u/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 177,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://forum.arduino.cc/u/google.json",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"user\":{\"id\":380491,\"username\":\"google\",\"name\":\"google\",\"avatar_template\":\"https://avatars.discourse-cdn.com/v4/letter/g/258eb7/{size}.png\",\"profile_hidden\":true,\"title\":null,\"primary_group_name\":null,\"can_send_private_message_to_user\":false}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

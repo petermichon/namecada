@@ -1,0 +1,30 @@
+{
+  "source": "speaker-deck",
+  "platform": "speaker-deck",
+  "platformName": "Speaker Deck",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://speakerdeck.com/acema/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 319,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://speakerdeck.com/acema/",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\">\n    <title>User Not Found - Speaker Deck</title>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com/\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com/\" crossorigin>\n<link rel=\"stylesheet\" href=\"https://d1eu30co0ohy4w.cloudfront.net/assets/application-80ee19c94f72193968834aa3210a4df83b98d5578fb2eb96b9c61f20e54f0787.css\" />\n<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:700&display=swap\">\n<script src=\"https://d1eu30co0ohy4w.cloudfront.net/assets/application-7df1e945f30b9f2a4ed77e723aae483b892cef5d349fc5b9cdd39d1b26113fbb.js\"></script>\n\n<link rel=\"icon\" type=\"image/png\" href=\"https://d1eu30co0ohy4w.cloudfront.net/assets/favicon-a9c8955435dbde5af937c1a1dc73c58bfbc50760d945d12aa12c902d4047ac10.png\" />\n<link rel=\"apple-touch-icon\" type=\"image/png\" href=\"https://d1eu30co0ohy4w.cloudfront.net/assets/favicon-a9c8955435dbde5af937c1a1dc73c58bfbc50760d945d12aa12c902d4047ac10.png\" />\n<link rel=\"manifest\" href=\"/manifest.json\">\n<link rel=\"sitemap\" type=\"application/xml\" title=\"Sitemap\" href=\"/sitemaps.xml\">\n<meta name=\"csrf-param\" content=\"authenticity_token\" />\n<meta name=\"csrf-token\" content=\"c-U6ZBlLQV5efQlrJPWA178tQcyKDpRoT56XJxUKVc3k5xGqVny9il2qCuVSCP1ct952NAzf-vAdkWaEv5o7nA\" />\n<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TSP938CX');function gtag(){dataLayer.push(arguments);}</script>\n\n    \n  </head>\n  <body class=\"focused py-md-4\">\n    \n    <div class=\"d-flex container-full-height align-items-center justify-content-center p-3 flex-column\">\n      <div class=\"card container-sm w-100 p-4\">\n        \n        <div class=\"w-100 focused-container\">\n          <div class=\"text-center mb-4 font-weight-bold\">\n            <img alt=\"Speaker Deck\" class=\"focused-logo\" src=\"https://d1eu30co0ohy4w.cloudfront.net/assets/mark-b4564b4f9dc9bdeca7045c4363a11974af59de8c3e02c7915a0b27abafd1c6e1.svg\" /> Speaker Deck\n          </div>\n          <h2>User Not Found</h2>\n<p>The user you are looking for could not be found. Try going <a href=\"/\">home</a> or perusing our <a href=\"/p/featured\">featured decks</a> instead.</p>\n\n        </div>\n        \n      </div>\n      \n    </div>\n      <script src=\"https://d1eu30co0ohy4w.cloudfront.net/assets/stats-d66b77771b8f362936d42a829f1fce22974587e362d585e06522b44cba6ed1f0.js\"></script>\n  <script data-turbolinks-eval=\"false\">\n    Stats.host = 'speakerdeck.com';\n  </script>\n\n    <noscript><iframe src=\"https://www.googletagmanager.com/ns.html?id=GTM-TSP938CX\" height=\"0\" width=\"0\" style=\"display:none;visibility:hidden\"></iframe></noscript>\n\n    <script>\n      !function(f,b,e,v,n,t,s) {\n        if(f.fbq) return;\n        n=f.fbq=function() { n.callMethod? n.callMethod.apply(n,arguments) : n.queue.push(arguments) };\n        if(!f._fbq) f._fbq=n; n.push=n; n.loaded=!0; n.version='2.0'; n.queue=[];\n        t=b.createElement(e); t.async=!0; t.src=v;\n        s=b.getElementsByTagName(e)[0];\n        s.parentNode.insertBefore(t, s)\n      }(window, document,'script', 'https://connect.facebook.net/en_US/fbevents.js');\n\n      fbq('init', '2893765844191276');\n      fbq('track', 'PageView');\n\n    </script>\n    <noscript>\n      <img height=\"1\" width=\"1\" style=\"display:none\" src=\"https://www.facebook.com/tr?id=2893765844191276&ev=PageView&noscript=1\" />\n    </noscript>\n\n  \n\n    \n  <script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML=\"window.__CF$cv$params={r:'a601090d6ff11661',t:'MTc5NTYxMzcxMw=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a601090d6ff11661',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);\";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

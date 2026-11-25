@@ -1,0 +1,30 @@
+{
+  "source": "bezuzyteczna",
+  "platform": "bezuzyteczna",
+  "platformName": "Bezuzyteczna",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://bezuzyteczna.pl/uzytkownicy/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 137,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://bezuzyteczna.pl/uzytkownicy/acema",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=UTF-8"
+        },
+        "body": "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n\t<meta charset=\"utf-8\">\r\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n\t<meta name=\"csrf-token\" content=\"UlMCilivnXOdDR92NPPHbai1LsaH6VyBIq2C7q8Z\" />\r\n\t<meta name=\"theme-color\" content=\"#3d3738\">\r\n\r\n\t<title>Nie znaleziono strony</title>\r\n\r\n\t\t\t<link href=\"https://bezuzyteczna.pl/build/styles-master-840ed31719.css\" rel=\"stylesheet\">\r\n\t\r\n\t</head>\r\n<body>\r\n\r\n\t<div class=\"wrapper header\">\r\n\t\t<div class=\"container-fluid\">\r\n\t\t\t<div class=\"logo\">\r\n\t\t\t\t<a href=\"https://bezuzyteczna.pl\"><img src=\"https://bezuzyteczna.pl/img/site/logo.png\" alt=\"logo\"></a>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\r\n\t    <div class=\"wrapper main-content\">\r\n        <div class=\"container\">\r\n            <div class=\"main-content__narrow\">\r\n\r\n                <h1 class=\"title\">Strona nie istnieje</h1>\r\n\r\n                <div class=\"main-content__content\">\r\n                    <div class=\"text\">\r\n                        Niestety strona, której szukasz nie istnieje.                        Zapraszamy na                        <b><a class=\"c\" href=\"https://bezuzyteczna.pl\">stronę główną serwisu</a></b>.\r\n                    </div>\r\n                </div>\r\n\r\n            </div>\r\n\r\n        </div>\r\n    </div>\r\n\r\n\t<div class=\"wrapper footer\">\r\n\t\t<div class=\"container\">\r\n\t\t\t<div class=\"footer__apps\">\r\n\t\t\t\t<p class=\"footer__title\">Pobierz aplikację na telefon</p>\r\n\r\n\t\t\t\t<span class=\"footer__app-link\"><img src=\"https://bezuzyteczna.pl/img/site/icons/get-app.png\" alt=\"\"></span>\r\n\t\t\t\t<a class=\"footer__app-link\" target=\"_blank\" href=\"https://itunes.apple.com/pl/app/wiedza-bezuzyteczna/id659334284?mt=8\"><img src=\"https://bezuzyteczna.pl/img/site/icons/get-on-app-store.png\" alt=\"\"></a>\r\n\t\t\t\t<a class=\"footer__app-link\" target=\"_blank\" href=\"https://play.google.com/store/apps/details?id=pl.hammermedia.bezuzyteczna&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1\"><img src=\"https://bezuzyteczna.pl/img/site/icons/get-on-google-play.png\" alt=\"\"></a>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\r\n\t<!--[if lt IE 9]>\r\n\t<script src=\"https://bezuzyteczna.pl/js/site/html5shiv.min.js\"></script><![endif]-->\r\n\r\n\t\t\t<script src=\"https://bezuzyteczna.pl/build/scripts-master-9d3a57556d.js\"></script>\r\n\t\r\n</body>\r\n</html>\r\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

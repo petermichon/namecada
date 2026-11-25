@@ -1,0 +1,30 @@
+{
+  "source": "coub",
+  "platform": "coub",
+  "platformName": "Coub",
+  "label": "google",
+  "name": "google",
+  "url": "https://coub.com/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 189,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://coub.com/api/v2/channels/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"error\":\"Channel not found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

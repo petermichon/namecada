@@ -1,0 +1,30 @@
+{
+  "source": "leasehackr",
+  "platform": "leasehackr",
+  "platformName": "Leasehackr",
+  "label": "google",
+  "name": "google",
+  "url": "https://forum.leasehackr.com/u/google/summary/",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 557,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://forum.leasehackr.com/u/google/summary/",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"topics\":[{\"fancy_title\":\"Acura RDX Advance package lease offer evaluation\",\"id\":22022,\"title\":\"Acura RDX Advance package lease offer evaluation\",\"slug\":\"acura-rdx-advance-package-lease-offer-evaluation\",\"posts_count\":9,\"category_id\":5,\"like_count\":0,\"created_at\":\"2017-10-04T15:16:36.133Z\",\"has_accepted_answer\":false}],\"badges\":[{\"id\":1,\"name\":\"Basic\",\"description\":\"\\u003ca href=\\\"https://blog.discourse.org/2018/06/understanding-discourse-trust-levels/\\\"\\u003eGranted\\u003c/a\\u003e all essential community functions\",\"grant_count\":104798,\"allow_title\":false,\"multiple_grant\":false,\"icon\":\"user\",\"image_url\":null,\"listable\":true,\"enabled\":true,\"badge_grouping_id\":4,\"system\":true,\"slug\":\"basic\",\"manually_grantable\":false,\"show_in_post_header\":false,\"badge_type_id\":3},{\"id\":24,\"name\":\"Anniversary\",\"description\":\"Active member for a year, posted at least once\",\"grant_count\":81073,\"allow_title\":false,\"multiple_grant\":true,\"icon\":\"cake-candles\",\"image_url\":null,\"listable\":true,\"enabled\":true,\"badge_grouping_id\":2,\"system\":true,\"slug\":\"anniversary\",\"manually_grantable\":false,\"show_in_post_header\":false,\"badge_type_id\":2}],\"badge_types\":[{\"id\":3,\"name\":\"Bronze\",\"sort_order\":7},{\"id\":2,\"name\":\"Silver\",\"sort_order\":8}],\"users\":[{\"id\":8881,\"username\":\"google\",\"name\":\"\",\"avatar_template\":\"/letter_avatar/google/{size}/5_5575768a8748004e209b776fc1b2916d.png\",\"trust_level\":1},{\"id\":-1,\"username\":\"system\",\"name\":\"system\",\"avatar_template\":\"https://leasehackr-assets.b-cdn.net/original/3X/f/7/f76e5433b417879e07ad6f0cee47e239c8f1cdd4.png\",\"admin\":true,\"moderator\":true,\"trust_level\":4}],\"user_summary\":{\"likes_given\":0,\"likes_received\":0,\"topics_entered\":54,\"posts_read_count\":298,\"days_visited\":17,\"topic_count\":0,\"post_count\":1,\"time_read\":4029,\"recent_time_read\":0,\"can_see_summary_stats\":true,\"can_see_user_actions\":true,\"solved_count\":0,\"topic_ids\":[],\"replies\":[{\"post_number\":4,\"like_count\":0,\"created_at\":\"2017-10-09T15:08:26.068Z\",\"topic_id\":22022}],\"links\":[],\"most_liked_by_users\":[],\"most_liked_users\":[],\"most_replied_to_users\":[{\"id\":8726,\"username\":\"reesh\",\"name\":\"\",\"count\":1,\"avatar_template\":\"/letter_avatar/reesh/{size}/5_5575768a8748004e209b776fc1b2916d.png\",\"admin\":false,\"moderator\":false,\"trust_level\":1,\"flair_name\":null,\"flair_url\":null,\"flair_bg_color\":null,\"flair_color\":null,\"primary_group_name\":null}],\"badges\":[{\"id\":20058,\"granted_at\":\"2017-10-05T01:25:07.939Z\",\"created_at\":\"2017-10-05T01:25:07.939Z\",\"count\":1,\"badge_id\":1,\"user_id\":8881,\"granted_by_id\":-1},{\"id\":61358,\"granted_at\":\"2018-10-05T20:08:30.592Z\",\"created_at\":\"2018-10-05T20:08:30.592Z\",\"count\":1,\"badge_id\":24,\"user_id\":8881,\"granted_by_id\":-1}],\"top_categories\":[{\"topic_count\":0,\"post_count\":1,\"id\":5,\"name\":\"Ask the Hackrs\",\"color\":\"F1592A\",\"text_color\":\"FFFFFF\",\"style_type\":\"square\",\"icon\":null,\"emoji\":null,\"slug\":\"ask-the-hackrs\",\"read_restricted\":false,\"parent_category_id\":null}]}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

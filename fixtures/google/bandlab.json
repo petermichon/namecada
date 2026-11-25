@@ -1,0 +1,30 @@
+{
+  "source": "bandlab",
+  "platform": "bandlab",
+  "platformName": "Bandlab",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.bandlab.com/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 309,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.bandlab.com/api/v1.3/users/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"about\":null,\"backgroundPicture\":{\"isDefault\":true,\"url\":\"https://bl-prod-images.azureedge.net/v1.0/userbackgrounds/default/\"},\"backgroundPictureId\":null,\"badges\":[],\"collaborationStatus\":\"None\",\"conversationId\":null,\"counters\":{\"bandFollowings\":0,\"bands\":0,\"collections\":0,\"followers\":3,\"following\":0,\"plays\":0,\"profilePictures\":1},\"createdOn\":\"2016-11-11T18:00:46Z\",\"followingState\":\"None\",\"genres\":[{\"id\":\"rock\",\"name\":\"Rock\"},{\"id\":\"pop\",\"name\":\"Pop\"},{\"id\":\"hip-hop\",\"name\":\"Hip Hop\"},{\"id\":\"electronic\",\"name\":\"Electronic\"},{\"id\":\"jazz\",\"name\":\"Jazz\"},{\"id\":\"folk\",\"name\":\"Folk\"},{\"id\":\"latin\",\"name\":\"Latin\"},{\"id\":\"classical\",\"name\":\"Classical\"},{\"id\":\"blues\",\"name\":\"Blues\"},{\"id\":\"other\",\"name\":\"Other\"}],\"hasOnlyEduPlatform\":false,\"id\":\"023ba1c4-38a8-e611-80c3-0003ff466c19\",\"inspiredBy\":[],\"introVideo\":null,\"invite\":null,\"isBoosted\":false,\"isFollower\":false,\"isPrivate\":false,\"isTippable\":false,\"isVerified\":false,\"links\":{},\"liveShowId\":null,\"modifiedOn\":\"2016-11-11T18:02:27Z\",\"name\":\"swapnesh krishnani\",\"picture\":{\"adjustedColor\":null,\"adjustedColorLValue\":null,\"color\":null,\"isDefault\":false,\"url\":\"https://bl-prod-images.azureedge.net/v1.0/users/023ba1c4-38a8-e611-80c3-0003ff466c19/\"},\"pictureId\":\"023ba1c4-38a8-e611-80c3-0003ff466c19\",\"place\":null,\"skills\":[{\"id\":\"guitarist\",\"name\":\"Guitarist\"},{\"id\":\"vocalist\",\"name\":\"Vocalist\"},{\"id\":\"songwriter\",\"name\":\"Songwriter\"}],\"username\":\"google\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

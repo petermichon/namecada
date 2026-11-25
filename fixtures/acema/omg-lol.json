@@ -1,0 +1,30 @@
+{
+  "source": "omg-lol",
+  "platform": "omg-lol",
+  "platformName": "omg.lol",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://api.omg.lol/address/acema/info",
+  "paid": false,
+  "status": "available",
+  "durationMs": 465,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.omg.lol/address/acema/info",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\n    \"request\": {\n        \"status_code\": 404,\n        \"success\": false\n    },\n    \"response\": {\n        \"address\": \"acema\",\n        \"message\": \"This address cannot be found.\"\n    }\n}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

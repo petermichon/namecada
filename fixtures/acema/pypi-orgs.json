@@ -1,0 +1,30 @@
+{
+  "source": "pypi-orgs",
+  "platform": "pypi-orgs",
+  "platformName": "PyPI orgs",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://pypi.org/org/acema/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 187,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://pypi.org/org/acema/",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=UTF-8"
+        },
+        "body": "<!DOCTYPE html>\n<html lang=\"en\" dir=\"ltr\">\n  <head>\n    <meta charset=\"utf-8\">\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"defaultLanguage\" content=\"en\">\n    <meta name=\"availableLanguages\"\n          content=\"de, en, es, eo, fr, pt_BR, el, ru, uk, he, zh_Hans, zh_Hant, ja, ko\">\n    <title>Page Not Found (404) · PyPI</title>\n    <meta name=\"description\"\n          content=\"The Python Package Index (PyPI) is a repository of software for the Python programming language.\">\n    <link rel=\"stylesheet\"\n          href=\"/static/css/warehouse-ltr.35c548ea.css\">\n    <link rel=\"stylesheet\"\n          href=\"/static/css/fontawesome.94176253.css\">\n    <link rel=\"stylesheet\"\n          href=\"/static/css/fonts.f84c7795.css\">\n    <noscript>\n      <link rel=\"stylesheet\"\n            href=\"/static/css/noscript.0673c9ea.css\">\n    </noscript>\n  <link rel=\"stylesheet\"\n        href=\"/static/css/fonts-ewert.edefec93.css\">\n    <link rel=\"icon\"\n          href=\"/static/images/favicon.35549fe8.ico\"\n          type=\"image/x-icon\">\n    <link rel=\"alternate\"\n          type=\"application/rss+xml\"\n          title=\"RSS: 40 latest updates\"\n          href=\"/rss/updates.xml\">\n    <link rel=\"alternate\"\n          type=\"application/rss+xml\"\n          title=\"RSS: 40 newest packages\"\n          href=\"/rss/packages.xml\">\n    <meta property=\"og:url\"\n          content=\"https://pypi.org/org/acema/\">\n    <meta property=\"og:site_name\" content=\"PyPI\">\n    <meta property=\"og:type\" content=\"website\">\n<meta name=\"twitter:card\" content=\"summary\">    <meta property=\"og:title\"\n          content=\"Page Not Found (404)\">\n    <meta property=\"og:description\" content=\"The Python Package Index (PyPI) is a repository of software for the Python programming language.\">\n<meta name=\"source-commit\" content=\"5efb67d97593e2f4f6ba9cff360793d40d6e682a\">    <link rel=\"search\"\n          type=\"application/opensearchdescription+xml\"\n          title=\"PyPI\"\n          href=\"/opensearch.xml\">\n    <script defer src=\"/static/js/warehouse.c61ca478.js\">\n    </script>\n      <script src=\"/static/js/utils/plausible-init.912dafff.js\"></script>\n      <script async\n              src=\"https://analytics.python.org/js/pa-Z-QYGvOKHwfKWak0xljXn.js\"></script>\n    <script async\n            src=\"https://media.ethicalads.io/media/client/v1.4.0/ethicalads.min.js\"\n            integrity=\"sha256-U3hKDidudIaxBDEzwGJApJgPEf2mWk6cfMWghrAa6i0= sha384-UcmsCqcNRSLW/dV3Lo1oCi2/VaurXbib6p4HyUEOeIa/4OpsrnucrugAefzVZJfI sha512-q4t1L4xEjGV2R4hzqCa41P8jrgFUS8xTb8rdNv4FGvw7FpydVj/kkxBJHOiaoxHa8olCcx1Slk9K+3sNbsM4ug==\"\n            crossorigin=\"anonymous\"></script>\n  </head>\n  <body data-controller=\"viewport-toggle\">\n<div class=\"viewport-section viewport-section--dark\">\n  <div class=\"viewport-section__content\">\n    <a href=\"/\">\n      <img alt=\"PyPI\"\n           src=\"/static/images/logo-small.0e0855d0.svg\">\n    </a>\n    <h1 class=\"viewport-section__heading\">\nWe looked everywhere but couldn't find this page    </h1>\n  <form class=\"search-form search-form--large search-form--fullwidth\"\n        action=\"/search/\"\n        role=\"search\">\n    <label for=\"search\" class=\"sr-only\">Search PyPI</label>\n    <input id=\"search\"\n           class=\"search-form__search large-input\"\n           type=\"text\"\n           name=\"q\"\n           placeholder=\"Search projects\"\n           autocomplete=\"off\"\n           spellcheck=\"false\"\n           autocapitalize=\"off\">\n    <button type=\"submit\" class=\"search-form__button\">\n      <i class=\"fa fa-search\" aria-hidden=\"true\"></i>\n      <span class=\"sr-only\">Search</span>\n    </button>\n  </form>\n      <div class=\"viewport-section__text\">\n        <p>\n          <strong>Error code&nbsp;404</strong>\n          <br>\n          <a href=\"/\">Back to the homepage</a>\n        </p>\n      </div>\n  </div>\n</div>\n  <div class=\"viewport-section viewport-section--ee\">\n    <div class=\"viewport-section__content\">\n      <h2 class=\"viewport-section__heading\">\nAnd now for something <br> <span>completely different</span>      </h2>\n      <div class=\"viewport-section__video\">\n        <div class=\"viewport-section__video-container\">\n          <iframe title=\"Monty Python - The Cheese Shop Sketch\"\n                  width=\"560\"\n                  height=\"315\"\n                  src=\"https://www.youtube-nocookie.com/embed/zB8pbUW5n1g?rel=0&enablejsapi=1&showinfo=0&iv_load_policy=3&origin=https://pypi.org\"\n                  frameborder=\"0\"\n                  allowfullscreen></iframe>\n        </div>\n        <p>\n          <a href=\"https://people.cs.rutgers.edu/~mdstone/class/440-fall-99/cheeseshop.html\"\n             title=\"External link\"\n             target=\"_blank\"\n             rel=\"noopener\">View video transcript</a>\n        </p>\n      </div>\n    </div>\n  </div>\n</body>\n</html>",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

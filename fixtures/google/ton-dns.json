@@ -1,0 +1,30 @@
+{
+  "source": "ton-dns",
+  "platform": "ton-dns",
+  "platformName": "TON DNS",
+  "label": "google",
+  "name": "google",
+  "url": "https://tonapi.io/v2/dns/google.ton",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 57,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://tonapi.io/v2/dns/google.ton",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"name\":\"google.ton\",\"expiring_at\":1811599349,\"item\":{\"address\":\"0:f53ab840bea830778b9d04fa059e3982a9b852ff420e3229d23d2d3906f353a8\",\"index\":2396695930200197090,\"owner\":{\"address\":\"0:a816f56fe38ef02d5f51a745365b7c3605d2fb4e864e4e53c4ec700217c35368\",\"is_scam\":false,\"is_wallet\":true},\"collection\":{\"address\":\"0:b774d95eb20543f186c06b371ab88ad704f7e256130caf96189368a7d0cb6ccf\",\"name\":\"TON DNS Domains\",\"description\":\"*.ton domains\"},\"verified\":true,\"metadata\":{\"name\":\"google.ton\",\"buttons\":[{\"label\":\"Manage\",\"uri\":\"https://dns.tonkeeper.com/manage?v=0:f53ab840bea830778b9d04fa059e3982a9b852ff420e3229d23d2d3906f353a8\"}]},\"previews\":[{\"resolution\":\"5x5\",\"url\":\"https://cache.tonapi.io/imgproxy/qxsOS7oULnUiXEOJWi9f1fO1SZcyknnCUarb5RVgBKY/rs:fill:5:5:1/g:no/aHR0cHM6Ly9jYWNoZS50b25hcGkuaW8vZG5zL3ByZXZpZXcvZ29vZ2xlLnRvbi5wbmc.webp\"},{\"resolution\":\"100x100\",\"url\":\"https://cache.tonapi.io/imgproxy/iILVdJDFaBz2M1OVVmj5NYpyy3Ga70bP-Z5PX_a40lg/rs:fill:100:100:1/g:no/aHR0cHM6Ly9jYWNoZS50b25hcGkuaW8vZG5zL3ByZXZpZXcvZ29vZ2xlLnRvbi5wbmc.webp\"},{\"resolution\":\"500x500\",\"url\":\"https://cache.tonapi.io/imgproxy/iq6nwyqf001cBPEhaFxx1AgXcGynOlheirba900uZmE/rs:fill:500:500:1/g:no/aHR0cHM6Ly9jYWNoZS50b25hcGkuaW8vZG5zL3ByZXZpZXcvZ29vZ2xlLnRvbi5wbmc.webp\"},{\"resolution\":\"1500x1500\",\"url\":\"https://cache.tonapi.io/imgproxy/bz54gL3OrtcZKlupRIpVQUz3I6fiiAXeQnWSq0E1UFs/rs:fill:1500:1500:1/g:no/aHR0cHM6Ly9jYWNoZS50b25hcGkuaW8vZG5zL3ByZXZpZXcvZ29vZ2xlLnRvbi5wbmc.webp\"}],\"dns\":\"google.ton\",\"approved_by\":[\"getgems\"],\"trust\":\"whitelist\",\"code_hash\":\"i1/8nr/TkGTY1fVuRlnIJrt1k5I/XKSHKL5NYK9vUfk=\",\"data_hash\":\"ZfFktKJQGiK8whwRPfOyMgBLSsW6Bu4IvNZUGuFV55I=\"}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

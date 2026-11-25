@@ -1,0 +1,30 @@
+{
+  "source": "factorio-mods",
+  "platform": "factorio-mods",
+  "platformName": "Factorio Mod Portal",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://mods.factorio.com/api/mods/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 334,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://mods.factorio.com/api/mods/acema",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"message\":\"Mod not found\"}\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

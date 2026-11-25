@@ -1,0 +1,30 @@
+{
+  "source": "haxe-lib",
+  "platform": "haxe-lib",
+  "platformName": "Haxe Library",
+  "label": "google",
+  "name": "google",
+  "url": "https://lib.haxe.org/p/google/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 52,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://lib.haxe.org/p/google/",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n\t<title>Page Not Found</title>\n\t<style>\n\t\tbody {\n\t\t\tfont-family: sans-serif;\n\t\t}\n\t\t.container {\n\t\t\tmax-width: 800px;\n\t\t\tmargin: 30px auto;\n\t\t}\n\t\t.jumbotron {\n\t\t\tpadding: 30px;\n\t\t\tborder-radius: 30px;\n\t\t\tbackground-color: rgb(230,230,230);\n\t\t}\n\t\tp[frown] {\n\t\t\ttext-align: center;\n\t\t}\n\t\tp[frown] span { \n\t\t\ttransform: rotate(90deg);\n\t\t\tdisplay: inline-block;\n\t\t\tcolor: #bbb;\n\t\t\tfont-size: 3em;\n\t\t}\n\t</style>\n</head>\n<body>\n\t<div class=\"container\">\n\t\t<div class=\"jumbotron\">\n\t\t\t<p frown><span>:(</span></p>\n\t\t\t\n\t\t\t<summary class=\"error-summary\"><h1 class=\"error-message\">Page Not Found</h1></summary>\n\t\t\t<details class=\"error-details\">   </details>\n\t\t\n\t\t</div>\n\t</div>\n\n<script type=\"text/javascript\">\nconsole.error(decodeURIComponent(\"ufront.web.ErrorPageHandler.handleError%2844%29%3A%20Handling%20error%3A%20Error%23404%3A%20Page%20Not%20Found%20%40%20website.api.ProjectApi.projectInfo%3A49\"))\n</script></body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "source": "cropty",
+  "platform": "cropty",
+  "platformName": "Cropty",
+  "label": "google",
+  "name": "google",
+  "url": "https://api.cropty.io/v1/auth/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 62,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.cropty.io/v1/auth/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"data\":{\"name\":\"\",\"nickname\":\"GOOGLE\",\"image\":\"https:\\/\\/api.cropty.io\\/images\\/defaults\\/user\\/avatar.png\",\"ref_code\":\"1823766e\",\"ref_link\":\"https:\\/\\/r.cpt.ai\\/1823766e\"}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

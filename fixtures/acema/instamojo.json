@@ -1,0 +1,30 @@
+{
+  "source": "instamojo",
+  "platform": "instamojo",
+  "platformName": "Instamojo",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://www.instamojo.com/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 271,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.instamojo.com/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!DOCTYPE html>\n<!--[if lt IE 7]>      <html class=\"no-js lt-ie9 lt-ie8 lt-ie7\"> <![endif]-->\n<!--[if IE 7]>         <html class=\"no-js lt-ie9 lt-ie8\"> <![endif]-->\n<!--[if IE 8]>         <html class=\"no-js lt-ie9\"> <![endif]-->\n<!--[if gt IE 8]><!--> <html class=\"no-js\"> <!--<![endif]-->\n  <head>\n    <meta charset=\"utf-8\">\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">\n    <title>404: Page Not Found &mdash; Instamojo</title>\n    <meta name=\"viewport\" content=\"width=device-width\">\n    <meta name=\"robots\" content=\"noindex, nofollow\">\n    <style>\n      body {\n        font-family: 'Open Sans', Lucida Grande, Lucida Sans, Tahoma, sans-serif;\n      }\n      h1 {\n        text-align: center;\n      }\n        h1 span {\n          display: block;\n        }\n        h1 .green {\n          font-size: 5em;\n        }\n        h1 .blue {\n          font-size: 1em;\n        }\n      .green {\n        color: #00b6a5;\n      }\n      .cinnabar-red {\n        color: #DF542F;\n      }\n      .purple {\n        color: #444463;\n      }\n\n      p, ul {\n        line-height: 1.6em;\n        max-width: 600px;\n        margin: 0 auto 20px auto;\n      }\n\n      ul {\n        list-style-type: square;\n        list-style-position: inside;\n        text-align: left;\n      }\n\n      blockquote {\n        color: #999;\n        max-width: 550px;\n        line-height: 1.6em;\n        margin: 0 auto;\n        text-align: left;\n      }\n    </style>\n  </head>\n  <body style=\" text-align: center;\">\n    <div class=\"push--ends\" style=\"max-width: 800px; margin: 2em auto;\">\n      <img style=\"margin: 0 auto;\" src=\"https://www.instamojo.com/blog/wp-content/uploads/404.png\" alt=\"404\" width=\"500\"/>\n      <h1><span class=\"cinnabar-red\">This page was lost</span></h1>\n      <ul class=\"purple\">\n        <li>The URL is wrong.</li>\n        <li>The page you're looking for never existed, doesn't exist or is having an existential crisis.</li>\n        <li>If you're looking for an offer: it might have been deleted, archived or might be under moderation.</li>\n      </ul>\n      <p><a href=\"/\" class=\"purple\" style=\"text-decoration: none;margin-top: 50px;\">Go back to Instamojo</a></p>\n    </div>\n\n    <!-- Google analytics -->\n    <script>\n      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\n          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');\n\n      ga('create', 'UA-31152203-1', {'siteSpeedSampleRate': 50});\n      ga('require', 'displayfeatures');\n      ga('send', 'pageview');\n    </script>\n\n  <script type=\"module\" src=\"https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092\" integrity=\"sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==\" data-cf-beacon='{\"version\":\"2024.11.0\",\"token\":\"23033ba02c77436c8149c5758e01aaa7\",\"r\":1,\"spa\":2}' crossorigin=\"anonymous\"></script>\n</body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

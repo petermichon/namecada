@@ -1,0 +1,30 @@
+{
+  "source": "cropty",
+  "platform": "cropty",
+  "platformName": "Cropty",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://api.cropty.io/v1/auth/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 61,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.cropty.io/v1/auth/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"errors\":[{\"message\":\"Something went wrong\",\"code\":\"ModelNotFoundException\",\"context\":null}]}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

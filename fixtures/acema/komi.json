@@ -1,0 +1,30 @@
+{
+  "source": "komi",
+  "platform": "komi",
+  "platformName": "Komi",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://komi.io/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 155,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.komi.io/api/talent/usernames/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"statusCode\":404,\"message\":\"The talent profile was not found\",\"error\":\"Not Found\",\"code\":1000,\"type\":\"HttpException\",\"timestamp\":\"2026-11-25T13:35:11.893Z\",\"path\":\"/api/talent/usernames/acema\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

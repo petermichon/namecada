@@ -1,0 +1,30 @@
+{
+  "source": "tilvids",
+  "platform": "tilvids",
+  "platformName": "TILvids",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://tilvids.com/api/v1/accounts/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 129,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://tilvids.com/api/v1/accounts/acema",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/problem+json; charset=utf-8"
+        },
+        "body": "{\"type\":\"about:blank\",\"title\":\"Not Found\",\"detail\":\"Account not found\",\"status\":404}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

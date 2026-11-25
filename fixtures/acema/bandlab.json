@@ -1,0 +1,30 @@
+{
+  "source": "bandlab",
+  "platform": "bandlab",
+  "platformName": "Bandlab",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://www.bandlab.com/acema",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 199,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.bandlab.com/api/v1.3/users/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"about\":null,\"backgroundPicture\":{\"isDefault\":true,\"url\":\"https://bl-prod-images.azureedge.net/v1.0/userbackgrounds/default/\"},\"backgroundPictureId\":null,\"badges\":[],\"collaborationStatus\":\"None\",\"conversationId\":null,\"counters\":{\"bandFollowings\":0,\"bands\":0,\"collections\":0,\"followers\":0,\"following\":0,\"plays\":0,\"profilePictures\":1},\"createdOn\":\"2019-11-08T23:23:12Z\",\"followingState\":\"None\",\"genres\":[{\"id\":\"rock\",\"name\":\"Rock\"},{\"id\":\"electronic\",\"name\":\"Electronic\"},{\"id\":\"jazz\",\"name\":\"Jazz\"},{\"id\":\"metal\",\"name\":\"Metal\"}],\"hasOnlyEduPlatform\":false,\"id\":\"171aa2ba-7e02-ea11-add2-2818789a0160\",\"inspiredBy\":[],\"introVideo\":null,\"invite\":null,\"isBoosted\":false,\"isFollower\":false,\"isPrivate\":false,\"isTippable\":false,\"isVerified\":false,\"links\":{},\"liveShowId\":null,\"modifiedOn\":\"2019-11-08T23:25:08Z\",\"name\":\"Flecha\",\"picture\":{\"adjustedColor\":null,\"adjustedColorLValue\":null,\"color\":null,\"isDefault\":true,\"url\":\"https://bl-prod-images.azureedge.net/v1.0/users/default/\"},\"pictureId\":null,\"place\":null,\"skills\":[{\"id\":\"bass-player\",\"name\":\"Bass Player\"}],\"username\":\"acema\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

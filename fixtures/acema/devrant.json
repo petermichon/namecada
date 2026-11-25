@@ -1,0 +1,31 @@
+{
+  "source": "devrant",
+  "platform": "devrant",
+  "platformName": "DevRant",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://devrant.com/users/acema",
+  "paid": false,
+  "status": "unknown",
+  "detail": "unexpected response",
+  "durationMs": 339,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://devrant.com/api/get-user-id?app=3&username=acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"success\":false}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

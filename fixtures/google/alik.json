@@ -1,0 +1,23 @@
+{
+  "source": "alik",
+  "platform": "alik",
+  "platformName": "Alik",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.alik.cz/u/google",
+  "paid": false,
+  "error": "transport: io: Connection reset by peer (os error 104)",
+  "durationMs": 92,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.alik.cz/u/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "error": "transport: io: Connection reset by peer (os error 104)"
+    }
+  ]
+}

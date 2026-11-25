@@ -1,0 +1,30 @@
+{
+  "source": "freecodecamp",
+  "platform": "freecodecamp",
+  "platformName": "FreeCodeCamp",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://api.freecodecamp.org/users/get-public-profile?username=acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 325,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.freecodecamp.org/users/get-public-profile?username=acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

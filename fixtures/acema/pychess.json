@@ -1,0 +1,30 @@
+{
+  "source": "pychess",
+  "platform": "pychess",
+  "platformName": "Pychess",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://www.pychess.org/@/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 104,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.pychess.org/@/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>404 · PyChess</title><style>body{font:1.2rem system-ui,sans-serif;max-width:38rem;margin:12vh auto;padding:0 1.5rem;color:#333}h1{font-size:4rem;margin:0}a{color:#1769aa}</style></head><body><main><h1>404</h1><p>Page not found.</p><p><a href=\"/\">Return to PyChess</a></p></main></body></html>",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

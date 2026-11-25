@@ -1,0 +1,30 @@
+{
+  "source": "streamelements",
+  "platform": "streamelements",
+  "platformName": "StreamElements",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://api.streamelements.com/kappa/v2/channels/acema",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 153,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.streamelements.com/kappa/v2/channels/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"profile\":{\"headerImage\":\"https://cdn.streamelements.com/static/user/profile_header_default.png\",\"title\":\"acema's profile\"},\"_id\":\"5e1a1de90e3274e9770c1d1d\",\"provider\":\"youtube\",\"broadcasterType\":\"\",\"suspended\":false,\"providerId\":\"UC_xoEfg08rP_HyIecrUlOgw\",\"avatar\":\"https://yt3.ggpht.com/a/AGF-l79D1Siy8juQkVduYmHx_xY_AatpNLlOz5JMng=s88-c-k-c0xffffffff-no-rj-mo\",\"username\":\"acema\",\"alias\":\"acema\",\"displayName\":\"Ac ema\",\"inactive\":false,\"isPartner\":false}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

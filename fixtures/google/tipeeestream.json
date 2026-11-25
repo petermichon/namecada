@@ -1,0 +1,30 @@
+{
+  "source": "tipeeestream",
+  "platform": "tipeeestream",
+  "platformName": "TipeeeStream",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.tipeeestream.com/v3.0/pages/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 116,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.tipeeestream.com/v3.0/pages/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"message\":\"Not found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

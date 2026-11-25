@@ -1,0 +1,30 @@
+{
+  "source": "note",
+  "platform": "note",
+  "platformName": "Note",
+  "label": "google",
+  "name": "google",
+  "url": "https://note.com/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 264,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://note.com/api/v2/creators/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"data\":{\"id\":15441488,\"key\":\"f52b002c4fe759ec54305c7dc9652a73\",\"nickname\":\"ミカヅキモ爆破チャンネル\",\"urlname\":\"google\",\"profile\":\"\",\"noteCount\":0,\"magazineCount\":0,\"followingCount\":0,\"followerCount\":0,\"isFollowing\":false,\"isFollowed\":false,\"isMyself\":false,\"originalHeaderImageUrl\":null,\"headerImageUrl\":null,\"headerImageKey\":null,\"profileImageUrl\":\"https://d2l930y2yx77uc.cloudfront.net/assets/default/default_profile_4-e3b57528da29acad20d5a2db33268c87f1d39015448757ddf346d60fb5861e49.png\",\"profileImageKey\":null,\"isBlocked\":false,\"blocksYou\":false,\"isAdmin\":false,\"socials\":{},\"isOfficial\":false,\"showFollowCount\":true,\"externalLinks\":{},\"disableSupport\":false,\"hasStore\":false,\"hasCircle\":false,\"customDomain\":null,\"followAppealText\":null,\"followAppealImage\":null,\"isCreatorLikesTabEnabled\":true,\"isCreatorMagazinesTabEnabled\":true,\"isCreatorCirclesTabEnabled\":true,\"isCreatorArchivesTabEnabled\":true,\"isCreatorProfileTabEnabled\":false,\"isCreatorJobOfferTabEnabled\":false,\"isCreatorQaTabEnabled\":true,\"isCreatorFollowNumberDisplayed\":true,\"isCreatorPopularSortEnabled\":true,\"style\":\"list\",\"isPro\":false,\"proUserId\":null,\"tlMagazines\":[],\"isMedia\":false,\"storeUrl\":\"\",\"jobSourceUrl\":null,\"isHavingSubscribableMagazines\":false,\"dmAcceptEnabled\":\"followers\",\"dmAcceptSetting\":{\"canUse\":true,\"everyone\":false,\"followers\":false,\"following\":true,\"membership\":false},\"canSendDm\":false}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

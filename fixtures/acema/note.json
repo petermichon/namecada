@@ -1,0 +1,30 @@
+{
+  "source": "note",
+  "platform": "note",
+  "platformName": "Note",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://note.com/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 241,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://note.com/api/v2/creators/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"data\":\"リソースが見つかりません\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "source": "max",
+  "platform": "max",
+  "platformName": "MAX",
+  "label": "google",
+  "name": "google",
+  "url": "https://max.ru/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 262,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://max.ru/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!doctype html>\n<html lang=\"ru\">\n\t<head>\n\t\t<meta charset=\"utf-8\" />\n\t\t<link rel=\"icon\" href=\"/favicon.ico\" sizes=\"16x16 32x32 48x48 64x64 128x128 256x256\" />\n\t\t<link rel=\"icon\" href=\"/favicon.svg\" type=\"image/svg+xml\" />\n\t\t<link rel=\"apple-touch-icon\" href=\"/apple-touch-icon.png\" />\n\t\t<link rel=\"manifest\" href=\"/manifest.json\" />\n\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\t\t<meta name=\"yandex-verification\" content=\"65c18b36b2ec7b01\" />\n\t\t\n\t\t<link href=\"./_app/immutable/assets/0.9JB6QHOA.css\" rel=\"stylesheet\"><!--12qhfyh--><script>\n\t\twindow.AdmanHTML = undefined;\n\t</script><!----><!---->\n\t</head>\n\t<body data-sveltekit-preload-data=\"hover\">\n\t\t<div style=\"display: contents\"><!--[--><!--[--><!----><!--[!--><!----><h1>404</h1> <p>Not found</p><!----><!--]--><!----><!----><!--]--> <!--[!--><!--]--><!--]-->\n\t\t\t\n\t\t\t<script>\n\t\t\t\t{\n\t\t\t\t\t__sveltekit_jg8u5y = {\n\t\t\t\t\t\tbase: new URL(\".\", location).pathname.slice(0, -1)\n\t\t\t\t\t};\n\n\t\t\t\t\tconst element = document.currentScript.parentElement;\n\n\t\t\t\t\tPromise.all([\n\t\t\t\t\t\timport(\"./_app/immutable/entry/start.Pd6YWkzf.js\"),\n\t\t\t\t\t\timport(\"./_app/immutable/entry/app.DPmEmkp0.js\")\n\t\t\t\t\t]).then(([kit, app]) => {\n\t\t\t\t\t\tkit.start(app, element, {\n\t\t\t\t\t\t\tnode_ids: [0, 1],\n\t\t\t\t\t\t\tdata: [null],\n\t\t\t\t\t\t\tform: null,\n\t\t\t\t\t\t\terror: {message:\"Not found\"},\n\t\t\t\t\t\t\tstatus: 404\n\t\t\t\t\t\t});\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t</script>\n\t\t</div>\n\t</body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

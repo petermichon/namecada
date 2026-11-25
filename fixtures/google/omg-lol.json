@@ -1,0 +1,30 @@
+{
+  "source": "omg-lol",
+  "platform": "omg-lol",
+  "platformName": "omg.lol",
+  "label": "google",
+  "name": "google",
+  "url": "https://api.omg.lol/address/google/info",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 477,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.omg.lol/address/google/info",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\n    \"request\": {\n        \"status_code\": 200,\n        \"success\": true\n    },\n    \"response\": {\n        \"address\": \"google\",\n        \"message\": \"This address was registered 7 years and 5 months ago.\",\n        \"registration\": {\n            \"message\": \"This address was registered 7 years, 5 months and 1 week ago.\",\n            \"unix_epoch_time\": 1560863939,\n            \"iso_8601_time\": \"2019-06-18T13:18:59+00:00\",\n            \"rfc_2822_time\": \"Tue, 18 Jun 2019 13:18:59 +0000\",\n            \"relative_time\": \"7 years, 5 months and 1 week ago\"\n        },\n        \"expiration\": {\n            \"message\": \"This address is not near expiration.\",\n            \"expired\": false\n        },\n        \"verification\": {\n            \"message\": \"This address has not been verified.\",\n            \"verified\": false\n        }\n    }\n}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

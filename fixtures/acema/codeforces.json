@@ -1,0 +1,31 @@
+{
+  "source": "codeforces",
+  "platform": "codeforces",
+  "platformName": "Codeforces",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://codeforces.com/profile/acema",
+  "paid": false,
+  "status": "unknown",
+  "detail": "unexpected response",
+  "durationMs": 175,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://codeforces.com/api/user.info?handles=acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "content-type": "application/json;charset=UTF-8"
+        },
+        "body": "{\"status\":\"FAILED\",\"comment\":\"handles: User with handle acema not found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

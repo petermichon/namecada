@@ -1,0 +1,30 @@
+{
+  "source": "intigriti",
+  "platform": "intigriti",
+  "platformName": "Intigriti",
+  "label": "google",
+  "name": "google",
+  "url": "https://app.intigriti.com/researcher/profile/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 146,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://app.intigriti.com/api/user/public/profile/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"userName\":\"google\",\"avatarId\":null,\"reputation\":null,\"rank\":null,\"streak\":null,\"streakReputation\":null,\"identityChecked\":false,\"userId\":\"32a7ff33-1e7a-4c10-8842-cf82d89f2abf\",\"country\":null,\"website\":null,\"linkedIn\":null,\"twitter\":null,\"totalSubmissions\":0,\"acceptedSubmissions\":0,\"rejectedSubmissions\":0,\"validSubmissionRatio\":0.0,\"activities\":[],\"lastContributions\":[],\"topContributions\":[],\"certifications\":[],\"skills\":[],\"industries\":[]}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "source": "hackaday-io",
+  "platform": "hackaday-io",
+  "platformName": "Hackaday.Io",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://hackaday.io/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 458,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://hackaday.io/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!doctype html>\n<!--[if lt IE 7]> <html class=\"no-js lt-ie9 lt-ie8 lt-ie7\" lang=\"en\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js lt-ie9 lt-ie8\" lang=\"en\"> <![endif]-->\n<!--[if IE 8]>    <html class=\"no-js lt-ie9\" lang=\"en\"> <![endif]-->\n<!--[if IE 9]>    <html class=\"no-js ie9\" lang=\"en\"> <![endif]-->\n<!--[if gt IE 9]><!--> <html class=\"no-js\" lang=\"en\"> <!--<![endif]-->\n\n<head>\n    \n\n<title>Not Found | Hackaday.io</title>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<meta name=\"theme-color\" content=\"#333333\">\n<link rel=\"apple-touch-icon-precomposed\" href=\"/apple-touch-icon.png\">\n<link rel=\"stylesheet\" href=\"//cdn.hackaday.io/css/style.css?version=1.9.3\" />\n<script type=\"text/plain\" data-usercentrics=\"Adobe Fonts\" src=\"//use.typekit.net/ymb0lgk.js\"></script>\n<script type=\"text/plain\" data-usercentrics=\"Adobe Fonts\">try{Typekit.load({ async: true });}catch(e){}</script>\n</head>\n<body>\n    <div class=\"header\" id=\"header\">\n        <div class=\"container\">\n            <a href=\"/\" title=\"Hackaday.io Home\" class=\"logo\">Hackaday</a>\n        </div>\n    </div>\n\n    <div class=\"headline without-border\">\n        <div class=\"container signin-container\">\n            <h1>Page Not Found</h1>\n            <p>The requested URL was not found on this server. That’s all we know.</p>\n            <div class=\"error-nav\">\n                <p>\n                    <a href=\"javascript:history.back(-1);\">Back</a> | <a href=\"/\">Home</a>\n                </p>\n            </div>\n        </div>\n    </div>\n\n    <div class=\"space-error\">\n        <img src=\"/img/error/hackabot.gif\">\n    </div>\n\n    <div class=\"space-stars\">\n        <div class=\"stars-background\"></div>\n        <div class=\"stars-foreground\"></div>\n    </div>\n\n    <script>\n  window.geoRegion = window.geoRegion || \"EMEA\";\n  window.env       = window.env || \"prod\";\n</script>\n<script src=\"/js/usercentrics-loader.js\"></script>\n\n    <script type=\"text/plain\" data-usercentrics=\"Google Analytics\">\n    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\n    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');\n\n    ga('create', 'UA-47229708-1', 'auto');\n\n    var dimensionValue = 'nonregistered';\n    ga('set', 'dimension1', dimensionValue);\n    ga('require', 'displayfeatures');\n\n    ga('send', 'pageview');\n</script>\n\n<!-- Google tag (gtag.js) -->\n<script type=\"text/plain\" data-usercentrics=\"Google Analytics\" async src=\"https://www.googletagmanager.com/gtag/js?id=G-9XKDJZELWD\"></script>\n<script type=\"text/plain\" data-usercentrics=\"Google Analytics\">\n  window.dataLayer = window.dataLayer || [];\n  function gtag(){dataLayer.push(arguments);}\n  gtag('js', new Date());\n\n  gtag('config', 'G-9XKDJZELWD');\n</script>\n</body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

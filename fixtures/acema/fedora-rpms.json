@@ -1,0 +1,30 @@
+{
+  "source": "fedora-rpms",
+  "platform": "fedora-rpms",
+  "platformName": "Fedora dist-git",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://src.fedoraproject.org/rpms/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 379,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://src.fedoraproject.org/rpms/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "\n<!DOCTYPE html>\n<html lang='en'>\n<head>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>\n    <title>Page not found :'( - src.fedoraproject.org</title>\n        <link rel=\"shortcut icon\" type=\"image/vnd.microsoft.icon\"\n        href=\"/theme/static/favicon.ico?version=5.14.1\"/>\n    <link href=\"/theme/static/fedora-bootstrap-1.3.0/fedora-bootstrap.min.css?version=5.14.1\"\n        type=\"text/css\" rel=\"stylesheet\" />\n    <link href=\"/theme/static/fonts/fonts.css?version=5.14.1\"\n        rel=\"stylesheet\" type=\"text/css\" />\n    <link href=\"/theme/static/fonts/hack_fonts/css/hack-extended.min.css?version=5.14.1\"\n        type=\"text/css\" rel=\"stylesheet\" />\n    <link href=\"/theme/static/theme.css?version=5.14.1\"\n        type=\"text/css\" rel=\"stylesheet\" />\n\n    <link type=\"text/css\" rel=\"stylesheet\" nonce=\"qJfTSYkh3J6dbyZqVJhwX62Rg\" href=\"/static/vendor/font-awesome/font-awesome.css?version=5.14.1\"/>\n    <link type=\"text/css\" rel=\"stylesheet\" nonce=\"qJfTSYkh3J6dbyZqVJhwX62Rg\" href=\"/static/pagure.css?version=5.14.1\"/>\n  </head>\n  <body id=\"error\">\n    \n    <!-- start masthead -->\n    <nav class=\"navbar navbar-light masthead p-0 navbar-expand\">\n      <div class=\"container\">\n        <a href=\"/\" class=\"navbar-brand\">\n        <img height=\"40\" src=\"/theme/static/pagure-logo.png?version=5.14.1\"\n             alt=\"pagure Logo\" id=\"pagureLogo\"/>\n        </a>\n        <ul class=\"navbar-nav ml-auto\">\n\n          \n\n          <li class=\"nav-item\">\n            <a class=\"btn btn-primary\" href=\"/login/?next=https://src.fedoraproject.org/rpms/acema\">Log In</a>\n          </li>\n        </ul>\n      </div>\n    </nav>\n    <!-- close masthead-->\n\n    <div class=\"bodycontent\">\n\n\n<div class=\"container p-t-3\">\n  <div class=\"row\">\n    <div class=\"col-md-8\">\n      <h2>Page not found (404)</h2>\n      <p>With the message:</p>\n      <div class=\"card-block\">\n      <p>Project not found</p>\n      </div>\n      <p>You have either entered a bad URL or the page has moved, removed, or otherwise rendered unavailable.<br/>\n      Please use the main navigation menu to get (re)started.</p>\n    </div>\n  </div>\n</div>\n    </div>\n\n        <div class=\"footer pt-4 text-white\">\n        <div class=\"container\">\n            <div class=\"d-flex align-items-center\">\n                <div>\n                    <div>Powered by <a href=\"https://pagure.io/pagure\" class=\"notblue\">Pagure</a> 5.14.1</div>\n                    <div>\n                        <a href=\"https://docs.pagure.org/pagure/usage/index.html\" class=\"notblue\">Documentation</a> &bull;\n                        <a href=\"https://pagure.io/pagure/new_issue\" class=\"notblue\">File an Issue</a> &bull;\n                        <a href=\"/about\">About this Instance</a> &bull;\n                        <a href=\"/ssh_info\" class=\"notblue\">SSH Hostkey/Fingerprint</a>\n                    </div>\n                </div>\n                <div class=\"ml-auto text-right\">\n                    <div>&copy; Red Hat, Inc. and others.</div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n\n    <script type=\"text/javascript\" nonce=\"qJfTSYkh3J6dbyZqVJhwX62Rg\" src=\"/static/vendor/jquery/jquery.min.js?version=5.14.1\"></script>\n\n    <script src=\"/static/vendor/bootstrap/bootstrap.bundle.min.js?version=5.14.1\"></script>\n\n    <script type=\"text/javascript\" nonce=\"qJfTSYkh3J6dbyZqVJhwX62Rg\">\n      $('[data-toggle=\"tooltip\"]').tooltip({placement : 'bottom'});\n      $(\".cancel_btn\").click(function() {\n        history.back();\n      });\n    </script>\n\n</body>\n</html>",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

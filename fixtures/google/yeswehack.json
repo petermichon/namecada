@@ -1,0 +1,30 @@
+{
+  "source": "yeswehack",
+  "platform": "yeswehack",
+  "platformName": "YesWeHack",
+  "label": "google",
+  "name": "google",
+  "url": "https://api.yeswehack.com/hunters/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 53,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.yeswehack.com/hunters/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"code\":404,\"message\":\"Not Found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

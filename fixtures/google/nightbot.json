@@ -1,0 +1,30 @@
+{
+  "source": "nightbot",
+  "platform": "nightbot",
+  "platformName": "Nightbot",
+  "label": "google",
+  "name": "google",
+  "url": "https://api.nightbot.tv/1/channels/t/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 309,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.nightbot.tv/1/channels/t/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"message\":\"user not found\",\"status\":404}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

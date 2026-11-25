@@ -1,0 +1,30 @@
+{
+  "source": "nih-buat-jajan",
+  "platform": "nih-buat-jajan",
+  "platformName": "Nih Buat Jajan",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.nihbuatjajan.com/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 218,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.nihbuatjajan.com/manifest/google.json",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"error\":\"Creator not found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

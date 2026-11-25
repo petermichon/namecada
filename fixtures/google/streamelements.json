@@ -1,0 +1,30 @@
+{
+  "source": "streamelements",
+  "platform": "streamelements",
+  "platformName": "StreamElements",
+  "label": "google",
+  "name": "google",
+  "url": "https://api.streamelements.com/kappa/v2/channels/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 141,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.streamelements.com/kappa/v2/channels/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"statusCode\":404,\"error\":\"Not Found\",\"message\":\"channel google was not found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

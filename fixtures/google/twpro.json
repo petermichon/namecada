@@ -1,0 +1,30 @@
+{
+  "source": "twpro",
+  "platform": "twpro",
+  "platformName": "Twpro",
+  "label": "google",
+  "name": "google",
+  "url": "https://twpro.jp/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 634,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://twpro.jp/google/q-data.json",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"_entry\":\"5\",\"_objs\":[\"\\u0001\",1793090403900,{\"EWoWbemZock\":\"0\",\"0eL8Xmwa0fU\":\"1\",\"SGESAviJOqw\":\"0\"},404,\"/google\",{\"loaders\":\"2\",\"action\":\"0\",\"status\":\"3\",\"href\":\"4\",\"redirect\":\"0\"}]}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "source": "calendy",
+  "platform": "calendy",
+  "platformName": "Calendy",
+  "label": "google",
+  "name": "google",
+  "url": "https://calendly.com/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 306,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://calendly.com/api/booking/profiles/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"id\":7723,\"avatar_url\":null,\"description\":\"Welcome to my scheduling page. Please follow the instructions to add an event to my calendar.\",\"is_landing_page\":false,\"locale\":\"en\",\"logo_url\":null,\"name\":\"admin google\",\"organization_uuid\":\"DFBBGBHGHUHT7RGG\",\"owner_type\":\"User\",\"owning_user\":{\"id\":8173,\"uuid\":\"27f70b874abf8cd45edcdb092001661b\"},\"slug\":\"google\",\"timezone\":\"America/New_York\",\"unavailability_reason\":null,\"unbranded\":false}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "source": "komi",
+  "platform": "komi",
+  "platformName": "Komi",
+  "label": "google",
+  "name": "google",
+  "url": "https://komi.io/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 1046,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.komi.io/api/talent/usernames/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"id\":347028,\"username\":\"google\",\"accountStatus\":\"active\",\"avatar\":null,\"talentProfile\":{\"id\":\"9c0e713a-fac7-43db-81d9-9a0dbefd2232\",\"firstName\":\"google\",\"lastName\":\"\",\"displayNameType\":null,\"displayName\":\"google\",\"displayNameImage\":null,\"displayNameImageScale\":null,\"showDisplayName\":true,\"socialProfileLinks\":[],\"covers\":null,\"instagram\":null,\"youtube\":null,\"website\":null,\"popularity\":0,\"privacyPolicy\":null,\"privacyPolicyName\":null,\"status\":\"completed\",\"accountStatus\":\"active\",\"accomplishments\":null,\"avatar\":null,\"avatarRatio\":1.25,\"avatarFilename\":null,\"bio\":null,\"facebookPixels\":[],\"fanClubName\":\"\",\"fanClubBenefits\":\"\",\"themeType\":\"DARK\",\"themeColor\":{\"overlayColor\":\"#FFFFFF\",\"overlayOpacity\":0.1,\"backgroundColor\":\"#121212\",\"typographyColor\":\"#FFFFFF\"},\"localizationActive\":false,\"isHasFanClub\":false,\"localizationId\":null,\"localizationName\":null,\"localizationCurrency\":null,\"shopifyMerchants\":{}},\"hasBooking\":false}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

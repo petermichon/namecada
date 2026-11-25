@@ -1,0 +1,30 @@
+{
+  "source": "geocaching",
+  "platform": "geocaching",
+  "platformName": "Geocaching",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://www.geocaching.com/p/?u=acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 872,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.geocaching.com/p/?u=acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "\r\n\r\n<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <title>DNF</title>\r\n    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\r\n    <link href=\"//fonts.googleapis.com/css?family=Noto+Sans:400,700&subset=latin,latin-ext\" rel=\"stylesheet\" type=\"text/css\" />\r\n    <link href=\"/bundle/errorPageLayoutCSS?v=zcwcgamxga5JVoNHVsuOpXZKXQcW5-aDg6HUeD78RZQ1\" rel=\"stylesheet\"/>\r\n\r\n    \r\n    <link href=\"/bundle/reactChromeCSS?v=FBOD-ndwJV3Jcop01WawhBnSnJRKZDBubXYyA-GNFC81\" rel=\"stylesheet\"/>\r\n\r\n</head>\r\n\r\n\r\n<body>\r\n\r\n    <div class=\"content-slide layout-callout\">\r\n        <div id=\"gc-header-root\" style=\"background-color: #02874D; min-height: 80px;\"></div>\r\n\r\n        <div class=\"main layout-callout\" id=\"Content\">\r\n            <div class=\"wrapper\">\r\n                <div class=\"callout http-error\">\r\n                    <h1 class=\"http-error-title\">Error 404: DNF</h1>\r\n                    <p>We didn't find the page you were looking for. Sorry about that! Visit the <a href=\"https://www.geocaching.com/help\">Help Center</a> or follow <a href=\"https://www.twitter.com/GoGeocaching\">Geocaching on Twitter</a> to see any available outage information.</p>\r\n                    <a href=\"https://www.geocaching.com/\" class=\"btn btn-primary\">Geocaching home</a>\r\n                </div>\r\n            </div>\r\n        </div>\r\n\r\n        <div id=\"gc-footer-root\"></div>\r\n    </div>\r\n    \r\n    <script>\r\n        window.chromeSettings = {\r\n  \"accountId\": 0,\r\n  \"avatarUrl\": null,\r\n  \"findCount\": 0,\r\n  \"hideCount\": 0,\r\n  \"gameplayUrl\": \"\",\r\n  \"hostname\": \"https://www.geocaching.com\",\r\n  \"inlinePostfix\": \"--inline\",\r\n  \"isAuthenticated\": false,\r\n  \"isBasic\": false,\r\n  \"locale\": \"en-US\",\r\n  \"mainElementId\": \"Content\",\r\n  \"mapUrl\": \"\",\r\n  \"paymentUrl\": \"https://payments.geocaching.com\",\r\n  \"planUrl\": \"\",\r\n  \"publicUrl\": \"https://www.geocaching.com\",\r\n  \"showDoNotSell\": false,\r\n  \"showRenew\": false,\r\n  \"username\": null,\r\n  \"userPublicGuid\": null,\r\n  \"dateJoined\": \"0001-01-01T00:00:00\",\r\n  \"isValidated\": false,\r\n  \"membershipLevel\": null,\r\n  \"securityGroup\": null\r\n};\r\n    </script>\r\n    <script src=\"/bundle/vendor?v=39glZgQ3-5HNtmU6QMedkiucukVg2PdVbR51zqnZEts1\"></script>\r\n\r\n    <script src=\"/bundle/reactChrome?v=iIYLWlhNQHiSAYsgjGAO7AmVdIOkdF_TnJ4xv0jM4zU1\" defer></script>\r\n</body>\r\n</html>\r\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

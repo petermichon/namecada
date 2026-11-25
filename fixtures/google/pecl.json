@@ -1,0 +1,30 @@
+{
+  "source": "pecl",
+  "platform": "pecl",
+  "platformName": "PECL",
+  "label": "google",
+  "name": "google",
+  "url": "https://pecl.php.net/package/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 185,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://pecl.php.net/package/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <title>PECL :: Error 404 not found</title>\n    <link rel=\"shortcut icon\" href=\"/favicon.ico\">\n    <link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS feed\" href=\"https://pecl.php.net/feeds/latest.rss\">\n    <link rel=\"stylesheet\" href=\"/css/style.css\">\n    </head>\n\n<body >\n\n<div><a id=\"TOP\"></a></div>\n\n<table class=\"head\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">\n    <tr>\n        <td class=\"head-logo\">\n            <a href=\"/\"><img src=\"/img/peclsmall.gif\" alt=\"PECL :: The PHP Extension Community Library\" width=\"106\" height=\"55\" style=\"margin: 5px;\"></a><br>\n        </td>\n\n        <td class=\"head-menu\">\n\n                            <a href=\"/login.php\" class=\"menuBlack\">Login</a>\n            \n            &nbsp;|&nbsp;\n            <a href=\"/packages.php\" class=\"menuBlack\">Packages</a>\n            &nbsp;|&nbsp;\n            <a href=\"/support.php\" class=\"menuBlack\">Support</a>\n            &nbsp;|&nbsp;\n            <a href=\"/bugs/\" class=\"menuBlack\">Bugs</a>\n\n        </td>\n    </tr>\n\n    <tr>\n        <td class=\"head-search\" colspan=\"2\">\n            <form method=\"post\" action=\"/search.php\">\n                <p class=\"head-search\"><span class=\"accesskey\">S</span>earch for\n                    <input class=\"small\" type=\"text\" name=\"search_string\" value=\"\" size=\"20\" accesskey=\"s\">\n                    in the\n                    <select name=\"search_in\" class=\"small\">\n                        <option value=\"packages\">Packages</option>\n                        <option value=\"site\">This site (using Google)</option>\n                        <option value=\"developers\">Developers</option>\n                        <option value=\"pecl-dev\">Developer mailing list</option>\n                        <option value=\"pecl-cvs\">SVN commits mailing list</option>\n                    </select>\n                    <input type=\"image\" src=\"/img/small_submit_white.gif\" alt=\"search\" style=\"vertical-align: middle;\">&nbsp;<br>\n                </p>\n            </form>\n        </td>\n    </tr>\n    <tr>\n        <td colspan=\"2\">\n                <div class=\"errors\">\n        <div>PECL is deprecated.</div>\n        <p style=\"font-weight: normal;\">\n            Have you heard about <abbr title=\"PHP Installer for Extensions\">PIE</abbr>? &#x1F967; PHP Installer for Extensions (PIE)\n            is the replacement for PECL. We recommend publishing your extension\n            using PIE instead.\n        </p>\n        <p>\n            Find out more at <a href=\"https://github.com/php/pie\">https://github.com/php/pie</a>.\n        </p>\n    </div>\n        </td>\n    </tr>\n</table>\n\n<table class=\"middle\" cellspacing=\"0\" cellpadding=\"0\">\n    <tr>\n        <td class=\"sidebar_left\">\n            <ul class=\"side_pages\">\n    <li class=\"side_page\"><a href=\"/\" >Home</a></li>\n    <li class=\"side_page\"><a href=\"/news/\" >News</a></li>\n</ul>\n\n            <strong>Documentation:</strong>\n\n<ul class=\"side_pages\">\n    <li class=\"side_page\"><a href=\"/support.php\" >Support</a></li>\n</ul>\n\n            <strong>Downloads:</strong>\n\n<ul class=\"side_pages\">\n    <li class=\"side_page\">\n        <a href=\"/packages.php\" >Browse Packages</a>\n    </li>\n\n    <li class=\"side_page\">\n        <a href=\"/package-search.php\" >Search Packages</a>\n    </li>\n\n    <li class=\"side_page\">\n        <a href=\"/package-stats.php\" >Download Statistics</a>\n    </li>\n</ul>\n\n            \n                    </td>\n\n        <td class=\"content\">\n            \n<h1>Error 404 not found</h1>\n\n<p>The requested page <i>/package/google</i> was not\nfound on this server.</p>\n\n\n<p>If you think that this error message is caused by an error in the\nconfiguration of the server, please contact\n<a href=\"mailto:pecl-dev@lists.php.net\">pecl-dev@lists.php.net</a>.\n\n        </td>\n\n        \n    </tr>\n</table>\n\n<table class=\"foot\" cellspacing=\"0\" cellpadding=\"0\">\n    <tr>\n        <td class=\"foot-bar\" colspan=\"2\">\n            <a href=\"/about/privacy.php\" class=\"menuBlack\">PRIVACY POLICY</a>\n            &nbsp;|&nbsp;\n            <a href=\"/credits.php\" class=\"menuBlack\">CREDITS</a>\n            <br>\n        </td>\n    </tr>\n\n    <tr>\n        <td class=\"foot-copy\">\n            <small>\n                <a href=\"/copyright.php\">Copyright &copy; 2001-2026 The PHP Group</a><br>\n                All rights reserved.<br>\n            </small>\n        </td>\n        <td class=\"foot-source\">\n            <small>\n                Last updated: Wed Jun 17 13:08:36 2026 UTC<br>\n                Bandwidth and hardware provided by: <a href=\"https://www.pair.com/\">pair Networks</a>\n            </small>\n        </td>\n    </tr>\n</table>\n\n</body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

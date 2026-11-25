@@ -1,0 +1,30 @@
+{
+  "source": "trello",
+  "platform": "trello",
+  "platformName": "Trello",
+  "label": "google",
+  "name": "google",
+  "url": "https://trello.com/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 159,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://trello.com/1/Members/google",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"id\":\"6a01ef3a167b5e1e5c15f0b4\",\"aaId\":null,\"activityBlocked\":false,\"avatarHash\":null,\"avatarUrl\":null,\"bio\":\"\",\"bioData\":null,\"confirmed\":false,\"fullName\":\"google\",\"idEnterprise\":null,\"idEnterprisesDeactivated\":null,\"idMemberReferrer\":null,\"idPremOrgsAdmin\":null,\"initials\":\"G\",\"memberType\":\"ghost\",\"nonPublic\":{},\"nonPublicAvailable\":false,\"products\":[],\"url\":\"https://trello.com/u/google\",\"username\":\"google\",\"dateLastImpression\":null,\"status\":\"disconnected\",\"aaBlockSyncUntil\":null,\"aaEmail\":null,\"avatarSource\":null,\"credentialsRemovedCount\":null,\"dateLastActive\":null,\"domainClaimed\":null,\"email\":null,\"gravatarHash\":null,\"idBoards\":[],\"idOrganizations\":[],\"idEnterprisesAdmin\":[],\"limits\":{},\"loginTypes\":null,\"marketingOptIn\":null,\"messagesDismissed\":null,\"nodeId\":\"ari:cloud:trello::user/6a01ef3a167b5e1e5c15f0b4\",\"oneTimeMessagesDismissed\":null,\"sessionType\":null,\"prefs\":null,\"trophies\":[],\"uploadedAvatarHash\":null,\"uploadedAvatarUrl\":null,\"premiumFeatures\":[],\"isAaMastered\":false,\"ixUpdate\":null}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

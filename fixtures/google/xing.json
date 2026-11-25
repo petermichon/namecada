@@ -1,0 +1,30 @@
+{
+  "source": "xing",
+  "platform": "xing",
+  "platformName": "Xing",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.xing.com/profile/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 199,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.xing.com/profile/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html"
+        },
+        "body": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, minimum-scale=1\" />\n  <title>404 - Not Found | XING</title>\n  <link rel=\"icon\" href=\"/favicon.ico\" />\n  <link rel=\"stylesheet\" href=\"/errors/common.css?v=1589272\" />\n  <style type=\"text/css\">\n    .image_container {\n      width: 180px;\n      height: 180px;\n      background: url(\"/errors/duck_light.svg\");\n    }\n\n    @media (prefers-color-scheme:dark) {\n      .image_container {\n        background: url(\"/errors/duck_dark.svg\");\n      }\n    }\n\n    a.logo {\n      background-image: url(\"/errors/xing_logo_light.svg\");\n    }\n  </style>\n</head>\n\n<body>\n  <div class=\"header\">\n    <a class=\"logo\" href=\"/\"></a>\n  </div>\n  <div class=\"layout_container\">\n    <div class=\"image_container\"></div>\n    <h2 class=\"headline\">We couldn't find this page.</h2>\n    <p class=\"body_copy\">But we're great at finding new opportunities. Let's get your job search back on track.</p>\n    <div class=\"button_container\">\n      <p><a class=\"button\" href=\"https://www.xing.com/\">Browse jobs</a></p>\n    </div>\n  </div>\n</body>\n\n</html>",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

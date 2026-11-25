@@ -1,0 +1,30 @@
+{
+  "source": "bugcrowd",
+  "platform": "bugcrowd",
+  "platformName": "Bugcrowd",
+  "label": "google",
+  "name": "google",
+  "url": "https://bugcrowd.com/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 351,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://bugcrowd.com/profile-service/v1/profiles/google",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"error\":\"Not Found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

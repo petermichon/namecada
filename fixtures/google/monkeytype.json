@@ -1,0 +1,30 @@
+{
+  "source": "monkeytype",
+  "platform": "monkeytype",
+  "platformName": "Monkeytype",
+  "label": "google",
+  "name": "google",
+  "url": "https://monkeytype.com/profile/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 263,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.monkeytype.com/users/google/profile",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"message\":\"Profile retrieved\",\"data\":{\"name\":\"google\",\"addedAt\":1599173098000,\"typingStats\":{\"completedTests\":49,\"startedTests\":60,\"timeTyping\":1998.5200000000002},\"personalBests\":{\"time\":{\"15\":[{\"wpm\":141.6,\"acc\":97.85,\"punctuation\":false,\"language\":\"english\",\"raw\":147.2,\"difficulty\":\"normal\"}],\"30\":[{\"wpm\":118.8,\"punctuation\":false,\"acc\":96.23,\"raw\":123.6,\"language\":\"english\",\"difficulty\":\"normal\"}],\"60\":[{\"acc\":97.83,\"language\":\"english\",\"raw\":128.4,\"difficulty\":\"normal\",\"wpm\":123,\"punctuation\":false}]},\"words\":{\"10\":[{\"language\":\"english\",\"raw\":151.65,\"difficulty\":\"normal\",\"acc\":93.48,\"punctuation\":false,\"wpm\":135.16}]}},\"xp\":3631,\"streak\":0,\"maxStreak\":0,\"isPremium\":false,\"allTimeLbs\":{\"time\":{\"15\":{},\"60\":{}}},\"uid\":\"yVbaxQd6Xxei4plNionaiuHtDI42\"}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

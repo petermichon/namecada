@@ -1,0 +1,30 @@
+{
+  "source": "livedoor-blog",
+  "platform": "livedoor-blog",
+  "platformName": "Livedoor Blog",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.livedoor.blog/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 1754,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://google.livedoor.blog/",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html"
+        },
+        "body": "<!DOCTYPE html>\n<html lang=\"ja\">\n<head>\n<meta charset=\"UTF-8\">\n<title>404 Not Found | このページは存在しないか、すでに削除されています</title>\n<meta name=\"viewport\" content=\"width=device-width,minimum-scale=1,maximum-scale=1,user-scalable=no\">\n<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Roboto:100\">\n<link rel=\"stylesheet\" href=\"https://parts.blog.livedoor.jp/css/errors.css?v=20230919\">\n<script type=\"text/javascript\" src=\"https://parts.blog.livedoor.jp/js/jquery-3.7.1.min.js\"></script>\n<script type=\"text/javascript\" src=\"https://parts.blog.livedoor.jp/js/micro_template.js\"></script>\n<script type=\"text/javascript\" src=\"https://parts.blog.livedoor.jp/js/errors/404.js?v=20240905\"></script>\n<meta name=\"referrer\" content=\"always\">\n<meta name=\"referrer\" content=\"unsafe-url\">\n</head>\n<body id=\"notFound\" class=\"errors\">\n\n<div id=\"globalContainer\">\n\n<div id=\"globalHeader\">\n<div class=\"inner\">\n  <ul>\n    <li class=\"logo logoLD\"><a href=\"https://blog.livedoor.com/\">livedoor Blog</a></li>\n  </ul>\n</div>\n</div>\n\n<div id=\"mainContainer\">\n  <div id=\"message\">\n    <div class=\"content\">\n      <h1>404 Not Found</h1>\n      <p>このページは存在しないか、すでに削除されています。</p>\n      <ul class=\"navLink\">\n        <li><a id=\"navLinkTop\">トップページ</a></li>\n        <li><a href=\"javascript:void(0)\" onclick=\"javascript:history.back()\">戻る</a></li>\n      </ul>\n    </div>\n  </div>\n\n<!-- /#mainContainer --></div>\n\n<div class=\"sub\" id=\"recent\" style=\"display:none;\">\n  <div class=\"sub-inner\">\n    <h2 class=\"ttl\">新着記事</h2>\n    <ul class=\"list\">\n    </ul>\n    <!-- template -->\n    <script type=\"text/html\" id=\"recentArticlesTmpl\">\n      <li>\n        <a href=\"<%== url %>\" class=\"track recent\">\n        <div class=\"thumb\"><%== image %></div>\n        <div class=\"text\">\n          <p class=\"title\"><%== title %></p>\n          <p class=\"date\"><%== date %></p>\n        </div>\n        </a>\n      </li>\n    </script>\n    <!-- /template -->\n  </div>\n<!-- /.sub --></div>\n\n<div id=\"globalFooter\">\n  <p class=\"copyright\">&copy; livedoor</p>\n</div>\n\n<!-- /#globalContainer --></div>\n</body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

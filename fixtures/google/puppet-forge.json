@@ -1,0 +1,30 @@
+{
+  "source": "puppet-forge",
+  "platform": "puppet-forge",
+  "platformName": "Puppet Forge",
+  "label": "google",
+  "name": "google",
+  "url": "https://forgeapi.puppet.com/v3/users/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 363,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://forgeapi.puppet.com/v3/users/google",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\n  \"uri\": \"/v3/users/google\",\n  \"slug\": \"google\",\n  \"gravatar_id\": \"743528e8e50dd4586dd80828003cb5cd\",\n  \"username\": \"google\",\n  \"display_name\": \"Google\",\n  \"release_count\": 44,\n  \"module_count\": 12,\n  \"created_at\": \"2016-02-22 10:08:35 -0800\",\n  \"updated_at\": \"2017-06-26 11:09:25 -0700\"\n}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

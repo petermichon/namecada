@@ -1,0 +1,30 @@
+{
+  "source": "asciinema",
+  "platform": "asciinema",
+  "platformName": "Asciinema",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://asciinema.org/~acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 70,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://asciinema.org/~acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <meta name=\"color-scheme\" content=\"dark light\">\n    <title>Record and share your terminal sessions, the simple way - asciinema.org</title>\n    <link rel=\"stylesheet\" href=\"/assets/app-8dd7bf819a7d7213e800d6dbeb8e01a5.css?vsn=d\">\n    <link rel=\"shortcut icon\" href=\"/images/favicon-2d62dafa447cf018340b7121007568e3.png?vsn=d\">\n  </head>\n\n  <body class=\"simple-layout\">\n    <div class=\"container\">\n      <h1>404 Not Found</h1>\n<p>This page doesn't exist. Sorry!</p>\n\n    </div>\n  </body>\n</html>",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "source": "uwu-ai",
+  "platform": "uwu-ai",
+  "platformName": "Uwu.Ai",
+  "label": "google",
+  "name": "google",
+  "url": "https://google.uwu.ai/",
+  "paid": false,
+  "status": "available",
+  "durationMs": 466,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://google.uwu.ai/",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=iso-8859-1"
+        },
+        "body": "<!DOCTYPE HTML> <html lang=\"en\"> <head> <meta name=\"viewport\" content=\"width=device-width,initial-scale=1,user-scalable=no\" /> <title>Page not found</title> <style> html {font-size: 15pt; height: 100%; } body {background: #24252d; font-family: Arial, Helvetica, sans-serif; color: #bbb; line-height: 1.5; text-align: center; display: flex; align-items: center; height: 100%; flex-direction: column; justify-content: center; } h1 {color: #fff; margin: 0; } @media screen and (max-width: 736px) {html {font-size: 11pt; } } </style> </head> <body> <h1>Page not found</h1> <p>Sorry, the requested page could not be found.</p> </body> </html>",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

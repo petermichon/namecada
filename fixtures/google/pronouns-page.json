@@ -1,0 +1,30 @@
+{
+  "source": "pronouns-page",
+  "platform": "pronouns-page",
+  "platformName": "Pronouns.Page",
+  "label": "google",
+  "name": "google",
+  "url": "https://pronouns.page/@google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 141,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://pronouns.page/api/profile/get/google?version=2",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"id\":\"01G4EB7M5Q7609BPH6B6ERJ5S8\",\"username\":\"google\",\"avatarSource\":\"upload\",\"avatar\":\"https://cdn.pronouns.page/images/01G4EBAVG7SV3TWCCNV11ZADG9-avatar.png\",\"bannedReason\":null,\"bannedTerms\":[],\"bannedBy\":null,\"team\":0,\"personally\":null,\"profiles\":{\"en\":{\"id\":\"01G4EBJRF25VVY2DHEQYHAEK4P\",\"opinions\":{},\"names\":[{\"pronunciation\":null,\"voice\":null,\"value\":\"spin\",\"opinion\":\"meh\"}],\"pronouns\":[],\"description\":\"\",\"age\":null,\"links\":[\"https://spin.rip\"],\"linksMetadata\":{},\"verifiedLinks\":{},\"flags\":[],\"customFlags\":[],\"words\":[{\"header\":null,\"values\":[{\"value\":\"[no honorific]\",\"opinion\":\"meh\"},{\"value\":\"mx.\",\"opinion\":\"meh\"},{\"value\":\"mr.\",\"opinion\":\"meh\"},{\"value\":\"ms.\",\"opinion\":\"meh\"},{\"value\":\"sir\",\"opinion\":\"meh\"},{\"value\":\"ma'am\",\"opinion\":\"meh\"},{\"value\":\"madam\",\"opinion\":\"meh\"},{\"value\":\"sai\",\"opinion\":\"meh\"},{\"value\":\"mir\",\"opinion\":\"meh\"},{\"value\":\"shazam\",\"opinion\":\"meh\"},{\"value\":\"zam\",\"opinion\":\"meh\"},{\"value\":\"comrade\",\"opinion\":\"meh\"}]},{\"header\":null,\"values\":[{\"value\":\"person\",\"opinion\":\"meh\"},{\"value\":\"man\",\"opinion\":\"meh\"},{\"value\":\"woman\",\"opinion\":\"meh\"},{\"value\":\"lady\",\"opinion\":\"meh\"},{\"value\":\"dude\",\"opinion\":\"meh\"},{\"value\":\"boy\",\"opinion\":\"meh\"},{\"value\":\"girl\",\"opinion\":\"meh\"},{\"value\":\"buddy\",\"opinion\":\"meh\"},{\"value\":\"pal\",\"opinion\":\"meh\"},{\"value\":\"bro\",\"opinion\":\"meh\"},{\"value\":\"sis\",\"opinion\":\"meh\"},{\"value\":\"sib\",\"opinion\":\"meh\"}]},{\"header\":null,\"values\":[{\"value\":\"pretty\",\"opinion\":\"meh\"},{\"value\":\"handsome\",\"opinion\":\"meh\"},{\"value\":\"cute\",\"opinion\":\"meh\"},{\"value\":\"hot\",\"opinion\":\"meh\"},{\"value\":\"sexy\",\"opinion\":\"meh\"}]},{\"header\":null,\"values\":[{\"value\":\"friend\",\"opinion\":\"meh\"},{\"value\":\"partner\",\"opinion\":\"meh\"},{\"value\":\"boyfriend\",\"opinion\":\"meh\"},{\"value\":\"girlfriend\",\"opinion\":\"meh\"},{\"value\":\"joyfriend\",\"opinion\":\"meh\"},{\"value\":\"husband\",\"opinion\":\"meh\"},{\"value\":\"wife\",\"opinion\":\"meh\"},{\"value\":\"kissmate\",\"opinion\":\"meh\"},{\"value\":\"darling\",\"opinion\":\"meh\"},{\"value\":\"beloved\",\"opinion\":\"meh\"},{\"value\":\"boo\",\"opinion\":\"meh\"}]}],\"timezone\":null,\"teamName\":null,\"footerName\":\"\",\"footerAreas\":[],\"credentials\":[],\"credentialsLevel\":null,\"credentialsName\":null,\"card\":null,\"cardDark\":null,\"circle\":[],\"sensitive\":[],\"markdown\":false,\"events\":[],\"customEvents\":[],\"visibility\":0,\"supporterBadge\":null,\"supporter\":false,\"access\":true,\"lastUpdate\":null}}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

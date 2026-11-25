@@ -1,0 +1,30 @@
+{
+  "source": "tetr-io",
+  "platform": "tetr-io",
+  "platformName": "TETR.IO",
+  "label": "google",
+  "name": "google",
+  "url": "https://tetr.io/@google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 90,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://ch.tetr.io/api/users/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"success\":true,\"data\":{\"_id\":\"5e777ccc77fbb428eaebc143\",\"username\":\"google\",\"role\":\"user\",\"ts\":\"2020-03-22T14:57:16.562Z\",\"badges\":[],\"xp\":238387,\"gamesplayed\":481,\"gameswon\":38,\"gametime\":114550.69100000005,\"country\":\"DE\",\"badstanding\":false,\"supporter\":false,\"supporter_tier\":0,\"avatar_revision\":1666338825885,\"connections\":{},\"friend_count\":6,\"achievements\":[],\"ar\":3,\"ar_counts\":{\"3\":1},\"oldusernames\":[]},\"cache\":{\"status\":\"miss\",\"cached_at\":1795613707669,\"cached_until\":1795614007669}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

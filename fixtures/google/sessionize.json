@@ -1,0 +1,30 @@
+{
+  "source": "sessionize",
+  "platform": "sessionize",
+  "platformName": "Sessionize",
+  "label": "google",
+  "name": "google",
+  "url": "https://sessionize.com/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 79,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://sessionize.com/google",
+      "headers": {
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!DOCTYPE html>\r\n<html>\r\n\r\n<head>\r\n\r\n    <meta charset=\"utf-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n\r\n    <title>404 @ Sessionize.com</title>\r\n\r\n    <link href=\"https://sessionize.com/Content/inspinia2.6/bootstrap.min.css\" rel=\"stylesheet\" />\r\n    <link href=\"https://sessionize.com/Content/inspinia2.6/animate.min.css\" rel=\"stylesheet\" />\r\n    <link href=\"https://sessionize.com/Content/inspinia2.6/style.min.css\" rel=\"stylesheet\" />\r\n    <script src=\"https://sessionize.com/Scripts/modernizr-2.8.3.js\"></script>\r\n\r\n</head>\r\n\r\n<body class=\"gray-bg\">\r\n\r\n\r\n    <div class=\"middle-box text-center animated fadeInDown\">\r\n        <h1>404</h1>\r\n        <h3 class=\"font-bold\">Page Not Found</h3>\r\n\r\n        <div class=\"error-desc\">\r\n            Sorry, but the page you are looking for has not been found.\r\n            <br />\r\n            <br />\r\n            If you entered a web address please check it was correct.\r\n            You can also browse from the homepage to find the information you need.\r\n            <br />\r\n            <a class=\"btn btn-primary m-t\" href=\"https://sessionize.com/\">home</a>\r\n        </div>\r\n    </div>\r\n\r\n\r\n</body>\r\n\r\n</html>\r\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

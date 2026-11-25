@@ -1,0 +1,30 @@
+{
+  "source": "commudle",
+  "platform": "commudle",
+  "platformName": "Commudle",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://commudle.com/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 418,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://json.commudle.com/api/v2/users?username=acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"data\":{},\"message\":\"User not found\",\"status\":404,\"error\":\"User not found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

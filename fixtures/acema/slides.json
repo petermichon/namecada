@@ -1,0 +1,30 @@
+{
+  "source": "slides",
+  "platform": "slides",
+  "platformName": "Slides",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://slides.com/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 368,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://slides.com/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "text/html; charset=utf-8"
+        },
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n  <title>Slides: 404</title>\n  <meta name=\"color-scheme\" content=\"light dark\" />\n  <link href=\"https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap\" media=\"print\" onload=\"this.onload=null;this.removeAttribute('media');\" rel=\"stylesheet\" data-application-font=\"inter\">\n  <noscript>\n    <link href=\"https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap\" rel=\"stylesheet\" data-application-font=\"inter\">\n  </noscript>\n  <link rel=\"stylesheet\" href=\"/error-page.css?3\" />\n  <meta name=\"viewport\" content=\"initial-scale=1.0\" />\n</head>\n\n<body>\n  <div class=\"error-header\">\n    <a href=\"/\"><img class=\"logo-image\" src=\"/logo/slides-logo-black.svg\" alt=\"Slides.com\" /></a>\n  </div>\n  <div class=\"error-body\">\n    <svg class=\"wave\" width=\"1\" height=\"1\" viewBox=\"0 0 1 1\" preserveAspectRatio=\"none\">\n      <path d=\"M 1,0 L 0.5,0 S 0.35,0.25 0.5,0.5 S 0.65,0.75 0.5,1 L 0,1 L 1,1 z\" fill=\"#fff\"></path>\n    </svg>\n    <div class=\"inner\">\n      <h2>We couldn't find what you're looking for</h2>\n      <p>You may have mistyped the address, the page could have moved or you may need to <a href=\"/users/sign_in\">sign in</a> to view it.</p>\n      <div class=\"suggested-links\">\n        <a class=\"button\" href=\"https://slides.com\">Go to homepage</a>\n        <a class=\"button\" href=\"https://slides.com/docs\">Documentation</a>\n        <a class=\"button\" href=\"/users/sign_in\">Sign in</a>\n      </div>\n    </div>\n\n    <footer class=\"footer\">\n      <a href=\"https://help.slides.com\">Help</a>\n      &bull; <a href=\"https://twitter.com/slides\">Twitter</a>\n      &bull; <a href=\"/terms\">Terms</a>\n      &bull; <a href=\"/privacy\">Privacy</a>\n      &bull; <span class=\"copyright\">&copy; 2026 Slides, Inc.</span>\n    </footer>\n  </div>\n</body>\n</html>\n",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

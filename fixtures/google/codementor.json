@@ -1,0 +1,31 @@
+{
+  "source": "codementor",
+  "platform": "codementor",
+  "platformName": "Codementor",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.codementor.io/@google",
+  "paid": false,
+  "status": "unknown",
+  "detail": "unexpected response",
+  "durationMs": 117,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.codementor.io/@google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 202,
+        "headers": {
+          "content-type": "text/html; charset=UTF-8"
+        },
+        "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n    <title></title>\n    <style>\n        body {\n            font-family: \"Arial\";\n        }\n    </style>\n    <script type=\"text/javascript\">\n    window.awsWafCookieDomainList = [];\n    window.gokuProps = {\n\"key\":\"AQIDAHjcYu/GjX+QlghicBgQ/7bFaQZ+m5FKCMDnO+vTbNg96AF+6xdqWl23bRAfxSlv6z+8AAAAfjB8BgkqhkiG9w0BBwagbzBtAgEAMGgGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQM7/DHg0xxoG7Yjz+1AgEQgDt9emCYQUhkU33PM3tNaXPV/dPXoSv60u8DeLQQ78+KtD0xME2tQlrHpJ5EghnHuNrEkHVG0BSHPpjh9w==\",\n          \"iv\":\"NC4TbgANNwAABJj2\",\n          \"context\":\"KMMzOOOJLqRZklv9eZ+eic53qtHk0HP7X/CwegLmjny5mSz5z3FqSVQtstRLSETsYPG3AF43TcMU8V20iRDnwplanxGo0K5pwM1sItJv/Gob5WrBK2rDLyDQOm39XmKpIwI0MZswYegz/9CH3JxBW3Q3WPpj2coR3WOir9uq/bW7IKurUldTSELiG0Zh3oKJ2cEce5xYvZ98XNpGU5d5c3i4gN+LSvIeiEYY6X6odUBegDpKTK//O02vTKR16sk7c63sB5XGxllrhfQoO8XTMc6PHpa+Vrm9V66R8tyBDcaGY8CG2u7A7T6ZFEA/W/P9HpY+S7Zjs8g0Ulfi6NMDaoZ6T5qtakSoVNrSEvKlZMJmY08PD5vLRRpky+x3UyJffUtK/VIZvC0wIdXLV1umcFMnNCoFnsKw4S3uW8f4uusMh4oRxSPmi3OGtKqbbC8YT58SL8+HC3QLASE7KK3EvvkEndzy9nenGFdbVAtgJ3PGVPkcXl1RtoHEqp41isxGlk9OVC5QuncftHpP80E3PBoDCwzE8X2Gsq8Fo71N1vUpGFV5F6GUQGV/aoNYjLRskyccbW5Bx+RdXwzUB5kV9nI8NRNzBt2mPDtrV92U9oSkuGJ5f/AKZ+62FESPWUb9CMUGbQi14OXydllj/Z6SiVmkMWllTw9mQlj8gFxjTE4w09FL/XQ9vdHmMvpfRLMxMOgmmRYofRsqckDukqVVZYttydkOHrM2J8q+346oghAvfjLuK8FsjcZgUVJMdDIR6Dkywhn4uv18UT8=\"\n};\n    </script>\n    <script src=\"https://764e5bfea5c9.36d59e93.eu-west-2.token.awswaf.com/764e5bfea5c9/404b686ce98c/1c7265101dff/challenge.js\"></script>\n</head>\n<body>\n    <div id=\"challenge-container\"></div>\n    <script type=\"text/javascript\">\n        AwsWafIntegration.saveReferrer();\n        AwsWafIntegration.checkForceRefresh().then((forceRefresh) => {\n            if (forceRefresh) {\n                AwsWafIntegration.forceRefreshToken().then(() => {\n                    window.location.reload(true);\n                });\n            } else {\n                AwsWafIntegration.getToken().then(() => {\n                    window.location.reload(true);\n                });\n            }\n        });\n    </script>\n    <noscript>\n        <h1>JavaScript is disabled</h1>\n        In order to continue, we need to verify that you're not a robot.\n        This requires JavaScript. Enable JavaScript and then reload the page.\n    </noscript>\n</body>\n</html>",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

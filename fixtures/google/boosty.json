@@ -1,0 +1,30 @@
+{
+  "source": "boosty",
+  "platform": "boosty",
+  "platformName": "Boosty",
+  "label": "google",
+  "name": "google",
+  "url": "https://api.boosty.to/v1/blog/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 216,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://api.boosty.to/v1/blog/google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"allowedReactionList\":[\"like\",\"dislike\",\"fire\",\"heart\",\"laugh\",\"wonder\",\"sad\",\"angry\"],\"reactionsDisabled\":false,\"isBlackListedByUser\":false,\"flags\":{\"acceptDonationMessages\":true,\"forbiddenChangeHasAdultContent\":false,\"forbiddenChangeHasAIContent\":false,\"isAlien\":false,\"hasTargets\":false,\"showPostDonations\":true,\"isPayoutBlocked\":false,\"isContentSaleDisabled\":false,\"isVerifyPayoutBlocked\":false,\"requiredVerificationForPayments\":false,\"allowGoogleIndex\":false,\"isPaymentAcceptBlocked\":false,\"hasAIContent\":false,\"isShowcaseEnabled\":false,\"hasAdultContent\":false,\"isRssFeedEnabled\":false,\"hasSubscriptionLevels\":false,\"allowIndex\":false},\"allowedPromoTypes\":[\"discount\",\"trial\",\"trial_link\"],\"isReadOnly\":false,\"count\":{\"subscribers\":1,\"showcase\":1,\"posts\":1},\"accessRights\":{\"canDeleteComments\":false,\"canChangeCurrency\":false,\"canCreateComments\":false,\"canView\":false,\"canSetPayout\":false,\"canEdit\":false,\"canCreate\":false},\"acceptedCurrencies\":[\"RUB\",\"USD\",\"EUR\"],\"paymentMethods\":[{\"name\":\"card_advpay\",\"currencies\":[\"USD\",\"EUR\"]},{\"currencies\":[\"USD\",\"EUR\"],\"name\":\"card_yuno\"}],\"title\":\"\",\"publicWebSocketChannel\":\"blogger:6185\",\"blogUrl\":\"google\",\"signedQuery\":\"\",\"coverUrl\":\"\",\"socialLinks\":[],\"isTotalBaned\":false,\"description\":[],\"hasAdultContent\":false,\"isOwner\":false,\"currency\":\"RUB\",\"isBlackListed\":false,\"subscription\":null,\"subscriptionKind\":\"none\",\"isSubscribed\":false,\"owner\":{\"id\":6185,\"avatarUrl\":\"https://images.boosty.to/user/6185/avatar?change_time=1559025157\",\"isOfficial\":false,\"name\":\"Amazochi\",\"hasAvatar\":true,\"externalApps\":{\"telegram\":{\"username\":\"amazochime\",\"hasAccount\":true},\"max\":{\"username\":\"\",\"hasAccount\":false},\"discord\":{\"username\":\"\",\"hasAccount\":false,\"hasServer\":false,\"serverName\":\"\"}}}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

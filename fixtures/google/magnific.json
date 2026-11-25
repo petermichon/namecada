@@ -1,0 +1,30 @@
+{
+  "source": "magnific",
+  "platform": "magnific",
+  "platformName": "Magnific",
+  "label": "google",
+  "name": "google",
+  "url": "https://www.magnific.com/google",
+  "paid": false,
+  "status": "taken",
+  "durationMs": 126,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.magnific.com/app/api/community/creator-info-by-name?creator_name=google&lang=en_US",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": "{\"creator\":{\"creator_id\":150898630,\"user_id\":150898630,\"freepik_id\":167673689,\"user_name\":\"google\",\"avatar\":\"https:\\/\\/lh3.googleusercontent.com\\/a\\/ACg8ocLhZebewKOrnWyq4WFlgS5EFBwaEr59e6JnBhvL6CiHxXoA=s96-c?w=96&h=96&fit=crop&auto=format\",\"community_avatar_url\":null,\"cover_url\":null,\"is_followed\":false,\"is_ai_partner\":false,\"contactable\":false,\"followers_count\":0,\"followings_count\":0,\"active\":true,\"bio\":\"\",\"headline\":\"\",\"link\":\"\",\"categories\":[],\"category_slugs\":[],\"location\":\"\",\"response_time\":\"\",\"social_links\":[],\"languages\":[],\"minimum_budget\":\"\",\"available_for_hire\":true,\"cover_position\":null,\"cover_zoom\":null,\"counts\":{\"images\":0,\"videos\":0,\"styles\":0,\"spaces\":0,\"portfolio\":0}}}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

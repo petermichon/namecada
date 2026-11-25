@@ -1,0 +1,30 @@
+{
+  "source": "commudle",
+  "platform": "commudle",
+  "platformName": "Commudle",
+  "label": "google",
+  "name": "google",
+  "url": "https://commudle.com/google",
+  "paid": false,
+  "status": "available",
+  "durationMs": 525,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://json.commudle.com/api/v2/users?username=google",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"data\":{},\"message\":\"User not found\",\"status\":404,\"error\":\"User not found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}

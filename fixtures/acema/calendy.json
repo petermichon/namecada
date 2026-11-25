@@ -1,0 +1,30 @@
+{
+  "source": "calendy",
+  "platform": "calendy",
+  "platformName": "Calendy",
+  "label": "acema",
+  "name": "acema",
+  "url": "https://calendly.com/acema",
+  "paid": false,
+  "status": "available",
+  "durationMs": 187,
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://calendly.com/api/booking/profiles/acema",
+      "headers": {
+        "Accept": "text/html",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": "namecada/1.0"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": "{\"message\":\"not found\"}",
+        "bodyEncoding": "utf8"
+      }
+    }
+  ]
+}
