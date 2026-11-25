@@ -54,7 +54,7 @@ The root Cargo workspace holds both:
 - `packages/core/src/registry.rs` — the compiled registry: live providers and stats.
 - `packages/core/src/engine.rs` — bounded-concurrency scan engine with its one-hour
   verdict cache; streams each result as it resolves. `DEFAULT_CONCURRENCY`
-  caps a scan at 16 checks in flight and `DEFAULT_DEADLINE` closes one pass at
+  caps a scan at 32 checks in flight and `DEFAULT_DEADLINE` closes one pass at
   30 s, reporting anything unresolved as `pending`.
 - `packages/core/src/jobs.rs` — resumable `ScanJob`s: one scan per label that
   outlives a response, plus the `Jobs` registry the transports keep.

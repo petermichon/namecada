@@ -40,6 +40,7 @@ async fn check(
 
     // Reuse a running job for this label, or start one. The scan is not bound
     // to this call: it keeps resolving after the IPC message returns.
+    state.jobs.reap();
     let job = scan
         .as_deref()
         .and_then(|id| state.jobs.get(id))

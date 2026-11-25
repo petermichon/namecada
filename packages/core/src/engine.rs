@@ -20,10 +20,10 @@ const FRESH: Duration = Duration::from_secs(60 * 60);
 /// server, the Tauri shell and Android) builds its engine here, so one scan
 /// opens this many sockets instead of one per provider; `with_concurrency`
 /// overrides it for experiments.
-pub const DEFAULT_CONCURRENCY: usize = 16;
+pub const DEFAULT_CONCURRENCY: usize = 32;
 
-/// DEFAULT_DEADLINE bounds a whole scan. Whatever has not resolved by then is
-/// reported unknown — which is never cached, so a later scan retries it — and
+/// DEFAULT_DEADLINE bounds one pass. Whatever has not resolved by then is
+/// reported pending — which is never cached, so a later scan retries it — and
 /// one stalled host cannot stretch the report to a minute.
 pub const DEFAULT_DEADLINE: Duration = Duration::from_secs(30);
 
