@@ -11,7 +11,7 @@ use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 use serde::{Deserialize, Serialize};
 
-use crate::provider::{Outcome, Provider, Status};
+use crate::provider::{Error, Outcome, Provider, Status};
 
 /// Fresh is how long a cached verdict stays current.
 const FRESH: Duration = Duration::from_secs(60 * 60);
@@ -415,7 +415,7 @@ fn check_one(provider: &dyn Provider, raw: &str, cache: Option<&MemoryCache>) ->
         }
     }
 
-    match provider.check(&label) {
+    match settled(provider, &label) {
         Ok(outcome) => apply(&mut result, outcome),
         Err(_) => {
             result.status = Status::Unknown;
@@ -438,6 +438,23 @@ fn check_one(provider: &dyn Provider, raw: &str, cache: Option<&MemoryCache>) ->
         }
     }
     result
+}
+
+/// RETRY_DELAY spaces the second attempt so a rate limit has a moment to lift.
+const RETRY_DELAY: Duration = Duration::from_millis(200);
+
+/// settled gives a non-definitive answer one more chance before it becomes
+/// `unknown`. Most first-pass unknowns are a burst, a reset or a rate limit
+/// that clears immediately; a retry turns them into verdicts without caching
+/// anything that was not observed.
+fn settled(provider: &dyn Provider, label: &str) -> Result<Outcome, Error> {
+    match provider.check(label) {
+        Ok(outcome) if outcome.status != Status::Unknown => Ok(outcome),
+        _ => {
+            thread::sleep(RETRY_DELAY);
+            provider.check(label)
+        }
+    }
 }
 
 fn apply(result: &mut ProviderResult, outcome: Outcome) {
@@ -536,6 +553,51 @@ mod tests {
         assert_eq!(calls.load(Ordering::SeqCst), 1);
         assert_eq!(first[0].status, Status::Available);
         assert_eq!(second[0].status, Status::Available);
+    }
+
+    /// FlakyProvider answers unknown once, then a verdict: the retry in
+    /// settled() must turn the first attempt into a result, not a cached miss.
+    struct FlakyProvider {
+        calls: Arc<AtomicUsize>,
+    }
+
+    impl Provider for FlakyProvider {
+        fn id(&self) -> &str {
+            "flaky"
+        }
+        fn platform(&self) -> &str {
+            "flaky"
+        }
+        fn name(&self, label: &str) -> String {
+            label.to_string()
+        }
+        fn url(&self, label: &str) -> String {
+            format!("https://example.test/{label}")
+        }
+        fn paid(&self) -> bool {
+            false
+        }
+        fn check(&self, _: &str) -> Result<Outcome, Error> {
+            let n = self.calls.fetch_add(1, Ordering::SeqCst);
+            if n == 0 {
+                Ok(Outcome::new(Status::Unknown).with_detail("blocked"))
+            } else {
+                Ok(Outcome::new(Status::Available))
+            }
+        }
+    }
+
+    #[test]
+    fn a_transient_unknown_is_retried_once() {
+        let calls = Arc::new(AtomicUsize::new(0));
+        let engine = Engine::new(vec![Arc::new(FlakyProvider {
+            calls: Arc::clone(&calls),
+        })]);
+
+        let results = engine.scan_all("acema");
+
+        assert_eq!(calls.load(Ordering::SeqCst), 2);
+        assert_eq!(results[0].status, Status::Available);
     }
 
     /// A label outside the source's own grammar cannot be claimed, so the

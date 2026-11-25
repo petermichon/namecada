@@ -55,7 +55,9 @@ The root Cargo workspace holds both:
 - `packages/core/src/engine.rs` — bounded-concurrency scan engine with its one-hour
   verdict cache; streams each result as it resolves. `DEFAULT_CONCURRENCY`
   caps a scan at 32 checks in flight and `DEFAULT_DEADLINE` closes one pass at
-  30 s, reporting anything unresolved as `pending`.
+  30 s, reporting anything unresolved as `pending`. A non-definitive answer
+  (transport error or `unknown`) gets one retry after 200 ms before it is
+  reported, because most first-pass misses are a burst or a reset.
 - `packages/core/src/jobs.rs` — resumable `ScanJob`s: one scan per label that
   outlives a response, plus the `Jobs` registry the transports keep.
 - `packages/core/src/http.rs` — production HTTP transport: a 10 s global bound with
