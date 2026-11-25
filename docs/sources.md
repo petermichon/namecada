@@ -393,7 +393,7 @@ verdict.
 | Brunch | `brunch.co.kr/@%s` (namespace) | 200 taken / 404 free |
 | D&D Beyond | `www.dndbeyond.com/members/%s` (namespace) | 200 taken / 404 free |
 | Fiverr | `www.fiverr.com/%s` (namespace) | 200 taken / 404 free |
-| Freelancer.com | `www.freelancer.com/u/%s` (namespace) | 200 taken / 404 free |
+| Freelancer.com | `freelancer.com/u/{name}` (profile) | title names the handle taken / 404 or another profile's title free |
 | Hatena | `profile.hatena.ne.jp/%s/` (namespace) | 200 taken / 404 free |
 | Inkitt | `www.inkitt.com/%s` (namespace) | 200 taken / 404 free |
 | Ko-fi | `ko-fi.com/%s` (namespace) | 200 taken / 404 free |

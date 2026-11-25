@@ -430,7 +430,7 @@ shipped `namecada/1.0` client and no redirect following.
 - [x] Brunch — ✅ — `brunch.co.kr/@%s` (keyless namespace: 200 taken / 404 free; status-only, HTML Accept; Korean long-form publishing (Kakao); @ prefix required)
 - [x] D&D Beyond — ✅ — `www.dndbeyond.com/members/%s` (keyless namespace: 200 taken / 404 free; status-only, HTML Accept; tabletop RPG community; /members/ prefix required)
 - [x] Fiverr — ✅ — `www.fiverr.com/%s` (keyless namespace: 200 taken / 404 free; status-only, HTML Accept; seller profile is the bare username path, not /sellers/…)
-- [x] Freelancer.com — ✅ — `www.freelancer.com/u/%s` (keyless namespace: 200 taken / 404 free; status-only, HTML Accept; /u/ segment is required; bare /{account} is not a profile)
+- [x] Freelancer.com — ✅ — `freelancer.com/u/{name}` (keyless profile, body signal: a claimed profile is titled "{name} Profile | Freelancer"; an unclaimed name 404s *or* answers 200 with a different profile — `testuser999` lands on "Mdk Profile" — so the title has to name the handle. Re-probed 2026-11-25)
 - [x] Hatena — ✅ — `profile.hatena.ne.jp/%s/` (keyless namespace: 200 taken / 404 free; status-only, HTML Accept; Hatena's shared profile namespace across its Japanese services)
 - [x] Inkitt — ✅ — `www.inkitt.com/%s` (keyless namespace: 200 taken / 404 free; status-only, HTML Accept; fiction/wattpad-style platform; brand handle inkitt is a normal user profile)
 - [x] Ko-fi — ✅ — `ko-fi.com/%s` (keyless namespace: 200 taken / 404 free; status-only, HTML Accept; creator tip jar; /ko-fi itself is not a user (404), so probe real creator handles)

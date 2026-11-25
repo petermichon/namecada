@@ -155,6 +155,10 @@ pub(crate) static CUSTOM_SPECS: &[CustomSpec] = &[
         check: check_tiktok,
     },
     CustomSpec {
+        id: "freelancer",
+        check: check_freelancer,
+    },
+    CustomSpec {
         id: "threads",
         check: check_threads,
     },

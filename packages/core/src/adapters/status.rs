@@ -1463,12 +1463,6 @@ static SPECS: &[StatusSpec] = &[
         HTML_ACCEPT,
     ),
     spec_with(
-        "freelancer",
-        "https://www.freelancer.com/u/%s",
-        DEFAULT_CODES,
-        HTML_ACCEPT,
-    ),
-    spec_with(
         "hatena-profile",
         "https://profile.hatena.ne.jp/%s/",
         DEFAULT_CODES,

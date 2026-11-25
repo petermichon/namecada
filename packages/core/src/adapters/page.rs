@@ -37,6 +37,36 @@ pub(crate) fn check_threads(
     Ok(unknown())
 }
 
+pub(crate) fn check_freelancer(
+    _: &Source,
+    transport: &dyn Transport,
+    label: &str,
+) -> Result<Outcome, Error> {
+    let url = format!("https://www.freelancer.com/u/{label}");
+    let response = get(transport, &url, HTML_ANY_ACCEPT)?;
+    if response.status == 404 {
+        return Ok(available());
+    }
+    if response.status != 200 {
+        return Ok(unknown_response(&response));
+    }
+    let Some(title) = html_title(&response) else {
+        return Ok(unknown());
+    };
+    // A claimed profile is titled "{name} Profile | Freelancer". An unclaimed
+    // name can still answer 200 with a *different* profile ("Mdk Profile"), so
+    // the requested name has to appear in the title.
+    let title = title.to_ascii_lowercase();
+    let label = label.to_ascii_lowercase();
+    if title.starts_with(&format!("{label} profile")) {
+        return Ok(taken());
+    }
+    if title.ends_with("| freelancer") {
+        return Ok(available());
+    }
+    Ok(unknown())
+}
+
 pub(crate) fn check_twitch(
     _: &Source,
     transport: &dyn Transport,
@@ -255,6 +285,43 @@ mod tests {
     use crate::fixture::{Fixture, ReplayTransport};
     use crate::manifest::Manifest;
     use crate::provider::Status;
+
+    /// Freelancer serves 200 for some unclaimed names by showing a *different*
+    /// profile, so only a title that names the requested handle counts.
+    #[test]
+    fn freelancer_only_counts_a_title_that_names_the_handle() {
+        fn outcome(title: &str) -> Status {
+            let fixture: Fixture = serde_json::from_value(serde_json::json!({
+                "source": "freelancer",
+                "platform": "freelancer",
+                "label": "acema",
+                "name": "acema",
+                "url": "https://www.freelancer.com/u/acema",
+                "requests": [{
+                    "method": "GET",
+                    "url": "https://www.freelancer.com/u/acema",
+                    "response": {
+                        "status": 200,
+                        "body": format!("<html><head><title>{title}</title></head></html>")
+                    }
+                }]
+            }))
+            .expect("fixture");
+            let transport = ReplayTransport::new(&fixture);
+            let source = Manifest::embedded()
+                .expect("manifest")
+                .source("freelancer")
+                .expect("freelancer source")
+                .clone();
+            check_freelancer(&source, &transport, "acema")
+                .expect("check")
+                .status
+        }
+
+        assert_eq!(outcome("Acema Profile | Freelancer"), Status::Taken);
+        // The false 200: a missing name resolved to somebody else's profile.
+        assert_eq!(outcome("Mdk Profile | Freelancer"), Status::Available);
+    }
 
     /// A profile title names the handle whether or not the account has a
     /// display name; the missing page is the login shell.
