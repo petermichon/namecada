@@ -1761,19 +1761,6 @@
       "keyed": false
     },
     {
-      "id": "deviantart",
-      "platform": "deviantart",
-      "platformName": "DeviantArt",
-      "name": "google",
-      "nameTemplate": "%s",
-      "url": "https://www.deviantart.com/google",
-      "urlTemplate": "https://www.deviantart.com/%s",
-      "paid": false,
-      "minLength": 0,
-      "maxLength": 0,
-      "keyed": false
-    },
-    {
       "id": "reddit",
       "platform": "reddit",
       "platformName": "Reddit",
@@ -2268,19 +2255,6 @@
       "nameTemplate": "%s",
       "url": "https://lyricstranslate.com/en/translator/google",
       "urlTemplate": "https://lyricstranslate.com/en/translator/%s",
-      "paid": false,
-      "minLength": 0,
-      "maxLength": 0,
-      "keyed": false
-    },
-    {
-      "id": "metacritic",
-      "platform": "metacritic",
-      "platformName": "Metacritic",
-      "name": "google",
-      "nameTemplate": "%s",
-      "url": "https://metacritic.com/user/google",
-      "urlTemplate": "https://metacritic.com/user/%s",
       "paid": false,
       "minLength": 0,
       "maxLength": 0,
@@ -3548,19 +3522,6 @@
       "keyed": false
     },
     {
-      "id": "gettr",
-      "platform": "gettr",
-      "platformName": "Gettr",
-      "name": "google",
-      "nameTemplate": "%s",
-      "url": "https://gettr.com/user/google",
-      "urlTemplate": "https://gettr.com/user/%s",
-      "paid": false,
-      "minLength": 0,
-      "maxLength": 0,
-      "keyed": false
-    },
-    {
       "id": "gradle",
       "platform": "gradle",
       "platformName": "Gradle",
@@ -4283,19 +4244,6 @@
       "nameTemplate": "%s",
       "url": "https://pronouns.page/@google",
       "urlTemplate": "https://pronouns.page/@%s",
-      "paid": false,
-      "minLength": 0,
-      "maxLength": 0,
-      "keyed": false
-    },
-    {
-      "id": "pronouny",
-      "platform": "pronouny",
-      "platformName": "Pronouny",
-      "name": "google",
-      "nameTemplate": "%s",
-      "url": "https://pronouny.xyz/google",
-      "urlTemplate": "https://pronouny.xyz/%s",
       "paid": false,
       "minLength": 0,
       "maxLength": 0,

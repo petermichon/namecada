@@ -7,7 +7,7 @@
   "url": "https://authapi.geeksforgeeks.org/api-get/user-profile-info/?handle=acema",
   "paid": false,
   "status": "taken",
-  "durationMs": 749,
+  "durationMs": 630,
   "requests": [
     {
       "method": "GET",

@@ -172,7 +172,6 @@ static SPECS: &[StatusSpec] = &[
     spec("behance", "https://www.behance.net/%s"),
     spec("replicate", "https://replicate.com/%s"),
     spec("x", "https://x.com/%s"),
-    spec("deviantart", "https://www.deviantart.com/%s"),
     spec("snapchat", "https://www.snapchat.com/add/%s"),
     spec("strava", "https://www.strava.com/athletes/%s"),
     spec("swift-package-index", "https://swiftpackageindex.com/%s"),
@@ -288,12 +287,6 @@ static SPECS: &[StatusSpec] = &[
     spec_with(
         "lyricstranslate",
         "https://lyricstranslate.com/en/translator/%s",
-        DEFAULT_CODES,
-        HTML_ACCEPT,
-    ),
-    spec_with(
-        "metacritic",
-        "https://metacritic.com/user/%s",
         DEFAULT_CODES,
         HTML_ACCEPT,
     ),
@@ -671,8 +664,11 @@ static SPECS: &[StatusSpec] = &[
     spec_with(
         "codeforces",
         "https://codeforces.com/api/user.info?handles=%s",
-        DEFAULT_CODES,
-        HTML_ACCEPT,
+        CodeMap {
+            available: &[400],
+            taken: &[200],
+        },
+        DEFAULT_ACCEPT,
     ),
     spec_with(
         "codementor",
@@ -722,8 +718,11 @@ static SPECS: &[StatusSpec] = &[
     spec_with(
         "devrant",
         "https://devrant.com/api/get-user-id?app=3&username=%s",
-        DEFAULT_CODES,
-        HTML_ACCEPT,
+        CodeMap {
+            available: &[400],
+            taken: &[200],
+        },
+        DEFAULT_ACCEPT,
     ),
     spec_with(
         "diablo",
@@ -813,12 +812,6 @@ static SPECS: &[StatusSpec] = &[
     spec_with(
         "geocaching",
         "https://www.geocaching.com/p/?u=%s",
-        DEFAULT_CODES,
-        HTML_ACCEPT,
-    ),
-    spec_with(
-        "gettr",
-        "https://gettr.com/api/s/uinf/%s",
         DEFAULT_CODES,
         HTML_ACCEPT,
     ),
@@ -981,8 +974,11 @@ static SPECS: &[StatusSpec] = &[
     spec_with(
         "nifty-gateway",
         "https://api.niftygateway.com/user/profile-and-offchain-nifties-by-url/?profile_url=%s",
-        DEFAULT_CODES,
-        HTML_ACCEPT,
+        CodeMap {
+            available: &[400],
+            taken: &[200],
+        },
+        DEFAULT_ACCEPT,
     ),
     spec_with(
         "nightbot",
@@ -1075,12 +1071,6 @@ static SPECS: &[StatusSpec] = &[
     spec_with(
         "pronouns-page",
         "https://pronouns.page/api/profile/get/%s?version=2",
-        DEFAULT_CODES,
-        HTML_ACCEPT,
-    ),
-    spec_with(
-        "pronouny",
-        "https://pronouny.xyz/api/users/profile/username/%s",
         DEFAULT_CODES,
         HTML_ACCEPT,
     ),
@@ -1533,7 +1523,15 @@ static SPECS: &[StatusSpec] = &[
         DEFAULT_CODES,
         HTML_ACCEPT,
     ),
-    spec("geeksforgeeks", "https://authapi.geeksforgeeks.org/api-get/user-profile-info/?handle=%s"),
+    spec_with(
+        "geeksforgeeks",
+        "https://authapi.geeksforgeeks.org/api-get/user-profile-info/?handle=%s",
+        CodeMap {
+            available: &[400],
+            taken: &[200],
+        },
+        DEFAULT_ACCEPT,
+    ),
     spec("hackadvisor", "https://hackadvisor.io/api/v2/profile/%s/"),
     spec_with(
         "imood",

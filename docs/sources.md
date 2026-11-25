@@ -66,7 +66,6 @@ verdict.
 | Dribbble  | `dribbble.com/{name}` (profile)                                | 200 taken / 404 free; a non-public profile 404s an "isn't public yet" body and is taken |
 | Behance   | `behance.net/{name}` (profile)                                 | 200 taken / 404 free      |
 | Replicate | `replicate.com/{name}` (profile)                               | 200 taken / 404 free      |
-| DeviantArt | `deviantart.com/{name}` (profile)                             | 200 taken / 404 free      |
 | Snapchat  | `snapchat.com/add/{name}` (profile)                            | 200 taken / 404 free      |
 | Strava    | `strava.com/athletes/{name}` (profile)                         | 200 taken / 404 free      |
 | Swift Package Index | `swiftpackageindex.com/{name}` (publisher)            | 200 taken / 404 free; publishing nothing also 404s |
@@ -139,7 +138,6 @@ verdict.
 | LinkedIn Company | `linkedin.com/company/{name}` (company)                 | 200 taken / 404 free      |
 | Loops | `loops.video/@{name}` (profile)                                | 200 taken / 404 free      |
 | LyricsTranslate | `lyricstranslate.com/en/translator/{name}` (translator) | 200 taken / 404 free      |
-| Metacritic | `metacritic.com/user/{name}` (profile)                    | 200 taken / 404 free      |
 | Mixlr | `mixlr.com/{name}` (broadcaster)                             | 200 taken / 404 free |
 | Moj | `mojapp.in/@{name}` (profile)                                  | 200 taken / 404 free      |
 | MusicBrainz | `musicbrainz.org/user/{name}` (editor)                    | 200 taken / 404 free      |
@@ -255,7 +253,6 @@ verdict.
 | Freelance.Ua | `freelance.ua/user/%s/` (profile) | 200 taken / 404 free |
 | Game Jolt | `gamejolt.com/site-api/web/profile/@%s/` (profile) | 200 taken / 404 free |
 | Geocaching | `www.geocaching.com/p/?u=%s` (profile) | 200 taken / 404 free |
-| GETTR | `gettr.com/api/s/uinf/%s` (profile) | 200 taken / 404 free |
 | Gradle | `plugins.gradle.org/u/%s` (profile) | 200 taken / 404 free |
 | Habtium | `habtium.es/%s` (profile) | 200 taken / 404 free |
 | Hackaday.Io | `hackaday.io/%s` (profile) | 200 taken / 404 free |
@@ -312,7 +309,6 @@ verdict.
 | Pravda.Me | `pravda.me/@%s` (profile) | 200 taken / 404 free |
 | Privacy Guides | `discuss.privacyguides.net/u/%s.json` (profile) | 200 taken / 404 free |
 | Pronouns.Page | `pronouns.page/api/profile/get/%s?version=2` (profile) | 200 taken / 404 free |
-| Pronouny | `pronouny.xyz/api/users/profile/username/%s` (profile) | 200 taken / 404 free |
 | Pychess | `www.pychess.org/@/%s` (profile) | 200 taken / 404 free |
 | Python Discussions | `discuss.python.org/u/%s/summary` (profile) | 200 taken / 404 free |
 | Rclone Forum | `forum.rclone.org/u/%s` (profile) | 200 taken / 404 free |

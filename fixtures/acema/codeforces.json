@@ -6,15 +6,14 @@
   "name": "acema",
   "url": "https://codeforces.com/profile/acema",
   "paid": false,
-  "status": "unknown",
-  "detail": "unexpected response",
-  "durationMs": 175,
+  "status": "available",
+  "durationMs": 168,
   "requests": [
     {
       "method": "GET",
       "url": "https://codeforces.com/api/user.info?handles=acema",
       "headers": {
-        "Accept": "text/html",
+        "Accept": "application/json",
         "Accept-Language": "en-US,en;q=0.9",
         "User-Agent": "namecada/1.0"
       },

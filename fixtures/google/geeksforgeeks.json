@@ -7,7 +7,7 @@
   "url": "https://authapi.geeksforgeeks.org/api-get/user-profile-info/?handle=google",
   "paid": false,
   "status": "taken",
-  "durationMs": 1158,
+  "durationMs": 664,
   "requests": [
     {
       "method": "GET",
