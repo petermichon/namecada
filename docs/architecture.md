@@ -31,6 +31,9 @@ packaged app is Tauri (`apps/desktop/src-tauri/`), calling the engine directly a
 the same events through the `CheckClient` seam, with no localhost server. The
 web client picks its transport once at load: `invoke('check')` with an IPC
 channel inside the desktop shell, the NDJSON endpoint everywhere else. The
+desktop scans one label on one device, so it streams the whole scan over the one
+channel; the HTTP server pages it, because a request there has a response budget
+and a client that may disconnect. The
 source registry is compiled into the binary (`Manifest::embedded`);
 `--manifest` overrides it for development.
 
